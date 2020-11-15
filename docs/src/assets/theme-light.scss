@@ -1,0 +1,22 @@
+details {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: rgb(184, 223, 250);
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
+
+summary {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: rgb(32, 156, 238);
+    color: rgb(255, 255, 255);
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+    cursor: pointer;
+}

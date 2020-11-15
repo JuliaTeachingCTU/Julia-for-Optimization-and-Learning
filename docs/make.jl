@@ -1,5 +1,23 @@
+using Pkg
+Pkg.activate(@__DIR__)
+Pkg.instantiate()
+
 using JuliaCourseFNSPE
 using Documenter
+using Documenter.Writers: HTMLWriter
+using DocumenterTools: Themes
+
+# theme extension
+for theme in ["light", "dark"]
+    orig_theme = read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String)
+    details = read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
+
+    tmp_theme = joinpath(@__DIR__, "theme-$(theme).scss")
+    write(tmp_theme, orig_theme*"\n"*details)
+
+    Themes.compile(tmp_theme, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
+    rm(tmp_theme)
+end
 
 # outline
 lecture_01 = [
@@ -20,7 +38,10 @@ lecture_04 = []
 
 lecture_05 = []
 
-lecture_06 = []
+lecture_06 = [
+    "./lecture_06/DataFrames.md",
+    "./lecture_06/Plots.md",
+]
 
 lecture_07 = []
 
@@ -35,11 +56,6 @@ lecture_11 = []
 lecture_12 = []
 
 lecture_13 = []
-
-solutions = [
-    "./solutions/lecture_01.md",
-    "./solutions/lecture_02.md",
-]
 
 # make docs options
 makedocs(;
@@ -69,7 +85,6 @@ makedocs(;
         "11: Ordinary differential equations" => lecture_11,
         "12: Statistics I." => lecture_12,
         "13: Statistics II." => lecture_13,
-        "Solutions" => solutions,
     ],
 )
 

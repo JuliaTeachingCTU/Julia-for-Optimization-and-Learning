@@ -1,6 +1,10 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
-/docs/build/
+
 Manifest.toml
+
 /_documents/
+docs/build
+docs/data
+docs/src/assets/themes/*.css
