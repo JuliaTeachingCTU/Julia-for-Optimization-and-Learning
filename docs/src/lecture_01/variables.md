@@ -1,20 +1,90 @@
 # Variables
 
-A variable, in Julia, is a name associated (or bound) to a value. It's useful when you want to store a value (that you obtained after some math, for example) for later use
+In Julia (as in other languages), a variable is a name that refers to a value. Contrary to languages like C or C++ and similar to Python or MATLAB, variables can be created without the type specification, i.e. variable can be declared simply by using `=` sign:
 
 ```jldoctest var_declaration
-julia> x = 10
-10
+julia> x = 2
+2
 ```
 
-Here `x` contains an integer. Type of the variable can be checked using `typeof` function
+The type of the object is inferred automatically and can be checked using `typeof` function:
 
 ```jldoctest var_declaration
 julia> typeof(x)
 Int64
 ```
 
-Contrary to other programming languages like C++ and similarly to Python, Julia can infer the type of the object on the right side of the equal sign, so there is no need to specify the type of the variable as you would do in C++.
+In this case, the variable `x` is of type `Int64`, which is a type that represents signed integers. Since `x` is a number, we can apply basic mathematical operations to it:
+
+```jldoctest var_declaration
+julia> y = x + 1
+3
+
+julia> typeof(y)
+Int64
+```
+
+The type of the variable `x` is preserved because the sum of two integers is also an integer. We can also reuse the variable name `x` and assign a new value to it
+
+```jldoctest var_declaration
+julia> x = 4
+4
+```
+
+The type of the variable `x` is still `Int64`, but it is also possible to assign a value of a different type to `x`
+
+```jldoctest var_declaration
+julia> x = 3.1415
+3.1415
+
+julia> typeof(x)
+Float64
+```
+
+In this case, the variable `x` is of type `Float64`, which is a type that represents floating-point numbers. There is a huge amount of types in Julia, but in most cases, the user does not have to take care of types at all.
+
+!!! tip "Exercise:"
+    Create the following variables:
+    1. Variable `x` with value `1.234`.
+    2. Variable `y` with value `1//2`.
+    3. Variable `z` with value `x + y*im`.
+    What are the types of these three variables?
+
+
+```@raw html
+<details>
+<summary>Solution:</summary>
+<p>
+```
+All three variables can be declared simply by assigning the value to the given variable name
+```jldoctest var_types
+julia> x = 1.234
+1.234
+
+julia> y = 1//2
+1//2
+
+julia> z = x + y*im
+1.234 + 0.5im
+```
+and types can be checked using the `typeof` function
+```jldoctest var_types
+julia> typeof(x)
+Float64
+
+julia> typeof(y)
+Rational{Int64}
+
+julia> typeof(z)
+Complex{Float64}
+```
+```@raw html
+</p>
+</details>
+```
+
+
+## Variable Names
 
 Julia provides an extremely flexible system for naming variables. Variable names are case-sensitive, and have no semantic meaning (that is, the language will not treat variables differently based on their names).
 
@@ -22,20 +92,11 @@ Julia provides an extremely flexible system for naming variables. Variable names
 julia> I_am_float = 3.1415
 3.1415
 
-julia> typeof(I_am_float)
-Float64
-
 julia> CALL_ME_RATIONAL = 1//3
 1//3
 
-julia> typeof(CALL_ME_RATIONAL)
-Rational{Int64}
-
 julia> MyString = "MyVariable"
 "MyVariable"
-
-julia> typeof(MyString)
-String
 ```
 
 Here `I_am_float` contains a floating point number, `CALL_ME_RATIONAL` is a rational number (can be used, if the exact accuracy is needed) and `MyString` contains a string (a piece of text).
@@ -62,23 +123,7 @@ help?> α
 [...]
 ```
 
-[Here](https://docs.julialang.org/en/v1/manual/unicode-input/) is the list of all Unicode characters that can be entered via tab completion of $\LaTeX$-like abbreviations in the Julia REPL
-
-If necessary, it is also possible to reassign the value of a variable
-
-```jldoctest
-julia> x = 10
-10
-
-julia> typeof(x)
-Int64
-
-julia> x = "1.0"
-"1.0"
-
-julia> typeof(x)
-String
-```
+[Here](https://docs.julialang.org/en/v1/manual/unicode-input/) is the list of all Unicode characters that can be entered via tab completion of $\LaTeX$-like abbreviations in the Julia REPL.
 
 Julia will even let you redefine built-in constants and functions if needed (although this is not recommended to avoid potential confusions)
 
@@ -90,31 +135,44 @@ julia> π
 2
 ```
 
-However, if you try to redefine a built-in constant or function already in use, Julia will give you an error (`ℯ` can be typed as `\euler<tab>`)
+However, if you try to redefine a built-in constant or function already in use, Julia will give you an error
 
 ```jldoctest
-julia> ℯ
-ℯ = 2.7182818284590...
+julia> π
+π = 3.1415926535897...
 
-julia> ℯ = 3
-ERROR: cannot assign a value to variable MathConstants.ℯ from module Main
+julia> π = 2
+ERROR: cannot assign a value to variable MathConstants.π from module Main
 [...]
 ```
 
 The only explicitly disallowed names for variables are the names of built-in statements:
 
 ```jldoctest
-julia> end = 4
-ERROR: syntax: unexpected "end"
+julia> struct = 3
+ERROR: syntax: unexpected "="
 [...]
 ```
 
+| Reserved words: |         |            |          |          |            |
+| :---            | :---    | :---       | :---     | :---     | :---       |
+| `baremodule`    | `begin` | `break`    | `catch`  | `const`  | `continue` |
+| `do`            | `else`  | `elseif`   | `end`    | `export` | `false`    |
+| `finally`       | `for`   | `function` | `global` | `if`     | `import`   |
+| `let`           | `local` | `macro`    | `module` | `quote`  | `return`   |
+| `struct`        | `true`  | `try`      | `using`  | `while`  |            |
+
+
+## Stylistic Conventions
+
 While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
 - Names of variables are in lower case.
-- Word separation can be indicated by underscores ('_'), but use of underscores is discouraged unless the name would be hard to read otherwise.
-For more information about stylistic conventions, see the [Style Guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
-
-!!! tip "Exercise:"
+- Word separation can be indicated by underscores (`_`), but use of underscores is discouraged unless the name would be hard to read otherwise.
+For more information about stylistic conventions, see the official [style guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
 
 
-!!! compat "Solution:"
+## Sources
+
+- [Official documentation](https://docs.julialang.org/en/v1/manual/variables/)
+- [Think Julia: How to Think Like a Computer Scientist](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html#chap02)
+- [From Zero to Julia!](https://techytok.com/lesson-variables-and-types/)
