@@ -41,7 +41,13 @@ julia> typeof(x)
 Float64
 ```
 
-In this case, the variable `x` is of type `Float64`, which is a type that represents floating-point numbers. There is a huge amount of types in Julia, but in most cases, the user does not have to take care of types at all.
+In this case, the variable `x` is of type `Float64`, which is a type that represents floating-point numbers. There is a huge amount of types in Julia. In fact, every object in Julia has its type. As an example, we can mention the hierarchy of primitive numeric types
+
+```@raw html
+<img src="types.svg" width="100%"/>
+``` ⠀
+
+All types shown in blue are abstract types, i.e. it is not possible to create an instance of such a type. Abstract types are useful for creating logical type hierarchy. Types highlighted in green are concrete types. In many cases, it is useful to have the choice to choose which type to use. As an example, we can see floating-point numbers. There are four concrete types for floating-point numbers. If we want to maximize the precision of some calculations, we can use `BigFloat`. Using `BigFloat` increases precision but also increases computational time. On the other hand, if we want to speed up the code, we can use the type with lower precision such as `Float32`. But in most cases, the user does not have to take care of types at all. But in most cases, the user does not have to take care of types at all and just use the default type.
 
 !!! tip "Exercise:"
     Create the following variables:
@@ -146,13 +152,15 @@ ERROR: cannot assign a value to variable MathConstants.π from module Main
 [...]
 ```
 
-The only explicitly disallowed names for variables are the names of built-in statements:
+The only explicitly disallowed names for variables are the names of built-in statements
 
 ```jldoctest
 julia> struct = 3
 ERROR: syntax: unexpected "="
 [...]
 ```
+
+The complete list of all reserved keywords is in the following table
 
 | Reserved words: |         |            |          |          |            |
 | :---            | :---    | :---       | :---     | :---     | :---       |
@@ -163,15 +171,14 @@ ERROR: syntax: unexpected "="
 | `struct`        | `true`  | `try`      | `using`  | `while`  |            |
 
 
-## Stylistic Conventions
+!!! compat "Stylistic Conventions:"
+    While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
+    - Names of variables are in lower case.
+    - Word separation can be indicated by underscores (`_`), but use of underscores is discouraged unless the name would be hard to read otherwise.
+    For more information about stylistic conventions, see the official [style guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
 
-While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
-- Names of variables are in lower case.
-- Word separation can be indicated by underscores (`_`), but use of underscores is discouraged unless the name would be hard to read otherwise.
-For more information about stylistic conventions, see the official [style guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
 
-
-## Sources
+## References
 
 - [Official documentation](https://docs.julialang.org/en/v1/manual/variables/)
 - [Think Julia: How to Think Like a Computer Scientist](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html#chap02)
