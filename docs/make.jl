@@ -21,14 +21,14 @@ end
 # outline
 lecture_01 = [
     "./lecture_01/variables.md",
-    "./lecture_01/numerical_types.md",
+    "./lecture_01/numeric_types.md",
     "./lecture_01/operators.md",
     "./lecture_01/data_structures.md",
 ]
 
 lecture_02 = [
-    "./lecture_02/functions.md",
-   "./lecture_02/methods.md",
+#     "./lecture_02/functions.md",
+#    "./lecture_02/methods.md",
 ]
 
 lecture_03 = []
@@ -58,7 +58,6 @@ lecture_13 = []
 
 # make docs options
 makedocs(;
-    modules = Module[],
     authors = "Václav Mácha",
     repo = "https://github.com/VaclavMacha/JuliaCourseFNSPE.jl/blob/{commit}{path}#L{line}",
     sitename = "Numerical computing in Julia",
