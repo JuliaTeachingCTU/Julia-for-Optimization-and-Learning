@@ -2,7 +2,6 @@ using Pkg
 Pkg.activate(@__DIR__)
 Pkg.instantiate()
 
-using JuliaCourseFNSPE
 using Documenter
 using Documenter.Writers: HTMLWriter
 using DocumenterTools: Themes
@@ -39,8 +38,8 @@ lecture_04 = []
 lecture_05 = []
 
 lecture_06 = [
-    "./lecture_06/DataFrames.md",
-    "./lecture_06/Plots.md",
+    # "./lecture_06/DataFrames.md",
+    # "./lecture_06/Plots.md",
 ]
 
 lecture_07 = []
@@ -59,7 +58,7 @@ lecture_13 = []
 
 # make docs options
 makedocs(;
-    modules = [JuliaCourseFNSPE],
+    modules = Module[],
     authors = "Václav Mácha",
     repo = "https://github.com/VaclavMacha/JuliaCourseFNSPE.jl/blob/{commit}{path}#L{line}",
     sitename = "Numerical computing in Julia",
