@@ -8,14 +8,13 @@ using DocumenterTools: Themes
 
 # theme extension
 for theme in ["light", "dark"]
-    orig_theme = read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String)
-    details = read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
+    file, io = mktemp()
+    write(io, join([
+        read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
+        read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
+    ], "\n"))
 
-    tmp_theme = joinpath(@__DIR__, "theme-$(theme).scss")
-    write(tmp_theme, orig_theme*"\n"*details)
-
-    Themes.compile(tmp_theme, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
-    rm(tmp_theme)
+    Themes.compile(file, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
 end
 
 # outline
@@ -27,8 +26,6 @@ lecture_01 = [
 ]
 
 lecture_02 = [
-#     "./lecture_02/functions.md",
-#    "./lecture_02/methods.md",
 ]
 
 lecture_03 = []
@@ -38,8 +35,6 @@ lecture_04 = []
 lecture_05 = []
 
 lecture_06 = [
-    # "./lecture_06/DataFrames.md",
-    # "./lecture_06/Plots.md",
 ]
 
 lecture_07 = []
