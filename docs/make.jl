@@ -4,17 +4,17 @@ Pkg.instantiate()
 
 using Documenter
 using Documenter.Writers: HTMLWriter
-using DocumenterTools: Themes
+using DocumenterTools.Themes: compile
 
 # theme extension
 for theme in ["light", "dark"]
-    file, io = mktemp()
-    write(io, join([
-        read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
-        read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
-    ], "\n"))
-
-    Themes.compile(file, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
+    mktemp() do path, io
+        write(io, join([
+            read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
+            read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
+        ], "\n"))
+        compile(path, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
+    end
 end
 
 # outline
