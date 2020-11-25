@@ -276,3 +276,8 @@ TSWLatexianTemp*
 ### LaTeX Patch ###
 # glossaries
 *.glstex
+
+
+### ADA ###
+smazat*
+bordel*
