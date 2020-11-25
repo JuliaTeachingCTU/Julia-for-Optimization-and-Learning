@@ -36,8 +36,7 @@ If a function ``f=(f_1,\dots,f_m)`` is differentiable, then
 ```
 
 !!! comment "Confusion"
-    The gradient ``\nabla f(x)`` of a function ``f:\mathbb{R}^n\to\mathbb{R}`` should be of size  ``1\times n`` but it is commonly considered as ``n\times 1``.
-
+    Gradient ``\nabla f(x)`` of a function ``f:\mathbb{R}^n\to\mathbb{R}`` should be of size  ``1\times n`` but it is commonly considered as ``n\times 1``.
 
 To compute the gradient, the chain rule is crucial.
 
@@ -60,7 +59,8 @@ This point is often very difficult to find. Sometimes we are able to find a loca
 
 Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algorithms often try to find them with the hope that they minimize the function ``f``.
 
-PICTURE TODO
+![](minmax.svg)
+
 
 !!! comment "Take care"
     This theorem does not hold if ``X`` is not the whole space.
@@ -109,6 +109,7 @@ The dual problem then switches the minimize and maximize operators to arrive at
     1. Primal and dual problems switch minimization and maximization.
     2. Primal and dual problems switch variable and constraints.
 
+The optimality conditions for constrained optimization take a more complex form.
 
 !!! info "Theorem (Karush-Kuhn-Tucker conditions)"
     Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold true. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
