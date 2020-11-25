@@ -35,9 +35,15 @@ lecture_04 = []
 lecture_05 = []
 
 lecture_06 = [
+    
 ]
 
-lecture_07 = []
+lecture_07 = [
+    "./lecture_07/theory.md",
+    "./lecture_07/gradients.md",
+    "./lecture_07/numerical_methods.md",
+    "./lecture_07/exercises.md",
+]
 
 lecture_08 = []
 
