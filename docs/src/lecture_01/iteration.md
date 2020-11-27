@@ -13,13 +13,18 @@ for i in [1,2,3,4]
 end
 ```
 
-
-!!! tip "Exercise:"
-    Use the for loop to print integers from `1` to `100`, which are divisible by `3` and `7`.
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header>
+<p>
+```
+Use the for loop to print integers from `1` to `100`, which are divisible by `3` and `7`.
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
+</p>
+</div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary>
 <p>
 ```
 Firstly we generate integers from `1` to `100`. It can be done using `range` function that accept positional argument `start` point and keyword arguemnt `stop` point or `length`. The user can also set the step length using keyword argument `step`. If `length`, `stop`, and `step` are all specified, they must agree. To generate integers from `1` to `100` we can use following code

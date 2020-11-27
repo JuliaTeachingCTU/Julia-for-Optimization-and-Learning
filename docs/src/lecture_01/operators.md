@@ -1,7 +1,8 @@
-# Operators and basic functions
+# Basic operators
 
-# Arithmetic operators
-The following arithmetic operators are supported on all primitive numeric types:
+## Arithmetic operators
+
+Basic arithmetic operations are defined in Julia standard libraries and all these operators are supported on all primitive [numeric types](@ref Primitive-numeric-types)
 
 | Expression | Name           | Description                              |
 | :--        | :--            | :--                                      |
@@ -14,28 +15,44 @@ The following arithmetic operators are supported on all primitive numeric types:
 | `x ^ y`    | power          | raises `x` to the `y`th power            |
 | `x % y`    | remainder      | equivalent to `rem(x,y)`                 |
 
-Here are some simple examples using arithmetic operators:
+Here are some simple examples using arithmetic operators
 
-```jldoctest
-julia> 1 + 2 + 3
-6
+```@repl
+1 + 2
+2*3
+4/3
+```
 
-julia> 1 - 2
--1
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header>
+<p>
+```
+aaaaa
+```@repl qwe
+x = 1
+```
+
+```@raw html
+</p>
+</div>
+```
+
+```@repl qwe
+x
+```
 
 
-julia> 3*2/12
-0.5
+```@repl
+x = 1;
+y = 3;
+(x + 2)/(y - 1) - 4*(x - 2)^2
 ```
 
 A numeric literal placed directly before an identifier or parentheses is treated as a multiplication (except with higher precedence than other binary operations):
 
-```jldoctest
-julia> x = 1
-1
-
-julia> 2x
-2
+```@repl
+2(3 + 4) # equivalent to 2*(3 + 4)
 ```
 
 Julia's promotion system makes arithmetic operations on mixtures of argument types "just work" naturally and automatically:
@@ -49,6 +66,31 @@ julia> y = 2.0 # Float64
 
 julia> 2(x + y) # Float64
 6.0
+```
+
+!!! tip "Exercise:"
+    What is the value and type of `x` given by the following expression
+    ```math
+    y = \frac{(x + 1)^2}{(x - 2)^{p - 2}},
+    ```
+    where `x = 4` and `p = 5`.
+
+```@raw html
+<details>
+<summary>Solution:</summary>
+<p>
+```
+
+```@repl
+x = 4;
+p = 5;
+y = (x + 1)^2/(x - 2)^(p - 2)
+typeof(y)
+```
+
+```@raw html
+</p>
+</details>
 ```
 
 ## Updating operators
