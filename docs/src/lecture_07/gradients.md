@@ -1,6 +1,6 @@
 # Visualization of gradients
 
-For the numerical experiments, we will consider function
+For the numerical experiments, we will consider the following function
 ```math
 f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
 ```
@@ -16,7 +16,7 @@ on domain ``[-3,1]\times [-2,1]``.
 <summary>Solution:</summary>
 <p>
 ```
-Function ```f(x)``` takes as an input a vector of two dimensions and returns a scalar. Therefore, the gradient is a two-dimensional vector, which we create by ```[?; ?]```. Its components are computed from the chain rule. To plot, we need to use the ```Plots``` package, create the discretization ```xs``` and ```ys``` of both axis and the call the ```contourf``` function. Since the third argument of ```contourf``` requires a function of two variables, we need to modify ```f``` into ```f_mod```.
+Function ```f(x)``` takes as an input a vector of two dimensions and returns a scalar. Therefore, the gradient is a two-dimensional vector, which we create by ```[?; ?]```. Its components are computed from the chain rule. To plot, we need to use the ```Plots``` package, create the discretization ```xs``` and ```ys``` of both axis and then call the ```contourf``` function. Since the third argument of ```contourf``` requires a function of two variables, we need to modify ```f``` into ```f_mod```.
 ```@example optim
 using Plots
 
@@ -40,11 +40,11 @@ savefig("grad1.svg") # hide
 
 ## Computation of gradients
 
-The simplest way to compute the gradients is to use the finite differences. Thus to replace the limit in
+The simplest way to compute the gradients is to use a finite difference approximation. It replaces the limit in
 ```math
 f'(x) = \lim_{h\to 0}\frac{f(x+h)-f(x)}{h}
 ```
-by fixing some ``h`` and approximating the gradient by
+by fixing some ``h`` and approximates the gradient by
 ```math
 f'(x) \approx \frac{f(x+h)-f(x)}{h}.
 ```
@@ -81,9 +81,9 @@ This way of computing the gradient has two diadvantages:
 ```
 To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. The resulting function is ```f_y```.
 
-It is possible to use ```for``` cycle but there is a more efficient way. We first store all the values of ``h`` in ```hs```. Then ```[? for h in hs]``` runs the function ```?``` for all ```h in hs``` and stores the results in an array with the same size as ```hs```. Since we need to get finite differences, the function ```?``` will be replaced by ```finite_difference(f_y, -1; h=h)```.
+It is possible to use a ```for``` loop but there is a more efficient way. We first store all the values of ``h`` in ```hs```. Then ```[? for h in hs]``` runs the function ```?``` for all ```h in hs``` and stores the results in an array with the same size as ```hs```. Since we need to get finite differences, the function ```?``` will be replaced by ```finite_difference(f_y, -1; h=h)```.
 
-The true gradient is computed by ```g([-2;1])``` and returns an array of length two. Since we need only the partial derivative with respect to the second component, we need to select its by adding  ```[2]```.
+The true gradient is computed by ```g([-2;1])``` and returns an array of length two. Since we need only the partial derivative with respect to the second component, we need to select it by adding  ```[2]```.
 
 It is possible to call ```plot``` twice. However, we concatenate the true gradient ```true_grad``` and its finite difference approximation ```fin_diff``` by ```hcat```. It is also possible to use ```[? ?]``` (but not ```[?, ?]``` or ```[?; ?]``` -> try it). To get the same shape of the arrays, we need to repeat ```true_grad``` from a scalar to a vector of the same dimension as ```fin_diff```. Since ```repeat``` requires the input to be an array, we need to create it by ```[true_grad]```.
 ```@example optim    
@@ -108,7 +108,7 @@ savefig("grad2.svg") # hide
 
 ![](grad2.svg)
 
-We see that the approximation is good if the value ``h`` is not too small or too large. It cannot be too large because from the definition of the gradient which considers the limit going to zero. It cannot be too small because then the numerical errors kick in. This is connected with machine precision, which is the most vulnerable to the subtraction of number of almost the same value. A simple example shows
+We see that the approximation is good if the value ``h`` is not too small or too large. It cannot be too large because the definition of the gradient considers the limit to zero. It cannot be too small because then the numerical errors kick in. This is connected with machine precision, which is most vulnerable to the subtraction of two numbers of almost the same value. A simple example shows
 ```math
 (x + h)^2 - x^2 = 2xh + h^2
 ```
@@ -122,7 +122,7 @@ h = 1e-13;
 gives an error already on the third decimal point.
 
 
-Finally, we will show how gradients look like.
+Finally, we show how the gradients look like.
 
 !!! tip "Finite difference approximation"
     Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
@@ -132,7 +132,7 @@ Finally, we will show how gradients look like.
 <summary>Solution:</summary>
 <p>
 ```
-We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify the parameters of the line in an optional argument ```line = (:arrow, 4, :black)```. These parameters specify the pointed arrow, the thickness and the color of the line. Since we do not want any legend, we specify ```label = ""```.
+We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify the parameters of the line in an optional argument ```line = (:arrow, 4, :black)```. These parameters specify the pointed arrow, the thickness and the color of the line. Since we do not want any legend, we add ```label = ""```.
 ```@example optim
 x = [-2; -1]
 x_grad = g(x)
@@ -153,4 +153,4 @@ savefig("grad3.svg") # hide
 
 ![](grad3.svg)
 
-The gradient is perpendicular to the contour lines. This makes perfect sense. Since the gradient is the direction of the steepest ascent and the contours are the lines of constant values, it needs to be like this. Try it with different values of ``x``.
+The gradient is perpendicular to the contour lines. This makes perfect sense. Since the gradient is the direction of the steepest ascent and the contours have constant values, it needs to be like this. Try this with different values of ``x``.

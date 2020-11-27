@@ -19,6 +19,7 @@ is equivalent to
 ```math
 -\text{minimize}\qquad -f(x).
 ```
+Therefore, it suffices to consider minimization problems.
 
 ## Gradients
 
@@ -28,11 +29,11 @@ f'(x) = \lim_{h\to 0}\frac{f(x+h)-f(x)}{h}.
 ```
 For a mapping  ``f:\mathbb{R}^n\to \mathbb{R}^m``, the Jacobian is a matrix ``\nabla f(x)`` of size ``m\times n`` which satisfies
 ```math
-\lim_{h\to 0}\frac{\|f(x+h)-f(x) - \nabla f(x)h \|}{\|h\|}.
+\lim_{h\to 0}\frac{\|f(x+h)-f(x) - \nabla f(x)h \|}{\|h\|} = 0.
 ```
 If a function ``f=(f_1,\dots,f_m)`` is differentiable, then
 ```math
-(\nabla f)_{i,j} = \frac{\partial f_i}{\partial x_j}(x) = \lim_{h\to 0}\frac{f_i(x_1,\dots,x_{j-1},x_j+h,x_{j+1},\dots,x_n)-f(x_1,\dots,x_n)}{h}
+(\nabla f(x))_{i,j} = \frac{\partial f_i}{\partial x_j}(x) = \lim_{h\to 0}\frac{f_i(x_1,\dots,x_{j-1},x_j+h,x_{j+1},\dots,x_n)-f(x_1,\dots,x_n)}{h}
 ```
 
 !!! comment "Confusion"
@@ -52,10 +53,10 @@ What do we look for when we minimize a function ``f`` over some ``X``? The optim
 ```math
 f(x) \le f(y) \text{ for all }y\in X.
 ```
-This point is often very difficult to find. Sometimes we are able to find a local minimum, which is a global minimum of some small neighborhood of ``x``.
+This point is often very difficult to find. Sometimes we are able to find a local minimum, which is a global minimum on some small neighborhood of ``x``.
 
-!!! info "Connection between optimization problems and gradients"
-    Consider a differentiable function ``f`` over ``X=\mathbb{R}^n`` and its local minimum. Then ``\nabla f(x)=0``. Conversely, if ``f`` is convex, then every point ``x`` with ``\nabla f(x)=0`` is a global minimum of ``f``.
+!!! info "Theorem (connection between optimization problems and gradients)"
+    Consider a differentiable function ``f`` over ``X=\mathbb{R}^n``. If ``x`` is its local minimum, then ``\nabla f(x)=0``. Conversely, if ``f`` is convex, then every point ``x`` with ``\nabla f(x)=0`` is a global minimum of ``f``.
 
 Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algorithms often try to find them with the hope that they minimize the function ``f``.
 
@@ -80,7 +81,7 @@ This optimization problem is also called the primal formulation. It is closely c
 ```math
 L(x;\lambda,\mu) = f(x)  + \sum_{i=1}^I \lambda_i g_i(x) + \sum_{j=1}^J \mu_j h_j(x).
 ```
-Namely, it is simple to show that the primal formulation is equivalent to
+Namely, it is simple to show that the primal formulation (P) is equivalent to
 ```math
 \operatorname*{minimize}_x\quad \operatorname*{maximize}_{\lambda\ge 0,\mu}\quad L(x;\lambda,\mu).
 ```
@@ -107,12 +108,12 @@ The dual problem then switches the minimize and maximize operators to arrive at
     ```
     We can observe several things:
     1. Primal and dual problems switch minimization and maximization.
-    2. Primal and dual problems switch variable and constraints.
+    2. Primal and dual problems switch variables and constraints.
 
 The optimality conditions for constrained optimization take a more complex form.
 
 !!! info "Theorem (Karush-Kuhn-Tucker conditions)"
-    Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold true. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
+    Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
     ```math
       \begin{aligned}
       &\text{Optimality:} && \nabla_x L(x;\lambda,\mu) = 0, \\
