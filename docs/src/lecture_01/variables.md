@@ -43,19 +43,22 @@ Float64
 
 In this case, the variable `x` is of type `Float64`, which is a type that represents floating-point numbers.
 
-!!! tip "Exercise:"
-    Create the following variables:
-    1. Variable `x` with value `1.234`.
-    2. Variable `y` with value `1//2`.
-    3. Variable `z` with value `x + y*im`.
-    What are the types of these three variables?
-
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Create the following variables:
+1. Variable `x` with value `1.234`.
+2. Variable `y` with value `1//2`.
+3. Variable `z` with value `x + y*im`.
+What are the types of these three variables?
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
+
 All three variables can be declared simply by assigning the value to the given variable name
 ```jldoctest var_types
 julia> x = 1.234
@@ -79,8 +82,7 @@ julia> typeof(z)
 Complex{Float64}
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 ## Primitive numeric types
@@ -173,11 +175,14 @@ The complete list of all reserved keywords is in the following table
 | `let`           | `local` | `macro`    | `module` | `quote`  | `return`   |
 | `struct`        | `true`  | `try`      | `using`  | `while`  |            |
 
+In many cases, it is very beneficial to have the choice to use special symbols as variable names. It may increase the readability of the code especially when the user needs to implement some mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can cause confusion.
+
 
 !!! compat "Stylistic Conventions:"
     While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
     - Names of variables are in lower case.
     - Word separation can be indicated by underscores (`_`), but use of underscores is discouraged unless the name would be hard to read otherwise.
+    - Do not overuse special symbols, i.e. avoid using symbols like `🍕` as variable names.
     For more information about stylistic conventions, see the official [style guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
 
 
