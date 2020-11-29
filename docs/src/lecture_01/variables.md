@@ -178,7 +178,7 @@ The complete list of all reserved keywords is in the following table
 In many cases, it is very beneficial to have the choice to use special symbols as variable names. It may increase the readability of the code especially when the user needs to implement some mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can cause confusion.
 
 
-!!! compat "Stylistic Conventions:"
+!!! info "Stylistic Conventions:"
     While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
     - Names of variables are in lower case.
     - Word separation can be indicated by underscores (`_`), but use of underscores is discouraged unless the name would be hard to read otherwise.
