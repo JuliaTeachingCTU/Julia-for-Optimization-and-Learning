@@ -1,4 +1,4 @@
-# Basic operators
+# Mathematical operations and Elementary functions
 
 ## Arithmetic operators
 
@@ -214,6 +214,8 @@ y -= 1
 
 ## Numeric comparison
 
+In addition to arithmetic and updating operators, basic comparison operators are also defined in Julie's standard libraries.
+
 | Operator  | Name                     |
 | :--       | :--                      |
 | `==`      | equality                 |
@@ -223,42 +225,64 @@ y -= 1
 | `>`       | greater than             |
 | `>=`, `≥` | greater than or equal to |
 
-Here are some simple examples:
+All these operators always return boolean value (`true` or `false`) as can be seen in the following example
 
-```jldoctest
-julia> 1 == 1
-true
-
-julia> 1 == 2
-false
-
-julia> 1 == 1.0
-true
-
-julia> -1 <= 1
-true
-
-julia> -1 ≥ 1
-false
+```@repl
+1 == 1
+1 == 1.0
+-1 <= 1
+-1 ≥ 1
 ```
 
-The last point is potentially surprising and thus worth noting.
+In most programming languages, comparison operators are strictly binary, i.e. they can be used to compare with only two values at a time. As an example, we can use a comparison of three numbers in Matlab
 
-```jldoctest
-julia> NaN == NaN
-false
+```matlab
+>> 3 > 2 > 1
 
-julia> NaN != NaN
-true
+ans =
 
-julia> NaN < NaN
-false
+  logical
 
-julia> NaN > NaN
-false
+   0
 ```
 
-Julia provides additional functions to test numbers for special values, which can be useful in situations like hash key comparisons:
+Even though the condition holds, the result is `false` (logical `0`). The correct way to write such a condition in Matlab is as follows
+
+```matlab
+>> 3 > 2 & 2 > 1
+
+ans =
+
+  logical
+
+   1
+```
+
+In Julia (and Python, for example), both ways of writing conditions are correct and lead to the same result
+
+```@repl
+3 > 2 > 1
+3 > 2 & 2 > 1
+```
+
+In fact, comparison operators can be arbitrarily chained as in the following example
+
+```@repl
+1 < 2 <= 2 < 3 == 3 > 2 >= 1 == 1 < 3 != 5
+```
+
+It may be quite convenient in numerical code, however, it can also easily decrease code readability. So if you want to use such syntax, always take code readability in your consideration.
+
+
+Comparison of special values such as `NaN` can lead to unexpected behavior
+
+```@repl
+NaN == NaN
+NaN != NaN
+NaN < NaN
+```
+
+To avoid unexpected result, Julia provides additional functions to compare numbers for special values
 
 | Function        | Tests if                 |
 | :--             | :--                      |
@@ -267,29 +291,86 @@ Julia provides additional functions to test numbers for special values, which ca
 | `isinf(x)`      | `x` is infinite          |
 | `isnan(x)`      | `x` is not a number      |
 
-Function `isequal` considers `NaN`s equal to each other:
+Function `isequal` considers `NaN`s equal to each other
 
-```jldoctest
-julia> isequal(NaN, NaN)
-true
-
-julia> isequal(NaN, NaN32)
-true
+```@repl
+isequal(NaN, NaN)
+!isequal(NaN, NaN)
 ```
 
-It can also be used to distinguish signed zeros:
+## Rounding functions
 
-```jldoctest
-julia> -0.0 == 0.0
-true
+| Function   | Description                     |
+| :--        | :--                             |
+| `round(x)` | round `x` to the nearest integer|
+| `floor(x)` | round `x` towards `-Inf`        |
+| `ceil(x)`  | round `x` towards `+Inf`        |
+| `trunc(x)` | round `x` towards `zero`        |
 
-julia> isequal(-0.0, 0.0)
-false
+All these functions can be used without a specified output type. In such a case, the output will have the same type as the input variable
+
+```@repl rounding
+x = 3.1415
+round(x)
+floor(x)
+ceil(x)
+```
+However, in many cases, it makes sense to convert the rounded value to an integer. To do this, we can simply pass the appropriate integer type as the first argument
+
+```@repl rounding
+round(Int64, x)
+floor(Int32, x)
+ceil(Int16, x)
 ```
 
-Unlike most languages, with the notable exception of Python, comparisons can be arbitrarily chained:
+All rounding functions also support additional keyword arguments:
+- If the `digits` keyword argument is provided, it rounds to the specified number of digits after the decimal place (or before if negative), in base specifide by `base` keyword argument.
+- If the `sigdigits` keyword argument is provided, it rounds to the specified number of significant digits, in base specifide by `base` keyword argument.
 
-```jldoctest
-julia> 1 < 2 <= 2 < 3 == 3 > 2 >= 1 == 1 < 3 != 5
-true
+```@repl rounding
+round(x; digits = 3)
+round(x; sigdigits = 3)
+```
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Use rounding operators to solve the following tasks
+- Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
+- Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
+- Round `1252.1518` to `2` digits after the decimal place.
+- Round `1252.1518` to `3` significant digits.
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+```@repl
+x = 1252.1518
+ceil(Int64, x)
+floor(Int16, x)
+round(x; digits = 2)
+round(x; sigdigits = 3)
+```
+
+```@raw html
+</p></details>
+```
+
+## Numerical Conversions
+
+As was shown in the previous section, the numerical conversion can be done using rounding functions with a specified type of output variable. However, it only works for converting floating-point numbers to integers. Julia also provides a more general way how to perform the numerical conversion: the notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
+- If `T` is a floating-point type, the result is the nearest representable value, which could be positive or negative infinity.
+- If `T` is an integer type, an `InexactError` is raised if `x` is not representable by `T`.
+
+```@repl
+convert(Float32, 1.234)
+Float32(1.234)
+convert(Float64, 1)
+Float64(1)
+convert(Int64, 1.234)
+Int64(1.234)
 ```
