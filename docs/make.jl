@@ -21,9 +21,8 @@ end
 lecture_01 = [
     "./lecture_01/variables.md",
     "./lecture_01/operators.md",
-    "./lecture_01/conditions.md",
     "./lecture_01/data_structures.md",
-    "./lecture_01/iteration.md",
+    "./lecture_01/control_flow.md",
     "./lecture_01/exercises.md",
 ]
 
