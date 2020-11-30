@@ -1,7 +1,7 @@
 # Exercises
 
 !!! info "Homework: Newton's method"
-    The Newton's method for solving equation ``g(x)`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
+    The Newton's method for solving equation ``g(x)=0`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
 
     The Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
 
@@ -20,14 +20,29 @@
 
 
 !!! tip "Exercise 1"
-    Show that the primal formulation is equivalent to the min-max formulation.
+    Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
 
 ```@raw html
 <details>
 <summary>Solution:</summary>
 <p>
 ```
-???
+The primal problem with no inequalities reads
+```math
+\begin{aligned}
+\text{minimize}\qquad &f(x) \\
+\text{subject to}\qquad &h_j(x) = 0,\ j=1,\dots,J.
+\end{aligned}
+```
+The Lagrangian has form
+```math
+L(x;\lambda,\mu) = f(x) + \sum_{j=1}^J \mu_j h_j(x).
+```
+Now consider the min-max formulation
+```math
+\operatorname*{minimize}_x\quad \operatorname*{maximize}_{\mu}\quad f(x) + \sum_{j=1}^J \mu_j h_j(x).
+```
+If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j`` in such a way that the inner maximimization problem has the optimal value ``+\infty``. But since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. But that is precisely the primal formulation.
 ```@raw html
 </p>
 </details>
@@ -47,7 +62,31 @@
 <summary>Solution:</summary>
 <p>
 ```
-???
+The linear program
+```math
+\begin{aligned}
+\text{minimize}\qquad &c^\top x \\
+\text{subject to}\qquad &Ax=b, \\
+&x\ge 0
+\end{aligned}
+```
+has the Lagrangian
+```math
+L(x;\lambda,\mu) = c^\top x - \lambda^\top x + \mu^\top (b-Ax) = (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
+```
+Note that we need to have ``- \lambda^\top x`` because we require constraints ``g_i(x)\le 0`` or in other words ``-x\le 0``. The dual problem from its definition reads
+```math
+\operatorname*{maximize}_{\lambda\ge0, \mu} \quad \operatorname*{minimize}_x \quad (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
+```
+Since the minimization with respect to ``x`` is unconstrained, the same arguments as the previous exercise imply the hard constraint ``c - \lambda - A^\top\mu=0``. Then we may simplify the dual problem into
+```math
+\begin{aligned}
+\text{maximize}\qquad &b^\top \mu \\
+\text{subject to}\qquad &c - \lambda - A^\top\mu = 0, \\
+&\lambda\ge 0.
+\end{aligned}
+```
+From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
 ```@raw html
 </p>
 </details>
@@ -60,7 +99,7 @@
 
 
 !!! tip "Exercise 3: Bisection method"
-    ???
+    Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``.
 
 ```@raw html
 <details>
@@ -79,7 +118,7 @@
 
 
 
-!!! tip "Exercise 3: JuMP"
+!!! tip "Exercise 4: JuMP"
     The library to perform optimization is called ```JuMP```. Install it and use it to solve the linear optimization problem
     ```math
     \begin{aligned}
@@ -129,7 +168,7 @@ println(round.(x_val, digits=4)) # hide
 
 
 
-!!! tip "Exercise 4: SQP method"
+!!! tip "Exercise 5: SQP method"
     Derive the SQP method for optimization problem with only equality constraints
     ```math
     \begin{aligned}
@@ -212,19 +251,3 @@ println(round.(x, digits=4)) # hide
 
 
 
-
-
-
-!!! tip "Exercise 5"
-    ??? gd with multiple stepsizes
-
-```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
-```
-???
-```@raw html
-</p>
-</details>
-```
