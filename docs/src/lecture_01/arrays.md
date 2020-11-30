@@ -93,15 +93,53 @@ v = Float64[1, 2, 3]
 append!(v, 3.1415)
 ```
 
+It is possible to change the value of an element of a given vector. This can be done simply by assigning a new value to the desired element
+
+```@repl vectors
+v = [1,2,3, 4]
+v[2] = 4
+v
+```
+
+It is also possible to assign one value to multiple elements of a vector at once. However, in this case, we have to use so-called dot syntax which is in Julia used for [element-wise operations](@ref Broadcasting)
+
+```@repl vectors
+v[3:4] .= 11
+v
+```
+
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
+Create a vector of integers that contains all odd numbers smaller than `10`. Then changed the first element to `4` and the last two elements to `1`.
+
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
+```
+
+The vector can be created manually as follows
+
+```@repl matrices
+v = [1,3,5,7,9]
+```
+
+or we can use `range` function to create a range with given properties and then use `collect` function to create a vector or use `Vector` type to convert range to a vector
+
+```@repl matrices
+collect(1:2:9)
+Vector(1:2:9)
+```
+
+Then we can easily assign new values to the desired positions
+
+```@repl matrices
+v[1] = 4
+v[end-1:end] .= 1
+v
 ```
 
 ```@raw html
@@ -150,7 +188,7 @@ m[1, :] # the first row
 m[:] # all elements
 ```
 
-It is not possible to append new elements into arrays (with exception of vectors) directly. However, arrays with matching dimensions can be concatenated. For example, we can horizontally concatenate our matrix `m` using function `hcat`
+It is not possible to append new elements into arrays (with exception of vectors) directly. However, arrays with matching sizes along some dimension can be concatenated in this dimension. For example, we can horizontally concatenate our matrix `m` using function `hcat`
 
 ```@repl matrices
 hcat(m, m)
@@ -162,19 +200,17 @@ or vertically using function `vcat`
 vcat(m, m)
 ```
 
-There is also a general function `cat` that concatenate given arrays alongside dimension specified by keyword argument `dims`
+There is also a general function `cat` that concatenate given arrays along dimension specified by keyword argument `dims`
 
 ```@repl matrices
 cat(m, m; dims = 2) # equivalent to hcat(m, m)
 cat(m, m; dims = 1) # equivalent to vcat(m, m)
 ```
 
-```@repl matrices
-v = [11, 12]
-hcat(m, v)
-```
+If the sizes of arrays do not match, an error occurs
 
 ```@repl matrices
+v = [11, 12]
 vcat(m, v)
 ```
 
@@ -183,17 +219,85 @@ vcat(m, v)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
+Create two vectors: vector all odd numbers smaller than `10` and vector of all even numbers smaller than `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
+
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
+First, we have to create the two vectors. We can do it manually or ve can use ranges and `collect` function as in the exercise in the previous section
+
+```@repl matrices_ex
+v1 = collect(1:2:9)
+v2 = collect(2:2:10)
+```
+
+Then we use function `hcat` to horizontally concatenate these two vectors
+
+```@repl matrices_ex
+m = hcat(v1, v2)
+```
+
+and finally, we select all elements in the third row and assign a new value to them
+
+```@repl matrices_ex
+m[3,:] .= 4
+m
+```
+
 ```@raw html
 </p></details>
 ```
 
+
 ## `N`-dimensional arrays
+
+In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In julia, there is no explicit way to create `N`-dimensional arrays. The typical way how to create such an array is to create an empty array of appropriate size and then fill it either manually of using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref Iteration) will be later in the course.
+
+There are several ways to initialize an array. The simplest and most common is using `zeros` function. This function by default creates an array of given size filled with zeros of type `Float64`
+
+```@repl arrays
+A = zeros(3, 5, 2) # equivalent to A = zeros((3, 5, 2))
+```
+
+The type of elements can be changed by passing the desired type as a first argument
+
+```@repl arrays
+B = zeros(Int64, 3, 5, 2)  # equivalent to B = zeros(Int64, (3, 5, 2))
+```
+
+As in the case of vectors and matrices, we can use the same functions to obtain basic information about the arrays
+
+```@repl arrays
+typeof(A)
+eltype(A)
+ndims(A)
+size(A)
+length(A)
+```
+
+The process of assigning a new value to the element of an array is the same as in the case of a vector or matrixs
+
+```@repl arrays
+B[1] = 1 # assign 1 to the first element
+B[1, 2, 2] = 2 # assign 2 to the element at position (1,2,2)
+B[2,:,1] .= 4
+B
+```
+
+There are other useful functions which can be used to initialize an array. The `ones` function is similar to the `zeros` function, but instead of an array filled with zeros, it creates an array filled with ones
+
+```@repl
+ones(Float32, 2, 3, 1)
+```
+
+Function `fill` creates an array of given size filled with the given value
+
+```@repl
+fill(1.234, 2, 2)
+```
 
 ```@raw html
 <div class = "exercise-body">
@@ -212,138 +316,68 @@ vcat(m, v)
 
 ## Views
 
-As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `b`, the elements of the original array can be modified be modified by accessing `b`:
+As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `B`, the elements of the original array can be modified be modified by accessing `B`:
 
 ```@repl
-a = [1,2,3]
-b = a
-b[2] = 42
-a
+A = [1,2,3]
+B = A
+B[2] = 42
+A
 ```
 
 This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the function `copy`
 
 ```@repl
-a = [1,2,3]
-b = copy(a)
-b[2] = 42
-b
-a
+A = [1,2,3]
+B = copy(A)
+B[2] = 42
+A
+B
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
-## Array constructors
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
-## Operations on Arrays
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
-## Elementwise Operations
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
-## Linear algebra
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
 
 ## Broadcasting
 
-In Julia, with broadcasting we indicate the action of mapping a function or an operation (which are the same in Julia) over an array or a matrix element by element. The broadcasting notation for operators consists of adding a dot `.` before the operator (for example `.*`)
+In Julia, with broadcasting we indicate the action of mapping a function or an operation (which are the same in Julia) over an array or a matrix element by element. There is no speed gain in doing so, as it will be exactly equivalent to writing a for loop, but its conciseness may be useful sometimes. So the core idea in Julia is to write functions that take single values and use broadcasting when needed, unless the functions must explicitly work on arrays (for example to compute the mean of a series of values, perform matrix operations, vector multiplications, etc).
+
+The broadcasting notation for operators consists of adding a dot `.` before the operator (for example `.*`)
+
+```@repl broadcasting
+a = [1,2,3] # column vector
+a .-= 4 # from each element of vector subtracts 4
+```
+
+Without the dot, we get an error, since we cannot multiply substract a number from a vector
+
+```@repl broadcasting
+a -= 1
+```
+
+This syntax can be applied to any function in Julia. it is extremely useful for basic operations. For example, we can compute the absolute value of all elements simply by the following code
+
+```@repl broadcasting
+abs.(a)
+```
+
+It can be also used for matrix multiplication. Consider the following example
 
 ```@repl broadcasting
 a = [1,2,3] # column vector
 b = [4,5,6] # column vector
-c = [4 5 6] # row vector
+a * b
 ```
 
-Without the dot, we get an error, since we cannot multiply column vector by another column vector
+This makes perfectly sense from a mathematical point of view and operators behave how we would mathematically expect. If we want to use matrix multiplication, we have to transpose one of the vectors
 
 ```@repl broadcasting
-a * b
-c * a
+a' * b
+a * b'
 ```
 
-This makes perfectly sense from a mathematical point of view and operators behave how we would mathematically expect. Nonetheless, in programming it is often useful to write operations which work on an element by element basis, and for this reason broadcasting comes to our help.
+Nonetheless, in programming it is often useful to write operations which work on an element by element basis, and for this reason broadcasting comes to our help
 
 ```@repl broadcasting
 a .* b
-c .* a
-```
-
-We can use the broadcasting notation also to map a function over an n-dimensional array. There is no speed gain in doing so, as it will be exactly equivalent to writing a for loop, but its conciseness may be useful sometimes. So the core idea in Julia is to write functions that take single values and use broadcasting when needed, unless the functions must explicitly work on arrays (for example to compute the mean of a series of values, perform matrix operations, vector multiplications, etc).
-
-```@repl
-a = [1,2,3]
-ff(x) = x + 1
-ff.(a)
 ```
 
 ```@raw html
@@ -351,10 +385,55 @@ ff.(a)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
+Construct the matrix whose elements are given by the following formula
+```math
+A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\} \quad i \in 1, 2, \ldots, 2, \; j \in 1, 2, \ldots, 3
+```
+
+where
+
+```@example broadcasting_ex
+x = [
+    -1  0  2;
+    2  -3  1;
+]
+nothing # hide
+```
+
+
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
+```
+
+There are several ways to create matrix `A`. The most obvious one is to use [`for` loop](@ref for-loop) (we will talk about loops later)
+
+```@repl broadcasting_ex
+A = zeros(2, 3);
+
+for i in eachindex(A)
+    A[i] = exp((x[i] + 1)^2)/2
+end
+A
+```
+
+or using list comprehension (this topic will be discussed later too)
+
+```@repl broadcasting_ex
+A = [exp((xi + 1)^2)/2 for xi in x]
+```
+
+But the most elegant way (subjectively) is to use broadcasting
+
+```@repl broadcasting_ex
+A = exp.((x .+ 1) .^ 2) ./ 2
+```
+
+There is a macro `@.` in Julia, that adds a dot before each operator and each function in an expression
+
+```@repl broadcasting_ex
+A = @. exp((x + 1) ^ 2) / 2
 ```
 
 ```@raw html
