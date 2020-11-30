@@ -18,18 +18,20 @@ for theme in ["light", "dark"]
 end
 
 # outline
-lecture_01 = [
-    "./lecture_01/variables.md",
-    "./lecture_01/operators.md",
-    "./lecture_01/data_structures.md",
-    "./lecture_01/control_flow.md",
-    "./lecture_01/exercises.md",
-]
+lecture_01 = joinpath.("./lecture_01/", [
+    "variables.md",
+    "operators.md",
+    "arrays.md",
+    "data_structures.md",
+    "exercises.md",
+])
 
 lecture_02 = [
 ]
 
-lecture_03 = []
+lecture_03 = joinpath.("./lecture_03/", [
+    "control_flow.md",
+])
 
 lecture_04 = []
 
