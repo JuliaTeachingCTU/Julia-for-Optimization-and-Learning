@@ -299,29 +299,6 @@ Function `fill` creates an array of given size filled with the given value
 fill(1.234, 2, 2)
 ```
 
-
-## Views
-
-As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `B`, the elements of the original array can be modified be modified by accessing `B`:
-
-```@repl
-A = [1,2,3]
-B = A
-B[2] = 42
-A
-```
-
-This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the function `copy`
-
-```@repl
-A = [1,2,3]
-B = copy(A)
-B[2] = 42
-A
-B
-```
-
-
 ## Broadcasting
 
 In Julia, with broadcasting we indicate the action of mapping a function or an operation (which are the same in Julia) over an array or a matrix element by element. There is no speed gain in doing so, as it will be exactly equivalent to writing a for loop, but its conciseness may be useful sometimes. So the core idea in Julia is to write functions that take single values and use broadcasting when needed, unless the functions must explicitly work on arrays (for example to compute the mean of a series of values, perform matrix operations, vector multiplications, etc).
@@ -425,3 +402,75 @@ A = @. exp((x + 1) ^ 2) / 2
 ```@raw html
 </p></details>
 ```
+
+## Views
+
+As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `B`, the elements of the original array can be modified be modified by accessing `B`:
+
+```@repl views
+A = [1 2 3; 4 5 6]
+B = A
+B[2] = 42
+```
+
+We can check that both arrays are equal even though we modified only the array `B`
+
+```@repl views
+A == B
+```
+
+This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the function `copy`
+
+```@repl views
+C = copy(A)
+C[4] = 10
+A == C
+```
+
+The different behavior occurs when accessing elements. Everytime we access multiple elements of an array at once, a new array is created
+
+```@repl views
+D = A[1:2, 1:2]
+D[1] = 15
+```
+In this case, we modified only the array `D`, and array `A` remains unchanged
+
+```@repl views
+D == A[1:2, 1:2]
+```
+
+However, even if we want to select some subarray, it may be useful to create only a link to the original array and not a new array. In Julia, this can be done using `view` function
+
+```@repl views
+E = view(A, 1:2, 1:2)
+E[4] = 78
+```
+We see that even if we change only the array in `D`, the change is propagated to `A`
+
+```@repl views
+E == A[1:2, 1:2]
+```
+
+To simplify the process of creating `view`s, there is a handy macro `@views`
+
+```@repl views
+@views A[1:2, 1:2] # equivalet to view(A, 1:2, 1:2)
+```
+
+Note that  function view creates a special type `SubArray`
+
+```@repl views
+typeof(E)
+```
+
+Since `SubArray` is a subtype of `AbstractArray`, we can apply any function defined for `Abstract Arrays` to `SubArray` too. In other words, (almost) all functions that work for arrays will also work for subarray.
+
+```@repl views
+A = [1 2 3; 4 5 6]
+A_view = @views A[:, :]
+sum(A)
+sum(A_view)
+minimum(A; dims = 1)
+minimum(A_view; dims = 1)
+```
+This means that we can use arrays and subarray interchangeably without the necessity of changing existing code. Of course, there are some limitations, but we will talk about it later.
