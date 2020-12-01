@@ -112,7 +112,7 @@ From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. 
 </details>
 ```
 
-
+SMAZAT
 
 
 
