@@ -339,7 +339,7 @@ round(x; sigdigits = 3)
 Use rounding operators to solve the following tasks
 - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
 - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
-- Round `1252.1518` to `2` digits after the decimal place.
+- Round `1252.1518` to `2` digits after the decimal point.
 - Round `1252.1518` to `3` significant digits.
 
 ```@raw html
@@ -348,11 +348,28 @@ Use rounding operators to solve the following tasks
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-```@repl
+The `ceil` function rounds numbers to the nearest larger value and since we want the result to be of type `Int64`, we have to pass this type as a first argument
+
+```@repl rounding_ex
 x = 1252.1518
 ceil(Int64, x)
+```
+
+Similarly, the floor function rounds numbers to the nearest smaller value
+
+```@repl rounding_ex
 floor(Int16, x)
+```
+
+The number of digits after the decimal point can be controlled using `digits` keyword
+
+```@repl rounding_ex
 round(x; digits = 2)
+```
+
+and the number of significant digits using `sigdigits` keyword
+
+```@repl rounding_ex
 round(x; sigdigits = 3)
 ```
 
