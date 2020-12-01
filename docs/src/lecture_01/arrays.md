@@ -299,20 +299,6 @@ Function `fill` creates an array of given size filled with the given value
 fill(1.234, 2, 2)
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
 
 ## Views
 
@@ -387,7 +373,7 @@ a .* b
 
 Construct the matrix whose elements are given by the following formula
 ```math
-A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\} \quad i \in 1, 2, \ldots, 2, \; j \in 1, 2, \ldots, 3
+A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\} \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
 ```
 
 where
