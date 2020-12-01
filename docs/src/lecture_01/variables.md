@@ -192,9 +192,3 @@ For more information about stylistic conventions, see the official [style guide]
 ```@raw html
 </p></div>
 ```
-
-## References
-
-- [Official documentation](https://docs.julialang.org/en/v1/manual/variables/)
-- [Think Julia: How to Think Like a Computer Scientist](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html#chap02)
-- [From Zero to Julia!](https://techytok.com/lesson-variables-and-types/)
