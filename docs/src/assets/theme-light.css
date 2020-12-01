@@ -51,8 +51,8 @@
 .info-header {
     font-weight: bold;
     margin: -.5em -.5em 0;
-    background-color: #5473ca;
-    border: 1px solid #5473ca;
+    background-color: #209cee;
+    border: 1px solid #209cee;
     color: #FFFFFF;
     align-items: center;
     font-weight: 700;
@@ -65,8 +65,8 @@
 .info-body {
     border-radius: 4px;
     padding: .5em .5em 0;
-    background-color: #a4b9f5;
-    border: 1px solid #a4b9f5;
+    background-color: #b8dffa;
+    border: 1px solid #209cee;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -75,8 +75,8 @@
 .theorem-header {
     font-weight: bold;
     margin: -.5em -.5em 0;
-    background-color: #ca5454;
-    border: 1px solid #ca5454;
+    background-color: #e74c3c;
+    border: 1px solid #e74c3c;
     color: #FFFFFF;
     align-items: center;
     font-weight: 700;
@@ -89,8 +89,8 @@
 .theorem-body {
     border-radius: 4px;
     padding: .5em .5em 0;
-    background-color: #e08686;
-    border: 1px solid #e08686;
+    background-color: #f5b7b1;
+    border: 1px solid #e74c3c;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -99,8 +99,8 @@
 .homework-header {
     font-weight: bold;
     margin: -.5em -.5em 0;
-    background-color: #4d2e57;
-    border: 1px solid #4d2e57;
+    background-color: #8e44ad;
+    border: 1px solid #8e44ad;
     color: #FFFFFF;
     align-items: center;
     font-weight: 700;
@@ -113,33 +113,8 @@
 .homework-body {
     border-radius: 4px;
     padding: .5em .5em 0;
-    background-color: #6e5975;
-    border: 1px solid #6e5975;
+    background-color: #d7bde2;
+    border: 1px solid #8e44ad;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-}
-
-/* Deprecated */
-details {
-    border-radius: 4px;
-    padding: .5em .5em 0;
-    background-color: rgb(255, 204, 153);
-    border: 1px solid rgb(255, 153, 51);
-    margin-top: -1rem;
-    margin-bottom: 1.5rem;
-}
-
-summary {
-    font-weight: bold;
-    margin: -.5em -.5em 0;
-    background-color: rgb(255, 153, 51);
-    border: 1px solid rgb(255, 153, 51);
-    color: rgb(255, 255, 255);
-    align-items: center;
-    font-weight: 700;
-    justify-content: space-between;
-    line-height: 1.25;
-    padding: 0.75em;
-    position: relative;
-    cursor: pointer;
 }
