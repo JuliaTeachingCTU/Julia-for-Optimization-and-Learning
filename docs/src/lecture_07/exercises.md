@@ -140,6 +140,7 @@ The library to perform optimization is called ```JuMP```. Install it and use it 
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+The best start is the official documentation of the [JuMP package](https://jump.dev/JuMP.jl/stable/quickstart/). Since ```JuMP``` is only an interface for solvers, we need to include an actual solver as well. For linear programs, we can use ```using GLPK```, for non-linear ones, we would need to use ```using Ipopt```. We specify the constraints in a matrix form. It is possible to write them directly via ```@constraint(model, x[1] + x[2] == 2)```. This second way is more pleasant for complex constraints. Since ```x``` is a vector, we need to use ```value.(x)``` instead of the wrong ```value(x)```.
 ```@example optim
 using JuMP
 using GLPK
@@ -158,6 +159,7 @@ model = Model(GLPK.Optimizer)
 optimize!(model)
 
 x_val = value.(x)
+nothing # hide
 ```
 ```@raw html
 </p></details>
