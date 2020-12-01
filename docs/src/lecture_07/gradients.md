@@ -6,15 +6,17 @@ f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
 ```
 on domain ``[-3,1]\times [-2,1]``.
 
-!!! tip "Contours"
-    Write a function ```g(x)``` which computes the derivative of ``f`` at a point  ``x``.
-
-    Plot the contours of ``f`` on the given domain. Use the optional argument ```color = :jet``` for better visualization.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Contour plot</header><p>
+```
+Write a function ```g(x)``` which computes the derivative of ``f`` at a point  ``x``.
+
+Plot the contours of ``f`` on the given domain. Use the optional argument ```color = :jet``` for better visualization.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 Function ```f(x)``` takes as an input a vector of two dimensions and returns a scalar. Therefore, the gradient is a two-dimensional vector, which we create by ```[?; ?]```. Its components are computed from the chain rule. To plot, we need to use the ```Plots``` package, create the discretization ```xs``` and ```ys``` of both axis and then call the ```contourf``` function. Since the third argument of ```contourf``` requires a function of two variables, we need to modify ```f``` into ```f_mod```.
 ```@example optim
@@ -32,8 +34,7 @@ contourf(xs, ys, f_mod, color = :jet)
 savefig("grad1.svg") # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 ![](grad1.svg)
@@ -49,13 +50,16 @@ by fixing some ``h`` and approximates the gradient by
 f'(x) \approx \frac{f(x+h)-f(x)}{h}.
 ```
 
-!!! tip "Finite difference approximation"
-    Write a function ```finite_difference``` which computes the approximation of ``f'(x)`` by finite differences. The inputs are a function ``f:\mathbb R\to\mathbb R`` and a point ``x\in\mathbb{R}``. It should have an optional input ``h\in\mathbb{R}``, for which you need to choose a reasonable value. 
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Finite difference approximation</header><p>
+```
+Write a function ```finite_difference``` which computes the approximation of ``f'(x)`` by finite differences. The inputs are a function ``f:\mathbb R\to\mathbb R`` and a point ``x\in\mathbb{R}``. It should have an optional input ``h\in\mathbb{R}``, for which you need to choose a reasonable value. 
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 We just need to rewrite the formula above. Since the argument ```h``` should be optional, it needs to be after ```;```. Its good default value is anything between ``10^{-10}`` and ``10^{-5}``. We specify ```x::Real``` as a sanity check for the case when a function of more variables is passed as input.
 ```@example optim
@@ -63,21 +67,22 @@ finite_difference(f, x::Real; h=1e-8) = (f(x+h) - f(x)) / h
 nothing # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 This way of computing the gradient has two diadvantages:
 1. It is slow. For a function of ``n`` variables, we need to evaluate the function at least ``n+1`` times to get the whole gradient.
 2. It is not precise. We will show this in the next example.
 
-!!! tip "Finite difference approximation"
-    Fix a point ``x=(-2,-1)`` and compute the finite difference approximation of the partial derivative of ``f`` with respect to the second variable. Do this for ``h=10^k`` with ``k=-15,\dots,-1``. Plot the dependence of the approximation on the choice of ``h``. Add the true derivative computed from ```g```.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Finite difference approximation</header><p>
+```
+Fix a point ``x=(-2,-1)`` and compute the finite difference approximation of the partial derivative of ``f`` with respect to the second variable. Do this for ``h=10^k`` with ``k=-15,\dots,-1``. Plot the dependence of the approximation on the choice of ``h``. Add the true derivative computed from ```g```.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. The resulting function is ```f_y```.
 
@@ -102,8 +107,7 @@ plot(hs, hcat(fin_diff, repeat([true_grad], length(fin_diff))),
 savefig("grad2.svg") # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 ![](grad2.svg)
@@ -124,13 +128,15 @@ gives an error already on the third decimal point.
 
 Finally, we show how the gradients look like.
 
-!!! tip "Finite difference approximation"
-    Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Direction of gradients</header><p>
+```
+Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify the parameters of the line in an optional argument ```line = (:arrow, 4, :black)```. These parameters specify the pointed arrow, the thickness and the color of the line. Since we do not want any legend, we add ```label = ""```.
 ```@example optim
@@ -147,8 +153,7 @@ plot!([x[1]; x[1]+0.25*x_grad[1]], [x[2]; x[2]+0.25*x_grad[2]],
 savefig("grad3.svg") # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 ![](grad3.svg)

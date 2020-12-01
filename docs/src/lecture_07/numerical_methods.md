@@ -26,15 +26,17 @@ x^{k+1} = x^k - \alpha^k\nabla f(x^k).
 ```
 The stepsize ``\alpha^k>0`` can be tuned as a hyperparameter.
 
-!!! tip "Gradient descent"
-    Implement function `optim` which takes function ``f``, its gradient `g`, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. It should return first 100 iterations of the algorithm.
-
-    This example is rather artificial because often only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Gradient descent</header><p>
+```
+Implement function `optim` which takes function ``f``, its gradient `g`, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. It should return first 100 iterations of the algorithm.
+
+This example is rather artificial because often only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 First we need to create an empty array into which we store the iterates. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``. 
 ```@example grad
@@ -56,22 +58,23 @@ nothing # hide
 Note that the implementation does not use the values of ``f`` but only of the gradient ``\nabla f``. Moreover, if the algorithm converges ``x^k \to \bar x``, then passing the the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as most optimization methods, gradient descent looks for stationary points.
 
 
-!!! tip "Gradient descent"
-    Use the implementation of the gradient descent to minimize the function
-    ```math
-    f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
-    ```
-    from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Store all iterations into variable ```xs```.
-
-    Plot again the contours pf ``f`` and all iterations ```xs```.
-    
-    Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you repserent ```xs```). Plot these values. 
-    
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Gradient descent</header><p>
+```
+Use the implementation of the gradient descent to minimize the function
+```math
+f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
+```
+from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Store all iterations into variable ```xs```.
+
+Plot again the contours pf ``f`` and all iterations ```xs```.
+
+Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you repserent ```xs```). Plot these values. 
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 We call ```optim``` written in the previous exercise. Then we plot the contours as before. Since ```x_gd[1,:]``` stores the ``x`` coordinate of all iterations and similarly ```x_gd[2,:]```, we plot them. Again, we need to use ```plot!``` instead of ```plot``` to add the line to the contour plot.
 ```@example grad
@@ -92,8 +95,7 @@ plot(f_gd, label="", xlabel="Iteration", ylabel="Function value")
 savefig("numer2.svg") # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 ![](numer1.svg)
@@ -171,15 +173,17 @@ println(x_opt) # hide
 ```
 We obtained the same results as in the previous case. This is not surprising as the code does exactly the same things; it is only written differently. The next exercise shows the power of defining the ```Step``` class.
 
-!!! tip "Armijo condition"
-    Implement the ```Armijo``` subclass of the ```Step``` class. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
-
-    Then run the optimization with the Armijo selection of the stepsize.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Armijo condition</header><p>
+```
+Implement the ```Armijo``` subclass of the ```Step``` class. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
+
+Then run the optimization with the Armijo selection of the stepsize.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 We define the class in the same way as with ```GD```
 ```@example steps
@@ -212,8 +216,7 @@ x_opt = optim(f, g, [-1;0], gd)
 nothing # hide
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 The correct solution is

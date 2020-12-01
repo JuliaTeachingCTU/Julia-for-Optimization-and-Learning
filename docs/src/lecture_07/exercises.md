@@ -1,31 +1,37 @@
 # Exercises
 
-!!! info "Homework: Newton's method"
-    The Newton's method for solving equation ``g(x)=0`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
+```@raw html
+<div class = "homework-body">
+<header class = "homework-header">Homework: Newton's method</header><p>
+```
+The Newton's method for solving equation ``g(x)=0`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
 
-    The Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
+The Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
 
-    Implement the Newton's method to minimize
-    ```math
-    f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
-    ```
-    with the starting point ``x^0=(0,-1)``.
-    
-
-
-
-
+Implement the Newton's method to minimize
+```math
+f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
+```
+with the starting point ``x^0=(0,-1)``.
+```@raw html
+</p></div>
+```   
 
 
 
 
-!!! tip "Exercise 1"
-    Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
+
+
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 1</header><p>
+```
+Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 The primal problem with no inequalities reads
 ```math
@@ -44,8 +50,7 @@ Now consider the min-max formulation
 ```
 If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j`` in such a way that the inner maximimization problem has the optimal value ``+\infty``. But since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. But that is precisely the primal formulation.
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 
@@ -54,13 +59,15 @@ If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j`` in such a way that th
 
 
 
-!!! tip "Exercise 2"
-    Derive the dual formulation for the linear programming.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 2</header><p>
+```
+Derive the dual formulation for the linear programming.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 The linear program
 ```math
@@ -88,8 +95,7 @@ Since the minimization with respect to ``x`` is unconstrained, the same argument
 ```
 From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 
@@ -97,42 +103,42 @@ From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. 
 
 
 
-
-!!! tip "Exercise 3: Bisection method"
-    Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 3: Bisection method</header><p>
+```
+Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 ???
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
-SMAZAT
 
 
 
 
-
-!!! tip "Exercise 4: JuMP"
-    The library to perform optimization is called ```JuMP```. Install it and use it to solve the linear optimization problem
-    ```math
-    \begin{aligned}
-    \text{minimize}\qquad &x_1 + x_2 + x_5 \\
-    \text{subject to}\qquad &x_1+2x_2+3x_3+4x_4+5x_5 = 8, \\
-    &x_3+x_4+x_5 = 2, \\
-    &x_1+x_2 = 2.
-    \end{aligned}
-    ```
-    
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 4: JuMP</header><p>
+```
+The library to perform optimization is called ```JuMP```. Install it and use it to solve the linear optimization problem
+```math
+\begin{aligned}
+\text{minimize}\qquad &x_1 + x_2 + x_5 \\
+\text{subject to}\qquad &x_1+2x_2+3x_3+4x_4+5x_5 = 8, \\
+&x_3+x_4+x_5 = 2, \\
+&x_1+x_2 = 2.
+\end{aligned}
+```    
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 ```@example optim
 using JuMP
@@ -154,8 +160,7 @@ optimize!(model)
 x_val = value.(x)
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
 The correct solution is
@@ -167,30 +172,31 @@ println(round.(x_val, digits=4)) # hide
 
 
 
-
-!!! tip "Exercise 5: SQP method"
-    Derive the SQP method for optimization problem with only equality constraints
-    ```math
-    \begin{aligned}
-    \text{minimize}\qquad &f(x) \\
-    \text{subject to}\qquad &h_j(x) = 0, j=1,\dots,J.
-    \end{aligned}
-    ```
-    SQP writes the optimality (KKT) conditions and the applies the Newton's method to solve the resulting system of equations. 
-
-    Apply the obtained algorithm to
-    ```math
-    \begin{aligned}
-    \text{minimize}\qquad &\sum_{i=1}^{10} ix_i^4 \\
-    \text{subject to}\qquad &\sum_{i=1}^{10} x_i = 1.
-    \end{aligned}
-    ``` 
-    Verify that the numerically obtained solution is correct.
-
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 5: SQP method</header><p>
+```
+Derive the SQP method for optimization problem with only equality constraints
+```math
+\begin{aligned}
+\text{minimize}\qquad &f(x) \\
+\text{subject to}\qquad &h_j(x) = 0, j=1,\dots,J.
+\end{aligned}
+```
+SQP writes the optimality (KKT) conditions and the applies the Newton's method to solve the resulting system of equations. 
+
+Apply the obtained algorithm to
+```math
+\begin{aligned}
+\text{minimize}\qquad &\sum_{i=1}^{10} ix_i^4 \\
+\text{subject to}\qquad &\sum_{i=1}^{10} x_i = 1.
+\end{aligned}
+``` 
+Verify that the numerically obtained solution is correct.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 The Lagrangian reads
 ```math
@@ -240,8 +246,7 @@ f_grad(x) + μ*h_grad(x)
 h(x)
 ```
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 The correct solution is
 ```@example sqp
