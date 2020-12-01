@@ -64,11 +64,38 @@ This is very useful, but also very addictive and it should be used carefully.
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
+Create a tuple that contains odd numbers smaller than `10`. Try to do that using `range` function, `tuple` function and triple-dot syntax `...`.
+
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
+Such a tuple can be created easily with the following syntax
+
+```@repl
+t = tuple(1:2:9...)
+```
+
+or even in a simpler way without `tuple` function
+
+```@repl
+t = (1:2:9..., )
+```
+
+The comma after three dots is crucial because it says that we want to create a tuple. Without the comma, an error will occur.
+
+```@repl
+t = (1:2:9...)
+```
+
+Note, that the same syntax can be also used to create a vector
+
+```@repl
+v = [1:2:9..., ]
+```
+
 
 ```@raw html
 </p></details>
@@ -126,12 +153,42 @@ Also here the semicolon is mandatory because without the semicolon the named tup
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
+Define a matrix using the following code
+```julia
+m = hcat(-2:2, -5:-1)
+```
+Use `sort` function to sort each column of the matrix in descending order based on the absolute value of each element. Use help to learn how the `sort` function works and what arguments accepts. Use named tuple with appropriate keys to pass keyword arguments to `sort` function.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+From the help, we can see that we need to set up the following three keyword arguments
+- `dims`: Index of dimension along which we want to sort given matrix. Since we want to sort columns, we have to set `dims = 1`.
+- `rev`: Boolean that says if we want to use reverse ordering. By default values are sorted in ascending order, so we need to set `rev = true`.
+- `by`: A function that is applied to each element before comparing. Since we want to sort elements based on their absolute values, we have to set `by = abs`.
+
+Now we know what keyword arguments we have to use to get a correct result and we can create a named tuple
+
+```@repl named_tuples_ex
+kwargs = (dims = 1, rev = true, by = abs)
+```
+
+and then call sort function on the given matrix `m`
+
+```@repl named_tuples_ex
+m = hcat(-2:2, -5:-1)
+sort(m; kwargs...)
+```
+
+In this particular case, there is no benefit to use a named tuple to store keyword arguments and it is simpler to pass arguments directly to the `sort` function
+
+```@repl named_tuples_ex
+sort(m; dims = 1, rev = true, by = abs)
+```
+
+However, this approach can be very useful as we will see later.
 
 ```@raw html
 </p></details>
@@ -139,17 +196,67 @@ Also here the semicolon is mandatory because without the semicolon the named tup
 
 ## Dictionaries
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+Dictionaries are mutable, unordered (random order) collections of pairs of keys and values. The syntax for creating a dictionary is as follows
+
+```@repl dicts
+d = Dict("a" => [1, 2, 3], "b" => 1)
 ```
 
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+or using symbols instead of strings as keys
+
+```@repl dicts
+d = Dict(:a => [1, 2, 3], :b => 1)
+```
+In fact, it is possible to use almost any type as a key in a dictionary. The elements of a dictionary can be accessed via square brackets and a key
+
+```@repl dicts
+d[:a]
 ```
 
-```@raw html
-</p></details>
+If the key does not exist in the dictionary and we try to get it using the square brackets syntax, an error will occur
+
+```@repl dicts
+d[:c]
+```
+
+To avoid such errors, we can use `get` function. This function accepts three arguments: a dictionary, key, and a default value for this key, which is returned if the key does not exist in the given dictionary
+
+```@repl dicts
+get(d, :c, 42)
+```
+
+There is also an in-place version of `get` function, which also add the default value to the dictionary if the key does not exist
+
+```@repl dicts
+get!(d, :c, 42)
+get!(d, :d, ["hello", "world"])
+d
+```
+
+Sometimes it is useful to check if a dictionary has a specific key. For this purpose, there is a function  `haskey`
+
+```@repl dicts
+haskey(d, :d)
+haskey(d, :e)
+```
+
+It is also possible to remove unwanted keys from the dictionary. It can be done using `delete!` function, which removes the key from the dictionary
+
+```@repl dicts
+delete!(d, :d)
+haskey(d, :d)
+```
+
+or using `pop!` function, which removes the key from the dictionary and returns the value corresponding to this key
+
+```@repl dicts
+pop!(d, :c)
+haskey(d, :c)
+```
+
+Optionally it is possible to add a default value for a given key to the `pop!` function, which is returned if the key does not exist in the given dictionary
+
+```@repl dicts
+haskey(d, :c)
+pop!(d, :c, 444)
 ```
