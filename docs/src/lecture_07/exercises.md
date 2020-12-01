@@ -107,15 +107,51 @@ From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. 
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 3: Bisection method</header><p>
 ```
-Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``.
+Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``. Then it selects the middle point on ``[a,b]`` and halves the interval so that the new interval again satisfies the constraint on opposite signs ``f(a)f(b)<0``. This is repeated until the function value is small or until the interval has a small length.
+
+Implement the bisection method and use it to minimize ``f(x) = x^2 - x`` on ``[-1,1]``.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-???
+First, we write the bisection method. We initialize it with arguments ``f`` and the initial interval ``[a,b]``. We also specify the optional tolerance. First, we save the function value ```fa = f(a)``` so that we do not need to recompute every time. The syntax ```fa == 0 && return a``` is a bit complex. Since ```&&``` is the and operator, this first checks whether ```fa == 0``` is satisfied and if so, it evaluates the second part. But the second part just returns ```a```. Since we need to have ``f(a)f(b)<0``, we check this condition and if it is not satistied, we return an error message. Finally, we run the while loop where in every iteration, the interval is halved. The condition on opposite signs is enforced in the if condition inside the loop. Note that this implementation is efficient in the way that only one function evaluation is needed inside the loop. The price to pay are additional variables ```f(a)```, ```f(c)``` and ```f(c)```.
+```@example bisec
+function bisection(f, a, b; tol=1e-6)
+    fa = f(a)
+    fb = f(b)
+    fa == 0 && return a
+    fb == 0 && return b
+    fa*fb > 0 && error("Wrong initial values for bisection")
+    while b-a > tol
+        c = (a+b)/2
+        fc = f(c)
+        fc == 0 && return c
+        if fa*fc > 0
+            a = c
+            fa = fc
+        else
+            b = c
+            fb = fc
+        end
+    end
+    return (a+b)/2
+end
+nothing # hide
+```
+To use the bisection method to minimize a function ``f(x)``, we use it find the solution of the optimality condition ``f'(x)=0``.
+```@example bisec
+f(x) = x^2 - x
+g(x) = 2*x - 1
+x_opt = bisection(g, -1, 1)
+nothing # hide
+```
 ```@raw html
 </p></details>
+```
+The correct solution is
+```@example bisec
+println(round(x_opt, digits=4)) # hide
 ```
 
 
