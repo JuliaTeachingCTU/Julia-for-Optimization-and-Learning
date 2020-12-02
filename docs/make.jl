@@ -11,31 +11,34 @@ for theme in ["light", "dark"]
     mktemp() do path, io
         write(io, join([
             read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
-            read(joinpath(@__DIR__, "src/assets/theme-$(theme).scss"), String)
+            read(joinpath(@__DIR__, "src/assets/theme-$(theme).css"), String)
         ], "\n"))
         compile(path, joinpath(@__DIR__, "src/assets/themes/documenter-$(theme).css"))
     end
 end
 
 # outline
-lecture_01 = [
-    "./lecture_01/variables.md",
-    "./lecture_01/numeric_types.md",
-    "./lecture_01/operators.md",
-    "./lecture_01/data_structures.md",
-]
+lecture_01 = joinpath.("./lecture_01/", [
+    "variables.md",
+    "operators.md",
+    "arrays.md",
+    "data_structures.md",
+    "exercises.md",
+])
 
 lecture_02 = [
 ]
 
-lecture_03 = []
+lecture_03 = joinpath.("./lecture_03/", [
+    "control_flow.md",
+])
 
 lecture_04 = []
 
 lecture_05 = []
 
 lecture_06 = [
-    
+
 ]
 
 lecture_07 = [
@@ -65,12 +68,13 @@ makedocs(;
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
         canonical = "https://VaclavMacha.github.io/JuliaCourseFNSPE.jl",
-        assets = String[],
+        assets = [],
         collapselevel = 1,
     ),
     pages = [
         "Home" => "index.md",
         "Why Julia?" => "why_julia.md",
+        "How to..." => "howto.md",
         "1: Variables and basic operators" => lecture_01,
         "2: Functions and multiple-dispatch" => lecture_02,
         "3: Control flow" => lecture_03,
