@@ -1,0 +1,120 @@
+/* Exercise class */
+.exercise-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #22c35b;
+    border: 1px solid #22c35b;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.exercise-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #9beeb8;
+    border: 1px solid #22c35b;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Solution class */
+.solution-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #FF9933;
+    border: 1px solid #FF9933;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+    cursor: pointer;
+}
+
+.solution-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #FFCC99;
+    border: 1px solid #FF9933;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Info class */
+.info-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #209cee;
+    border: 1px solid #209cee;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.info-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #b8dffa;
+    border: 1px solid #209cee;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Theorem class */
+.theorem-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #e74c3c;
+    border: 1px solid #e74c3c;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.theorem-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #f5b7b1;
+    border: 1px solid #e74c3c;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Homework class */
+.homework-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #8e44ad;
+    border: 1px solid #8e44ad;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.homework-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #d7bde2;
+    border: 1px solid #8e44ad;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
