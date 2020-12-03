@@ -23,6 +23,7 @@ lecture_01 = joinpath.("./lecture_01/", [
     "operators.md",
     "arrays.md",
     "data_structures.md",
+    "strings.md",
     "exercises.md",
 ])
 
