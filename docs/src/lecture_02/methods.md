@@ -1,4 +1,4 @@
-# Types, methods and multiple-dispatch
+# Methods
 
 So far we did not mention any types. The default behavior in Julia when types are omitted is to allow values to be of any type. Thus, one can write many useful Julia functions without ever explicitly using types. When additional expressiveness is needed, however, it is easy to gradually introduce explicit type annotations into previously "untyped" code.
 
