@@ -131,7 +131,7 @@ w_1x_1 + x_2x_2 + w_3 = 0.
 ```
 To express it as a function, we obtain
 ```math
-\operatorname{sep}(x_1) = \frac{-w_1_x_1 - w_3}{w_2}.
+\operatorname{sep}(x_1) = \frac{-w_1x_1 - w_3}{w_2}.
 ```
 Now we plot it.
 ```@example logistic
@@ -160,26 +160,18 @@ norm(grad)
 equals to zero, we found a stationary point. It can be shows that logistic regression is a convex problem and therefore, we found a global solution.
 
 
-
-The picture shows that there are misclassified samples. We can
-```
-
-```
-
-
-
-
-
+The picture shows that there are misclassified samples. The mext example analyses them.
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
+Print how mnay samples were correctly and incorrectly classified.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-
+Since ``\hat y_i`` is a probability that sample is of the positive class, we will predict that it is positive if this probability is greater than ``\frac 12``. Then it suffices to compare the predictions ```pred``` with the correct labels ```y```.
 ```@example logistic
 pred = y_hat .>= 0.5
 "Correct number of predictions: " * string(sum(pred .== y))
@@ -187,6 +179,7 @@ pred = y_hat .>= 0.5
 
 nothing # hide
 ```
+There is an alternative (but equivalent way). Since the separating hyperplane is of form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write the code and try to reason why these two approaches ar equivalent.
 ```@raw html
 </p></details>
 ```
@@ -195,10 +188,3 @@ The correct answer is
 println("Correct number of predictions: " * string(sum(pred .== y))) # hide
 println("Wrong   number of predictions: " * string(sum(pred .!= y))) # hide
 ```
-
-
-
-
-4.8  1.8
-
-3 reseni  - 2 dobre, 1 spatne 
