@@ -1,16 +1,12 @@
 # Logistic regression
 
-To experiment with machine learning models, we first need to load the data by
-```@example logistic
-using BSON
+The previous part dealt with predicting a continous variables. This part will handle predicting one of two classes.
 
-file_name = joinpath("data", "iris.bson")
-data = BSON.load(file_name)
-```
-This creates a dictionary ```data``` whose entries can be accessed via ```data[:X]```. The simpler way of loading is
+Load the data as before
 ```@example logistic
 using BSON: @load
 
+file_name = joinpath("data", "iris.bson")
 @load file_name X y y_name
 ```
 The data contain three classes ```[1 2 3]```. However, in the theory we considered only binary problems with two classes. We therefore cheat.

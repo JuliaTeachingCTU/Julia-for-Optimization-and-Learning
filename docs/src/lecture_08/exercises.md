@@ -159,4 +159,4 @@ HINT: For the sigmoid function ``\sigma(x)`` compute the function  ``h(x) = \fra
 ```
 
 
-
+VIC SLOUPCU
