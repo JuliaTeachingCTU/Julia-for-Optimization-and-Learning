@@ -4,19 +4,57 @@ using Plots
 
 # Theory of regression and classification
 
+Regression and classification are a branch of machine learning which try to predict certain variable based on labelled data. Regression predicts a continuous variable (such as height based on weight) while classification predict a variable with finite number of states (such as cat/dog/none from images).
+
 ## Data representation
 
+The dataset is usually stored in a matrix ``X\in\mathbb{R}^{n\times m}``. Each row of this matrix is one sample (observation). Each column is one feature (such as height, weight or age). Therefore, we have ``n`` samples, each with ``m`` features. Each sample ``x_i`` has a label ``y_i``. Labels are arranged into a vector ``y\in\mathbb{R}^n``. The goal of machine learning methods is to find a classifier ``f`` such that the prediction ``f(x_i)`` is a good approximation of the true label ``y_i``.
 
-??? WHAT is x
-
-
-We will use a standard trick and assume that the first column of ``X`` contains all ones. Then we have
+This lecture considers only linear classifiers in the form
 ```math
-f(w) = w^\top x = w_1 + \sum_{j=2}^m w_jX_{\cdot,j},
+\tilde f(x) = w^\top x + b,
 ```
-where ``X_{\cdot,j}`` is the ``j``-th column of ``X``. By this trick, we do not need to consider the intercept (shift) ``b`` because it is contained in ``w_1``.
+while the next one on neural network considers non-linear classifiers as well. 
+The standard trick assumes that the first column of ``X`` contains all ones. Then we have
+```math
+f(x) = w^\top x = w_1 + \sum_{j=2}^m w_jx_j,
+```
+By this trick, we do not need to consider the intercept (shift) ``b`` because it is contained in ``w_1``. In this case, the class of all considered classifiers is parameterized by a vector ``w``. The rest of this lecture shows how to write regression and classification problems to find the optimal weights ``w``.
 
 ## Linear regression
+
+The linear regression uses the mean square error between the prediction and the label. This is
+```math
+(w^\top x_i - y_i)^2.
+```
+Since we are interested in average performance, we sum this error over all samples
+```math
+\operatorname{minimize}\qquad \sum_{i=1}^n (w^\top x_i - y_i)^2.
+```
+Many algorithms use average instead of sum. However, both these formulations are equivalent.
+
+In this case, it is simpler to work in the matrix notation. It is not difficult to show that the previous problem is equivalent to
+```math
+\operatorname{minimize}\qquad \norm{Xw - y}^2,
+```
+where the norm is the ``l_2`` norm. Since this is a convex quadratic problem, it is equivalent to its optimality condition. Setting the derivative to zero yields
+```math
+2X^\top (Xw-y) = 0.
+```
+From here, we obtain the closed-form solution to the linear regression
+```math
+w = (X^\top X)^{-1}X^\top y.
+```
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Closed-form solution</header><p>
+```
+Linear regression is probably the only machine learning model with a closed-form solution. All other models must be solved with iterative algorithms such as the gradient descent. In some case, it may be advantageous to use iterative algorithms even for linear regression. This include for example the case of a large number of features ``m`` because then ``X^\top X`` is an ``m\times m`` matrix which may be difficult to invert.
+```@raw html
+</p></div>
+```
+
 
 ## Logistic regression
 
