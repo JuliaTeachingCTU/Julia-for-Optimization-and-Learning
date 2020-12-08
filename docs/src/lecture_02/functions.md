@@ -389,7 +389,7 @@ plot!(x, f.(x; μ = -3, σ = 2); label = "μ = -3, σ = 2", linewidth = 2);
 savefig("gauss.svg") # hide
 ```
 
-We use a lot of things that will be discussed later in the course. So for now, enjoy a nice picture of the Gaussian probability density functions
+We use a lot of things that will be discussed later in the course. So for now, just enjoy a nice picture of the Gaussian probability density functions
 
 ![](gauss.svg)
 
@@ -399,33 +399,302 @@ We use a lot of things that will be discussed later in the course. So for now, e
 
 ## Variable number of arguments
 
+Sometimes, it is very convenient to be able to define a function, that can accept any number of arguments. Such functions are traditionally known as "varargs" functions, which is short for "variable number of arguments". In Julia, varargs functions can be defined using triple-dot syntax after the last positional argument as follows
+
+```@example varargs
+foo(x...) = x
+nothing # hide
+```
+
+The `foo` function defined above, accepts any number of input arguments, wraps them in a tuple a returns them
+
+```@repl varargs
+foo()
+foo(1, 2, "a", :b, [1,2,3])
+```
+The following example is more useful. In that example, we define `basicinfo` function, that accepts any number of input arguments and then prints basic information like the number of given arguments, their sum, mean and standard deviation.
+
+```@example varargs
+using Statistics
+
+function basicinfo(x...)
+    println("""
+      - number of arguments: $(length(x))
+      - sum: $(round(sum(x); digits = 2))
+      - mean: $(round(mean(x); digits = 2))
+      - std: $(round(std(x); digits = 2))
+    """)
+    return
+end
+nothing # hide
+```
+Note, that we have to use package `Statistics`, since functions `mean` and `std` are not part of standard packages, that are loaded in every Julia session.
+
+```@repl varargs
+basicinfo(0.158, 1.889, 1.246, 4.569)
+basicinfo(0.158, 1.889, 1.246, 4.569, 5.189, -4.123)
+```
+
+A similar syntax for a variable number of positional arguments can be used for keyword arguments as well. Functions that accept any number of keyword arguments can be very useful. Such functions can be used for example
+```@example varargs
+shiftedsum(x; a = 1, kwargs...) = sum(x .- a; kwargs...)
+nothing # hide
+```
+
+Here we define a function, that subtracts `a` from each element of the given input array `x` and then sums this array. This function also pass all given keyword arguments to the `sum` function.
+
+```@repl varargs
+A = [1 2 3; 4 5 6]
+shiftedsum(A)
+shiftedsum(A; dims = 1)
+```
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+
+Write a function `wrapper`, that accepts a number and applies the `round`, `ceil` or `floor` function based on the keyword argument `type`. Make sure that all optional and keyword arguments can be passed to these three functions.
+
+Use the function to solve the following tasks
+- Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
+- Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
+- Round `1252.1518` to `2` digits after the decimal point.
+- Round `1252.1518` to `3` significant digits.
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+The one way how to define such a function is to use `if` conditions as follows
+
+```@example varargs_ex
+function wrapper(x...; type = :round, kwargs...)
+    if type == :ceil
+        return ceil(x...; kwargs...)
+    elseif type == :floor
+        return floor(x...; kwargs...)
+    else
+        return round(x...; kwargs...)
+    end
+end
+nothing # hide
+```
+In this case, the `type` keyword argument is used to determine which function should be used. Note, that we use an optional number of arguments as well as an optional number of keyword arguments. The reason is, that we want to pass all given arguments to the appropriate function and this is the easiest way how to do it.
+
+```@repl varargs_ex
+x = 1252.1518
+wrapper(Int64, x; type = :ceil)
+wrapper(Int16, x; type = :floor)
+wrapper(x; digits = 2)
+wrapper(x; sigdigits = 3)
+```
+The second way how to solve this exercise is to use the fact, that it is possible to pass functions as arguments. Using this fact, we can omit the if condition, and we can pass the appropriate function directly
+
+```@example varargs_ex
+wrapper_new(x...; type = round, kwargs...) = type(x...; kwargs...)
+nothing # hide
+```
+
+Note, that in the function definition, we use the `type` keyword argument as a function. It can be done since we assume that a function is assigned to the keyword argument type
+
+```@repl varargs_ex
+wrapper_new(1.123; type = ceil)
+```
+
+If we use for example `Symbol` instead of a function, the error will occur
+
+```@repl varargs_ex
+wrapper_new(1.123; type = :ceil)
+```
+Finally, we can test `wrapper_new` function on the same arguments as we tested `wrapper` function
+
+```@repl varargs_ex
+x = 1252.1518
+wrapper_new(Int64, x; type = ceil)
+wrapper_new(Int16, x; type = floor)
+wrapper_new(x; digits = 2)
+wrapper_new(x; sigdigits = 3)
+```
+
+```@raw html
+</p></details>
+```
+
+
 ## Anonymous functions
 
-It is also common to use anonymous functions, ie functions without specified name. Such a function can be defined in almost the same way as a normal function:
+It is also common to use anonymous functions, i.e. functions without specified name. Such a function can be defined in almost the same way as a normal function:
 
-```@repl
+```@example
 h1 = function (x)
     x^2 + 2x - 1
 end
 h2 = x ->  x^2 + 2x - 1
+nothing # hide
 ```
 
-Those two function declarations create functions with automatically generated names. Then variables `h1` and `h2` only refers to these functions. The primary use for anonymous functions is passing them to functions which take other functions as arguments. A classic example is `map`, which applies a function to each value of an array and returns a new array containing the resulting values:
+Those two function declarations create functions with automatically generated names. Then variables `h1` and `h2` only refers to these functions. The primary use for anonymous functions is passing them to functions which take other functions as arguments. A classic example is `map` function, which applies a function to each value of an array and returns a new array containing the resulting values:
 
 ```@repl
 map(x -> x^2 + 2x - 1, [1,3,-1])
 ```
 
-For more complicated functions, the `do` blocks can be used
+Julia also provides a reserved word do, that allows creating more complicated functions easily. In the following example, we apply `map` function to two arrays.  Using do block, we create an anonymous function, that prints the given values a return their sum
 
 ```@repl
-map([1,3,-1]) do x
-    x^2 + 2x - 1
+map([1,3,-1], [2,4,-2]) do x, y
+    println("x = $(x), y = $(y)")
+    return x + y
 end
+```
+Note, that the body of such a function is written in the same way as in the case of a normal function definition. The arguments of such function are defined after the `do` keyword. Usually, it is better to create an actual function and then use it in `map` function. The previous example can be rewritten as
+
+```@example anonym
+function f(x, y)
+    println("x = $(x), y = $(y)")
+    return x + y
+end
+nothing # hide
+```
+
+```@repl anonym
+map(f, [1,3,-1], [2,4,-2])
+```
+
+There are many possible uses quite different from map, such as managing system state. For example, there is a version of open that runs code ensuring that the opened file is eventually closed
+
+```julia
+open("outfile", "w") do io
+    write(io, data)
+end
+```
+
+## Dot Syntax for Vectorizing Functions
+
+In technical-computing languages, it is common to have *vectorized* versions of functions. Imagine, that we have a function `f(x)`, then its vectorized version is a function, that applies function `f` to each element of an array `A` and returns a new array `f(A)`. Such functions are especially useful in languages, where loops are slow and vectorized versions of functions are written in a low-level language (C, Fortran,...) and are much faster. As an example, we can mention Matlab.
+
+In Julia, vectorized functions are not required for performance, and indeed it is often beneficial to write your own loops, but they can still be convenient. As an example, consider the sine function and imagine, that we want to compute its value for all following values `[0, π/2, 3π/4]`. Using the loops we can do it as follows
+
+```@repl dot
+x = [0, π/2, 3π/4];
+A = zeros(length(x));
+
+for (i, xi) in enumerate(x)
+    A[i] = sin(xi)
+end
+A
+```
+or using list compherension
+
+```@repl dot
+A = [sin(xi) for xi in x]
+```
+However, in this case, the most onvenient way is to use dot syntax for vectorizing functions as follows
+```@repl dot
+A = sin.(x)
+```
+In Julia, it is possible to use this syntax for any function to apply it to each element of the given array. It is extremely useful since it allows us to write simple functions that accept for example only numbers as arguments and then we can easily apply them to whole arrays
+
+```@example dot
+plus(x::Real, y::Real) = x + y
+nothing # hide
+```
+Here, we define a function, that accepts two real numbers and returns their sum. This function will work perfectly for two numbers
+
+```@repl dot
+plus(1,3)
+plus(1.4,2.7)
+```
+But, if we try to apply this function to arrays, an error will occur
+
+```@repl dot
+x = [1,2,3,4]; # column vector
+plus(x, x)
+```
+However, we can use dot syntax for vectorizing functions, to any function in Julia. Then the plus function will be applied to arrays `x` and `y` element-wise
+```@repl dot
+plus.(x, x)
+```
+More generally, if we have a function `f` and we use dot syntax `f.(args...)`, then it is equivalent to calling the `broadcast` function  in the following way `broadcast(f, args...)`
+```@repl dot
+broadcast(plus, x, x)
+```
+This allows us to operate on multiple arrays (even of different shapes), or a mix of arrays and scalars. For more information see the section about [broadcasting](https://docs.julialang.org/en/v1/manual/arrays/#Broadcasting) in the official documentation. In the following example, the `plus` function adds one to each element of the `x` array
+```@repl dot
+plus.(x, 1)
+```
+Or we can apply the `plus` function to the column vector `x` and the row vector `y`. The result will be a matrix
+
+```@repl dot
+y = [1 2 3 4]; # row vector
+plus.(x, y)
+```
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+
+Some text that describes the exercise
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+Solution
+
+```@raw html
+</p></details>
 ```
 
 ## Function composition and piping
 
-## Vectorized functions
+As in mathematics, functions in Julia can be composed. If we have two functions ``f: \mathcal{X}  \rightarrow \mathcal{Y}`` and ``g: \mathcal{Y}  \rightarrow \mathcal{Z}``, then their [composition](https://en.wikipedia.org/wiki/Function_composition) can be mathematically written as
+```math
+(g \circ f)(x) = g(f(x)), \quad \forall x \in \mathcal{X}.
+```
+In Julia, we can compose functions in a similar way using the function composition operator `∘` (can be typed as `\circ<tab>`)
+```@repl
+(sqrt ∘ +)(3, 6) # equivalent to sqrt(3 + 6)
+```
+It is even possible to compose multiple functions at once
+```@repl
+(sqrt ∘ abs ∘ sum)([-3, -6, -7])  # equivalent to sqrt(abs(sum([-3, -6, -7])))
+```
 
-## Docstrings
+There is also another concept, that allows to chain functions, which is sometimes called *piping* or *using a pipe* to send data to a subsequent function. This concept can be used to simply pass the output of one function as an input to another one. In Julia, it can be one by pipe operator `|>`
+
+```@repl
+[-3, -6, -7] |> sum |> abs |> sqrt
+```
+The pipe operator can be combined with broadcasting. In the following example, firstly we apply the `abs` function element-wise and then we apply the `sqrt` function element-wise.
+```@repl
+[-4, 9, -16] .|> abs .|> sqrt
+```
+Or as in the next example, we can use broadcasting in combination with the pipe operator to apply a different function to each element of the given vector
+```@repl
+["a", "list", "of", "strings"] .|> [uppercase, reverse, titlecase, length]
+```
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+
+Some text that describes the exercise
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+Solution
+
+```@raw html
+</p></details>
+```
