@@ -5,6 +5,7 @@
 Manifest.toml
 
 /_documents/
+/_tmp/
 docs/build
 docs/data
 docs/src/assets/themes/*.css
