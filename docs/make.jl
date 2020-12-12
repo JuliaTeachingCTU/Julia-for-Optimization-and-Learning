@@ -8,7 +8,7 @@ using DocumenterTools.Themes: compile
 
 # theme extension
 for theme in ["light", "dark"]
-    mktemp() do path, io
+    mktemp(@__DIR__) do path, io
         write(io, join([
             read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
             read(joinpath(@__DIR__, "src/assets/theme-$(theme).css"), String)
