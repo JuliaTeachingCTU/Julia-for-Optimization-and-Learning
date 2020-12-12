@@ -26,8 +26,11 @@ lecture_01 = joinpath.("./lecture_01/", [
     "exercises.md",
 ])
 
-lecture_02 = [
-]
+lecture_02 = joinpath.("./lecture_02/", [
+    "functions.md",
+    "methods.md",
+    "exercises.md",
+])
 
 lecture_03 = joinpath.("./lecture_03/", [
     "control_flow.md",
