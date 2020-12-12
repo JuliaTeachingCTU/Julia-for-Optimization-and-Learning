@@ -1,5 +1,15 @@
 # Numerical computing in Julia
 
+## Goals
+
+The main goals of the course are the following:
+-
+- 
+- To teach you independence. The formulation of many exercises is very general. This simulates the situation when no step-by-step procedure is provided.
+
+
+## Requirements for the course
+
 
 ## References
 
