@@ -8,7 +8,7 @@ using DocumenterTools.Themes: compile
 
 # theme extension
 for theme in ["light", "dark"]
-    mktemp() do path, io
+    mktemp(@__DIR__) do path, io
         write(io, join([
             read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
             read(joinpath(@__DIR__, "src/assets/theme-$(theme).css"), String)
@@ -23,14 +23,18 @@ lecture_01 = joinpath.("./lecture_01/", [
     "operators.md",
     "arrays.md",
     "data_structures.md",
+    "strings.md",
     "exercises.md",
 ])
 
-lecture_02 = [
-]
+lecture_02 = joinpath.("./lecture_02/", [
+    "control_flow.md",
+])
 
 lecture_03 = joinpath.("./lecture_03/", [
-    "control_flow.md",
+    "functions.md",
+    "methods.md",
+    "exercises.md",
 ])
 
 lecture_04 = []
@@ -41,14 +45,19 @@ lecture_06 = [
 
 ]
 
-lecture_07 = [
-    "./lecture_07/theory.md",
-    "./lecture_07/gradients.md",
-    "./lecture_07/numerical_methods.md",
-    "./lecture_07/exercises.md",
-]
+lecture_07 = joinpath.("./lecture_07/", [
+    "theory.md",
+    "gradients.md",
+    "numerical_methods.md",
+    "exercises.md",
+])
 
-lecture_08 = []
+lecture_08 = joinpath.("./lecture_08/", [
+    "theory.md",
+    "linear.md",
+    "logistic.md",
+    "exercises.md",
+])
 
 lecture_09 = []
 
@@ -76,8 +85,8 @@ makedocs(;
         "Why Julia?" => "why_julia.md",
         "How to..." => "howto.md",
         "1: Variables and basic operators" => lecture_01,
-        "2: Functions and multiple-dispatch" => lecture_02,
-        "3: Control flow" => lecture_03,
+        "2: Control flow" => lecture_02,
+        "3: Functions and multiple-dispatch" => lecture_03,
         "4: Composite types and constructors" => lecture_04,
         "5: Modules and enviroments" => lecture_05,
         "6: Useful packages" => lecture_06,
