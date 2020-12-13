@@ -42,22 +42,21 @@ savefig("plots_3.svg") # hide
 
 ## Plot attributes
 
-!!! tip "Exercise: sinus and cosinus"
-    Create a plot of ``\sin`` and ``\cos`` function for ``x \in [0, 2 \pi]`` with following properties:
-    - Function ``\sin`` is plotted as a `red dashed` line of width `2` with label `sin`.
-    - Function ``\sin`` is plotted as a `blue dotted` line of width `4` with label `cos`.
-    - The title / x label /y label are `Trigonometric functions` / `x` / `y` respectively.
-    - The tick labels on the x-axis are `["0", "0.5π", "π", "1.5π", "2π"]`.
-
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Create a plot of ``\sin`` and ``\cos`` function for ``x \in [0, 2 \pi]`` with following properties:
+- Function ``\sin`` is plotted as a `red dashed` line of width `2` with label `sin`.
+- Function ``\sin`` is plotted as a `blue dotted` line of width `4` with label `cos`.
+- The title / x label /y label are `Trigonometric functions` / `x` / `y` respectively.
+- The tick labels on the x-axis are `["0", "0.5π", "π", "1.5π", "2π"]`.
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
-
-aaaa
-
 
 ```@example plots
 x = 0:0.01π:2π
@@ -75,31 +74,29 @@ plot(x, [sin, cos];
 
 savefig("plots_sincos.svg") # hide
 ```
-
 ![](plots_sincos.svg)
 
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
 
-!!! tip "Exercise: parametric functions"
-    Create a plot given by the following two functions:
-
-    ```math
-    \begin{aligned}
-    f_x(t) & = (a + b)\cos(t) - b \cdot \cos \left( \left(\frac{a}{b} + 1 \right)t \right) \\
-    f_y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \right) \\
-    \end{aligned}
-    ```
-
-    where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Try to set the attributes of the plot to get a beautiful picture.
-
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Create a plot given by the following two functions:
+```math
+\begin{aligned}
+f_x(t) & = (a + b)\cos(t) - b \cdot \cos \left( \left(\frac{a}{b} + 1 \right)t \right) \\
+f_y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \right) \\
+\end{aligned}
+```
+where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Try to set the attributes of the plot to get a beautiful picture.
 
 ```@raw html
-<details>
-<summary>Solution:</summary>
-<p>
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
 ```
 ```@example plots
 a = 4.23
@@ -138,6 +135,5 @@ savefig("plots_parametric2.svg") # hide
 ![](plots_parametric2.svg)
 
 ```@raw html
-</p>
-</details>
+</p></details>
 ```
