@@ -28,7 +28,10 @@ lecture_01 = joinpath.("./lecture_01/", [
 ])
 
 lecture_02 = joinpath.("./lecture_02/", [
-    "control_flow.md",
+    "conditions.md",
+    "loops.md",
+    "exceptions.md",
+    "exercises.md",
 ])
 
 lecture_03 = joinpath.("./lecture_03/", [

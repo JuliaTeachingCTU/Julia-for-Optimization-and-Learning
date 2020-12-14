@@ -171,7 +171,7 @@ However, for better code readability, the traditional multiline syntax should be
 
 Write a one-line function, that returns true if the input argument is an odd number and false otherwise
 
-**Hint:** use modulo function and [ternary operator](https://en.wikipedia.org/wiki/%3F:) `?` (for more info, use help for symbol `?`).
+**Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?` (for more info, use help for symbol `?`).
 
 ```@raw html
 </p></div>
