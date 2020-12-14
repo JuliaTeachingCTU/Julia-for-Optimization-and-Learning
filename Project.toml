@@ -3,5 +3,8 @@ uuid = "d7226185-11f2-4102-bf41-8fa93d2f6647"
 authors = ["Václav Mácha"]
 version = "0.1.0"
 
+[deps]
+ImageCore = "a09fc81d-aa75-5fe9-8630-4744c3626534"
+
 [compat]
 julia = "1.5"
