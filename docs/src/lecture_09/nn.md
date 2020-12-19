@@ -19,6 +19,7 @@ Since we will use random function, we fix the seed. Since Julia uses one global 
 
 ```@example nn
 using Random
+
 Random.seed!(666)
 nothing # hide
 ```
@@ -50,7 +51,6 @@ function split(X::AbstractMatrix, y::AbstractVector; ratio_train=0.8)
     i_train = i_rand[1:n_train]
     i_test = i_rand[n_train+1:end]
 
-    #return X[1:90,:], y[1:90], X[91:end,:], y[91:end]
     return X[i_train,:], y[i_train], X[i_test,:], y[i_test]
 end
 nothing # hide
@@ -64,7 +64,47 @@ nothing # hide
 </p></details>
 ```
 
-The next exercise modifies the data into a standard form.
+The next exercises normalizes the data. In the previous lecture we have already normalized the training set. In this one, we will normalize the testing set as well. Since the testing data are not available during training, the testing data need to be normalized with the same constants as the training set.
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Normalize the training and testing data so that each feature has zero mean and unit variance.
+
+Print the first feature of the first sample in the testing set.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+Since the features are in columns, we compute the mean and standard deviation of each column. Then we normalize the column. Due to the reason mentioned above, we need to use the same normalizing constant for the training and testing sets.
+```@example nn
+using Statistics
+
+function normalize(X_train, X_test)
+    col_means = [mean(X_col) for X_col in eachcol(X_train)]'
+    col_std = [std(X_col) for X_col in eachcol(X_train)]'
+
+    return (X_train .- col_means) ./ col_std, (X_test .- col_means) ./ col_std
+end
+```
+Now we run the ```normalize``` function.
+```@example nn
+X_train, X_test = normalize(X_train, X_test)
+```
+```@raw html
+</p></details>
+```
+
+The correct answer is
+```@example nn
+println(round_a(X_test[1,1]))
+```
+
+The standard representation of data in linear or logistic regression is that each row (first dimension) is one sample. However, neural networks work with more dimensional data (each image is represented with three dimension). The convention changed and the samples are represented in the last dimension.
+
+The next exercise modifies the data into a standard form for machine learning.
 
 ```@raw html
 <div class = "exercise-body">
@@ -72,7 +112,9 @@ The next exercise modifies the data into a standard form.
 ```
 Modify the data so that the first dimension of ```X``` are features and the second one the samples.
 
-Write ```onehot``` function which converts ```y``` into the one-hot representation. Write ```onecold``` function which converts the one-hot representation into the one-cold (original) represenation. Write a one-line check that both work correctly.
+Write ```onehot``` function which converts ```y``` into the one-hot representation. Write ```onecold``` function which converts the one-hot representation into the one-cold (original) represenation. Both these functions need to have two arguments, the second one will be ```classes``` which will equal to ```unique(y)```.
+
+Write a one-line check that both work correctly.
 
 Finally, convert ```y``` into its one-hot representation.
 ```@raw html
@@ -88,8 +130,7 @@ nothing # hide
 ```
 The ```onehot``` function takes the one-hot representation of ``y`` as input. Then it determines all classes ```classes = unique(y)``` and cretes an array where the first dimension is the number of classes. Since all but one entries of each column will be zeros, we initialize it by zeros. Then we run a for loop to fill one into each column. We perform the for loop over all classes but it is also possible to perform it over all columns.
 ```@example nn
-function onehot(y)
-    classes = unique(y)
+function onehot(y, classes)
     y_onehot = zeros(length(classes), length(y))
     for i in 1:length(classes)
         y_onehot[i,y.==classes[i]] .= 1
@@ -100,28 +141,32 @@ nothing # hide
 ```
 The ```onehot``` function takes the one-cold representation of ``y`` as input. Then for each column ```y_col``` it finds the index of its maximum value (the only one) via the ```findmax``` function. This is repeated for every column to get the ```onehot``` function.
 ```@example nn
-onecold(y) = [findmax(y_part)[2] for y_part in eachcol(y)]
+onecold(y, classes) = [classes[findmax(y_part)[2]] for y_part in eachcol(y)]
 nothing # hide
 ```
 Functions ```onehot``` and ```onecold``` should be inverse to each other. That means that if we call them in succession, we obtain the original input. We could manually check
 ```@example nn
-isequal(onecold(onehot(y)), y)
+classes = unique(y)
+
+isequal(onecold(onehot(y, classes), classes), y)
 nothing # hide
 ```
 but it is better to automatically perform this check by including the error message 
 ```@example nn
-!isequal(onecold(onehot(y)), y) && error("Function onehot or onecold is wrong.") 
+!isequal(onecold(onehot(y, classes), classes), y) && error("Function onehot or onecold is wrong.") 
 nothing # hide
 ```
 Now, the modification of  the labels is straigforward. As in the case of the matrix, we need to modify the splitted data. 
 ```@example nn
-y_train = onehot(y_train)
-y_test = onehot(y_test)
+y_train = onehot(y_train, classes)
+y_test = onehot(y_test, classes)
 nothing # hide
 ```
 ```@raw html
 </p></details>
 ```
+
+
 
 ## Create the network
 
@@ -184,7 +229,7 @@ nothing # hide
 ```
 To initialize, we need to realize the numbers ```n1```, ```n2``` and ```n3```. The first one is the number of features, the second one is specified to be 5 and the last one must equal to the number of classes (the length of the labels in the one-hor representation).
 ```@example nn
-W1, b1, W2, b2 = initialize(size(X_train,1), 50, size(y_train,1))
+W1, b1, W2, b2 = initialize(size(X_train,1), 2, size(y_train,1))
 nothing # hide
 ```
 To evaluate the model, we call the ```m``` function with the first sample in the training set
@@ -269,7 +314,7 @@ mean_tuple(d::AbstractArray{<:Tuple}) = [mean([d[k][i] for k in 1:length(d)]) fo
 Now the process is simple. We compute the gradient ```grad_all```, then its mean ```grad_mean``` via the already written function ```mean_tuple```. The first value of the tuple ```grad_mean``` is the objective, the remaining are gradient. Thus, we save the first value to an array and use the remaining one to update the weights.
 ```@example nn
 α = 1e-1
-max_iter = 1000
+max_iter = 100
 L = zeros(max_iter)
 @time for iter in 1:max_iter
     grad_all = [grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]
@@ -316,7 +361,7 @@ Write a function which predict the labels for samples.
 
 ```@example nn
 predict(X) = m(X, W1, b1, W2, b2)
-accuracy(X, y) = mean(onecold(predict(X)) .== onecold(y))
+accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 
 accuracy(X_train, y_train)
 accuracy(X_test, y_test)
@@ -335,21 +380,4 @@ println(round_a(accuracy(X_test, y_test))) # hide
 ```
 
 
-```@example nn
-m(X_train, W1, b1, W2, b2)
-```
 
-```@example nn
-onecold(y_train)
-```
-
-
-
-
-```@example nn
-m(X_test, W1, b1, W2, b2)
-```
-
-```@example nn
-onecold(y_test)
-```

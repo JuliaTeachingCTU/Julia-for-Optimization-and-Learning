@@ -1,5 +1,6 @@
 using LinearAlgebra
 using Statistics
+using Random
 using BSON: @load
 
 file_name = joinpath("src", "lecture_09", "data", "iris.bson")
@@ -86,7 +87,7 @@ using Statistics
 mean_tuple(d::AbstractArray{<:Tuple}) = [mean([d[k][i] for k in 1:length(d)]) for i in 1:length(d[1])]
 
 α = 1e-1
-max_iter = 10000
+max_iter = 1000
 L = zeros(max_iter)
 @time for iter in 1:max_iter
     grad_all = [grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]
