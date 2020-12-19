@@ -38,7 +38,7 @@ Write the ```split``` function, which splits the dataset and the labels into tra
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Since the input may have different forms, we assume that ```y``` is a vector and the samples of  ```X``` and ```y``` are across the first dimension. If this is not satisfied, the ```@assert``` statement returns an error. This is not necessary to include but make the code much more error-prone.
+Since the input may have different forms, we assume that ```y``` is a vector and the samples of  ```X``` and ```y``` are across the first dimension. If this is not satisfied, the ```@assert``` statement returns an error. This is not necessary to include but it makes the code much more error-prone.
 
 To split the dataset, we first determine the number ```n_train``` in the training set. We need to round it and convert it to integer. To split, probably the best way is to create a random permumation of indeces and then select the first ```n_train``` as the indices of the training set and the remaining as the indices of the testing set.
 ```@example nn
@@ -78,7 +78,7 @@ Print the first feature of the first sample in the testing set.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Since the features are in columns, we compute the mean and standard deviation of each column. Then we normalize the column. Due to the reason mentioned above, we need to use the same normalizing constant for the training and testing sets.
+Since the features are in columns, we compute the mean and standard deviation of each column. However, using ```[??? for ??? in ???]``` creates a (column) vector and we need to transpose it. Otherwise it could not be broadcasted. Then we normalize the columns. Due to the reason mentioned above, we need to use the same normalizing constant for the training and testing sets.
 ```@example nn
 using Statistics
 
@@ -88,10 +88,12 @@ function normalize(X_train, X_test)
 
     return (X_train .- col_means) ./ col_std, (X_test .- col_means) ./ col_std
 end
+nothing # hide
 ```
 Now we run the ```normalize``` function.
 ```@example nn
 X_train, X_test = normalize(X_train, X_test)
+nothing # hide
 ```
 ```@raw html
 </p></details>
@@ -99,7 +101,7 @@ X_train, X_test = normalize(X_train, X_test)
 
 The correct answer is
 ```@example nn
-println(round_a(X_test[1,1]))
+println(round_a(X_test[1,1])) # hide
 ```
 
 The standard representation of data in linear or logistic regression is that each row (first dimension) is one sample. However, neural networks work with more dimensional data (each image is represented with three dimension). The convention changed and the samples are represented in the last dimension.
@@ -177,21 +179,20 @@ We will now construct a simple neural network.
 <header class = "exercise-header">Exercise:</header><p>
 ```
 Construct the following network:
-- The first layer is a dense layer with the sigmoid activation function.
+- The first layer is a dense layer with the relu activation function.
 - The second layer is a dense layer with identity activation function.
 - The third layer is the softmax. 
 
-Write is as ```m(x, ???)```, where ``x`` is the input and ```???``` stands for all weights.
+Write is as ```m(x, ???)```, where ``1x`1` is the input and ```???``` stands for all weights.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-The dense layer is just a linear function ```z1 = W1*x .+ b1``` followed by an activation function. If we assume that ```x``` is a vector, then ```+``` would work the same as ```.+``` as both ```W1*x``` and ```b``` are of the same dimension. However, if we want ```x``` to be a matrix (each columns corresponds to one sample), then we need to write ```.+``` because ```W1*x``` is a matrix and the vector ```b``` needs to be broadcasted. The activation function is a sigmoid which need to be applied componentwise. The second layer is the same but this time, we need to finish it with a softmax. This is similar to the sigmoid but it is normalized and may contain multiple inputs (in the case of more classes). If ```x``` is a matrix, then ```z2``` is a matrix and we need to specify that we want to normalize along the first dimension. If we assume only for one-sample inputs, then specifying the dimension is not necessary.
+The dense layer is just a linear function ```z1 = W1*x .+ b1``` followed by an activation function. If we assume that ```x``` is a vector, then ```+``` would work the same as ```.+``` as both ```W1*x``` and ```b``` are of the same dimension. However, if we want ```x``` to be a matrix (each columns corresponds to one sample), then we need to write ```.+``` because ```W1*x``` is a matrix and the vector ```b``` needs to be broadcasted. The activation function is a relu which needs to be applied componentwise. The second layer is the same but this time, we need to finish it with a softmax. This is similar to the sigmoid but it is normalized and may contain multiple inputs (in the case of more classes). If ```x``` is a matrix, then ```z2``` is a matrix and we need to specify that we want to normalize along the first dimension. If we assume only for one-sample inputs, then specifying the dimension is not necessary.
 ```@example nn
 function m(x, W1, b1, W2, b2)
     z1 = W1*x .+ b1
-    #a1 = 1 ./ (1 .+ exp.(-z1))
     a1 = max.(z1, 0)
     z2 = W2*a1 .+ b2
     a2 = exp.(z2) ./ sum(exp.(z2), dims=1)
@@ -229,7 +230,7 @@ nothing # hide
 ```
 To initialize, we need to realize the numbers ```n1```, ```n2``` and ```n3```. The first one is the number of features, the second one is specified to be 5 and the last one must equal to the number of classes (the length of the labels in the one-hor representation).
 ```@example nn
-W1, b1, W2, b2 = initialize(size(X_train,1), 2, size(y_train,1))
+W1, b1, W2, b2 = initialize(size(X_train,1), 5, size(y_train,1))
 nothing # hide
 ```
 To evaluate the model, we call the ```m``` function with the first sample in the training set
@@ -253,7 +254,6 @@ To train, we need to compute the gradients. It is rather complicated, it can be 
 ```@example nn
 function grad(x::AbstractVector, y, W1, b1, W2, b2; ϵ=1e-10)
     z1 = W1*x .+ b1
-    #a1 = 1 ./ (1 .+ exp.(-z1))
     a1 = max.(z1, 0)
     z2 = W2*a1 .+ b2
     a2 = exp.(z2) ./ sum(exp.(z2))
@@ -265,7 +265,6 @@ function grad(x::AbstractVector, y, W1, b1, W2, b2; ϵ=1e-10)
     l_a2 = - y ./ (a2 .+ ϵ)
     l_z2 = l_part * l_a2 
     l_a1 = W2' * l_z2
-    #l_z1 = a1 .* (1 .-a1) .* l_a1
     l_z1 = l_a1 .* (a1 .> 0)
     l_x = W1' * l_z1
 
@@ -314,7 +313,7 @@ mean_tuple(d::AbstractArray{<:Tuple}) = [mean([d[k][i] for k in 1:length(d)]) fo
 Now the process is simple. We compute the gradient ```grad_all```, then its mean ```grad_mean``` via the already written function ```mean_tuple```. The first value of the tuple ```grad_mean``` is the objective, the remaining are gradient. Thus, we save the first value to an array and use the remaining one to update the weights.
 ```@example nn
 α = 1e-1
-max_iter = 100
+max_iter = 1000
 L = zeros(max_iter)
 @time for iter in 1:max_iter
     grad_all = [grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]
@@ -352,19 +351,19 @@ We have trained our first network. We saw that the loss function keeps decreasin
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Write a function which predict the labels for samples.
+Write a function which predict the labels for samples. Show the accuracy on both training and testing sets. 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-
+The predicted probabilities are obtained by using the ```m``` function. The prediction (highest predicted probability) is obtain by converting the one-hot representation into the one-cold representation. Finally, the accuracy compute in how many cases the prediction equals to the label.
 ```@example nn
 predict(X) = m(X, W1, b1, W2, b2)
 accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 
-accuracy(X_train, y_train)
-accuracy(X_test, y_test)
+println("Train accuracy = $(accuracy(X_train, y_train))")
+println("Test accuracy = $(accuracy(X_test, y_test))")
 
 nothing # hide
 ```
@@ -373,11 +372,10 @@ nothing # hide
 </p></details>
 ```
 
-
+The correct answer is
 ```@example nn
-println(round_a(accuracy(X_train, y_train))) # hide
-println(round_a(accuracy(X_test, y_test))) # hide
+println("Train accuracy = $(round_a(accuracy(X_train, y_train)))") # hide
+println("Test accuracy = $(round_a(accuracy(X_test, y_test)))") # hide
 ```
 
-
-
+We see that the testing accuracy is smaller than the training one. This is quite a common phnomenon which is named overfitting. The problem is that the algorithm sees only the data from the training set. If it fits this data "too perfectly", it is not able to generalize into unseen samples (the testing set). We will discuss this in one of the exercises.
