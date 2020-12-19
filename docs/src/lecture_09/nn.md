@@ -168,6 +168,31 @@ nothing # hide
 </p></details>
 ```
 
+Preparing the data is at seven lines. It is better to combine it into one function
+```@example nn
+function prepare_data(X, y; do_normal=true, kwargs...)
+    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
+
+    if do_normal
+        X_train, X_test = normalize(X_train, X_test)
+    end
+
+    X_train = Matrix(X_train')
+    X_test = Matrix(X_test')
+
+    classes = unique(y)
+
+    y_train = onehot(y_train, classes)
+    y_test = onehot(y_test, classes)
+
+    return X_train, y_train, X_test, y_test, classes
+end
+```
+
+
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X, y)
+```
 
 
 ## Create the network

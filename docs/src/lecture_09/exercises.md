@@ -43,6 +43,24 @@ end
 
 onecold(y, classes) = [classes[findmax(y_part)[2]] for y_part in eachcol(y)]
 
+function prepare_data(X, y; do_normal=true, kwargs...)
+    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
+
+    if do_normal
+        X_train, X_test = normalize(X_train, X_test)
+    end
+
+    X_train = Matrix(X_train')
+    X_test = Matrix(X_test')
+
+    classes = unique(y)
+
+    y_train = onehot(y_train, classes)
+    y_test = onehot(y_test, classes)
+
+    return X_train, y_train, X_test, y_test, classes
+end
+
 function m(x, W1, b1, W2, b2)
     z1 = W1*x .+ b1
     a1 = max.(z1, 0)
@@ -102,16 +120,7 @@ accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 
 
 ```@example nn
-X_train, y_train, X_test, y_test = split(X[:,3:4], y)
-X_train, X_test = normalize(X_train, X_test)
-
-X_train = Matrix(X_train')
-X_test = Matrix(X_test')
-
-classes = unique(y)
-
-y_train = onehot(y_train, classes)
-y_test = onehot(y_test, classes)
+X_train, y_train, X_test, y_test, classes = prepare_data(X[:,3:4], y)
 
 W1, b1, W2, b2 = initialize(size(X_train,1), 5, size(y_train,1))
 
