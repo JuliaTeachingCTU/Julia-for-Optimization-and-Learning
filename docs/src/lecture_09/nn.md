@@ -210,7 +210,7 @@ Construct the following network:
 - The second layer is a dense layer with identity activation function.
 - The third layer is the softmax. 
 
-Write is as ```m(x, ???)```, where ``1x`1` is the input and ```???``` stands for all weights.
+Write is as ```m(x, ???)```, where ```x``` is the input and ```???``` stands for all weights.
 ```@raw html
 </p></div>
 <details class = "solution-body">

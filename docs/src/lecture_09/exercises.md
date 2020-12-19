@@ -68,7 +68,7 @@ function m(x, W1, b1, W2, b2)
     a2 = exp.(z2) ./ sum(exp.(z2), dims=1)
 end
 
-loss(y_hat, y; ϵ=1e-10) = -sum(y .* log.(y_hat .+ ϵ))
+loss(y_hat, y; ϵ=1e-10) = -sum(y .* log.(y_hat .+ ϵ), dims=1)
 
 function initialize(n1, n2, n3)
     W1 = randn(n2,n1)
@@ -148,7 +148,7 @@ for iter in 1:max_iter
     grad_all = [grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]
     grad_mean = mean_tuple(grad_all)
 
-    L[iter] = grad_mean[1]
+    L[iter] = grad_mean[1][1]
     
     W1 .-= α*grad_mean[2]
     b1 .-= α*grad_mean[3]
@@ -157,7 +157,14 @@ for iter in 1:max_iter
 end
 ```
 
+```@example nn
+using Plots
 
+plot(L)
+savefig("asd.png")
+```
+
+![](asd.png)
 
 ```@example nn
 x_diff = 0.1
@@ -226,10 +233,10 @@ classes = unique(y)
 y_train = onehot(y_train, classes)
 y_test = onehot(y_test, classes)
 
-W1, b1, W2, b2 = initialize(size(X_train,1), 50, size(y_train,1))
+W1, b1, W2, b2 = initialize(size(X_train,1), 5, size(y_train,1))
 
 α = 1e-1
-max_iter = 3000
+max_iter = 5000
 L_train = zeros(max_iter)
 L_test = zeros(max_iter)
 for iter in 1:max_iter
@@ -241,8 +248,8 @@ for iter in 1:max_iter
     W2 .-= α*grad_mean[4]
     b2 .-= α*grad_mean[5] 
 
-    L_train[iter] = mean(loss(m(X_train, W1, b1, W2, b2), y_train))
-    L_test[iter] = mean(loss(m(X_test,  W1, b1, W2, b2), y_test))
+    L_train[iter] = mean(loss(m(X_train, W1, b1, W2, b2), y_train)[:])
+    L_test[iter] = mean(loss(m(X_test,  W1, b1, W2, b2), y_test)[:])
 end
 ```
 
