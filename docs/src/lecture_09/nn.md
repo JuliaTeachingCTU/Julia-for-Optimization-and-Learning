@@ -188,12 +188,14 @@ function prepare_data(X, y; do_normal=true, kwargs...)
     return X_train, y_train, X_test, y_test, classes
 end
 ```
-
-
+Then all the code so far, can be summarized in just three lines.
 ```@example nn
+file_name = joinpath("data", "iris.bson")
+@load file_name X y y_name
+
 X_train, y_train, X_test, y_test, classes = prepare_data(X, y)
 ```
-
+Writing function ```prepare_data``` as above has other advantages, we will get back to them in the exercises.
 
 ## Create the network
 

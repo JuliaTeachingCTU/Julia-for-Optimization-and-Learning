@@ -114,6 +114,23 @@ accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 
 
 
+```@example nn
+ratio_train(X_train, X_test) = size(X_train, 2) / (size(X_train,2) + size(X_test,2))
+```
+
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X, y; do_normal=false)
+ratio_train(X_train, X_test)
+```
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X, y; ratio_train=0.5)
+ratio_train(X_train, X_test)
+```
+
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X, y; do_normal=false, ratio_train=0.5)
+ratio_train(X_train, X_test)
+```
 
 
 
