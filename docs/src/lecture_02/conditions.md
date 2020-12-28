@@ -107,27 +107,30 @@ compare(2.3, 2.3)
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Write a simple function that computes a factorial of the given number. Assume, that the input argument is always a non-negative integer. Use the following function declaration with type annotation for the input argument
+Write a simple function `fact` that computes a factorial of the given number. Use the following function declaration
 ```julia
-function fact(n::Int)
+function fact(n)
     # some code
 end
 ```
-Note that this function will only work if the input argument is an integer and otherwise an error will occur.
+Make sure that the input argument is a non-negative integer. If the input argument is negative, the function should throw an error.
 
-**Hint:** use recursion.
+**Hint:** use recursion, the `isinteger` function and the `error` function.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We will split the solution into two cases:
-1. the given integer `n` is equal to zero, then the function returns `1`.
-2. the given integer `n` is larger than zero, then we use recursion.
+We will split the solution into three cases:
+1. the given number `n` is smaller tan zero or is not an integer.
+2. the given integer `n` is equal to zero, then the function returns `1`.
+3. the given integer `n` is larger than zero, then we use recursion.
 ```@example conditions_ex
-function fact(n::Int)
-    return if n == 0
+function fact(n)
+    if !isinteger(n) | n < 0
+        error("n must be non-negative integer")
+    elseif n == 0
         1
     else
         n * fact(n - 1)
@@ -138,8 +141,9 @@ nothing # hide
 Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the output of a function.
 ```@repl conditions_ex
 fact(4)
-fact(5)
 fact(0)
+fact(-5)
+fact(1.4)
 ```
 ```@raw html
 </p></details>
@@ -192,3 +196,35 @@ fact(0)
 ```
 
 ## Short-circuit evaluation
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Rewrite the factorial function from the exercises from the first section using the short-circuit evaluation.
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+```@example shortcirc_ex
+function fact(n)
+    isinteger(n) || n >= 0 || error("n must be non-negative")
+    n == 0 && return 1
+    return n * fact(n - 1)
+end
+nothing # hide
+```
+
+```@repl conditions_ex
+fact(4)
+fact(0)
+fact(-5)
+fact(1.4)
+```
+```@raw html
+</p></details>
+```

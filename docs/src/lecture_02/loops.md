@@ -3,7 +3,7 @@ using Random
 Random.seed!(1234)
 ```
 
-# Iteration
+# Loops and iterators
 
 ## `for` loop
 
