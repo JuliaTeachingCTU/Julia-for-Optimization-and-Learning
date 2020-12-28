@@ -72,11 +72,11 @@ lecture_13 = []
 # make docs options
 makedocs(;
     authors = "Václav Mácha",
-    repo = "https://github.com/VaclavMacha/JuliaCourseFNSPE.jl/blob/{commit}{path}#L{line}",
+    repo = "https://github.com/VaclavMacha/JuliaCourse/blob/{commit}{path}#L{line}",
     sitename = "Numerical computing in Julia",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
-        canonical = "https://VaclavMacha.github.io/JuliaCourseFNSPE.jl",
+        canonical = "https://VaclavMacha.github.io/JuliaCourse",
         assets = [],
         collapselevel = 1,
     ),
@@ -101,5 +101,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/VaclavMacha/JuliaCourseFNSPE.jl",
+    repo="git@github.com:VaclavMacha/JuliaCourse.git",
 )
