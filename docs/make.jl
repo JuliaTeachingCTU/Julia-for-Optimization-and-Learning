@@ -101,5 +101,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="git@github.com:VaclavMacha/JuliaCourse.git",
+    repo="github.com:VaclavMacha/JuliaCourse.git",
 )
