@@ -100,6 +100,6 @@ makedocs(;
     ],
 )
 
-# deploydocs(;
-#     repo="github.com/VaclavMacha/JuliaCourseFNSPE.jl",
-# )
+deploydocs(;
+    repo="github.com/VaclavMacha/JuliaCourseFNSPE.jl",
+)
