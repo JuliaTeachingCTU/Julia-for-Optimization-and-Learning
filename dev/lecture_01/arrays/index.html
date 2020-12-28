@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Arrays · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Numerical computing in Julia logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Numerical computing in Julia logo"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox" checked/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../variables/">Variables</a></li><li><a class="tocitem" href="../operators/">Mathematical operations and Elementary functions</a></li><li class="is-active"><a class="tocitem" href>Arrays</a><ul class="internal"><li><a class="tocitem" href="#Vectors"><span>Vectors</span></a></li><li><a class="tocitem" href="#Matrices"><span>Matrices</span></a></li><li><a class="tocitem" href="#N-dimensional-arrays"><span><code>N</code>-dimensional arrays</span></a></li><li><a class="tocitem" href="#Broadcasting"><span>Broadcasting</span></a></li><li><a class="tocitem" href="#Views"><span>Views</span></a></li></ul></li><li><a class="tocitem" href="../data_structures/">Data structures</a></li><li><a class="tocitem" href="../strings/">Strings</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/control_flow/">Iteration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and multiple-dispatch</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">4: Composite types and constructors</span></li><li><span class="tocitem">5: Modules and enviroments</span></li><li><span class="tocitem">6: Useful packages</span></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">9: Neural networks I.</span></li><li><span class="tocitem">10: Neural networks II.</span></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">1: Variables and basic operators</a></li><li class="is-active"><a href>Arrays</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Arrays</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_01/arrays.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Arrays"><a class="docs-heading-anchor" href="#Arrays">Arrays</a><a id="Arrays-1"></a><a class="docs-heading-anchor-permalink" href="#Arrays" title="Permalink"></a></h1><p>Arrays are the most common container used for storing data.</p><h2 id="Vectors"><a class="docs-heading-anchor" href="#Vectors">Vectors</a><a id="Vectors-1"></a><a class="docs-heading-anchor-permalink" href="#Vectors" title="Permalink"></a></h2><p>A vector is a special case of an array with only one dimension and is represented as a list of ordered data which share a common type (<code>Int64</code>, <code>Float64</code>, <code>Any</code>,...). A vector in Julia can be constructed directly using square brackets and a comma (or semicolon) as value separators</p><pre><code class="language-julia-repl">julia&gt; v = [1, 2, 3, 4, 5, 6, 7, 8] # or equivalently v = [1; 2; 3; 4; ...]
+8-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8</code></pre><p>Information about the number of dimension or type of elements of a given vector can be obtained using <code>typeof</code> function</p><pre><code class="language-julia-repl">julia&gt; typeof(v)
+Array{Int64,1}</code></pre><p>We can see, that the general description of any array in Julia is as follows: <code>Array{T,N}</code> denotes <code>N</code>-dimensional dense array with elements of type <code>T</code>. From this description, we can immediately see, that vector <code>v</code> has one dimension and contains elements of type <code>In64</code>. Another way how to get this information is to use <code>ndims</code> and <code>eltype</code> function</p><pre><code class="language-julia-repl">julia&gt; ndims(v)
+1
+
+julia&gt; eltype(v)
+Int64</code></pre><p>We can also check the size and the length of a vector using <code>size</code> and <code>length</code> function</p><pre><code class="language-julia-repl">julia&gt; size(v)
+(8,)
+
+julia&gt; length(v)
+8</code></pre><p>The <code>size</code> function returns a <a href="../data_structures/#Tuples">tuple</a> containing the sizes of the given array along each dimension. The <code>length</code> function returns total number of elements in the given array.</p><p>Elements of a vector can be accessed via square brackets and the index of the element. Contrary to other programming languages like C or Python and similarly to Matlab, arrays are indexed from <code>1</code>. To access the third element of vector <code>v</code>, we simply use the following syntax</p><pre><code class="language-julia-repl">julia&gt; v[3]
+3</code></pre><p>There are also special keywords to access first and last element of a given vector</p><pre><code class="language-julia-repl">julia&gt; v[begin] # the first element
+1
+
+julia&gt; v[end] # the last element
+8</code></pre><p>It is also possible to access multiple elements at once using the same syntax. The only difference is that instead of only one index, we use a vector of multiple indexes. For example, to access the second and third element of vector <code>v</code>, we can do</p><pre><code class="language-julia-repl">julia&gt; v[[2, 3]]
+2-element Array{Int64,1}:
+ 2
+ 3</code></pre><p>Multiple indexes can be also selected using <code>range</code> function. The <code>range</code> function always accepts the starting point as a first argument and then keyword arguemnt <code>stop</code> or <code>length</code>. The user can also set the step length using keyword argument <code>step</code>. If <code>length</code>, <code>stop</code>, and <code>step</code> are all specified, they must agree. For example, to generate integers from <code>1</code> to <code>10</code> with step length <code>2</code> we can use following code</p><pre><code class="language-julia-repl">julia&gt; range(1; stop = 10, step = 2)
+1:2:9</code></pre><p>Ranges can also be constructed using the shorter syntax <code>start:step:stop</code> (the <code>step</code> can be omitted if it is equal to <code>1</code>). Then the previous example can be equivalently rewritten as</p><pre><code class="language-julia-repl">julia&gt; 1:2:10
+1:2:9</code></pre><p>This shorter syntax is very useful for accessing array elements</p><pre><code class="language-julia-repl">julia&gt; v[1:3] # the first three elements
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; v[1:2:end] # select all elements with odd index
+4-element Array{Int64,1}:
+ 1
+ 3
+ 5
+ 7
+
+julia&gt; v[:] # all elements
+8-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8</code></pre><p>It is possible to add new elements to a vector using <code>append!</code> function. Notice the <code>!</code>, this is a Julia convention to say that the function will modify the first argument given to the function. In this case, the <code>append!</code> function appends one or more elements to the end of the given vector</p><pre><code class="language-julia-repl">julia&gt; v = [1,2,3]
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; append!(v, 4)
+4-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+
+julia&gt; append!(v, [5,6])
+6-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+
+julia&gt; append!(v, 7:8)
+8-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8</code></pre><p>As has already been said, the elements of a vector share the same type. In this case, we have a vector with elements of type <code>Int64</code>. If we want to append a value to a vector with a different type it will result in an error</p><pre><code class="language-julia-repl">
+julia&gt; append!(v, 3.1415)
+ERROR: InexactError: Int64(3.1415)</code></pre><p>In this case, we cannot convert a <code>Float64</code> to an <code>Int64</code> without losing precision, thus the error. Our vector <code>v</code> can store only values of type <code>Int64</code> or values that can be safely converted to <code>Int64</code> (such as <code>Int32</code> for example). To avoid these errors, we can initialize the type of elements when creating a vector. It can be done using a type name followed by a square bracket.</p><pre><code class="language-julia-repl">julia&gt; v = Float64[1, 2, 3]
+3-element Array{Float64,1}:
+ 1.0
+ 2.0
+ 3.0
+
+julia&gt; append!(v, 3.1415)
+4-element Array{Float64,1}:
+ 1.0
+ 2.0
+ 3.0
+ 3.1415</code></pre><p>It is possible to change the value of an element of a given vector. This can be done simply by assigning a new value to the desired element</p><pre><code class="language-julia-repl">julia&gt; v = [1,2,3, 4]
+4-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+
+julia&gt; v[2] = 4
+4
+
+julia&gt; v
+4-element Array{Int64,1}:
+ 1
+ 4
+ 3
+ 4</code></pre><p>It is also possible to assign one value to multiple elements of a vector at once. However, in this case, we have to use so-called dot syntax which is in Julia used for <a href="#Broadcasting">element-wise operations</a></p><pre><code class="language-julia-repl">julia&gt; v[3:4] .= 11
+2-element view(::Array{Int64,1}, 3:4) with eltype Int64:
+ 11
+ 11
+
+julia&gt; v
+4-element Array{Int64,1}:
+  1
+  4
+ 11
+ 11</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Create a vector of integers that contains all odd numbers smaller than <code>10</code>. Then changed the first element to <code>4</code> and the last two elements to <code>1</code>.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>The vector can be created manually as follows</p><pre><code class="language-julia-repl">julia&gt; v = [1,3,5,7,9]
+5-element Array{Int64,1}:
+ 1
+ 3
+ 5
+ 7
+ 9</code></pre><p>or we can use <code>range</code> function to create a range with given properties and then use <code>collect</code> function to create a vector or use <code>Vector</code> type to convert range to a vector</p><pre><code class="language-julia-repl">julia&gt; collect(1:2:9)
+5-element Array{Int64,1}:
+ 1
+ 3
+ 5
+ 7
+ 9
+
+julia&gt; Vector(1:2:9)
+5-element Array{Int64,1}:
+ 1
+ 3
+ 5
+ 7
+ 9</code></pre><p>Then we can easily assign new values to the desired positions</p><pre><code class="language-julia-repl">julia&gt; v[1] = 4
+4
+
+julia&gt; v[end-1:end] .= 1
+2-element view(::Array{Int64,1}, 4:5) with eltype Int64:
+ 1
+ 1
+
+julia&gt; v
+5-element Array{Int64,1}:
+ 4
+ 3
+ 5
+ 1
+ 1</code></pre></p></details><h2 id="Matrices"><a class="docs-heading-anchor" href="#Matrices">Matrices</a><a id="Matrices-1"></a><a class="docs-heading-anchor-permalink" href="#Matrices" title="Permalink"></a></h2><p>A matrix is a special case of an array with exactly two dimensions. In Julia, we can construct a matrix using square brackets similarly to vectors. Matrices are constructed row by row and all rows are separated by semicolons. Elements in a row are separated by space</p><pre><code class="language-julia-repl">julia&gt; m = [1  2  3  4; 5  6  7  8]
+2×4 Array{Int64,2}:
+ 1  2  3  4
+ 5  6  7  8</code></pre><p>We can use the same functions as for vectors to obtain basic information about the matrices</p><pre><code class="language-julia-repl">julia&gt; typeof(m)
+Array{Int64,2}
+
+julia&gt; eltype(m)
+Int64
+
+julia&gt; ndims(m)
+2
+
+julia&gt; size(m)
+(2, 4)
+
+julia&gt; length(m)
+8</code></pre><p>To access elements of a matrix, we can use the same syntax as for vectors</p><pre><code class="language-julia-repl">julia&gt; m[1] # the first element, equivalent to m[begin]
+1
+
+julia&gt; m[2] # the second element
+5
+
+julia&gt; m[end-1] # the last element
+4</code></pre><p>Note that the second element is <code>5</code>. The reason is, that Julia is column-oriented. Element at specific position in a matrix can accessed by <code>matrix[row_index, column_index]</code>, i.e. the following code returns the second element in the first row</p><pre><code class="language-julia-repl">julia&gt; m[1, 2]
+2</code></pre><p>It is also possible to access multiple elements at once</p><pre><code class="language-julia-repl">julia&gt; m[1, [2, 3]] # the second and third element in the first row
+2-element Array{Int64,1}:
+ 2
+ 3
+
+julia&gt; m[1:3] # the first three elements according to linear indexing
+3-element Array{Int64,1}:
+ 1
+ 5
+ 2
+
+julia&gt; m[:, 1:3] # the first three columns
+2×3 Array{Int64,2}:
+ 1  2  3
+ 5  6  7
+
+julia&gt; m[1, :] # the first row
+4-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+
+julia&gt; m[:] # all elements
+8-element Array{Int64,1}:
+ 1
+ 5
+ 2
+ 6
+ 3
+ 7
+ 4
+ 8</code></pre><p>It is not possible to append new elements into arrays (with exception of vectors) directly. However, arrays with matching sizes along some dimension can be concatenated in this dimension. For example, we can horizontally concatenate our matrix <code>m</code> using function <code>hcat</code></p><pre><code class="language-julia-repl">julia&gt; hcat(m, m)
+2×8 Array{Int64,2}:
+ 1  2  3  4  1  2  3  4
+ 5  6  7  8  5  6  7  8</code></pre><p>or vertically using function <code>vcat</code></p><pre><code class="language-julia-repl">julia&gt; vcat(m, m)
+4×4 Array{Int64,2}:
+ 1  2  3  4
+ 5  6  7  8
+ 1  2  3  4
+ 5  6  7  8</code></pre><p>There is also a general function <code>cat</code> that concatenate given arrays along dimension specified by keyword argument <code>dims</code></p><pre><code class="language-julia-repl">julia&gt; cat(m, m; dims = 2) # equivalent to hcat(m, m)
+2×8 Array{Int64,2}:
+ 1  2  3  4  1  2  3  4
+ 5  6  7  8  5  6  7  8
+
+julia&gt; cat(m, m; dims = 1) # equivalent to vcat(m, m)
+4×4 Array{Int64,2}:
+ 1  2  3  4
+ 5  6  7  8
+ 1  2  3  4
+ 5  6  7  8</code></pre><p>If the sizes of arrays do not match, an error occurs</p><pre><code class="language-julia-repl">julia&gt; v = [11, 12]
+2-element Array{Int64,1}:
+ 11
+ 12
+
+julia&gt; vcat(m, v)
+ERROR: ArgumentError: number of columns of each array must match (got (4, 1))</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Create two vectors: vector all odd numbers smaller than <code>10</code> and vector of all even numbers smaller than <code>10</code>. Then concatenate these two vectors horizontally and fill the third row with <code>4</code>.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>First, we have to create the two vectors. We can do it manually or ve can use ranges and <code>collect</code> function as in the exercise in the previous section</p><pre><code class="language-julia-repl">julia&gt; v1 = collect(1:2:9)
+5-element Array{Int64,1}:
+ 1
+ 3
+ 5
+ 7
+ 9
+
+julia&gt; v2 = collect(2:2:10)
+5-element Array{Int64,1}:
+  2
+  4
+  6
+  8
+ 10</code></pre><p>Then we use function <code>hcat</code> to horizontally concatenate these two vectors</p><pre><code class="language-julia-repl">julia&gt; m = hcat(v1, v2)
+5×2 Array{Int64,2}:
+ 1   2
+ 3   4
+ 5   6
+ 7   8
+ 9  10</code></pre><p>and finally, we select all elements in the third row and assign a new value to them</p><pre><code class="language-julia-repl">julia&gt; m[3,:] .= 4
+2-element view(::Array{Int64,2}, 3, :) with eltype Int64:
+ 4
+ 4
+
+julia&gt; m
+5×2 Array{Int64,2}:
+ 1   2
+ 3   4
+ 4   4
+ 7   8
+ 9  10</code></pre></p></details><h2 id="N-dimensional-arrays"><a class="docs-heading-anchor" href="#N-dimensional-arrays"><code>N</code>-dimensional arrays</a><a id="N-dimensional-arrays-1"></a><a class="docs-heading-anchor-permalink" href="#N-dimensional-arrays" title="Permalink"></a></h2><p>In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in <code>3</code>-dimensional arrays. In julia, there is no explicit way to create <code>N</code>-dimensional arrays. The typical way how to create such an array is to create an empty array of appropriate size and then fill it either manually of using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on <a href="../../lecture_02/control_flow/#Iteration">loops</a> will be later in the course.</p><p>There are several ways to initialize an array. The simplest and most common is using <code>zeros</code> function. This function by default creates an array of given size filled with zeros of type <code>Float64</code></p><pre><code class="language-julia-repl">julia&gt; A = zeros(3, 5, 2) # equivalent to A = zeros((3, 5, 2))
+3×5×2 Array{Float64,3}:
+[:, :, 1] =
+ 0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0
+
+[:, :, 2] =
+ 0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0
+ 0.0  0.0  0.0  0.0  0.0</code></pre><p>The type of elements can be changed by passing the desired type as a first argument</p><pre><code class="language-julia-repl">julia&gt; B = zeros(Int64, 3, 5, 2)  # equivalent to B = zeros(Int64, (3, 5, 2))
+3×5×2 Array{Int64,3}:
+[:, :, 1] =
+ 0  0  0  0  0
+ 0  0  0  0  0
+ 0  0  0  0  0
+
+[:, :, 2] =
+ 0  0  0  0  0
+ 0  0  0  0  0
+ 0  0  0  0  0</code></pre><p>As in the case of vectors and matrices, we can use the same functions to obtain basic information about the arrays</p><pre><code class="language-julia-repl">julia&gt; typeof(A)
+Array{Float64,3}
+
+julia&gt; eltype(A)
+Float64
+
+julia&gt; ndims(A)
+3
+
+julia&gt; size(A)
+(3, 5, 2)
+
+julia&gt; length(A)
+30</code></pre><p>The process of assigning a new value to the element of an array is the same as in the case of a vector or matrixs</p><pre><code class="language-julia-repl">julia&gt; B[1] = 1 # assign 1 to the first element
+1
+
+julia&gt; B[1, 2, 2] = 2 # assign 2 to the element at position (1,2,2)
+2
+
+julia&gt; B[2,:,1] .= 4
+5-element view(::Array{Int64,3}, 2, :, 1) with eltype Int64:
+ 4
+ 4
+ 4
+ 4
+ 4
+
+julia&gt; B
+3×5×2 Array{Int64,3}:
+[:, :, 1] =
+ 1  0  0  0  0
+ 4  4  4  4  4
+ 0  0  0  0  0
+
+[:, :, 2] =
+ 0  2  0  0  0
+ 0  0  0  0  0
+ 0  0  0  0  0</code></pre><p>There are other useful functions which can be used to initialize an array. The <code>ones</code> function is similar to the <code>zeros</code> function, but instead of an array filled with zeros, it creates an array filled with ones</p><pre><code class="language-julia-repl">julia&gt; ones(Float32, 2, 3, 1)
+2×3×1 Array{Float32,3}:
+[:, :, 1] =
+ 1.0  1.0  1.0
+ 1.0  1.0  1.0</code></pre><p>Function <code>fill</code> creates an array of given size filled with the given value</p><pre><code class="language-julia-repl">julia&gt; fill(1.234, 2, 2)
+2×2 Array{Float64,2}:
+ 1.234  1.234
+ 1.234  1.234</code></pre><h2 id="Broadcasting"><a class="docs-heading-anchor" href="#Broadcasting">Broadcasting</a><a id="Broadcasting-1"></a><a class="docs-heading-anchor-permalink" href="#Broadcasting" title="Permalink"></a></h2><p>In Julia, with broadcasting we indicate the action of mapping a function or an operation (which are the same in Julia) over an array or a matrix element by element. There is no speed gain in doing so, as it will be exactly equivalent to writing a for loop, but its conciseness may be useful sometimes. So the core idea in Julia is to write functions that take single values and use broadcasting when needed, unless the functions must explicitly work on arrays (for example to compute the mean of a series of values, perform matrix operations, vector multiplications, etc).</p><p>The broadcasting notation for operators consists of adding a dot <code>.</code> before the operator (for example <code>.*</code>)</p><pre><code class="language-julia-repl">julia&gt; a = [1,2,3] # column vector
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; a .-= 4 # from each element of vector subtracts 4
+3-element Array{Int64,1}:
+ -3
+ -2
+ -1</code></pre><p>Without the dot, we get an error, since we cannot multiply substract a number from a vector</p><pre><code class="language-julia-repl">julia&gt; a -= 1
+ERROR: MethodError: no method matching -(::Array{Int64,1}, ::Int64)
+For element-wise subtraction, use broadcasting with dot syntax: array .- scalar
+Closest candidates are:
+  -(!Matched::BigInt, ::Union{Int16, Int32, Int64, Int8}) at gmp.jl:532
+  -(!Matched::Base.CoreLogging.LogLevel, ::Integer) at logging.jl:117
+  -(!Matched::Missing, ::Number) at missing.jl:115
+  ...</code></pre><p>This syntax can be applied to any function in Julia. it is extremely useful for basic operations. For example, we can compute the absolute value of all elements simply by the following code</p><pre><code class="language-julia-repl">julia&gt; abs.(a)
+3-element Array{Int64,1}:
+ 3
+ 2
+ 1</code></pre><p>It can be also used for matrix multiplication. Consider the following example</p><pre><code class="language-julia-repl">julia&gt; a = [1,2,3] # column vector
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
+
+julia&gt; b = [4,5,6] # column vector
+3-element Array{Int64,1}:
+ 4
+ 5
+ 6
+
+julia&gt; a * b
+ERROR: MethodError: no method matching *(::Array{Int64,1}, ::Array{Int64,1})
+Closest candidates are:
+  *(::Any, ::Any, !Matched::Any, !Matched::Any...) at operators.jl:538
+  *(!Matched::LinearAlgebra.Adjoint{var&quot;#s828&quot;,var&quot;#s8281&quot;} where var&quot;#s8281&quot;&lt;:(AbstractArray{T,1} where T) where var&quot;#s828&quot;&lt;:Number, ::AbstractArray{var&quot;#s827&quot;,1} where var&quot;#s827&quot;&lt;:Number) at /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.5/LinearAlgebra/src/adjtrans.jl:283
+  *(!Matched::LinearAlgebra.Transpose{T,var&quot;#s828&quot;} where var&quot;#s828&quot;&lt;:(AbstractArray{T,1} where T), ::AbstractArray{T,1}) where T&lt;:Real at /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.5/LinearAlgebra/src/adjtrans.jl:284
+  ...</code></pre><p>This makes perfectly sense from a mathematical point of view and operators behave how we would mathematically expect. If we want to use matrix multiplication, we have to transpose one of the vectors</p><pre><code class="language-julia-repl">julia&gt; a&#39; * b
+32
+
+julia&gt; a * b&#39;
+3×3 Array{Int64,2}:
+  4   5   6
+  8  10  12
+ 12  15  18</code></pre><p>Nonetheless, in programming it is often useful to write operations which work on an element by element basis, and for this reason broadcasting comes to our help</p><pre><code class="language-julia-repl">julia&gt; a .* b
+3-element Array{Int64,1}:
+  4
+ 10
+ 18</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Construct the matrix whose elements are given by the following formula</p><p class="math-container">\[A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\} \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}\]</p><p>where</p><pre><code class="language-julia">x = [
+    -1  0  2;
+    2  -3  1;
+]</code></pre></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>There are several ways to create matrix <code>A</code>. The most obvious one is to use <a href="../../lecture_02/control_flow/#for-loop"><code>for</code> loop</a> (we will talk about loops later)</p><pre><code class="language-julia-repl">julia&gt; A = zeros(2, 3);
+
+julia&gt; for i in eachindex(A)
+           A[i] = exp((x[i] + 1)^2)/2
+       end
+
+julia&gt; A
+2×3 Array{Float64,2}:
+    0.5    1.35914  4051.54
+ 4051.54  27.2991     27.2991</code></pre><p>or using list comprehension (this topic will be discussed later too)</p><pre><code class="language-julia-repl">julia&gt; A = [exp((xi + 1)^2)/2 for xi in x]
+2×3 Array{Float64,2}:
+    0.5    1.35914  4051.54
+ 4051.54  27.2991     27.2991</code></pre><p>But the most elegant way (subjectively) is to use broadcasting</p><pre><code class="language-julia-repl">julia&gt; A = exp.((x .+ 1) .^ 2) ./ 2
+2×3 Array{Float64,2}:
+    0.5    1.35914  4051.54
+ 4051.54  27.2991     27.2991</code></pre><p>There is a macro <code>@.</code> in Julia, that adds a dot before each operator and each function in an expression</p><pre><code class="language-julia-repl">julia&gt; A = @. exp((x + 1) ^ 2) / 2
+2×3 Array{Float64,2}:
+    0.5    1.35914  4051.54
+ 4051.54  27.2991     27.2991</code></pre></p></details><h2 id="Views"><a class="docs-heading-anchor" href="#Views">Views</a><a id="Views-1"></a><a class="docs-heading-anchor-permalink" href="#Views" title="Permalink"></a></h2><p>As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array <code>A</code> and we assign it to a variable <code>B</code>, the elements of the original array can be modified be modified by accessing <code>B</code>:</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 3; 4 5 6]
+2×3 Array{Int64,2}:
+ 1  2  3
+ 4  5  6
+
+julia&gt; B = A
+2×3 Array{Int64,2}:
+ 1  2  3
+ 4  5  6
+
+julia&gt; B[2] = 42
+42</code></pre><p>We can check that both arrays are equal even though we modified only the array <code>B</code></p><pre><code class="language-julia-repl">julia&gt; A == B
+true</code></pre><p>This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the function <code>copy</code></p><pre><code class="language-julia-repl">julia&gt; C = copy(A)
+2×3 Array{Int64,2}:
+  1  2  3
+ 42  5  6
+
+julia&gt; C[4] = 10
+10
+
+julia&gt; A == C
+false</code></pre><p>The different behavior occurs when accessing elements. Everytime we access multiple elements of an array at once, a new array is created</p><pre><code class="language-julia-repl">julia&gt; D = A[1:2, 1:2]
+2×2 Array{Int64,2}:
+  1  2
+ 42  5
+
+julia&gt; D[1] = 15
+15</code></pre><p>In this case, we modified only the array <code>D</code>, and array <code>A</code> remains unchanged</p><pre><code class="language-julia-repl">julia&gt; D == A[1:2, 1:2]
+false</code></pre><p>However, even if we want to select some subarray, it may be useful to create only a link to the original array and not a new array. In Julia, this can be done using <code>view</code> function</p><pre><code class="language-julia-repl">julia&gt; E = view(A, 1:2, 1:2)
+2×2 view(::Array{Int64,2}, 1:2, 1:2) with eltype Int64:
+  1  2
+ 42  5
+
+julia&gt; E[4] = 78
+78</code></pre><p>We see that even if we change only the array in <code>D</code>, the change is propagated to <code>A</code></p><pre><code class="language-julia-repl">julia&gt; E == A[1:2, 1:2]
+true</code></pre><p>To simplify the process of creating <code>view</code>s, there is a handy macro <code>@views</code></p><pre><code class="language-julia-repl">julia&gt; @views A[1:2, 1:2] # equivalet to view(A, 1:2, 1:2)
+2×2 view(::Array{Int64,2}, 1:2, 1:2) with eltype Int64:
+  1   2
+ 42  78</code></pre><p>Note that  function view creates a special type <code>SubArray</code></p><pre><code class="language-julia-repl">julia&gt; typeof(E)
+SubArray{Int64,2,Array{Int64,2},Tuple{UnitRange{Int64},UnitRange{Int64}},false}</code></pre><p>Since <code>SubArray</code> is a subtype of <code>AbstractArray</code>, we can apply any function defined for <code>Abstract Arrays</code> to <code>SubArray</code> too. In other words, (almost) all functions that work for arrays will also work for subarray.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 3; 4 5 6]
+2×3 Array{Int64,2}:
+ 1  2  3
+ 4  5  6
+
+julia&gt; A_view = @views A[:, :]
+2×3 view(::Array{Int64,2}, :, :) with eltype Int64:
+ 1  2  3
+ 4  5  6
+
+julia&gt; sum(A)
+21
+
+julia&gt; sum(A_view)
+21
+
+julia&gt; minimum(A; dims = 1)
+1×3 Array{Int64,2}:
+ 1  2  3
+
+julia&gt; minimum(A_view; dims = 1)
+1×3 Array{Int64,2}:
+ 1  2  3</code></pre><p>This means that we can use arrays and subarray interchangeably without the necessity of changing existing code. Of course, there are some limitations, but we will talk about it later.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../operators/">« Mathematical operations and Elementary functions</a><a class="docs-footer-nextpage" href="../data_structures/">Data structures »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 28 December 2020 16:42">Monday 28 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
