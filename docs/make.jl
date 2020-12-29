@@ -59,7 +59,11 @@ lecture_08 = joinpath.("./lecture_08/", [
     "exercises.md",
 ])
 
-lecture_09 = []
+lecture_09 = joinpath.("./lecture_09/", [
+    "theory.md",
+    "nn.md",
+    "exercises.md",
+])
 
 lecture_10 = []
 
@@ -72,12 +76,9 @@ lecture_13 = []
 # make docs options
 makedocs(;
     authors = "Václav Mácha",
-    repo = "https://github.com/VaclavMacha/JuliaCourseFNSPE.jl/blob/{commit}{path}#L{line}",
     sitename = "Numerical computing in Julia",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
-        canonical = "https://VaclavMacha.github.io/JuliaCourseFNSPE.jl",
-        assets = [],
         collapselevel = 1,
     ),
     pages = [
@@ -100,6 +101,6 @@ makedocs(;
     ],
 )
 
-# deploydocs(;
-#     repo="github.com/VaclavMacha/JuliaCourseFNSPE.jl",
-# )
+deploydocs(;
+    repo="github.com/VaclavMacha/JuliaCourse.git",
+)
