@@ -308,6 +308,15 @@ The function returns the function value ```l``` and derivatives with respect to 
 
 ```@raw html
 <div class = "info-body">
+<header class = "info-header">That's it? I thought neural networks are magic...</header><p>
+```
+Well, for a network with two layers and a loss, you can compute the function value and its derivative with only 16 lines of code. And it could be even shorter :)
+```@raw html
+</p></div>
+```
+
+```@raw html
+<div class = "info-body">
 <header class = "info-header">Simple implementation</header><p>
 ```
 The previous function ```grad``` can compute the gradient for only one sample and not for more. Since the objective in training neural network is a mean over all samples, this mean needs to be included externally. This is NOT the correct way of writing function. However, we decided to present it in the current way to keep the presentation (relatively) simple.
