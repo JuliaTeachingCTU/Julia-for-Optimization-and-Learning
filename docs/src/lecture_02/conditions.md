@@ -128,8 +128,8 @@ We will split the solution into three cases:
 3. the given integer `n` is larger than zero, then we use recursion.
 ```@example conditions_ex
 function fact(n)
-    if !isinteger(n) | n < 0
-        error("n must be non-negative integer")
+    if n < 0 | !isinteger(n)
+        error("`n` must be non-negative integer")
     elseif n == 0
         1
     else
@@ -162,64 +162,72 @@ println(x < y ? "x is less than y" : "x is greater than or equal to y")
 ```
 In this case, if the condition `x < y` holds, then the string `"x is less than y"` is returned, and otherwise `"x is greater than or equal to y"`. Since we wrapped the whole expression into the `println` function, the returned string from the ternary operator is printed in the REPL.
 
+## Short-circuit evaluation
+
+Julia provides a so-called Short-circuit evaluation that is similar to the conditional evaluation. The behavior is found in most imperative programming languages having the && and || boolean operators: in a series of boolean expressions connected by these operators, only the minimum number of expressions are evaluated as are necessary to determine the final boolean value of the entire chain:
+- In the expression `a && b`, the subexpression `b` is only evaluated if `a` evaluates to true.
+- In the expression `a || b`, the subexpression `b` is only evaluated if `a` evaluates to false.
+Both `&&` and `||` associate to the right, but `&&` has higher precedence than `||` does.
+
+To investigate this behavior, let's define the following two functions
+
+```@example shortcirc
+t(x) = (println(x); true)
+f(x) = (println(x); false)
+nothing # hide
+```
+
+The `t` function prints `x` and returns true. Similarly, the `f` function prints `x` and returns false. Using these two functions, we can easily find out which expressions are evaluated when using short-circuit evaluation.
+
+```@repl shortcirc
+t(1) && println(2) # both expressions are evaluated
+f(1) && println(2) # only the first expression is evaluated
+t(1) || println(2) # only the first expression is evaluated
+f(1) || println(2) # both expressions are evaluated
+```
+
+In the same way, we can examine the behavior of various combinations of `&&` and `||` operators
+
+```@repl shortcirc
+t(1) && t(2) || println(3) # the first two expressions are evaluated
+f(1) && t(2) || println(3) # the first and the last expressions are evaluated
+f(1) && f(2) || println(3) # the first and the last expressions are evaluated
+t(1) && f(2) || println(3) # all expressions are evaluated
+```
+
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Rewrite the factorial function from the exercises from the previous section using the ternary operator.
+Rewrite the factorial function from the exercises from the first section. Use short-circuit evaluation to check if the given number is a non-negative integer and ternary operator for recursion.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Ternary operators can be extremely useful to shorten the code. The factorial function can be rewritten as follows
-```@example ternary_ex
-function fact(n::Int)
+
+Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately using short-circuit evaluation in the following way
+```julia
+function fact(n)
+    isinteger(n) || error("`n` must be non-negative integer")
+    n >= 0 || error("`n` must be non-negative integer")
+    return n == 0 ? 1 : n * fact(n - 1)
+end
+```
+
+However, it can be even simplified, if we combine `&&` and `||` operators as follows
+
+```@example shortcirc_ex
+function fact(n)
+    isinteger(n) && n >= 0 || error("`n` must be non-negative integer")
     return n == 0 ? 1 : n * fact(n - 1)
 end
 nothing # hide
 ```
-In fact, it is possible to write this function in an even shorter way using Julia's one-line syntax for functions
-```@example ternary_ex
-fact(n::Int) = n == 0 ? 1 : n * fact(n - 1)
-nothing # hide
-```
-It may seem a little confusing in the beginning. However, when the user is used to this syntax, it will lead to shorter, more readable, and clearer code.
-```@repl ternary_ex
-fact(4)
-fact(5)
-fact(0)
-```
-```@raw html
-</p></details>
-```
+Since `&&` has higher precedence than `||`, the first expression that is evaluated is `isinteger(n) && n >= 0`. The last expression is evaluated only if the first expression is evaluated to  `false`. We can easily check, that this function works exactly the same as the `fact` function from the first section
 
-## Short-circuit evaluation
-
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-Rewrite the factorial function from the exercises from the first section using the short-circuit evaluation.
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@example shortcirc_ex
-function fact(n)
-    isinteger(n) || n >= 0 || error("n must be non-negative")
-    n == 0 && return 1
-    return n * fact(n - 1)
-end
-nothing # hide
-```
-
-```@repl conditions_ex
+```@repl shortcirc_ex
 fact(4)
 fact(0)
 fact(-5)
