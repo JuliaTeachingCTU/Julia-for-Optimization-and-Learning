@@ -289,13 +289,13 @@ for i in 1:length(classes)
     scatter!(X_test[1,ii2][:], X_test[2,ii2][:], marker=(8, 0.8, colours[i]), label=y_name[classes[i]], legend=:topleft)
 end
 
-savefig("Separation.png") # hide
+savefig("Separation.svg") # hide
 ```
 ```@raw html
 </p></details>
 ```
 
-![](Separation.png)
+![](Separation.svg)
 
 
 
@@ -352,10 +352,10 @@ Then we plot it. We ignore the first nine iterations.
 plot(L_train[10:end], xlabel="Iteration", label="Training loss", legend=:topleft)
 plot!(L_test[10:end], label="Testing loss")
 
-savefig("Train_test.png") # hide
+savefig("Train_test.svg") # hide
 ```
 
-![](Train_test.png)
+![](Train_test.svg)
 
 We see the classical procedure of overfitting. While the loss function on the training set decreases steadily, on the testing set, it decreases first and after approximately 100 iterations, it starts increasing. This behaviour may be prevented by several techniques which we discuss in the next lecture. 
 
@@ -372,7 +372,7 @@ for i in 1:length(classes)
     p(rectangles(xy[1,ii1], xy[2,ii1], x_diff/2)..., line=(0, 0.2, colours[i]), fill=(0, 0.2, colours[i]), label="", title="Testing set")
     scatter!(X_test[1,ii2][:], X_test[2,ii2][:], marker=(8, 0.8, colours[i]), label=y_name[classes[i]], legend=:topleft)
 end
-savefig("Over1.png") # hide
+savefig("Over1.svg") # hide
 
 for i in 1:length(classes)
     i == 1 ? p = plot : p = plot!
@@ -382,12 +382,12 @@ for i in 1:length(classes)
     scatter!(X_train[1,ii2][:], X_train[2,ii2][:], marker=(8, 0.8, colours[i]), label=y_name[classes[i]], legend=:topleft)
 end
 
-savefig("Over2.png") # hide
+savefig("Over2.svg") # hide
 ```
 
-![](Over1.png)
+![](Over1.svg)
 
-![](Over2.png)
+![](Over2.svg)
 
 We see that the separation on the testing set is very good but it could be better for the two bottommost green circles (iris virginica). The model predicted (in background) the red color (iris versicolor) there. This is wrong. The reason is clear from the picture depicting the training set. The classifier tried to fit perfectly the boundary between the green and red points, making a outward-pointing tip there from otherwise a rather flat boundary. This is precisely overfitting and the reason of the misclassification on the testing set.
 ```@raw html
@@ -398,14 +398,14 @@ We see that the separation on the testing set is very good but it could be bette
 plot(L_train, xlabel="Iteration", label="Training loss", legend=:topleft) # hide
 plot!(L_test, label="Testing loss") # hide
 
-savefig("Train_test0.png") # hide
+savefig("Train_test0.svg") # hide
 ```
 
-![](Train_test0.png)
+![](Train_test0.svg)
 
-![](Over1.png)
+![](Over1.svg)
 
-![](Over2.png)
+![](Over2.svg)
 
 
 

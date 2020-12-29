@@ -372,11 +372,11 @@ We used the ```@time``` macro to measure the time. Try to use ```@showprogress``
 ```@example nn
 using Plots # hide
 plot(L, xlabel="iteration", ylabel="loss function", label="", title="Loss function on the training set") # hide
-savefig("loss.png") # hide
+savefig("loss.svg") # hide
 nothing # hide
 ```
 
-![](loss.png)
+![](loss.svg)
 
 ## Prediction
 

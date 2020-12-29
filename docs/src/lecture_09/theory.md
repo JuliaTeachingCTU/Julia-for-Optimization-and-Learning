@@ -64,10 +64,10 @@ p4 = plot(xs, xs ./(1 .+exp.(-xs)), title="Swish", ylim=ylim, label="")
 
 plot(p1, p2, p3, p4; layout=(2,2))
 
-savefig("Activation.png")
+savefig("Activation.svg")
 ```
 
-![](Activation.png)
+![](Activation.svg)
 
 
 #### Other layers
