@@ -1,18 +1,15 @@
 ```@example
-using Pkg
+using Base.Iterators: partition
+using LinearAlgebra
+using Statistics
+using Random
+using Colors
 
 using MLDatasets
 using Flux
-using LinearAlgebra
-using ImageCore
-
 using Flux: onehotbatch, onecold, crossentropy, throttle
-
 using CUDA
-using Random
-using Base.Iterators: partition
-using ProgressMeter
-using Statistics
+
 
 T = Float32
 dataset = MLDatasets.MNIST
@@ -82,7 +79,7 @@ function train_model!(m, X, y;
 
     loss(x, y) = crossentropy(m(x), y)
 
-    @showprogress for i in 1:n_epochs
+    for i in 1:n_epochs
         Flux.train!(loss, params(m), batches_train, opt)
         if mod(i, 2) == 0
             i_eval = min(size(X_train,4), 1000)
