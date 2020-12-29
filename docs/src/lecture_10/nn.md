@@ -1,3 +1,4 @@
+```@example
 using Pkg
 
 using MLDatasets
@@ -145,51 +146,5 @@ train_model!(m2, X_train, y_train)
 # Print the testing accuracy
 n_test = 1000
 println("Test accuracy = " * string(accuracy(gpu(X_test[:,:,:,1:n_test]), gpu(y_test[:,1:n_test]))))
+```
 
-
-
-p = []
-for i in 1:5
-    #p = plot_image(X_train[:,:,:,i:i])
-    p[i] = plot_image(m[1:4](X_train[:,:,:,ii[i]:ii[i]] |> gpu) |> cpu)
-    #display(p)
-end
-
-
-p1 = plot(Gray.(m[1:4](X_train[:,:,:,ii[1]:ii[1]] |> gpu) |> cpu)[:,:,1,1])
-p2 = plot(Gray.(m[1:4](X_train[:,:,:,ii[2]:ii[2]] |> gpu) |> cpu)[:,:,1,1])
-p3 = plot_image(m[1:4](X_train[:,:,:,ii[3]:ii[3]] |> gpu) |> cpu)
-p4 = plot_image(m[1:4](X_train[:,:,:,ii[4]:ii[4]] |> gpu) |> cpu)
-
-plot(p1, p2)
-
-
-ii0 = findall(onecold(y_train, 0:9) .== 0)[1:5]
-ii1 = findall(onecold(y_train, 0:9) .== 1)[1:5]
-ii2 = findall(onecold(y_train, 0:9) .== 9)[1:5]
-
-p0 = [plot(Gray.(m[1:3](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1], axis=([], false)) for i in ii0]
-p1 = [plot(Gray.(m[1:3](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1]) for i in ii1]
-p2 = [plot(Gray.(m[1:4](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1]) for i in ii2]
-
-plot(p0..., p1..., p2...; layout=(3,5))
-
-plot(p0...)
-
-qwe = plot_image(X_train[:,:,:,i:i])
-
-
-
-
-using ImageCore
-
-p1 = Gray.(X_train[:,:,1,1])
-p2 = Gray.(X_train[:,:,1,2])
-
-plot(p1, p2)
-
-
-
-p1 = plot(Gray.(X_train[:,:,1,1]), axis=([], false))
-p2 = plot(Gray.(X_train[:,:,1,2]), axis=([], false))
-plot(p1, p2; layout = (2,1))
