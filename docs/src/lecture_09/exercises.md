@@ -116,10 +116,46 @@ Write a short summary of your suggestions.
 
 
 
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 1: Universal approximation of neural networks</header><p>
+```
+Proof the theorem about universal approximation of neural networks.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+Since piecewise linear functions are compact in continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Definiting
+```math
+d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
+```
+then ``h`` has the form
+```math
+h(x) = y_i + d_i(x-x_i) \qquad\text{ for }x\in [x_i,x_{i+1}].
+```
+It is not difficult to show that
+```math
+h(x) = y_1 + \sum_{i=1}^n(d_i-d_{i-1})\operatorname{max}\{x-x_i,0\},
+```
+where we defined ``d_0=0``.
+
+Then ``h`` can be represented as the following network with two layers:
+- Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
+- Dense layer with ``1`` ouput neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is``y_1``.
+This finishes the proof.
+```@raw html
+</p></details>
+```
+
+
+
+
+
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 1: Keyword arguments</header><p>
+<header class = "exercise-header">Exercise 2: Keyword arguments</header><p>
 ```
 Keyword arguments (often denoted as ```kwargs...``` but any name may be used) specify additional arguments which do not need to be speficied by its name in function declaration. We recall the ```prepare_data``` function which we wrote earlier.
 ```@example nn
@@ -184,7 +220,7 @@ println("Ratio train/test = " * string(ratio_train(X_train, X_test)))
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 2: Showing the contours</header><p>
+<header class = "exercise-header">Exercise 3: Showing the contours</header><p>
 ```
 The goal of this exercise will be to show the separation graphically. For this reason, we need to consider only two features. The description may be a bit unclear. If you are uncertain, check the correct answer and try to reproduce the graph.
 
@@ -276,7 +312,7 @@ savefig("Separation.png") # hide
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 3: Overfitting</header><p>
+<header class = "exercise-header">Exercise 4: Overfitting</header><p>
 ```
 This exercise will show the well-known effect of overfitting. Since the model sees only the testing set, it may happen that it fits it too perfectly (overfits it) and generalizes poorly to unseen examples (testing set).
 
@@ -377,7 +413,7 @@ savefig("Train_test0.png") # hide
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 4: Generalization</header><p>
+<header class = "exercise-header">Exercise 5: Generalization</header><p>
 ```
 Compare the contour plots from Exercises 2 and 3. They are strikingly different, especially in the top-left and bottom-right corners. Why is that?
 ```@raw html
