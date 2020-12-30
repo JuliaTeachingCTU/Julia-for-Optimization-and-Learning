@@ -13,7 +13,7 @@ std(x)
 ```
 See official [documentation](https://docs.julialang.org/en/v1/stdlib/Statistics/) for more information. More statistics-related functions can be found in [StatsBase](https://juliastats.org/StatsBase.jl/stable/). This package provides functions for scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation.
 
-Another standard package that should be mentioned is the [`LinearAlgebra`](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/) package, which provides native implementations of many common and useful linear algebra operations. The package provides function for computing matrix determinant, inversion or eigenvalues and eigen vectors
+Another standard package that should be mentioned is the [`LinearAlgebra`](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/) package, which provides native implementations of many common and useful linear algebra operations. The package provides function for computing matrix determinant, inversion, norm or eigenvalues and eigen vectors
 
 ```@repl lingebra
 using LinearAlgebra
@@ -21,6 +21,7 @@ A = [-4.0 -17.0; 2.0 2.0]
 
 det(A)
 inv(A)
+norm(p)
 eigvals(A)
 eigvecs(A)
 ```
