@@ -381,7 +381,7 @@ end
 A
 ```
 
-or using list comprehension (this topic will be discussed later too)
+or using [list comprehension](@ref List_comprehension) (this topic will be discussed later too)
 
 ```@repl broadcasting_ex
 A = [exp((xi + 1)^2)/2 for xi in x]
