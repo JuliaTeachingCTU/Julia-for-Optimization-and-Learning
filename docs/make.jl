@@ -42,6 +42,7 @@ lecture_02 = joinpath.("./lecture_02/", [
 ])
 
 lecture_04 = joinpath.("./lecture_04/", [
+    "packages.md",
     "DataFrames.md",
     "Plots.md",
     "exercises.md",
