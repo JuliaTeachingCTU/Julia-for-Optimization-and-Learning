@@ -30,14 +30,14 @@ lecture_01 = joinpath.("./lecture_01/", [
 lecture_02 = joinpath.("./lecture_02/", [
     "conditions.md",
     "loops.md",
-    "exceptions.md",
     "exercises.md",
-])
+    ])
 
-lecture_03 = joinpath.("./lecture_03/", [
+    lecture_03 = joinpath.("./lecture_03/", [
     "functions.md",
     "methods.md",
     "scope.md",
+    "exceptions.md",
     "exercises.md",
 ])
 
