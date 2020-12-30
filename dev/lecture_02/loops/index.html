@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Loops and iterators · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Numerical computing in Julia logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Numerical computing in Julia logo"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Mathematical operations and Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox" checked/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../conditions/">Conditional evaluation</a></li><li class="is-active"><a class="tocitem" href>Loops and iterators</a><ul class="internal"><li><a class="tocitem" href="#for-and-while-loop"><span><code>for</code> and <code>while</code> loop</span></a></li><li><a class="tocitem" href="#List-comprehension"><span>List comprehension</span></a></li><li><a class="tocitem" href="#Generator-expressions"><span>Generator expressions</span></a></li><li><a class="tocitem" href="#Iterators"><span>Iterators</span></a></li></ul></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Scope of Variables</a></li><li><a class="tocitem" href="../../lecture_03/exceptions/">Exception Handling</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">4: Composite types and constructors</span></li><li><span class="tocitem">5: Modules and enviroments</span></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Useful packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_06/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_06/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_06/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">10: Neural networks II.</span></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">2: Control flow</a></li><li class="is-active"><a href>Loops and iterators</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Loops and iterators</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_02/loops.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Loops-and-iterators"><a class="docs-heading-anchor" href="#Loops-and-iterators">Loops and iterators</a><a id="Loops-and-iterators-1"></a><a class="docs-heading-anchor-permalink" href="#Loops-and-iterators" title="Permalink"></a></h1><p>As in other languages, Julia supports two basic constructs for repeated evaluation: the <code>while</code> and<code>for</code> loops. Loops are useful when we want to repeat some computation multiple times with different values. A typical example is performing operations on array elements.</p><h2 id="for-and-while-loop"><a class="docs-heading-anchor" href="#for-and-while-loop"><code>for</code> and <code>while</code> loop</a><a id="for-and-while-loop-1"></a><a class="docs-heading-anchor-permalink" href="#for-and-while-loop" title="Permalink"></a></h2><p>The <code>while</code> loop evaluates the condition expression, and as long it remains <code>true</code>, keeps also evaluating the body of the <code>while</code> loop. If the condition expression is <code>false</code> when the while loop is first reached, the body is never evaluated.</p><pre><code class="language-julia-repl">julia&gt; i = 1
+1
+
+julia&gt; while i &lt;= 5
+           @show i
+           global i += 1
+       end
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5</code></pre><p>Note, that we use <code>global</code> statement inside the <code>while</code> loop. The reason is, that in the REPL Julia uses so-called soft scope, i.e. it is possible to use variables from outside of the loop, but when we want to change them, we have to use <code>global</code> keyword. We will talk about local and global scope of variables later.</p><p>Also note, that the <code>@show</code> macro takes an expression as an input and prints the expression and its result. It can be used to print multiple variables at once in a nice way</p><pre><code class="language-julia-repl">julia&gt; a, b, c = 1, &quot;hello&quot;, :world;
+
+julia&gt; @show (a, b, c);
+(a, b, c) = (1, &quot;hello&quot;, :world)</code></pre><p>In the previous example, we can see, that we use a semicolon. In the REPL, if we evaluate any expression, its result is printed. If we use the semicolon, the print is omitted. It is similar behavior as in Matlab, but in Julia, the print is automatic only in the REPL.</p><p><code>for</code> loops can be created in a similar way as in Matlab. In the following example, we iterate over the range of integers from 1 to 10. In the following example, we iterate over the range of integers from 1 to 10, and in each iteration, we use the <code>@show</code> macro to print the current value of the variable <code>i</code></p><pre><code class="language-julia-repl">julia&gt; for i in 1:5
+           @show i
+       end
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5</code></pre><div class = "info-body">
+<header class = "info-header">An alternative notation for <code>for</code> loops</header><p><p>There are two alternative notation for the <code>for</code> loop. It is possible to use <code>=</code> or <code>∈</code> instead of <code>in</code> keyword</p><pre><code class="language-julia-repl">julia&gt; for i = 1:5
+           @show i
+       end
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5</code></pre><p>However, for better readability, it is better to always use <code>in</code>. Or at least be consistent and use the same keyword in all <code>for</code> loops.</p></p></div><p>In Julia, it is possible to loop not only over ranges. For example, it is possible to loop over arrays or tuples. This is very useful because it allows us to get elements of iterable objects directly without having to use indexes</p><pre><code class="language-julia-repl">julia&gt; persons = [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carla&quot;, &quot;Daniel&quot;]
+4-element Array{String,1}:
+ &quot;Alice&quot;
+ &quot;Bob&quot;
+ &quot;Carla&quot;
+ &quot;Daniel&quot;
+
+julia&gt; for name in persons
+           println(&quot;Hi, my name is $name.&quot;)
+       end
+Hi, my name is Alice.
+Hi, my name is Bob.
+Hi, my name is Carla.
+Hi, my name is Daniel.</code></pre><p>It is also possible to iterate over other data structures. For example, we can iterate over dictionaries</p><pre><code class="language-julia-repl">julia&gt; persons = Dict(&quot;Alice&quot; =&gt; 10, &quot;Bob&quot; =&gt; 23, &quot;Carla&quot; =&gt; 14, &quot;Daniel&quot; =&gt; 34)
+Dict{String,Int64} with 4 entries:
+  &quot;Carla&quot;  =&gt; 14
+  &quot;Alice&quot;  =&gt; 10
+  &quot;Daniel&quot; =&gt; 34
+  &quot;Bob&quot;    =&gt; 23
+
+julia&gt; for (name, age) in persons
+           println(&quot;Hi, my name is $name and I am $age old.&quot;)
+       end
+Hi, my name is Carla and I am 14 old.
+Hi, my name is Alice and I am 10 old.
+Hi, my name is Daniel and I am 34 old.
+Hi, my name is Bob and I am 23 old.</code></pre><p>Note, that in this case, we iterate over pairs of the key and corresponding value.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Use both <code>for</code> and <code>while</code> loop to print integers from <code>1</code> to <code>100</code>, which are divisible by <code>3</code> and <code>7</code>.</p><p><strong>Hint:</strong> use the modulo function.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>The exercise can be solved as follows for the <code>for</code> loop</p><pre><code class="language-julia-repl">julia&gt; for i in 1:100
+           mod(i, 3) == mod(i, 7) == 0 &amp;&amp; println(i)
+       end
+21
+42
+63
+84</code></pre><p>and for <code>while</code> loop as follows</p><pre><code class="language-julia-repl">julia&gt; i = 1;
+
+julia&gt; while i &lt;= 100
+           mod(i, 3) == mod(i, 7) == 0 &amp;&amp; println(i)
+           global i += 1
+       end
+21
+42
+63
+84</code></pre></p></details><h3 id="break-and-continue"><a class="docs-heading-anchor" href="#break-and-continue"><code>break</code> and <code>continue</code></a><a id="break-and-continue-1"></a><a class="docs-heading-anchor-permalink" href="#break-and-continue" title="Permalink"></a></h3><p>It is sometimes useful to stop the <code>for</code> loop based on some condition. It can be done using the <code>break</code> keyword. In the following example, the loop iterates over the range from 1 to 10 and breaks when <code>i == 4</code>, i.e. only the first four numbers are printed</p><pre><code class="language-julia-repl">julia&gt; for i in 1:10
+           i == 4 &amp;&amp; break
+           @show i
+       end
+i = 1
+i = 2
+i = 3</code></pre><p>Another useful feature is to skip some elements. It can be done using <code>continue</code> keyword. For example, the following code prints all even numbers from 1 to 10</p><pre><code class="language-julia-repl">julia&gt; for i in 1:10
+           mod(i, 2) == 0 || continue
+           @show i
+       end
+i = 2
+i = 4
+i = 6
+i = 8
+i = 10</code></pre><p>Note, that the code after <code>continue</code> keyword expression is not evaluated</p><h3 id="Nested-loops"><a class="docs-heading-anchor" href="#Nested-loops">Nested loops</a><a id="Nested-loops-1"></a><a class="docs-heading-anchor-permalink" href="#Nested-loops" title="Permalink"></a></h3><p>It is possible to create nested <code>for</code> loops in the following way</p><pre><code class="language-julia-repl">julia&gt; for i in 1:3
+           for j in i:3
+               @show (i, j)
+           end
+       end
+(i, j) = (1, 1)
+(i, j) = (1, 2)
+(i, j) = (1, 3)
+(i, j) = (2, 2)
+(i, j) = (2, 3)
+(i, j) = (3, 3)</code></pre><p>Note, that the range in the inner loop depends on the variable <code>i</code> from the outer loop. This style of writing nested loops is common in other languages and is very useful. However, in Julia, it is possible to use an even shorter syntax</p><pre><code class="language-julia-repl">julia&gt; for i in 1:3, j in i:3
+           @show (i, j)
+       end
+(i, j) = (1, 1)
+(i, j) = (1, 2)
+(i, j) = (1, 3)
+(i, j) = (2, 2)
+(i, j) = (2, 3)
+(i, j) = (3, 3)</code></pre><p>In this case, the output is the same as in the previous example, but this syntax is not equivalent to the previous one. The main difference is when using break statement. If we use the first syntax, a <code>break</code> statement inside an inner loop exits only the inner loop.</p><pre><code class="language-julia-repl">julia&gt; for i in 1:3
+           for j in i:10
+               j &gt; 3 &amp;&amp; break
+               @show (i, j)
+           end
+       end
+(i, j) = (1, 1)
+(i, j) = (1, 2)
+(i, j) = (1, 3)
+(i, j) = (2, 2)
+(i, j) = (2, 3)
+(i, j) = (3, 3)</code></pre><p>On the other hand, if we use the shorter syntax, a <code>break</code> statement inside an inner loop exits the entire nest of loops</p><pre><code class="language-julia-repl">julia&gt; for i in 1:3, j in i:10
+           j &gt; 3 &amp;&amp; break
+           @show (i, j)
+       end
+(i, j) = (1, 1)
+(i, j) = (1, 2)
+(i, j) = (1, 3)</code></pre><p>There are other limitations to sorter syntax. For example, it is not possible to perform any operation outside the inner loop. Nevertheless, it is still a very useful syntax in many cases.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Use nested loops to create a matrix whose elements are given by the following formula</p><p class="math-container">\[A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\}\]</p><p>where <span>$x \in \{0.4, 2.3, 4.6\}$</span>, <span>$y \in \{1.4, -3.1, 2.4, 5.2\}$</span>.</p><p><strong>Bonus:</strong> try to create the same matrix in a more effective way.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>Firstly, we have to define vectors <code>x</code> and <code>y</code></p><pre><code class="language-julia">x = [0.4, 2.3, 4.6]
+y = [1.4, -3.1, 2.4, 5.2]</code></pre><p>If we want to use nested loops, we have to create an empty array of the proper size and element type</p><pre><code class="language-julia">A = zeros(Float64, length(x), length(y))</code></pre><p>In this case, the specification of the element type can be omitted, since <code>Float64</code> is the default type. Now we have to use proper indexes since we want to fill in the <code>A</code> array. In this case, we get indexes <code>1:3</code> for the vector <code>x</code> and <code>1:4</code> for the vector <code>y</code>. Altogether, we get the following nested <code>for</code> loops</p><pre><code class="language-julia-repl">julia&gt; for i in 1:length(x), j in 1:length(y)
+           A[i, j] = exp((x[i]^2 - y[j]^2)/2)/2
+       end
+
+julia&gt; A
+3×4 Array{Float64,2}:
+    0.203285    0.00443536     0.030405  7.27867e-7
+    2.64284     0.0576626      0.395285  9.46275e-6
+ 7382.39      161.072       1104.17      0.0264329</code></pre><p>However, there are more efficient ways how to create this array in Julia. The one way is to use broadcasting. It can be done in a simple way as follows</p><pre><code class="language-julia-repl">julia&gt; y_row = y&#39;
+1×4 LinearAlgebra.Adjoint{Float64,Array{Float64,1}}:
+ 1.4  -3.1  2.4  5.2
+
+julia&gt; A = @. exp((x^2 - y_row^2)/2)/2
+3×4 Array{Float64,2}:
+    0.203285    0.00443536     0.030405  7.27867e-7
+    2.64284     0.0576626      0.395285  9.46275e-6
+ 7382.39      161.072       1104.17      0.0264329</code></pre><p>Note that we use <code>y&#39;</code>, which indicates the transposition of the vector <code>y</code>, i.e. <code>y&#39;</code> is a row vector. Note also that we use the <code>@ .</code> macro to make all operations in the expression elementwise. The third way how to create the same matrix is to use list comprehension and we will discuss it in the next section.</p></p></details><h2 id="List-comprehension"><a class="docs-heading-anchor" href="#List-comprehension">List comprehension</a><a id="List-comprehension-1"></a><a class="docs-heading-anchor-permalink" href="#List-comprehension" title="Permalink"></a></h2><p>As we mentioned in the solution of the exercise above, one way how to create an array with prescribed elements is to use list comprehension. Comprehensions provide a general and powerful way to construct arrays and the syntax is similar to set construction notation in mathematics:</p><pre><code class="language-julia">A = [f(x, y, ...) for x in X, y in Y, ...]</code></pre><p>The previous example means, that the function <code>f</code> will be evaluated for each combination of elements of iterable objects  <code>X</code>, <code>Y</code>, etc. The result will be an <code>n</code>-dimensional array of size (length(X), length(Y), ...). Returning to the previous exercise, we can simply create the required array as follows</p><pre><code class="language-julia-repl">julia&gt; X = [0.4, 2.3, 4.6];
+
+julia&gt; Y = [1.4, -3.1, 2.4, 5.2];
+
+julia&gt; A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
+3×4 Array{Float64,2}:
+    0.203285    0.00443536     0.030405  7.27867e-7
+    2.64284     0.0576626      0.395285  9.46275e-6
+ 7382.39      161.072       1104.17      0.0264329</code></pre><p>Note, that the resulting array type depends on the types of the computed elements. In order to control the type explicitly, a type can be prepended to the comprehension</p><pre><code class="language-julia-repl">julia&gt; A = Float32[exp((x^2 - y^2)/2)/2 for x in X, y in Y]
+3×4 Array{Float32,2}:
+    0.203285    0.00443536     0.030405  7.27867f-7
+    2.64284     0.0576626      0.395285  9.46275f-6
+ 7382.39      161.072       1104.17      0.0264329</code></pre><p>A very useful feature is, that it is possible to filter values when creating list comprehensions using <code>if</code> keyword. However, in this case, the result is always a 1-d array. In the example below, we create a vector of tuples <code>(x, y, x + y)</code>, where <code>x + y &lt; 5</code></p><pre><code class="language-julia-repl">julia&gt; [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y &lt; 5]
+6-element Array{Tuple{Int64,Int64,Int64},1}:
+ (1, 1, 2)
+ (2, 1, 3)
+ (3, 1, 4)
+ (1, 2, 3)
+ (2, 2, 4)
+ (1, 3, 4)</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Use the list comprehension to create a vector of all integers from <code>1</code> to <code>100</code>, which are divisible by <code>3</code> and <code>7</code>. What is the sum of all these integers?</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>We can simply use list comprehension with the condition that we used in the exercise in the first section</p><pre><code class="language-julia-repl">julia&gt; v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
+4-element Array{Int64,1}:
+ 21
+ 42
+ 63
+ 84</code></pre><p>Then we can use the <code>sum</code> function to get their sum</p><pre><code class="language-julia-repl">julia&gt; sum(v)
+210</code></pre></p></details><h2 id="Generator-expressions"><a class="docs-heading-anchor" href="#Generator-expressions">Generator expressions</a><a id="Generator-expressions-1"></a><a class="docs-heading-anchor-permalink" href="#Generator-expressions" title="Permalink"></a></h2><p>Comprehensions can also be written without the enclosing square brackets, producing an object known as a generator. This object can be iterated to produce values on demand, instead of allocating an array and storing them in advance (see Iteration). For example, the following expression sums a series without allocating memory.</p><pre><code class="language-julia-repl">julia&gt; sum(1/n^2 for n in 1:1000)
+1.6439345666815615</code></pre><p>Ranges in generators and comprehensions can depend on previous ranges by writing multiple for keywords. In such cases, the result is always 1-d array.</p><pre><code class="language-julia-repl">julia&gt; gen = ((i,j) for i in 1:3 for j in 1:i);
+
+julia&gt; collect(gen)
+6-element Array{Tuple{Int64,Int64},1}:
+ (1, 1)
+ (2, 1)
+ (2, 2)
+ (3, 1)
+ (3, 2)
+ (3, 3)</code></pre><p>Note, that we have to use the function <code>collect</code> to evaluate the generator. Generated values can also be filtered using the if keyword. Also in this case, the result is always 1-d array.</p><pre><code class="language-julia-repl">julia&gt; gen = ((i,j) for i in 1:3 for j in 1:i if i+j == 4);
+
+julia&gt; collect(gen)
+2-element Array{Tuple{Int64,Int64},1}:
+ (2, 2)
+ (3, 1)</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Use a generator to sum the square of all integers from <code>1</code> to <code>100</code>, which are divisible by <code>3</code> and <code>7</code>.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>There are two ways how to solve the exercise. We can create a generator first and then use the <code>sum</code> function to get the result</p><pre><code class="language-julia-repl">julia&gt; gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0);
+
+julia&gt; sum(gen)
+13230</code></pre><p>or we can use the shorter syntax, that allows us to write generator inside the <code>sum</code> function</p><pre><code class="language-julia-repl">julia&gt; sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
+13230</code></pre></p></details><h2 id="Iterators"><a class="docs-heading-anchor" href="#Iterators">Iterators</a><a id="Iterators-1"></a><a class="docs-heading-anchor-permalink" href="#Iterators" title="Permalink"></a></h2><p>Many structures are iterable in Julia. However, in many cases, it is not sufficient to iterate only over elements of a structure. Imagine the situation, that we have an array</p><pre><code class="language-julia-repl">julia&gt; A = [2.3 4.5; 6.7 7.1]
+2×2 Array{Float64,2}:
+ 2.3  4.5
+ 6.7  7.1</code></pre><p>and we want to iterate over all its elements, and in each iteration, we want to print the number of the iteration and the value of the current element of the array. It can be done in the following way</p><pre><code class="language-julia-repl">julia&gt; for i in 1:length(A)
+           println(&quot;i = $(i) and A[i] = $(A[i])&quot;)
+       end
+i = 1 and A[i] = 2.3
+i = 2 and A[i] = 6.7
+i = 3 and A[i] = 4.5
+i = 4 and A[i] = 7.1</code></pre><p>But there is an even simpler way. We can do the same using the <code>enumerate</code> function. The <code>enumerate</code> returns an iterator (which is something like an array which can be iterated in for loops). It will produce couples of the form <code>(i, x[i])</code></p><pre><code class="language-julia-repl">julia&gt; for (i, val) in enumerate(A)
+           println(&quot;i = $(i) and A[i] = $(val)&quot;)
+       end
+i = 1 and A[i] = 2.3
+i = 2 and A[i] = 6.7
+i = 3 and A[i] = 4.5
+i = 4 and A[i] = 7.1</code></pre><p>There are other very useful functions that return iterators. For example, <code>eachcol</code> function returns an iterator, that will iterate over columns of the given matrix</p><pre><code class="language-julia-repl">julia&gt; for col in eachcol(A)
+           println(&quot;col = $(col)&quot;)
+       end
+col = [2.3, 6.7]
+col = [4.5, 7.1]</code></pre><p>Similarly, <code>eachrow</code> function returns an iterator, that will iterate over rows of the given matrix. A very handy function is the <code>zip</code> function, which can zip together multiple iterable objects and iterate over them</p><pre><code class="language-julia-repl">julia&gt; for (i, j, k) in zip([1, 4, 2, 5], 2:12, (:a, :b, :c))
+           @show (i, j, k)
+       end
+(i, j, k) = (1, 2, :a)
+(i, j, k) = (4, 3, :b)
+(i, j, k) = (2, 4, :c)</code></pre><p>Note that the iterable objects can be of different length, however, the iterator returned by the <code>zip</code> function will have the length of the shortest of the given iterable objects.</p><p>It is also possible to combine these handy function to get an even more useful iterator</p><pre><code class="language-julia-repl">julia&gt; for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
+           @show (i, vals)
+       end
+(i, vals) = (1, (1, 2, :a))
+(i, vals) = (2, (4, 3, :b))
+(i, vals) = (3, (2, 4, :c))</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Create a matrix whose elements are given by the following formula</p><p class="math-container">\[A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\}\]</p><p>where <span>$x \in \{0.4, 2.3, 4.6\}$</span>, <span>$y \in \{1.4, -3.1, 2.4, 5.2\}$</span>. Compute the sum of all elements in each row and print the following message:</p><blockquote><p><em>Sum of all elements in row <code>i</code> is <code>i_sum</code></em>,</p></blockquote><p>where <code>i</code> represents the number of the row and <code>i_sum</code> the sum of all elements in this row. Do the same for each column and print the following message:</p><blockquote><p><em>Sum of all elements in column <code>i</code> is <code>i_sum</code></em>,</p></blockquote><p><strong>Hint:</strong> use iterators <code>eachcol</code> and <code>eachrow</code>.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>Firstly we have to generate the matrix <code>A</code>. It can be done using list comprehension as follows</p><pre><code class="language-julia">X = [0.4, 2.3, 4.6]
+Y = [1.4, -3.1, 2.4, 5.2]
+A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]</code></pre><p>To compute the sum of each row and print the appropriate message, we can use combinations of <code>enumerate</code> and <code>eachrow</code> function</p><pre><code class="language-julia-repl">julia&gt; for (i, row) in enumerate(eachrow(A))
+           println(&quot;Sum of all elements in row $(i) is $(sum(row))&quot;)
+       end
+Sum of all elements in row 1 is 0.2381259460051036
+Sum of all elements in row 2 is 3.0957940729669864
+Sum of all elements in row 3 is 8647.66342895583</code></pre><p>In a similar way, to compute the sum of each column and print the appropriate message, we can use combinations of <code>enumerate</code> and <code>eachcol</code> function</p><pre><code class="language-julia-repl">julia&gt; for (i, row) in enumerate(eachcol(A))
+           println(&quot;Sum of all elements in column $(i) is $(sum(row))&quot;)
+       end
+Sum of all elements in column 1 is 7385.236904243371
+Sum of all elements in column 2 is 161.13431527671185
+Sum of all elements in column 3 is 1104.5996863997295
+Sum of all elements in column 4 is 0.026443054989612996</code></pre></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../conditions/">« Conditional evaluation</a><a class="docs-footer-nextpage" href="../exercises/">Exercises »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 30 December 2020 14:47">Wednesday 30 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
