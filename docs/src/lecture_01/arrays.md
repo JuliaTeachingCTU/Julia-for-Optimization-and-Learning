@@ -254,7 +254,7 @@ m
 
 ## `N`-dimensional arrays
 
-In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In julia, there is no explicit way to create `N`-dimensional arrays. The typical way how to create such an array is to create an empty array of appropriate size and then fill it either manually of using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref Iteration) will be later in the course.
+In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In julia, there is no explicit way to create `N`-dimensional arrays. The typical way how to create such an array is to create an empty array of appropriate size and then fill it either manually of using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref Loops-and-iterators) will be later in the course.
 
 There are several ways to initialize an array. The simplest and most common is using `zeros` function. This function by default creates an array of given size filled with zeros of type `Float64`
 
@@ -370,7 +370,7 @@ nothing # hide
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-There are several ways to create matrix `A`. The most obvious one is to use [`for` loop](@ref for-loop) (we will talk about loops later)
+There are several ways to create matrix `A`. The most obvious one is to use [`for` loop](@ref for-and-while-loop) (we will talk about loops later)
 
 ```@repl broadcasting_ex
 A = zeros(2, 3);
@@ -381,7 +381,7 @@ end
 A
 ```
 
-or using [list comprehension](@ref List_comprehension) (this topic will be discussed later too)
+or using [list comprehension](@ref List-comprehension) (this topic will be discussed later too)
 
 ```@repl broadcasting_ex
 A = [exp((xi + 1)^2)/2 for xi in x]
