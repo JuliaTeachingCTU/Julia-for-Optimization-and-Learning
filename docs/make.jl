@@ -37,6 +37,7 @@ lecture_02 = joinpath.("./lecture_02/", [
 lecture_03 = joinpath.("./lecture_03/", [
     "functions.md",
     "methods.md",
+    "scope.md",
     "exercises.md",
 ])
 
@@ -88,7 +89,7 @@ makedocs(;
         "How to..." => "howto.md",
         "1: Variables and basic operators" => lecture_01,
         "2: Control flow" => lecture_02,
-        "3: Functions and multiple-dispatch" => lecture_03,
+        "3: Functions and methods" => lecture_03,
         "4: Composite types and constructors" => lecture_04,
         "5: Modules and enviroments" => lecture_05,
         "6: Useful packages" => lecture_06,
