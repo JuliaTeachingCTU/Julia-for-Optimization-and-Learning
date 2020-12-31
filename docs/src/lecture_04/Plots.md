@@ -7,7 +7,7 @@
 ```@setup plots
 using Plots
 using StatsPlots
-
+gr()
 ```
 
 ```@example plots
