@@ -1,9 +1,6 @@
 ```@setup plots
 using Plots
 using StatsPlots
-
-ENV["GKSwstype"] = "100"
-gr()
 ```
 
 # Plots.jl
