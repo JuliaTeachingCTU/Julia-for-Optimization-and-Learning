@@ -1,29 +1,31 @@
+```@setup plots
+using Plots
+using StatsPlots
+
+ENV["GKSwstype"] = "100"
+gr()
+```
+
 # Plots.jl
 
 ![](julia_set.gif)
 
 ## Basics
 
-```@setup plots
-using Plots
-using StatsPlots
-gr()
-```
+The basic function for creating plots plotting is the `plot` function.
 
 ```@example plots
 using Plots
 x = range(-π, stop = π, length = 1000);
-y = sin.(x);
 
-plot(x, y; label = "sin")
+plot(x, sin.(x); label = "sin")
 savefig("plots_1.svg") # hide
 ```
 
 ![](plots_1.svg)
 
 ```@example plots
-y2 = cos.(x)
-plot!(x, y2; label = "cos")
+plot!(x, cos.(x); label = "cos")
 
 savefig("plots_2.svg") # hide
 ```
@@ -32,7 +34,7 @@ savefig("plots_2.svg") # hide
 
 
 ```@example plots
-plot(x, [y, y2]; label = ["sin", "cos"])
+plot(x, [sin.(x), cos.(x)]; label = ["sin" "cos"])
 
 savefig("plots_3.svg") # hide
 ```
