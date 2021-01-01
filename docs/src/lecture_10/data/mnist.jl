@@ -3,19 +3,21 @@ using Pkg
 using MLDatasets
 using Flux
 using LinearAlgebra
-using ImageCore
 
 using Flux: onehotbatch, onecold, crossentropy, throttle
 
+using BSON
 using CUDA
 using Random
 using Base.Iterators: partition
-using ProgressMeter
 using Statistics
+
+using Colors
+using Plots
+
 
 T = Float32
 dataset = MLDatasets.MNIST
-
 
 Random.seed!(666)
 
@@ -30,7 +32,6 @@ function reshape_data(X::AbstractArray{T, 4}, y::AbstractVector) where T
 end
 
 function load_data(dataset; onehot=false, T=Float32)
-
     classes = 0:9
     X_train, y_train = reshape_data(dataset.traindata(T)[1], dataset.traindata(T)[2])
     X_test, y_test = reshape_data(dataset.testdata(T)[1], dataset.testdata(T)[2])
@@ -45,89 +46,110 @@ function load_data(dataset; onehot=false, T=Float32)
     return X_train, y_train, X_test, y_test
 end
 
-
 # Load the data
 X_train, y_train, X_test, y_test = load_data(dataset; T=T, onehot=true);
 
 
 
-typeof(X_train)
-i = 1
-dataset.convert2image(X_train[:,:,1,i])
+plot_image(x::AbstractArray{T, 4}) where T = plot_image(x[:,:,1,1])
+plot_image(x::AbstractArray{T, 3}) where T = plot_image(x[:,:,1])
+plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(x[:,:]'))
+
+
+
+
+i = 3
+plot_image(X_train[:,:,:,i])
 print(y_train[:,i])
 
 
-plot_image(x::AbstractArray{T, 4}) where T = Gray.(x[:,:,1,1])
-plot_image(x::AbstractArray{T, 3}) where T = Gray.(x[:,:,1])
-plot_image(x::AbstractArray{T, 2}) where T = Gray.(x[:,:])
 
-
-# Create the network and parameters for training
-
-
-
-accuracy(x, y) = mean(onecold(cpu(m(x))) .== onecold(cpu(y)))
-
+accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
 
 function train_model!(m, X, y;
         opt=ADAM(0.001),
         batch_size=128,
         n_epochs=10,
-        filename="")
+        file_name="")
 
     batches_train = map(partition(randperm(size(y, 2)), batch_size)) do inds
-        return (gpu(X[:, :, :, inds]), gpu(y[:, inds]))
+        return (X[:, :, :, inds], y[:, inds])
     end
 
     loss(x, y) = crossentropy(m(x), y)
 
-    @showprogress for i in 1:n_epochs
+    for i in 1:n_epochs
         Flux.train!(loss, params(m), batches_train, opt)
-        if mod(i, 2) == 0
-            i_eval = min(size(X_train,4), 1000)
-            println("Epoch = $i. Estimated accuracy = " * string(accuracy(gpu(X[:,:,:,1:i_eval]), gpu(y[:,1:i_eval]))))
-        end
     end
 
-    if !isempty(filename)
-        save_model(m |> cpu, filename)
-    end
+    !isempty(file_name) && BSON.bson(file_name, m=m)
 
     return
 end
 
 
-function train_or_load!(filename, m, X, y; force=false, kwargs...)
+function train_or_load!(file_name, m, X, y; force=false, kwargs...)
+    
+    !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
-    if !isdir(dirname(filename))
-        mkpath(dirname(filename))
-    end
-
-    if force || !isfile(filename)
-        train_model!(m, X, y; filename=filename, kwargs...)
+    if force || !isfile(file_name)
+        train_model!(m, X, y; file_name=file_name, kwargs...)
     else
-        m_loaded = load_model(filename)
+        m_loaded = BSON.load(file_name)[:m]
         Flux.loadparams!(m, params(m_loaded))
     end
 end
 
-n_epochs = 10
-opt = ADAM(0.001)
+
 m = Chain(
     Conv((2,2), 1=>16, relu),
     MaxPool((2,2)),
     Conv((2,2), 16=>8, relu),
     MaxPool((2,2)),
     flatten,
-    Dense(288, size(y_train,1)), softmax) |> gpu
+    Dense(288, size(y_train,1)), softmax)
+
+file_name = joinpath("data", "nn_mnist.bson")
+train_or_load!(file_name, m, X_train, y_train)
 
 
-train_or_load!("", m, X_train, y_train; force=true, n_epochs=n_epochs, opt=opt)
 
 
 
-train_model!(m, X_train, y_train)
+n_test = 1000
+println("Test accuracy = " * string(accuracy(X_test[:,:,:,1:n_test], y_test[:,1:n_test])))
 
+
+welfpwefkpowe
+
+
+efklwoefoiwhefoiwefio
+
+
+
+a = 1
+X = reshape(1:10, 1, :)
+batch_size = 3
+y = randn(3,10)
+opt = Descent(1)
+
+batches_train = map(partition(randperm(size(y, 2)), batch_size)) do inds
+    return (X[:, inds], y[:, inds])
+end
+
+
+batches_train = [(X[:, inds], y[:, inds]) for inds in partition(randperm(size(y, 2)), batch_size)]
+
+
+function loss(x)
+    println(x)
+    return 0
+end
+
+
+for i in 1:n_epochs
+    Flux.train!(loss, params(a), batches_train, opt)
+end
 
 
 
@@ -143,8 +165,6 @@ train_model!(m2, X_train, y_train)
 
 
 # Print the testing accuracy
-n_test = 1000
-println("Test accuracy = " * string(accuracy(gpu(X_test[:,:,:,1:n_test]), gpu(y_test[:,1:n_test]))))
 
 
 
@@ -181,10 +201,6 @@ qwe = plot_image(X_train[:,:,:,i:i])
 
 
 
-using ImageCore
-
-p1 = Gray.(X_train[:,:,1,1])
-p2 = Gray.(X_train[:,:,1,2])
 
 plot(p1, p2)
 

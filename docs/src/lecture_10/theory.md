@@ -15,3 +15,9 @@
 
 #### Recurrent layer
 
+
+## Training
+
+minibatches
+
+
