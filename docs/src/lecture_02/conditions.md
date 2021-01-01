@@ -129,7 +129,7 @@ We will split the solution into three cases:
 ```@example conditions_ex
 function fact(n)
     if n < 0 | !isinteger(n)
-        error("`n` must be non-negative integer")
+        error("argument must be non-negative integer")
     elseif n == 0
         1
     else
@@ -210,8 +210,8 @@ Rewrite the factorial function from the exercises from the first section. Use sh
 Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately using short-circuit evaluation in the following way
 ```julia
 function fact(n)
-    isinteger(n) || error("`n` must be non-negative integer")
-    n >= 0 || error("`n` must be non-negative integer")
+    isinteger(n) || error("argument must be non-negative integer")
+    n >= 0 || error("argument must be non-negative integer")
     return n == 0 ? 1 : n * fact(n - 1)
 end
 ```
@@ -220,7 +220,7 @@ However, it can be even simplified, if we combine `&&` and `||` operators as fol
 
 ```@example shortcirc_ex
 function fact(n)
-    isinteger(n) && n >= 0 || error("`n` must be non-negative integer")
+    isinteger(n) && n >= 0 || error("argument must be non-negative integer")
     return n == 0 ? 1 : n * fact(n - 1)
 end
 nothing # hide
