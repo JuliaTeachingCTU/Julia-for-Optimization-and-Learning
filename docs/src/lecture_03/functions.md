@@ -632,25 +632,6 @@ y = [1 2 3 4]; # row vector
 plus.(x, y)
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
-
-```@raw html
-</p></details>
-```
-
 ## Function composition and piping
 
 As in mathematics, functions in Julia can be composed. If we have two functions ``f: \mathcal{X}  \rightarrow \mathcal{Y}`` and ``g: \mathcal{Y}  \rightarrow \mathcal{Z}``, then their [composition](https://en.wikipedia.org/wiki/Function_composition) can be mathematically written as
@@ -678,23 +659,4 @@ The pipe operator can be combined with broadcasting. In the following example, f
 Or as in the next example, we can use broadcasting in combination with the pipe operator to apply a different function to each element of the given vector
 ```@repl
 ["a", "list", "of", "strings"] .|> [uppercase, reverse, titlecase, length]
-```
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
-
-```@raw html
-</p></details>
 ```
