@@ -75,7 +75,7 @@ end</code></pre><p>Make sure that the input argument is a non-negative integer. 
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p><p>We will split the solution into three cases:</p><ol><li>the given number <code>n</code> is smaller tan zero or is not an integer.</li><li>the given integer <code>n</code> is equal to zero, then the function returns <code>1</code>.</li><li>the given integer <code>n</code> is larger than zero, then we use recursion.</li></ol><pre><code class="language-julia">function fact(n)
     if n &lt; 0 | !isinteger(n)
-        error(&quot;`n` must be non-negative integer&quot;)
+        error(&quot;argument must be non-negative integer&quot;)
     elseif n == 0
         1
     else
@@ -88,10 +88,10 @@ julia&gt; fact(0)
 1
 
 julia&gt; fact(-5)
-ERROR: `n` must be non-negative integer
+ERROR: argument must be non-negative integer
 
 julia&gt; fact(1.4)
-ERROR: `n` must be non-negative integer</code></pre></p></details><h2 id="Ternary-operator"><a class="docs-heading-anchor" href="#Ternary-operator">Ternary operator</a><a id="Ternary-operator-1"></a><a class="docs-heading-anchor-permalink" href="#Ternary-operator" title="Permalink"></a></h2><p>The <a href="https://en.wikipedia.org/wiki/%3F:">ternary operator</a> <code>?</code> is closely related to the <code>if-else</code> statement and can be used instead if we only want to decide between two options based on one condition. The syntax is following</p><pre><code class="language-julia">a ? b : c</code></pre><p>This expression can be read as follows: <em>if <code>a</code> is true, evaluate <code>b</code> otherwise evaluate <code>c</code></em>. Note that white spaces around <code>?</code> and <code>:</code> are mandatory.</p><pre><code class="language-julia-repl">julia&gt; x, y = 2, 1;
+ERROR: argument must be non-negative integer</code></pre></p></details><h2 id="Ternary-operator"><a class="docs-heading-anchor" href="#Ternary-operator">Ternary operator</a><a id="Ternary-operator-1"></a><a class="docs-heading-anchor-permalink" href="#Ternary-operator" title="Permalink"></a></h2><p>The <a href="https://en.wikipedia.org/wiki/%3F:">ternary operator</a> <code>?</code> is closely related to the <code>if-else</code> statement and can be used instead if we only want to decide between two options based on one condition. The syntax is following</p><pre><code class="language-julia">a ? b : c</code></pre><p>This expression can be read as follows: <em>if <code>a</code> is true, evaluate <code>b</code> otherwise evaluate <code>c</code></em>. Note that white spaces around <code>?</code> and <code>:</code> are mandatory.</p><pre><code class="language-julia-repl">julia&gt; x, y = 2, 1;
 
 julia&gt; println(x &lt; y ? &quot;x is less than y&quot; : &quot;x is greater than or equal to y&quot;)
 x is greater than or equal to y</code></pre><p>In this case, if the condition <code>x &lt; y</code> holds, then the string <code>&quot;x is less than y&quot;</code> is returned, and otherwise <code>&quot;x is greater than or equal to y&quot;</code>. Since we wrapped the whole expression into the <code>println</code> function, the returned string from the ternary operator is printed in the REPL.</p><h2 id="Short-circuit-evaluation"><a class="docs-heading-anchor" href="#Short-circuit-evaluation">Short-circuit evaluation</a><a id="Short-circuit-evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Short-circuit-evaluation" title="Permalink"></a></h2><p>Julia provides a so-called Short-circuit evaluation that is similar to the conditional evaluation. The behavior is found in most imperative programming languages having the &amp;&amp; and || boolean operators: in a series of boolean expressions connected by these operators, only the minimum number of expressions are evaluated as are necessary to determine the final boolean value of the entire chain:</p><ul><li>In the expression <code>a &amp;&amp; b</code>, the subexpression <code>b</code> is only evaluated if <code>a</code> evaluates to true.</li><li>In the expression <code>a || b</code>, the subexpression <code>b</code> is only evaluated if <code>a</code> evaluates to false.</li></ul><p>Both <code>&amp;&amp;</code> and <code>||</code> associate to the right, but <code>&amp;&amp;</code> has higher precedence than <code>||</code> does.</p><p>To investigate this behavior, let&#39;s define the following two functions</p><pre><code class="language-julia">t(x) = (println(x); true)
@@ -129,11 +129,11 @@ julia&gt; t(1) &amp;&amp; f(2) || println(3) # all expressions are evaluated
 <header class = "exercise-header">Exercise:</header><p><p>Rewrite the factorial function from the exercises from the first section. Use short-circuit evaluation to check if the given number is a non-negative integer and ternary operator for recursion.</p></p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p><p>Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately using short-circuit evaluation in the following way</p><pre><code class="language-julia">function fact(n)
-    isinteger(n) || error(&quot;`n` must be non-negative integer&quot;)
-    n &gt;= 0 || error(&quot;`n` must be non-negative integer&quot;)
+    isinteger(n) || error(&quot;argument must be non-negative integer&quot;)
+    n &gt;= 0 || error(&quot;argument must be non-negative integer&quot;)
     return n == 0 ? 1 : n * fact(n - 1)
 end</code></pre><p>However, it can be even simplified, if we combine <code>&amp;&amp;</code> and <code>||</code> operators as follows</p><pre><code class="language-julia">function fact(n)
-    isinteger(n) &amp;&amp; n &gt;= 0 || error(&quot;`n` must be non-negative integer&quot;)
+    isinteger(n) &amp;&amp; n &gt;= 0 || error(&quot;argument must be non-negative integer&quot;)
     return n == 0 ? 1 : n * fact(n - 1)
 end</code></pre><p>Since <code>&amp;&amp;</code> has higher precedence than <code>||</code>, the first expression that is evaluated is <code>isinteger(n) &amp;&amp; n &gt;= 0</code>. The last expression is evaluated only if the first expression is evaluated to  <code>false</code>. We can easily check, that this function works exactly the same as the <code>fact</code> function from the first section</p><pre><code class="language-julia-repl">julia&gt; fact(4)
 24
@@ -142,7 +142,7 @@ julia&gt; fact(0)
 1
 
 julia&gt; fact(-5)
-ERROR: `n` must be non-negative integer
+ERROR: argument must be non-negative integer
 
 julia&gt; fact(1.4)
-ERROR: `n` must be non-negative integer</code></pre></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_01/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../loops/">Loops and iterators »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 31 December 2020 18:15">Thursday 31 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ERROR: argument must be non-negative integer</code></pre></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_01/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../loops/">Loops and iterators »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 1 January 2021 21:13">Friday 1 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

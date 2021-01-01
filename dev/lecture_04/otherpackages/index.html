@@ -5,7 +5,7 @@ julia&gt; D = Normal(2, 0.5)
 Distributions.Normal{Float64}(μ=2.0, σ=0.5)
 
 julia&gt; x = rand(D)
-1.9741829629413545</code></pre><pre><code class="language-julia-repl">julia&gt; using StatsPlots
+2.035607730816645</code></pre><pre><code class="language-julia-repl">julia&gt; using StatsPlots
 
 julia&gt; x = rand(D, 10000);
 
@@ -14,7 +14,7 @@ Plot{Plots.GRBackend() n=1}
 
 julia&gt; plot!(D; label = &quot;true density function&quot;, linewidth = 2)
 Plot{Plots.GRBackend() n=2}</code></pre><pre><code class="language-julia-repl">julia&gt; Dfit = fit(Normal, x)
-Distributions.Normal{Float64}(μ=1.9939878051093114, σ=0.5033854536310322)
+Distributions.Normal{Float64}(μ=1.9899149869337713, σ=0.5004217930276381)
 
 julia&gt; histogram(x; label = &quot;empirical density function&quot;, normalize = :pdf)
 Plot{Plots.GRBackend() n=1}
@@ -68,13 +68,13 @@ BenchmarkTools.Trial:
   memory estimate:  0 bytes
   allocs estimate:  0
   --------------
-  minimum time:     4.800 ns (0.00% GC)
-  median time:      5.700 ns (0.00% GC)
-  mean time:        6.664 ns (0.00% GC)
-  maximum time:     34.902 ns (0.00% GC)
+  minimum time:     4.700 ns (0.00% GC)
+  median time:      5.501 ns (0.00% GC)
+  mean time:        6.702 ns (0.00% GC)
+  maximum time:     919.175 ns (0.00% GC)
   --------------
   samples:          10000
   evals/sample:     1000</code></pre><p>The <code>setup</code> expression in the example above,  is run once per sample, and is not included in the timing results. Another handy macro provided by the package is the <code>@btime</code> macro. The output of this macro is similar to the built-in <code>@time</code> macro</p><pre><code class="language-julia-repl">julia&gt; A = rand(3,3);
 
 julia&gt; @btime inv($A);
-  593.773 ns (4 allocations: 1.95 KiB)</code></pre><p>Note, that we use <code>$</code> to interpolate variable <code>A</code> into the benchmark expression. Any expression that is interpolated in such a way into the benchmark expression, is &quot;pre-computed&quot; before benchmarking begins.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Plots/">« Plots.jl</a><a class="docs-footer-nextpage" href="../exercises/">Exercises »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 31 December 2020 18:15">Thursday 31 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  550.316 ns (4 allocations: 1.95 KiB)</code></pre><p>Note, that we use <code>$</code> to interpolate variable <code>A</code> into the benchmark expression. Any expression that is interpolated in such a way into the benchmark expression, is &quot;pre-computed&quot; before benchmarking begins.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Plots/">« Plots.jl</a><a class="docs-footer-nextpage" href="../exercises/">Exercises »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 1 January 2021 21:13">Friday 1 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
