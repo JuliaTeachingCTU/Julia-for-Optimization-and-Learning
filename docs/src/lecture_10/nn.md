@@ -1,15 +1,14 @@
 ```@setup nn
 using MLDatasets
 
-MLDatasets.MNIST.download(; i_accept_the_terms_of_use=true)
+#MLDatasets.MNIST.download(; i_accept_the_terms_of_use=true)
 ```
 
-# ???
+# More complex networks
 
+This section will show how to train more complex networks using the stochastic gradient descent. We will also use the more complicated MNIST dataset which contains 60000 samples of the 0-9 digits.
 
-TODO dopsat
-
-
+As always, we start with the seed 
 ```@example nn
 using Random
 
@@ -259,21 +258,8 @@ As we do need the index in the for loop, we use ```_```. The last line saves the
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Train the model for one epoch and save it into the file ```MNIST_simple.bson```. Print the accuracy of the model on the testing set.
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-
-
-
+Train the model 
 ```@example nn
-using Statistics
-
-accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
-
 m = Chain(
     Conv((2,2), 1=>16, relu),
     MaxPool((2,2)),
@@ -282,16 +268,94 @@ m = Chain(
     flatten,
     Dense(288, size(y_train,1)), softmax)
 
+nothing # hide
+```
+for one epoch and save it into the file ```MNIST_simple.bson```. Print the accuracy of the model on the testing set.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+To train the model, it suffices to call the previously written function
+```@example nn
 file_name = "mnist_simple.bson"
 train_model!(m, X_train, y_train; n_epochs=1, file_name=file_name)
 
-"Test accuracy = " * string(accuracy(X_test, y_test))
+nothing # hide
 ```
+The accuracy has been computed many times during the course
+```@example nn
+using Statistics
 
+accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
+
+"Test accuracy = " * string(accuracy(X_test, y_test))
+
+nothing # hide
+```
 ```@raw html
 </p></details>
 ```
+```@example nn
+println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
+```
+
+The accuracy is over 92%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain a better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model again and again. The next exercise determines automatically whether the trained model already exists. If not, it trains the model. If yes, it loads it without any training. 
 
 
 
 
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Write a function ```train_or_load!(file_name, m, X, y; ???)``` which checks whether the file at ```file_name``` exists.
+- If it exists, it loads it and then copies its parameters into ```m``` using the function ```Flux.loadparams!```
+- If it does not exists, it trains it using ```train_model!```.
+In both cases, the model ```m``` should be modified inside the ```train_or_load!``` function. Pay special attention to the optional arguments ```???```. 
+
+Load the model at ```data/mnist.bson``` and evaluate the performance at the testing set.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+The optional argument need to contain ```kwargs...```, which will be passed to ```train_model!```. Besides that, we include ```force``` which enforces training the model even if the file exists (in which case, it will overwrite it). 
+
+First, we should check whether the directory exists ```!isdir(dirname(file_name))``` and if not, we will create ```mkpath(dirname(file_name))```. Then we check whether the file exists (or whether we want to enforce the training). If yes, we train the model, which already modifies ```m```. If not, we ```BSON.load``` the model and copy the loaded parameters into ```m``` by ```Flux.loadparams!(m, params(m_loaded))```. We cannot load directly into ```m``` instead of ```m_loaded``` because that would create a local copy of ```m``` and the function would not modify the external ```m```.
+```@example nn
+function train_or_load!(file_name, m, X, y; force=false, kwargs...)
+    
+    !isdir(dirname(file_name)) && mkpath(dirname(file_name))
+
+    if force || !isfile(file_name)
+        train_model!(m, X, y; file_name=file_name, kwargs...)
+    else
+        m_loaded = BSON.load(file_name)[:m]
+        Flux.loadparams!(m, params(m_loaded))
+    end
+end
+
+nothing # hide
+```
+For the loading of the model, we should use ```joinpath``` to be compatible with all operating systems. The accuracy is evaluated as before.
+```@example nn
+file_name = joinpath("data", "mnist.bson")
+train_or_load!(file_name, m, X_train, y_train)
+
+"Test accuracy = " * string(accuracy(X_test, y_test))
+
+nothing # hide
+```
+```@raw html
+</p></details>
+```
+```@example nn
+println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
+```
+
+??? dopsat podle vysledku
+
+We will perform a further analysis of the network in the exercises. We will also learn how to train the network using GPUs instead of CPUs. Even though this is extremely important to reduce time, we omit it here because some participants of the course may not have a compatible GPU for training.

@@ -109,7 +109,7 @@ m = Chain(
     flatten,
     Dense(288, size(y_train,1)), softmax)
 
-file_name = joinpath("data", "nn_mnist.bson")
+file_name = joinpath("data", "mnist.bson")
 train_or_load!(file_name, m, X_train, y_train)
 
 
