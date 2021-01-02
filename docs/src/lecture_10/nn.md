@@ -1,4 +1,8 @@
+```@setup nn
+using MLDatasets
 
+MLDatasets.MNIST.download(; i_accept_the_terms_of_use=true)
+```
 
 # ???
 
