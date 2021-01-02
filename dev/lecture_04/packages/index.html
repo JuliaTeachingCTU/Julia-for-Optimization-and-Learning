@@ -4,13 +4,13 @@
 julia&gt; x = rand(10);
 
 julia&gt; mean(x)
-0.48013467117827524
+0.5004667527864796
 
 julia&gt; var(x)
-0.07681170109847342
+0.10005348523210825
 
 julia&gt; std(x)
-0.27714923975806505</code></pre><p>See official <a href="https://docs.julialang.org/en/v1/stdlib/Statistics/">documentation</a> for more information. More statistics-related functions can be found in <a href="https://juliastats.org/StatsBase.jl/stable/">StatsBase</a>. This package provides functions for scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation.</p><h4 id="LinearAlgebra"><a class="docs-heading-anchor" href="#LinearAlgebra">LinearAlgebra</a><a id="LinearAlgebra-1"></a><a class="docs-heading-anchor-permalink" href="#LinearAlgebra" title="Permalink"></a></h4><p>Another standard package that should be mentioned is the <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgebra</a> package, which provides native implementations of many common and useful linear algebra operations. The package provides function for computing matrix determinant, inversion, norm or eigenvalues and eigen vectors</p><pre><code class="language-julia-repl">julia&gt; using LinearAlgebra
+0.3163123222893921</code></pre><p>See official <a href="https://docs.julialang.org/en/v1/stdlib/Statistics/">documentation</a> for more information. More statistics-related functions can be found in <a href="https://juliastats.org/StatsBase.jl/stable/">StatsBase</a>. This package provides functions for scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation.</p><h4 id="LinearAlgebra"><a class="docs-heading-anchor" href="#LinearAlgebra">LinearAlgebra</a><a id="LinearAlgebra-1"></a><a class="docs-heading-anchor-permalink" href="#LinearAlgebra" title="Permalink"></a></h4><p>Another standard package that should be mentioned is the <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgebra</a> package, which provides native implementations of many common and useful linear algebra operations. The package provides function for computing matrix determinant, inversion, norm or eigenvalues and eigen vectors</p><pre><code class="language-julia-repl">julia&gt; using LinearAlgebra
 
 julia&gt; A = [-4.0 -17.0; 2.0 2.0]
 2×2 Array{Float64,2}:
@@ -57,19 +57,19 @@ ERROR: UndefVarError: seed! not defined
 
 julia&gt; rand(2)
 2-element Array{Float64,1}:
- 0.7873912400671503
- 0.5597894559598326
+ 0.12726026370064591
+ 0.8443702294193323
 
 julia&gt; seed!(1234)
 ERROR: UndefVarError: seed! not defined
 
 julia&gt; rand(2)
 2-element Array{Float64,1}:
- 0.9046358663309755
- 0.9321694095298314</code></pre><p>The package also other very useful functions. For example, the <code>randperm</code> function constructs a random permutation of given length</p><pre><code class="language-julia-repl">julia&gt; randperm(4)
+ 0.3951695814344902
+ 0.9627354362708633</code></pre><p>The package also other very useful functions. For example, the <code>randperm</code> function constructs a random permutation of given length</p><pre><code class="language-julia-repl">julia&gt; randperm(4)
 4-element Array{Int64,1}:
- 3
  4
+ 3
  1
  2</code></pre><p>or the <code>shuffle</code> function, that returns a randomly permuted copy of given array</p><pre><code class="language-julia-repl">julia&gt; v = [1,2,3,4]
 4-element Array{Int64,1}:
@@ -81,7 +81,7 @@ julia&gt; rand(2)
 julia&gt; shuffle(v)
 4-element Array{Int64,1}:
  4
+ 3
  1
- 2
- 3</code></pre><div class = "info-body">
-<header class = "info-header">Other useful standard libraries</header><p><p>There are other very useful standard packages in Julia, but there is not enough space to present them. So we provide at least a list of the most important</p><ul><li><code>Test</code>: provides simple unit testing functionality. Unit testing is a way to see if your code is correct by checking that the results are what you expect. It can be helpful to ensure your code still works after you make changes, and can be used when developing as a way of specifying the behaviors your code should have when complete.</li><li><code>SparseArrays</code>: provides special types to store and work with sparse arrays.</li><li><code>Distributed</code>: provides support for distributed computing.</li></ul><p>See section Standard Library in the  official <a href="https://docs.julialang.org/en/v1/">documentation</a> for more information.</p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_03/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../DataFrames/">DataFrames.jl »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Saturday 2 January 2021 09:34">Saturday 2 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 2</code></pre><div class = "info-body">
+<header class = "info-header">Other useful standard libraries</header><p><p>There are other very useful standard packages in Julia, but there is not enough space to present them. So we provide at least a list of the most important</p><ul><li><code>Test</code>: provides simple unit testing functionality. Unit testing is a way to see if your code is correct by checking that the results are what you expect. It can be helpful to ensure your code still works after you make changes, and can be used when developing as a way of specifying the behaviors your code should have when complete.</li><li><code>SparseArrays</code>: provides special types to store and work with sparse arrays.</li><li><code>Distributed</code>: provides support for distributed computing.</li></ul><p>See section Standard Library in the  official <a href="https://docs.julialang.org/en/v1/">documentation</a> for more information.</p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_03/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../DataFrames/">DataFrames.jl »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Saturday 2 January 2021 09:53">Saturday 2 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
