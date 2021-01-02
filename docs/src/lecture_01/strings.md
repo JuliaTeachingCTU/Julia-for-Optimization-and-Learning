@@ -83,21 +83,6 @@ str = """
 print(str)
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
 ## Splitting and joining strings
 
 One of the most common operations on strings is their concatenation. It can be done using `string` function that accepts any number of input arguments and returns a string.
@@ -156,46 +141,45 @@ By default, the `split` function splits the given string based on spaces. But it
 split(str, " a ")
 ```
 
-If you want to split a string into separate single-character strings, use the empty string ("") which splits the string between the characters
+If you want to split a string into separate single-character strings, use the empty string (`""`) which splits the string between the characters
 
 ```@repl joins
 split(str, "")
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
-```
-
 ## String interpolation
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+Using `string` function to concatenate strings can lead to extremely long expressions and can be cumbersome. To simplify the construction of strings, Julia allows interpolation into string literals using `$`
+
+```@repl interpolation
+a = 1.123
+string("The variable a is of type ", typeof(a), " and its value is ", a)
+"The variable a is of type $(typeof(a)), and its value is $(a)"
 ```
 
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+Note that we use parentheses to separate expressions that should be interpolated into a string literal. It is not mandatory, but it can prevent mistakes. In the example below, we can see different results with and without parentheses
+
+```@repl interpolation
+"$typeof(a) = $(typeof(a))"
 ```
 
-```@raw html
-</p></details>
+The reason is, that in the case without parentheses only the function name is interpolated into the string literal. In the second case, the result of the expression `typeof(a)` is interpolated into the string literal. It is more obvious when we declare a variable `myfunc` that refers to `typeof` function
+
+```@repl interpolation
+myfunc = typeof
+"$myfunc(a) = $(myfunc(a))"
+```
+Both concatenation and string interpolation call `string` to convert objects into string form. However, string actually just returns the output of `print`, so new types should add methods to `print` or `show` instead of `string`. Most non-`AbstractString` objects are converted to strings closely corresponding to how they are entered as literal expressions
+
+```@repl
+v = [1,2,3]
+"vector: $v"
+
+t = (1,2,3)
+"tuple: $(t)"
 ```
 
-
-## Find and replace
+## Useful functions
 
 There are multiple functions that can be used to find specific characters or substring in the given string. To check if the string contains a specific substring or character, the functions `contains` or `occursin` can be used
 
@@ -229,19 +213,4 @@ It is also possible to apply a function to a specific substring using `replace` 
 
 ```@repl
 replace("Sherlock Holmes", "e" => uppercase)
-```
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-```@raw html
-</p></details>
 ```
