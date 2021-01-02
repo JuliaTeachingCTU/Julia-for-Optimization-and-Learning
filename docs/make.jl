@@ -42,7 +42,8 @@ lecture_02 = joinpath.("./lecture_02/", [
 ])
 
 lecture_04 = joinpath.("./lecture_04/", [
-    "packages.md",
+    "basics.md",
+    "standardlibrary.md",
     "DataFrames.md",
     "Plots.md",
     "otherpackages.md",
@@ -100,7 +101,7 @@ makedocs(;
         "1: Variables and basic operators" => lecture_01,
         "2: Control flow" => lecture_02,
         "3: Functions and methods" => lecture_03,
-        "4: Useful packages" => lecture_04,
+        "4: Packages" => lecture_04,
         "5: Composite types and constructors" => lecture_05,
         "6: Modules and enviroments" => lecture_06,
         "7: Optimization" => lecture_07,

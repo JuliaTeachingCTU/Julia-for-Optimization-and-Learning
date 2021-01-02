@@ -1,6 +1,4 @@
-# Packages
-
-## Standard packages
+# Standard library
 
 There are multiple standard packages that are shipped together with Julia release. Those packages are not loaded by default in the new Julia session and need to be load manually.
 
