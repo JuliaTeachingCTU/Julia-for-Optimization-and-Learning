@@ -1,5 +1,6 @@
 ```@setup nn
 using MLDatasets
+using NNlib
 
 #MLDatasets.MNIST.download(; i_accept_the_terms_of_use=true)
 ```
@@ -65,7 +66,6 @@ Now we can write the loading function. It is similar is the one we have already 
 ```@example nn
 function load_data(dataset; onehot=false, T=Float32)
     classes = 0:9
-    data_train = 
     X_train, y_train = reshape_data(dataset.traindata(T)...)
     X_test, y_test = reshape_data(dataset.testdata(T)...)
     y_train = T.(y_train)
@@ -300,12 +300,7 @@ nothing # hide
 println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
-The accuracy is over 92%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain a better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model again and again. The next exercise determines automatically whether the trained model already exists. If not, it trains the model. If yes, it loads it without any training. 
-
-
-
-
-
+The accuracy is over 92%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain a better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model again and again. The next exercise determines automatically whether the trained model already exists. If not, it trains the model. If yes, it loads it without any training. Then it loads a model which was trained externally for 50 epochs.
 
 ```@raw html
 <div class = "exercise-body">
@@ -356,6 +351,4 @@ nothing # hide
 println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
-??? dopsat podle vysledku
-
-We will perform a further analysis of the network in the exercises. We will also learn how to train the network using GPUs instead of CPUs. Even though this is extremely important to reduce time, we omit it here because some participants of the course may not have a compatible GPU for training.
+The externall trained model has the accuracy of more 98%. Even though there are perfect models (with accuracy 100%) on MNIST, we are hapy with this results. We will perform a further analysis of the network in the exercises. We will also learn how to train the network using GPUs instead of CPUs. Even though this is extremely important to reduce time, we omit it here because some participants of the course may not have a compatible GPU for training.
