@@ -4,6 +4,8 @@ using Flux
 using Flux: onehotbatch, onecold
 using MLDatasets
 
+Core.eval(Main, :(using Flux)) # hide
+
 function reshape_data(X::AbstractArray{T, 3}, y::AbstractVector) where T
     s = size(X)
     return reshape(X, s[1], s[2], 1, s[3]), reshape(y, 1, :)
@@ -56,6 +58,7 @@ dataset = MLDatasets.MNIST
 
 X_train, y_train, X_test, y_test = load_data(dataset; T=T, onehot=true)
 ```
+
 
 
 # Exercises
@@ -277,10 +280,10 @@ insert!(df, 1, string.(0:9), :label)
 
 nothing # hide
 ```
-It is surprising that the largest number of misclassifications is 7 into 9. One would expect 8 to 0, 5 to 6 or 8 to 9. To plot all these images, we find the misclassified indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since the number of 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```.
+It is surprising that the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. To plot all these images, we find the misclassified indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since the number of 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```.
 ```@example gpuu
-i1 = 7
-i2 = 9
+i1 = 9
+i2 = 7
 
 p = [plot_image(X_test[:,:,:,i]) for i in findall((y.==i1+1) .& (y_hat.==i2+1))]
 p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white) 

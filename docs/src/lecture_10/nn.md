@@ -1,8 +1,7 @@
 ```@setup nn
 using MLDatasets
-using NNlib
 
-#MLDatasets.MNIST.download(; i_accept_the_terms_of_use=true)
+Core.eval(Main, :(using Flux)) # hide
 ```
 
 # More complex networks
