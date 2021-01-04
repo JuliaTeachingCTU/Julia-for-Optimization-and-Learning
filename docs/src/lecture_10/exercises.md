@@ -295,11 +295,7 @@ savefig("miss.svg") # hide
 
 ![](miss.svg)
 
-
-???
-
-
-
+We see that some of the nines could be recognized as a seven even by humans. 
 ```@raw html
 </p></details>
 ```
@@ -323,82 +319,14 @@ df # hide
 
 
 
-```julia
-m2 = Chain(
-    Conv((2,2), 1=>16, sigmoid),
-    MaxPool((2,2)),
-    Conv((2,2), 16=>8, sigmoid),
-    MaxPool((2,2)),
-    flatten,
-    Dense(288, size(y_train,1)), softmax) |> gpu
-
-train_model!(m2, X_train, y_train)
-
-
-# Print the testing accuracy
-
-
-p = []
-for i in 1:5
-    #p = plot_image(X_train[:,:,:,i:i])
-    p[i] = plot_image(m[1:4](X_train[:,:,:,ii[i]:ii[i]] |> gpu) |> cpu)
-    #display(p)
-end
-
-
-p1 = plot(Gray.(m[1:4](X_train[:,:,:,ii[1]:ii[1]] |> gpu) |> cpu)[:,:,1,1])
-p2 = plot(Gray.(m[1:4](X_train[:,:,:,ii[2]:ii[2]] |> gpu) |> cpu)[:,:,1,1])
-p3 = plot_image(m[1:4](X_train[:,:,:,ii[3]:ii[3]] |> gpu) |> cpu)
-p4 = plot_image(m[1:4](X_train[:,:,:,ii[4]:ii[4]] |> gpu) |> cpu)
-
-plot(p1, p2)
-
-
-ii0 = findall(onecold(y_train, 0:9) .== 0)[1:5]
-ii1 = findall(onecold(y_train, 0:9) .== 1)[1:5]
-ii2 = findall(onecold(y_train, 0:9) .== 9)[1:5]
-
-p0 = [plot(Gray.(m[1:3](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1], axis=([], false)) for i in ii0]
-p1 = [plot(Gray.(m[1:3](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1]) for i in ii1]
-p2 = [plot(Gray.(m[1:4](X_train[:,:,:,i:i] |> gpu) |> cpu)[:,:,1,1]) for i in ii2]
-
-plot(p0..., p1..., p2...; layout=(3,5))
-
-plot(p0...)
-
-qwe = plot_image(X_train[:,:,:,i:i])
-
-
-
-
-
-plot(p1, p2)
-
-
-
-p1 = plot(Gray.(X_train[:,:,1,1]), axis=([], false))
-p2 = plot(Gray.(X_train[:,:,1,2]), axis=([], false))
-plot(p1, p2; layout = (2,1))
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<header class = "exercise-header">Exercise 4: Visualization of neural networks 1</header><p>
 ```
+From the theoretical part we know that output of convolutional layers have the same dimension as inputs. If the activation function is a sigmoid, the output values stay in the interval ``[0,1]`` and can, therefore, be also interpreted as images. The following two exercises will depict how images are propagated through the network.
 
-Some text that describes the exercise
+
+???
 
 ```@raw html
 </p></div>
@@ -406,11 +334,100 @@ Some text that describes the exercise
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Solution
+???
 
 ```@raw html
 </p></details>
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+```@example gpuu
+m = Chain(
+    Conv((2,2), 1=>16, sigmoid),
+    MaxPool((2,2)),
+    Conv((2,2), 16=>8, sigmoid),
+    MaxPool((2,2)),
+    flatten,
+    Dense(288, size(y_train,1)), softmax)
+
+file_name = joinpath("data", "mnist_sigmoid.bson")
+train_or_load!(file_name, m, X_train, y_train)
+```
+
+0.9831
+
+
+
+```@example gpuu
+for qwe = 0:9
+    ii0 = findall(onecold(y_train, 0:9) .== qwe)[1:5]
+
+    p0 = [plot_image(X_train[:,:,:,i:i][:,:,1,1]) for i in ii0]
+    p1 = [plot_image((m[1:2](X_train[:,:,:,i:i]))[:,:,1,1]) for i in ii0]
+    p2 = [plot_image((m[1:4](X_train[:,:,:,i:i]))[:,:,1,1]) for i in ii0]
+
+    plot(p0..., p1..., p2...; layout=(3,5))
+    
+    savefig("asd$(qwe).svg")
+end
+```
+
+![](asd0.svg)
+![](asd1.svg)
+![](asd2.svg)
+![](asd3.svg)
+![](asd4.svg)
+![](asd5.svg)
+![](asd6.svg)
+![](asd7.svg)
+![](asd8.svg)
+![](asd9.svg)
+
+
+
+
+
+
+```@example gpuu
+for qwe = 0:9
+    ii0 = findall(onecold(y_train, 0:9) .== qwe)[1:5]
+
+    p0 = [plot_image(X_train[:,:,:,i:i][:,:,end,1]) for i in ii0]
+    p1 = [plot_image((m[1:2](X_train[:,:,:,i:i]))[:,:,end,1]) for i in ii0]
+    p2 = [plot_image((m[1:4](X_train[:,:,:,i:i]))[:,:,end,1]) for i in ii0]
+
+    p = plot(p0..., p1..., p2...; layout=(3,5))
+    
+    savefig("zxc$(qwe).svg")
+end
+```
+
+![](zxc0.svg)
+![](zxc1.svg)
+![](zxc2.svg)
+![](zxc3.svg)
+![](zxc4.svg)
+![](zxc5.svg)
+![](zxc6.svg)
+![](zxc7.svg)
+![](zxc8.svg)
+![](zxc9.svg)
+
+
+
+
+
+
 
 
 
