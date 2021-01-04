@@ -4,23 +4,23 @@ using Plots
 
 # Theory of continuous optimization
 
-Optimization problems optimize (minimize or maximize) given function on a given set. There are many applications in the world:
+Optimization problems optimize (minimize or maximize) a given function on a given set. There are many applications:
 - Maximize profit under market forecasts.
 - Given a set of points, find a visiting order which minimizes the distance. This includes various tasks ranging from delivery services to snow ploughing. 
-- Make a prediction based on known data. Specific examples are whether a client gets a loan or whether an autonomous vehicle sees a pedestrian. Almost all tasks in machine learning minimize the difference between a prediction and a label.
-- Find the optimal shape of a machine such a criterion is maximized. This includes designing planes with minimal drag or optimizing engines to maximize power under a reasonable oil consumption. 
+- Make a prediction based on known data. Specific examples are whether a client gets a loan, or whether an autonomous vehicle sees a pedestrian. Almost all tasks in machine learning minimize the difference between a prediction and a label.
+- Find the optimal shape of a machine so that a criterion is maximized. This includes designing planes with minimal drag, or optimizing engines to maximize power under a reasonable oil consumption. 
 
-These applications are very different in what they assume about the world, and in the form in which they are written and subsequently solved.
-- Maximization of profits will need to model future uncertainty. The formulation will probably contain the expected value of chance constraints. The variables will be usually continuous. 
+These applications are very different from each other. They differ in their assumptions about the world, or in the form in which they are written and subsequently solved.
+- Profit maximization will need to model future uncertainty. The formulation will probably contain expectations and chance constraints. The variables will be usually continuous. 
 - Finding the minimal way is often reformulated as finding the shortest way in a graph. Problems like this operate typically with only binary variables and with no uncertainty.  
-- Machine learning needs loads of data and usually ignores any physical models. Due to the abundance of data, the evaluation of the objective function is lengthy. Then a special algorithm for speed-ups needs to be developed.
+- Machine learning requires loads of data and usually ignores any physical models. Due to the abundance of data, the evaluation of the objective function is lengthy, and special algorithms for speed-ups need to be used.
 - Topology optimization is usually based on complicated physical models. Since these are in a black-box form, additional information such as gradient is often not available. Moreover, conflicting criteria (such as speed and consumption) need to be considered. 
 
-This short analysis implies that there is not a single "optimization topic". The theory of optimization contains many different subfields. In the following four lectures, we will study the continuous optimization, which assumes that all functions are (sub)differentiable, and all variables are continuous. This includes most machine learning applications, to which we dedicate three lectures.
+This short analysis implies that there is not a single "optimization topic". The theory of optimization contains many different subfields. In the following four lectures, we will study the field of continuous optimization, which assumes that all functions are (sub)differentiable, and all variables are continuous. This includes most machine learning applications, to which we dedicate three lectures.
 
 ## Problem definition
 
-The goal of an optimization problem is to minimize of maximize a function ``f`` over a set ``X``. Namely
+The goal of an optimization problem is to minimize of maximize a function ``f`` over a set ``X``:
 ```math
     \begin{aligned}
     \text{minimize}\qquad &f(x) \\
@@ -39,7 +39,7 @@ Therefore, it suffices to consider minimization problems.
 
 ## Gradients
 
-As we will see later, gradients are crucial to optimization. For a function ``f:\mathbb{R}\to \mathbb{R}`` it is defined by
+We mentioned earlier that we consider the field of continuous optimization. It employs gradients to iteratively improve the objective function value. For a function ``f:\mathbb{R}\to \mathbb{R}``, its gradient is defined by
 ```math
 f'(x) = \lim_{h\to 0}\frac{f(x+h)-f(x)}{h}.
 ```
@@ -108,7 +108,7 @@ This theorem does not hold if ``X`` is not the whole space.
 
 ## Constrained optimization
 
-The usual formulation of constrained optimization is in the form
+The usual formulation of constrained optimization is
 ```math
 \tag{P}
 \begin{aligned}
@@ -125,7 +125,7 @@ Namely, it is simple to show that the primal formulation (P) is equivalent to
 ```math
 \operatorname*{minimize}_x\quad \operatorname*{maximize}_{\lambda\ge 0,\mu}\quad L(x;\lambda,\mu).
 ```
-The dual problem then switches the minimize and maximize operators to arrive at
+The dual problem then switches the minimization and maximization to arrive at
 ```math
 \tag{D} \operatorname*{maximize}_{\lambda\ge 0,\mu} \quad\operatorname*{minimize}_x\quad L(x;\lambda,\mu).
 ```
