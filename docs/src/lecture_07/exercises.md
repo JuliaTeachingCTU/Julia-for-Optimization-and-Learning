@@ -6,7 +6,7 @@
 ```
 The Newton's method for solving equation ``g(x)=0`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
 
-The Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
+Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
 
 Implement the Newton's method to minimize
 ```math
@@ -48,7 +48,7 @@ Now consider the min-max formulation
 ```math
 \operatorname*{minimize}_x\quad \operatorname*{maximize}_{\mu}\quad f(x) + \sum_{j=1}^J \mu_j h_j(x).
 ```
-If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j`` in such a way that the inner maximimization problem has the optimal value ``+\infty``. But since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. But that is precisely the primal formulation.
+If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maximization problem has the optimal value ``+\infty``. However, since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. That is precisely the primal formulation.
 ```@raw html
 </p></details>
 ```
@@ -93,7 +93,7 @@ Since the minimization with respect to ``x`` is unconstrained, the same argument
 &\lambda\ge 0.
 \end{aligned}
 ```
-From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
+From this formulation, we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
 ```@raw html
 </p></details>
 ```
@@ -107,7 +107,7 @@ From this formulation we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. 
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 3: Bisection method</header><p>
 ```
-Similarly to the Newton's method, the bisection method is primarily designed to solve equations by finding its zero point. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``. Then it selects the middle point on ``[a,b]`` and halves the interval so that the new interval again satisfies the constraint on opposite signs ``f(a)f(b)<0``. This is repeated until the function value is small or until the interval has a small length.
+Similarly to Newton's method, the bisection method is primarily designed to solve equations by finding their zero points. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``. Then it selects the middle point on ``[a,b]`` and halves the interval so that the new interval again satisfies the constraint on opposite signs ``f(a)f(b)<0``. This is repeated until the function value is small or until the interval has a small length.
 
 Implement the bisection method and use it to minimize ``f(x) = x^2 - x`` on ``[-1,1]``.
 ```@raw html
@@ -115,7 +115,7 @@ Implement the bisection method and use it to minimize ``f(x) = x^2 - x`` on ``[-
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-First, we write the bisection method. We initialize it with arguments ``f`` and the initial interval ``[a,b]``. We also specify the optional tolerance. First, we save the function value ```fa = f(a)``` so that we do not need to recompute every time. The syntax ```fa == 0 && return a``` is a bit complex. Since ```&&``` is the and operator, this first checks whether ```fa == 0``` is satisfied and if so, it evaluates the second part. But the second part just returns ```a```. Since we need to have ``f(a)f(b)<0``, we check this condition and if it is not satistied, we return an error message. Finally, we run the while loop where in every iteration, the interval is halved. The condition on opposite signs is enforced in the if condition inside the loop. Note that this implementation is efficient in the way that only one function evaluation is needed inside the loop. The price to pay are additional variables ```f(a)```, ```f(c)``` and ```f(c)```.
+First, we write the bisection method. We initialize it with arguments ``f`` and the initial interval ``[a,b]``. We also specify optional tolerance. First, we save the function value ```fa = f(a)``` to not need to recompute every time. The syntax ```fa == 0 && return a``` is a bit complex. Since ```&&``` is the and operator, this first checks whether ```fa == 0``` is satisfied and if so, it evaluates the second part. However, the second part just returns ```a```. Since we need to have ``f(a)f(b)<0``, we check this condition, and if it is not satisfied, we return an error message. Finally, we run the while loop, where every iteration halves the interval. The condition on opposite signs is enforced in the if condition inside the loop. Note that this implementation is efficient in the way that only one function evaluation is needed inside the loop. The price to pay are additional variables ```f(a)```, ```f(c)``` and ```f(c)```.
 ```@example bisec
 function bisection(f, a, b; tol=1e-6)
     fa = f(a)
@@ -221,7 +221,7 @@ Derive the SQP method for optimization problem with only equality constraints
 \text{subject to}\qquad &h_j(x) = 0, j=1,\dots,J.
 \end{aligned}
 ```
-SQP writes the optimality (KKT) conditions and the applies the Newton's method to solve the resulting system of equations. 
+SQP writes the optimality (KKT) conditions and then applies Newton's method to solve the resulting system of equations. 
 
 Apply the obtained algorithm to
 ```math
@@ -252,7 +252,7 @@ The Newton method's at iteration ``k`` has some pair ``(x^k,\mu^k)`` and perform
 \begin{pmatrix} x^{k+1} \\ \mu^{k+1} \end{pmatrix} = \begin{pmatrix} x^{k} \\ \mu^{k} \end{pmatrix} - \begin{pmatrix} \nabla^2 f(x^k) + \sum_{j=1}^J \mu_j^k \nabla^2 h_j(x^k) & \nabla h(x^k) \\ \nabla h(x^k)^\top & 0 \end{pmatrix}^{-1} \begin{pmatrix} \nabla f(x^k) + \sum_{j=1}^J\mu_j^k \nabla h_j(x^k) \\ h(x^k) \end{pmatrix}. 
 ```
 
-For the numerical implementation, we define functions ``f`` and ``h`` and their derivates and Hessians. The simplest way to create a diagonal matrix is ```Diagonal``` from the ```LinearAlgebra``` package. It can be of course done manually as well. 
+We define functions ``f`` and ``h`` and their derivates and Hessians for the numerical implementation. The simplest way to create a diagonal matrix is ```Diagonal``` from the ```LinearAlgebra``` package. It can be, of course, done manually as well. 
 ```@example sqp 
 using LinearAlgebra
 
@@ -265,7 +265,7 @@ h_grad(x) = ones(n)
 h_hess(x) = zeros(n,n)
 nothing # hide
 ```
-To implement SQP we first randomly generate initial ``x`` and ``\mu`` and then write the procedure derived above. Since we update ``x`` in a for loop, we need to define it as a ```global``` variables; otherwise, it will be a local variable and the global (outside of the loop) will not update. We can write ```inv(A)*b``` or the more efficient ```A\b```. To subtract from ``x``, we use the shortened notation ```x -= ?```, which is the same as ```x = x - ?```.
+To implement SQP we first randomly generate initial ``x`` and ``\mu`` and then write the procedure derived above. Since we update ``x`` in a for loop, we need to define it as a ```global``` variables; otherwise, it will be a local variable, and the global (outside of the loop) will not update. We can write ```inv(A)*b``` or the more efficient ```A\b```. To subtract from ``x``, we use the shortened notation ```x -= ?```, which is the same as ```x = x - ?```.
 ```@example sqp
 x = randn(n)
 μ = randn()
@@ -278,7 +278,7 @@ for i in 1:100
     μ -= step[n+1] 
 end
 ```
-To validate we need to verify the optimality and the feasibility; both need to equal to zero. These are the same as the ```b``` variable. However, we cannot call ```b``` directly, as it is inside the for loop and therefore local only.
+To validate, we need to verify the optimality and the feasibility; both need to equal to zero. These are the same as the ```b``` variable. However, we cannot call ```b``` directly, as it is inside the for loop and therefore local only.
 ```@repl sqp
 f_grad(x) + μ*h_grad(x)
 h(x)

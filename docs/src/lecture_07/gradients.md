@@ -70,7 +70,7 @@ nothing # hide
 </p></details>
 ```
 
-This way of computing the gradient has two diadvantages:
+This way of computing the gradient has two disadvantages:
 1. It is slow. For a function of ``n`` variables, we need to evaluate the function at least ``n+1`` times to get the whole gradient.
 2. It is not precise. We will show this in the next example.
 
@@ -86,7 +86,7 @@ Fix a point ``x=(-2,-1)`` and compute the finite difference approximation of the
 ```
 To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. The resulting function is ```f_y```.
 
-It is possible to use a ```for``` loop but there is a more efficient way. We first store all the values of ``h`` in ```hs```. Then ```[? for h in hs]``` runs the function ```?``` for all ```h in hs``` and stores the results in an array with the same size as ```hs```. Since we need to get finite differences, the function ```?``` will be replaced by ```finite_difference(f_y, -1; h=h)```.
+It is possible to use a ```for``` loop, but there is a more efficient way. We first store all the values of ``h`` in ```hs```. Then ```[? for h in hs]``` runs the function ```?``` for all ```h in hs``` and stores the results in an array with the same size as ```hs```. Since we need to get finite differences, the function ```?``` will be replaced by ```finite_difference(f_y, -1; h=h)```.
 
 The true gradient is computed by ```g([-2;1])``` and returns an array of length two. Since we need only the partial derivative with respect to the second component, we need to select it by adding  ```[2]```.
 
@@ -138,7 +138,7 @@ Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify the parameters of the line in an optional argument ```line = (:arrow, 4, :black)```. These parameters specify the pointed arrow, the thickness and the color of the line. Since we do not want any legend, we add ```label = ""```.
+We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify its parameters in an optional argument ```line = (:arrow, 4, :black)```. These parameters specify the pointed arrow, the thickness and the colour of the line. Since we do not want any legend, we add ```label = ""```.
 ```@example optim
 x = [-2; -1]
 x_grad = g(x)

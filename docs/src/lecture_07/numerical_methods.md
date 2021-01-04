@@ -20,7 +20,7 @@ This part introduces the most basic optimization algorithm called gradient (or s
 
 ## Gradient descent
 
-We learnt that the gradient is the direction of the steepest descent. The straightforward idea is to move in the opposite direction. This gives rise to the gradient descent algorithm
+We learnt that the gradient is the direction of steepest descent. The straightforward idea is to move in the opposite direction. This gives rise to the gradient descent algorithm
 ```math
 x^{k+1} = x^k - \alpha^k\nabla f(x^k).
 ```
@@ -55,7 +55,7 @@ nothing # hide
 </p>
 </details>
 ```
-Note that the implementation does not use the values of ``f`` but only of the gradient ``\nabla f``. Moreover, if the algorithm converges ``x^k \to \bar x``, then passing the the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as most optimization methods, gradient descent looks for stationary points.
+Note that the implementation does not use the values of ``f`` but only of the gradient ``\nabla f``. Moreover, if the algorithm converges ``x^k \to \bar x``, then passing to the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as most optimization methods, gradient descent looks for stationary points.
 
 
 ```@raw html
@@ -102,7 +102,7 @@ savefig("numer2.svg") # hide
 
 ![](numer2.svg)
 
-The convergence looks very nice and the function value decreases. First, the decrease is faster but when the iterations get closer to the minimum, it slows down.
+The convergence looks very nice, and the function value decreases. First, the decrease is faster, but when the iterations get closer to the minimum, it slows down.
 
 What happens if we choose a different stepsize though? Let us try with two different values. First let us try ``\alpha=0.01``.
 ```@example grad
@@ -134,17 +134,17 @@ For a large stepsize, the algorithm gets close to the solution and then starts j
 
 ## Adaptive stepsize
 
-To handle this numerical instability, safeguards were introduced. One of the possibilities is the Armijo condition which automatically select the stepsize. It looks for ``\alpha^k`` which satisfies
+To handle this numerical instability, safeguards were introduced. One of the possibilities is the Armijo condition which automatically selects the stepsize. It looks for ``\alpha^k`` which satisfies
 ```math
 f(x^k - \alpha^k\nabla f(x^k)) \le f(x^k) - c \alpha^k \|\nabla f(x^k)\|^2.
 ```
-Here  ``c\in(0,1)`` is a small contant, usually ``c=10^{-4}``. Since the left-hand side is the function value at the new iterate ``x^{k+1}``, the Armijo condition ensures that the sequence of function values is strictly decreasing. This prevents oscillations.
+Here  ``c\in(0,1)`` is a small constant, usually ``c=10^{-4}``. Since the left-hand side is the function value at the new iterate ``x^{k+1}``, the Armijo condition ensures that the sequence of function values is strictly decreasing. This prevents oscillations.
 
-The implementation of ```optim(f, g, x, α; max_iter=100)``` from the exercise above is rather stupid because it does not allow to modify the selection of the step. The simplest solution to this problem would be to include if conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. More elegant solution is to create an abstract class
+The implementation of ```optim(f, g, x, α; max_iter=100)``` from the exercise above is rather stupid because it does not allow to modify the selection of the step. The simplest solution to this problem would be to include if conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. A more elegant solution is to create an abstract class
 ```@example steps
 abstract type Step end
 ```
-and for each possible step selection method implement a ```optim_step``` method, which selects the step. First, we create the gradeint descent class ```GD``` as a subclass of ```Step``` by
+and for each possible step selection method implement a ```optim_step``` method, which selects the step. First, we create the gradient descent class ```GD``` as a subclass of ```Step``` by
 ```@example steps  
 struct GD <: Step
     α::Real
