@@ -2,32 +2,10 @@
 
 ## Distributions.jl
 
-```@repl distr
-using Distributions
-D = Normal(2, 0.5)
-x = rand(D)
-```
-
-```@repl distr
-using StatsPlots
-x = rand(D, 10000);
-histogram(x; label = "empirical density function", normalize = :pdf)
-plot!(D; label = "true density function", linewidth = 2)
-```
-
-```@repl distr
-Dfit = fit(Normal, x)
-
-histogram(x; label = "empirical density function", normalize = :pdf)
-plot!(D; label = "$D", linewidth = 2)
-plot!(Dfit; label = "$Dfit", linewidth = 2)
-
-```
-
 
 ## BSON.jl
 
-The [BSON](https://github.com/JuliaIO/BSON.jl) is a package for working with the Binary JSON serialisation format. It can be used as a general store for Julia data structures.
+[BSON](https://github.com/JuliaIO/BSON.jl) is a package for working with the Binary JSON serialisation format. It can be used as a general store for Julia data structures.
 
 ```@repl bson
 using BSON

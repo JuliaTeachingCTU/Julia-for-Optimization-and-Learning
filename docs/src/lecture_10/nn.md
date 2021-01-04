@@ -2,6 +2,8 @@
 using MLDatasets
 
 Core.eval(Main, :(using Flux)) # hide
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+MNIST.traindata()
 ```
 
 # More complex networks
@@ -23,7 +25,7 @@ nothing # hide
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-The convolutional layers in Flux require that the inpit has dimension ``n_x\times n_y\times n_c\times n_s``, where ``(n_x,n_y)`` is the number of pixels in each dimension, ``n_c`` is the number of channels (1 for grayscale images and 3 for coloured images) and ``n_s`` is the number of samples. The simplest way to load the dataset is to use the MLDatasets package via ```MLDatasets.MNIST.traindata(T)```, where ```T``` is a given type (can be empty). 
+The convolutional layers in Flux require that the inpit has dimension ``n_x\times n_y\times n_c\times n_s``, where ``(n_x,n_y)`` is the number of pixels in each dimension, ``n_c`` is the number of channels (1 for grayscale images and 3 for coloured images) and ``n_s`` is the number of samples. The simplest way to load the dataset is to use the MLDatasets package via ```MLDatasets.MNIST.traindata(T)```, where ```T``` is a given type (can be empty).
 
 Write a function ```load_data``` which loads the data and transforms it into a correct shape. Do not forgot to transform the labels into the one-hot representation, which can be done by using the ```onehotbatch``` function from Flux.
 ```@raw html
@@ -224,7 +226,7 @@ end
 
 nothing # hide
 ```
-It starts with the loss function. On the contrary to the models used before, it uses the stochastic gradient descent instead of the (full) gradient descent. The reason is that the MNIST contains 50000 samples and the computation of the full gradient would be too costly. 
+It starts with the loss function. On the contrary to the models used before, it uses the stochastic gradient descent instead of the (full) gradient descent. The reason is that the MNIST contains 50000 samples and the computation of the full gradient would be too costly.
 
 To create minibatches, we create first a random partion of all indices ```randperm(size(y, 2))``` and then use the function ```partition``` to create an iterator for which we then create the tuple of ``(X,y)`` on a minibatch
 ```julia
