@@ -5,6 +5,8 @@ using Flux: onehotbatch, onecold
 using MLDatasets
 
 Core.eval(Main, :(using Flux)) # hide
+ENV["DATADEPS_ALWAYS_ACCEPT"] = true
+MNIST.traindata()
 
 function reshape_data(X::AbstractArray{T, 3}, y::AbstractVector) where T
     s = size(X)
