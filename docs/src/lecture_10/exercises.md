@@ -277,8 +277,8 @@ using DataFrames
 
 df = DataFrame(errors)
 
-names!(df, [Symbol("miss$(i)") for i in 0:9])
-insert!(df, 1, string.(0:9), :label)
+rename!(df, [Symbol("miss$(i)") for i in 0:9])
+insertcols!(df, 1, :label => string.(0:9))
 
 nothing # hide
 ```
