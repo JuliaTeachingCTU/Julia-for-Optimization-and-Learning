@@ -4,7 +4,9 @@ using Plots
 
 # Theory of regression and classification
 
-Regression and classification are a branch of machine learning which try to predict certain variable based on labelled data. Regression predicts a continuous variable (such as height based on weight) while classification predict a variable with finite number of states (such as cat/dog/none from images).
+Regression and classification are a part of machine learning which try to predict certain variables based on labelled data.
+- Regression predicts a continuous variable (such as height based on weight).
+- Classification predict a variable with a finite number of states (such as cat/dog/none from images).
 
 ## Data representation
 
@@ -19,7 +21,7 @@ The standard trick assumes that the first column of ``X`` contains all ones. The
 ```math
 f(x) = w^\top x = w_1 + \sum_{j=2}^m w_jx_j,
 ```
-By this trick, we do not need to consider the intercept (shift) ``b`` because it is contained in ``w_1``. In this case, the class of all considered classifiers is parameterized by a vector ``w``. The rest of this lecture shows how to write regression and classification problems to find the optimal weights ``w``.
+By this trick, we do not need to consider the intercept (bias, shift) ``b`` because it is contained in ``w_1``. In this case, the class of all considered classifiers is parameterized by a vector ``w``. The rest of this lecture shows how to write regression and classification problems to find the optimal weights ``w``.
 
 ## Linear regression
 
@@ -31,13 +33,13 @@ Since we are interested in average performance, we sum this error over all sampl
 ```math
 \operatorname{minimize}\qquad \sum_{i=1}^n (w^\top x_i - y_i)^2.
 ```
-Many algorithms use average instead of sum. However, both these formulations are equivalent.
+Many algorithms use average (mean) instead of sum. However, both these formulations are equivalent.
 
 In this case, it is simpler to work in the matrix notation. It is not difficult to show that the previous problem is equivalent to
 ```math
-\operatorname{minimize}\qquad \norm{Xw - y}^2,
+\operatorname{minimize}\qquad \|Xw - y\|^2,
 ```
-where the norm is the ``l_2`` norm. Since this is a convex quadratic problem, it is equivalent to its optimality condition. Setting the derivative to zero yields
+where the norm is the ``l_2`` norm. Since this is a convex quadratic problem, it is equivalent to its optimality conditions. Setting the derivative to zero yields
 ```math
 2X^\top (Xw-y) = 0.
 ```
@@ -50,7 +52,7 @@ w = (X^\top X)^{-1}X^\top y.
 <div class = "info-body">
 <header class = "info-header">Closed-form solution</header><p>
 ```
-Linear regression is probably the only machine learning model with a closed-form solution. All other models must be solved with iterative algorithms such as the gradient descent. In some case, it may be advantageous to use iterative algorithms even for linear regression. This include for example the case of a large number of features ``m`` because then ``X^\top X`` is an ``m\times m`` matrix which may be difficult to invert.
+Linear regression is probably the only machine learning model with a closed-form solution. All other models must be solved by iterative algorithms such as gradient descent. In some cases, it may be advantageous to use iterative algorithms even for linear regression. This includes, for example, the case of a large number of features ``m`` because then ``X^\top X`` is an ``m\times m`` matrix which may be difficult to invert.
 ```@raw html
 </p></div>
 ```
@@ -58,15 +60,19 @@ Linear regression is probably the only machine learning model with a closed-form
 
 ## Logistic regression
 
-The name logistic regression is misleading because it is actually a classification problem. In its simplest form, it assumes binary labels ``y\in\{0,1\}``. It considers the linear classifier ``f(x)=w^\top x`` and predict the positive class with probability
+The name logistic regression is misleading because it is actually a classification problem. In its simplest form, it assumes binary labels ``y\in\{0,1\}``. It considers the linear classifier ``f(x)=w^\top x`` and predicts the positive class with probability
 ```math
 \mathbb{P}(y=1\mid x) = \sigma(f(w)) = \frac{1}{1+e^{-w^\top x}},
 ``` 
-where ``\sigma`` is the sigmoid function. The probability of the negative class is then
+where
+```math
+\sigma(z) = \frac{1}{1+e^{-z}} = \frac{e^z}{1+e^z}
+```
+is the sigmoid function. The probability of the negative class is then
 ```math
 \mathbb{P}(y=0\mid x) = 1 - \sigma(f(w)) = \frac{e^{-w^\top x}}{1+e^{-w^\top x}}.
 ```
-Denoting ``\hat y`` to equal the probabily of predicting ``1``, the loss function is the cross-entropy loss
+Denoting ``\hat y`` the probabily of predicting ``1``, the loss function is the cross-entropy loss
 ```math
 \operatorname{loss}(y,\hat y) = - y\log \hat y - (1-y)\log(1-\hat y).
 ```
@@ -77,23 +83,22 @@ It is not difficult to show that then the logistic regression problems reads
 
 #### Numerical method
 
-Denoting the loss function ``L(w)``, its partial derivative equals to
+The logistic regression can be optimized by Newton's method. Denoting the loss function ``L(w)``, its partial derivative with respect to one component equals to
 ```math
 \begin{aligned}
 \frac{\partial L}{\partial w_j}(w) &= \frac1n\sum_{i=1}^n\left(-\frac{1}{1+e^{-w^\top x_i}}e^{-w^\top x_i}x_{i,j} + (1-y_i)x_{i,j} \right) \\
 &= \frac1n\sum_{i=1}^n\left(-\frac{1}{1+e^{w^\top x_i}}x_{i,j} + (1-y_i)x_{i,j} \right),
 \end{aligned}
 ```
-where ``x_{i,j}`` is the ``j``-th component of ``x_i``. The second partial derivative amounts to
+where ``x_{i,j}`` is the ``j``-th component of ``x_i`` (it is also the ``(i,j)`` entry of matrix ``X``). The second partial derivative amounts to
 ```math
 \frac{\partial^2 L}{\partial w_j \partial w_k}(w) = \frac1n\sum_{i=1}^n \frac{1}{(1+e^{w^\top x_i})^2}e^{w^\top x_i}x_{i,j}x_{i,k} = \frac1n\sum_{i=1}^n \hat y_i(1-\hat y_i)x_{i,j}x_{i,k}.
 ```
-Now we will write it in a more compact notation. We have
+Now we will write it in a more compact notation (recall that ``x_i`` is a column vector). We have
 ```math
 \begin{aligned}
 \nabla L(w) &= \frac1n \sum_{i=1}^n \left((\hat y_i-1)x_i + (1-y_i)x_i \right) = \frac1n \sum_{i=1}^n (\hat y_i-y_i)x_i, \\ 
 \nabla^2 L(w) &= \frac 1n \sum_{i=1}^n\hat y_i(1-\hat y_i)x_i x_i^\top.
 \end{aligned}
 ```
-Note that if the fit is perfect, ``y_i=\hat y_i``, then the Jacobian ``\nabla L(w)`` equals to zero which is precisely the optimality condition.
-
+If the fit is perfect, ``y_i=\hat y_i``, then the Jacobian ``\nabla L(w)`` is zero. Then the optimizer minimized the objective and satisfied the optimality condition.

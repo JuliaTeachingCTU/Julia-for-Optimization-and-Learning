@@ -20,19 +20,35 @@ This part introduces the most basic optimization algorithm called gradient (or s
 
 ## Gradient descent
 
-We learnt that the gradient is the direction of the steepest descent. The straightforward idea is to move in the opposite direction. This gives rise to the gradient descent algorithm
+We learnt that the gradient is the direction of steepest descent. The straightforward idea is to move in the opposite direction. This gives rise to the gradient descent algorithm
 ```math
 x^{k+1} = x^k - \alpha^k\nabla f(x^k).
 ```
 The stepsize ``\alpha^k>0`` can be tuned as a hyperparameter.
 
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Terminology</header><p>
+```
+In classical optimization, the usual terminology is:
+- Variable is to be optimized.
+- Parameter is external (fixed) such as material parameters.
+In machine learning, the usual terminology is:
+- Parameter is to be optimized.
+- Hyperparameter is an external model parameter which is not optimized and needs to be tuned. The example is the steplength because the gradient descent finds a different solution for different steplength but it is not changed during the optimization.
+The different terminology (and the fact that there are adaptive schemes to select the steplenght which should make it a parameter instead of a hyperparameter) makes the notation confusing.
+```@raw html
+</p></div>
+```
+
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Gradient descent</header><p>
 ```
-Implement function `optim` which takes function ``f``, its gradient `g`, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. It should return first 100 iterations of the algorithm.
+Implement function `optim` which takes as inputs function ``f``, its gradient, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. Its output should be the first 100 iterations.
 
-This example is rather artificial because often only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations.
+This example is rather artificial because usually only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations. We want to get all iterations to make visualizations.
 ```@raw html
 </p></div>
 <details class = "solution-body">
@@ -55,7 +71,7 @@ nothing # hide
 </p>
 </details>
 ```
-Note that the implementation does not use the values of ``f`` but only of the gradient ``\nabla f``. Moreover, if the algorithm converges ``x^k \to \bar x``, then passing the the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as most optimization methods, gradient descent looks for stationary points.
+The implementation does not use the values of ``f`` but only its gradient ``\nabla f``. Moreover, if the algorithm converges ``x^k \to \bar x``, then passing to the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as most optimization methods, gradient descent looks for stationary points.
 
 
 ```@raw html
@@ -66,17 +82,17 @@ Use the implementation of the gradient descent to minimize the function
 ```math
 f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
 ```
-from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Store all iterations into variable ```xs```.
+from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Store all iterations into matrix ```xs```.
 
-Plot again the contours pf ``f`` and all iterations ```xs```.
+Plot again the contours of ``f`` and all iterations ```xs```.
 
-Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you repserent ```xs```). Plot these values. 
+Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you represent ```xs```). Plot these values. 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We call ```optim``` written in the previous exercise. Then we plot the contours as before. Since ```x_gd[1,:]``` stores the ``x`` coordinate of all iterations and similarly ```x_gd[2,:]```, we plot them. Again, we need to use ```plot!``` instead of ```plot``` to add the line to the contour plot.
+We call ```optim``` written in the previous exercise. Then we plot the contours as before. Since ```x_gd[1,:]``` stores the ``x`` coordinate of all iterations and similarly ```x_gd[2,:]```, we plot them. We need to use ```plot!``` instead of ```plot``` to add the line to the contour plot.
 ```@example grad
 x_gd = optim([], g, [0; -1], 0.1)
 
@@ -86,7 +102,7 @@ plot!(x_gd[1,:], x_gd[2,:], line=(4,:black), label = "")
 
 savefig("numer1.svg") # hide
 ```
-This example is similar to ```[? for h in hs]``` encountered earlier. To iterate over all columns, we use ```[? for x in eachcol(x_gd)]``` and apply ```f(x)``` instead of ```?```. Another way is to iterate over indices instead of vectors and write ```[f(x_gs[:,i]) for i in 1:size(x_gd,2)]```.
+This example is similar to ```[? for h in hs]``` encountered earlier. To iterate over all columns, we use ```[? for x in eachcol(x_gd)]``` and apply ```f(x)``` instead of ```?```. Another (more complicated) way is to iterate over indices instead of vectors and write ```[f(x_gs[:,i]) for i in 1:size(x_gd,2)]```.
 ```@example grad
 f_gd = [f(x) for x in eachcol(x_gd)]
 
@@ -102,7 +118,7 @@ savefig("numer2.svg") # hide
 
 ![](numer2.svg)
 
-The convergence looks very nice and the function value decreases. First, the decrease is faster but when the iterations get closer to the minimum, it slows down.
+The convergence looks very nice, and the function value decreases. First, the decrease is faster, but when the iterations get closer to the minimum, it slows down.
 
 What happens if we choose a different stepsize though? Let us try with two different values. First let us try ``\alpha=0.01``.
 ```@example grad
@@ -130,21 +146,21 @@ savefig("numer4.svg") # hide
 
 ![](numer4.svg)
 
-For a large stepsize, the algorithm gets close to the solution and then starts jumping around. If you further increase the stepsize, it will even diverge to infinite. Try it :)
+For a large stepsize, the algorithm gets close to the solution and then starts jumping around. If we further increase the stepsize, it will even diverge to infinite. Try it.
 
 ## Adaptive stepsize
 
-To handle this numerical instability, safeguards were introduced. One of the possibilities is the Armijo condition which automatically select the stepsize. It looks for ``\alpha^k`` which satisfies
+To handle this numerical instability, safeguards are introduced. One of the possibilities is the Armijo condition which automatically selects the stepsize. It looks for ``\alpha^k`` which satisfies
 ```math
 f(x^k - \alpha^k\nabla f(x^k)) \le f(x^k) - c \alpha^k \|\nabla f(x^k)\|^2.
 ```
-Here  ``c\in(0,1)`` is a small contant, usually ``c=10^{-4}``. Since the left-hand side is the function value at the new iterate ``x^{k+1}``, the Armijo condition ensures that the sequence of function values is strictly decreasing. This prevents oscillations.
+Here  ``c\in(0,1)`` is a small constant, usually ``c=10^{-4}``. Since the left-hand side is the function value at the new iterate ``x^{k+1}``, the Armijo condition ensures that the sequence of function values is strictly decreasing. This prevents oscillations.
 
-The implementation of ```optim(f, g, x, α; max_iter=100)``` from the exercise above is rather stupid because it does not allow to modify the selection of the step. The simplest solution to this problem would be to include if conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. More elegant solution is to create an abstract class
+The implementation of ```optim(f, g, x, α; max_iter=100)``` from the exercise above is rather stupid because it does not allow to modify the selection of the step. The simplest fix would be to include if conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. A more elegant solution is to create an abstract class
 ```@example steps
 abstract type Step end
 ```
-and for each possible step selection method implement a ```optim_step``` method, which selects the step. First, we create the gradeint descent class ```GD``` as a subclass of ```Step``` by
+and for each possible step selection method implement a ```optim_step``` method, which selects the step. First, we create the gradient descent class ```GD``` as a subclass of ```Step``` by
 ```@example steps  
 struct GD <: Step
     α::Real
@@ -165,7 +181,7 @@ function optim(f, g, x, s::Step; max_iter=100)
 end
 nothing # hide
 ```
-Note that the input is ```s::Step``` which allows for any subclass of the abstract class ```Step```. Using this implentation results in
+The specification of the input ```s::Step``` allows for any subclass of the abstract class ```Step```. Using this implentation results in
 ```@example steps
 gd = GD(0.1)
 x_opt = optim(f, g, [-1;0], gd)
@@ -185,7 +201,7 @@ Then run the optimization with the Armijo selection of the stepsize.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We define the class in the same way as with ```GD```
+We define the class in the same way as for ```GD```:
 ```@example steps
 struct Armijo <: Step
     c::Real
