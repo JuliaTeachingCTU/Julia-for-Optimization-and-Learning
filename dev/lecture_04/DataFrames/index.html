@@ -1,2 +1,161 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>DataFrames.jl · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Numerical computing in Julia logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Numerical computing in Julia logo"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Mathematical operations and Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/conditions/">Conditional evaluation</a></li><li><a class="tocitem" href="../../lecture_02/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_02/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Scope of Variables</a></li><li><a class="tocitem" href="../../lecture_03/exceptions/">Exception Handling</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox" checked/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../basics/">Package management</a></li><li><a class="tocitem" href="../standardlibrary/">Standard library</a></li><li class="is-active"><a class="tocitem" href>DataFrames.jl</a></li><li><a class="tocitem" href="../Plots/">Plots.jl</a></li><li><a class="tocitem" href="../otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><span class="tocitem">5: Composite types and constructors</span></li><li><span class="tocitem">6: Modules and enviroments</span></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of continuous optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">10: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">4: Packages</a></li><li class="is-active"><a href>DataFrames.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>DataFrames.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_04/DataFrames.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="DataFrames.jl"><a class="docs-heading-anchor" href="#DataFrames.jl">DataFrames.jl</a><a id="DataFrames.jl-1"></a><a class="docs-heading-anchor-permalink" href="#DataFrames.jl" title="Permalink"></a></h1><p><a href="https://dataframes.juliadata.org/stable/">DataFrames</a> is a package that provides a set of tools for working with tabular data in Julia. Its design and functionality are similar to those of <a href="https://pandas.pydata.org/">pandas</a> (in Python) and <code>data.frame</code>, <code>data.table</code> and dplyr (in R), making it a great general purpose data science tool, especially for those coming to Julia from R or Python.</p><pre><code class="language-julia-repl">julia&gt; using DataFrames</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../standardlibrary/">« Standard library</a><a class="docs-footer-nextpage" href="../Plots/">Plots.jl »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 6 January 2021 08:45">Wednesday 6 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>DataFrames.jl · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Numerical computing in Julia logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Numerical computing in Julia logo"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Mathematical operations and Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/conditions/">Conditional evaluation</a></li><li><a class="tocitem" href="../../lecture_02/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_02/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Scope of Variables</a></li><li><a class="tocitem" href="../../lecture_03/exceptions/">Exception Handling</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox" checked/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../basics/">Package management</a></li><li><a class="tocitem" href="../standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../Plots/">Plots.jl</a></li><li class="is-active"><a class="tocitem" href>DataFrames.jl</a><ul class="internal"><li><a class="tocitem" href="#Creating-DataFrame"><span>Creating DataFrame</span></a></li><li><a class="tocitem" href="#Adding-columns-and-rows"><span>Adding columns and rows</span></a></li><li><a class="tocitem" href="#StatsPlots"><span>StatsPlots</span></a></li></ul></li><li><a class="tocitem" href="../otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><span class="tocitem">5: Composite types and constructors</span></li><li><span class="tocitem">6: Modules and enviroments</span></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of continuous optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">10: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">4: Packages</a></li><li class="is-active"><a href>DataFrames.jl</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>DataFrames.jl</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_04/DataFrames.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="DataFrames.jl"><a class="docs-heading-anchor" href="#DataFrames.jl">DataFrames.jl</a><a id="DataFrames.jl-1"></a><a class="docs-heading-anchor-permalink" href="#DataFrames.jl" title="Permalink"></a></h1><p><a href="https://dataframes.juliadata.org/stable/">DataFrames</a> is a package that provides a set of tools for working with tabular data in Julia. Its design and functionality are similar to those of <a href="https://pandas.pydata.org/">pandas</a> (in Python) and <code>data.frame</code>, <code>data.table</code> and dplyr (in R), making it a great general purpose data science tool, especially for those coming to Julia from R or Python.</p><h2 id="Creating-DataFrame"><a class="docs-heading-anchor" href="#Creating-DataFrame">Creating DataFrame</a><a id="Creating-DataFrame-1"></a><a class="docs-heading-anchor-permalink" href="#Creating-DataFrame" title="Permalink"></a></h2><p>The core of the package is the <code>DataFrame</code> that represents a data table. The simplest way of constructing a <code>DataFrame</code> is to pass column vectors using keyword arguments or pairs</p><pre><code class="language-julia-repl">julia&gt; using DataFrames
+
+julia&gt; df = DataFrame(A = 1:4, B = [&quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;], C = rand(4))
+4×3 DataFrame
+ Row │ A      B       C
+     │ Int64  String  Float64
+─────┼──────────────────────────
+   1 │     1  M       0.0949413
+   2 │     2  F       0.895546
+   3 │     3  F       0.135061
+   4 │     4  M       0.0136647</code></pre><p>Since each column is stored in a <code>DataFrame</code> as a separate vector, it is possible to combine columns of a different element types. Column can be accesed directly without copying as follows</p><pre><code class="language-julia-repl">julia&gt; df.A
+4-element Array{Int64,1}:
+ 1
+ 2
+ 3
+ 4
+
+julia&gt; df[!, :B]
+4-element Array{String,1}:
+ &quot;M&quot;
+ &quot;F&quot;
+ &quot;F&quot;
+ &quot;M&quot;
+
+julia&gt; df[!, 3]
+4-element Array{Float64,1}:
+ 0.09494125977941059
+ 0.8955455864540707
+ 0.13506122200049697
+ 0.0136646953649191</code></pre><p>Since vectors are mutable structures and accessing a column of <code>DataFrame</code> via syntax above does not make a copy, it is possible to change elements of the <code>DataFrame</code> as follows</p><pre><code class="language-julia-repl">julia&gt; df.A[1] = 5;
+
+julia&gt; df
+4×3 DataFrame
+ Row │ A      B       C
+     │ Int64  String  Float64
+─────┼──────────────────────────
+   1 │     5  M       0.0949413
+   2 │     2  F       0.895546
+   3 │     3  F       0.135061
+   4 │     4  M       0.0136647</code></pre><p>However, sometimes it is useful to get a copy of a column instead. To do that, we can use the following syntax</p><pre><code class="language-julia-repl">julia&gt; col = df[:, :A];
+
+julia&gt; col[1] = 4;
+
+julia&gt; df
+4×3 DataFrame
+ Row │ A      B       C
+     │ Int64  String  Float64
+─────┼──────────────────────────
+   1 │     5  M       0.0949413
+   2 │     2  F       0.895546
+   3 │     3  F       0.135061
+   4 │     4  M       0.0136647</code></pre><h2 id="Adding-columns-and-rows"><a class="docs-heading-anchor" href="#Adding-columns-and-rows">Adding columns and rows</a><a id="Adding-columns-and-rows-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-columns-and-rows" title="Permalink"></a></h2><p><code>DataFrame</code>s can be also extended by new columns. It can be done directly by as follows</p><pre><code class="language-julia-repl">julia&gt; df.D = [:a, :b, :c, :d];
+
+julia&gt; df
+4×4 DataFrame
+ Row │ A      B       C          D
+     │ Int64  String  Float64    Symbol
+─────┼──────────────────────────────────
+   1 │     5  M       0.0949413  a
+   2 │     2  F       0.895546   b
+   3 │     3  F       0.135061   c
+   4 │     4  M       0.0136647  d</code></pre><p>or using the <code>insertcols!</code> function that allows more options like inserting columns to a specific location</p><pre><code class="language-julia-repl">julia&gt; insertcols!(df, 3, :B =&gt; rand(4), :B =&gt; 11:14; makeunique = true)
+4×6 DataFrame
+ Row │ A      B       B_1        B_2    C          D
+     │ Int64  String  Float64    Int64  Float64    Symbol
+─────┼────────────────────────────────────────────────────
+   1 │     5  M       0.963752      11  0.0949413  a
+   2 │     2  F       0.665312      12  0.895546   b
+   3 │     3  F       0.0264664     13  0.135061   c
+   4 │     4  M       0.982939      14  0.0136647  d</code></pre><p>It is also possible to add new rows to the existing <code>DataFrame</code> using the <code>push!</code> function. New rows can be in the form of a vector or tuple of the correct length or in the form of a dictionary with keys the same as the column names of the target table</p><pre><code class="language-julia-repl">julia&gt; push!(df, [10, &quot;F&quot;, 0.1, 15, 0.235, :f]);
+
+julia&gt; push!(df, (10, &quot;F&quot;, 0.1, 15, 0.235, :f));
+
+julia&gt; push!(df, Dict(:B_1 =&gt; 0.1, :B_2 =&gt; 15, :A =&gt; 10, :D =&gt; :f, :B =&gt; &quot;F&quot;, :C =&gt; 0.235));
+
+julia&gt; df
+7×6 DataFrame
+ Row │ A      B       B_1        B_2    C          D
+     │ Int64  String  Float64    Int64  Float64    Symbol
+─────┼────────────────────────────────────────────────────
+   1 │     5  M       0.963752      11  0.0949413  a
+   2 │     2  F       0.665312      12  0.895546   b
+   3 │     3  F       0.0264664     13  0.135061   c
+   4 │     4  M       0.982939      14  0.0136647  d
+   5 │    10  F       0.1           15  0.235      f
+   6 │    10  F       0.1           15  0.235      f
+   7 │    10  F       0.1           15  0.235      f</code></pre><p>Column names can be obtained as <code>String</code>s using the <code>names</code> function or as a <code>Symbol</code>s using <code>propertynames</code> function</p><pre><code class="language-julia-repl">julia&gt; names(df)
+6-element Array{String,1}:
+ &quot;A&quot;
+ &quot;B&quot;
+ &quot;B_1&quot;
+ &quot;B_2&quot;
+ &quot;C&quot;
+ &quot;D&quot;
+
+julia&gt; propertynames(df)
+6-element Array{Symbol,1}:
+ :A
+ :B
+ :B_1
+ :B_2
+ :C
+ :D</code></pre><pre><code class="language-julia-repl">julia&gt; rename!(df, [:A, :B, :C, :D, :E, :F])
+7×6 DataFrame
+ Row │ A      B       C          D      E          F
+     │ Int64  String  Float64    Int64  Float64    Symbol
+─────┼────────────────────────────────────────────────────
+   1 │     5  M       0.963752      11  0.0949413  a
+   2 │     2  F       0.665312      12  0.895546   b
+   3 │     3  F       0.0264664     13  0.135061   c
+   4 │     4  M       0.982939      14  0.0136647  d
+   5 │    10  F       0.1           15  0.235      f
+   6 │    10  F       0.1           15  0.235      f
+   7 │    10  F       0.1           15  0.235      f</code></pre><div class = "info-body">
+<header class = "info-header">Savin and loading <code>csv</code> files</header><p><p>The standard format for storing table data is <code>csv</code> file format. The <a href="https://github.com/JuliaData/CSV.jl">CSV</a> package provides an interface for saving and loading <code>csv</code> files.</p><pre><code class="language-julia-repl">julia&gt; using CSV
+
+julia&gt; CSV.write(&quot;dataframe.csv&quot;, df)
+&quot;dataframe.csv&quot;
+
+julia&gt; table = CSV.read(&quot;dataframe.csv&quot;, DataFrame; header = true)
+7×6 DataFrame
+ Row │ A      B       C          D      E          F
+     │ Int64  String  Float64    Int64  Float64    String
+─────┼────────────────────────────────────────────────────
+   1 │     5  M       0.963752      11  0.0949413  a
+   2 │     2  F       0.665312      12  0.895546   b
+   3 │     3  F       0.0264664     13  0.135061   c
+   4 │     4  M       0.982939      14  0.0136647  d
+   5 │    10  F       0.1           15  0.235      f
+   6 │    10  F       0.1           15  0.235      f
+   7 │    10  F       0.1           15  0.235      f</code></pre><p>See the package documentation for more information.</p></p></div><h2 id="StatsPlots"><a class="docs-heading-anchor" href="#StatsPlots">StatsPlots</a><a id="StatsPlots-1"></a><a class="docs-heading-anchor-permalink" href="#StatsPlots" title="Permalink"></a></h2><p>In the next part of the lecture, we will use the <a href="https://github.com/JuliaStats/RDatasets.jl">RDatasets</a>. That package provides an easy way for Julia users to use most of the standard data sets that are available in the core of R programming language.</p><pre><code class="language-julia-repl">julia&gt; using RDatasets
+
+julia&gt; iris = dataset(&quot;datasets&quot;, &quot;iris&quot;)
+150×5 DataFrame
+ Row │ SepalLength  SepalWidth  PetalLength  PetalWidth  Species
+     │ Float64      Float64     Float64      Float64     Cat…
+─────┼─────────────────────────────────────────────────────────────
+   1 │         5.1         3.5          1.4         0.2  setosa
+   2 │         4.9         3.0          1.4         0.2  setosa
+   3 │         4.7         3.2          1.3         0.2  setosa
+   4 │         4.6         3.1          1.5         0.2  setosa
+   5 │         5.0         3.6          1.4         0.2  setosa
+   6 │         5.4         3.9          1.7         0.4  setosa
+   7 │         4.6         3.4          1.4         0.3  setosa
+   8 │         5.0         3.4          1.5         0.2  setosa
+  ⋮  │      ⋮           ⋮            ⋮           ⋮           ⋮
+ 144 │         6.8         3.2          5.9         2.3  virginica
+ 145 │         6.7         3.3          5.7         2.5  virginica
+ 146 │         6.7         3.0          5.2         2.3  virginica
+ 147 │         6.3         2.5          5.0         1.9  virginica
+ 148 │         6.5         3.0          5.2         2.0  virginica
+ 149 │         6.2         3.4          5.4         2.3  virginica
+ 150 │         5.9         3.0          5.1         1.8  virginica
+                                                   135 rows omitted</code></pre><pre><code class="language-julia">using StatsPlots
+@df iris scatter(
+    :SepalLength,
+    :SepalWidth,
+    group = :Species,
+    marker = ([:d :h :star7], 8),
+)</code></pre><p><img src="../tables_1.svg" alt/></p><pre><code class="language-julia">@df iris marginalhist(:PetalLength, :PetalWidth)</code></pre><p><img src="../tables_2.svg" alt/></p><pre><code class="language-julia">@df iris corrplot([:SepalLength :SepalWidth :PetalLength :PetalWidth], grid = false, size = (600, 500))</code></pre><p><img src="../tables_3.svg" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Plots/">« Plots.jl</a><a class="docs-footer-nextpage" href="../otherpackages/">Other useful packages »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 6 January 2021 09:10">Wednesday 6 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
