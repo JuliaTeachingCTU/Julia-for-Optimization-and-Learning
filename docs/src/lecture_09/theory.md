@@ -72,6 +72,22 @@ savefig("Activation.svg")
 ![](Activation.svg)
 
 
+#### Softmax layer
+
+The cross-entropy loss function (see below) requires that its input is a probability distribution. To achieve this, the softmax layer is applied directly before the loss function. Its formulation is
+```math
+\operatorname{softmax}(a_1,\dots_K) = \frac{1}{\sum_{k=1}^K e^{a_k}}(e^{a_1}, \dots, e^{a_K}).
+```
+The exponential ensures that the all outputs are positive. The normalization ensures that the sum of the outputs is one. Therefore, it is indeed a probability distribution. When a dense layer precedes the softmax layer, it is used without any activation function (as, for example, ReLU would result in many probabilities being the same).
+
+#### One-hot and one-cold representation
+
+One-hot and one-cold representation are directly connected with the softmax layer. The one-hot representation is "the normal one" while one-cold is its probability distribution.
+
+For example, having 10 digits, label ``y=3`` has one-cold representation ``3`` and one-hot representation ``(0,0,0,1,0,0,0,0,0,0)``. Here, we count from ``0`` to ``9``.
+
+
+
 #### Other layers
 
 There are many other layers (convolutional, recurrent, pooling, ...) which we will go through in the next lesson.
@@ -94,6 +110,11 @@ The most commonly used loss functions are:
   \operatorname{loss}(y,\hat y) = y\log \hat y + (1-y)\log(1- \hat y)
   ```
 Mean square error is used for regression problems while both cross-entropies for classification problem. The former for multi-class (``K>2``) and the latter for binary (``K=2``) problems.
+
+
+## Making predictions
+
+For classifion with ``K`` classes, the classifier ``f`` predict a probability distribution of ``K`` classes. The prediction is the label with the highest probability. Using the terminology from before, we can say that the output of the classifier is in the one-hot form, while the actual prediction has the one-cold  form.
 
 
 ## Approximation quality
