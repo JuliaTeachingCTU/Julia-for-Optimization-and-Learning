@@ -105,9 +105,9 @@ accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 <div class = "homework-body">
 <header class = "homework-header">Homework: Optimal setting</header><p>
 ```
-Perform an analysis of hyperparameters of the neural network such as network architecture, learning rate (stepsize), activation function or normalization.
+Perform an analysis of hyperparameters of the neural network from this lecture. Examples may include network architecture, learning rate (stepsize), activation functions or normalization.
 
-Write a short summary of your suggestions.
+Write a short summary (in LaTeX) of your suggestions.
 ```@raw html
 </p></div>
 ```   
@@ -126,7 +126,7 @@ Proof the theorem about universal approximation of neural networks.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Since piecewise linear functions are compact in continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Definiting
+Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
 ```math
 d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
 ```
@@ -142,7 +142,7 @@ where we defined ``d_0=0``.
 
 Then ``h`` can be represented as the following network with two layers:
 - Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
-- Dense layer with ``1`` ouput neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is``y_1``.
+- Dense layer with ``1`` ouput neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is ``y_1``.
 This finishes the proof.
 ```@raw html
 </p></details>
@@ -157,7 +157,7 @@ This finishes the proof.
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 2: Keyword arguments</header><p>
 ```
-Keyword arguments (often denoted as ```kwargs...``` but any name may be used) specify additional arguments which do not need to be speficied by its name in function declaration. We recall the ```prepare_data``` function which we wrote earlier.
+Keyword arguments (often denoted as ```kwargs...``` but any name may be used) specify additional arguments which do not need to be used when the function is called. We recall the ```prepare_data``` function written earlier.
 ```@example nn
 function prepare_data(X, y; do_normal=true, kwargs...)
     X_train, y_train, X_test, y_test = split(X, y; kwargs...)
@@ -178,7 +178,7 @@ function prepare_data(X, y; do_normal=true, kwargs...)
 end
 nothing # hide
 ```
-All the keyword argumetns will be passed to the ```split``` function. They could also be passde to ```normalize``` or any other function. The benefit is that we do not need to specify the keyword arguments for ```split``` in ```prepare_data```.
+All keyword arguments ```kwargs``` will be passed to the ```split``` function. They could also be passed to ```normalize``` or any other function. The benefit is that we do not need to specify the keyword arguments for ```split``` in ```prepare_data```.
 
 Recall that ```split``` takes ```ratio_split``` as an optional argument. Write an one-line function ```ratio_train``` which gets the training and testing sets and computes the ratio of samples in the training set. Then call the ```prepare_data``` with:
 - no normalization and default split ratio;
@@ -194,7 +194,7 @@ The ```ratio_train``` function reads
 ratio_train(X_train, X_test) = size(X_train, 2) / (size(X_train,2) + size(X_test,2))
 nothing # hide
 ```
-For the first call, we want to use the default ratio, hence we do not pass ```ratio_split```. Since we want do not want to use normalization, we need to pass ```do_normal=false```.
+For the first call, we want to use the default ratio, hence we do not pass ```ratio_split```. Since we do not want to use normalization, we need to pass ```do_normal=false```.
 ```@example nn
 X_train, y_train, X_test, y_test, classes = prepare_data(X, y; do_normal=false)
 println("Ratio train/test = " * string(ratio_train(X_train, X_test)))
@@ -204,7 +204,7 @@ For the second call, it is the other way round. We use the default normalization
 X_train, y_train, X_test, y_test, classes = prepare_data(X, y; ratio_train=0.5)
 println("Ratio train/test = " * string(ratio_train(X_train, X_test)))
 ```
-For the final call, we need to use both arguments. Note that  ```do_normal``` is passed an optional argument and therefore, its default value will be overwritten while ```ratio_train``` is passed in ```kwargs``` and goes into the ```split``` function.
+For the final call, we need to use both arguments. Note that  ```do_normal``` is passed as an optional argument and therefore, its default value will be overwritten while ```ratio_train``` is passed in ```kwargs``` and goes into the ```split``` function.
 ```@example nn
 X_train, y_train, X_test, y_test, classes = prepare_data(X, y; do_normal=false, ratio_train=0.5)
 println("Ratio train/test = " * string(ratio_train(X_train, X_test)))
