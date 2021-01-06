@@ -2,7 +2,7 @@
 
 In many cases, unexpected behavior may occur during running code, which may lead to the situation, that some function is unable to return a reasonable value to its caller. In such cases, it may be best for the exceptional condition to either terminate the program while printing a diagnostic error message or if the programmer has provided code to handle such exceptional circumstances then allow that code to take the appropriate action.
 
-In the following example, we define a factorial function in the same way as we did in the  [Short-circuit evaluation](@repl Short-circuit-evaluation) section
+In the following example, we define a factorial function in the same way as we did in the  [Short-circuit evaluation](@ref Short-circuit-evaluation) section
 
 ```@example expections
 function fact(n)
