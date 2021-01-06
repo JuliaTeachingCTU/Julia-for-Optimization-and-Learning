@@ -2,7 +2,7 @@
 
 [DataFrames](https://dataframes.juliadata.org/stable/) is a package that provides a set of tools for working with tabular data in Julia. Its design and functionality are similar to those of [pandas](https://pandas.pydata.org/) (in Python) and `data.frame`, `data.table` and dplyr (in R), making it a great general purpose data science tool, especially for those coming to Julia from R or Python.
 
-## Creating `DataFrame`s
+### Creating `DataFrame`s
 
 ```@setup dfbasics
 using CSV
@@ -112,7 +112,7 @@ df
 ```
 or to change the name of specific columns
 ```@example dfbasics
-rename!(df, :a => :a, :f => :F)
+rename!(df, :a => :A, :f => :F)
 df
 ```
 Moreover, it is possible to use a function to generate column names
@@ -127,7 +127,6 @@ df
 ```@setup dfwork
 using DataFrames
 using RDatasets
-using StatsPlots
 ```
 
 In the next part of the lecture, we will use the [RDatasets](https://github.com/JuliaStats/RDatasets.jl). That package provides an easy way for Julia users to use most of the standard data sets that are available in the core of R programming language. For further examples, we will use [Iris dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set)
@@ -178,6 +177,7 @@ using StatsPlots
 using Query
 
 iris = dataset("datasets", "iris")
+Core.eval(Main, :(using StatsPlots))
 ```
 
 [StatsPlots](https://github.com/JuliaPlots/StatsPlots.jl) provides recipes for plotting histograms, boxplots, violin plots, etc. This package also provides `@df` macro, which allows simple plotting of tabular data. As a simple example, we can create a scatter plot of `SepalLength` and `SepalWidth` grouped based on the `Species`

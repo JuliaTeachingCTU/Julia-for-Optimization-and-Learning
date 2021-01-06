@@ -41,7 +41,7 @@ savefig("distributions_1.svg") # hide
 
 The Distributions package also provides methods to fit a distribution to a given set of samples
 
-```@repl distr
+```@example distr
 x = rand(Normal(2, 0.5), 10000); # generate 10000 random numbers from Normal(2, 0.5)
 D = fit(Normal, x)
 ```

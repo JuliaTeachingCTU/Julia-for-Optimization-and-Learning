@@ -25,7 +25,7 @@ A = [-4.0 -17.0; 2.0 2.0]
 
 det(A)
 inv(A)
-norm(p)
+norm(A)
 eigvals(A)
 eigvecs(A)
 ```
@@ -48,10 +48,11 @@ The last standard package that we will describe in more detail is the [Random](h
 
 ```@repl rand
 using Random
+using Random: seed!
 
-seed!(1234)
+seed!(1234);
 rand(2)
-seed!(1234)
+seed!(1234);
 rand(2)
 ```
 
