@@ -6,10 +6,10 @@ julia&gt; df = DataFrame(A = 1:4, B = [&quot;M&quot;, &quot;F&quot;, &quot;F&quo
  Row │ A      B       C
      │ Int64  String  Float64
 ─────┼──────────────────────────
-   1 │     1  M       0.0949413
-   2 │     2  F       0.895546
-   3 │     3  F       0.135061
-   4 │     4  M       0.0136647</code></pre><p>Since each column is stored in a <code>DataFrame</code> as a separate vector, it is possible to combine columns of a different element types. Column can be accesed directly without copying as follows</p><pre><code class="language-julia-repl">julia&gt; df.A
+   1 │     1  M       0.934571
+   2 │     2  F       0.786684
+   3 │     3  F       0.0402002
+   4 │     4  M       0.822929</code></pre><p>Since each column is stored in a <code>DataFrame</code> as a separate vector, it is possible to combine columns of a different element types. Column can be accesed directly without copying as follows</p><pre><code class="language-julia-repl">julia&gt; df.A
 4-element Array{Int64,1}:
  1
  2
@@ -25,20 +25,20 @@ julia&gt; df[!, :B]
 
 julia&gt; df[!, 3]
 4-element Array{Float64,1}:
- 0.09494125977941059
- 0.8955455864540707
- 0.13506122200049697
- 0.0136646953649191</code></pre><p>Since vectors are mutable structures and accessing a column of <code>DataFrame</code> via syntax above does not make a copy, it is possible to change elements of the <code>DataFrame</code> as follows</p><pre><code class="language-julia-repl">julia&gt; df.A[1] = 5;
+ 0.9345707641323999
+ 0.7866840705651656
+ 0.04020023594049671
+ 0.8229293164281417</code></pre><p>Since vectors are mutable structures and accessing a column of <code>DataFrame</code> via syntax above does not make a copy, it is possible to change elements of the <code>DataFrame</code> as follows</p><pre><code class="language-julia-repl">julia&gt; df.A[1] = 5;
 
 julia&gt; df
 4×3 DataFrame
  Row │ A      B       C
      │ Int64  String  Float64
 ─────┼──────────────────────────
-   1 │     5  M       0.0949413
-   2 │     2  F       0.895546
-   3 │     3  F       0.135061
-   4 │     4  M       0.0136647</code></pre><p>However, sometimes it is useful to get a copy of a column instead. To do that, we can use the following syntax</p><pre><code class="language-julia-repl">julia&gt; col = df[:, :A];
+   1 │     5  M       0.934571
+   2 │     2  F       0.786684
+   3 │     3  F       0.0402002
+   4 │     4  M       0.822929</code></pre><p>However, sometimes it is useful to get a copy of a column instead. To do that, we can use the following syntax</p><pre><code class="language-julia-repl">julia&gt; col = df[:, :A];
 
 julia&gt; col[1] = 4;
 
@@ -47,28 +47,28 @@ julia&gt; df
  Row │ A      B       C
      │ Int64  String  Float64
 ─────┼──────────────────────────
-   1 │     5  M       0.0949413
-   2 │     2  F       0.895546
-   3 │     3  F       0.135061
-   4 │     4  M       0.0136647</code></pre><h2 id="Adding-columns-and-rows"><a class="docs-heading-anchor" href="#Adding-columns-and-rows">Adding columns and rows</a><a id="Adding-columns-and-rows-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-columns-and-rows" title="Permalink"></a></h2><p><code>DataFrame</code>s can be also extended by new columns. It can be done directly by as follows</p><pre><code class="language-julia-repl">julia&gt; df.D = [:a, :b, :c, :d];
+   1 │     5  M       0.934571
+   2 │     2  F       0.786684
+   3 │     3  F       0.0402002
+   4 │     4  M       0.822929</code></pre><h2 id="Adding-columns-and-rows"><a class="docs-heading-anchor" href="#Adding-columns-and-rows">Adding columns and rows</a><a id="Adding-columns-and-rows-1"></a><a class="docs-heading-anchor-permalink" href="#Adding-columns-and-rows" title="Permalink"></a></h2><p><code>DataFrame</code>s can be also extended by new columns. It can be done directly by as follows</p><pre><code class="language-julia-repl">julia&gt; df.D = [:a, :b, :c, :d];
 
 julia&gt; df
 4×4 DataFrame
  Row │ A      B       C          D
      │ Int64  String  Float64    Symbol
 ─────┼──────────────────────────────────
-   1 │     5  M       0.0949413  a
-   2 │     2  F       0.895546   b
-   3 │     3  F       0.135061   c
-   4 │     4  M       0.0136647  d</code></pre><p>or using the <code>insertcols!</code> function that allows more options like inserting columns to a specific location</p><pre><code class="language-julia-repl">julia&gt; insertcols!(df, 3, :B =&gt; rand(4), :B =&gt; 11:14; makeunique = true)
+   1 │     5  M       0.934571   a
+   2 │     2  F       0.786684   b
+   3 │     3  F       0.0402002  c
+   4 │     4  M       0.822929   d</code></pre><p>or using the <code>insertcols!</code> function that allows more options like inserting columns to a specific location</p><pre><code class="language-julia-repl">julia&gt; insertcols!(df, 3, :B =&gt; rand(4), :B =&gt; 11:14; makeunique = true)
 4×6 DataFrame
- Row │ A      B       B_1        B_2    C          D
-     │ Int64  String  Float64    Int64  Float64    Symbol
-─────┼────────────────────────────────────────────────────
-   1 │     5  M       0.963752      11  0.0949413  a
-   2 │     2  F       0.665312      12  0.895546   b
-   3 │     3  F       0.0264664     13  0.135061   c
-   4 │     4  M       0.982939      14  0.0136647  d</code></pre><p>It is also possible to add new rows to the existing <code>DataFrame</code> using the <code>push!</code> function. New rows can be in the form of a vector or tuple of the correct length or in the form of a dictionary with keys the same as the column names of the target table</p><pre><code class="language-julia-repl">julia&gt; push!(df, [10, &quot;F&quot;, 0.1, 15, 0.235, :f]);
+ Row │ A      B       B_1       B_2    C          D
+     │ Int64  String  Float64   Int64  Float64    Symbol
+─────┼───────────────────────────────────────────────────
+   1 │     5  M       0.787138     11  0.934571   a
+   2 │     2  F       0.382603     12  0.786684   b
+   3 │     3  F       0.780603     13  0.0402002  c
+   4 │     4  M       0.79016      14  0.822929   d</code></pre><p>It is also possible to add new rows to the existing <code>DataFrame</code> using the <code>push!</code> function. New rows can be in the form of a vector or tuple of the correct length or in the form of a dictionary with keys the same as the column names of the target table</p><pre><code class="language-julia-repl">julia&gt; push!(df, [10, &quot;F&quot;, 0.1, 15, 0.235, :f]);
 
 julia&gt; push!(df, (10, &quot;F&quot;, 0.1, 15, 0.235, :f));
 
@@ -76,16 +76,16 @@ julia&gt; push!(df, Dict(:B_1 =&gt; 0.1, :B_2 =&gt; 15, :A =&gt; 10, :D =&gt; :f
 
 julia&gt; df
 7×6 DataFrame
- Row │ A      B       B_1        B_2    C          D
-     │ Int64  String  Float64    Int64  Float64    Symbol
-─────┼────────────────────────────────────────────────────
-   1 │     5  M       0.963752      11  0.0949413  a
-   2 │     2  F       0.665312      12  0.895546   b
-   3 │     3  F       0.0264664     13  0.135061   c
-   4 │     4  M       0.982939      14  0.0136647  d
-   5 │    10  F       0.1           15  0.235      f
-   6 │    10  F       0.1           15  0.235      f
-   7 │    10  F       0.1           15  0.235      f</code></pre><p>Column names can be obtained as <code>String</code>s using the <code>names</code> function or as a <code>Symbol</code>s using <code>propertynames</code> function</p><pre><code class="language-julia-repl">julia&gt; names(df)
+ Row │ A      B       B_1       B_2    C          D
+     │ Int64  String  Float64   Int64  Float64    Symbol
+─────┼───────────────────────────────────────────────────
+   1 │     5  M       0.787138     11  0.934571   a
+   2 │     2  F       0.382603     12  0.786684   b
+   3 │     3  F       0.780603     13  0.0402002  c
+   4 │     4  M       0.79016      14  0.822929   d
+   5 │    10  F       0.1          15  0.235      f
+   6 │    10  F       0.1          15  0.235      f
+   7 │    10  F       0.1          15  0.235      f</code></pre><p>Column names can be obtained as <code>String</code>s using the <code>names</code> function or as a <code>Symbol</code>s using <code>propertynames</code> function</p><pre><code class="language-julia-repl">julia&gt; names(df)
 6-element Array{String,1}:
  &quot;A&quot;
  &quot;B&quot;
@@ -103,16 +103,16 @@ julia&gt; propertynames(df)
  :C
  :D</code></pre><pre><code class="language-julia-repl">julia&gt; rename!(df, [:A, :B, :C, :D, :E, :F])
 7×6 DataFrame
- Row │ A      B       C          D      E          F
-     │ Int64  String  Float64    Int64  Float64    Symbol
-─────┼────────────────────────────────────────────────────
-   1 │     5  M       0.963752      11  0.0949413  a
-   2 │     2  F       0.665312      12  0.895546   b
-   3 │     3  F       0.0264664     13  0.135061   c
-   4 │     4  M       0.982939      14  0.0136647  d
-   5 │    10  F       0.1           15  0.235      f
-   6 │    10  F       0.1           15  0.235      f
-   7 │    10  F       0.1           15  0.235      f</code></pre><div class = "info-body">
+ Row │ A      B       C         D      E          F
+     │ Int64  String  Float64   Int64  Float64    Symbol
+─────┼───────────────────────────────────────────────────
+   1 │     5  M       0.787138     11  0.934571   a
+   2 │     2  F       0.382603     12  0.786684   b
+   3 │     3  F       0.780603     13  0.0402002  c
+   4 │     4  M       0.79016      14  0.822929   d
+   5 │    10  F       0.1          15  0.235      f
+   6 │    10  F       0.1          15  0.235      f
+   7 │    10  F       0.1          15  0.235      f</code></pre><div class = "info-body">
 <header class = "info-header">Savin and loading <code>csv</code> files</header><p><p>The standard format for storing table data is <code>csv</code> file format. The <a href="https://github.com/JuliaData/CSV.jl">CSV</a> package provides an interface for saving and loading <code>csv</code> files.</p><pre><code class="language-julia-repl">julia&gt; using CSV
 
 julia&gt; CSV.write(&quot;dataframe.csv&quot;, df)
@@ -120,16 +120,16 @@ julia&gt; CSV.write(&quot;dataframe.csv&quot;, df)
 
 julia&gt; table = CSV.read(&quot;dataframe.csv&quot;, DataFrame; header = true)
 7×6 DataFrame
- Row │ A      B       C          D      E          F
-     │ Int64  String  Float64    Int64  Float64    String
-─────┼────────────────────────────────────────────────────
-   1 │     5  M       0.963752      11  0.0949413  a
-   2 │     2  F       0.665312      12  0.895546   b
-   3 │     3  F       0.0264664     13  0.135061   c
-   4 │     4  M       0.982939      14  0.0136647  d
-   5 │    10  F       0.1           15  0.235      f
-   6 │    10  F       0.1           15  0.235      f
-   7 │    10  F       0.1           15  0.235      f</code></pre><p>See the package documentation for more information.</p></p></div><h2 id="StatsPlots"><a class="docs-heading-anchor" href="#StatsPlots">StatsPlots</a><a id="StatsPlots-1"></a><a class="docs-heading-anchor-permalink" href="#StatsPlots" title="Permalink"></a></h2><p>In the next part of the lecture, we will use the <a href="https://github.com/JuliaStats/RDatasets.jl">RDatasets</a>. That package provides an easy way for Julia users to use most of the standard data sets that are available in the core of R programming language.</p><pre><code class="language-julia-repl">julia&gt; using RDatasets
+ Row │ A      B       C         D      E          F
+     │ Int64  String  Float64   Int64  Float64    String
+─────┼───────────────────────────────────────────────────
+   1 │     5  M       0.787138     11  0.934571   a
+   2 │     2  F       0.382603     12  0.786684   b
+   3 │     3  F       0.780603     13  0.0402002  c
+   4 │     4  M       0.79016      14  0.822929   d
+   5 │    10  F       0.1          15  0.235      f
+   6 │    10  F       0.1          15  0.235      f
+   7 │    10  F       0.1          15  0.235      f</code></pre><p>See the package documentation for more information.</p></p></div><h2 id="StatsPlots"><a class="docs-heading-anchor" href="#StatsPlots">StatsPlots</a><a id="StatsPlots-1"></a><a class="docs-heading-anchor-permalink" href="#StatsPlots" title="Permalink"></a></h2><p>In the next part of the lecture, we will use the <a href="https://github.com/JuliaStats/RDatasets.jl">RDatasets</a>. That package provides an easy way for Julia users to use most of the standard data sets that are available in the core of R programming language.</p><pre><code class="language-julia-repl">julia&gt; using RDatasets
 
 julia&gt; iris = dataset(&quot;datasets&quot;, &quot;iris&quot;)
 150×5 DataFrame
@@ -158,4 +158,4 @@ julia&gt; iris = dataset(&quot;datasets&quot;, &quot;iris&quot;)
     :SepalWidth,
     group = :Species,
     marker = ([:d :h :star7], 8),
-)</code></pre><p><img src="../tables_1.svg" alt/></p><pre><code class="language-julia">@df iris marginalhist(:PetalLength, :PetalWidth)</code></pre><p><img src="../tables_2.svg" alt/></p><pre><code class="language-julia">@df iris corrplot([:SepalLength :SepalWidth :PetalLength :PetalWidth], grid = false, size = (600, 500))</code></pre><p><img src="../tables_3.svg" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Plots/">« Plots.jl</a><a class="docs-footer-nextpage" href="../otherpackages/">Other useful packages »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 6 January 2021 09:10">Wednesday 6 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+)</code></pre><p><img src="../tables_1.svg" alt/></p><pre><code class="language-julia">@df iris marginalhist(:PetalLength, :PetalWidth)</code></pre><p><img src="../tables_2.svg" alt/></p><pre><code class="language-julia">@df iris corrplot([:SepalLength :SepalWidth :PetalLength :PetalWidth], grid = false, size = (600, 500))</code></pre><p><img src="../tables_3.svg" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Plots/">« Plots.jl</a><a class="docs-footer-nextpage" href="../otherpackages/">Other useful packages »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 6 January 2021 13:00">Wednesday 6 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
