@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="400" viewBox="0 0 2400 1600">
 <defs>
-  <clipPath id="clip370">
+  <clipPath id="clip960">
     <rect x="0" y="0" width="2400" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M0 1600 L2400 1600 L2400 0 L0 0  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip371">
+  <clipPath id="clip961">
     <rect x="480" y="0" width="1681" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M86.9921 423.675 L432.756 423.675 L432.756 77.9108 L86.9921 77.9108  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip372">
+  <clipPath id="clip962">
     <rect x="86" y="77" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,423.675 432.756,423.675 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,77.9108 86.9921,423.675 
   "/>
-<g clip-path="url(#clip372)">
+<g clip-path="url(#clip962)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAIjElEQVR4nO3c32vPfx/H8dcuy8FX
 bO2EUtIcTC3iACUlaUlxsDihnOAMOdqJMwekcGBysKOVAzllR5SfB2q1/Dgh59gZQ8uPbLv+gqur
@@ -71,21 +71,21 @@ MKEFCBNagDChBQgTWoAwoQUIE1qAMKEFCBNagDChBQgTWoAwoQUIE1qAMKEFCBNagDChBQgTWoCw
 fwNzXvD49FHVWAAAAABJRU5ErkJggg==
 " transform="translate(87, 78)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M566.992 423.675 L912.756 423.675 L912.756 77.9108 L566.992 77.9108  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip373">
+  <clipPath id="clip963">
     <rect x="566" y="77" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,423.675 912.756,423.675 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,77.9108 566.992,423.675 
   "/>
-<g clip-path="url(#clip373)">
+<g clip-path="url(#clip963)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAHR0lEQVR4nO3cv4/OXwKG4TMbDQUJ
 Gg2VUiEhptH5A4RKoZBoFISQTAQ1pUKpRKEUCj9qxURoJlGQCJ1GYxIikdlii2+xu9k9G7eXdV31
@@ -123,21 +123,21 @@ oQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWI
 CS1ATGgBYkILEBNagJjQAsT+Drspp+rvjJ1RAAAAAElFTkSuQmCC
 " transform="translate(567, 78)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1046.99 423.675 L1392.76 423.675 L1392.76 77.9108 L1046.99 77.9108  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip374">
+  <clipPath id="clip964">
     <rect x="1046" y="77" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,423.675 1392.76,423.675 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,77.9108 1046.99,423.675 
   "/>
-<g clip-path="url(#clip374)">
+<g clip-path="url(#clip964)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAG4ElEQVR4nO3czVFbWRdA0UeXs7Dl
 NAx2HBZpqCANg0nDiDxEHAjHQQ+7evD9HHVvy4i1xufxrt5g151wzpZleVkAyPxx7AMAnDqhBYgJ
@@ -173,21 +173,21 @@ xIQWICa0ADGhBYgJLUBMaAFiQgsQE1qAmNACxIQWICa0ADGhBYgJLUBMaAFiQgsQE1qAmNACxIQW
 ICa0ADGhBYgJLUBMaAFiQgsQE1qAmNACxIQWIPYnyDOqqTj1aqEAAAAASUVORK5CYII=
 " transform="translate(1047, 78)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1526.99 423.675 L1872.76 423.675 L1872.76 77.9108 L1526.99 77.9108  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip375">
+  <clipPath id="clip965">
     <rect x="1526" y="77" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,423.675 1872.76,423.675 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,77.9108 1526.99,423.675 
   "/>
-<g clip-path="url(#clip375)">
+<g clip-path="url(#clip965)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAGM0lEQVR4nO3cS3KjSBRAUejwviSt
 TLAywcroYXVPypEq30Kyzxkn4vkTN3KiN0/TdEwAZP45ewCA705oAWJCCxATWoCY0ALEhBYgJrQA
@@ -220,21 +220,21 @@ WoCY0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoCY
 0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoDYvwZegCwl8FpEAAAAAElFTkSuQmCC
 " transform="translate(1527, 78)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M2006.99 423.675 L2352.76 423.675 L2352.76 77.9108 L2006.99 77.9108  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip376">
+  <clipPath id="clip966">
     <rect x="2006" y="77" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,423.675 2352.76,423.675 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,77.9108 2006.99,423.675 
   "/>
-<g clip-path="url(#clip376)">
+<g clip-path="url(#clip966)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAHmUlEQVR4nO3cPYuWZx6H4etZjQgh
 oKUMKJYSUAhYaIQUadNpKfgRLJKQ3sbWxm9goaDWIY2FkCIvJAhB8lJMCGhjYRMRCZkttliWrf67
@@ -274,21 +274,21 @@ QExoAWJCCxATWoCY0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALE/gnyBrK2/UuGAwAAAABJ
 RU5ErkJggg==
 " transform="translate(2007, 78)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M86.9921 957.008 L432.756 957.008 L432.756 611.244 L86.9921 611.244  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip377">
+  <clipPath id="clip967">
     <rect x="86" y="611" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,957.008 432.756,957.008 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,611.244 86.9921,957.008 
   "/>
-<g clip-path="url(#clip377)">
+<g clip-path="url(#clip967)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAGYklEQVR4nO3WoW6UaRiG4W+YNjgk
 KQGBoeF0kJwGBt8TQGIIFkGQIFA4NBmHIwQDhiAITVq6duVmN/c7m+G6TuD5xJ/7fze73e5qAZC5
@@ -322,21 +322,21 @@ FiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAm
 tAAxoQWICS1ATGgBYkILEPsLvRNqmA4JcvYAAAAASUVORK5CYII=
 " transform="translate(87, 611)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M566.992 957.008 L912.756 957.008 L912.756 611.244 L566.992 611.244  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip378">
+  <clipPath id="clip968">
     <rect x="566" y="611" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,957.008 912.756,957.008 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,611.244 566.992,957.008 
   "/>
-<g clip-path="url(#clip378)">
+<g clip-path="url(#clip968)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFu0lEQVR4nO3WLU5kURhF0Vs/JCR4
 PAaNZigYRsCEmAazIAiScjhKIggGEJWCtu07+xah15rA+czb7y42m833ACCzPPQBAL+d0ALEhBYg
@@ -367,21 +367,21 @@ hBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYg
 JrQAMaEFiAktQExoAWJCCxATWoDYH7lWSMBJ4ECPAAAAAElFTkSuQmCC
 " transform="translate(567, 611)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1046.99 957.008 L1392.76 957.008 L1392.76 611.244 L1046.99 611.244  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip379">
+  <clipPath id="clip969">
     <rect x="1046" y="611" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,957.008 1392.76,957.008 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,611.244 1046.99,957.008 
   "/>
-<g clip-path="url(#clip379)">
+<g clip-path="url(#clip969)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAGDElEQVR4nO3WMU5bWxhG0YuxZUoq
 SCTSu6GEClEyJ4aULsoMIoZgSpQmVEBDDYLXvjJ6eftc5Kw1ge+XbO179rbb7fsEQGYx9wEAu05o
@@ -414,21 +414,21 @@ hBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYgJrQAMaEFiAktQExoAWL/ADIJRWRKWmFIAAAA
 AElFTkSuQmCC
 " transform="translate(1047, 611)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1526.99 957.008 L1872.76 957.008 L1872.76 611.244 L1526.99 611.244  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3710">
+  <clipPath id="clip9610">
     <rect x="1526" y="611" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,957.008 1872.76,957.008 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,611.244 1526.99,957.008 
   "/>
-<g clip-path="url(#clip3710)">
+<g clip-path="url(#clip9610)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAF+0lEQVR4nO3WMW5TWxhG0eMny0ZQ
 0qciRQpXaZgJg2EENDSEloGkSpsiEtIdQOrMIJYsmZYS6Wmfy/NbawLfXxxtnc2yLOcBQOaftQ8A
@@ -460,21 +460,21 @@ jxYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYgJrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYg
 JrQAMaEFiAktQExoAWJCCxATWoCY0ALEhBYg9guIB093oT/oPAAAAABJRU5ErkJggg==
 " transform="translate(1527, 611)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M2006.99 957.008 L2352.76 957.008 L2352.76 611.244 L2006.99 611.244  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3711">
+  <clipPath id="clip9611">
     <rect x="2006" y="611" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,957.008 2352.76,957.008 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,611.244 2006.99,957.008 
   "/>
-<g clip-path="url(#clip3711)">
+<g clip-path="url(#clip9611)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAF1ElEQVR4nO3WsUnDWxyG4RMT0QGs
 7ewcwB1SuodgIbiGdjqDC9jaWWcICxcIGMltLeXCe8L1Ps8C3+8P4c1ZbDab/QAgc3ToAwD+OqEF
@@ -506,21 +506,21 @@ ICa0ADGhBYgJLUBMaAFiQgsQE1qAmNACxIQWICa0ADGhBYgJLUBMaAFiQgsQ+wfGqkp7S8+RdQAA
 AABJRU5ErkJggg==
 " transform="translate(2007, 611)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M86.9921 1490.34 L432.756 1490.34 L432.756 1144.58 L86.9921 1144.58  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3712">
+  <clipPath id="clip9612">
     <rect x="86" y="1144" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,1490.34 432.756,1490.34 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   86.9921,1144.58 86.9921,1490.34 
   "/>
-<g clip-path="url(#clip3712)">
+<g clip-path="url(#clip9612)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFUklEQVR4nO3WsW0iARRF0fVqCLBD
 S0STOHFI7gapitwtuAAkCoAQydsEd760OqeCF129l4+Pj98/AGT+Tg8A+N8JLUBMaAFiQgsQE1qA
@@ -549,21 +549,21 @@ FiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAm
 tAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtACxf7D+IeTU9w3wAAAAAElFTkSuQmCC
 " transform="translate(87, 1145)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M566.992 1490.34 L912.756 1490.34 L912.756 1144.58 L566.992 1144.58  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3713">
+  <clipPath id="clip9613">
     <rect x="566" y="1144" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,1490.34 912.756,1490.34 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   566.992,1144.58 566.992,1490.34 
   "/>
-<g clip-path="url(#clip3713)">
+<g clip-path="url(#clip9613)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFRUlEQVR4nO3WIW5iARiF0WHS4Egq
 UFU8xS5IMN0v22AXqJqKGgSK2cCYSfjen0zOWcFVX+5mWZbnLwAyv6cHAPzvhBYgJrQAMaEFiAkt
@@ -592,21 +592,21 @@ AsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSE
 FiAmtAAxoQWICS1ATGgBYn8Ak/QhGCk/nLMAAAAASUVORK5CYII=
 " transform="translate(567, 1145)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1046.99 1490.34 L1392.76 1490.34 L1392.76 1144.58 L1046.99 1144.58  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3714">
+  <clipPath id="clip9614">
     <rect x="1046" y="1144" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,1490.34 1392.76,1490.34 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1046.99,1144.58 1046.99,1490.34 
   "/>
-<g clip-path="url(#clip3714)">
+<g clip-path="url(#clip9614)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFSUlEQVR4nO3WsaliUQBF0XH4GKmJ
 sYG12JOpnViFxRiLgbmBgohTwwf3uzCsVcGJNme23W4/fwDI/B09AOB/J7QAMaEFiAktQExoAWJC
@@ -635,21 +635,21 @@ oQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWICS1ATGgBYkILEBNagJjQAsSEFiAmtAAxoQWI
 CS1ATGgBYkILEBNagJjQAsSEFiD2D1XYKUwAeHAGAAAAAElFTkSuQmCC
 " transform="translate(1047, 1145)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M1526.99 1490.34 L1872.76 1490.34 L1872.76 1144.58 L1526.99 1144.58  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3715">
+  <clipPath id="clip9615">
     <rect x="1526" y="1144" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,1490.34 1872.76,1490.34 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1526.99,1144.58 1526.99,1490.34 
   "/>
-<g clip-path="url(#clip3715)">
+<g clip-path="url(#clip9615)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFQElEQVR4nO3WMYqaARhF0SRoI9g4
 ha2C2LpN12QnTDPt1DaC+0jWMOD9PwjnrOBVl/f7eDz+/QVA5s/0AID/ndACxIQWICa0ADGhBYgJ
@@ -678,21 +678,21 @@ mNACxIQWICa0ADGhBYgJLUBMaAFiQgsQE1qAmNACxIQWICa0ADGhBYgJLUBMaAFiQgsQE1qAmNAC
 xIQWICa0ADGhBYj9A+rkG/yuuLDyAAAAAElFTkSuQmCC
 " transform="translate(1527, 1145)"/>
 </g>
-<path clip-path="url(#clip370)" d="
+<path clip-path="url(#clip960)" d="
 M2006.99 1490.34 L2352.76 1490.34 L2352.76 1144.58 L2006.99 1144.58  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip3716">
+  <clipPath id="clip9616">
     <rect x="2006" y="1144" width="347" height="347"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,1490.34 2352.76,1490.34 
   "/>
-<polyline clip-path="url(#clip370)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip960)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   2006.99,1144.58 2006.99,1490.34 
   "/>
-<g clip-path="url(#clip3716)">
+<g clip-path="url(#clip9616)">
 <image width="346" height="346" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAVoAAAFaCAYAAABfUZV2AAAFRElEQVR4nO3WsckiYQBF0XURTIQf
 TASzKche7MJyLERMLUAMhKnAyG1gkwXvfLCcU8GLLm81TdPnFwCZ36MHAPzvhBYgJrQAMaEFiAkt
