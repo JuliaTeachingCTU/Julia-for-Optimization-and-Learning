@@ -15,9 +15,9 @@ Neural network appeared for the first time decades ago but were almost forgotten
 
 The first three bullets from the previous paragraph are all used for classification. Even though neural networks can be similarly used for regression, this usage is not so prevalent. The idea is the same as for linear networks. For an input ``x`` with a label ``y`` and a classifier ``f``, it minimizes the loss between the prediction ``f(w;x)`` and label ``y``. We specify that ``f`` has two parameters: ``w`` are to be trained (weights) while ``x`` are inputs (data). Having ``n`` samples, this results in
 ```math
-\operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(f(w;x_i), y_i).
+\operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).
 ```
-The previous lecture used the linear classifier ``f(x)=w^\top x`` and the cross-entropy loss for classification and the squared ``l_2`` norm ``\operatorname{loss}(\hat y, y) = (\hat y - y)^2`` for regression.
+The previous lecture used the linear classifier ``f(x)=w^\top x`` and the cross-entropy loss for classification and the squared ``l_2`` norm ``\operatorname{loss}(y, \hat y) = (y - \hat y)^2`` for regression.
 
 The main ideas of neural networks is to use a more complex function ``f`` with a certain structure such that:
 - It has a good approximative quality.
@@ -181,7 +181,7 @@ To prevent overfitting, multiple techniques were developed:
 - *Early stopping* stops the algorithm before it find an optimum. This goes against the spirit of optimization as the loss function is actually not optimized.
 - *Regularization* adds a term to the objective funtion, usually the square ``l_2`` norm of weights
   ```math
-  \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(f(w;x_i), y_i) + \frac{\lambda}{2}\|w\|^2.
+  \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)) + \frac{\lambda}{2}\|w\|^2.
   ```
   The more complicated classifier from the figure above contained (among others) the term ``20222x^9``. Since the coefficient is huge, its ``l_2`` norm would be huge. Regularization prevents such classifiers. Another possibility is the (non-differentiable) ``l_1`` norm, which induces sparsity (many weights should be zero).
 - *Simple networks* cannot approximate too complicated function and they can prevent overfitting as well.
@@ -196,11 +196,11 @@ How should the classifier be evaluated? The figure above suggests that it is a b
 
 We will derive the gradients for the most common case of the objective
 ```math
-L(w) := \sum_{i=1}^n \operatorname{loss}(f(w;x_i), y_i).
+L(w) := \sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).
 ```
 If the classifier has only a single output (as is the case for regression or binary classification), then the chain rule yields
 ```math
-\nabla L(w) = \sum_{i=1}^n \operatorname{loss}'(f(w;x_i), y_i)\nabla_w f(w;x_i).
+\nabla L(w) = \sum_{i=1}^n \operatorname{loss}'(y_i, f(w;x_i))\nabla_w f(w;x_i).
 ```
 The most difficult term to compute is ``\nabla_w f(w;x_i)``. All neural networks presented in this course have a layered structure. For an input ``x``, the computation of ``f(w;x)`` is initialized by ``a_0=x`` and then the iterative update
 ```math
