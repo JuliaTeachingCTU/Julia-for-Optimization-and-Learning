@@ -140,22 +140,23 @@ savefig("distributions_ex3.svg") # hide
 
 ## BSON.jl
 
-[BSON](https://github.com/JuliaIO/BSON.jl) is a package for working with the Binary JSON serialisation format. It can be used as a general store for Julia data structures.
+[BSON](https://github.com/JuliaIO/BSON.jl) is a package for working with the Binary JSON serialisation format. It can be used as a general store for Julia data structures. To save the data, BSON provides the `bson` function.  The data can be passed to the function directly via keyword arguments
 
 ```@repl bson
 using BSON
-
-BSON.bson("test.bson", Dict(:a => [1+2im, 3+4im], :b => "Hello, World!"))
-BSON.load("test.bson")
+BSON.bson("test2.bson", a = [1+2im, 3+4im], b = "Hello, World!")
 ```
-
+or as a dictionary
 ```@repl bson
-using BSON
-
-BSON.bson("test.bson", a = [1+2im, 3+4im], b = "Hello, World!")
-BSON.load("test.bson")
+data = Dict(:a => [1+2im, 3+4im], :b => "Hello, World!")
+BSON.bson("test1.bson", data)
 ```
-
+To load the data, BSON provides the `load` function, that accepts the path to the data
+```@repl bson
+BSON.load("test1.bson")
+BSON.load("test2.bson")
+```
+The package also provides an alternative way to saving and loading data using `@save` and `@load` macros
 ```@repl bson
 using BSON: @save, @load
 
