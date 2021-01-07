@@ -29,7 +29,7 @@ X_train, y_train, X_test, y_test, classes = prepare_data(X, y)
 nothing # hide
 ```
 
-We start with creating the same network.
+We start by creating the same network.
 
 ```@raw html
 <div class = "exercise-body">
@@ -65,11 +65,11 @@ m(X_train)
 ```
 Because there are ``3`` classes and ``120`` samples, it returns an array of size ``3\times 120``. Note that the columns are probabilities.
 
-We can access the parameters of the neural network by using ```params(m)```. At the same time, we can select the second layer of ```m``` by ```m[2]```. This can be naturally combined, so that
+We can access the neural network parameters by using ```params(m)```. At the same time, we can select the second layer of ```m``` by ```m[2]```. This can be naturally combined, so that
 ```@example iris
 params(m[2])
 ```
-returns the parameters of the second layer. Since the second layer has ``5 `` input and ``3`` output neurons, the matrix is of size ``3\times 5`` and the bias is a vector of lenght ``3``. The parameters ```params(m[2])``` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly and we do not need to take care of it. If for any reason, we need to use a special initialization, we can assign to parameters via
+returns the parameters of the second layer. Since the second layer has ``5 `` input and ``3`` output neurons, the matrix is of size ``3\times 5`` and the bias is a vector of length ``3``. The parameters ```params(m[2])``` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly, and we do not need to take care of it. If for any reason, we need to use a special initialization, we can assign to parameters via
 ```@example iris
 params(m[2])[2] .= [-1;0;1]
 
@@ -89,7 +89,7 @@ The ```loss``` function does not have ```m``` as input. Even though there could 
 ```@example iris
 loss(X_train, y_train)
 ```
-This computes the loss function on whole training set. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
+This computes the loss function on the whole training set. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
 
 
 ```@raw html
@@ -107,7 +107,7 @@ gs = gradient(() -> loss(X_train, y_train), params(m))
 
 nothing # hide
 ```
-The function ```gradient``` takes two inputs. The first one is the function which we want to differentiate, and the second one are the parameters. The ```loss``` function needs to be evaluated at the correct points ```X_train``` and ```y_train```. In some applications (adversarial learning), we may need to differentiate with respect to other parameters such as ```X_train```. This can be achieved by changing the second parameters of the ```gradient``` function
+The function ```gradient``` takes two inputs. The first one is the function we want to differentiate, and the second one are the parameters. The ```loss``` function needs to be evaluated at the correct points ```X_train``` and ```y_train```. In some applications (adversarial learning), we may need to differentiate with respect to other parameters such as ```X_train```. This can be achieved by changing the second parameters of the ```gradient``` function
 ```@example iris
 gs = gradient(() -> loss(X_train, y_train), params(X_train))
 

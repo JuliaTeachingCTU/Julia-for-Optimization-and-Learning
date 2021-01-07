@@ -8,7 +8,7 @@ MNIST.traindata()
 
 # More complex networks
 
-This section will show how to train more complex networks using the stochastic gradient descent. We will also use the more complicated MNIST dataset which contains 60000 images of digits 0-9.
+This section will show how to train more complex networks using stochastic gradient descent. We will also use the more complicated MNIST dataset which contains 60000 images of digits 0-9.
 
 As always, we start with the seed 
 ```@example nn
@@ -48,7 +48,7 @@ As we have never worked with MLDatasets, we do not know in which format the load
 ```@example nn
 typeof(dataset.traindata(T))
 ```
-is a tuple where its first part are the data and the second one are the labels. Performing one more check
+is a tuple of the data and the labels. Performing one more check
 ```@example nn
 size(dataset.traindata(T)[1])
 ```
@@ -63,7 +63,7 @@ nothing # hide
 ```
 To prevent unexpected surprises, we specify that the data have only three dimensions via ```X::AbstractArray{T, 3}```.
 
-Now we can write the loading function. It is similar as the one we have already written. Pay attention to the line ```dataset.traindata(T)...```. It would be possible to use two arguments ```dataset.traindata(T)[1]``` and ```dataset.traindata(T)[2]```. However, this would load the data two times. Line ```y_train = T.(y_train)``` should not be necessary as we specify ```T``` already in ```traindata(T)```. We include the optional parameter ```onehot```.
+Now we can write the loading function. It is similar to the one we have already written. Pay attention to the line ```dataset.traindata(T)...```. It would be possible to use two arguments ```dataset.traindata(T)[1]``` and ```dataset.traindata(T)[2]```. However, this would load the data two times. Line ```y_train = T.(y_train)``` should not be necessary as we specify ```T``` already in ```traindata(T)```. We include the optional parameter ```onehot```.
 ```@example nn
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)    
     X_train, y_train = reshape_data(dataset.traindata(T)...)
@@ -113,7 +113,7 @@ It results in an error
 │  Closest candidates are:
 │    reshape_data(::AbstractArray{T,3}, ::AbstractArray{T,1} where T) where T
 ```
-We see that the problem is that we defined ```reshape_data``` only for input arrays of dimension 3 but since CIFAR contains coloured images, it has 4 dimensions. We therefore need to add more method for the function ```reshape_data```
+We see that the problem is that we defined ```reshape_data``` only for input arrays of dimension 3 but since CIFAR contains coloured images, it has 4 dimensions. We, therefore, need to add more method for the function ```reshape_data```
 ```@example nn
 reshape_data(X::AbstractArray{T, 4}, y::AbstractVector) where T = (X, reshape(y, 1, :))
 
@@ -147,7 +147,7 @@ Plot the third image from the training set and check that the label is correct. 
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To plot an image, we convert it into grayscale by ```Gray```. We use the dot notation because the input is a matrix, and we need to apply the operator to all of its entries. Since we are not interested in the axis, we turn them off by ```axis=nothing```. Note that we need to transpose the input; otherwise the image would bo rotated. We also use ```1 .-x``` to invert the black and white colours.
+To plot an image, we convert it into grayscale by ```Gray```. We use the dot notation because the input is a matrix, and we need to apply the operator to all of its entries. Since we are not interested in the axis, we turn them off by ```axis=nothing```. Note that we need to transpose the input; otherwise, the image would be rotated. We also use ```1 .-x``` to invert the black and white colours.
 ```@example nn
 using Plots
 
@@ -171,7 +171,7 @@ plot_image(X_train[:,:,:,i])
 
 savefig("MNIST.svg") # hide
 ```
-For the correct label, we need to specify the classes ```0:9```. If we do not specify them, Flux will assign numbers 1 to 10 instead of correct 0 to 9 and the result will be shifted by one
+For the correct label, we need to specify the classes ```0:9```. If we do not specify them, Flux will assign numbers 1 to 10 instead of correct 0 to 9, and the result will be shifted by one
 ```@example nn
 onecold(y_train[:,i], 0:9)
 
@@ -240,7 +240,7 @@ This allows us to call the ```train!``` function, which computes the gradients o
 ```julia
 Flux.train!(loss, params(m), batches_train, opt)
 ```
-performs one training epoch. Computationally, this is roughly equivalent to one full gradient update but this line of code performed as many gradient updates as there are minibatches. Therefore, we train for ```n_epoch``` epochs by
+performs one training epoch. Computationally, this is roughly equivalent to one full gradient update, but this line of code performed as many gradient updates as there are minibatches. Therefore, we train for ```n_epoch``` epochs by
 ```julia
 for _ in 1:n_epochs
     Flux.train!(loss, params(m), batches_train, opt)
@@ -306,7 +306,7 @@ The accuracy is over 92%, which is not bad for training for one epoch only. Let 
 ```
 Write a function ```train_or_load!(file_name, m, X, y; ???)``` which checks whether the file ```file_name``` exists.
 - If it exists, it loads it and then copies its parameters into ```m``` using the function ```Flux.loadparams!```
-- If it does not exists, it trains it using ```train_model!```.
+- If it does not exist, it trains it using ```train_model!```.
 In both cases, the model ```m``` should be modified inside the ```train_or_load!``` function. Pay special attention to the optional arguments ```???```. 
 
 Load the model from ```data/mnist.bson``` and evaluate the performance at the testing set.
@@ -349,4 +349,4 @@ nothing # hide
 println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
-The externally trained model has the accuracy of more than 98% (it has the same architecture as the one defined above but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform a further analysis of the network in the exercises.
+The externally trained model has the accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
