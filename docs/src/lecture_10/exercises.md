@@ -422,4 +422,4 @@ We may observe several things:
 - The size of the image decreases when propagated deeper into the network. The second and third rows (after the second layer) contain more pixels than the fourth and fifth rows (after the fourth layer). 
 - The channels of the same layer produce different outputs. While the second row (first channel after the second layer) depicts black digits on a grey background, the third row (last channel after the second layer) depicts white digits on black background.
 - Each digit produce different images. This is important for separation and correct predictions.
- 
+
