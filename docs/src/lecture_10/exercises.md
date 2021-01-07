@@ -274,7 +274,7 @@ for i in findall(y_hat .!= y)
     errors[y[i], y_hat[i]] += 1
 end
 ```
-To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly we add the labels as the first column. 
+To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly, we add the labels as the first column. 
 ```@example gpuu
 using DataFrames
 
@@ -296,7 +296,7 @@ df # hide
 
 
 
-It is surprising that the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. We investigate this in the next exercise.
+Surprisingly, the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. We investigate this in the next exercise.
 
 
 
@@ -313,7 +313,7 @@ Plot all images which are ``9`` but were classified as ``7``.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To plot all these misclassified images, we find their indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since there are 11 of these images, and since 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```. When plotting, we specigy the ```layout``` and to minimize the empty space between images also ```size```.
+To plot all these misclassified images, we find their indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since there are 11 of these images, and since 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```. When plotting, we specify ```layout``` and to minimize the empty space between images also ```size```.
 ```@example gpuu
 i1 = 9
 i2 = 7
@@ -338,7 +338,6 @@ savefig("miss.svg") # hide
 
 We see that some of the nines could be recognized as a seven even by humans. 
 
-The last exercise visualizes hidden layers of neural networks.
 
 
 
@@ -346,33 +345,27 @@ The last exercise visualizes hidden layers of neural networks.
 
 
 
-
+The following exercise depicts how images propagate through the network.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 5: Visualization of neural networks 1</header><p>
 ```
-From the theoretical part we know that output of convolutional layers have the same dimension as inputs. If the activation function is a sigmoid, the output values stay in the interval ``[0,1]`` and can, therefore, be also interpreted as images. The following two exercises will depict how images are propagated through the network.
+We know that the output of the convolutional layers has the same number of dimensions as the inputs. If the activation function is the sigmoid, the output values stay within ``[0,1]`` and can also be interpreted as images. Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson``` (you can check that the model accuracy is 0.9831).
 
-Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson```. 
-
-(you can check the accuracy of the model is 0.9831)
-
-???
-
-
-
-
+For all digits, select the first five samples from the training set of this digit. Then create ``5\times 5`` graph (there will be 10 of them for each digit), where each column corresponds to one sample. The rows should be:
+- The original image.
+- The first channel of the layer after the first pooling layer.
+- The last channel of the layer after the first pooling layer.
+- The first channel of the layer after the second pooling layer.
+- The last channel of the layer after the second pooling layer.
+Discuss the images.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-
-
-
-
-
+To create the network and to load the data, we use
 ```@example gpuu
 m = Chain(
     Conv((2,2), 1=>16, sigmoid),
@@ -387,12 +380,11 @@ m = Chain(
 file_name = joinpath("data", "mnist_sigmoid.bson")
 train_or_load!(file_name, m, X_train, y_train)
 ```
-
-
-
+Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Since ```plot_image(z1[:,:,1,i])``` plots the first channel of the ``i^{\rm th}`` samples from ```z1```, we create an array of plots by ```p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]```. As the length of ```z1``` is five, the length of ```p1``` is also five. This is the first row of the final plot. We create the other rows in the same way. To plot the final plot, we do ```plot(p1..., p2a..., p2b..., p3a..., p3b...)```, which unpacks the 5 arrays into 25 inputs to the ```plot``` function. 
 ```@example gpuu
-for i in 0:9
-    ii = findall(onecold(y_train, 0:9) .== i)[1:5]
+classes = 0:9
+for i in classes
+    ii = findall(onecold(y_train, classes) .== i)[1:5]
 
     z1 = X_train[:,:,:,ii]
     z2 = m[1:2](X_train[:,:,:,ii])
@@ -404,20 +396,30 @@ for i in 0:9
     p2b = [plot_image(z2[:,:,end,i]) for i in 1:size(z2,4)]
     p3b = [plot_image(z3[:,:,end,i]) for i in 1:size(z3,4)]
     
-    plot(p1..., p2a..., p3a..., p2b..., p3b...; layout=(5,5), size=(600,600))
+    plot(p1..., p2a..., p2b..., p3a..., p3b...; layout=(5,5), size=(600,600))
     savefig("Layers_$(i).svg")
 end
 ```
-
-
-
-
-
+We plot and comment on three selected digits below.
 ```@raw html
 </p></details>
 ```
 
+Digit 0
+
 ![](Layers_0.svg)
+
+Digit 1
+
 ![](Layers_1.svg)
+
+Digit 9
+
 ![](Layers_9.svg)
 
+We may observe several things:
+- The functions inside the neural network do the same operations on all samples. The second row is always a black digit on a grey background.
+- The size of the image decreases when propagated deeper into the network. The second and third rows (after the second layer) contain more pixels than the fourth and fifth rows (after the fourth layer). 
+- The channels of the same layer produce different outputs. While the second row (first channel after the second layer) depicts black digits on a grey background, the third row (last channel after the second layer) depicts white digits on black background.
+- Each digit produce different images. This is important for separation and correct predictions.
+ 
