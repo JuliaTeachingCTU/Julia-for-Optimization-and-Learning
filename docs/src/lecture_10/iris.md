@@ -7,17 +7,14 @@ round_a(x) = round_a.(x)
 
 # Introduction to Flux
 
-Flux is a library for using neural networks. In comparison with Python Tensorflow, it allows much simpler writing. This part will present the basics of Flux on the Iris dataset from the previous lecture.
-
-We included the auxiliary functions from the previous lesson into the ```utilities.jl``` file, which we include by
+Flux is a library for using neural networks. This part will present the basics of Flux on the Iris dataset from the previous lecture. We include the auxiliary functions from the previous lesson into the ```utilities.jl``` file, which we include by
 ```@example iris
 include("utilities.jl")
 
 nothing # hide
 ```
-Check the content of the file on our GitHub.
 
-We set the seed and load the data in the same way as during the last lecture
+We set the seed and load the data in the same way as during the last lecture.
 ```@example iris
 using Random
 using BSON: @load
@@ -32,7 +29,7 @@ X_train, y_train, X_test, y_test, classes = prepare_data(X, y)
 nothing # hide
 ```
 
-We will start with creating the same network.
+We start with creating the same network.
 
 ```@raw html
 <div class = "exercise-body">
@@ -44,7 +41,7 @@ Find the documentation of Flux.jl online and create the same network as in the p
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Flux uses ```Chain(???, ???, ...)```, where ```???``` are individual layers, to create the neural network. To create the dense layer, we need to use ```Dense``` with the correct number of input and output neurons. We also need to specify the activation function.
+ To create the neural network, Flux uses ```Chain(???, ???, ...)```, where ```???``` are individual layers. Dense layers are created by ```Dense``` with the correct number of input and output neurons. We also need to specify the activation functions.
 ```@example iris
 using Flux
 
@@ -57,7 +54,7 @@ m = Chain(
 
 nothing # hide
 ```
-Note that it is possible to remove ```identity``` (because it is the default argument). However, we recommend to write it for clarity.
+Since ```identity``` is the default argument, it is possible to remove it. However, we recommend to keep it for clarity.
 ```@raw html
 </p></details>
 ```
@@ -66,7 +63,7 @@ To evaluate the whole dataset, we call
 ```@example iris
 m(X_train)
 ```
-It returns an array of size ``3\times 120`` because there are ``3`` classes and ``120`` samples. Also note that the columns are probabilities.
+Because there are ``3`` classes and ``120`` samples, it returns an array of size ``3\times 120``. Note that the columns are probabilities.
 
 We can access the parameters of the neural network by using ```params(m)```. At the same time, we can select the second layer of ```m``` by ```m[2]```. This can be naturally combined, so that
 ```@example iris
@@ -75,6 +72,8 @@ params(m[2])
 returns the parameters of the second layer. Since the second layer has ``5 `` input and ``3`` output neurons, the matrix is of size ``3\times 5`` and the bias is a vector of lenght ``3``. The parameters ```params(m[2])``` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly and we do not need to take care of it. If for any reason, we need to use a special initialization, we can assign to parameters via
 ```@example iris
 params(m[2])[2] .= [-1;0;1]
+
+nothing # hide
 ```
 Here, we assigned to the bias of the second layer.
 
@@ -86,19 +85,29 @@ loss(x,y) = crossentropy(m(x), y)
 
 nothing # hide
 ```
-The ```loss``` function does not have ```m``` as input. Even though there could be an additional input paramter, it is customary to write it without it. To evaluate the loss function, we simply write
+The ```loss``` function does not have ```m``` as input. Even though there could be an additional input parameter, it is customary to write it without it. To evaluate the loss function, we simply write
 ```@example iris
 loss(X_train, y_train)
 ```
-This creates the loss function for on whole (training) dataset. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
+This computes the loss function on whole training set. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
 
-Since we have the model and the loss function, the only remaining thing for training is the gradient. This can be done in a simple way by
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Notation</header><p>
+```
+While the [standard definition](https://en.wikipedia.org/wiki/Cross_entropy) of cross-entropy is ``\operatorname{loss}(y,\hat y)``, [Flux](https://fluxml.ai/Flux.jl/stable/models/losses/) uses ``\operatorname{loss}(\hat y,y)``.
+```@raw html
+</p></div>
+```
+
+Since we have the model and the loss function, the only remaining required thing for training is the gradient. This can be done in a simple way by
 ```@example iris
 gs = gradient(() -> loss(X_train, y_train), params(m))
 
 nothing # hide
 ```
-The function ```gradient``` takes two parameters. The first one is the function we want to differentiate and the second are are the parameters. The ```loss``` function need to be evaluated at the correct points ```X_train``` and ```y_train```. In some applications, we may need to differentiate with respect to other parameters such as ```X_train```. This can be achieved by changing the second parameters of the ```gradient``` function
+The function ```gradient``` takes two inputs. The first one is the function which we want to differentiate, and the second one are the parameters. The ```loss``` function needs to be evaluated at the correct points ```X_train``` and ```y_train```. In some applications (adversarial learning), we may need to differentiate with respect to other parameters such as ```X_train```. This can be achieved by changing the second parameters of the ```gradient``` function
 ```@example iris
 gs = gradient(() -> loss(X_train, y_train), params(X_train))
 
@@ -110,7 +119,7 @@ Since ```X_train``` is of shape ``4\times 120``, the gradient needs to have the 
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Use the documentation of Flux.jl once again and train the neural network for 250 iterations with ```ADAM(0.01)``` optimizer. You may want to use the Flux ```update!``` function.
+Use the documentation of Flux.jl once again and train the neural network for 250 iterations with ```ADAM(0.01)``` optimizer and no minibatches. You may want to use the Flux ```update!``` function.
 
 Plot the accuracy on the testing set in every iteration.
 ```@raw html

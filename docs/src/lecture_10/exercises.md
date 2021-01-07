@@ -25,8 +25,7 @@ function train_or_load!(file_name, m, X, y; force=false, kwargs...)
     end
 end
 
-function load_data(dataset; onehot=false, T=Float32)
-    classes = 0:9
+function load_data(dataset; T=Float32, onehot=false, classes=0:9)    
     X_train, y_train = reshape_data(dataset.traindata(T)...)
     X_test, y_test = reshape_data(dataset.testdata(T)...)
     y_train = T.(y_train)
@@ -42,15 +41,10 @@ end
 
 using Plots
 
-plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(x'), axis=nothing)
-
-function plot_image(x::AbstractArray{T, 4}) where T
-    @assert size(x,4) == 1
-    plot_image(x[:,:,:,1])
-end
+plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=nothing)
 
 function plot_image(x::AbstractArray{T, 3}) where T
-    @assert size(x,3) == 1
+    size(x,3) == 1 || error("Image is not grayscale.")
     plot_image(x[:,:,1])
 end
 
@@ -65,15 +59,16 @@ X_train, y_train, X_test, y_test = load_data(dataset; T=T, onehot=true)
 
 # Exercises
 
+The first two exercises handle training neural networks on GPUs instead of CPUs. Even though this is extremely important for reducing the training time, we postponed it to the exercises because some course participants may not have a compatible GPU for training. If you are not able to do these two exercises for this reason, we apologize.
 
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 1: Operations on GPUs</header><p>
 ```
-While most operations in a computer are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs. 
+While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs. 
 
-To use GPUs, include packages Flux and CUDA. Then generate a radnom matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory and the computation will be performed on the CPU. To save them to the GPU memory and allow computations on the GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
+To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory (RAM) and the computation will be performed on CPU. To move them to the GPU memory and allow computations on GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
 
 Investigate how long it takes to perform multiplication ``Ab`` if both objects are on CPU, GPU or if they are saved differently. Check that both multiplications resulted in the same vector.
 ```@raw html
@@ -82,7 +77,7 @@ Investigate how long it takes to perform multiplication ``Ab`` if both objects a
 <summary class = "solution-header">Solution:</summary><p>
 ```
 The beginning is simple
-```@example gpu
+```julia
 using Flux
 using CUDA
 
@@ -90,8 +85,6 @@ A = randn(100,100)
 b = randn(100)
 A_g = A |> gpu
 b_g = b |> gpu
-
-nothing # hide
 ```
 To test the time, we measure the time for multiplication
 ```julia
@@ -122,16 +115,22 @@ To compare the results, the first idea would be to run
 norm(A*b - A_g*b_g)
 ```
 which would result in an error. We cannot use any operations on arrays stored both on CPU and GPU. The correct way is to move the GPU array to CPU and only then to compute the norm
-```@example gpu
+```julia
 using LinearAlgebra
 
 norm(A*b - cpu(A_g*b_g))
 ```
+```julia
+1.2004562847861718e-5
+```
 The norm is surprisingly large. Checking the types
-```@example gpu
+```julia
 (typeof(A), typeof(A_g))
 ```
-we realize that one of the arrays is stored in ```Float64``` while the second one in ```Float32```. To to the different number of saved digits, the multiplication results in this error.
+```julia
+(Array{Float64,2}, CUDA.CuArray{Float32,2})
+```
+we realize that one of the arrays is stored in ```Float64``` while the second one in ```Float32```. Due to the different number of saved digits, the multiplication results in this error.
 ```@raw html
 </p></details>
 ```
@@ -157,7 +156,7 @@ The previous exercise did not show any differences when performing a matrix-vect
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU as well via ```m |> gpu```.
+Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU.
 ```@raw html
 </p></div>
 <details class = "solution-body">
@@ -173,7 +172,9 @@ m = Chain(
     Conv((2,2), 16=>8, relu),
     MaxPool((2,2)),
     flatten,
-    Dense(288, size(y_train,1)), softmax)
+    Dense(288, size(y_train,1)),
+    softmax,
+)
 
 file_name = joinpath("data", "mnist.bson")
 train_or_load!(file_name, m, X_train, y_train)
@@ -181,7 +182,7 @@ train_or_load!(file_name, m, X_train, y_train)
 m_g = m |> gpu
 X_test_g = X_test |> gpu
 ```
-Nowe we can measure the evaluation time. Remember that before doing so, we need to compile all the functions by evaluating at least one sample.
+Now we can measure the evaluation time. Remember that before doing so, we need to compile all the functions by evaluating at least one sample.
 ```julia
 m(X_test[:,:,:,1:1])
 m_g(X_test_g[:,:,:,1:1])
@@ -193,7 +194,7 @@ m_g(X_test_g[:,:,:,1:1])
 1.190033 seconds (40.24 k allocations: 1.069 GiB, 21.73% gc time)
 0.071805 seconds (789 allocations: 27.641 KiB)
 ```
-Using the GPU speeded the computation by more than ten times. 
+Using GPU speeded the computation by more than ten times. 
 ```@raw html
 </p></details>
 ```
@@ -209,6 +210,8 @@ Using the GPU speeded the computation by more than ten times.
 <div class = "info-body">
 <header class = "info-header">Computation on GPU</header><p>
 ```
+Using GPUs speeds up the training of neural networks in orders of magnitude. However, one needs to be aware of some pitfalls.
+
 Make sure that all computation is performed either on CPU or GPU. Do not mix them. When computing on GPU, make sure that all computations are fast. One important example is
 ```julia
 accuracy(x, y) = mean(onecold(cpu(m(x))) .== onecold(cpu(y)))
@@ -228,7 +231,7 @@ Another thing to remember is to always convert all objects to CPU before saving 
 
 
 
-
+Exercises which do not require GPUs start here.
 
 
 
@@ -236,13 +239,11 @@ Another thing to remember is to always convert all objects to CPU before saving 
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<header class = "exercise-header">Exercise 3:</header><p>
 ```
-Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was wrongly classified as digit ``j``.
+Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``.
 
 Convert the table into a dataframe and add labels.
-
-Finally, plot all figures which are ``9`` but were classified as ``7``.
 ```@raw html
 </p></div>
 <details class = "solution-body">
@@ -256,12 +257,14 @@ m = Chain(
     Conv((2,2), 16=>8, relu),
     MaxPool((2,2)),
     flatten,
-    Dense(288, size(y_train,1)), softmax)
+    Dense(288, size(y_train,1)),
+    softmax,
+)
 
 file_name = joinpath("data", "mnist.bson")
 train_or_load!(file_name, m, X_train, y_train)
 ```
-To create the table, we specify that the entries are ```Int```. We save the labels and predictions. Since we do not use the second argument to ```onecold```, the entries of ```y``` and ```y_hat``` are between 1 and 10. Then we run a foor loop over all misclassified samples which adds to the error counts. 
+When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts. 
 ```@example gpuu
 y_hat = onecold(m(X_test))
 y = onecold(y_test)
@@ -271,7 +274,7 @@ for i in findall(y_hat .!= y)
     errors[y[i], y_hat[i]] += 1
 end
 ```
-To create the dataframe, we use ```df = DataFrame(errors)```. Note that it prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly we add a first rows with the actual labels. 
+To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly we add the labels as the first column. 
 ```@example gpuu
 using DataFrames
 
@@ -282,27 +285,10 @@ insertcols!(df, 1, :label => string.(0:9))
 
 nothing # hide
 ```
-It is surprising that the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. To plot all these images, we find the misclassified indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since the number of 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```.
-```@example gpuu
-i1 = 9
-i2 = 7
-
-p = [plot_image(X_test[:,:,:,i]) for i in findall((y.==i1+1) .& (y_hat.==i2+1))]
-p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white) 
-
-plot(p..., p_empty; layout=(6,2)) 
-
-savefig("miss.svg") # hide
-```
-
-![](miss.svg)
-
-We see that some of the nines could be recognized as a seven even by humans. 
 ```@raw html
 </p></details>
 ```
 
-The correct answer is
 ```@example gpuu
 df # hide
 ```
@@ -310,8 +296,49 @@ df # hide
 
 
 
+It is surprising that the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. We investigate this in the next exercise.
 
 
+
+
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 4:</header><p>
+```
+Plot all images which are ``9`` but were classified as ``7``.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+To plot all these misclassified images, we find their indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since there are 11 of these images, and since 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```. When plotting, we specigy the ```layout``` and to minimize the empty space between images also ```size```.
+```@example gpuu
+i1 = 9
+i2 = 7
+
+p = [plot_image(X_test[:,:,:,i]) for i in findall((y.==i1+1) .& (y_hat.==i2+1))]
+p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white) 
+
+plot(p..., p_empty; layout=(3,4), size=(800,600)) 
+
+savefig("miss.svg") # hide
+```
+```@raw html
+</p></details>
+```
+
+
+
+
+
+
+![](miss.svg)
+
+We see that some of the nines could be recognized as a seven even by humans. 
+
+The last exercise visualizes hidden layers of neural networks.
 
 
 
@@ -323,31 +350,24 @@ df # hide
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 4: Visualization of neural networks 1</header><p>
+<header class = "exercise-header">Exercise 5: Visualization of neural networks 1</header><p>
 ```
 From the theoretical part we know that output of convolutional layers have the same dimension as inputs. If the activation function is a sigmoid, the output values stay in the interval ``[0,1]`` and can, therefore, be also interpreted as images. The following two exercises will depict how images are propagated through the network.
 
+Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson```. 
+
+(you can check the accuracy of the model is 0.9831)
 
 ???
+
+
+
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-
-???
-
-```@raw html
-</p></details>
-```
-
-
-
-
-
-
-
 
 
 
@@ -360,109 +380,44 @@ m = Chain(
     Conv((2,2), 16=>8, sigmoid),
     MaxPool((2,2)),
     flatten,
-    Dense(288, size(y_train,1)), softmax)
+    Dense(288, size(y_train,1)),
+    softmax,
+)
 
 file_name = joinpath("data", "mnist_sigmoid.bson")
 train_or_load!(file_name, m, X_train, y_train)
 ```
 
-0.9831
-
-
-
-```@example gpuu
-for qwe = 0:9
-    ii0 = findall(onecold(y_train, 0:9) .== qwe)[1:5]
-
-    p0 = [plot_image(X_train[:,:,:,i:i][:,:,1,1]) for i in ii0]
-    p1 = [plot_image((m[1:2](X_train[:,:,:,i:i]))[:,:,1,1]) for i in ii0]
-    p2 = [plot_image((m[1:4](X_train[:,:,:,i:i]))[:,:,1,1]) for i in ii0]
-
-    plot(p0..., p1..., p2...; layout=(3,5))
-    
-    savefig("asd$(qwe).svg")
-end
-```
-
-![](asd0.svg)
-![](asd1.svg)
-![](asd2.svg)
-![](asd3.svg)
-![](asd4.svg)
-![](asd5.svg)
-![](asd6.svg)
-![](asd7.svg)
-![](asd8.svg)
-![](asd9.svg)
-
-
-
-
 
 
 ```@example gpuu
-for qwe = 0:9
-    ii0 = findall(onecold(y_train, 0:9) .== qwe)[1:5]
+for i in 0:9
+    ii = findall(onecold(y_train, 0:9) .== i)[1:5]
 
-    p0 = [plot_image(X_train[:,:,:,i:i][:,:,end,1]) for i in ii0]
-    p1 = [plot_image((m[1:2](X_train[:,:,:,i:i]))[:,:,end,1]) for i in ii0]
-    p2 = [plot_image((m[1:4](X_train[:,:,:,i:i]))[:,:,end,1]) for i in ii0]
+    z1 = X_train[:,:,:,ii]
+    z2 = m[1:2](X_train[:,:,:,ii])
+    z3 = m[1:4](X_train[:,:,:,ii])
 
-    p = plot(p0..., p1..., p2...; layout=(3,5))
+    p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]
+    p2a = [plot_image(z2[:,:,1,i]) for i in 1:size(z2,4)]
+    p3a = [plot_image(z3[:,:,1,i]) for i in 1:size(z3,4)]
+    p2b = [plot_image(z2[:,:,end,i]) for i in 1:size(z2,4)]
+    p3b = [plot_image(z3[:,:,end,i]) for i in 1:size(z3,4)]
     
-    savefig("zxc$(qwe).svg")
+    plot(p1..., p2a..., p3a..., p2b..., p3b...; layout=(5,5), size=(600,600))
+    savefig("Layers_$(i).svg")
 end
 ```
 
-![](zxc0.svg)
-![](zxc1.svg)
-![](zxc2.svg)
-![](zxc3.svg)
-![](zxc4.svg)
-![](zxc5.svg)
-![](zxc6.svg)
-![](zxc7.svg)
-![](zxc8.svg)
-![](zxc9.svg)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
 
 ```@raw html
 </p></details>
 ```
+
+![](Layers_0.svg)
+![](Layers_1.svg)
+![](Layers_9.svg)
 
