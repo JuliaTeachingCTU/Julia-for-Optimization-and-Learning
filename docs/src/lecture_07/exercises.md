@@ -25,87 +25,7 @@ with the starting point ``x^0=(0,-1)``.
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 1</header><p>
-```
-Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-The primal problem with no inequalities reads
-```math
-\begin{aligned}
-\text{minimize}\qquad &f(x) \\
-\text{subject to}\qquad &h_j(x) = 0,\ j=1,\dots,J.
-\end{aligned}
-```
-The Lagrangian has form
-```math
-L(x;\lambda,\mu) = f(x) + \sum_{j=1}^J \mu_j h_j(x).
-```
-Now consider the min-max formulation
-```math
-\operatorname*{minimize}_x\quad \operatorname*{maximize}_{\mu}\quad f(x) + \sum_{j=1}^J \mu_j h_j(x).
-```
-If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maximization problem has the optimal value ``+\infty``. However, since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. That is precisely the primal formulation.
-```@raw html
-</p></details>
-```
-
-
-
-
-
-
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 2</header><p>
-```
-Derive the dual formulation for the linear programming.
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-The linear program
-```math
-\begin{aligned}
-\text{minimize}\qquad &c^\top x \\
-\text{subject to}\qquad &Ax=b, \\
-&x\ge 0
-\end{aligned}
-```
-has the Lagrangian
-```math
-L(x;\lambda,\mu) = c^\top x - \lambda^\top x + \mu^\top (b-Ax) = (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
-```
-We need to have ``- \lambda^\top x`` because we require constraints ``g(x)\le 0`` or in other words ``-x\le 0``. The dual problem from its definition reads
-```math
-\operatorname*{maximize}_{\lambda\ge0, \mu} \quad \operatorname*{minimize}_x \quad (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
-```
-Since the minimization with respect to ``x`` is unconstrained, the same arguments as the previous exercise imply the hard constraint ``c - \lambda - A^\top\mu=0``. Then we may simplify the dual problem into
-```math
-\begin{aligned}
-\text{maximize}\qquad &b^\top \mu \\
-\text{subject to}\qquad &c - \lambda - A^\top\mu = 0, \\
-&\lambda\ge 0.
-\end{aligned}
-```
-From this formulation, we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
-```@raw html
-</p></details>
-```
-
-
-
-
-
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 3: Bisection method</header><p>
+<header class = "exercise-header">Exercise 1: Bisection method</header><p>
 ```
 Similarly to Newton's method, the bisection method is primarily designed to solve equations by finding their zero points. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``. Then it selects the middle point on ``[a,b]`` and halves the interval so that the new interval again satisfies the constraint on opposite signs ``f(a)f(b)<0``. This is repeated until the function value is small or until the interval has a small length.
 
@@ -160,9 +80,10 @@ println(round(x_opt, digits=4)) # hide
 
 
 
+
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 4: JuMP</header><p>
+<header class = "exercise-header">Exercise 2: JuMP</header><p>
 ```
 The library to perform optimization is called ```JuMP```. Install it, go briefly through its documentation, and use it to solve the linear optimization problem
 ```math
@@ -212,9 +133,11 @@ println(round.(x_val, digits=4)) # hide
 
 
 
+
+
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 5: SQP method</header><p>
+<header class = "exercise-header">Exercise 3: SQP method</header><p>
 ```
 Derive the SQP method for optimization problem with only equality constraints
 ```math
@@ -294,6 +217,90 @@ The correct solution is
 ```@example sqp
 println(round.(x, digits=4)) # hide
 ```
+
+
+
+
+
+
+
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 4 (theory)</header><p>
+```
+Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+The primal problem with no inequalities reads
+```math
+\begin{aligned}
+\text{minimize}\qquad &f(x) \\
+\text{subject to}\qquad &h_j(x) = 0,\ j=1,\dots,J.
+\end{aligned}
+```
+The Lagrangian has form
+```math
+L(x;\lambda,\mu) = f(x) + \sum_{j=1}^J \mu_j h_j(x).
+```
+Now consider the min-max formulation
+```math
+\operatorname*{minimize}_x\quad \operatorname*{maximize}_{\mu}\quad f(x) + \sum_{j=1}^J \mu_j h_j(x).
+```
+If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maximization problem has the optimal value ``+\infty``. However, since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. That is precisely the primal formulation.
+```@raw html
+</p></details>
+```
+
+
+
+
+
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 5 (theory)</header><p>
+```
+Derive the dual formulation for the linear programming.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+The linear program
+```math
+\begin{aligned}
+\text{minimize}\qquad &c^\top x \\
+\text{subject to}\qquad &Ax=b, \\
+&x\ge 0
+\end{aligned}
+```
+has the Lagrangian
+```math
+L(x;\lambda,\mu) = c^\top x - \lambda^\top x + \mu^\top (b-Ax) = (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
+```
+We need to have ``- \lambda^\top x`` because we require constraints ``g(x)\le 0`` or in other words ``-x\le 0``. The dual problem from its definition reads
+```math
+\operatorname*{maximize}_{\lambda\ge0, \mu} \quad \operatorname*{minimize}_x \quad (c - \lambda - A^\top\mu)^\top x + b^\top \mu.
+```
+Since the minimization with respect to ``x`` is unconstrained, the same arguments as the previous exercise imply the hard constraint ``c - \lambda - A^\top\mu=0``. Then we may simplify the dual problem into
+```math
+\begin{aligned}
+\text{maximize}\qquad &b^\top \mu \\
+\text{subject to}\qquad &c - \lambda - A^\top\mu = 0, \\
+&\lambda\ge 0.
+\end{aligned}
+```
+From this formulation, we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
+```@raw html
+</p></details>
+```
+
 
 
 
