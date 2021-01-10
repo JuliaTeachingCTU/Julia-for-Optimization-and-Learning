@@ -18,13 +18,21 @@ for theme in ["light", "dark"]
 end
 
 # outline
+motivation =  joinpath.("./motivation/", [
+])
+
+installation = joinpath.("./installation/", [
+    "julia.md",
+    "vscode.md",
+    "git.md",
+])
+
 lecture_01 = joinpath.("./lecture_01/", [
     "variables.md",
     "operators.md",
+    "strings.md",
     "arrays.md",
     "data_structures.md",
-    "strings.md",
-    "exercises.md",
 ])
 
 lecture_02 = joinpath.("./lecture_02/", [
@@ -96,8 +104,9 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
-        "Why Julia?" => "why_julia.md",
         "How to..." => "howto.md",
+        "Why Julia?" => motivation,
+        "Installation" => installation,
         "1: Variables and basic operators" => lecture_01,
         "2: Control flow" => lecture_02,
         "3: Functions and methods" => lecture_03,
