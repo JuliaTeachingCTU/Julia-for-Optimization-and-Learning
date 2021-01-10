@@ -7,7 +7,7 @@ julia> x = 2
 2
 ```
 
-The type of the object is inferred automatically and can be checked using `typeof` function:
+The type of the variable is inferred automatically and can be checked using `typeof` function:
 
 ```jldoctest var_declaration
 julia> typeof(x)
@@ -93,11 +93,11 @@ There is a huge amount of types in Julia. In fact, every object in Julia has its
 <img src="types.svg" width="100%">
 ``` ⠀
 
-All types shown in blue are abstract types, i.e. it is not possible to create an instance of such a type. Abstract types are useful for creating logical type hierarchy. Types highlighted in green are concrete types. In many cases, it is useful to have the choice to choose which type to use. As an example, we can see floating-point numbers. There are four concrete types for floating-point numbers. If we want to maximize the precision of some calculations, we can use `BigFloat`. Using `BigFloat` increases precision but also increases computational time. On the other hand, if we want to speed up the code, we can use the type with lower precision such as `Float32`. But in most cases, the user does not have to take care of types at all. But in most cases, the user does not have to take care of types at all and just use the default type.
+All types shown in blue are abstract types, i.e. it is not possible to create an instance of such a type. Abstract types are useful for creating logical type hierarchy. Types highlighted in green are concrete types. In many cases, it is useful to have the choice to choose which type to use. As an example, we can see floating-point numbers. There are four concrete types for floating-point numbers. If we want to maximize the precision of some calculations, we can use `BigFloat`. Using `BigFloat` increases precision but also increases computational time. On the other hand, if we want to speed up the code, we can use the type with lower precision such as `Float32`. But in most cases, the user does not have to take care of types at all and just use the default type.
 
 ## Variable Names
 
-Julia provides an extremely flexible system for naming variables. Variable names are case-sensitive, and have no semantic meaning (that is, the language will not treat variables differently based on their names).
+Julia provides an extremely flexible system for naming variables. Variable names are case-sensitive, and have no semantic meaning, i.e. the language will not treat variables differently based on their names.
 
 ```jldoctest
 julia> I_am_float = 3.1415
@@ -175,7 +175,7 @@ The complete list of all reserved keywords is in the following table
 | `let`           | `local` | `macro`    | `module` | `quote`  | `return`   |
 | `struct`        | `true`  | `try`      | `using`  | `while`  |            |
 
-In many cases, it is very beneficial to have the choice to use special symbols as variable names. It may increase the readability of the code especially when the user needs to implement some mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can cause confusion.
+In many cases, it is very useful to have the choice to use special symbols as variable names. It may increase the readability of the code especially when the user needs to implement some mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can cause confusion.
 
 
 ```@raw html
