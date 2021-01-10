@@ -75,7 +75,12 @@ Note that the resulting type of `y` is `Float64` even though the result can be r
 typeof((x + 2)^2 - 4)
 typeof((x - 2)^(p - 2))
 ```
-Because this operation generally does not result in an integer, dividing two integers always returns a floating-point number.
+Because this operation generally does not result in an integer, dividing two integers always returns a floating-point number. If we want to get an integer, we can use the integer division operator `÷` (can be typed as `\div<tab>`)
+
+```@repl ex1
+y_int = ((x + 2)^2 - 4)÷(x - 2)^(p - 2)
+typeof(y_int)
+```
 
 ```@raw html
 </p></details>
@@ -100,7 +105,7 @@ typeof(yp)
 
 even though strictly, not all `Int64` values can be represented exactly as `Float64` values. The promotion system generally tries to return a type that can at least approximate most values of either input type without excessively widening.
 
-Note, that `promotion` function will accept any number of input arguments
+Note, that the `promote` function will accept any number of input arguments
 
 ```@repl
 promote(1, 2f0, true, 4.5, Int32(1))
@@ -112,7 +117,7 @@ The resulting type of promotion can be determined by `promotion_type` function. 
 promote_type(Float64, Int64, Bool, Int32)
 ```
 
-Although this may seem complicated, type promotion is done automatically in most cases and the user does not have to worry about it. This can be demonstrated in the following example, where we sum two values. The first one is of type `Int64` and the second one of type `Float32`.
+Although this may seem complicated, type promotion is done automatically in most cases and the user does not have to worry about it. This can be demonstrated in the following example, where we sum two values. The first one is of type `Int64` and the second one of type `Float32`
 
 ```@repl promotion2
 x = 1 # Int64
@@ -145,7 +150,7 @@ nothing # hide
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To get the smallest promotion type, we can use a combination of `promote` and `typeof` function
+To get the smallest promotion type, we can use a combination of the `promote` and `typeof` function
 
 ```@repl promotion3
 xp, yp, zp, wp = promote(x, y, z, w)
@@ -164,7 +169,7 @@ promote_type(typeof(x), typeof(y), typeof(z), typeof(w))
 
 ## Updating operators
 
-Every binary arithmetic operator also has an updating version that assigns the result of the operation back into its left operand. The updating version of the binary operator is formed by placing a `=` immediately after the operator. For example, writing `x += 3` is equivalent to writing `x = x + 3`:
+Every binary arithmetic operator also has an updating version that assigns the result of the operation back into its left operand. The updating version of the binary operator is formed by placing a `=` symbol immediately after the operator. For example, writing `x += 3` is equivalent to writing `x = x + 3`:
 
 ```@repl
 x = 1
@@ -214,7 +219,7 @@ y -= 1
 
 ## Numeric comparison
 
-In addition to arithmetic and updating operators, basic comparison operators are also defined in Julie's standard libraries.
+In addition to arithmetic and updating operators, basic comparison operators are also defined in Julia's standard libraries.
 
 | Operator  | Name                     |
 | :--       | :--                      |
@@ -224,6 +229,8 @@ In addition to arithmetic and updating operators, basic comparison operators are
 | `<=`, `≤` | less than or equal to    |
 | `>`       | greater than             |
 | `>=`, `≥` | greater than or equal to |
+| `&`       | bitwise and              |
+| `|`       | bitwise or               |
 
 All these operators always return boolean value (`true` or `false`) as can be seen in the following example
 
@@ -297,6 +304,11 @@ Function `isequal` considers `NaN`s equal to each other
 isequal(NaN, NaN)
 !isequal(NaN, NaN)
 ```
+Not, that in the example above, we use the following operator `!` to negate the output of the `isequal` function. This operator is called boolean not and can be used to negate boolean values
+```@repl
+!true
+!false
+```
 
 ## Rounding functions
 
@@ -310,12 +322,12 @@ isequal(NaN, NaN)
 All these functions can be used without a specified output type. In such a case, the output will have the same type as the input variable
 
 ```@repl rounding
-x = 3.1415
+x = 3141.5926
 round(x)
 floor(x)
 ceil(x)
 ```
-However, in many cases, it makes sense to convert the rounded value to an integer. To do this, we can simply pass the appropriate integer type as the first argument
+However, in many cases, it makes sense to convert the rounded value to a different type. For example, if the rounded value can be represented as an integer, it makes sense to convert the rounded value to an integer. To do this, we can simply pass the appropriate integer type as the first argument
 
 ```@repl rounding
 round(Int64, x)
@@ -324,8 +336,8 @@ ceil(Int16, x)
 ```
 
 All rounding functions also support additional keyword arguments:
-- If the `digits` keyword argument is provided, it rounds to the specified number of digits after the decimal place (or before if negative), in base specifide by `base` keyword argument.
-- If the `sigdigits` keyword argument is provided, it rounds to the specified number of significant digits, in base specifide by `base` keyword argument.
+- If the `digits` keyword argument is provided, it rounds to the specified number of digits after the decimal place (or before if negative), in base specified by `base` keyword argument.
+- If the `sigdigits` keyword argument is provided, it rounds to the specified number of significant digits, in base specified by `base` keyword argument.
 
 ```@repl rounding
 round(x; digits = 3)
@@ -336,7 +348,7 @@ round(x; sigdigits = 3)
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Use rounding operators to solve the following tasks
+Use rounding functions to solve the following tasks:
 - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
 - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
 - Round `1252.1518` to `2` digits after the decimal point.
@@ -379,15 +391,45 @@ round(x; sigdigits = 3)
 
 ## Numerical Conversions
 
-As was shown in the previous section, the numerical conversion can be done using rounding functions with a specified type of output variable. However, it only works for converting floating-point numbers to integers. Julia also provides a more general way how to perform the numerical conversion: the notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
+As was shown in the previous section, the numerical conversion can be done using rounding functions with a specified type of the output variable. However, it only works for converting floating-point numbers to integers. Julia also provides a more general way how to perform the numerical conversion: the notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
 - If `T` is a floating-point type, the result is the nearest representable value, which could be positive or negative infinity.
-- If `T` is an integer type, an `InexactError` is raised if `x` is not representable by `T`.
-
 ```@repl
 convert(Float32, 1.234)
 Float32(1.234)
-convert(Float64, 1)
-Float64(1)
+```
+- If `T` is an integer type, an `InexactError` is raised if `x` is not representable by `T`.
+```@repl
+convert(Int64, 1.0)
+Int64(1.0)
 convert(Int64, 1.234)
 Int64(1.234)
+```
+Conversion to other types works in a similar way.
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Use the proper numeric conversion to get the exact result of summing the following two numbers
+```@example conversion_ex
+x = 1//3
+y = 0.5
+nothing # hide
+```
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+Firstly, we can try just to sum the given numbers
+```@repl conversion_ex
+x + y
+```
+The result of such an operation is a floating-point number. However, in this specific case, we have a rational number and floating-point number, that can be represented as a rational number. So we can convert the variable `y` to a rational number too. Then the result of summing the given numbers will be also a rational number and we will not lose precision
+```@repl conversion_ex
+x + Rational(y)
+```
+
+```@raw html
+</p></details>
 ```
