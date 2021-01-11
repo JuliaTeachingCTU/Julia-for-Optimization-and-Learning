@@ -56,8 +56,8 @@ lecture_06 = []
 
 lecture_07 = joinpath.("./lecture_07/", [
     "theory.md",
-    "gradients.md",
-    "numerical_methods.md",
+    "unconstrained.md",
+    "constrained.md",
     "exercises.md",
 ])
 
