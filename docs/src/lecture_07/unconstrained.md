@@ -484,7 +484,7 @@ create_anim(f, x_opt, xlims, ylims; file_name = "anim4.gif")
 nothing # hide
 ```
 
-[]!(anim4.gif)
+![](anim4.gif)
 
 We obtained the same results as in the previous case. This is not surprising as the code does exactly the same things; it is only written differently. The next exercise shows the power of defining the ```Step``` class.
 
