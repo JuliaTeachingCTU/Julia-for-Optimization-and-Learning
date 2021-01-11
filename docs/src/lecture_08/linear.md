@@ -15,7 +15,6 @@ function optim(f, g, x, s::Step; max_iter=100)
 end
 ```
 
-
 # Linear regression
 
 Training a machine learning model requires data. Neural networks require lots of data. Since collecting data is difficult, there are many datasets at the [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/index.php). We will use the iris (kosatec in Czech) dataset which predicts one of the three types of iris based on sepal (kališní lístek in Czech) and petal (okvětní lístek in Czech) widths and lengths.
@@ -27,20 +26,19 @@ If you do not see any differences between these three species, machine learning 
 
 ## Loading and preparing data
 
-To experiment with machine learning models, we first need to load the data by
+To experiment with machine learning models, we use the ```RDatasets``` package which stores many machine learning datasets, and load the data by
 ```@example linear
-using BSON
+using StatsPlots
+using RDatasets
 
-file_name = joinpath("data", "iris.bson")
-data = BSON.load(file_name)
+iris = dataset("datasets", "iris")
+
+nothing # hide
 ```
-This creates a dictionary ```data``` whose entries can be accessed via ```data[:X]```. The more straightforward way of loading is
 ```@example linear
-using BSON: @load
-
-@load file_name X y y_name
+iris[1:5,:] # hide
 ```
-The data are prepared so that the columns of ```X``` (features) are sepal length, sepal width, petal length and petal width (in this order).
+Printing the first five entries of the data shows that the data are saved in DataFrame and the columns (features) are sepal length, sepal width, petal length and petal width.
 
 When designing a classification method, a good practice is to perform at least a basic analysis of the data. That may include checking for NaNs, infinite values, obvious errors, standard deviations of features or others. Here, we only plot the data. 
 
@@ -56,13 +54,14 @@ Make a graph of the dependence of petal width on petal length.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Since the petal length and width are the third and fourth columns, we assign them to ```X``` and ```y```, respectively. Then we need to concatenate ```X``` it with a vector of ones to add the bias.
+Since the petal length and width are the third and fourth columns, we assign them to ```X``` and ```y```, respectively. We can use ```iris[:, 4]``` instead of ```y = iris[:, :PetalWidth]``` but the latter is more bulletproof. We need to concatenate ```X``` it with a vector of ones to add the bias.
 ```@example linear
-y = X[:,4]
-X = hcat(X[:,3], repeat([1], size(X,1)))
+y = iris[:, :PetalWidth]
+X = hcat(iris[:, :PetalLength], ones(length(y)))
+
 nothing # hide
 ```
-The best plot, in this case, is the scatter plot.
+The best plot, in this case, is the s   catter plot.
 ```@example linear
 using Plots
 
@@ -87,22 +86,22 @@ The figure shows a positive correlation between length and width. This is natura
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Use the closed-form formula to get the coefficients ``w`` for the linear regression. Then use the ```optim``` method derived in the previous lecture to solve the optimization problem via gradient descent. The results should be identical. Compare the elapsed time.
+Use the closed-form formula to get the coefficients ``w`` for the linear regression. Then use the ```optim``` method derived in the previous lecture to solve the optimization problem via gradient descent. The results should be identical.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-The closed-form expression is ``(X^\top X)^{-1}X^\top y``. This can be coded as ```(X'*X) \ (X'*y)```. To measure the time, we use the ```@time``` macro.
+The closed-form expression is ``(X^\top X)^{-1}X^\top y``. This can be coded as ```(X'*X) \ (X'*y)```.
 ```@example linear
-@time w = (X'*X) \ (X'*y)
+w = (X'*X) \ (X'*y)
 
 nothing # hide
 ```
 For using the gradient descent, we first realize that the formula for the derivate is ``X^\top (Xw-y)``. Defining the derivative function in ```g```, we call the ```optim``` method in the same way as in the last lecture. Since we use the sum and not mean in the objective, we need to use much smaller stepsize this time.
 ```@example linear
 g(w) = X'*(X*w-y)
-@time w2 = optim([], g, zeros(size(X,2)), GD(1e-4); max_iter=10000)
+w2 = optim([], g, zeros(size(X,2)), GD(1e-4); max_iter=10000)
 
 nothing # hide
 ```
@@ -136,20 +135,28 @@ Write the dependence on the petal width on the petal length. Plot it in the prev
 ```
 The desired dependence is
 ```math
-\text{width} \approx -0.3665 + 0.4164*\text{length}.
+\text{width} \approx -0.36 + 0.42*\text{length}.
 ```
 Before plotting the prediction, we save it into ```f_pred```
 ```@example linear
-f_pred(x) = w[1]*x + w[2]
+f_pred(x, w) = w[1]*x + w[2]
 
 nothing # hide
 ```
-Then we create the limits ```x_lim``` and finally plot a function which connects the two points. We move the legend to the top-left corner.
+Then we create the limits ```x_lim``` and finally plot a function which connects the two points. We show another possibility of plotting the graph instead of the scatter graph above. This possibility is better in the way that it based on the original ```iris``` variable and not the processed ```X```. It can point to potential errors in processing ```X```. We move the legend to the top-left corner.
 ```@example linear
-x_lim = [minimum(X[:,1])-0.1; maximum(X[:,1])+0.1]
+x_lims = extrema(X[:,1]) .+ [-0.1, 0.1]
 
-scatter(X[:,1], y, label="", xlabel="Petal length", ylabel="Petal width")
-plot!(x_lim, f_pred.(x_lim), label="Prediction", legend=:topleft, line=(:black,3))
+@df iris scatter(
+    :PetalLength,
+    :PetalWidth;
+    xlabel = "Petal length",
+    ylabel = "Petal width",
+    label = "",
+    legend = :topleft,
+)
+
+plot!(x_lims, x -> f_pred(x,w); label = "Prediction", line = (:black,3))
 
 savefig("iris_lin2.svg") # hide
 ```

@@ -4,38 +4,40 @@ The last part predicted a continuous variable. This part will be closer to the i
 
 Load the data as before
 ```@example logistic
-using BSON: @load
+using StatsPlots
+using RDatasets
 
-file_name = joinpath("data", "iris.bson")
-@load file_name X y y_name
+iris = dataset("datasets", "iris")
+
+nothing # hide
 ```
-The data contain three classes ```[1 2 3]```. However, we considered only binary problems with two classes. We therefore cheat.
+The data contain three classes. However, we considered only binary problems with two classes. We therefore cheat.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Write function ```modify_data``` which converts ```X``` and ```y``` into binary dataset in the following way:
-- Label 1 will be deleted.
-- Label 2 will be the negative class.
-- Label 3 will be the positive class.
-For ```X``` consider only columns 3 and 4 (petal length and width). Then call the function.
+Modify data in the following way:
+- Label "setosa" will be deleted.
+- Label "versicolor" will be the negative class.
+- Label "virginica" will be the positive class.
+For the features, consider only petal length and petal width.
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Since we want to keep ``y\in\{2,3\}``, we store the indices into ```i```. Then we reduce ```X```, ```y``` and ```y_name``` into the correct rows and columns.
+For reason which will be clear later, we will first create the reduced dataset by removing the "setosa' label
 ```@example logistic
-function modify_data(X, y, y_name)
-    ii = y .> 1.5
-    return X[ii,3:4], y[ii] .> 2.5, y_name[2:3]
-end
+iris_reduced = iris[iris.Species .!= "setosa", :]
+
 nothing # hide
 ```
-Finally, we call the function
+Now we can create data ```X``` and labels ```y```. Since ```iris_reduced``` is a DataFrame, we need to convert it first into a ```Matrix``` before calling ```hcat```. Note that we use ```iris_reduced.Species``` instead of the equivalent ```iris_reduced[:,Species]``` 
 ```@example logistic
-X, y, y_name = modify_data(X, y, y_name)
+X = hcat(Matrix(iris_reduced[:, 3:4]), ones(size(iris_reduced,1)))
+y = iris_reduced.Species .== "virginica"
+
 nothing # hide
 ```
 ```@raw html
@@ -48,19 +50,24 @@ We again plot the data. Since we are interested in a different prediction than l
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Since ```X``` has two features (columns), it is simple to visualize. Use scatter plot to show the data. Use different colours for different classes. Try to produce a nice graph by including names of classes (in ```y_name```) and axis labels (petal length and petal width).
+Since ```X``` has two features (columns), it is simple to visualize. Use scatter plot to show the data. Use different colours for different classes. Try to produce a nice graph by including names of classes and axis labels (petal length and petal width).
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-This should be known by now. The only possibly unknown command is ```legend=:topleft``` to move the legend to the top-left corner.
+We make use of the ```iris_reduced``` variable. To plot the points in different colours, we use the keyword ```group = :Species```.
 ```@example logistic
 using Plots
 
-scatter(X[y.==0,1], X[y.==0,2], label=y_name[1], legend=:topleft,
-    xlabel="Petal length", ylabel="Petal width")
-scatter!(X[y.==1,1], X[y.==1,2], label=y_name[2])
+@df iris_reduced scatter(
+    :PetalLength,
+    :PetalWidth;
+    group = :Species,
+    xlabel = "Petal length",
+    ylabel = "Petal width",
+    legend = :topleft,
+)
 
 savefig("iris1.svg") # hide
 ```
@@ -90,7 +97,7 @@ To write the desired function, we need to implement the gradient and Hessian fro
 ```@example logistic
 using Statistics
 
-function log_reg(X, y, w; max_iter=100)
+function log_reg(X, y, w; max_iter=100, tol=1e-6)
     X_mult = [row*row' for row in eachrow(X)]
     for i in 1:max_iter
         y_hat = 1 ./(1 .+exp.(-X*w))
@@ -100,31 +107,21 @@ function log_reg(X, y, w; max_iter=100)
     end
     return w
 end
+
 nothing # hide
 ```
 The definition of ```X_mult``` should be outside the for loop, as it needs to be computed only once. 
 
 After the tough work, it remains to call it.
 ```@example logistic
-w0 = zeros(size(X,2))
-w_wrong = log_reg(X, y, w0)
+w = log_reg(X, y, zeros(size(X,2)))
+
 nothing # hide
 ```
-The name ```w_wrong``` suggests that something is wrong. The problem is that the logistic regression was called with the original dataset. However, in doing so, there is no intercept. For this reason, we need to modify ```X``` first by including the column of ones and then calling the logistic regression again.
-```@example logistic
-X_ext = hcat(X, repeat([1],size(X,1)))
-w = log_reg(X_ext, y, zeros(size(X_ext,2)))
-nothing # hide
-```
-Hooray, this time it is correct.
 ```@raw html
 </p></details>
 ```
-If you obtained
-```@example logistic
-println(round.(w_wrong, digits=4)) # hide
-```
-the function for solving the logistic regression is correct. However, it was called in a wrong way. The correct solution is
+The correct solution is
 ```@example logistic
 println(round.(w, digits=4)) # hide
 ```
@@ -141,14 +138,23 @@ To express it as a function, we obtain
 ```
 Now we plot it.
 ```@example logistic
-f_hyper(x) = (-w[3]-w[1]*x)/w[2]
+f_hyper(x, w) = (-w[3]-w[1]*x)/w[2]
 
-x_lim = [minimum(X[:,1])-0.1; maximum(X[:,1])+0.1]
-scatter(X[y.==0,1], X[y.==0,2], label=y_name[1], legend=:topleft,
-    xlabel="Petal length", ylabel="Petal width")
-scatter!(X[y.==1,1], X[y.==1,2], label=y_name[2])
-plot!(x_lim, f_hyper.(x_lim), label="Separating hyperplane", line=(:black,3),
-    ylim=(minimum(X[:,2])-0.1,maximum(X[:,2])+0.1))
+xlims = extrema(iris_reduced.PetalLength) .+ [-0.1, 0.1]
+ylims = extrema(iris_reduced.PetalWidth) .+ [-0.1, 0.1]
+
+@df iris_reduced scatter(
+    :PetalLength,
+    :PetalWidth;
+    group = :Species,
+    xlabel = "Petal length",
+    ylabel = "Petal width",
+    legend = :topleft,
+    xlims,
+    ylims,
+)
+
+plot!(xlims, x -> f_hyper(x,w); label = "Prediction", line = (:black,3))
 
 savefig("iris2.svg") # hide
 ```
@@ -159,8 +165,8 @@ This is the optimal solution obtained by the logistic regression. Since the norm
 ```@example logistic
 using LinearAlgebra
 
-y_hat = 1 ./(1 .+exp.(-X_ext*w))
-grad = X_ext'*(y_hat.-y) / size(X_ext,1)
+y_hat = 1 ./(1 .+exp.(-X*w))
+grad = X'*(y_hat.-y) / size(X,1)
 norm(grad)
 ```
 equals to zero, we found a stationary point. It can be shown that logistic regression is a convex problem, and, therefore, we found a global solution.
