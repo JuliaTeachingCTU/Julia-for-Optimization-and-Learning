@@ -1,6 +1,6 @@
 name = "JuliaCourseFNSPE"
 uuid = "d7226185-11f2-4102-bf41-8fa93d2f6647"
-authors = ["Václav Mácha"]
+authors = ["Václav Mácha", "Lukáš Adam"]
 version = "0.1.0"
 
 [compat]
