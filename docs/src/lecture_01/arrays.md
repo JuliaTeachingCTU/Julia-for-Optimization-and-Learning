@@ -16,14 +16,14 @@ Information about the number of dimension or type of elements of a given vector 
 typeof(v)
 ```
 
-We can see, that the general description of any array in Julia is as follows: `Array{T,N}` denotes `N`-dimensional dense array with elements of type `T`. From this description, we can immediately see, that vector `v` has one dimension and contains elements of type `In64`. Another way how to get this information is to use `ndims` and `eltype` function
+We can see, that the general description of any array in Julia is as follows: `Array{T,N}` denotes `N`-dimensional dense array with elements of type `T`. From this description, we can immediately see, that vector `v` has one dimension and contains elements of type `Int64`. Another way how to get this information is to use `ndims` and `eltype` function
 
 ```@repl vectors
 ndims(v)
 eltype(v)
 ```
 
-We can also check the size and the length of a vector using `size` and `length` function
+We can also check the size and the length of a vector using the `size` and `length` functions
 
 ```@repl vectors
 size(v)
@@ -70,7 +70,7 @@ v[1:2:end] # select all elements with odd index
 v[:] # all elements
 ```
 
-It is possible to add new elements to a vector using `append!` function. Notice the `!`, this is a Julia convention to say that the function will modify the first argument given to the function. In this case, the `append!` function appends one or more elements to the end of the given vector
+It is possible to add new elements to a vector using `append!` function. Notice the `!`, this is Julia's convention for naming functions that modify their input arguments (usually the first one). In this case, the `append!` function appends one or more elements to the end of the given vector
 
 ```@repl vectors
 v = [1,2,3]
@@ -79,29 +79,35 @@ append!(v, [5,6])
 append!(v, 7:8)
 ```
 
-As has already been said, the elements of a vector share the same type. In this case, we have a vector with elements of type `Int64`. If we want to append a value to a vector with a different type it will result in an error
+As has already been said, the elements of a vector share the same type. In this case, we have a vector with elements of type `Int64`. If we try to append the value that is not representable as `Int64` it will result in an error
 
-```@repl
-v = Int64[]; # hide
+```@repl vectors
+append!(v, 3.0)
 append!(v, 3.1415)
 ```
 
-In this case, we cannot convert a `Float64` to an `Int64` without losing precision, thus the error. Our vector `v` can store only values of type `Int64` or values that can be safely converted to `Int64` (such as `Int32` for example). To avoid these errors, we can initialize the type of elements when creating a vector. It can be done using a type name followed by a square bracket.
+In the first case, it is possible to append a floating-point number since it can be represented as an integer. We can use the `isinteger` function to test whether the number is numerically equal to some integer
+
+```@repl
+isinteger(3.0)
+```
+
+In the second case, we cannot convert the given number to an `Int64` without losing precision, thus the error. Our vector `v` can store only values of type `Int64` or values that can be safely converted to `Int64` (such as `Int32` for example). To avoid these errors, we can initialize the type of elements when creating a vector. It can be done using a type name followed by a square bracket.
 
 ```@repl
 v = Float64[1, 2, 3]
 append!(v, 3.1415)
 ```
 
-It is possible to change the value of an element of a given vector. This can be done simply by assigning a new value to the desired element
+Since arrays in Julia are mutable objects, it is possible to change the values of their elements. This can be done simply by assigning a new value to the desired element
 
 ```@repl vectors
-v = [1,2,3, 4]
+v = [1, 2, 3, 4]
 v[2] = 4
 v
 ```
 
-It is also possible to assign one value to multiple elements of a vector at once. However, in this case, we have to use so-called dot syntax which is in Julia used for [element-wise operations](@ref Broadcasting)
+It is also possible to assign one value to multiple elements of an array at once. However, in this case, we have to use dot syntax which is in Julia used for [element-wise operations](@ref Broadcasting)
 
 ```@repl vectors
 v[3:4] .= 11
@@ -113,7 +119,7 @@ v
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Create a vector of integers that contains all odd numbers smaller than `10`. Then changed the first element to `4` and the last two elements to `1`.
+Create a vector of integers that contains all odd numbers smaller than `10`. Then change the first element to `4` and the last two elements to `1`.
 
 ```@raw html
 </p></div>
@@ -164,7 +170,7 @@ size(m)
 length(m)
 ```
 
-To access elements of a matrix, we can use the same syntax as for vectors
+The same syntax as for vectors can also be used to access matrix elements
 
 ```@repl matrices
 m[1] # the first element, equivalent to m[begin]
@@ -172,7 +178,7 @@ m[2] # the second element
 m[end-1] # the last element
 ```
 
-Note that the second element is `5`. The reason is, that Julia is column-oriented. Element at specific position in a matrix can accessed by `matrix[row_index, column_index]`, i.e. the following code returns the second element in the first row
+Note that the second element is `5`. The reason is, that Julia is column-oriented. Element at specific position in a matrix can accessed by `matrix[row_index, column_index]`. The following code returns the second element in the first row
 
 ```@repl matrices
 m[1, 2]
@@ -219,7 +225,7 @@ vcat(m, v)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Create two vectors: vector all odd numbers smaller than `10` and vector of all even numbers smaller than `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
+Create two vectors: vector of all odd numbers smaller than `10` and vector of all even numbers smaller than `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
 
 ```@raw html
 </p></div>
@@ -227,7 +233,7 @@ Create two vectors: vector all odd numbers smaller than `10` and vector of all e
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-First, we have to create the two vectors. We can do it manually or ve can use ranges and `collect` function as in the exercise in the previous section
+First, we have to create the two vectors. We can do it manually or ve can use ranges and the `collect` function as in the exercise in the previous section
 
 ```@repl matrices_ex
 v1 = collect(1:2:9)
@@ -250,7 +256,6 @@ m
 ```@raw html
 </p></details>
 ```
-
 
 ## `N`-dimensional arrays
 
@@ -278,7 +283,7 @@ size(A)
 length(A)
 ```
 
-The process of assigning a new value to the element of an array is the same as in the case of a vector or matrixs
+The process of assigning a new value to the element of an array is also the same as in the case of a vector or matrixs
 
 ```@repl arrays
 B[1] = 1 # assign 1 to the first element
@@ -299,6 +304,37 @@ Function `fill` creates an array of given size filled with the given value
 fill(1.234, 2, 2)
 ```
 
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+Create three matrices with the following properties:
+- Matrix `A` is of size `2x3` and all its elements are equal to 0.
+- Matrix `B` is of size `2x3x1` and all its elements are equal to 1.
+- Matrix `C` is of size `2x3` and all its elements are equal to 2.
+Concatenate these three matrices along with the third dimension.
+
+**Hint:** use the `cat` function and the keyword `dims`.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+Matrix `A` can be created using the `zeros` function and similarly, matrix `B` can be created using the `ones` function. To create a matrix `C`, we can use the `fill` function
+
+```@repl arrays_ex
+A = zeros(2,3)
+B = ones(2,3, 1)
+C = fill(2, 2, 3)
+```
+Now we can simply use the `cat` function with `dims = 3` to concatenate the matrices along with the third dimension
+```@repl arrays_ex
+cat(A, B, C; dims = 3)
+```
+```@raw html
+</p></details>
+```
+
 ## Broadcasting
 
 In Julia, with broadcasting we indicate the action of mapping a function or an operation (which are the same in Julia) over an array or a matrix element by element. There is no speed gain in doing so, as it will be exactly equivalent to writing a for loop, but its conciseness may be useful sometimes. So the core idea in Julia is to write functions that take single values and use broadcasting when needed, unless the functions must explicitly work on arrays (for example to compute the mean of a series of values, perform matrix operations, vector multiplications, etc).
@@ -310,27 +346,37 @@ a = [1,2,3] # column vector
 a .-= 4 # from each element of vector subtracts 4
 ```
 
-Without the dot, we get an error, since we cannot multiply substract a number from a vector
+Without the dot, we get an error, since we cannot substract a number from a vector
 
 ```@repl broadcasting
 a -= 1
 ```
 
-This syntax can be applied to any function in Julia. it is extremely useful for basic operations. For example, we can compute the absolute value of all elements simply by the following code
+This syntax can be applied to any function in Julia. It is extremely useful for basic operations. For example, we can compute the absolute value of all elements simply by the following code
 
 ```@repl broadcasting
 abs.(a)
 ```
 
-It can be also used for matrix multiplication. Consider the following example
-
+Using broadcasting, it is very easy to compute a complex mathematical formulas. For example, if we want to evaluate this complex mathematical formula
+```math
+\sum_{i = 1}^{3} \frac{\exp\{\sqrt{|a_{i} - 1|}\}}{2}
+```
+we can simply us the following code
+```@repl broadcasting
+sum(exp.(sqrt.(abs.(a .- 1)))./2)
+```
+Broadcasting can also be used for matrix multiplication. Consider the following two vectors.
 ```@repl broadcasting
 a = [1,2,3] # column vector
 b = [4,5,6] # column vector
+```
+Since we have two column vectors, the matrix multiplication will not work
+
+```@repl broadcasting
 a * b
 ```
-
-This makes perfectly sense from a mathematical point of view and operators behave how we would mathematically expect. If we want to use matrix multiplication, we have to transpose one of the vectors
+This makes perfectly sense from a mathematical point of view and `*` operator behaves how we would mathematically expect. If we want to use matrix multiplication, we have to transpose one of the vectors
 
 ```@repl broadcasting
 a' * b
@@ -350,13 +396,13 @@ a .* b
 
 Construct the matrix whose elements are given by the following formula
 ```math
-A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\} \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
+A_{i, j} = \frac{1}{2}\exp\{(x_{i, j} + 1)^2\}, \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
 ```
 
-where
+where the matrix `B` is defined as follows
 
 ```@example broadcasting_ex
-x = [
+B = [
     -1  0  2;
     2  -3  1;
 ]
@@ -370,34 +416,28 @@ nothing # hide
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-There are several ways to create matrix `A`. The most obvious one is to use [`for` loop](@ref for-and-while-loop) (we will talk about loops later)
+From the formula describing the matrix `A` we see that each element of the matrix depends on only one element of the matrix `B`. In other words, matrix `A` can be created in an element-wise manner from matrix `B`, i.e. we can use broadcasting to create the matrix
+
+```@repl broadcasting_ex
+A = exp.((B .+ 1) .^ 2) ./ 2
+```
+Note, that we use a dot before each operation since we want to perform all operations element-wise. In this case, we can use the `@.` macro, that adds a dot before each operator and each function in an expression
+
+```@repl broadcasting_ex
+A = @. exp((B + 1) ^ 2) / 2
+```
+
+Just for the comparison, the same matrix can be created as follows using [`for` loop](@ref for-and-while-loop)
 
 ```@repl broadcasting_ex
 A = zeros(2, 3);
 
-for i in eachindex(A)
-    A[i] = exp((x[i] + 1)^2)/2
+for i in 1:length(A)
+    A[i] = exp((B[i] + 1)^2)/2
 end
 A
 ```
 
-or using [list comprehension](@ref List-comprehension) (this topic will be discussed later too)
-
-```@repl broadcasting_ex
-A = [exp((xi + 1)^2)/2 for xi in x]
-```
-
-But the most elegant way (subjectively) is to use broadcasting
-
-```@repl broadcasting_ex
-A = exp.((x .+ 1) .^ 2) ./ 2
-```
-
-There is a macro `@.` in Julia, that adds a dot before each operator and each function in an expression
-
-```@repl broadcasting_ex
-A = @. exp((x + 1) ^ 2) / 2
-```
 
 ```@raw html
 </p></details>
@@ -405,7 +445,7 @@ A = @. exp((x + 1) ^ 2) / 2
 
 ## Views
 
-As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `B`, the elements of the original array can be modified be modified by accessing `B`:
+As in other programming languages, arrays are pointers to location in memory, thus we need to pay attention when we handle them. If we create an array `A` and we assign it to a variable `B`, the elements of the original array can be modified by accessing `B`:
 
 ```@repl views
 A = [1 2 3; 4 5 6]
@@ -419,7 +459,7 @@ We can check that both arrays are equal even though we modified only the array `
 A == B
 ```
 
-This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the function `copy`
+This is particularly useful because it lets us save memory, but may have undesirable effects. If we want to make a copy of an array we need to use the `copy` function
 
 ```@repl views
 C = copy(A)
@@ -439,7 +479,7 @@ In this case, we modified only the array `D`, and array `A` remains unchanged
 D == A[1:2, 1:2]
 ```
 
-However, even if we want to select some subarray, it may be useful to create only a link to the original array and not a new array. In Julia, this can be done using `view` function
+However, even if we want to select some subarray, it may be useful to create only a link to the original array and not create a new array. In Julia, this can be done using `view` function
 
 ```@repl views
 E = view(A, 1:2, 1:2)
@@ -451,10 +491,10 @@ We see that even if we change only the array in `D`, the change is propagated to
 E == A[1:2, 1:2]
 ```
 
-To simplify the process of creating `view`s, there is a handy macro `@views`
+To simplify the process of creating `view`s, there is a handy macro `@view`
 
 ```@repl views
-@views A[1:2, 1:2] # equivalet to view(A, 1:2, 1:2)
+@view A[1:2, 1:2] # equivalet to view(A, 1:2, 1:2)
 ```
 
 Note that  function view creates a special type `SubArray`
@@ -467,10 +507,21 @@ Since `SubArray` is a subtype of `AbstractArray`, we can apply any function defi
 
 ```@repl views
 A = [1 2 3; 4 5 6]
-A_view = @views A[:, :]
+A_view = @view A[:, :]
 sum(A)
 sum(A_view)
 minimum(A; dims = 1)
 minimum(A_view; dims = 1)
 ```
 This means that we can use arrays and subarray interchangeably without the necessity of changing existing code. Of course, there are some limitations, but we will talk about it later.
+
+Note, that the `@view` macro  can only be applied directly to a reference expression. In many cases, we want to use views throughout the expression. In such a case, we can add the `@view` macro before each array-slicing operation
+
+```@repl views
+A = [1 2 3; 4 5 6];
+sum(exp.(sqrt.(abs.(@view(A[1, :]) .- @view(A[2, :]))))./2)
+```
+However, the resulting expression is long and difficult to read. To simplify this task, Julia provides the `@views` macro that converts every array-slicing operation in the given expression to return a view
+```@repl views
+@views sum(exp.(sqrt.(abs.(A[1, :] .- A[2, :])))./2)
+```
