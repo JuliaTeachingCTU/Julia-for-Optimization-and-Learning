@@ -89,9 +89,7 @@ Complex{Float64}
 
 There is a huge amount of types in Julia. In fact, every object in Julia has its type. As an example, we can mention the hierarchy of primitive numeric types
 
-```@raw html
-<img src="types.svg" width="100%">
-``` ⠀
+![](types.svg)
 
 All types shown in blue are abstract types, i.e. it is not possible to create an instance of such a type. Abstract types are useful for creating logical type hierarchy. Types highlighted in green are concrete types. In many cases, it is useful to have the choice to choose which type to use. As an example, we can see floating-point numbers. There are four concrete types for floating-point numbers. If we want to maximize the precision of some calculations, we can use `BigFloat`. Using `BigFloat` increases precision but also increases computational time. On the other hand, if we want to speed up the code, we can use the type with lower precision such as `Float32`. But in most cases, the user does not have to take care of types at all and just use the default type.
 
