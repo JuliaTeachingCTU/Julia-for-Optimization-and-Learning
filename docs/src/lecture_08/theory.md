@@ -8,34 +8,19 @@ Regression and classification are a part of machine learning which try to predic
 - Regression predicts a continuous variable (such as height based on weight).
 - Classification predict a variable with a finite number of states (such as cat/dog/none from images).
 
-## Data representation
-
-The dataset is usually stored in a matrix ``X\in\mathbb{R}^{n\times m}``. Each row of this matrix is one sample (observation). Each column is one feature (such as height, weight or age). Therefore, we have ``n`` samples, each with ``m`` features. Each sample ``x_i`` has a label ``y_i``. Labels are arranged into a vector ``y\in\mathbb{R}^n``. The goal of machine learning methods is to find a classifier ``f`` such that the prediction ``f(x_i)`` is a good approximation of the true label ``y_i``.
-
-This lecture considers only linear classifiers in the form
-```math
-\tilde f(x) = w^\top x + b,
-```
-while the next one on neural network considers non-linear classifiers as well. 
-The standard trick assumes that the first column of ``X`` contains all ones. Then we have
-```math
-f(x) = w^\top x = w_1 + \sum_{j=2}^m w_jx_j,
-```
-By this trick, we do not need to consider the intercept (bias, shift) ``b`` because it is contained in ``w_1``. In this case, the class of all considered classifiers is parameterized by a vector ``w``. The rest of this lecture shows how to write regression and classification problems to find the optimal weights ``w``.
-
 ## Linear regression
 
-The linear regression uses the mean square error between the prediction and the label. This is
+Linear regression requires a dataset with data points (samples) ``x_i`` and labels ``y_i``. It uses a linear classifier to minimize the error between the prediction ``w^\top x_i`` and the label ``y_i``, that is
 ```math
 (w^\top x_i - y_i)^2.
 ```
-Since we are interested in average performance, we sum this error over all samples
+Since we are interested in average performance, we sum this (mean square) error over all samples
 ```math
 \operatorname{minimize}\qquad \sum_{i=1}^n (w^\top x_i - y_i)^2.
 ```
 Many algorithms use average (mean) instead of sum. However, both these formulations are equivalent.
 
-In this case, it is simpler to work in the matrix notation. It is not difficult to show that the previous problem is equivalent to
+In this case, it is simpler to work in the matrix notation, where we form a matrix ``X`` whose rows are the samples ``x_i``. It is not difficult to show that the previous problem is equivalent to
 ```math
 \operatorname{minimize}\qquad \|Xw - y\|^2,
 ```
@@ -56,6 +41,23 @@ Linear regression is probably the only machine learning model with a closed-form
 ```@raw html
 </p></div>
 ```
+
+
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Linear classifiers</header><p>
+```
+We realize that
+```math
+w^\top x + b = (w, b)^\top \begin{pmatrix}x \\ 1\end{pmatrix}.
+```
+That means that if we add ``1`` to each sample ``x_i``, it is sufficient to consider the classifier in the form ``w^\top x`` without the bias (shift, intercept) ``b``. This allows for simpler implementation.
+```@raw html
+</p></div>
+```
+
+
 
 
 ## Logistic regression
