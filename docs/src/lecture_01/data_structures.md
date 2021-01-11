@@ -20,7 +20,7 @@ This syntax is used in a [function definition](@ref Functions) to return multipl
 typeof(t)
 ```
 
-In this case, we can see, that we have a tuple that contains three elements, where the first one I of type `Int64`, the second one of type `Float64`, and the last one of type `String`.
+In this case, we can see, that we have a tuple that contains three elements, where the first one is of type `Int64`, the second one of type `Float64`, and the last one of type `String`.
 
 To access elements of a tuple, we can use the same syntax as for arrays
 
@@ -38,65 +38,27 @@ println("The values stored in the tuple are: $a, $b and $c")
 ```
 Note that this is also possible to do with arrays. Tuples are usually used for storing a small number of values and then this feature may be useful. On the other hand, arrays are usually large, so such a feature is not useful for arrays most of the time.
 
-Tuples can be very handy for passing arguments to functions. Imagine the situation, that we have function arguments stored in a tuple and we want to call some function with them. The standard way how to do that is manually passed each element of the tuple to the function. As an example, we can use a tuple with two numbers and modulo function
-
-```@repl tuples
-args = (9, 5)
-mod(args[1], args[2])
-```
-
-or we can unpack the tuple to two variables and then pass these two variables to the function
-
-```@repl tuples
-a, b = args
-mod(a, b)
-```
-
-In Julia, however, there is an even simpler way. It is possible to unpack a tuple and pass its arguments to a function directly with the triple dot (`...`) syntax
-
-```@repl tuples
-mod(args...)
-```
-This is very useful, but also very addictive and it should be used carefully.
-
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Create a tuple that contains odd numbers smaller than `10`. Try to do that using `range` function, `tuple` function and triple-dot syntax `...`.
+Create a tuple that contains the first four letters of the alphabet (these letters should be of type `String`). Then unpack this tuple into four variables `a`, `b`, `c` and `d`.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-
-Such a tuple can be created easily with the following syntax
-
-```@repl
-t = tuple(1:2:9...)
+Such a tuple can be created easily using standard syntax
+```@repl tuples_ex
+t = ("a", "b", "c", "d")
 ```
+To unpack the tuple, we can simply use the four variables and the `=` sign
 
-or even in a simpler way without `tuple` function
-
-```@repl
-t = (1:2:9..., )
+```@repl tuples_ex
+a, b, c, d = t
 ```
-
-The comma after three dots is crucial because it says that we want to create a tuple. Without the comma, an error will occur.
-
-```@repl
-t = (1:2:9...)
-```
-
-Note, that the same syntax can be also used to create a vector
-
-```@repl
-v = [1:2:9..., ]
-```
-
-
 ```@raw html
 </p></details>
 ```
@@ -126,72 +88,13 @@ t[end] # the last element
 t[1:2] # error
 ```
 
-Moreover, it is possible to get elements of a named tuple via their names
+Moreover, it is possible to get elements of a named tuple via their names or unpack elements directly to variables
 
 ```@repl named_tuples
 t.a
 t.c
-```
-Also unpacking and passing named tuple as argumnts into the function works in the same way as for tuples
-
-```@repl
-args = (a = 9, b = 5)
-a, b = args
+a, b, c = t
 println("The values stored in the tuple are: a = $a, b = $b")
-mod(args...)
-```
-
-Moreover, it is possible to use named tuples to store and reuse keyword arguments. It can be demonstrated on a `range` function
-
-```@repl
-kwargs = (stop = 10, step = 2)
-range(1; kwargs...)
-```
-Also here the semicolon is mandatory because without the semicolon the named tuple will be unpacked as positional arguments.
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-Define a matrix using the following code
-```julia
-m = hcat(-2:2, -5:-1)
-```
-Use `sort` function to sort each column of the matrix in descending order based on the absolute value of each element. Use help to learn how the `sort` function works and what arguments accepts. Use named tuple with appropriate keys to pass keyword arguments to `sort` function.
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-From the help, we can see that we need to set up the following three keyword arguments
-- `dims`: Index of dimension along which we want to sort given matrix. Since we want to sort columns, we have to set `dims = 1`.
-- `rev`: Boolean that says if we want to use reverse ordering. By default values are sorted in ascending order, so we need to set `rev = true`.
-- `by`: A function that is applied to each element before comparing. Since we want to sort elements based on their absolute values, we have to set `by = abs`.
-
-Now we know what keyword arguments we have to use to get a correct result and we can create a named tuple
-
-```@repl named_tuples_ex
-kwargs = (dims = 1, rev = true, by = abs)
-```
-
-and then call sort function on the given matrix `m`
-
-```@repl named_tuples_ex
-m = hcat(-2:2, -5:-1)
-sort(m; kwargs...)
-```
-
-In this particular case, there is no benefit to use a named tuple to store keyword arguments and it is simpler to pass arguments directly to the `sort` function
-
-```@repl named_tuples_ex
-sort(m; dims = 1, rev = true, by = abs)
-```
-
-However, this approach can be very useful as we will see later.
-
-```@raw html
-</p></details>
 ```
 
 ## Dictionaries
@@ -217,37 +120,29 @@ If the key does not exist in the dictionary and we try to get it using the squar
 
 ```@repl dicts
 d[:c]
+haskey(d, :c)
 ```
-
-To avoid such errors, we can use `get` function. This function accepts three arguments: a dictionary, key, and a default value for this key, which is returned if the key does not exist in the given dictionary
+Note, that we use the `haskey` function to check if the given dictionary has the `:c` key. To avoid such errors, we can use `get` function. This function accepts three arguments: a dictionary, key, and a default value for this key, which is returned if the key does not exist in the given dictionary
 
 ```@repl dicts
 get(d, :c, 42)
 ```
 
-There is also an in-place version of `get` function, which also add the default value to the dictionary if the key does not exist
+There is also an in-place version of the `get` function, which also add the default value to the dictionary if the key does not exist
 
 ```@repl dicts
 get!(d, :c, 42)
 get!(d, :d, ["hello", "world"])
 d
 ```
-
-Sometimes it is useful to check if a dictionary has a specific key. For this purpose, there is a function  `haskey`
-
-```@repl dicts
-haskey(d, :d)
-haskey(d, :e)
-```
-
-It is also possible to remove unwanted keys from the dictionary. It can be done using `delete!` function, which removes the key from the dictionary
+Unwanted keys from the dictionary can be removed using the `delete!` function
 
 ```@repl dicts
 delete!(d, :d)
 haskey(d, :d)
 ```
 
-or using `pop!` function, which removes the key from the dictionary and returns the value corresponding to this key
+An alternative is the `pop!` function, which removes the key from the dictionary and returns the value corresponding to this key
 
 ```@repl dicts
 pop!(d, :c)
