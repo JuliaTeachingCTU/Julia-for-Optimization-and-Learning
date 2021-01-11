@@ -25,16 +25,13 @@ The main goals of the course are the following:
 Selected examples of what you will be able to write at the end of the course include:
 - *Efficient coding*: The following plot can be created in twenty lines of code
   ![](lecture_04/julia_set.gif)
-- *Numerical techniques*: You will learn many techniques to minimize functions 
+- *Numerical techniques*: You will learn many techniques to minimize functions
   ![](lecture_07/anim1.gif)
 - *Neural networks*: And apply techniques to train neural networks
   ![](lecture_10/nn_intro.svg)
-  
-  Figure 1 contains digit 5 with probability 0.999683.
-  
-  Figure 2 contains digit 0 with probability 1.000000.
-  
-  Figure 3 contains digit 4 with probability 0.974734.
+  - Figure 1 contains digit 5 with probability 0.999683.
+  - Figure 2 contains digit 0 with probability 1.000000.
+  - Figure 3 contains digit 4 with probability 0.974734.
 - *Connection to Matlab, R or Python*: Do you have a Matlab code which you need to run from Julia? No problem, just write five lines of code to get
   ![](data/Video.gif)
 
