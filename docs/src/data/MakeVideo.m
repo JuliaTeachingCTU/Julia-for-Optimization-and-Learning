@@ -48,6 +48,7 @@ function MakeVideo(X, t_max, filename)
         xlim([outlon0 outlon1]);
         ylim([outlat0 outlat1]);
         borders('countries','nomap','k');
+        set(gcf,'color','w');
         
         frame = getframe(gcf);
         [imind, cm] = rgb2ind(frame2im(frame),256);
