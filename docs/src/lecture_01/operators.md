@@ -1,4 +1,4 @@
-# Mathematical operations and Elementary functions
+## Arithmetic operators
 
 Basic arithmetic operations are defined in Julia standard libraries, and all these operators are supported on all primitive [numeric types](@ref Primitive-numeric-types)
 

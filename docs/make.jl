@@ -24,13 +24,13 @@ installation = joinpath.("./installation/", [
     "git.md",
 ])
 
-lecture_01 = joinpath.("./lecture_01/", [
-    "variables.md",
-    "operators.md",
-    "strings.md",
-    "arrays.md",
-    "data_structures.md",
-])
+lecture_01 = [
+    "Variables" => "./lecture_01/variables.md",
+    "Mathematical operations and Elementary functions" => "./lecture_01/operators.md",
+    "Strings" => "./lecture_01/strings.md",
+    "Arrays" => "./lecture_01/arrays.md",
+    "Data structures" => "./lecture_01/data_structures.md",
+]
 
 lecture_02 = joinpath.("./lecture_02/", [
     "conditions.md",
