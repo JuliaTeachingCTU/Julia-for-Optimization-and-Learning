@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="400" viewBox="0 0 2400 1600">
 <defs>
-  <clipPath id="clip590">
+  <clipPath id="clip770">
     <rect x="0" y="0" width="2400" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip590)" d="
+<path clip-path="url(#clip770)" d="
 M0 1600 L2400 1600 L2400 0 L0 0  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip591">
+  <clipPath id="clip771">
     <rect x="480" y="0" width="1681" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip590)" d="
+<path clip-path="url(#clip770)" d="
 M482.992 1521.01 L1956.76 1521.01 L1956.76 47.2441 L482.992 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip592">
+  <clipPath id="clip772">
     <rect x="482" y="47" width="1475" height="1475"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip590)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip770)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   482.992,1521.01 1956.76,1521.01 
   "/>
-<polyline clip-path="url(#clip590)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip770)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   482.992,47.2441 482.992,1521.01 
   "/>
-<g clip-path="url(#clip592)">
+<g clip-path="url(#clip772)">
 <image width="1474" height="1474" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAABcIAAAXCCAYAAAA4jp7UAAAgAElEQVR4nOzaMWoVaBiF4ZnhtgF7
 a5OAbSxcgAtIraVLsM1K0olrCEEQNK2dnVgEbOQWKbRJlzv1FAMh/PKZN8+zglO/nL93u93uLwAA
