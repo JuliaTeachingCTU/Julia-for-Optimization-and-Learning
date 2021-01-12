@@ -1,85 +1,111 @@
 # Strings
 
-In Julia as in other programming languages, a string is a sequence of one or more characters and can be created using quotes
+In Julia, as in other programming languages, a string is a sequence of one or more characters and can be created using quotes
 
-```@repl strings
-str = "Hello, world."
+```jldoctest strings
+julia> str = "Hello, world."
+"Hello, world."
 ```
 
-The strings are immutable and therefore cannot be changed after creation. However, it is very easy to create a new string from parts of existing strings. Individual characters of a string can be accessed via square brackets and indices (the same syntax as for [arrays](@ref Vectors))
+The strings are immutable and, therefore, cannot be changed after creation. However, it is very easy to create a new string from parts of existing strings. Individual characters of a string can be accessed via square brackets and indices (the same syntax as for [arrays](@ref Vectors))
 
-```@repl strings
-str[1] # returns the first character
+```jldoctest strings
+julia> str[1] # returns the first character
+'H': ASCII/Unicode U+0048 (category Lu: Letter, uppercase)
 ```
 
 The return type, in this case, is a `Char`
 
-```@repl strings
-typeof(str[1])
+```jldoctest strings
+julia> typeof(str[1])
+Char
 ```
 
-A `Char` value represents a single character. It is just a 32-bit primitive type with a special literal representation and appropriate arithmetic behaviors. Chars can be created using apostrophe
+A `Char` value represents a single character. It is just a 32-bit primitive type with a special literal representation and appropriate arithmetic behaviors. Chars can be created using an apostrophe
 
-```@repl
-'x'
+```jldoctest
+julia> 'x'
+'x': ASCII/Unicode U+0078 (category Ll: Letter, lowercase)
 ```
 
-Characters can be converted to a numeric value representing a Unicode and vice versa
+It is also possible to convert characters to a numeric value representing a Unicode and vice versa
 
-```@repl
-Int('x')
-Char(120)
+```jldoctest
+julia> Int('x')
+120
+
+julia> Char(120)
+'x': ASCII/Unicode U+0078 (category Ll: Letter, lowercase)
 ```
 
-Square brackets can be also used to extract a substring from an existing string
+Substrings from the existing string can be extracted via square brackets and indexing syntax which is similar to the one for [arrays](@ref Vectors)
 
-```@repl strings
-str[1:5] # returns the first five characters
-str[[1,2,5,6]]
-```
-Note, that we use a range `1:5` to access the first five elements of the string (further details on ranges are given in the section on [arrays](@ref Vectors)). Be aware, that the expressions `str[k]` and `str[k:k]` do not give the same result:
+```jldoctest strings
+julia> str[1:5] # returns the first five characters
+"Hello"
 
-```@repl strings
-str[1] # returns the first character as Char
-str[1:1] # returns the first character as String
+julia> str[[1,2,5,6]]
+"Heo,"
 ```
 
-When using strings, we have to pay attention to some special characters, specifically to the following three characters: `\`, `"` and `$`. If we want to use any of these three characters, we have to use a backslash before them. The reason is that these characters have a special meaning. For example, if we use quote inside a string, then the rest of the string will be interpreted as a Julia code and not a string.
+Note that we use a range `1:5` to access the first five elements of the string (further details on ranges are given in the section on [arrays](@ref Vectors)). Be aware that the expressions `str[k]` and `str[k:k]` do not give the same result
 
-```@repl strings
-str1 = "This is how a string is created: \"string\"."
+```jldoctest strings
+julia> str[1] # returns the first character as Char
+'H': ASCII/Unicode U+0048 (category Lu: Letter, uppercase)
+
+julia> str[1:1] # returns the first character as String
+"H"
 ```
 
-Similarly, the dollar sign is reserved for string interpolation and if we want to use it as a character we have to use a backslash too
+When using strings, we have to pay attention to some special characters, specifically to the following three characters: `\`, `"` and `$`. If we want to use any of these three characters, we have to use a backslash before them. The reason is that these characters have a special meaning. For example, if we use a quote inside a string, then the rest of the string will be interpreted as a Julia code and not a string.
 
-```@repl strings
-str2 = "\$\$\$ dollars everywhere \$\$\$"
+```jldoctest strings
+julia> str1 = "This is how a string is created: \"string\"."
+"This is how a string is created: \"string\"."
 ```
 
-If we want to see how the string will be printed, we can use `print` or `println` function
+Similarly, the dollar sign is reserved for string interpolation, and if we want to use it as a character, we have to use a backslash too
 
-```@repl strings
-println(str1)
-println(str2)
+```jldoctest strings
+julia> str2 = "\$\$\$ dollars everywhere \$\$\$"
+"\$\$\$ dollars everywhere \$\$\$"
 ```
 
-There is one exception to using quotes inside a string: quotes without a backslashes can be used in multiline strings. Multiline strings are created using triple quotes syntax
+The print of the strings can be done using the `print` function or the `println` function that also add a new line at the end fo the string
 
-```@repl strings
-mstr = """
+```jldoctest strings
+julia> println(str1)
 This is how a string is created: "string".
-"""
-print(mstr)
+
+julia> println(str2)
+$$$ dollars everywhere $$$
+```
+
+There is one exception to using quotes inside a string: quotes without backslashes can be used in multiline strings. Multiline strings can be created using triple quotes syntax as follows
+
+```jldoctest strings
+julia> mstr = """
+       This is how a string is created: "string".
+       """
+"This is how a string is created: \"string\".\n"
+
+julia> print(mstr)
+This is how a string is created: "string".
 ```
 
 This syntax is usually used for docstring for functions. It is possible to write a string in the same way as it will appear after printing in REPL
 
-```@repl
-str = """
-      Hello,
-      world.
-    """
-print(str)
+```jldoctest
+julia> str = """
+             Hello,
+             world.
+           """
+"  Hello,\n  world.\n"
+
+julia> print(str)
+  Hello,
+  world.
 ```
 
 ```@raw html
@@ -90,99 +116,137 @@ Create a string with the following text
 > Quotation is the repetition or copy of someone else's statement or thoughts. \
 > Quotation marks are punctuation marks used in text to indicate a quotation. \
 > Both of these words are sometimes abbreviated as "quote(s)".
-and use the `println` function to print this string. The printed string should look exactly the same as the text above, i.e. each sentence should be on a separate line. Also, use an indent of length 4 for each sentence.
+and print the string into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Also, use an indent of length 4 for each sentence.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
 There are two basic ways to get the right result. The first is to use a multiline string and write the message in the correct form
 
-``` @example
-str = """
+```jldoctest
+julia> str = """
+           Quotation is the repetition or copy of someone else's statement or thoughts.
+           Quotation marks are punctuation marks used in text to indicate a quotation.
+           Both of these words are sometimes abbreviated as "quote(s)".
+       """;
+
+julia> println(str)
     Quotation is the repetition or copy of someone else's statement or thoughts.
     Quotation marks are punctuation marks used in text to indicate a quotation.
     Both of these words are sometimes abbreviated as "quote(s)".
-"""
-println(str)
 ```
 
-Note that in this case, we do not have to use backslashes to escape quotation marks in the text. The second way is to use a normal string and new line symbol `\n`. In this case, it is also necessary to use backslashes to escape. quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation
+Note that we do not have to use backslashes to escape quotation marks in the text in this case. The second way is to use a regular string and new line symbol `\n`. In this case, it is necessary to use backslashes to escape quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation
 
-``` @example
-str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\"."
-println(str)
+```jldoctest
+julia> str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\".";
+
+julia> println(str)
+    Quotation is the repetition or copy of someone else's statement or thoughts.
+    Quotation marks are punctuation marks used in text to indicate a quotation.
+    Both of these words are sometimes abbreviated as "quote(s)".
 ```
 
 ```@raw html
 </p></details>
 ```
 
-
 ## String concatenation and interpolation
 
-One of the most common operations on strings is their concatenation. It can be done using `string` function that accepts any number of input arguments and returns a string.
+One of the most common operations on strings is their concatenation. It can be done using the `string` function that accepts any number of input arguments and converts them to a single string.
 
-```@repl
-string("Hello,", " world")
+```jldoctest
+julia> string("Hello,", " world")
+"Hello, world"
 ```
 
-Note, that it is possible to concatenate strings with numbers and other types, that can be converted to a string
+Note that it is possible to concatenate strings with numbers and other types that can be converted to a string
 
-```@repl
-a = 1.123
-string("The variable a is of type ", typeof(a), " and its value is ", a)
+```jldoctest
+julia> a = 1.123
+1.123
+
+julia> string("The variable a is of type ", typeof(a), " and its value is ", a)
+"The variable a is of type Float64 and its value is 1.123"
 ```
 
-In general, it is not possible to perform mathematical operations on strings, even if the strings look like numbers. But there are two exceptions. The `*` operator performs string concatenation
+In general, it is not possible to perform mathematical operations on strings, even if the strings look like numbers. However, there are two exceptions. The `*` operator performs string concatenation
 
-```@repl
-"Hello," * " world"
+```jldoctest
+julia> "Hello," * " world"
+"Hello, world"
 ```
 
-This approach is applicable only to `String`s as opposed to the `string` function that also works for other types. The second exeption is `^` operator, which performs repetition
+This approach can only be applied to `String`s, unlike the `string` function, which also works for other types. The second exception is the `^` operator, which performs repetition
 
-```@repl
-"Hello"^3
+```jldoctest
+julia> "Hello"^3
+"HelloHelloHello"
 ```
 
-This is equivalent to calling `repeat` function
+The example above is equivalent to calling the `repeat` function
 
-```@repl
-repeat("Hello", 3)
+```jldoctest
+julia> repeat("Hello", 3)
+"HelloHelloHello"
 ```
 
-Using `string` function to concatenate strings can lead to extremely long expressions and can be cumbersome. To simplify the construction of strings, Julia allows interpolation into string literals using `$` symbol
+Using the `string` function to concatenate strings can lead to too long expressions and be cumbersome. To simplify the construction of strings, Julia allows interpolation into string literals using the `$` symbol
 
-```@repl interpolation
-a = 1.123
-string("The variable a is of type ", typeof(a), " and its value is ", a)
-"The variable a is of type $(typeof(a)), and its value is $(a)"
+```jldoctest interpolation
+julia> a = 1.123
+1.123
+
+julia> string("The variable a is of type ", typeof(a), " and its value is ", a)
+"The variable a is of type Float64 and its value is 1.123"
+
+julia> "The variable a is of type $(typeof(a)), and its value is $(a)"
+"The variable a is of type Float64, and its value is 1.123"
 ```
 
-Note that we use parentheses to separate expressions that should be interpolated into a string literal. It is not mandatory, but it can prevent mistakes. In the example below, we can see different results with and without parentheses
+Note that we use parentheses to separate expressions that should be interpolated into a string. It is not mandatory, but it can prevent mistakes. In the example below, we can see different results with and without parentheses
 
-```@repl interpolation
-"$typeof(a)"
+```jldoctest interpolation
+julia> "$typeof(a)"
+       "$(typeof(a))"
+ERROR: cannot document the following expression:
+
 "$(typeof(a))"
 ```
 
-The reason is, that in the case without parentheses only the function name is interpolated into the string literal. In the second case, the result of the expression `typeof(a)` is interpolated into the string literal. It is more obvious when we declare a variable `myfunc` that refers to `typeof` function
+In the case without parentheses, only the function name is interpolated into the string. In the second case, the result of the expression `typeof(a)` is interpolated into the string literal. It is more apparent when we declare a variable `myfunc` that refers to `typeof` function
 
-```@repl interpolation
-myfunc = typeof
-"$myfunc(a)"
+```jldoctest interpolation
+julia> myfunc = typeof
+typeof (built-in function)
+
+julia> "$myfunc(a)"
+       "$(myfunc(a))"
+ERROR: cannot document the following expression:
+
 "$(myfunc(a))"
 ```
+
 Both concatenation and string interpolation call `string` to convert objects into string form. Most non-`AbstractString` objects are converted to strings closely corresponding to how they are entered as literal expressions
 
-```@repl
-v = [1,2,3]
-"vector: $v"
+```jldoctest
+julia> v = [1,2,3]
+3-element Array{Int64,1}:
+ 1
+ 2
+ 3
 
-t = (1,2,3)
-"tuple: $(t)"
+julia> "vector: $v"
+"vector: [1, 2, 3]"
+
+julia> t = (1,2,3)
+(1, 2, 3)
+
+julia> "tuple: $(t)"
+"tuple: (1, 2, 3)"
 ```
 
 ```@raw html
@@ -191,10 +255,8 @@ t = (1,2,3)
 ```
 
 Print the following message for a given vector
-
 > "<vec> is a vector of length <len> with elements of type <type>"
-
-where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector and `<type>` is the type of its elements. Use the following two vectors
+where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector, and `<type>` is the type of its elements. Use the following two vectors
 
 ```julia
 a = [1,2,3]
@@ -207,17 +269,26 @@ b = [:a, :b, :c, :d]
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector and the `eltype` function to get its elements type:
+We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector and the `eltype` function to get the type of its elements
 
-```@example
-a = [1,2,3]
-string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a))
+```jldoctest
+julia> a = [1,2,3];
+
+julia> str = string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a));
+
+julia> println(str)
+[1, 2, 3] is a vector of length 3 with elements of type Int64
 ```
+
 The second way is to use string interpolation
 
-```@example
-b = [:a, :b, :c, :d]
-"$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))"
+```jldoctest
+julia> b = [:a, :b, :c, :d];
+
+julia> str = "$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))";
+
+julia> println(str)
+[:a, :b, :c, :d] is a vector of length 4 with elements of type Symbol
 ```
 
 ```@raw html
@@ -226,84 +297,122 @@ b = [:a, :b, :c, :d]
 
 ## Useful functions
 
-Very useful function is the `join` function that performs string concatenation. However, it supports defining custom separator and also it supports different separator for the last element
+A handy function is the `join` function that performs string concatenation. Additionally, it supports defining a custom separator and a different separator for the last element
 
-```@repl
-join(["apples", "bananas", "pineapples"], ", ", " and ")
+```jldoctest
+julia> join(["apples", "bananas", "pineapples"], ", ", " and ")
+"apples, bananas and pineapples"
 ```
 
-To split a string, the `split` function can be used
+In many cases, it is necessary to split the given string according to some conditions. In such cases, the `split` function can be used
 
-```@repl joins
-str = "JuliaLang is a pretty cool language!"
-split(str)
+```jldoctest joins
+julia> str = "JuliaLang is a pretty cool language!"
+"JuliaLang is a pretty cool language!"
+
+julia> split(str)
+6-element Array{SubString{String},1}:
+ "JuliaLang"
+ "is"
+ "a"
+ "pretty"
+ "cool"
+ "language!"
 ```
 
-By default, the function splits the given string based on spaces. But it can be changed by defining custom delimiter
+By default, the function splits the given string based on spaces. But it can be changed by defining a custom delimiter
 
-```@repl joins
-split(str, " a ")
+```jldoctest joins
+julia> split(str, " a ")
+2-element Array{SubString{String},1}:
+ "JuliaLang is"
+ "pretty cool language!"
 ```
 
-There are multiple functions that can be used to find specific characters or substring in the given string. To check if the string contains a specific substring or character, the functions `contains` or `occursin` can be used
+Julia also provides multiple functions that can be used to find specific characters or substring in the given string. The `contains` function checks if the string contains a specific substring or character. Similarly, the `occursin` function determines if the specified string or character occurs in the given string. These two functions differ only in the order of arguments.
 
-```@repl
-contains("JuliaLang is pretty cool!", "Julia")
-occursin("Julia", "JuliaLang is pretty cool!")
+```jldoctest
+julia> contains("JuliaLang is pretty cool!", "Julia")
+true
+
+julia> occursin("Julia", "JuliaLang is pretty cool!")
+true
 ```
 
-These two function differ only in the order of arguments. A very useful function is the `endswith` function, which cheks if the given string ends with the given substring or character. It can be used for example to check, that the file has a proper suffix
+A very useful function is the `endswith` function, which checks if the given string ends with the given substring or character. It can be used, for example, to check that the file has a proper suffix
 
-```@repl
-endswith("figure.png", "png")
+```jldoctest
+julia> endswith("figure.png", "png")
+true
 ```
 
-Index of a specific character in a string can be found using find functions
+Sometimes, it is necessary to find indexes of characters in the string based on some conditions. For such cases, Julia provides several find functions
 
-```@repl
-str = "JuliaLang is a pretty cool language!"
-findall(isequal('a'), str)
-findfirst(isequal('a'), str)
-findlast(isequal('a'), str)
+```jldoctest
+julia> str = "JuliaLang is a pretty cool language!"
+"JuliaLang is a pretty cool language!"
+
+julia> findall(isequal('a'), str)
+5-element Array{Int64,1}:
+  5
+  7
+ 14
+ 29
+ 33
+
+julia> findfirst(isequal('a'), str)
+5
+
+julia> findlast(isequal('a'), str)
+33
 ```
+
+Note that `isequal('a')` creates a function that checks if its argument is equal to the character `a`.
 
 As we said before, strings are immutable and cannot be changed. However, we can easily create new strings. The `replace` function returns a new string with a substring of characters replaced with something else
 
-```@repl
-replace("Sherlock Holmes", "e" => "ee")
+```jldoctest
+julia> replace("Sherlock Holmes", "e" => "ee")
+"Sheerlock Holmees"
 ```
 
-It is also possible to apply a function to a specific substring using `replace` function. The following example shows how to change all `e` letters in the given string to uppercase
+It is also possible to apply a function to a specific substring using the `replace` function. The following example shows how to change all `e` letters in the given string to uppercase
 
-```@repl
-replace("Sherlock Holmes", "e" => uppercase)
+```jldoctest
+julia> replace("Sherlock Holmes", "e" => uppercase)
+"ShErlock HolmEs"
 ```
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
+
 Use the `split` function to split the following string
+> "Julia!"
+into a vector of single-character strings and convert all these strings to uppercase.
 
-```@example joins_ex
-str = "JuliaLang is a pretty cool language!"
-nothing # hide
-```
-into a vector of single-character strings and convert all these strings to upper case.
-
-**Hint:** we can say that the characters in the string are separated by an empty string `""`.
+**Hint:** we can say that an empty string separates the characters in the string `""`.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-If you want to split a string into separate single-character strings, use the empty string (`""`) which splits the string between the characters. To convert strings to uppercase, we can use the `uppercase` function and dot syntax to apply this function to each string separately
 
-```@repl joins_ex
-str = "JuliaLang is a pretty cool language!"
-uppercase.(split(str, ""))
+To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter. Then, we can use the `uppercase` function to convert strings to uppercase
+
+```jldoctest
+julia> uppercase.(split("Julia!", ""))
+6-element Array{String,1}:
+ "J"
+ "U"
+ "L"
+ "I"
+ "A"
+ "!"
 ```
+
 ```@raw html
 </p></details>
 ```
