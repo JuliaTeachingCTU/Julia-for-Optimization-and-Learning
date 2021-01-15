@@ -37,6 +37,8 @@ julia> (x + 2)/(y - 1) - 4*(x - 2)^2
 -2.5
 ```
 
+Note that we use a semicolon after some expressions. In the REPL, if we evaluate any expression, its result is printed. If we use the semicolon, the print is omitted. It is similar behavior as in Matlab, but in Julia, the print is automatic only in the REPL.
+
 A numeric literal placed directly before an identifier or parentheses is treated as a multiplication (except with higher precedence than other binary operations)
 
 ```jldoctest
