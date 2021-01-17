@@ -1,69 +1,88 @@
 # Functions
 
-In Julia, a function is an object that maps a tuple of argument values to a return value. There are multiple ways how to create a function and each of them is useful in different situations. The first way is to use `function ... end` syntax
+In Julia, a function is an object that maps a tuple of argument values to a return value. There are multiple ways to create a function, and each of them is useful in different situations. The first way is to use `function ... end` syntax
 
-```@example functions
+```jldoctest functions; output = false
 function plus(x,y)
     x + y
 end
-nothing # hide
+
+# output
+plus (generic function with 1 method)
 ```
 
-In the previous example, we created a function `plus` that accepts two arguments `x`, `y` and returns their sum.
+In the previous example, we created a `plus` function that accepts two arguments, `x`, `y`, and returns their sum.
 
-```@repl functions
-plus(2, 3)
-plus(2, -3)
+```jldoctest functions
+julia> plus(2, 3)
+5
+
+julia> plus(2, -3)
+-1
 ```
 
-By default, the function in Julia returns the last evaluated expression, which in our example is `x + y`. However, in many situations, it is useful to return something other than the last expression. For such a case there is an `return` keyword. The previous example can be equivalently rewritten as follows
+By default, functions in Julia returns the last evaluated expression, which in our example is `x + y`. However, in many situations, it is useful to return something other than the last expression. For such a case, there is the `return` keyword. The previous example can be equivalently rewritten as follows
 
-```@example
+```jldoctest; output = false
 function plus(x,y)
     return x + y
 end
-nothing # hide
+
+# output
+plus (generic function with 1 method)
 ```
 
-Even though both function definitions do exactly the same, it is a good practice to always use `return` keyword. Using the `return` keyword usually improves the readability of the code and can prevent potential confusion.
+Even though both function definitions do exactly the same, it is always good to use the `return` keyword. Using the `return` keyword usually improves the readability of the code and can prevent potential confusion.
 
-```@example functions
+```jldoctest functions; output = false
 function plus(x, y)
     return x + y
     println("I am a useless line of code!!")
 end
-nothing # hide
-```
-We can see, that there is println function used on the last line in the previous example. However, if the function is called, nothing is printed into the REPL
 
-```@repl functions
-plus(4, 5)
-plus(3, -5)
+# output
+plus (generic function with 1 method)
 ```
 
-The reason is, that the expressions after the `return` keyword are never evaluated
+In the example above, there is the `println` function on the last line. However, if the function is called, nothing is printed into the REPL. The reason is that the expressions after the `return` keyword are never evaluated
 
-It is also possible to return multiple values at once. This can be done by simply writing multiple comma-separated values after the `return` keyword (or on the last line when `return` is not used)
+```jldoctest functions
+julia> plus(4, 5)
+9
 
-```@example functions
+julia> plus(3, -5)
+-2
+```
+
+It is also possible to return multiple values at once. It can be done by writing multiple comma-separated values after the `return` keyword (or on the last line when `return` is omitted)
+
+```jldoctest functions; output = false
 function powers(x)
     return x, x^2, x^3, x^4
 end
-nothing # hide
+
+# output
+powers (generic function with 1 method)
 ```
 
-In fact, this syntax creates a tuple of values and then this tuple is returned as a function output. It can be seen, if we call the `powers` function that returns the first four powers of the given `x`
+This syntax creates a tuple of values, and then this tuple is returned as a function output. It can be seen, if we call the `powers` function that returns the first four powers of the given variable `x`
 
-```@repl functions
-ps = powers(2)
-typeof(ps)
+```jldoctest functions
+julia> ps = powers(2)
+(2, 4, 8, 16)
+
+julia> typeof(ps)
+NTuple{4,Int64}
 ```
 
 Since the function returns a tuple, returned values can be directly unpacked into multiple variables. It can be done in the same way as unpacking [tuples](@ref Tuples)
 
-```@repl functions
-x1, x2, x3, x4 = powers(2)
-x3
+```jldoctest functions
+julia> x1, x2, x3, x4 = powers(2)
+(2, 4, 8, 16)
+
+julia> x3
+8
 ```
 
 ```@raw html
@@ -71,7 +90,7 @@ x3
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a function that for a given real number ``x`` and integer ``p`` computes ``x^p`` without using the `^` operator. You can use only basic arithmetic operators `+`, `-`, `*`, `/` and `if` condition.
+Write a function that for a given real number ``x`` and integer ``p`` computes ``x^p`` without using the `^` operator. Use only basic arithmetic operators `+`, `-`, `*`, `/` and `if` condition.
 
 **Hint:** use recursion.
 
@@ -80,14 +99,15 @@ Write a function that for a given real number ``x`` and integer ``p`` computes `
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
 To use recursion, we have to split the computation into three parts:
-- ``p = 0``: the function should return `1`.
-- ``p > 0``: the function should be called recursively with arguments ``x``, ``p - 1`` and the result should be multiplied by ``x``.
-- ``p < 0``: then it is equivalent to call the power function with arguments ``1/x``, ``- p``.
+- `p = 0`: the function should return `1`.
+- `p > 0`: the function should be called recursively with arguments `x`, `p - 1` and the result should be multiplied by `x`.
+- `p < 0`: then it is equivalent to call the power function with arguments `1/x`, `- p`.
 
-These three cases can be defined simply using one `if` condition as follows
+These three cases can be defined simply one `if` condition as follows
 
-```@example functions_ex
+```jldoctest functions_ex; output = false
 function power(x::Real, p::Integer)
     if p == 0
         return 1
@@ -97,24 +117,36 @@ function power(x::Real, p::Integer)
         return power(1/x, - p)
     end
 end
-nothing # hide
-```
-Note, that we use type annotation for function arguments. In this case, it will assure, that the first argument is always a real number and the second argument is always an integer.
 
-```@repl functions_ex
-power(2, 5)
-power(2, -2)
-power(2, 5) == 2^5
-power(5, -3) == 5^(-3)
+# output
+power (generic function with 1 method)
+```
+
+Note that we use type annotation for function arguments. Using type annotation, we can assure that the input arguments are always of the proper type. In the example above, the first argument must be a real number, and the second argument must be an integer
+
+```jldoctest functions_ex
+julia> power(2, 5)
+32
+
+julia> power(2, -2)
+0.25
+
+julia> power(2, 5) == 2^5
+true
+
+julia> power(5, -3) == 5^(-3)
+true
 ```
 
 If we call the function with arguments of inappropriate types, an error will occur
 
-```@repl functions_ex
-power(2, 2.5)
+```jldoctest functions_ex
+julia> power(2, 2.5)
+ERROR: MethodError: no method matching power(::Int64, ::Float64)
+[...]
 ```
 
-We will discuss the type annotation later in the section about [multiple-dispatch](@ref Methods).
+We will discuss the type annotation later in the section about [methods](@ref Methods).
 
 ```@raw html
 </p></details>
@@ -124,19 +156,24 @@ We will discuss the type annotation later in the section about [multiple-dispatc
 
 Besides the traditional function declaration syntax above, it is possible to define a function in a compact one-line form
 
-```@example functions
+```jldoctest functions; output = false
 plus(x, y) = x + y
-nothing # hide
+
+# output
+plus (generic function with 1 method)
 ```
 
-that is equivalent to the previous definition of `plus` function
+that is equivalent to the previous definition of the `plus` function
 
-```@repl functions
-plus(4, 5)
-plus(3, -5)
+```jldoctest functions
+julia> plus(4, 5)
+9
+
+julia> plus(3, -5)
+-2
 ```
 
-This syntax is very similar to the mathematical notation especially in combination with the greek alphabet. For example the following function
+This syntax is very similar to the mathematical notation, especially in combination with the Greek alphabet. For example, the following function
 
 ```math
 f(\varphi) = - 4 \cdot \sin\left(\varphi - \frac{\pi}{12}\right)
@@ -144,22 +181,27 @@ f(\varphi) = - 4 \cdot \sin\left(\varphi - \frac{\pi}{12}\right)
 
 can be in Julia defined in almost identical form
 
-```@example
+```jldoctest; output = false
 f(φ) = -4sin(φ - π/12)
-nothing # hide
+
+# output
+f (generic function with 1 method)
 ```
 
 Even with one-line syntax, it is possible to create more complex functions with some intermediate calculations. It can be done, using brackets and semicolons to separate expressions. The last expression in brackets is then returned  as a function output
 
-```@example functions
+```jldoctest functions; output = false
 g(x) = (x -= 1; x *= 2; x)
-nothing # hide
+
+# output
+g (generic function with 1 method)
 ```
 
-In this example, the `g` function subtracts `1` from the given `x` and then multiply the result by `2`
+In this example, the `g` function subtracts `1` from the given `x` and then multiply it by `2` and returns the result
 
-```@repl functions
-g(3)
+```jldoctest functions
+julia> g(3)
+4
 ```
 
 However, for better code readability, the traditional multiline syntax should be used for more complex functions.
@@ -169,31 +211,39 @@ However, for better code readability, the traditional multiline syntax should be
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a one-line function, that returns true if the input argument is an odd number and false otherwise
+Write a one-line function that returns `true` if the input argument is an even number and `false` otherwise.
 
-**Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?` (for more info, use help for symbol `?`).
+**Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?`.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-In help, we can find the syntax for the ternary operator
+
+From the section about the ternary operator, we know the syntax
+
 ```julia
 a ? b : c
 ```
-This expression can be read as follows: *if `a` is true, evaluate `b` otherwise evaluate `c`*. We also know that even numbers are divisible by 2 and we can check it using the modulo, i.e. the given integer `x` is even if `mod(x, 2) == 0`.  Altogether, we get the following function definition
 
-```@example functions
+This expression can be read as follows: *if `a` is true, evaluate `b` otherwise evaluate `c`*. We also know that even numbers are divisible by 2, and we can check it using the modulo, i.e., the given integer `x` is even if `mod(x, 2) == 0`.  Altogether, we get the following function definition
+
+```jldoctest functions; output = false
 even(x::Integer) = mod(x, 2) == 0 ? true : false
-nothing # hide
+
+# output
+even (generic function with 1 method)
 ```
 
-Note, that we use type annotation to assure, that the argument is always an integer.
+Note that we use type annotation to assure that the argument is always an integer.
 
-```@repl functions
-even(11)
-even(14)
+```jldoctest functions
+julia> even(11)
+false
+
+julia> even(14)
+true
 ```
 
 ```@raw html
@@ -202,80 +252,115 @@ even(14)
 
 ## Optional arguments
 
-Another very useful thing is optional arguments. Similarly to python, optional arguments can be created by assigning a default value to the normal argument. The following function has only one argument, which is optional with a default value `world`
+In many cases, it is advantageous to set predefined values to some function arguments. Arguments with a default value are typically called optional arguments. Like in Python, optional arguments can be created by assigning a default value to the normal argument. The following function has only one argument, which is optional with a default value `world`
 
-```@example opt_args
+```jldoctest opt_args; output = false
 hello(x = "world") = println("Hello $(x).")
-nothing # hide
-```
-Since the only argument is optional, we can call the function without any argument. In such a case, the function prints `"Hello $(x)."`, where `x` is replaced by the default value
 
-```@repl opt_args
-hello()
+# output
+hello (generic function with 2 methods)
 ```
 
-If we call the function with the argument, it will change the printed sentence
+Since the only argument is optional, we can call the function without any argument. In such a case, the function prints `"Hello $(x)."`, where the default value replaces `x`. Or we can call the function with one argument and change the printed sentence
 
-```@repl opt_args
-hello("people")
+```jldoctest opt_args
+julia> hello()
+Hello world.
+
+julia> hello("people")
+Hello people.
 ```
 
-In the same way, it is possible to define multiple optional arguments. It is even possible to define optional arguments, that depend on other arguments
+In the same way, it is possible to define multiple optional arguments. It is even possible to define optional arguments that depend on other arguments. However, there are some rules. Arguments must be sorted as follows: firstly, we have to define all mandatory arguments, and then we can define optional arguments
 
-```@example opt_args
+```jldoctest opt_args; output = false
 powers(x, y = x*x, z = y*x, v = z*x) = x, y, z, v
-nothing # hide
+
+# output
+powers (generic function with 4 methods)
 ```
 
 This function has one mandatory argument and three optional ones. If only the first argument `s` is provided, then the function returns the first four powers of the given `x`
 
-```@repl opt_args
-powers(2)
+```jldoctest opt_args
+julia> powers(2)
+(2, 4, 8, 16)
 ```
 
 Otherwise, the function output depends on the given input arguments. For example, if two arguments `x` and `y` are provided, the function returns these two arguments unchanged, their product `x*y` and also `x^2*y`
 
-```@repl opt_args
-powers(2, 3)
+```jldoctest opt_args
+julia> powers(2, 3)
+(2, 3, 6, 12)
+```
+
+Note that optional arguments can depend only on the arguments defined before; otherwise, an error will occur.
+
+```jldoctest opt_args; output = false
+f(x = 1, y = x) = (x, y)
+g(x = y, y = 1) = (x, y)
+
+# output
+g (generic function with 3 methods)
+```
+
+The definition of the `f` function is correct and the definition of the `g` function is incorrect, since the variable `y` is not defined when we define `x`
+
+```jldoctest opt_args
+julia> f()
+(1, 1)
+
+julia> g()
+ERROR: UndefVarError: y not defined
+[...]
 ```
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
+
 Write a function, that computes the value of the following quadratic form
 
 ```math
 q_{a,b,c}(x) = ax^2 + bxy + cy^2
 ```
+
 where ``a, b, c, x \in \mathbb{R}``. Use optional arguments to set default values for parameters
+
 ```math
-a = 1 \quad b = 2a \quad c = 3(a + b).
+a = 1, \quad b = 2a, \quad c = 3(a + b).
 ```
-What is the function value at point ``(4, 2)`` for default parameters? What is the function value at the same point, if we use ``c = 3``?
+
+What is the function value at point ``(4, 2)`` for default parameters? What is the function value at the same point if we use ``c = 3``?
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
 The quadratic form can be implemented as follows
 
-```@example opt_args_ex
+```jldoctest opt_args_ex; output = false
 q(x, y, a = 1, b = 2*a, c = 3*(a + b)) = a*x^2 + b*x*y + c*y^2
-nothing # hide
+
+# output
+q (generic function with 4 methods)
 ```
 
-Since we want to evaluate the function `q` at point `(4, 2)` with default parameters, we can simply use only first two arguments
+Since we want to evaluate the function `q` at point `(4, 2)` with default parameters, we can simply use only the first two arguments
 
-```@repl opt_args_ex
-q(4, 2)
+```jldoctest opt_args_ex
+julia> q(4, 2)
+68
 ```
 
-However, it is not possible to set only the last optional argument. We have to also set all previous optional arguments too. For the first two optional arguments, we use the default values, i.e. `a = 1` and `b = 2*a = 2`.
+In the second case, we want to evaluate the function at the same point with ``c = 3``. However, it is not possible to set only the last optional argument. We have to set all previous optional arguments too. For the first two optional arguments, we use the default values, i.e., `a = 1` and `b = 2*a = 2`
 
-```@repl opt_args_ex
-q(4, 2, 1, 2, 3)
+```jldoctest opt_args_ex
+julia> q(4, 2, 1, 2, 3)
+44
 ```
 
 ```@raw html
@@ -284,46 +369,59 @@ q(4, 2, 1, 2, 3)
 
 ## Keyword arguments
 
-The exercise from the previous section shows the biggest disadvantage of using optional arguments, i.e. it is not possible to change only one optional argument unless it is the first one. Luckily there are also keyword arguments, that can be used instead of optional arguments. The syntax is exactly the same as for optional arguments with one exception: we have to use a semicolon before the first keyword argument
+The previous exercise shows the most significant disadvantage of using optional arguments, i.e., it is not possible to change only one optional argument unless it is the first one. Luckily there are also keyword arguments that can be used instead of optional arguments. The syntax is the same as for optional arguments, with one exception: we have to use a semicolon before the first keyword argument.
 
-```@example key_args
+```jldoctest key_args; output = false
 linear(x; a = 1, b = 0) = a*x + b
-nothing # hide
-```
-This function is a simple linear function, where `a` parameter is called slope and `b` parameter is called intercept. As with functions with optional arguments, we can call the function only with the mandatory arguments
 
-```@repl key_args
-linear(2)
+# output
+linear (generic function with 1 method)
 ```
+
+This function is a simple linear function, where `a` represents slope, and `b` represents intercept. As with functions with optional arguments, we can call the function with the mandatory arguments only
+
+```jldoctest key_args
+julia> linear(2)
+2
+```
+
 or we can change the value of any keyword argument by assigning a new value to its name
 
-```@repl key_args
-linear(2; a = 2)
-linear(2; b = 4)
-linear(2; a = 2, b = 4)
-```
-Note that the semicolon, in this case, is not mandatory and can be omitted. Also, the order of keyword arguments can be arbitrary as can be seen i the following example
+```jldoctest key_args
+julia> linear(2; a = 2)
+4
 
-```@repl key_args
-linear(2, b = 4, a = 2)
-```
-It is even possible to mix keyword arguments with positional arguments
+julia> linear(2; b = 4)
+6
 
-```@repl key_args
-linear(a = 2, 2, b = 4)
+julia> linear(2; a = 2, b = 4)
+8
 ```
+
+Note that the semicolon, in this case, is not mandatory and can be omitted. Also, the order of keyword arguments can be arbitrary. It is even possible to mix keyword arguments with positional arguments as can be seen in the following example
+
+```jldoctest key_args
+julia> linear(b = 4, 2, a = 2)
+8
+```
+
 However, it's a good practice to always separate keyword arguments from optional arguments with a semicolon.
 
-Julia also provides one very nice feature, that can be used to pass keyword arguments. Imagine, that we have two variable `a`, `b`, that represents the keyword arguments of the `linear` function. The standard way how to pass these arguments to the function is the following
+Julia also provides one very nice feature that can be used to pass keyword arguments. Imagine that we have two variables, `a` and `b`, and we want to pass them as keyword arguments to the `linear` function defined above. The standard way is as follows
 
-```@repl key_args
-a, b = 2, 4
-linear(2; a = a, b = b)
+```jldoctest key_args
+julia> a, b = 2, 4
+(2, 4)
+
+julia> linear(2; a = a, b = b)
+8
 ```
-However, in Julia, we can use the shorter version, that can be used if the variable name is the same as the name of the keyword argument we want to set
 
-```@repl key_args
-linear(2; a, b)
+However, in Julia, we can use the shorter version, that can be used if the variable name is the same as the name of the keyword argument we want to set. In such a case, the following is equivalent to the previous example
+
+```jldoctest key_args
+julia> linear(2; a, b)
+8
 ```
 
 ```@raw html
@@ -337,9 +435,11 @@ Write a probability density function for the Gaussian distribution, that is give
 f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
 ```
 
-where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to set the default values ``\mu = 0`` and ``\sigma = 1``.
+where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments  to set the following default values ``\mu = 0`` and ``\sigma = 1``.
 
-**Bonus:** check that this function is really a probability density function
+**Bonus:** check that this function is a probability density function, i.e., that the sum over all possible values is equal to 1.
+
+**Hint:** use the `error` function to check if the variance is positive.
 
 ```@raw html
 </p></div>
@@ -349,104 +449,176 @@ where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to set 
 
 The probability density function for the [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution#General_normal_distribution) can be simply written as follows
 
-```@example key_args_ex
-function f(x::Real; μ::Real = 0, σ::Real = 1)
-    σ^2 == 0 && error("the variance `σ^2` must be nonzero")
+```jldoctest key_args_ex; output = false
+function gauss(x::Real; μ::Real = 0, σ::Real = 1)
+    σ^2 > 0 || error("the variance `σ^2` must be positive")
     return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
 end
-nothing # hide
+
+# output
+gauss (generic function with 1 method)
 ```
 
-Note, that we use type annotation to  assure, that all input arguments will be real numbers and we also check whether the given arguments do not lead to a zero variance (the first line in the function body).
+Note that we use type annotation to assure that all input arguments are real numbers. We also check whether the given standard deviation ``\sigma`` does not lead to a zero variance (the first line in the function body)
 
-```@repl key_args_ex
-f(0)
-f(0.1; μ = 1, σ = 1)
+```jldoctest key_args_ex
+julia> gauss(0)
+0.3989422804014327
+
+julia> gauss(0.1; μ = 1, σ = 1)
+0.2660852498987548
 ```
 
-We know, that the integral over all real numbers from the probability density function should be equal to one. We can check it numerically as follows
+The integral of the probability density function over all real numbers should be equal to one. We can check it numerically as follows
 
-```@repl key_args_ex
-x = -100:0.1:100;
-sum(f, x) * 0.1
+```jldoctest key_args_ex
+julia> step = 0.01
+0.01
 
-g(x) = f(x; μ = -1, σ = 1.4)
-sum(g, x) * 0.1
+julia> x = -100:step:100;
+
+julia> sum(gauss, x) * step
+1.0000000000000002
+
+julia> g(x) = gauss(x; μ = -1, σ = 1.4)
+g (generic function with 1 method)
+
+julia> sum(g, x) * step
+1.0000000000000007
 ```
 
-We use the sum function, which can accept a function as a first argument a then this function is applied to each value before summation. The result is always multiplied by `0.1`. It is because we use a range with stepsize `0.1`  to approximate continuous interval `[-100, 100]`.
-
-Finally, we can use the following code to visualize the probability density functions
-
-```@example key_args_ex
-using Plots
-
-x = -15:0.1:15
-
-plot(x, f.(x); label = "μ = 0, σ = 1", linewidth = 2, xlabel = "x", ylabel = "f(x)");
-plot!(x, f.(x; μ = 4, σ = 2); label = "μ = 4, σ = 2", linewidth = 2);
-plot!(x, f.(x; μ = -3, σ = 2); label = "μ = -3, σ = 2", linewidth = 2);
-savefig("gauss.svg") # hide
-```
-
-We use a lot of things that will be discussed later in the course. So for now, just enjoy a nice picture of the Gaussian probability density functions
-
-![](gauss.svg)
+We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. The result is always multiplied by `0.01`. It is because we use a range with stepsize `0.01`  to approximate continuous interval `[-100, 100]`.
 
 ```@raw html
 </p></details>
 ```
 
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Plots.jl</header><p>
+```
+
+So far, we use only the standard library that is shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. For example, there is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package that allows us to create plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, we have to press the `]` symbol. Then the  Plots package can be installed as follows
+
+```julia
+(@v1.5) pkg> add Plots
+```
+
+If we install an additional package, we have to use the `using` keyword to load the package
+
+```@setup plots
+function gauss(x::Real; μ::Real = 0, σ::Real = 1)
+    σ^2 > 0 || error("the variance `σ^2` must be positive")
+    return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
+end
+```
+
+```@example plots
+using Plots
+```
+
+and then we can start using it. For example, we can visualize the probability density functions as follows
+
+```@example plots
+x = -15:0.1:15
+
+plot(x, gauss.(x); label = "μ = 0, σ = 1", linewidth = 2, xlabel = "x", ylabel = "f(x)");
+plot!(x, gauss.(x; μ = 4, σ = 2); label = "μ = 4, σ = 2", linewidth = 2);
+plot!(x, gauss.(x; μ = -3, σ = 2); label = "μ = -3, σ = 2", linewidth = 2);
+savefig("gauss.svg") # hide
+```
+
+![](gauss.svg)
+
+In this note, we use a lot of things that will be discussed later in the course. So, for now, enjoy a nice picture of the Gaussian probability density functions.
+
+```@raw html
+</p></div>
+```
+
 ## Variable number of arguments
 
-Sometimes, it is very convenient to be able to define a function, that can accept any number of arguments. Such functions are traditionally known as "varargs" functions, which is short for "variable number of arguments". In Julia, varargs functions can be defined using triple-dot syntax after the last positional argument as follows
+Sometimes, it is very convenient to define a function that can accept any number of arguments. Such functions are traditionally known as *varargs* functions (short for *variable number of arguments*). In Julia, varargs functions can be defined using triple-dot syntax after the last positional argument as follows
 
-```@example varargs
-foo(x...) = x
-nothing # hide
+```jldoctest varargs; output = false
+nargs(x...) = println("Number of arguments: ", length(x))
+
+# output
+nargs (generic function with 1 method)
 ```
 
-The `foo` function defined above, accepts any number of input arguments, wraps them in a tuple a returns them
+Note that the triple-dot `...` is also known as the splat operator. The `nargs` function defined above prints the number of given input arguments
 
-```@repl varargs
-foo()
-foo(1, 2, "a", :b, [1,2,3])
-```
-The following example is more useful. In that example, we define `basicinfo` function, that accepts any number of input arguments and then prints basic information like the number of given arguments, their sum, mean and standard deviation.
+```jldoctest varargs
+julia> nargs()
+Number of arguments: 0
 
-```@example varargs
-using Statistics
-
-function basicinfo(x...)
-    println("""
-      - number of arguments: $(length(x))
-      - sum: $(round(sum(x); digits = 2))
-      - mean: $(round(mean(x); digits = 2))
-      - std: $(round(std(x); digits = 2))
-    """)
-    return
-end
-nothing # hide
-```
-Note, that we have to use package `Statistics`, since functions `mean` and `std` are not part of standard packages, that are loaded in every Julia session.
-
-```@repl varargs
-basicinfo(0.158, 1.889, 1.246, 4.569)
-basicinfo(0.158, 1.889, 1.246, 4.569, 5.189, -4.123)
+julia> nargs(1, 2, "a", :b, [1,2,3])
+Number of arguments: 5
 ```
 
-A similar syntax for a variable number of positional arguments can be used for keyword arguments as well. Functions that accept any number of keyword arguments can be very useful. Such functions can be used for example
-```@example varargs
-shiftedsum(x; a = 1, kwargs...) = sum(x .- a; kwargs...)
-nothing # hide
+Note that we use input arguments of different types.
+
+The splat operator can also be used to pass multiple arguments to the function at once. Imagine the situation, that we have a tuple of values and we want to use these values as arguments to some function. We can do it manually as follows
+
+```jldoctest varargs
+julia> args = (1, 2, 3)
+(1, 2, 3)
+
+julia> nargs(args[1], args[2], args[3])
+Number of arguments: 3
 ```
 
-Here we define a function, that subtracts `a` from each element of the given input array `x` and then sums this array. This function also pass all given keyword arguments to the `sum` function.
+However, in Julia, it is possible to use the splat operator to unpack the tuple of arguments directly to the function
 
-```@repl varargs
-A = [1 2 3; 4 5 6]
-shiftedsum(A)
-shiftedsum(A; dims = 1)
+```jldoctest varargs
+julia> nargs(args...)
+Number of arguments: 3
+```
+
+Note the difference if we omit the splat operator
+
+```jldoctest varargs
+julia> nargs(args)
+Number of arguments: 1
+```
+
+In such a case, the function receives only one argument instead of three arguments. The same syntax can be used for any iterable object, such as ranges or arrays
+
+```jldoctest varargs
+julia> nargs(1:100)
+Number of arguments: 1
+
+julia> nargs(1:100...)
+Number of arguments: 100
+
+julia> nargs([1,2,3,4,5])
+Number of arguments: 1
+
+julia> nargs([1,2,3,4,5]...)
+Number of arguments: 5
+```
+
+It is also possible to use the same syntax to define a function with an arbitrary number of keyword arguments. Functions that accept any number of keyword arguments can be beneficial. Consider the following situation: we want to define a function that computes the modulo of the given numbers and then rounds the result. To define such a function, we can use the combination of the `mod` and `round` functions. However, the `round` function has many keyword arguments, and we want to have an option to use them all. In such a case, we can use the following syntax to define the `roundmod` function
+
+```jldoctest varargs; output = false
+roundmod(x, y; kwargs...) = round(mod(x, y); kwargs...)
+
+# output
+roundmod (generic function with 1 method)
+```
+
+With this simple syntax, we are able to pass all keyword arguments to the `round` function without the necessity to define them all in the `roundmod` function
+
+```jldoctest varargs
+julia> roundmod(12.529, 5)
+3.0
+
+julia> roundmod(12.529, 5; digits = 2)
+2.53
+
+julia> roundmod(12.529, 5; sigdigits = 2)
+2.5
 ```
 
 ```@raw html
@@ -467,9 +639,10 @@ Use the function to solve the following tasks
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-The one way how to define such a function is to use `if` conditions as follows
 
-```@example varargs_ex
+The one way how to define such a function is to use `if-elseif-else` statement as follows
+
+```jldoctest varargs_ex; output = false
 function wrapper(x...; type = :round, kwargs...)
     if type == :ceil
         return ceil(x...; kwargs...)
@@ -479,53 +652,80 @@ function wrapper(x...; type = :round, kwargs...)
         return round(x...; kwargs...)
     end
 end
-nothing # hide
-```
-In this case, the `type` keyword argument is used to determine which function should be used. Note, that we use an optional number of arguments as well as an optional number of keyword arguments. The reason is, that we want to pass all given arguments to the appropriate function and this is the easiest way how to do it.
 
-```@repl varargs_ex
-x = 1252.1518
-wrapper(Int64, x; type = :ceil)
-wrapper(Int16, x; type = :floor)
-wrapper(x; digits = 2)
-wrapper(x; sigdigits = 3)
+# output
+wrapper (generic function with 1 method)
 ```
-The second way how to solve this exercise is to use the fact, that it is possible to pass functions as arguments. Using this fact, we can omit the if condition, and we can pass the appropriate function directly
 
-```@example varargs_ex
+In this case, the `type` keyword argument is used to determine which function should be used. Note that we use an optional number of arguments as well as an optional number of keyword arguments
+
+```jldoctest varargs_ex
+julia> x = 1252.1518
+1252.1518
+
+julia> wrapper(Int64, x; type = :ceil)
+1253
+
+julia> wrapper(Int16, x; type = :floor)
+1252
+
+julia> wrapper(x; digits = 2)
+1252.15
+
+julia> wrapper(x; sigdigits = 3)
+1250.0
+```
+
+The second way to solve this exercise is to use the fact that it is possible to pass functions as arguments. Using this fact, we can omit the `if` conditions, and we can pass the appropriate function directly
+
+```jldoctest varargs_ex; output = false
 wrapper_new(x...; type = round, kwargs...) = type(x...; kwargs...)
-nothing # hide
+
+# output
+wrapper_new (generic function with 1 method)
 ```
 
-Note, that in the function definition, we use the `type` keyword argument as a function. It can be done since we assume that a function is assigned to the keyword argument type
+Note that in the function definition, we use the `type` keyword argument as a function. It can be done since we assume that a function is assigned to the `type` keyword argument
 
-```@repl varargs_ex
-wrapper_new(1.123; type = ceil)
+```jldoctest varargs_ex
+julia> wrapper_new(1.123; type = ceil)
+2.0
 ```
 
-If we use for example `Symbol` instead of a function, the error will occur
+If we use, for example, `Symbol` instead of a function, the error will occur
 
-```@repl varargs_ex
-wrapper_new(1.123; type = :ceil)
+```jldoctest varargs_ex
+julia> wrapper_new(1.123; type = :ceil)
+ERROR: MethodError: objects of type Symbol are not callable
+[...]
 ```
-Finally, we can test `wrapper_new` function on the same arguments as we tested `wrapper` function
 
-```@repl varargs_ex
-x = 1252.1518
-wrapper_new(Int64, x; type = ceil)
-wrapper_new(Int16, x; type = floor)
-wrapper_new(x; digits = 2)
-wrapper_new(x; sigdigits = 3)
+Finally, we can test the `wrapper_new` function on the same arguments as we tried the `wrapper` function
+
+```jldoctest varargs_ex
+julia> x = 1252.1518
+1252.1518
+
+julia> wrapper_new(Int64, x; type = ceil)
+1253
+
+julia> wrapper_new(Int16, x; type = floor)
+1252
+
+julia> wrapper_new(x; digits = 2)
+1252.15
+
+julia> wrapper_new(x; sigdigits = 3)
+1250.0
 ```
 
 ```@raw html
 </p></details>
 ```
 
-
 ## Anonymous functions
 
-It is also common to use anonymous functions, i.e. functions without specified name. Such a function can be defined in almost the same way as a normal function:
+It is also common to use anonymous functions, i.e., functions without a specified name. Anonymous functions can be defined in almost the same way as a normal function
 
 ```@example
 h1 = function (x)
@@ -535,35 +735,58 @@ h2 = x ->  x^2 + 2x - 1
 nothing # hide
 ```
 
-Those two function declarations create functions with automatically generated names. Then variables `h1` and `h2` only refers to these functions. The primary use for anonymous functions is passing them to functions which take other functions as arguments. A classic example is `map` function, which applies a function to each value of an array and returns a new array containing the resulting values:
+Those two function declarations create functions with automatically generated names. Then variables `h1` and `h2` only refer to these functions. The primary use for anonymous functions is passing them to functions that take other functions as arguments. A classic example is the `map` function, which applies a function to each value of the given iterable object and returns a new array containing the resulting values
 
-```@repl
-map(x -> x^2 + 2x - 1, [1,3,-1])
+```jldoctest
+julia> map(x -> x^2 + 2x - 1, [1,3,-1])
+3-element Array{Int64,1}:
+  2
+ 14
+ -2
 ```
 
-Julia also provides a reserved word do, that allows creating more complicated functions easily. In the following example, we apply `map` function to two arrays.  Using do block, we create an anonymous function, that prints the given values a return their sum
+Julia also provides a reserved word `do`, that also allows creating anonymous functions. In the following example, we apply the `map` function to two arrays.  Using do block, we create an anonymous function that prints the given values a return their sum
 
-```@repl
-map([1,3,-1], [2,4,-2]) do x, y
-    println("x = $(x), y = $(y)")
-    return x + y
-end
+```jldoctest
+julia> map([1,3,-1], [2,4,-2]) do x, y
+           println("x = $(x), y = $(y)")
+           return x + y
+       end
+x = 1, y = 2
+x = 3, y = 4
+x = -1, y = -2
+3-element Array{Int64,1}:
+  3
+  7
+ -3
 ```
-Note, that the body of such a function is written in the same way as in the case of a normal function definition. The arguments of such function are defined after the `do` keyword. Usually, it is better to create an actual function and then use it in `map` function. The previous example can be rewritten as
 
-```@example anonym
+Note that the body of such a function is written in the same way as a normal function. The arguments are defined after the `do` keyword. However, it is usually better to create an actual function
+
+```jldoctest anonym; output = false
 function f(x, y)
     println("x = $(x), y = $(y)")
     return x + y
 end
-nothing # hide
+
+# output
+f (generic function with 1 method)
 ```
 
-```@repl anonym
-map(f, [1,3,-1], [2,4,-2])
+and then use it in the `map` function
+
+```jldoctest anonym
+julia> map(f, [1,3,-1], [2,4,-2])
+x = 1, y = 2
+x = 3, y = 4
+x = -1, y = -2
+3-element Array{Int64,1}:
+  3
+  7
+ -3
 ```
 
-There are many possible uses quite different from map, such as managing system state. For example, there is a version of open that runs code ensuring that the opened file is eventually closed
+There are many possible uses quite different from the `map` function, such as managing system state. For example, there is a version of the `open` function that runs code ensuring that the opened file is eventually closed
 
 ```julia
 open("outfile", "w") do io
@@ -573,90 +796,169 @@ end
 
 ## Dot Syntax for Vectorizing Functions
 
-In technical-computing languages, it is common to have *vectorized* versions of functions. Imagine, that we have a function `f(x)`, then its vectorized version is a function, that applies function `f` to each element of an array `A` and returns a new array `f(A)`. Such functions are especially useful in languages, where loops are slow and vectorized versions of functions are written in a low-level language (C, Fortran,...) and are much faster. As an example, we can mention Matlab.
+In technical-computing languages, it is common to have *vectorized* versions of functions. Consider that we have a function `f(x)`. Its vectorized version is a function that applies function `f` to each element of an array `A` and returns a new array `f(A)`. Such functions are beneficial in languages, where loops are slow and vectorized versions of functions are written in a low-level language (C, Fortran,...) and are much faster. As an example, we can mention Matlab.
 
-In Julia, vectorized functions are not required for performance, and indeed it is often beneficial to write your own loops, but they can still be convenient. As an example, consider the sine function and imagine, that we want to compute its value for all following values `[0, π/2, 3π/4]`. Using the loops we can do it as follows
+In Julia, vectorized functions are not required for performance, and indeed it is often beneficial to write loops, but they can still be convenient. As an example, consider the sine function and imagine that we want to compute its value for all following values `[0, π/2, 3π/4]`. Using the loops, we can do it as follows
 
-```@repl dot
-x = [0, π/2, 3π/4];
-A = zeros(length(x));
+```jldoctest dot
+julia> x = [0, π/2, 3π/4];
 
-for (i, xi) in enumerate(x)
-    A[i] = sin(xi)
-end
-A
+julia> A = zeros(length(x));
+
+julia> for (i, xi) in enumerate(x)
+           A[i] = sin(xi)
+       end
+
+julia> A
+3-element Array{Float64,1}:
+ 0.0
+ 1.0
+ 0.7071067811865476
 ```
+
 or using list compherension
 
-```@repl dot
-A = [sin(xi) for xi in x]
+```jldoctest dot
+julia> A = [sin(xi) for xi in x]
+3-element Array{Float64,1}:
+ 0.0
+ 1.0
+ 0.7071067811865476
 ```
-However, in this case, the most onvenient way is to use dot syntax for vectorizing functions as follows
-```@repl dot
-A = sin.(x)
-```
-In Julia, it is possible to use this syntax for any function to apply it to each element of the given array. It is extremely useful since it allows us to write simple functions that accept for example only numbers as arguments and then we can easily apply them to whole arrays
 
-```@example dot
+However, in this case, the most convenient way is to use dot syntax for vectorizing functions as follows
+
+```jldoctest dot
+julia> A = sin.(x)
+3-element Array{Float64,1}:
+ 0.0
+ 1.0
+ 0.7071067811865476
+```
+
+In Julia, it is possible to use this syntax for any function to apply it to each element of the given array (or any other iterable object). It is handy since it allows us to write simple functions that accept, for example, only numbers as arguments, and then we can easily apply them to whole arrays
+
+```jldoctest dot; output = false
 plus(x::Real, y::Real) = x + y
-nothing # hide
-```
-Here, we define a function, that accepts two real numbers and returns their sum. This function will work perfectly for two numbers
 
-```@repl dot
-plus(1,3)
-plus(1.4,2.7)
+# output
+plus (generic function with 1 method)
 ```
+
+Here, we define a function that accepts two real numbers and returns their sum. This function will work for two numbers
+
+```jldoctest dot
+julia> plus(1,3)
+4
+
+julia> plus(1.4,2.7)
+4.1
+```
+
 But, if we try to apply this function to arrays, an error will occur
 
-```@repl dot
-x = [1,2,3,4]; # column vector
-plus(x, x)
-```
-However, we can use dot syntax for vectorizing functions, to any function in Julia. Then the plus function will be applied to arrays `x` and `y` element-wise
-```@repl dot
-plus.(x, x)
-```
-More generally, if we have a function `f` and we use dot syntax `f.(args...)`, then it is equivalent to calling the `broadcast` function  in the following way `broadcast(f, args...)`
-```@repl dot
-broadcast(plus, x, x)
-```
-This allows us to operate on multiple arrays (even of different shapes), or a mix of arrays and scalars. For more information see the section about [broadcasting](https://docs.julialang.org/en/v1/manual/arrays/#Broadcasting) in the official documentation. In the following example, the `plus` function adds one to each element of the `x` array
-```@repl dot
-plus.(x, 1)
-```
-Or we can apply the `plus` function to the column vector `x` and the row vector `y`. The result will be a matrix
+```jldoctest dot
+julia> x = [1,2,3,4]; # column vector
 
-```@repl dot
-y = [1 2 3 4]; # row vector
-plus.(x, y)
+julia> plus(x, x)
+ERROR: MethodError: no method matching plus(::Array{Int64,1}, ::Array{Int64,1})
+[...]
 ```
+
+However, we can use the dot syntax for vectorizing functions. Then the `plus` function will be applied to arrays `x` and `y` element-wise
+
+```jldoctest dot
+julia> plus.(x, x)
+4-element Array{Int64,1}:
+ 2
+ 4
+ 6
+ 8
+```
+
+More generally, if we have a function `f` and we use dot syntax `f.(args...)`, then it is equivalent to calling the `broadcast` function  in the following way `broadcast(f, args...)`
+
+```jldoctest dot
+julia> broadcast(plus, x, x)
+4-element Array{Int64,1}:
+ 2
+ 4
+ 6
+ 8
+```
+
+The dot syntax allows us to operate on multiple arrays (even of different shapes)
+
+```jldoctest dot
+julia> y = [1 2 3 4]; # row vector
+
+julia> plus.(x, y)
+4×4 Array{Int64,2}:
+ 2  3  4  5
+ 3  4  5  6
+ 4  5  6  7
+ 5  6  7  8
+```
+
+or a mix of arrays and scalars
+
+```jldoctest dot
+julia> plus.(x, 1)
+4-element Array{Int64,1}:
+ 2
+ 3
+ 4
+ 5
+```
+
+For more information, see the section about [broadcasting](https://docs.julialang.org/en/v1/manual/arrays/#Broadcasting) in the official documentation.
 
 ## Function composition and piping
 
 As in mathematics, functions in Julia can be composed. If we have two functions ``f: \mathcal{X}  \rightarrow \mathcal{Y}`` and ``g: \mathcal{Y}  \rightarrow \mathcal{Z}``, then their [composition](https://en.wikipedia.org/wiki/Function_composition) can be mathematically written as
+
 ```math
 (g \circ f)(x) = g(f(x)), \quad \forall x \in \mathcal{X}.
 ```
-In Julia, we can compose functions in a similar way using the function composition operator `∘` (can be typed as `\circ<tab>`)
-```@repl
-(sqrt ∘ +)(3, 6) # equivalent to sqrt(3 + 6)
+
+In Julia, we can similarly compose functions using the function composition operator `∘` (can be typed as `\circ<tab>`)
+
+```jldoctest
+julia> (sqrt ∘ +)(3, 6) # equivalent to sqrt(3 + 6)
+3.0
 ```
+
 It is even possible to compose multiple functions at once
-```@repl
-(sqrt ∘ abs ∘ sum)([-3, -6, -7])  # equivalent to sqrt(abs(sum([-3, -6, -7])))
+
+```jldoctest
+julia> (sqrt ∘ abs ∘ sum)([-3, -6, -7])  # equivalent to sqrt(abs(sum([-3, -6, -7])))
+4.0
 ```
 
-There is also another concept, that allows to chain functions, which is sometimes called *piping* or *using a pipe* to send data to a subsequent function. This concept can be used to simply pass the output of one function as an input to another one. In Julia, it can be one by pipe operator `|>`
+There is also another concept that allows the chaining of functions.  That concept is sometimes called *piping* or *using a pipe* to send data to a subsequent function. The piping can be used to pass the output of one function as an input to another one. In Julia, it can be done by the pipe operator `|>`
 
-```@repl
-[-3, -6, -7] |> sum |> abs |> sqrt
+```jldoctest
+julia> [-3, -6, -7] |> sum |> abs |> sqrt
+4.0
 ```
-The pipe operator can be combined with broadcasting. In the following example, firstly we apply the `abs` function element-wise and then we apply the `sqrt` function element-wise.
-```@repl
-[-4, 9, -16] .|> abs .|> sqrt
+
+The pipe operator can be combined with broadcasting as follows
+
+```jldoctest
+julia> [-4, 9, -16] .|> abs .|> sqrt
+3-element Array{Float64,1}:
+ 2.0
+ 3.0
+ 4.0
 ```
+
 Or as in the next example, we can use broadcasting in combination with the pipe operator to apply a different function to each element of the given vector
-```@repl
-["a", "list", "of", "strings"] .|> [uppercase, reverse, titlecase, length]
+
+```jldoctest
+julia> ["a", "list", "of", "strings"] .|> [uppercase, reverse, titlecase, length]
+4-element Array{Any,1}:
+  "A"
+  "tsil"
+  "Of"
+ 7
 ```
