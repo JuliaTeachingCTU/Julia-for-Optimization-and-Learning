@@ -1,4 +1,6 @@
 ```@setup nn
+using LinearAlgebra
+
 n_digits = 4
 round_a(x::Number) = round(x, digits=n_digits)
 round_a(x) = round_a.(x)
@@ -49,7 +51,7 @@ To split the dataset, we first determine the number of samples ```n_train``` in 
 ```@example nn
 function split(X::AbstractMatrix, y::AbstractVector; ratio_train=0.8)
     @assert size(X,1) == size(y,1)
-    
+
     n = size(X,1)
     n_train = round(Int, ratio_train*n)
     i_rand = randperm(n)
@@ -158,12 +160,12 @@ classes = unique(y)
 isequal(onecold(onehot(y, classes), classes), y)
 nothing # hide
 ```
-but it is better to perform this check automatically by including the error message 
+but it is better to perform this check automatically by including the error message
 ```@example nn
-!isequal(onecold(onehot(y, classes), classes), y) && error("Function onehot or onecold is wrong.") 
+!isequal(onecold(onehot(y, classes), classes), y) && error("Function onehot or onecold is wrong.")
 nothing # hide
 ```
-Now, the modification of  the labels is straigforward. As in the case of the matrix, we need to modify the split data. 
+Now, the modification of  the labels is straigforward. As in the case of the matrix, we need to modify the split data.
 ```@example nn
 y_train = onehot(y_train, classes)
 y_test = onehot(y_test, classes)
@@ -208,7 +210,7 @@ Writing function ```prepare_data``` as above has other advantages, we will get b
 
 ## Create the network
 
-We will now construct a simple neural network. 
+We will now construct a simple neural network.
 
 ```@raw html
 <div class = "exercise-body">
@@ -217,7 +219,7 @@ We will now construct a simple neural network.
 Construct the following network:
 - The first layer is a dense layer with the ReLU activation function.
 - The second layer is a dense layer with the identity activation function.
-- The third layer is the softmax. 
+- The third layer is the softmax.
 
 Write is as ```m(x, ???)```, where ```x``` is the input and ```???``` stands for all weights (parameters to optimize).
 ```@raw html
@@ -245,7 +247,7 @@ Before we can use one of the numerical methods from the previous lectures to tra
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Initialize all the weights randomly following the standard normal distribution. The first layer should have 5 hidden (output) neurons. You need to specify the number of neurons for the other layers correctly.  
+Initialize all the weights randomly following the standard normal distribution. The first layer should have 5 hidden (output) neurons. You need to specify the number of neurons for the other layers correctly.
 
 Evaluate the model ```m``` for the first datum from the training set.
 ```@raw html
@@ -253,7 +255,7 @@ Evaluate the model ```m``` for the first datum from the training set.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We write a simple ```initialize``` function which takes the number of neurons in each layer as inputs, and randomly generates the matrices. 
+We write a simple ```initialize``` function which takes the number of neurons in each layer as inputs, and randomly generates the matrices.
 ```@example nn
 function initialize(n1, n2, n3)
     W1 = randn(n2,n1)
@@ -301,7 +303,7 @@ function grad(x::AbstractVector, y, W1, b1, W2, b2; ϵ=1e-10)
     l_part = (- e_z2 * e_z2' + Diagonal(e_z2 .* sum(e_z2))) / sum(e_z2)^2
 
     l_a2 = - y ./ (a2 .+ ϵ)
-    l_z2 = l_part * l_a2 
+    l_z2 = l_part * l_a2
     l_a1 = W2' * l_z2
     l_z1 = l_a1 .* (a1 .> 0)
     l_x = W1' * l_z1
@@ -350,7 +352,7 @@ Train the network with a gradient descent with stepsize ``\alpha=0.1`` for ``100
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Due to the simplicity of the ```grad``` function, ```grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2)``` returns a tuple of five objects. We can use the standard trick to create an array of such tuples by going through all columns ```[grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]```. To obtain a mean from this array, we write the ```mean_tuple``` function. To make sure that everything is correct, we specify the input type ```d::AbstractArray{<:Tuple}```. If ```d``` is the input data, then ```d[k]``` is an element of the array (thefore a tuple) while ```d[i][k]``` is an element of the tuple. Since we want to compute the mean over the array, the inner loop needs to be with respect to ```k``` while the outer one with respect to ```i```. 
+Due to the simplicity of the ```grad``` function, ```grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2)``` returns a tuple of five objects. We can use the standard trick to create an array of such tuples by going through all columns ```[grad(X_train[:,k], y_train[:,k], W1, b1, W2, b2) for k in 1:size(X_train,2)]```. To obtain a mean from this array, we write the ```mean_tuple``` function. To make sure that everything is correct, we specify the input type ```d::AbstractArray{<:Tuple}```. If ```d``` is the input data, then ```d[k]``` is an element of the array (thefore a tuple) while ```d[i][k]``` is an element of the tuple. Since we want to compute the mean over the array, the inner loop needs to be with respect to ```k``` while the outer one with respect to ```i```.
 ```@example nn
 using LinearAlgebra
 using Statistics
@@ -369,11 +371,11 @@ for iter in 1:max_iter
     grad_mean = mean_tuple(grad_all)
 
     L[iter] = grad_mean[1]
-    
+
     W1 .-= α*grad_mean[2]
     b1 .-= α*grad_mean[3]
     W2 .-= α*grad_mean[4]
-    b2 .-= α*grad_mean[5] 
+    b2 .-= α*grad_mean[5]
 end
 nothing # hide
 ```
@@ -399,7 +401,7 @@ We have trained our first network. We saw that the loss function keeps decreasin
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-Write a function which predict the labels for samples. Show the accuracy on both training and testing sets. 
+Write a function which predict the labels for samples. Show the accuracy on both training and testing sets.
 ```@raw html
 </p></div>
 <details class = "solution-body">
