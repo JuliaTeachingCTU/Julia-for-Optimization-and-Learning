@@ -35,6 +35,7 @@ lecture_01 = [
 lecture_02 = [
     "Conditional Evaluation" => "./lecture_02/conditions.md",
     "Loops and Iterators" => "./lecture_02/loops.md",
+    "Soft Local Scope" => "./lecture_02/scope.md",
     "Exercises" => "./lecture_02/exercises.md",
 ]
 
