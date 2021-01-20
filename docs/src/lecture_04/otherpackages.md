@@ -1,5 +1,3 @@
-# Other useful packages
-
 ## Distributions.jl
 
 ```@setup distr

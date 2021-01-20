@@ -503,7 +503,7 @@ julia> m
 
 ## `N`-dimensional arrays
 
-In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In Julia, there is no straightforward way to create `N`-dimensional arrays. The typical way to create such an array is to create an empty array of appropriate size and then fill it manually or using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref Loops-and-iterators) will be later in the course.
+In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In Julia, there is no straightforward way to create `N`-dimensional arrays. The typical way to create such an array is to create an empty array of appropriate size and then fill it manually or using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref for-and-while-loop) will be later in the course.
 
 There are several ways to initialize an array. The simplest and most common is using the `zeros` function. This function by default creates an array of given size filled with zeros of type `Float64`
 

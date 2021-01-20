@@ -132,7 +132,7 @@ On the first line, we check if the given input type is `Any`, and if yes, then t
 
 Now we can use the `supertypes_tree` function to get the whole supertypes hierarchy for `Float64`.
 
-```jldoctest methods
+```julia
 julia> supertypes_tree(Float64)
 Float64
    AbstractFloat
@@ -149,15 +149,13 @@ true
 
 Similarly to the `supertype` function, there is the `subtypes` function that returns all subtypes for the given type
 
-```jldoctest methods
+```julia
 julia> using InteractiveUtils: subtypes
 
 julia> subtypes(Number)
-4-element Array{Any,1}:
+2-element Array{Any,1}:
  Complex
  Real
- SLEEFPirates.Double
- VectorizationBase.Static
 ```
 
 But there is the same problem as for the `supertype` function: It is impossible to get the whole hierarchy of all subtypes using only this function. Solve the following exercise to get the tool, which allows you to print the whole subtypes hierarchy.
@@ -168,6 +166,12 @@ But there is the same problem as for the `supertype` function: It is impossible 
 ```
 
 Create a function `subtypes_tree` that prints the whole tree of all subtypes for the given type. Use the following function declaration
+
+```@meta
+DocTestSetup = quote
+   using InteractiveUtils: subtypes
+end
+```
 
 ```julia
 function subtypes_tree(T::Type, level::Int = 0)
@@ -208,26 +212,20 @@ The function prints the type with a proper indentation given by `repeat("   ", l
 
 Now we can use the `subtypes_tree` function to get the whole subtypes hierarchy for the `Number` type
 
-```jldoctest methods
+```julia
 julia> subtypes_tree(Number)
 Number
    Complex
    Real
       AbstractFloat
-         BFloat16s.BFloat16
          BigFloat
          Float16
          Float32
          Float64
       AbstractIrrational
          Irrational
-      FixedPointNumbers.FixedPoint
-         FixedPointNumbers.Fixed
-         FixedPointNumbers.Normed
-      ForwardDiff.Dual
       Integer
          Bool
-         GeometryBasics.OffsetInteger
          Signed
             BigInt
             Int128
@@ -242,10 +240,6 @@ Number
             UInt64
             UInt8
       Rational
-      Ratios.SimpleRatio
-      StatsBase.TestStat
-   SLEEFPirates.Double
-   VectorizationBase.Static
 ```
 
 From the tree of all subtypes of the abstract type `Number`, we see the whole structure of Julia's numerical types. So if we want to define a function that accepts all numeric types, we should use inputs of type `Number`. However, many operations are restricted to only real numbers. In such a case, we want to use the `Real` type instead of `Number`.

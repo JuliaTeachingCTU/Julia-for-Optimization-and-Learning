@@ -1,8 +1,5 @@
-# Loops and iterators
-
-As in other languages, Julia supports two basic constructs for repeated evaluation: the `while` and` for` loops. Loops are useful when we want to repeat some computation multiple times with different values. A typical example is performing operations on array elements.
-
 ## `for` and `while` loop
+As in other languages, Julia supports two basic constructs for repeated evaluation: the `while` and` for` loops. Loops are useful when we want to repeat some computation multiple times with different values. A typical example is performing operations on array elements.
 
 The `while` loop evaluates the condition expression, and as long it remains `true`, keeps also evaluating the body of the `while` loop. If the condition expression is `false` when the while loop is first reached, the body is never evaluated
 

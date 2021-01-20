@@ -1,4 +1,4 @@
-# Conditional evaluation
+## `if-elseif-else` statement
 
 In many cases, we have to decide what to do, based on some conditions. Julia supports the standard `if-elseif-else` syntax, which allows you to decide which part of the code will be evaluated depending on the logical expression's value. For example, the following function compares two numerical values
 
