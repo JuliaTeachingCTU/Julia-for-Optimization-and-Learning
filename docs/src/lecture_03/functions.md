@@ -489,24 +489,10 @@ julia> sum(g, x) * step
 
 We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. The result is always multiplied by `0.01`. It is because we use a range with stepsize `0.01`  to approximate continuous interval `[-100, 100]`.
 
-```@raw html
-</p></details>
-```
-
-```@raw html
-<div class = "info-body">
-<header class = "info-header">Plots.jl</header><p>
-```
-
-So far, we use only the standard library that is shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. For example, there is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package that allows us to create plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, we have to press the `]` symbol. Then the  Plots package can be installed as follows
-
-```julia
-(@v1.5) pkg> add Plots
-```
-
-If we install an additional package, we have to use the `using` keyword to load the package
+We can also visualize the probability density functions using [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package
 
 ```@setup plots
+using Plots
 function gauss(x::Real; μ::Real = 0, σ::Real = 1)
     σ^2 > 0 || error("the variance `σ^2` must be positive")
     return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
@@ -515,11 +501,6 @@ end
 
 ```@example plots
 using Plots
-```
-
-and then we can start using it. For example, we can visualize the probability density functions as follows
-
-```@example plots
 x = -15:0.1:15
 
 plot(x, gauss.(x); label = "μ = 0, σ = 1", linewidth = 2, xlabel = "x", ylabel = "f(x)");
@@ -530,10 +511,8 @@ savefig("gauss.svg") # hide
 
 ![](gauss.svg)
 
-In this note, we use a lot of things that will be discussed later in the course. So, for now, enjoy a nice picture of the Gaussian probability density functions.
-
 ```@raw html
-</p></div>
+</p></details>
 ```
 
 ## Variable number of arguments
