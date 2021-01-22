@@ -87,9 +87,10 @@ lecture_10 = joinpath.("./lecture_10/", [
 
 lecture_11 = []
 
-lecture_12 = []
-
-lecture_13 = []
+lecture_12 = joinpath.("./lecture_12/", [
+    "ode.md",
+    "optimal_control.md",
+])
 
 # make docs options
 makedocs(;
@@ -113,9 +114,8 @@ makedocs(;
         "8: Regression and classification" => lecture_08,
         "9: Neural networks I." => lecture_09,
         "10: Neural networks II." => lecture_10,
-        "11: Ordinary differential equations" => lecture_11,
-        "12: Statistics I." => lecture_12,
-        "13: Statistics II." => lecture_13,
+        "11: Statistics" => lecture_11,
+        "12: Ordinary differential equations" => lecture_12,
     ],
 )
 

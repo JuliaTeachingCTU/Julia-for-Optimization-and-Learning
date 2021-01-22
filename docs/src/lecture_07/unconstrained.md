@@ -126,7 +126,7 @@ savefig("grad1.svg") # hide
 
 ![](grad1.svg)
 
-## Computation of gradients
+## [Computation of gradients](@id comp-grad)
 
 The simplest way to compute the gradients is to use a finite difference approximation. It replaces the limit in
 ```math

@@ -29,7 +29,7 @@ f(x1,x2) = f([x1;x2])
 ```
 
 
-# Constrained optimization
+# [Constrained optimization](@id lagrangian)
 
 The usual formulation of constrained optimization is
 ```math
