@@ -1,8 +1,7 @@
-# Standard library
+## Statistics
 
 There are multiple standard packages that are shipped together with Julia release. Those packages are not loaded by default in the new Julia session and need to be load manually.
 
-#### Statistics
 
 The first standard package that should be mentioned is the `Statistics` package. This package provides basic statistic related functions such as functions for computing mean, variance, or standard deviation
 
@@ -15,7 +14,7 @@ std(x)
 ```
 See official [documentation](https://docs.julialang.org/en/v1/stdlib/Statistics/) for more information. More statistics-related functions can be found in [StatsBase](https://juliastats.org/StatsBase.jl/stable/). This package provides functions for scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation.
 
-#### LinearAlgebra
+## LinearAlgebra
 
 Another standard package that should be mentioned is the [LinearAlgebra](https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/) package, which provides native implementations of many common and useful linear algebra operations. The package provides function for computing matrix determinant, inversion, norm or eigenvalues and eigen vectors
 
@@ -42,7 +41,7 @@ D - I
 ```
 Note that for `D+I` and `D-I` this means that the matrix `D` must be square.
 
-#### Random
+## Random
 
 The last standard package that we will describe in more detail is the [Random](https://docs.julialang.org/en/v1/stdlib/Random/) package, which adds more functionality for generating random numbers in Julia. The package allows setting the seed for the random generator using `seed!` function. This allows getting reproducible code even if the code contains randomly generated elementsfunction
 

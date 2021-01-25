@@ -1,8 +1,10 @@
 ```@setup gpuu
 using BSON
 using Flux
-using Flux: onehotbatch, onecold
 using MLDatasets
+using DataFrames
+
+using Flux: onehotbatch, onecold, flatten
 
 Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
@@ -14,7 +16,7 @@ function reshape_data(X::AbstractArray{T, 3}, y::AbstractVector) where T
 end
 
 function train_or_load!(file_name, m, X, y; force=false, kwargs...)
-    
+
     !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
     if force || !isfile(file_name)
@@ -25,7 +27,7 @@ function train_or_load!(file_name, m, X, y; force=false, kwargs...)
     end
 end
 
-function load_data(dataset; T=Float32, onehot=false, classes=0:9)    
+function load_data(dataset; T=Float32, onehot=false, classes=0:9)
     X_train, y_train = reshape_data(dataset.traindata(T)...)
     X_test, y_test = reshape_data(dataset.testdata(T)...)
     y_train = T.(y_train)
@@ -66,7 +68,7 @@ The first two exercises handle training neural networks on GPUs instead of CPUs.
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 1: Operations on GPUs</header><p>
 ```
-While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs. 
+While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs.
 
 To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory (RAM) and the computation will be performed on CPU. To move them to the GPU memory and allow computations on GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
 
@@ -108,7 +110,7 @@ We see that all three times are different. Can we infer anything from it? No! Th
 0.000154 seconds (11 allocations: 272 bytes)
 0.475280 seconds (10.20 k allocations: 957.125 KiB)
 ```
-We conclude that while the computation on CPU and GPU takes approximately the same time, when using the mixed types, it takes much longer. 
+We conclude that while the computation on CPU and GPU takes approximately the same time, when using the mixed types, it takes much longer.
 
 To compare the results, the first idea would be to run
 ```julia
@@ -142,7 +144,7 @@ we realize that one of the arrays is stored in ```Float64``` while the second on
 
 
 
-The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The next exercise shows the time difference when applied to a larger problem.  
+The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The next exercise shows the time difference when applied to a larger problem.
 
 
 
@@ -194,7 +196,7 @@ m_g(X_test_g[:,:,:,1:1])
 1.190033 seconds (40.24 k allocations: 1.069 GiB, 21.73% gc time)
 0.071805 seconds (789 allocations: 27.641 KiB)
 ```
-Using GPU speeded the computation by more than ten times. 
+Using GPU speeded the computation by more than ten times.
 ```@raw html
 </p></details>
 ```
@@ -264,7 +266,7 @@ m = Chain(
 file_name = joinpath("data", "mnist.bson")
 train_or_load!(file_name, m, X_train, y_train)
 ```
-When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts. 
+When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts.
 ```@example gpuu
 y_hat = onecold(m(X_test))
 y = onecold(y_test)
@@ -274,7 +276,7 @@ for i in findall(y_hat .!= y)
     errors[y[i], y_hat[i]] += 1
 end
 ```
-To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly, we add the labels as the first column. 
+To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly, we add the labels as the first column.
 ```@example gpuu
 using DataFrames
 
@@ -319,9 +321,9 @@ i1 = 9
 i2 = 7
 
 p = [plot_image(X_test[:,:,:,i]) for i in findall((y.==i1+1) .& (y_hat.==i2+1))]
-p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white) 
+p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white)
 
-plot(p..., p_empty; layout=(3,4), size=(800,600)) 
+plot(p..., p_empty; layout=(3,4), size=(800,600))
 
 savefig("miss.svg") # hide
 ```
@@ -336,7 +338,7 @@ savefig("miss.svg") # hide
 
 ![](miss.svg)
 
-We see that some of the nines could be recognized as a seven even by humans. 
+We see that some of the nines could be recognized as a seven even by humans.
 
 
 
@@ -380,7 +382,7 @@ m = Chain(
 file_name = joinpath("data", "mnist_sigmoid.bson")
 train_or_load!(file_name, m, X_train, y_train)
 ```
-Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Since ```plot_image(z1[:,:,1,i])``` plots the first channel of the ``i^{\rm th}`` samples from ```z1```, we create an array of plots by ```p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]```. As the length of ```z1``` is five, the length of ```p1``` is also five. This is the first row of the final plot. We create the other rows in the same way. To plot the final plot, we do ```plot(p1..., p2a..., p2b..., p3a..., p3b...)```, which unpacks the 5 arrays into 25 inputs to the ```plot``` function. 
+Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Since ```plot_image(z1[:,:,1,i])``` plots the first channel of the ``i^{\rm th}`` samples from ```z1```, we create an array of plots by ```p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]```. As the length of ```z1``` is five, the length of ```p1``` is also five. This is the first row of the final plot. We create the other rows in the same way. To plot the final plot, we do ```plot(p1..., p2a..., p2b..., p3a..., p3b...)```, which unpacks the 5 arrays into 25 inputs to the ```plot``` function.
 ```@example gpuu
 classes = 0:9
 for i in classes
@@ -395,7 +397,7 @@ for i in classes
     p3a = [plot_image(z3[:,:,1,i]) for i in 1:size(z3,4)]
     p2b = [plot_image(z2[:,:,end,i]) for i in 1:size(z2,4)]
     p3b = [plot_image(z3[:,:,end,i]) for i in 1:size(z3,4)]
-    
+
     plot(p1..., p2a..., p2b..., p3a..., p3b...; layout=(5,5), size=(600,600))
     savefig("Layers_$(i).svg")
 end
@@ -419,7 +421,6 @@ Digit 9
 
 We may observe several things:
 - The functions inside the neural network do the same operations on all samples. The second row is always a black digit on a grey background.
-- The size of the image decreases when propagated deeper into the network. The second and third rows (after the second layer) contain more pixels than the fourth and fifth rows (after the fourth layer). 
+- The size of the image decreases when propagated deeper into the network. The second and third rows (after the second layer) contain more pixels than the fourth and fifth rows (after the fourth layer).
 - The channels of the same layer produce different outputs. While the second row (first channel after the second layer) depicts black digits on a grey background, the third row (last channel after the second layer) depicts white digits on black background.
 - Each digit produce different images. This is important for separation and correct predictions.
-

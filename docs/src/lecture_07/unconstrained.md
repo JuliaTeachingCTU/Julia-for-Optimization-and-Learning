@@ -51,7 +51,7 @@ Gradient ``\nabla f(x)`` of a function ``f:\mathbb{R}^n\to\mathbb{R}`` should be
 </p></div>
 ```
 
-Functions to optimize are usually complex. Then the definition cannot be used to compute the gradient. Instead, the objective function ``f`` is rewritten as a composition of simpler functions, these simpler functions are differentiated and the chain rule is applied to get ``\nabla f``. 
+Functions to optimize are usually complex. Then the definition cannot be used to compute the gradient. Instead, the objective function ``f`` is rewritten as a composition of simpler functions, these simpler functions are differentiated and the chain rule is applied to get ``\nabla f``.
 
 ```@raw html
 <div class = "theorem-body">
@@ -141,7 +141,7 @@ f'(x) \approx \frac{f(x+h)-f(x)}{h}.
 <div class = "exercise-body">
 <header class = "exercise-header">Finite difference approximation</header><p>
 ```
-Write a function ```finite_difference``` which computes the approximation of ``f'(x)`` by finite differences. The inputs are a function ``f:\mathbb R\to\mathbb R`` and a point ``x\in\mathbb{R}``. It should have an optional input ``h\in\mathbb{R}``, for which you need to choose a reasonable value. 
+Write a function ```finite_difference``` which computes the approximation of ``f'(x)`` by finite differences. The inputs are a function ``f:\mathbb R\to\mathbb R`` and a point ``x\in\mathbb{R}``. It should have an optional input ``h\in\mathbb{R}``, for which you need to choose a reasonable value.
 
 ```@raw html
 </p></div>
@@ -175,7 +175,7 @@ Plot the dependence of this approximation on ``h``. Add the true derivative comp
 ```
 To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. We create an autonomous function ```y -> f(-2, y)``` and another function ```fin_diff``` which for an input ```h``` computes the finite difference.
 ```@example optim
-x = [-2; -1]   
+x = [-2; -1]
 fin_diff(h) = finite_difference(y -> f(-2, y), -1; h=h)
 
 nothing # hide
@@ -319,7 +319,7 @@ This example is rather artificial because usually only the last iteration is ret
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-First we need to create an empty array into which we store the iterates. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``. 
+First we need to create an empty array into which we store the iterates. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``.
 ```@example optim
 function optim(f, g, x, α; max_iter=100)
     xs = zeros(length(x), max_iter+1)
@@ -347,17 +347,17 @@ function create_anim(f, path, xlims, ylims; file_name = "", fps=15)
 
     # adds an empty plot to plt
     plot!(Float64[], Float64[]; line = (4, :black), label = "")
-    
+
     # extracts last plot series
     plt_path = plt.series_list[end]
-    
+
     # creates the  animation
     anim = Animation()
     for x in eachcol(path)
         push!(plt_path, x[1], x[2]) # add new point to plt_grad
         frame(anim)
     end
-    gif(anim, file_name, fps = fps)
+    gif(anim, file_name; fps = fps, show_msg = false)
     return nothing
 end
 
@@ -378,7 +378,7 @@ from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Sto
 
 Plot how the iterations evolve. You need to save the animation with the gif extension.
 
-Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you represent ```xs```). Plot these values. 
+Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you represent ```xs```). Plot these values.
 ```@raw html
 </p></div>
 <details class = "solution-body">
@@ -425,7 +425,7 @@ nothing # hide
 
 ![](anim2.gif)
 
-We see that when the stepsize is reduced, the steps are shorter and we would need to increase the number of iterations (and thus time) to converge. When the stepsize is larger, say ``\alpha=1``, the situation is different. 
+We see that when the stepsize is reduced, the steps are shorter and we would need to increase the number of iterations (and thus time) to converge. When the stepsize is larger, say ``\alpha=1``, the situation is different.
 ```@example optim
 x_gd = optim([], g, [0; -1], 1)
 
@@ -451,7 +451,7 @@ The implementation of ```optim(f, g, x, α; max_iter=100)``` from the exercise a
 abstract type Step end
 ```
 and for each possible step selection method implement a ```optim_step``` method, which selects the step. First, we create the gradient descent class ```GD``` as a subclass of ```Step``` by
-```@example optim  
+```@example optim
 struct GD <: Step
     α::Real
 end
@@ -539,4 +539,4 @@ nothing # hide
 
 ![](anim5.gif)
 
-Since the Armijo condition determines the optimal stepsize automatically, the convergence is much faster than for gradient descent. Moreover, it is not necessary to specify the stepsize (which may cause small convergence of even divergence for gradient descent). The price to pay is that every iteration needs to perform several function evalutions, which is not the case for standard gradient descent.  
+Since the Armijo condition determines the optimal stepsize automatically, the convergence is much faster than for gradient descent. Moreover, it is not necessary to specify the stepsize (which may cause small convergence of even divergence for gradient descent). The price to pay is that every iteration needs to perform several function evalutions, which is not the case for standard gradient descent.

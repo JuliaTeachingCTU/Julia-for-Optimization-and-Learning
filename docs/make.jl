@@ -24,36 +24,37 @@ installation = joinpath.("./installation/", [
     "git.md",
 ])
 
-lecture_01 = joinpath.("./lecture_01/", [
-    "variables.md",
-    "operators.md",
-    "strings.md",
-    "arrays.md",
-    "data_structures.md",
-])
+lecture_01 = [
+    "Variables" => "./lecture_01/variables.md",
+    "Elementary Functions" => "./lecture_01/operators.md",
+    "Strings" => "./lecture_01/strings.md",
+    "Arrays" => "./lecture_01/arrays.md",
+    "Data Structures" => "./lecture_01/data_structures.md",
+]
 
-lecture_02 = joinpath.("./lecture_02/", [
-    "conditions.md",
-    "loops.md",
-    "exercises.md",
-    ])
+lecture_02 = [
+    "Conditional Evaluation" => "./lecture_02/conditions.md",
+    "Loops and Iterators" => "./lecture_02/loops.md",
+    "Soft Local Scope" => "./lecture_02/scope.md",
+    "Exercises" => "./lecture_02/exercises.md",
+]
 
-    lecture_03 = joinpath.("./lecture_03/", [
-    "functions.md",
-    "methods.md",
-    "scope.md",
-    "exceptions.md",
-    "exercises.md",
-])
+lecture_03 = [
+    "Functions" => "./lecture_03/functions.md",
+    "Methods" => "./lecture_03/methods.md",
+    "Scope of Variables" => "./lecture_03/scope.md",
+    "Exception Handling" => "./lecture_03/exceptions.md",
+    "Exercises" => "./lecture_03/exercises.md",
+]
 
-lecture_04 = joinpath.("./lecture_04/", [
-    "basics.md",
-    "standardlibrary.md",
-    "Plots.md",
-    "DataFrames.md",
-    "otherpackages.md",
-    "exercises.md",
-])
+lecture_04 = [
+    "Package Management" => "./lecture_04/basics.md",
+    "Standard Library" => "./lecture_04/standardlibrary.md",
+    "Plots.jl" => "./lecture_04/Plots.md",
+    "DataFrames.jl" => "./lecture_04/DataFrames.md",
+    "Other Useful Packages" => "./lecture_04/otherpackages.md",
+    "Exercises" => "./lecture_04/exercises.md",
+]
 
 lecture_05 = []
 
