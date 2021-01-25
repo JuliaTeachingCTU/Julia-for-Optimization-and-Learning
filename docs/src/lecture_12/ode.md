@@ -1,19 +1,19 @@
+# Wave equation
 
-prevedeni PDE (v 1D) na ODE. pro 2D uz to takto jednoduse nejde (pokud neni ctverova mesh)
-
-
-## Wave equation
+[Wave equation](https://en.wikipedia.org/wiki/Wave_equation) is one of the most important differential equation. It models propagation of waves and has numerous applications in acoustics, electromagnetics or fluid dynamics.
 
 
-The wave equation on ``t\in[0,T]`` has the form
+## Statement
+
+We consider the simplest case of one-dimensional wave equation such as a string. The wave equation on ``t\in[0,T]`` has the form
 ```math
 \frac{\partial^2 y(t,x)}{\partial t^2} = c^2 \frac{\partial^2 y(t,x)}{\partial x^2}.
 ```
-To obtain a complete formulation, we need to add boundary (in space) and initial (in time) conditions. For a one-dimensional case (such as a string) on the interval ``[0,L]``. Assuming that the string is fixed on its edges, the boundary conditions
+The function ``y:[0,T]\times [0,L]\to\mathbb R`` describes the displacement of the string. To obtain a complete formulation, we need to add boundary (in space) and initial (in time) conditions. Assuming that the string is fixed on its edges, the boundary conditions
 ```math
 y(\cdot,0) = y_0, \quad y(\cdot,L) = y_L
 ```
-are not time-dependant. The initial conditions are prescribed by functions
+are time-independent. The initial conditions are prescribed by functions
 ```math
 \begin{aligned}
 y(0,\cdot) &= f(\cdot), \\
@@ -22,8 +22,9 @@ y(0,\cdot) &= f(\cdot), \\
 ```
 which vary in space. For consistency, we need ``f(0)=y_0`` and ``f(L)=y_L``.
 
-The following few exercises show how to solve the wave equation via the [finite differences](@ref comp-grad) technique.
+## Solving the wave equation
 
+The following few exercises show how to solve the wave equation via the [finite differences](@ref comp-grad) technique.
 
 ```@raw html
 <div class = "exercise-body">
@@ -88,7 +89,7 @@ function discretize(xlims; kwargs...)
     return xs
 end
 ```
-The simplest way to work with objects, which have the same fixed parameters, is to create a structure to save these parameters. We therefore create ```struct Wave``` with fields ```f```, ```g``` and ```c```. We do not use the boundary values ``y_0`` and ``y_L`` as they can be computed from ``f``.
+The simplest way to work with objects with lots of parameters, is to create a structure to save these parameters. We therefore create ```struct Wave``` with fields ```f```, ```g``` and ```c```. We do not use the boundary values ``y_0`` and ``y_L`` as they can be computed from ``f``.
 ```julia
 struct Wave
     f
@@ -103,7 +104,7 @@ function solve_wave(ts, xs, wave::Wave)
     return y
 end
 ```
-Finally, to plot, we define ```plot_wave``` function with where the inputs are computed wave equation ```y```, the name of the file ```file_name``` to create the animation. The optional arguments can be the numbef of frames per second ```fps``` and any additional arguments used for plotting.
+Finally, to plot, we define ```plot_wave``` function, where the inputs are the computed wave equation ```y``` and a name file name ```file_name``` to save the animation to. The optional arguments can be the number of frames per second ```fps``` and any additional arguments used for plotting.
 ```julia
 function plot_wave(y, file_name; fps=60, kwargs...)
     ...
@@ -120,7 +121,7 @@ end
 
 
 
-The most difficult part is done. We have done the thinking and finished a structure of the code. Now we just need to do some manual labour and fill the empty functions with code.
+The most difficult part is done. We have done the thinking and finished the code structure. Now we just need to do manual labour and fill the empty functions with code.
 
 ```@setup wave
 struct Wave
@@ -141,7 +142,7 @@ Write the functions from the previous exercise. Do not forget to include any pac
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-The discretization will use the ```range``` function. We pass it the keyword arguments, which will usually be either the length of the sequence ```length``` or the discretization step ```step```. To obtain an array, we use the ```collect``` function. If the step is specified, the last point of ```xs``` may be different from ```xlims[2]```. In such a case, we add it and throw a warning.
+The discretization will use the ```range``` function. We pass to it the keyword arguments, which will usually be either the length of the sequence ```length``` or the discretization step ```step```. To obtain an array, we use the ```collect``` function. If the step is specified, the last point of ```xs``` may be different from ```xlims[2]```. In such a case, we add it and throw a warning.
 ```@example wave
 using Plots
 using LinearAlgebra
@@ -160,7 +161,7 @@ nothing # hide
 
 To solve the wave equation, we first perform a check that both discretizations are uniform. The better way would be to write a function which admits a non-equidistant discretization but we did not derive the formulas for it. If ```ts``` is equidistant, then ```diff(ts)``` should be a vector of constants and therefore ```diff(diff(ts))``` should be a vector of zeros. 
 
-Then we initialize ```y``` with zeros and set the terminal condition ```y[1,:]``` via ```wave.f``` and the boundary conditions ```y[:,1]``` and ```y[:,end]``` which are fixed and therefore the same as ```y[1,1]``` and ```y[1,end]```, respectively. We recall that the formulas for computing the solution are
+Then we initialize ```y``` with zeros and set the initial condition ```y[1,:]``` via ```wave.f``` and the boundary conditions ```y[:,1]``` and ```y[:,end]``` which are fixed and, therefore, the same as ```y[1,1]``` and ```y[1,end]```, respectively. We recall that the formulas for computing the solution are
 ```math
 \begin{aligned}
 y(\Delta t, x) &= y(0, x) + \Delta t g(x), \\
@@ -191,7 +192,7 @@ end
 
 nothing # hide
 ```
-The best visualization of the wave equation is via an animation. Each frame will be the plot of of row of ```y```. We use the keyword arguments ```kwargs```. We run the for loop all rows, create the animation via the ```@animate``` macro and save it into ```anim```. To save the animation, we use the ```gif``` function, for which we specify fps.
+The best visualization of the wave equation is via an animation. Each frame will be a plot of a row of ```y```. We use the keyword arguments ```kwargs```. We run the for loop over all rows, create the animation via the ```@animate``` macro and save it into ```anim```. To save the animation to the hard drive, we use the ```gif``` function, for which we specify fps.
 ```@example wave
 function plot_wave(y, file_name; fps=60, kwargs...)
     anim = @animate for y_row in eachrow(y)
@@ -224,13 +225,13 @@ f(x) &= 2e^{-(x-\frac L2)^2} + \frac{y_L}{L}x, \\
 g(x) &= 0.
 \end{aligned}
 ```
-Do the time discretization after with ``\Delta t=1`` and ``N_x=101`` and ``N_x=7`` steps.
+Do the time discretization with stepsize ``\Delta t=1`` and the space discretization with ``N_x=101`` and ``N_x=7`` steps (plot two graphs, each for one ``N_x``).
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-The parameters are assigned in
+First, we assign the parameters
 ```@example wave
 f(x,L,y_L) = 2*exp(-(x-L/2)^2) + y_L*x/L
 g(x) = 0
@@ -242,11 +243,11 @@ y_L = 1
 
 nothing # hide
 ```
-Since we want to do the same task for two different ``N_x``, we write a function ```run_wave```, which will perform the discretizations, create the wave structure, solve the wave equation and finally plot the wave. We use different keywords for the ```discretize``` function as we have stepsize for the temporal discretization and number of steps for the spatial discretization.
+Since we want to do the same task for two different ``N_x``, we write a function ```run_wave```, which performs the discretizations, creates the ```Wave``` structure, solves the wave equation and finally plots the wave. We use different keywords for the ```discretize``` function as we have stepsize for the temporal discretization and number of steps for the spatial discretization.
 ```@example wave
-function run_wave(L, T, N_x::Int, file_name; kwargs...)
+function run_wave(L, T, Δ_t::Float64, N_x::Int64, file_name; kwargs...)
+    ts = discretize((0,T); step=Δ_t)
     xs = discretize((0,L); length=N_x)
-    ts = discretize((0,T); step=1)
     wave = Wave(x -> f(x,L,y_L), g, c)
 
     y = solve_wave(ts, xs, wave)
@@ -255,10 +256,10 @@ end
 
 nothing # hide
 ```
-Now we call this function with different values of ``N_x``. All the keyword arguments will be passed to the ```plot```function inside ```plot_wave```.
+Now we call this function with different values of ``N_x``. All keyword arguments are passed to the ```plot``` function inside ```plot_wave```.
 ```@example wave
-run_wave(L, T, 101, "wave1.gif"; ylims=(-2,3), label="")
-run_wave(L, T, 7, "wave2.gif"; ylims=(-2,3), label="")
+run_wave(L, T, 1., 101, "wave1.gif"; ylims=(-2,3), label="")
+run_wave(L, T, 1., 7, "wave2.gif"; ylims=(-2,3), label="")
 
 nothing # hide
 ```
@@ -270,6 +271,6 @@ nothing # hide
 
 ![](wave2.gif)
 
-If you see these two waves in different phases (positions), please refresh the page (the animations have already run for a long time and the error accumulated).
+If you see these two waves in different phases (positions), please refresh the page (the animations have already run for some time and the error accumulated).
 
 After the potential reload, the waves should start from the same location and move at the same speed. This is an important property of any physical system: it is consistent. If we use a different discretization, their behaviour should be *roughly* similar. Of course, the finer spatial discretization results in smoother lines but both waves have similar shapes and move at similar speeds. If we see that one moves two times faster, there is a mistake in the code.
