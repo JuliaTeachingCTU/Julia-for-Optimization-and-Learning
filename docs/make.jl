@@ -104,7 +104,7 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
-        "How to..." => "howto.md",
+        #"How to..." => "howto.md",
         "Installation" => installation,
         "1: Variables and basic operators" => lecture_01,
         "2: Control flow" => lecture_02,
