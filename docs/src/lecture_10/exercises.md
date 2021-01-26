@@ -43,7 +43,7 @@ end
 
 using Plots
 
-plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=nothing)
+plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=false, ticks=false)
 
 function plot_image(x::AbstractArray{T, 3}) where T
     size(x,3) == 1 || error("Image is not grayscale.")
