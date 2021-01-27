@@ -31,11 +31,7 @@ In the combination with StatsPlots package, it impossible to plot probability de
 
 ```@example distr
 plot(D; linewidth = 2, xlabel = "x", ylabel = "pdf(x)", legend = false)
-savefig("distributions_1.svg") # hide
 ```
-
-![](distributions_1.svg)
-
 
 The Distributions package also provides methods to fit a distribution to a given set of samples
 
@@ -49,10 +45,7 @@ The `fit` function will choose a reasonable way to fit the distribution, which, 
 ```@example distr
 histogram(x; normalize = :pdf, legend = false, opacity = 0.5)
 plot!(D; linewidth = 2, xlabel = "x", ylabel = "pdf(x)")
-savefig("distributions_3.svg") # hide
 ```
-![](distributions_3.svg)
-
 
 ```@raw html
 <div class = "exercise-body">
@@ -89,10 +82,7 @@ plot(Ds;
     linewidth = 2,
     legend = :topright,
 )
-savefig("distributions_ex.svg") # hide
 ```
-
-![](distributions_ex.svg)
 
 A plot of cumulative probability functions cannot be done in the same way. However, StatsPlots provides keyword argument `func` that allows specifying which function should be plotted for a given distribution
 
@@ -105,10 +95,7 @@ plot(Ds;
     linewidth = 2,
     legend = :bottomright,
 )
-savefig("distributions_ex2.svg") # hide
 ```
-
-![](distributions_ex2.svg)
 
 Another way how to plot cumulative probability functions is to use the Plots package capability to plot functions directly. To do this, we need to define a function with one argument, which at a given point `x` returns the value of the cumulative probability function. Such functions for all our distributions can be easily defined as anonymous functions
 
@@ -127,10 +114,7 @@ plot(cdfs, 0, 20;
     linewidth = 2,
     legend = :bottomright,
 )
-savefig("distributions_ex3.svg") # hide
 ```
-
-![](distributions_ex3.svg)
 
 ```@raw html
 </p></details>

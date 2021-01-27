@@ -2,8 +2,6 @@
 
 [DataFrames](https://dataframes.juliadata.org/stable/) is a package that provides a set of tools for working with tabular data in Julia. Its design and functionality are similar to those of [pandas](https://pandas.pydata.org/) (in Python) and `data.frame`, `data.table` and dplyr (in R), making it a great general purpose data science tool, especially for those coming to Julia from R or Python.
 
-### Creating `DataFrame`s
-
 ```@setup dfbasics
 using CSV
 using DataFrames
@@ -45,8 +43,6 @@ DataFrames allows to use `Symbol`s (like `:A`) and strings (like `"A"`) for all 
 </p></div>
 ```
 
-### Saving and loading
-
 The standard format for storing table data is `csv` file format. The [CSV](https://github.com/JuliaData/CSV.jl) package provides an interface for saving and loading `csv` files.
 
 ```@example dfbasics
@@ -56,7 +52,7 @@ table = CSV.read("dataframe.csv", DataFrame; header = true)
 ```
 See the package [documentation](https://csv.juliadata.org/stable/) for more information.
 
-### Adding columns and rows
+## Adding columns and rows
 
 It is common for tables to be created column by column or row by row. `DataFrame`s provides an easy way to extend existing tables. To add a new column to a `DataFrame`, we can use a direct way as follows
 
@@ -97,7 +93,7 @@ push!(df_empty, Dict(:A => 3, :B => :c))
 df_empty
 ```
 
-### Renaming
+## Renaming
 
 Sometimes it is useful to get the names of all the columns. Two functions can be used for such a task. The first is the `names` function, which returns column names as a vector of ` String`s. The `propertynames` function does the same thing but returns a vector of ` Symbol`s
 
@@ -122,7 +118,7 @@ rename!(myname, df)
 df
 ```
 
-### Working with `DataFrame`s
+## Working with `DataFrame`s
 
 ```@setup dfwork
 using DataFrames
@@ -168,7 +164,7 @@ end
 There are tons of other topics related to DataFrames, however, there is no time to cover them all. Also, there is also no reason to do that, since DataFrames provides very good [documentation](https://dataframes.juliadata.org/stable/) with a lof of examples
 
 
-### Visualizing using StatsPlots
+## Visualizing using StatsPlots
 
 ```@setup dfplots
 using DataFrames
@@ -192,9 +188,7 @@ using StatsPlots
     group = :Species,
     marker = ([:d :h :star7], 8),
 )
-savefig("tables_1.svg") # hide
 ```
-![](tables_1.svg)
 
 Note that keyword arguments can be used in the same way as usual.
 
@@ -208,10 +202,7 @@ using StatsPlots: marginalkde # hide
     xlabel = "SepalLength",
     ylabel = "SepalWidth",
 )
-savefig("tables_2.svg") # hide
 ```
-
-![](tables_2.svg)
 
 Another example of a useful function for statistically related graphs is the `corrplot` function, which shows the correlation between input variables
 
@@ -223,9 +214,6 @@ Another example of a useful function for statistically related graphs is the `co
     fillcolor = :viridis,
     markercolor = :viridis,
 )
-savefig("tables_3.svg") # hide
 ```
-
-![](tables_3.svg)
 
 Note, that in this case, we use `cols(1:4)` instead of the names of columns. The reason for that is simple: it is shorter. Anyway, it is possible to use a vector of column names too.
