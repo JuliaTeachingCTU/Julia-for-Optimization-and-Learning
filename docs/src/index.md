@@ -24,7 +24,7 @@ The main goals of the course are the following:
 
 Selected examples of what you will be able to write at the end of the course include:
 - *Efficient coding*: The following plot can be created in twenty lines of code
-  ![](lecture_04/julia_set.gif)
+  ![](lecture_02/juliaset.gif)
 - *Numerical techniques*: You will learn many techniques to minimize functions
   ![](lecture_07/anim1.gif)
 - *Neural networks*: And apply techniques to train neural networks
