@@ -1,21 +1,43 @@
 # Julia
 
+- The first step is to download the proper installation file from the official [download page](https://julialang.org/downloads/). In most cases, the proper version is the **64-bits** version for the Windows operation system
 ![](juliainstall_1.png)
+
+- **!!! TODO: add description !!!**
 ![](juliainstall_2.png)
+
+- **!!! TODO: add description !!!**
 ![](juliainstall_3.png)
+
+- **!!! TODO: add description !!!**
 ![](juliainstall_4.png)
-![](juliainstall_4b.png)
-![](juliainstall_5.png)
-![](juliainstall_6.png)
-![](juliainstall_7.png)
-![](juliainstall_8.png)
-![](juliainstall_10.png)
-![](juliainstall_10b.png)
-![](juliainstall_11.png)
-![](juliainstall_12.png)
-![](juliainstall_13.png)
-![](juliainstall_14.png)
 
-## Install Julia
+## Adding Julia to PATH on Windows 10
 
-## Introduction to the REPL
+- **!!! TODO: add description !!!**
+![](juliapath_1.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_2.png)
+
+- **!!! TODO: add description !!!**
+> rundll32 sysdm.cpl,EditEnvironmentVariables
+![](juliapath_3.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_4.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_5.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_6.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_7.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_8.png)
+
+- **!!! TODO: add description !!!**
+![](juliapath_9.png)
