@@ -18,11 +18,12 @@ for theme in ["light", "dark"]
 end
 
 # outline
-installation = joinpath.("./installation/", [
-    "julia.md",
-    "vscode.md",
-    "git.md",
-])
+installation = [
+    "Julia" => "./installation/julia.md",
+    "Visual Studio Code" => "./installation/vscode.md",
+    "Git" => "./installation/git.md",
+    "Quick Start Guide" => "./installation/tutorial.md",
+]
 
 lecture_01 = [
     "Variables" => "./lecture_01/variables.md",
@@ -53,7 +54,6 @@ lecture_04 = [
     "Plots.jl" => "./lecture_04/Plots.md",
     "DataFrames.jl" => "./lecture_04/DataFrames.md",
     "Other Useful Packages" => "./lecture_04/otherpackages.md",
-    "Exercises" => "./lecture_04/exercises.md",
 ]
 
 lecture_05 = []
