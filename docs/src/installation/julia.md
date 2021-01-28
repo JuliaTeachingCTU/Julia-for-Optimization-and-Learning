@@ -48,6 +48,6 @@ Finally, we can check, that we added the path correctly. Type `cmd` into the sea
 
 ![](juliapath_7.png)
 
-In the `Command Prompt` type `julia` and press `Enter`. If everything is set correctly,  it will start a new Julia session
+In the `Command Prompt` type `julia` and press `Enter`. If everything is set correctly,  it will start a new Julia session (REPL)
 
 ![](juliapath_8.png)
