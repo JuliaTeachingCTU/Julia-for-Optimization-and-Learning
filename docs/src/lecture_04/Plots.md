@@ -74,7 +74,7 @@ plot(x, y;
 Note that we use multiple values for some attributes since we want to use a different setting for different curves. The logic is the same as for input data, i.e., each column corresponds to one curve, so we have to use row vectors. However, it is also possible to use column vectors as attributes. In such a case, the different values of the attributes will be applied to data points. For example, in the following example, we create a plot of the sine function from 1000 data points. As a `linewidth` attribute, we use a range from 1 to 50 of length 1000, i.e., each point of the resulting line will be of different width. The same applies to the `color` attribute. We use the `palette` function to generate 1000 colors from the `viridis` color scheme. Then each color is applied to one point of the resulting line
 
 ```@example plots
-n = 1000
+n = 200
 x = range(0, 2π; length = n)
 linewidth = range(1, 50; length = n)
 color = palette(:viridis, n)
@@ -265,7 +265,7 @@ nothing # hide
 We now use the ability of the Plots package to plot functions directly
 
 ```@example plots_fce
-plot(fx, fy, -15, 20, 1000;
+plot(fx, fy, -15, 20, 500;
     linewidth = 2,
     legend = false,
     axis = nothing,
@@ -346,22 +346,28 @@ nothing # hide
 
 With defined input arguments and attributes, we can use the `plot` function with the `seriestype = :contourf` keyword to draw a filled contour plot or alternatively the `contourf`
 
-```@example plots_srs
+```julia
 contourf(x, x, fz; kwargs...) # or plot(x, x, fz; seriestype = :contourf, kwargs...)
 ```
+
+![](plots_srs_ex1.svg)
 
 Note that we use triple-dot syntax to unpack keyword arguments. Recall that in this case, the semi-colon is mandatory. In the same way, we can draw the `heatmap`
 
 
-```@example plots_srs
+```julia
 heatmap(x, x, fz; kwargs...)
 ```
 
+![](plots_srs_ex2.svg)
+
 and the 3D `surface` plot. For the `surface` plot, we also change the camera angle to get a nicer graph
 
-```@example plots_srs
+```julia
 surface(x, x, fz; camera = (25, 65), kwargs...)
 ```
+
+![](plots_srs_ex3.svg)
 
 ```@raw html
 </p></details>
