@@ -1,62 +1,46 @@
 # Git
 
-## Install Git
-- **!!! TODO: add description !!!**
+[Git](https://git-scm.com/) is a distributed version-control system for tracking changes in any set of files, designed for coordinating work among programmers cooperating on source code during software development. The whole Julia package system is based on git and the whole Julia project is hosted on [GitHub](https://github.com/) which providers Internet hosting for software development and version control using Git. In this section, we provide a basic tutorial on how to install and set git on Windows 10
+
+Git installer can be download from the official [download page](https://git-scm.com/downloads).
+
 ![](gitinstall_1.png)
 
-- **!!! TODO: add description !!!**
+Download the proper installer, run it and follow the given instructions
+
 ![](gitinstall_2.png)
 
-- **!!! TODO: add description !!!**
+There is no need to change the default settings. However, we recommend changing the default editor used by Git to Visual Studio Code.
+
 ![](gitinstall_3.png)
 
-- **!!! TODO: add description !!!**
-![](gitinstall_4.png)
+After setting the editor used by Git, finish the installation with default settings.
 
-- **!!! TODO: add description !!!**
-![](gitinstall_5.png)
+```@raw html
+<div class = "info-body">
+<header class = "info-header">GitHub Account</header><p>
+```
 
-- **!!! TODO: add description !!!**
-![](gitinstall_6.png)
+Create a GitHub account on the official [GitHub page](https://github.com/). Do not forget to verify your email address.
 
-- **!!! TODO: add description !!!**
-![](gitinstall_7.png)
+```@raw html
+</p></div>
+```
 
-- **!!! TODO: add description !!!**
-![](gitinstall_8.png)
+## User settings
 
-- **!!! TODO: add description !!!**
-![](gitinstall_9.png)
+Before using Git, we need to make basic settings. Type `cmd` into the search bar and open the `Command Prompt`.
 
-- **!!! TODO: add description !!!**
-![](gitinstall_10.png)
+![](juliapath_7.png)
 
-- **!!! TODO: add description !!!**
-![](gitinstall_11.png)
+In the `Command Prompt` type the following two commands
 
-- **!!! TODO: add description !!!**
-![](gitinstall_12.png)
+> `git config --global user.name "USERNAME"`
+>
+> `git config --global user.email "USEREMAIL"`
 
-- **!!! TODO: add description !!!**
-![](gitinstall_13.png)
+and press `Enter`. Do not forget to change `USERNAME` and `USEREMAIL`. Typically the username and email from GitHub are used.
 
-- **!!! TODO: add description !!!**
-![](gitinstall_14.png)
-
-- **!!! TODO: add description !!!**
-![](gitinstall_15.png)
-
-## Basic settings
-
-- **!!! TODO: add description !!!**
 ![](gitsettings_1.png)
 
-- **!!! TODO: add description !!!**
-> `git config --global user.name USERNAME`
-> `git config --global user.email USEREMAIL`
-![](gitsettings_2.png)
-
-- **!!! TODO: add description !!!**
-> `git config --global user.name`
-> `git config --global user.email`
-![](gitsettings_3.png)
+The commands above set the user name and email for Git. Because Git is designed for collaboration between multiple people, this information is used to track who made what changes.
