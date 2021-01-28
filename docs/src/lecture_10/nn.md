@@ -147,11 +147,11 @@ Plot the third image from the training set and check that the label is correct. 
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To plot an image, we convert it into grayscale by ```Gray```. We use the dot notation because the input is a matrix, and we need to apply the operator to all of its entries. Since we are not interested in the axis, we turn them off by ```axis=nothing```. Note that we need to transpose the input; otherwise, the image would be rotated. We also use ```1 .-x``` to invert the black and white colours.
+To plot an image, we convert it into grayscale by ```Gray```. We use the dot notation because the input is a matrix, and we need to apply the operator to all of its entries. Since we are not interested in the axis, we turn them off by ```axis=false``` and ```ticks=false```. Note that we need to transpose the input; otherwise, the image would be rotated. We also use ```1 .-x``` to invert the black and white colours.
 ```@example nn
 using Plots
 
-plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=nothing)
+plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=false, ticks=false)
 
 nothing # hide
 ```

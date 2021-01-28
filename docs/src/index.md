@@ -11,6 +11,17 @@ Welcome to our course "Numerical computing in Julia". Since there are no course 
 The main requirement of the course is to finish a small project of your choice. This project can be connected to your bachelor or master thesis, and we hope that our course will help you prepare a better thesis.
 
 
+## Information about the course
+
+- Teachers: [Lukáš Adam](http://staff.utia.cas.cz/adam/index.html), Václav Mácha
+- Credits: 3
+- FJFI code: [01SUJ](http://bilakniha.cvut.cz/cs/predmet6606806.html)
+- Requirements for the course:
+    - Attendance: Actively attend at least 70% of lectures.
+    - Homeworks: Finish 3 homeworks. Homeworks are short tasks handed during lectures 7, 8 and 9.
+    - Project: Finish 1 project. Project is a more complex task, where you can choose the topic. Details will be given during lecture 6.
+
+
 ## What will we emphasize?
 
 The main goals of the course are the following:
@@ -36,12 +47,10 @@ Selected examples of what you will be able to write at the end of the course inc
   ![](data/Video.gif)
 
 
-## Requirements for the course
+## Recommended courses
 
-To successfully pass the course (klasifikovaný zápočet), you need to do the following:
-- Attendance: Actively attend at least 70% of lectures.
-- Homeworks: Finish 3 homeworks. Homeworks are short tasks handed during lectures 7, 8 and 9.
-- Project: Finish 1 project. Project is a more complex task, where you can choose the topic. Details will be given during lecture 6.
+We recommend the following courses at FJFI:
+- [Matematické problémy nematematiků](http://bilakniha.cvut.cz/cs/predmet5677506.html) invites people from companies to talk about how scientific methods are used in real applications.
 
 
 ## References

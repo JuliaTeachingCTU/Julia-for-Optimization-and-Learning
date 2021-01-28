@@ -1,4 +1,4 @@
-# Exercises
+# [Exercises](@id l7-exercises)
 
 ```@raw html
 <div class = "homework-body">
