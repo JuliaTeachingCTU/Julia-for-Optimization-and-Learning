@@ -36,6 +36,7 @@ The given pseudocode describes how to compute the [Julia set](https://en.wikiped
 ```math
 f_c(z) = z^2 + c
 ```
+
 where ``c \in \mathbb{C}`` is a complex parameter. To test the resulting code, try the following settings of input parameters
 - ``x`` is a vector of 1500 evenly spaced numbers from `-1.5` to `1.5`.
 - ``y`` is a vector of 1000 evenly spaced numbers from `-1` to `1`.
@@ -64,18 +65,17 @@ heatmap(A;
 
 Firstly, we have to define all input parameters
 
-```@example juliaset
+```julia
 c = - 0.4 + 0.61im
 R = 2
 N = 1000
 L = 1500
 K = 1000
-nothing # hide
 ```
 
 The second step is to define vectors `x` and `y`. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we can use the `range` function to generate them
 
-```@example juliaset
+```julia
 x = range(-1.5, 1.5; length = L)
 y = range(-1.0, 1.0; length = K)
 nothing # hide
@@ -83,14 +83,13 @@ nothing # hide
 
 The next step is to define the `A` matrix full of zeros. This step can be done simply by using the `zeros` function
 
-```@example juliaset
+```julia
 A = zeros(K, L)
-nothing # hide
 ```
 
 Now, we can rewrite the for loops from the given pseudocode. It is possible to rewrite the pseudocode in an almost identical way. However, in many cases, the code can be simplified. For example, we can use the shorter syntax for writing nested `for` loops as follows
 
-```@example juliaset
+```julia
 for k in 1:K, l in 1:L
     z = x[l] + y[k]*im
     for n in 1:N
@@ -101,12 +100,11 @@ for k in 1:K, l in 1:L
         end
     end
 end
-nothing # hide
 ```
 
 Finally, we can use the code provided in the description of the exercise to visualize the matrix `A`
 
-```@example juliaset
+```julia
 using Plots
 heatmap(A;
     c = :viridis,
@@ -116,7 +114,6 @@ heatmap(A;
     ticks = :none,
     size = (800, 600),
 )
-savefig("juliaset.svg") # hide
 ```
 
 ```@raw html
@@ -156,7 +153,7 @@ As suggested in the exercise description, we will use the `while` loop because i
 2. the absolute value of variable `z` has to be smaller or equal to `R^2 - R`.
 These two conditions can be merged together as follows `n <= N && abs(z) <= R^2 - R`. Inside the `while` loop, we onlye have to update variables `n` and `z`. Altogether the function can be defined in the following way
 
-```@example juliaset
+```julia
 function juliaset(z, c, R, N)
     n = 0
     while n <= N && abs(z) <= R^2 - R
@@ -165,31 +162,28 @@ function juliaset(z, c, R, N)
     end
     return n == N ? 0 : n/N
 end
-nothing # hide
 ```
 
 Note that we use the ternary operator to decide which value is returned. With a defined function, we have to define all input parameters as in the previous exercise
 
-```@example juliaset
+```julia
 c = - 0.4 + 0.61im
 R = 2
 N = 1000
 x = range(-1.5, 1.5; length = 1500)
 y = range(-1.0, 1.0; length = 1000)
-nothing # hide
 ```
 
 Now we can use nested `for` loops to create the `A` matrix. However, it is not the easiest way. It is simpler to use the list comprehension or broadcasting to vectorize the `juliaset` function
 
-```@example juliaset
+```julia
 A1 = [juliaset(xl + yk*im, c, R, N) for yk in y, xl in x]
 A2 = juliaset.(x' .+ y .* im, c, R, N)
-nothing # hide
 ```
 
 In the second case, we have to pay attention to use the correct form of the input. Note that we use transposition of the vector `x`. Finally, we can call the same code as before to create the same plot
 
-```@example juliaset
+```julia
 using Plots
 heatmap(A1;
     c = :viridis,
@@ -199,7 +193,6 @@ heatmap(A1;
     ticks = :none,
     size = (800, 600),
 )
-savefig("juliaset_ex2.svg") # hide
 ```
 
 ```@raw html
@@ -218,46 +211,6 @@ Try different values of variable `c` to create different plots. For inspiration,
 ```@raw html
 </p></div>
 ```
-
-```@setup juliaset_ex3
-using Plots
-
-function juliaset(z, c, R, N)
-    n = 0
-    while n <= N && abs(z) <= R^2 - R
-        n += 1
-        z = z^2 + c
-    end
-    return n == N ? 0 : n/N
-end
-
-function plotjuliaset(c)
-    x = range(-1.5, 1.5; length = 1500)
-    y = range(-1.0, 1.0; length = 1000)
-
-    return heatmap(x, y, (x, y) -> juliaset(x + y * im, c, 2, 1000);
-        c = :viridis,
-        clims = (0, 0.15),
-        cbar = :none,
-        axis = :none,
-        ticks = :none,
-        size = (800, 600),
-    )
-end
-
-plt1 = plotjuliaset(0.285 + 0.01*im)
-savefig(plt1, "juliaset_ex3_1.svg")
-
-plt2 = plotjuliaset(-0.835 - 0.2321*im)
-savefig(plt2, "juliaset_ex3_2.svg")
-
-plt3 = plotjuliaset(-0.8 + 0.156*im)
-savefig(plt3, "juliaset_ex3_3.svg")
-
-plt4 = plotjuliaset(-0.70176 + 0.3842*im)
-savefig(plt4, "juliaset_ex3_4.svg")
-```
-
 - ``c = 0.285 + 0.01 \cdot i``
 ![](juliaset_ex3_1.svg)
 
