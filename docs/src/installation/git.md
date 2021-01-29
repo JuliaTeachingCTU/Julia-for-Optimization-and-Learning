@@ -1,12 +1,12 @@
 # Git
 
-[Git](https://git-scm.com/) is a distributed version-control system for tracking changes in any set of files, designed for coordinating work among programmers cooperating on source code during software development. The whole Julia package system is based on git and the whole Julia project is hosted on [GitHub](https://github.com/) which providers Internet hosting for software development and version control using Git. In this section, we provide a basic tutorial on how to install and set git on Windows 10
+[Git](https://git-scm.com/) is a distributed version control system for tracking changes in any set of files, designed for coordinating work among programmers cooperating on source code during software development. The whole Julia package system is based on Git, and the whole Julia project is hosted on [GitHub](https://github.com/). GitHub is a service that provides internet hosting for software development and version control using Git. This section offers a basic tutorial on how to install and set Git on Windows 10.
 
 Git installer can be download from the official [download page](https://git-scm.com/downloads).
 
 ![](gitinstall_1.png)
 
-Download the proper installer, run it and follow the given instructions
+Download the proper installer, run it and follow the given instructions.
 
 ![](gitinstall_2.png)
 
@@ -29,7 +29,7 @@ Create a GitHub account on the official [GitHub page](https://github.com/). Do n
 
 ## User settings
 
-Before using Git, we need to make basic settings. Type `cmd` into the search bar and open the `Command Prompt`.
+Before using Git, we need to make the necessary settings. Type `cmd` into the search bar and open the `Command Prompt`.
 
 ![](juliapath_7.png)
 
