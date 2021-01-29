@@ -91,6 +91,7 @@ lecture_11 = []
 lecture_12 = joinpath.("./lecture_12/", [
     "theory.md",
     "ode.md",
+    "diff_eq.md",
     "optimal_control.md",
 ])
 
