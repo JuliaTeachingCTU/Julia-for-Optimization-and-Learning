@@ -98,7 +98,7 @@ lecture_12 = joinpath.("./lecture_12/", [
 # make docs options
 makedocs(;
     authors = "Václav Mácha",
-    sitename = "Numerical computing in Julia",
+    sitename = "Julia for Machine Learning",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
         collapselevel = 1,

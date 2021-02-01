@@ -4,9 +4,9 @@ ENV["GKSwstype"] = "100"
 gr()
 ```
 
-# Numerical computing in Julia
+# Julia for Machine Learning
 
-Welcome to our course "Numerical computing in Julia". Since there are no course requirements, all students who want to learn to program efficiently or machine learning techniques are welcome to join.
+Welcome to our course "Julia for Machine Learning". Since there are no course requirements, all students who want to learn to program efficiently or machine learning techniques are welcome to join.
 
 The main requirement of the course is to finish a small project of your choice. This project can be connected to your bachelor or master thesis, and we hope that our course will help you prepare a better thesis.
 
