@@ -13,7 +13,7 @@ The main requirement of the course is to finish a small project of your choice. 
 
 ## Information about the course
 
-- Teachers: [Lukáš Adam](http://staff.utia.cas.cz/adam/index.html), Václav Mácha
+- Teachers: Lukáš Adam, Václav Mácha
 - Credits: 3
 - FJFI code: [01SUJ](http://bilakniha.cvut.cz/cs/predmet6606806.html)
 - Requirements for the course:
