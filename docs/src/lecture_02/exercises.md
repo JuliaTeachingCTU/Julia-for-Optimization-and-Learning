@@ -1,4 +1,4 @@
-# Exercises
+# Julia set
 
 So far, we use only the standard library that is shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. For example, there is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package that allows us to create plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, we have to press the `]` symbol. Then the  Plots package can be installed as follows
 
