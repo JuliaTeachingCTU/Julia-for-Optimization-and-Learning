@@ -60,6 +60,8 @@ lecture_05 = []
 
 lecture_06 = []
 
+finalproject = []
+
 lecture_07 = joinpath.("./lecture_07/", [
     "theory.md",
     "unconstrained.md",
@@ -107,12 +109,14 @@ makedocs(;
         "Home" => "index.md",
         #"How to..." => "howto.md",
         "Installation" => installation,
+        "Why Julia?" => "why.md",
         "1: Variables and basic operators" => lecture_01,
         "2: Control flow" => lecture_02,
         "3: Functions and methods" => lecture_03,
         "4: Packages" => lecture_04,
         "5: Composite types and constructors" => lecture_05,
         "6: Modules and enviroments" => lecture_06,
+        "Final Project" => finalproject,
         "7: Optimization" => lecture_07,
         "8: Regression and classification" => lecture_08,
         "9: Neural networks I." => lecture_09,
