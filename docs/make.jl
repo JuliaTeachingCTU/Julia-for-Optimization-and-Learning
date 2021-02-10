@@ -56,7 +56,11 @@ lecture_04 = [
     "Other Useful Packages" => "./lecture_04/otherpackages.md",
 ]
 
-lecture_05 = []
+lecture_05 = [
+    "Composite Types" => "./lecture_05/compositetypes.md",
+    "Constructors" => "./lecture_05/constructors.md",
+    "Generic Programming" => "./lecture_05/currencies.md",
+]
 
 lecture_06 = []
 
@@ -114,8 +118,8 @@ makedocs(;
         "2: Control flow" => lecture_02,
         "3: Functions and methods" => lecture_03,
         "4: Packages" => lecture_04,
-        "5: Composite types and constructors" => lecture_05,
-        "6: Modules and enviroments" => lecture_06,
+        "5: Custom types" => lecture_05,
+        "6: Modules and packages" => lecture_06,
         "Final Project" => finalproject,
         "7: Optimization" => lecture_07,
         "8: Regression and classification" => lecture_08,
