@@ -2,8 +2,8 @@
 
 The goal of this section is to show the true power of the type system in combination with multiple-dispatch in Julia. The best way how to do it is to use an example. Nowadays is everything about money and our goal in this section is to create a structure that will represent a bank account with the following properties:
 
-- The structure has three fields: `owner`, `transaction` and `date`
-- The `transaction` and `date` fields are vectors of the same length.
+- The structure has three fields: `owner`, `transaction`.
+- All transactions are stored in the currency in which they were made.
 - It is possible to make transactions in different currencies.
 
 To be able to create such a structure, we first define an abstract type `Currency`.
@@ -16,15 +16,12 @@ nothing # hide
 Since the `Currency` is an abstract type, it is not possible to create an instance of it. Abstract types in Julia are used to create logical type hierarchies. As an example, we can mention the `Real` abstract type that covers types that represent real numbers such as Float64, Int32, etc. Defining abstract type also allows us to define methods for all subtypes of the abstract type at once. Now we can create the `BankAccount` structured as follows
 
 ```@example currency
-using Dates
-
 struct BankAccount{C<:Currency}
     owner::String
     transaction::Vector{<:Currency}
-    date::Vector{<:DateTime}
 
     function BankAccount(owner::String, C::Type{<:Currency})
-        return new{C}(owner, Currency[zero(C)], DateTime[now()])
+        return new{C}(owner, Currency[zero(C)])
     end
 end
 nothing # hide
@@ -34,7 +31,6 @@ There are many things we need to explain. The structure has three fields with pr
 
 - The `owner` field represents the name of the owner of the account, i.e., it makes sense to use `String`  as a type of the field.
 - The `transaction` field represents all executed transactions. In this case, we need to store two pieces of information: the amount of money and which currency was used. Since we defined the abstract type `Currency`, every currency can be defined as a subtype of this abstract type. These subtypes will store both pieces of information that we need, i.e., we can store transactions as a vector with elements of type `Currency`.
-- The `date` field represents the date when the transaction was executed. In this case, we use the `DateTime`  type defined in the `Dates` package to store the information.
 
 !!! warning "Avoid containers with abstract type parameters"
     It is not a good practice to use [containers with abstract element type](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container) as we use for storing transactions. The reason why we use it in the example above is, that we do not want to convert all transactions to the common currency.
@@ -43,7 +39,7 @@ In the definition of the `BankAccount` type, we also define the following inner 
 
 ```julia
 function BankAccount(owner::String, C::Type{<:Currency})
-    return new{C}(owner, Currency[zero(C)], DateTime[now()])
+    return new{C}(owner, Currency[zero(C)])
 end
 ```
 
@@ -493,14 +489,23 @@ ERROR: MethodError: no method matching length(::Main.Dollar)
 [...]
 ```
 
-The reason is, that Julia assumes, that custom structure is iterable. But in our case, the currencies represent scalars. It can be easily fixed by defining a new method to the `broadcastable` function from the `Broadcast` module
+The reason is, that Julia assumes, that custom structure is iterable. But in our case, all subtypes of the `Currency` type represent scalar values. This situation can be easily fixed by defining a new method to the `broadcastable` function from the `Base` module
 
 ```@example currency
-Broadcast.broadcastable(c::Currency) = Ref(c)
+Base.broadcastable(c::Currency) = Ref(c)
 nothing # hide
 ```
 
-This function returns either the given object `x` or an object like `x` such that it supports axes, indexing, and its type supports `ndims`. In the method above, we use the `Ref` function that creates an object that refers to the given object and supports axes, indexing and `ndims`.
+This function should return either the given object or some representation of the given object, that supports `axes`, `indexing`, and  `ndims`. To create such representation of all subtypes of the `Currency` type, we use the `Ref` function. The `Ref` function creates an object that refers to the given currency instance and supports axes, indexing, and `ndims`
+
+```@repl currency
+c_ref = Ref(Euro(1))
+axes(c_ref)
+ndims(c_ref)
+c_ref[]
+```
+
+Now we can test if the broadcasting works as expected
 
 ```@repl currency
 CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
@@ -511,12 +516,9 @@ CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define the following operations:
+In the section above we defined the addition for all subtypes of the `Currency` and we also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define all following operations: `-`, `*`, `/`.
 
-- Subtraction.
-- Multiplication of by a real number.
-- Division by the real number.
-- Division by the same currency.
+**Hint:** Define only the operations that make sense. For example, It makes sense to multiply `1 €` by 2 and get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
 
 ```@raw html
 </p></div>
@@ -524,7 +526,7 @@ Define the following operations:
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The subtraction can be defined in the exact same way as addition
+The `-` operation can be defined in the exact same way as the addition in the previous section
 
 ```@example currency
 Base.:-(x::Currency, y::Currency) = -(promote(x, y)...)
@@ -532,14 +534,14 @@ Base.:-(x::T, y::T) where {T <: Currency} = T(x.value - y.value)
 nothing # hide
 ```
 
-And the result is as follows
+In the example below, we can see, that everything works as intended
 
 ```@repl currency
 Dollar(1.3) - CzechCrown(4.5)
-CzechCrown(4.5) - Euro(3.2)
+CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
 ```
 
-In the case of multiplication by a real number, we have to define multiplication from the right and also from the left.
+The situation with the multiplication is a little bit different.   It makes sense to multiply `1 €` by 2 and get `2 €`. But it does not make sense to multiply `1 €` by `2 €`. It means, that we have to define a method for multiplying the instance of the `Currency` by a real number. Moreover, we have to define multiplication from the right and also from the left. It can be done as follows
 
 ```@example currency
 Base.:*(a::Real, x::T) where {T <: Currency} = T(a * x.value)
@@ -547,32 +549,44 @@ Base.:*(x::T, a::Real) where {T <: Currency} = T(a * x.value)
 nothing # hide
 ```
 
+As in the previous cases, everything works as expected and broadcasting is supported without any additional steps
 ```@repl currency
-2*Dollar(1.3)*0.5
+2 * Dollar(1.3) * 0.5
+2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
 ```
+
+Finally, we can define division. In this case, it makes sense to define the division of the instance of  `Currency` by a real number. In such a case, the result is the instance of the same currency
 
 ```@example currency
 Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
+nothing # hide
+```
+
+But it also makes sense to define the division of one amount of money by another amount of money. In this case, the result is a real number that represents the ratio of the given amounts of money
+
+```@example currency
 Base.:/(x::Currency, y::Currency) = /(promote(x, y)...)
 Base.:/(x::T, y::T) where {T <: Currency} = x.value / y.value
 nothing # hide
 ```
 
+The result is as follows
+
+
 ```@repl currency
 Dollar(1.3) / 2
-Dollar(1.3) / Dollar(1.3)
-Dollar(1.3) / convert(CzechCrown, Dollar(1.3))
+2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
 ```
 
 ```@raw html
 </p></details>
 ```
 
-## Basic functions
+## Currency comparison
 
 ```@example currency
-Base.isless(x::Currency, y::Currency) = isless(promote(x, y)...)
-Base.isless(x::T, y::T) where {T <: Currency} = isless(x.value, y.value)
+Base.:<(x::Currency, y::Currency) = <(promote(x, y)...)
+Base.:<(x::T, y::T) where {T <: Currency} = <(x.value, y.value)
 nothing # hide
 ```
 
@@ -588,33 +602,33 @@ Dollar(1) > Euro(0.83)
 Dollar(1) <= Euro(0.83)
 Dollar(1) >= Euro(0.83)
 Dollar(1) == Euro(0.83)
-```
-
-## Random generation and proper broadcasting
-
-```@example currency
-using Random
-
-function Random.rand(rng::AbstractRNG, ::Random.SamplerType{T}) where {T <: Currency}
-    return T(rand(rng))
-end
-nothing # hide
-```
-
-```@repl currency
-100 .* rand(CzechCrown, 2, 3) .- CzechCrown(50)
+Dollar(1) != Euro(0.83)
 ```
 
 ## Back to bank account
 
-With the `BankAccount` type defined, it makes sense to define some auxiliary functions. For example, we can define the `balance` function that will return the current balance of the account. Since we store all transactions in a vector, the current balance of the account can be simply computed as a sum of the `transaction` field
+In the previous sections, we defined all the functions and types needed for the proper functionality of the `BankAccount` type defined at the top of the page. We can test it by creating a new instance of this type
+
+```julia
+julia> b = BankAccount("Paul", CzechCrown)
+BankAccount{CzechCrown}("Paul", Currency[0.0 Kč])
+```
+
+Now it is time to define some auxiliary functions. For example, we can define the `balance` function that will return the current balance of the account. Since we store all transactions in a vector, the current balance of the account can be simply computed as a sum of the `transaction` field
 
 ```@example currency
 balance(b::BankAccount{C}) where {C} = convert(C, sum(b.transaction))
+b = BankAccount("Paul", CzechCrown) # hide
 nothing # hide
 ```
 
-Note that we convert the balance to the primary currency of the account. Now we can define custom pretty-printing
+Note that we convert the balance to the primary currency of the account.
+
+```@repl currency
+balance(b)
+```
+
+Another thing that we can define is custom pretty-printing
 
 ```@example currency
 function Base.show(io::IO, b::BankAccount{C}) where {C<:Currency}
@@ -627,30 +641,97 @@ end
 nothing # hide
 ```
 
-The last function that we define is the `transaction!` function that adds a new transaction into the given bank account. This function accepts two arguments: the bank account and the amount of money in some specific currency. The first thing that happened in the function is the check if there is a sufficient bank account balance. If not, the function will throw an error, otherwise, the function will push new elements to the `transaction` and `date` vector.
+which results in the following output
+
+```@repl currency
+b
+```
+
+The last function that we define is the function that adds a new transaction into the given bank account. This function can be defined as usual, but we use special syntax. Since methods are associated with types, it is possible to make any arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called "functors." Functor for the `BankAccount` type can be defined in the following way
 
 ```@example currency
-function transaction!(b::BankAccount, c::Currency)
-    val = balance(b) + c
-    if val < zero(val)
-        msg = ArgumentError("transaction cannot be performed due to insufficient bank account balance.")
-        throw(msg)
-    end
+function (b::BankAccount{T})(c::Currency) where {T}
+    balance(b) + c >= zero(T) || throw(ArgumentError("insufficient bank account balance."))
     push!(b.transaction, c)
-    push!(b.date, now())
     return
 end
 nothing # hide
 ```
 
+The first thing that happened in the function above is the check if there is a sufficient bank account balance. If not, the function will throw an error, otherwise, the function will push new element to the `transaction` field
+
+```@repl currency
+b(Dollar(10))
+b(-2*balance(b))
+b(Pound(10))
+b(Euro(23.6))
+b(CzechCrown(152))
+b
+```
+
+Note that all transactions are stored in their original currency as can be seen if we print the `transaction` field
+
+```@repl currency
+b.transaction
+```
+
+## Extension
+
+
+```@example currency
+const ExchangeRates = Dict{String, Float64}()
+
+function exchangerate(T::Type{<:Currency}, C::Type{<:Currency})
+    key = string(nameof(T), "->", nameof(C))
+    haskey(ExchangeRates, key) || error("exchange rate not defined")
+    return ExchangeRates[key]
+end
+
+function addexchangerate(T::Type{<:Currency}, C::Type{<:Currency}, r::Real)
+    key = string(nameof(T), "->", nameof(C))
+    ExchangeRates[key] = r
+    return
+end
+```
+
+
+```@example currency
+Base.convert(T::Type{<:Currency}, c::C) where {C<:Currency} = T(c.value * exchangerate(T, C))
+nothing # hide
+```
+
+
+```@example currency
+addexchangerate(Euro, Dollar, 0.82)
+addexchangerate(Euro, Pound, 1.14)
+addexchangerate(Euro, CzechCrown, 0.039)
+
+addexchangerate(Dollar, Euro, 1.21)
+addexchangerate(Dollar, Pound, 1.38)
+addexchangerate(Dollar, CzechCrown, 0.047)
+
+addexchangerate(Pound, Euro, 0.88)
+addexchangerate(Pound, Dollar, 0.72)
+addexchangerate(Pound, CzechCrown, 0.034)
+
+addexchangerate(CzechCrown, Euro, 25.76)
+addexchangerate(CzechCrown, Dollar, 21.23)
+addexchangerate(CzechCrown, Pound, 29.33)
+nothing # hide
+```
+
+
+```@repl currency
+ExchangeRates
+```
+
 
 ```@repl currency
 b = BankAccount("Paul", CzechCrown)
-transaction!(b, Dollar(10))
-transaction!(b, Dollar(15))
-transaction!(b, Pound(10))
-transaction!(b, Euro(23.6))
-transaction!(b, CzechCrown(152))
-transaction!(b, -2*balance(b))
+b(Dollar(10))
+b(-2*balance(b))
+b(Pound(10))
+b(Euro(23.6))
+b(CzechCrown(152))
 b
 ```
