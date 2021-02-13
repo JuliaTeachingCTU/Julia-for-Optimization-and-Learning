@@ -1,12 +1,12 @@
 # Julia
 
-In this section, we provide instructions on how to install all the software needed for this course. However, we only provide installation instructions for Windows 10 operating system.
+This section provides instructions on installing the software needed for this course. We show most of the instructions for only Windows 10.
 
-Surprisingly the first thing we have to install is the Julia programming language. The first step is to download the proper installation file from the official [download page](https://julialang.org/downloads/). In most cases, the appropriate version is the **64-bits** version for the Windows operating system.
+The first step is to download the proper installation file from the official [download page](https://julialang.org/downloads/). The appropriate version is the **64-bits** version for the Windows operating system in most cases.
 
 ![](juliainstall_1.png)
 
-If you're using an operating system other than Windows 10, follow the [platform-specific instructions](https://julialang.org/downloads/platform/). Otherwise, you can follow the instructions below. Run the downloaded Julia installer and follow the given instruction.
+If you use an operating system other than Windows 10, follow the [platform-specific instructions](https://julialang.org/downloads/platform/). Otherwise, you can follow the instructions below. Run the downloaded Julia installer and follow the given instruction.
 
 ![](juliainstall_2.png)
 
@@ -20,7 +20,7 @@ After finishing the installation, the Julia terminal and the Julia directory in 
 
 ## Adding Julia to PATH
 
-To allow Julia to run by simply typing `julia` into the command line, we need to add the Julia` bin` directory to` PATH`. Open the `Run` app using the shortcut `Windows key + R` or by typing `Run` in the search bar.
+To automatically run by `julia`, we need to add Julia `bin` directory to `PATH`. Open the `Run` app using the shortcut `Windows key + R` or by typing `Run` in the search bar.
 
 ![](juliapath_1.png)
 

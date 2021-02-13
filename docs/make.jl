@@ -34,7 +34,7 @@ lecture_01 = [
 ]
 
 lecture_02 = [
-    "Conditional Evaluation" => "./lecture_02/conditions.md",
+    "Conditional Evaluations" => "./lecture_02/conditions.md",
     "Loops and Iterators" => "./lecture_02/loops.md",
     "Soft Local Scope" => "./lecture_02/scope.md",
     "Exercises" => "./lecture_02/exercises.md",
@@ -60,7 +60,10 @@ lecture_05 = []
 
 lecture_06 = []
 
-finalproject = []
+finalproject = joinpath.("./final_project/", [
+    "homeworks.md",
+    "project.md",
+])
 
 lecture_07 = joinpath.("./lecture_07/", [
     "theory.md",

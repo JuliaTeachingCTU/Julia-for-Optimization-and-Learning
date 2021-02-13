@@ -1,8 +1,8 @@
 ## Creating new project
 
-This section provides a step-by-step tutorial in which we show how to create a new project, add a new file, initialize a git repository, and publish the repository on Github.
+This section provides a step-by-step tutorial showing how to create a new project, add a new file, initialize a git repository, and publish the repository on Github.
 
-The first thing we have to do when creating a new project is to select a folder where we want to store the project. Open the file `Explorer` in the VS Code by pressing its icon in the activity bar and then press the `Open Folder` button. Alternatively, use the keyboard shortcut `Ctrl + K Ctrl + O`.
+The first thing we have to do when creating a new project is to select a folder where we want to store the project. Open the file `Explorer` in the VS Code by pressing its icon in the activity bar and pressing the `Open Folder` button. Alternatively, use the keyboard shortcut `Ctrl + K Ctrl + O`.
 
 ![](tutorial_1.png)
 
@@ -10,7 +10,7 @@ A system file explorer should open, so find and select the folder you want to us
 
 ![](tutorial_2.png)
 
-Now go to the project manager by pressing the appropriate button in the activity bar. Since we are creating the first project, the project manager tab should be empty. Press the `Project Manager: Save Project` button, type a project name in the popup bar, and then press `Enter`.
+Now go to the project manager by pressing the appropriate button in the activity bar. Since we are creating our first project, the project manager tab should be empty. Press the `Project Manager: Save Project` button, type a project name in the pop-up bar, and then press `Enter`.
 
 ![](tutorial_3.png)
 
@@ -22,13 +22,13 @@ Now go back to the file explorer. In the sidebar, under the project name, there 
 
 ![](tutorial_5.png)
 
-The new file will open in the editor to the right of the File Explorer sidebar. Type `println("Hello, world.")` in the new file and press `Ctrl + S` to save the change. Now select the code and press `Ctrl + Enter` to execute the code. This shortcut runs the new Julia session and sends the code to the session. Congratulations, you create and run a **Hello, world** program in Julia.
+The new file will open in the editor to the right of the File Explorer sidebar. Type `println("Hello, world.")` in the new file and press `Ctrl + S` to save the change. Now select the code and press `Ctrl + Enter` to execute the code. This shortcut runs the new Julia session and sends the code to the session. Congratulations, you have just created and run a **Hello, world** program in Julia.
 
 ![](tutorial_6.png)
 
 ## Initialize Git Repository
 
-Now that we have created a new project, it is time to initialize the git repository to track the project's changes. Go to the `Source Control` bar by pressing the appropriate button in the activity bar. Then press the `Initialize Repository` button, and it will create a new Git repository in the project folder.
+Now that we have created a new project, it is time to initialize the git repository to track the project's changes. Go to the `Source Control` bar by pressing the appropriate button in the activity bar. Then press the `Initialize Repository` button, which will create a new Git repository in the project folder.
 
 ![](tutorial_7.png)
 
@@ -36,17 +36,17 @@ We can check if the Git repository is initialized in the system file explorer. G
 
 ![](tutorial_8.png)
 
-With the initialized Git repository, we can start tracking changes in our work. Note the number 1 in the control source icon. It indicates that there is one change against the last version of the project.
+With the initialized Git repository, we can start tracking our work changes. Note the number 1 in the control source icon. It indicates one change against the last version of the project.
 
 Git provides the `commit` command to capture changes in the project. To create a new git commit, we must first select what changes we want to capture. In our case, it is trivial since there is only one change. In the source control under the `Changes` section, you should see the `test.jl` file. Press the `Stage Changes` button located on the file name's right (`+` icon).
 
 ![](tutorial_9.png)
 
-It will move the file under the `Staged Changes` section. The git commit will capture all files in this section. The next step is to add a message to the git commit. Type any message that describes changes made in the project. It is good to use short but descriptive messages since it will help later to navigate the project history. We use the `Initial commit` message. To finish the git commit, press the `Commit` button above the message bar or use the keyboard shortcut `Ctrl + Enter` in the message bar. Congratulations, you just created your first git commit.
+This moves the file under the `Staged Changes` section. The next step is to add a summary to the git commit. Type any message that describes changes made in the project. It is good to use short but descriptive messages since it will help navigate the project history. We use the `Initial commit` message. To finish the git commit, press the `Commit` button above the message bar or use the keyboard shortcut `Ctrl + Enter` in the message bar.
 
 ![](tutorial_10.png)
 
-Now return to the file explorer bar and open the `Timeline` drop-down menu at the bottom. In the `Timeline` bar, you can see the history of the currently open file. In our case, we can see the history of the `test.jl` file: one git commit created by user  `User Name` and described by the `Initial commit` message. If you click on that git commit, it will open an editor with changes that were made to the current file. On the left-hand side, we can see the file's state before the git commit and on the right-hand side after the git commit. It allows us to see all the changes made in the file easily. In our case, we can see that we added one line of code.
+Now return to the file explorer bar and open the `Timeline` drop-down menu at the bottom. In the `Timeline` bar, you can see the currently open file history. In our case, we can see the history of the `test.jl` file: one git commit created by user  `User Name` and described by the `Initial commit` message. If you click on that git commit, it shows changes made to the current file. On the left-hand side, we can see the file's state before the git commit and on the right-hand side after the git commit. It allows us to see all the changes made in the file. We can see that we added one line of code.
 
 ![](tutorial_11.png)
 

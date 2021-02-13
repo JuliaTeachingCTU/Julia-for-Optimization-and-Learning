@@ -1,12 +1,12 @@
 # Julia set
 
-So far, we use only the standard library that is shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. For example, there is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package that allows us to create plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, we have to press the `]` symbol. Then the  Plots package can be installed as follows
+So far, we used only the standard library shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. For example, there is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package for creating plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, press `]` and install the package by
 
 ```julia
 (@v1.5) pkg> add Plots
 ```
 
-If we install an additional package, we have to use the `using` keyword to load the package, and then we can start using it. For example, we can use the Plots package to visualize the `sin` and `cos` functions as follows
+We need to use the `using` keyword to load the package. For example, we can use the Plots package to visualize the `sin` and `cos` functions.
 
 ```@example plots
 using Plots
@@ -20,7 +20,7 @@ savefig("sin.svg") # hide
 
 ![](sin.svg)
 
-There will be a whole [section](@ref Plots.jl) about the Plots package later in the course.  However, we need some basic functionality to visualize the outputs of the following exercises.
+There will be a whole [section](@ref Plots.jl) dedicatd to the Plots package. However, we need some basic functionality to visualize the outputs of the following exercises.
 
 ```@raw html
 <div class = "exercise-body">
@@ -31,20 +31,20 @@ Every programmer should be able to rewrite pseudocode to actual code. The goal o
 
 ![](juliasetalg.png)
 
-The given pseudocode describes how to compute the [Julia set](https://en.wikipedia.org/wiki/Julia_set) for the following function
+This pseudocode describes how to compute the [Julia set](https://en.wikipedia.org/wiki/Julia_set) for the following function
 
 ```math
-f_c(z) = z^2 + c
+f_c(z) = z^2 + c,
 ```
 
 where ``c \in \mathbb{C}`` is a complex parameter. To test the resulting code, try the following settings of input parameters
-- ``x`` is a vector of 1500 evenly spaced numbers from `-1.5` to `1.5`.
-- ``y`` is a vector of 1000 evenly spaced numbers from `-1` to `1`.
+- ``x`` is a vector of 1500 evenly spaced numbers from ``-1.5`` to ``1.5``.
+- ``y`` is a vector of 1000 evenly spaced numbers from ``-1`` to ``1``.
 - ``c = - 0.4 + 0.61 \cdot i``
 - ``R = 2``
 - ``N = 1000``
 
-Use the code given below to plot the resulting matrix ``A``
+Use this code given below to plot the heatmap of the matrix ``A``.
 
 ```julia
 using Plots
@@ -63,7 +63,7 @@ heatmap(A;
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Firstly, we have to define all input parameters
+Firstly, we have to define all input parameters.
 
 ```julia
 c = - 0.4 + 0.61im
@@ -73,21 +73,20 @@ L = 1500
 K = 1000
 ```
 
-The second step is to define vectors `x` and `y`. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we can use the `range` function to generate them
+The second step is to define vectors `x` and `y`. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we the `range` function.
 
 ```julia
 x = range(-1.5, 1.5; length = L)
 y = range(-1.0, 1.0; length = K)
-nothing # hide
 ```
 
-The next step is to define the `A` matrix full of zeros. This step can be done simply by using the `zeros` function
+The next step is to define the `A` matrix of zeros by the `zeros` function.
 
 ```julia
 A = zeros(K, L)
 ```
 
-Now, we can rewrite the for loops from the given pseudocode. It is possible to rewrite the pseudocode in an almost identical way. However, in many cases, the code can be simplified. For example, we can use the shorter syntax for writing nested `for` loops as follows
+Now, we rewrite the for loops from the pseudocode. It is possible to rewrite the pseudocode in an almost identical way. However, in many cases, the code can be simplified. For example, we can use the shorter syntax for writing nested `for` loops.
 
 ```julia
 for k in 1:K, l in 1:L
@@ -102,7 +101,7 @@ for k in 1:K, l in 1:L
 end
 ```
 
-Finally, we can use the code provided in the description of the exercise to visualize the matrix `A`
+Finally, we use the code provided to visualize the heatmap of the matrix `A`.
 
 ```julia
 using Plots
@@ -112,7 +111,6 @@ heatmap(A;
     cbar = :none,
     axis = :none,
     ticks = :none,
-    size = (800, 600),
 )
 ```
 
@@ -128,7 +126,7 @@ heatmap(A;
 <header class = "exercise-header">Exercise 2:</header><p>
 ```
 
-In the above exercise, we rewrote the pseudocode to the actual Julia code. However, the resulting code is not written in the best possible way. In this exercise, we will try to improve the central part of the code, i.e., the inner loop. Try to write a function that replaces the inner loop in the code from the exercise above. Use the following function definition
+In the previous exercise, we rewrote pseudocode to actual Julia code. However, the resulting code is not written in the best possible way. This exercise will improve the central part of the code: the inner loop. Write a function which replaces the inner loop in the code from the exercise above. Use the following function definition
 
 ```julia
 function juliaset(z, c, R, N)

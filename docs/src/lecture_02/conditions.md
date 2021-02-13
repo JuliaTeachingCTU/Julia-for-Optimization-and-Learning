@@ -1,6 +1,10 @@
+# Conditional evalutions
+
+This lecture handles control flow. The first part focuses on if conditions and the second one of loops.
+
 ## `if-elseif-else` statement
 
-In many cases, we have to decide what to do, based on some conditions. Julia supports the standard `if-elseif-else` syntax, which allows you to decide which part of the code will be evaluated depending on the logical expression's value. For example, the following function compares two numerical values
+In many cases, we have to decide what to do for different conditions. Julia supports the standard `if-elseif-else` syntax, which determines which part of the code will be evaluated. This depends on the logical expression value. For example, the following function compares two numerical values.
 
 ```jldoctest conditions; output = false
 function compare(x, y)
@@ -18,7 +22,7 @@ end
 compare (generic function with 1 method)
 ```
 
-If the expression `x < y` is true, the functions prints *"x is less than y"*, otherwise, the expression `x > y` is evaluated, and if it is true, the functions prints *"x is greater than y"*. If neither expression is true, the function prints *"x is equal to y"*.
+If the expression `x < y` is true, the functions prints *"x is less than y"*, otherwise, the expression `x > y` is evaluated, and if it is true, the functions prints *"x is greater than y"*. If neither expression is true, the function prints the remaining option *"x is equal to y"*.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
@@ -36,19 +40,19 @@ x is equal to y
 <header class = "info-header">Function declaration:</header><p>
 ```
 
-So far, we did not mention how to define functions. However, the above example should suffice to show the basic syntax for defining functions. Note that the `return` keyword is used to specify the output of the function. In this case, the function returns nothing since we only want to compare numbers. If we want to define a function that returns one or more variables, then the following syntax is used
+So far, we did not show how to define functions. However, the above example should show the basic syntax for defining functions. The `return` keyword specifies the function output. In this case, the function returns nothing since we only want to compare numbers. If we need to define a function that returns one or more variables, then the following syntax is used:
 
 ```julia
 return x, y, z
 ```
 
-where `x`, `y`, and `z` are some variables. See the [third lecture](@ref Functions) for more information about functions.
+Here `x`, `y`, and `z` are some variables. We will define this properly in the [next lesson](@ref Functions).
 
 ```@raw html
 </p></div>
 ```
 
-The `elseif` and `else` keywords are optional, and it is possible to use as many `elseif` blocks as wanted
+The `elseif` and `else` keywords are optional. Moreover, it is possible to use as many `elseif` blocks as needed.
 
 ```jldoctest conditions
 julia> x, y = 2, 1;
@@ -65,9 +69,9 @@ julia> if x < y
        end
 ```
 
-The condition expressions in the `if-elseif-else` construct are evaluated until the first one evaluates to `true`, after which the associated block is evaluated, and no further condition expressions or blocks are evaluated.
+The conditions in the `if-elseif-else` construction are evaluated until the first one is `true`. The associated block is then evaluated, and no other condition expressions or blocks are evaluated.
 
-In contrast to languages like Python or Matlab, the logical expression in the `if-elseif-else` statement must always return a boolean value, otherwise, an error will occur
+In contrast to languages like Python or Matlab, the logical expression in the `if-elseif-else` statement must always return a boolean value. Otherwise, an error will occur.
 
 ```jldoctest
 julia> if 1
@@ -76,7 +80,7 @@ julia> if 1
 ERROR: TypeError: non-boolean (Int64) used in boolean context
 ```
 
-The `if` blocks do not introduce a [local scope](https://docs.julialang.org/en/v1/manual/variables-and-scoping/), i.e., it is possible to introduce a new variable inside the `if` block and used this variable outside the block
+The `if` blocks do not introduce a [local scope](https://docs.julialang.org/en/v1/manual/variables-and-scoping/), i.e., it is possible to introduce a new variable inside the `if` block and use this variable outside the block.
 
 ```jldoctest conditions
 julia> x, y = 2, 1;
@@ -92,7 +96,7 @@ julia> z
 2
 ```
 
-However, it is necessary to ensure that the variable will always be declared in all cases in such cases.
+However, it is necessary to ensure that the variable is always declared in all cases.
 
 ```jldoctest conditions; output = false
 function compare(x, y)
@@ -108,7 +112,7 @@ end
 compare (generic function with 1 method)
 ```
 
-For example, the function defined above will work only for numbers, that are not equal
+The function defined above works only for numbers which are not equal.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
@@ -121,7 +125,7 @@ julia> compare(2.3, 2.3)
 ERROR: UndefVarError: z not defined
 ```
 
-Another a little bit unintuitive thing is that `if` blocks return values. This value is given by the last expression evaluated in the `if` block. It is possible to assign this value to a variable as follows
+The `if` blocks always return a value that equals the last expression evaluated within the `if` block. It is possible to assign this value to a new variable.
 
 ```jldoctest conditions; output = false
 function compare(x, y)
@@ -137,7 +141,7 @@ end
 compare (generic function with 1 method)
 ```
 
-In this case, the `z` variable is equal to `y` if `x < y` is true and to `x` otherwise
+In this case, `z` equals to `y` if `x < y`, and to `x` otherwise.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
@@ -155,7 +159,7 @@ julia> compare(2.3, 2.3)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a simple `fact` function that computes the factorial of the given number. Use the following function declaration
+Write the `fact(n)` function that computes the factorial of `n`. Use the following function declaration:
 
 ```julia
 function fact(n)
@@ -163,9 +167,9 @@ function fact(n)
 end
 ```
 
-Make sure that the input argument is a non-negative integer. For negative input arguments or arguments that can not be represented as an integer, the function should throw an error.
+Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.
 
-**Hint:** use recursion, the `isinteger` function and the `error` function.
+**Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written by `|`.
 
 ```@raw html
 </p></div>
@@ -173,10 +177,10 @@ Make sure that the input argument is a non-negative integer. For negative input 
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-We will split the solution into three cases:
-1. the given number `n` is smaller than zero or is not an integer.
-2. the given integer `n` is equal to zero, then the function returns `1`.
-3. the given integer `n` is larger than zero, then we use recursion.
+We split the solution into three cases:
+1. If `n` is smaller than zero or not an integer, we throw an error.
+2. If `n` is equal to zero, the function returns `1`.
+3. If `n` is a positive integer, we use recursion.
 
 ```jldoctest conditions_ex; output = false
 function fact(n)
@@ -193,7 +197,7 @@ end
 fact (generic function with 1 method)
 ```
 
-Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define a function's output.
+Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the function output.
 
 ```jldoctest conditions_ex
 julia> fact(4)
@@ -215,13 +219,13 @@ ERROR: argument must be non-negative integer
 
 ## Ternary operator
 
-The [ternary operator](https://en.wikipedia.org/wiki/%3F:) `?` is closely related to the `if-else` statement and can instead be used to decide between two options based on a single condition. The syntax is following
+The [ternary operator](https://en.wikipedia.org/wiki/%3F:) `?` is closely related to the `if-else` statement. It can instead be used to decide between two simple options. The syntax is the following:
 
 ```julia
 a ? b : c
 ```
 
-This expression can be read as follows: *if `a` is true, evaluate `b` otherwise evaluate `c`*. Note that white spaces around `?` and `:` are mandatory.
+which can be read as *if `a` is true, then evaluate `b`; otherwise, evaluate `c`*. The white spaces around `?` and `:` are mandatory.
 
 ```jldoctest
 julia> x, y = 2, 1;
@@ -233,16 +237,15 @@ x is greater than or equal to y
 In this case, there are two possibilities:
 - if `x < y` is true, then the string `"x is less than y"` is returned,
 - if `x < y` is false, then the string `"x is greater than or equal to y"` is returned.
-Since we wrapped the whole expression into the `println` function, the ternary operator's output is printed in the REPL.
+Since we wrapped the whole expression into the `println` function, the ternary operator output is printed.
 
 ## Short-circuit evaluation
 
-Julia provides a so-called Short-circuit evaluation that is similar to the conditional evaluation. The behavior is found in most imperative programming languages having the `&&` and `||` boolean operators. In a series of boolean expressions connected by these operators, only the minimum number of expressions are evaluated as are necessary to determine the final boolean value of the entire chain:
-- In the expression `a && b`, the subexpression `b` is only evaluated if `a` evaluates to true.
+Julia provides the so-called short-circuit evaluation which is similar to the conditional evaluation. The behaviour exists in most imperative programming languages having the `&&` and `||` boolean operators. In a series of boolean expressions connected by these operators, only the minimal number of expressions is evaluated  to determine the final boolean value of the entire chain:
+- In the expression `a && b`, the subexpression `b` is only evaluated if `a` evaluates true.
 - In the expression `a || b`, the subexpression `b` is only evaluated if `a` evaluates to false.
-Both `&&` and `||` associate to the right, but `&&` has higher precedence than `||` does.
 
-To investigate this behavior, let's define the following two functions
+To investigate this behavior, let's define the following two functions:
 
 ```jldoctest shortcirc; output = false
 t(x) = (println(x); true)
@@ -252,7 +255,7 @@ f(x) = (println(x); false)
 f (generic function with 1 method)
 ```
 
-The `t` function prints `x` and returns true. Similarly, the `f` function prints `x` and returns false. Using these two functions, we can easily find out which expressions are evaluated when using short-circuit evaluation.
+The `t` function prints `x` and returns true. Similarly, the `f` function prints `x` and returns false. Using these two functions, we can easily determine which expressions are evaluated when using short-circuit evaluation.
 
 ```jldoctest shortcirc
 julia> t(1) && println(2) # both expressions are evaluated
@@ -272,7 +275,7 @@ julia> f(1) || println(2) # both expressions are evaluated
 2
 ```
 
-In the same way, we can examine the behavior of various combinations of `&&` and `||` operators
+When multiple `&&` and `||` are chained together, `&&` has a higher precedence than `||`. For example, `a || b && c && d || e` is equivalent to `a || (b && c && d) || e`.
 
 ```jldoctest shortcirc
 julia> t(1) && t(2) || println(3) # the first two expressions are evaluated
@@ -317,7 +320,7 @@ true
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Rewrite the factorial function from the exercises in the first section. Use short-circuit evaluation to check if the given number is a non-negative integer and ternary operator for recursion.
+Rewrite the factorial function from the exercises above. Use the short-circuit evaluation to check if the given number is a non-negative integer and the ternary operator for recursion.
 
 ```@raw html
 </p></div>
@@ -325,7 +328,7 @@ Rewrite the factorial function from the exercises in the first section. Use shor
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately using short-circuit evaluation
+Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately by the short-circuit evaluation.
 
 ```julia
 function fact(n)
@@ -335,7 +338,7 @@ function fact(n)
 end
 ```
 
-However, it can be even simplified, if we combine `&&` and `||` operators as follows
+This can be further simplified by combining the `&&` and `||` operators.
 
 ```jldoctest shortcirc_ex; output = false
 function fact(n)
@@ -347,7 +350,7 @@ end
 fact (generic function with 1 method)
 ```
 
-Since `&&` has higher precedence than `||`, the first expression that is evaluated is `isinteger(n) && n >= 0`. The error is thrown only if this condition does not hold. We can easily check that this function works the same as the `fact` function from the first section
+Since `&&` has higher precedence than `||`, the error function is evaluated only if `isinteger(n) && n >= 0` is violated. We can then check that this function works the same as the `fact` function from above.
 
 ```jldoctest shortcirc_ex
 julia> fact(4)

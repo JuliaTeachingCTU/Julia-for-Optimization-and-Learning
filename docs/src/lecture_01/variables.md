@@ -1,6 +1,6 @@
 # Variables
 
-In Julia (as in other languages), a variable is a name that refers to a value. Contrary to languages like C or C++ and similar to Python or MATLAB, variables can be created without the type specification, i.e., a variable can be declared simply by using the `=` sign
+In Julia (as in other languages), a variable is a name that refers to a value. Contrary to languages like C or C++, and similarly to Python or MATLAB, variables can be created without type specification, i.e., a variable can be declared simply by using the `=` sign
 
 ```jldoctest var_declaration
 julia> x = 2
@@ -92,7 +92,7 @@ Complex{Float64}
 
 ## Primitive numeric types
 
-There is a vast amount of types in Julia. In fact, every object in Julia has its type. As an example, we can mention the hierarchy of primitive numeric types
+There are many types in Julia. In fact, every object in Julia has its type. As an example, we can mention the hierarchy of primitive numeric types
 
 ![](types.svg)
 
@@ -168,7 +168,7 @@ ERROR: syntax: unexpected "="
 [...]
 ```
 
-In many cases, it is beneficial to have the choice to use special symbols as variable names. It may increase the code's readability, especially when the user needs to implement some mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can confuse.
+In many cases, it is beneficial to have the choice to use special symbols as variable names. It may increase the code's readability, especially when the user needs to implement mathematical algorithms, where it is common to use the greek alphabet. However, excessive use of special symbols can be confusing.
 
 ```@raw html
 <div class = "info-body">
