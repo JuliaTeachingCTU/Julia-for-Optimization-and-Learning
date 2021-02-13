@@ -144,11 +144,11 @@ julia> π
 However, if the user tries to use a variable name that corresponds to a built-in constant or function already in use, Julia will throw an error
 
 ```jldoctest
-julia> π
-π = 3.1415926535897...
+julia> ℯ
+ℯ = 2.7182818284590...
 
-julia> π = 2
-ERROR: cannot assign a value to variable MathConstants.π from module Main
+julia> ℯ = 2
+ERROR: cannot assign a value to variable MathConstants.ℯ from module Main
 [...]
 ```
 
