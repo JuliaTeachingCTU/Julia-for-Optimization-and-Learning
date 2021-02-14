@@ -57,7 +57,7 @@ lecture_04 = [
 ]
 
 lecture_05 = [
-    "Composite Types" => "./lecture_05/compositetypes.md",
+    "Type system" => "./lecture_05/compositetypes.md",
     "Generic Programming" => "./lecture_05/currencies.md",
 ]
 
@@ -120,7 +120,7 @@ makedocs(;
         "2: Control flow" => lecture_02,
         "3: Functions and methods" => lecture_03,
         "4: Packages" => lecture_04,
-        "5: Custom types" => lecture_05,
+        "5: Type system and generic programming" => lecture_05,
         "6: Modules and packages" => lecture_06,
         "Final Project" => finalproject,
         "7: Optimization" => lecture_07,
