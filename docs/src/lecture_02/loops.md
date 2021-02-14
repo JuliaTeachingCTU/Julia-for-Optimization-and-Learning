@@ -1,7 +1,13 @@
-## `for` and `while` loop
-As in other languages, Julia supports two basic constructs for repeated evaluation: the `while` and` for` loops. Loops are useful when we want to repeat some computation multiple times with different values. A typical example is performing operations on array elements.
+# Loops
 
-The `while` loop evaluates the condition expression, and as long it remains `true`, keeps also evaluating the body of the `while` loop. If the condition expression is `false` when the while loop is first reached, the body is never evaluated
+While `if` conditions are evaluated only once, loops are assessed multiple times.
+
+
+## `for` and `while` loops
+
+As in other languages, Julia supports two basic constructs for repeated evaluation: `while` and` for` loops. Loops are useful to repeat the same computation multiple times with different values. A typical example is performing operations on array elements.
+
+The `while` loop evaluates the condition, and as long it remains `true`, it evaluates the body of the `while` loop. If the condition is `false`, the while loop is terminated. If the condition is `false` before the first iteration, the whole `while` loop is skipped.
 
 ```jldoctest
 julia> i = 1
@@ -18,7 +24,7 @@ i = 4
 i = 5
 ```
 
-The `@show` macro used in the example above takes an expression and prints the expression and its result. It can also be used to print multiple variables at once
+The `@show` macro in this example prints the results of an expression. It can also be used to print multiple variables at once.
 
 ```jldoctest
 julia> a, b, c = 1, "hello", :world;
@@ -27,7 +33,7 @@ julia> @show (a, b, c);
 (a, b, c) = (1, "hello", :world)
 ```
 
-The `for` loops can be created similarly as in Matlab. In the following example, we iterate over the range of integers from 1 to 10, and in each iteration, we use the `@show` macro to print the current value of the variable `i`
+The `for` loops are created similarly to Matlab. The following example iterates over all integers from 1 to 5, and in each iteration, we use the `@show` macro to print the current value of the variable `i`.
 
 ```jldoctest
 julia> for i in 1:5
@@ -45,7 +51,7 @@ i = 5
 <header class = "info-header">An alternative notation for <code>for</code> loops</header><p>
 ```
 
-There are two alternative notations for the `for` loop. It is possible to use  the `=` or `∈` symbol instead of the `in` keyword
+There are two alternative notations for the `for` loop. It is possible to use the `=` or `∈` symbol instead of the `in` keyword.
 
 ```jldoctest
 julia> for i = 1:5
@@ -58,13 +64,13 @@ i = 4
 i = 5
 ```
 
-However, it is better to use the `in` keyword to improve the code's readability or be consistent and use the same keyword in all `for` loops.
+However, it is better to use the `in` keyword to improve code readability. Regardless of which notation is used, it is essential to be consistent and use the same notation in all `for` loops.
 
 ```@raw html
 </p></div>
 ```
 
-In Julia (similarly to Python), it is possible to loop not only over ranges but over any iterable object. For example, it is possible to loop over arrays or tuples. This possibility is advantageous because it allows us to get elements of iterable objects directly without having to use indexes
+In Julia (similarly to Python), it is possible to loop not only over ranges but over any iterable object such as arrays or tuples. This is advantageous because it allows getting elements of iterable objects directly without using indices.
 
 ```jldoctest
 julia> persons = ["Alice", "Bob", "Carla", "Daniel"];
@@ -78,7 +84,7 @@ Hi, my name is Carla.
 Hi, my name is Daniel.
 ```
 
-It is also possible to iterate over other data structures. For example, we can iterate over dictionaries. In such a case, in each iteration, we get a tuple of the key and corresponding value
+It is also possible to iterate over other data structures such as dictionaries. In such a case, we get a tuple of the key and the corresponding value in each iteration.
 
 ```jldoctest
 julia> persons = Dict("Alice" => 10, "Bob" => 23, "Carla" => 14, "Daniel" => 34);
@@ -97,7 +103,7 @@ Hi, my name is Bob and I am 23 old.
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Use `for` or `while` loop to print integers from `1` to `100`.  Use conditions to print only the integers divisible by `3` and `7` simultaneously.
+Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both ``3`` and ``7``.
 
 **Hint:** use the `mod` function.
 
@@ -107,7 +113,7 @@ Use `for` or `while` loop to print integers from `1` to `100`.  Use conditions t
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The first thing that we have to do is to check if the given integer is divisible by `3` and `7` simultaneously. It can be done using the `mod` function in combination with the `if-else` statement as follows
+First, we need to check if a given integer is divisible by both `3` and `7`. This can be performed using the `mod` function in combination with the `if-else` statement as follows:
 
 ```jldoctest
 julia> i = 21
@@ -129,7 +135,7 @@ julia> mod(i, 3) == mod(i, 7) == 0 && println("$(i) is divisible by 3 and 7")
 21 is divisible by 3 and 7
 ```
 
-When we know how to check the given conditions, it is easy to write a `for` loop to iterate over integers from `1` to `100` as follows
+When we know how to check the conditions, it is easy to write a `for` loop to iterate over integers from `1` to `100`.
 
 ```jldoctest
 julia> for i in 1:100
@@ -146,7 +152,7 @@ A `while` loop can be created in a similar way
 ```jldoctest
 julia> i = 0;
 
-julia> while i < 100
+julia> while i <= 100
            i += 1
            mod(i, 3) == mod(i, 7) == 0 && @show i
        end
@@ -156,13 +162,15 @@ i = 63
 i = 84
 ```
 
+The `for` loop should be used here because the range is known before-hand and unlike the `while` loop, it does not require to initialize `i`.
+
 ```@raw html
 </p></details>
 ```
 
 ### `break` and `continue`
 
-It is sometimes useful to stop the `for` loop based on some condition. It can be done using the `break` keyword. In the following example, the loop iterates over the range from 1 to 10 and breaks when `i == 4`, i.e., only the first four numbers are printed
+Sometimes it is useful to stop the `for` loop when some condition is satisfied. This is done by the `break` keyword. In the following example, the loop iterates over the range from 1 to 10 and breaks when `i == 4`, i.e., only the first three numbers are printed.
 
 ```jldoctest
 julia> for i in 1:10
@@ -174,7 +182,7 @@ i = 2
 i = 3
 ```
 
-Another useful feature is to skip some elements. It can be done using the `continue` keyword. For example, the following code prints all even numbers from 1 to 10
+Another useful feature is to skip elements done by the `continue` keyword. The following code prints all even numbers from 1 to 10.
 
 ```jldoctest
 julia> for i in 1:10
@@ -188,14 +196,14 @@ i = 8
 i = 10
 ```
 
-Note that the code after the `continue` keyword expression is not evaluated.
+The code after the `continue` keyword is not evaluated.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Rewrite the code from the exercise in the section above. Use the combination of the `while` loop and keywords `continue` to print integers from `1` to `100` divisible by by `3` and `7` simultaneously. In the declaration of the `while` loop use the `true` value instead of a condition. Use the `break` keyword and proper condition to terminate the loop.
+Rewrite the code from the exercise above. Use a combination of the `while` loop and the keyword `continue` to print all integers between `1` and `100` divisible by both `3` and `7`. In the declaration of the `while` loop use the `true` value instead of a condition. Use the `break` keyword and a proper condition to terminate the loop.
 
 ```@raw html
 </p></div>
@@ -203,7 +211,7 @@ Rewrite the code from the exercise in the section above. Use the combination of 
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-If we use the `true` value in the declaration of the` while` loop, we will create an infinite loop, and it is necessary to end it in the loop with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers from 1 to 100, the correct termination condition is` i> 100`
+The `true` value creates an infinite loop. It is necessary to end it with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
 
 ```jldoctest
 julia> i = 0;
@@ -220,7 +228,7 @@ i = 63
 i = 84
 ```
 
-Note that we use short-circuit evaluation to break the loop. To check the given integer's divisibility, we use the same condition as in the exercise above. However, we use `||` instead of `&&` because we want to use the `continue` keyword.
+We used the short-circuit evaluation to break the loop. To check that the integer is divisible, we use the same condition as before. However, we must use `||` instead of `&&` because we want to use the `continue` keyword.
 
 ```@raw html
 </p></details>
@@ -228,7 +236,7 @@ Note that we use short-circuit evaluation to break the loop. To check the given 
 
 ### Nested loops
 
-In Julia, Nested loops can be created in a standard way as in other languages
+Julia creates nested loops in the same way as other languages.
 
 ```jldoctest
 julia> for i in 1:3
@@ -244,7 +252,7 @@ julia> for i in 1:3
 (i, j) = (3, 3)
 ```
 
-Note that the inner loop range depends on the variable `i` from the outer loop. This style of writing nested loops is typical in other languages and is very useful. However, in Julia, it is possible to use an even shorter syntax
+The range of the inner loop depends on the variable `i` from the outer loop. This style of writing nested loops is typical in other languages. Julia allows for an additional shorter syntax:
 
 ```jldoctest
 julia> for i in 1:3, j in i:3
@@ -258,7 +266,7 @@ julia> for i in 1:3, j in i:3
 (i, j) = (3, 3)
 ```
 
-In this case, the output is the same as in the previous example, but this syntax is not equivalent to the previous one. The main difference is when using the `break` keyword. If we use the first syntax, the `break` keyword inside an inner loop exits only the inner loop.
+Even though the output is the same, this syntax is not equivalent to the previous one. The main difference is when using the `break` keyword. If we use it for the first syntax, it breaks only the inner loop while if we use it in the second syntax, it breaks both loops.
 
 ```jldoctest
 julia> for i in 1:3
@@ -273,11 +281,7 @@ julia> for i in 1:3
 (i, j) = (2, 2)
 (i, j) = (2, 3)
 (i, j) = (3, 3)
-```
 
-However, if we use the shorter syntax, the `break` keyword inside an inner loop exits the entire nested loops
-
-```jldoctest
 julia> for i in 1:3, j in i:10
            j > 3 && break
            @show (i, j)
@@ -287,22 +291,22 @@ julia> for i in 1:3, j in i:10
 (i, j) = (1, 3)
 ```
 
-There are other limitations of the shorter syntax. For example, it is not possible to perform any operation outside the inner loop. Nevertheless, it is still a very useful syntax in many cases.
+There are other limitations of the shorter syntax, such as the impossibility to perform any operation outside the inner loop. Nevertheless, it is a useful syntax in many cases.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Use nested loops to create a matrix with elements given by the following formula
+Use nested loops to create a matrix with elements given by the formula
 
 ```math
-A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\}
+A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\},
 ```
 
-where ``x \in \{0.4, 2.3, 4.6\}``, ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
+where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 
-**Bonus:** try to create the same matrix in a more effective way.
+**Bonus:** create the same matrix in a more effective way.
 
 ```@raw html
 </p></div>
@@ -310,7 +314,7 @@ where ``x \in \{0.4, 2.3, 4.6\}``, ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Firstly, we have to define vectors `x` and `y`
+First, we have to define vectors `x` and `y`:
 
 ```jldoctest nestedloops_ex; output = false
 x = [0.4, 2.3, 4.6]
@@ -324,7 +328,7 @@ y = [1.4, -3.1, 2.4, 5.2]
   5.2
 ```
 
-If we want to use nested loops, we have to create an empty array of the proper size and element type
+We have to create an empty array of the proper size and element type to use nested loops.
 
 ```jldoctest nestedloops_ex; output = false
 A = zeros(Float64, length(x), length(y))
@@ -336,7 +340,7 @@ A = zeros(Float64, length(x), length(y))
  0.0  0.0  0.0  0.0
 ```
 
-In this case, the element type specification can be omitted since the elements will be of type `Float64`, which is a default type for the `zeros` function. Now we have to use proper indexes since we want to fill the `A` array. In this case, we get the indexes `1:3` for the vector `x` and `1:4` for the vector `y`. Altogether, we get the following nested `for` loops
+The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:3` for `x` and `1:4` for `y`.
 
 ```jldoctest nestedloops_ex
 julia> for i in 1:length(x), j in 1:length(y)
@@ -350,7 +354,7 @@ julia> A
  7382.39      161.072       1104.17      0.0264329
 ```
 
-However, there are more efficient ways how to create this array in Julia. The one way is to use broadcasting. It can be done as follows
+There are more efficient ways to create this array. The one way is to use broadcasting.
 
 ```jldoctest nestedloops_ex
 julia> y_row = y'
@@ -364,7 +368,9 @@ julia> A = @. exp((x^2 - y_row^2)/2)/2
  7382.39      161.072       1104.17      0.0264329
 ```
 
-Note that we use `y'`, which indicates the transposition of the vector `y`, i.e.,  the resulting array represents a row vector. Also, note that we use the `@ .` macro to perform all operations elementwise.  The third way to create the same matrix is to use a list comprehension, and we will discuss it in the next section.
+We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and the transposed `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
+
+The third way to create this matrix is to use list comprehension. Due to its importance, we dedicate a whole section to it.
 
 ```@raw html
 </p></details>
@@ -372,13 +378,13 @@ Note that we use `y'`, which indicates the transposition of the vector `y`, i.e.
 
 ## List comprehension
 
-As we mentioned in the exercise's solution above, one way to create an array with prescribed elements is to use list comprehension. Comprehensions provide a general and powerful way to construct arrays, and the syntax is similar to set construction notation in mathematics
+As we mentioned in the last exercise, one way to create an array with prescribed elements is to use list comprehension. Comprehensions provide a general and powerful way to construct arrays, and the syntax is similar to the set construction notation from mathematics.
 
 ```julia
 A = [f(x, y, ...) for x in X, y in Y, ...]
 ```
 
-The previous example reads: the function `f` will be evaluated for each combination of elements of iterable objects  `X`, `Y`, etc. The result will be an `n`-dimensional array of size `(length(X), length(Y), ...)`. Returning to the previous exercise, we can create the required array as follows
+The previous example reads: the function `f` will be evaluated for each combination of elements of iterable objects  `X`, `Y`, etc. The result will be an `n`-dimensional array of size `(length(X), length(Y), ...)`. Returning to the previous exercise, we can create the required array as follows:
 
 ```jldoctest comprehension
 julia> X = [0.4, 2.3, 4.6];
@@ -392,7 +398,7 @@ julia> A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
  7382.39      161.072       1104.17      0.0264329
 ```
 
-Note that the resulting array type depends on the types of the computed elements. In order to control the type explicitly, a type can be prepended to the comprehension
+The resulting array type depends on the types of the computed elements. A type can be prepended to the comprehension to control the type explicitly.
 
 ```jldoctest comprehension
 julia> A = Float32[exp((x^2 - y^2)/2)/2 for x in X, y in Y]
@@ -402,7 +408,7 @@ julia> A = Float32[exp((x^2 - y^2)/2)/2 for x in X, y in Y]
  7382.39      161.072       1104.17      0.0264329
 ```
 
-A handy feature is that it is possible to filter values when creating list comprehensions using the `if` keyword. However, in such a case, the result will always be a vector. In the example below, we create a vector of tuples `(x, y, x + y)`, where `x + y < 5`
+A handy feature is the possibility to filter values when creating list comprehensions by the `if` keyword. In such a case, the result will always be a vector. In the next example, we create a vector of tuples `(x, y, x + y)`, where `x + y < 5`.
 
 ```jldoctest
 julia> [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y < 5]
@@ -428,7 +434,7 @@ Use the list comprehension to create a vector of all integers from `1` to `100` 
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-We can use list comprehension with the same condition that we used in the exercise in the first section
+We can use list comprehension with the same condition that we used in the exercise in the first section.
 
 ```jldoctest compheresions_ex
 julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
@@ -439,7 +445,7 @@ julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
  84
 ```
 
-Then we can use the `sum` function to get their sum
+Then we can use the `sum` function to get their sum.
 
 ```jldoctest compheresions_ex
 julia> sum(v)
@@ -452,16 +458,22 @@ julia> sum(v)
 
 ## Generator expressions
 
-List comprehensions can also be written without enclosing square brackets, producing an object known as a generator. This object can be iterated to produce values on demand instead of allocating an array and storing them in advance. For example, the following expression sums a series without allocating memory.
+List comprehensions can also be written without the enclosing square brackets. This produces an object known as a generator. When iterating over a generator, the values are generated on demand instead of pre-allocating an array. For example, the following expression sums a series without allocating the full array in memory.
 
 ```jldoctest
 julia> sum(1/n^2 for n in 1:1000)
 1.6439345666815615
 ```
 
-It is possible to write nested list comprehensions and generators. The syntax is similar to writing nested loops
+It is possible to write nested list comprehensions and generators. The syntax is similar to writing nested loops.
 
 ```jldoctest
+julia> [(i,j) for i in 1:3, j in 1:2]
+3×2 Array{Tuple{Int64,Int64},2}:
+ (1, 1)  (1, 2)
+ (2, 1)  (2, 2)
+ (3, 1)  (3, 2)
+
 julia> [(i,j) for i in 1:3 for j in 1:2]
 6-element Array{Tuple{Int64,Int64},1}:
  (1, 1)
@@ -483,7 +495,7 @@ julia> collect(gen)
  (3, 2)
 ```
 
-Iterables may still refer to outer loop variables. However, in such a case, it is necessary to use the `for` keyword before each iterable statement, and the result will be a vector
+Iterables may refer to outer loop variables. However, in such a case, it is necessary to use the `for` keyword before each iterable statement, and the result will be a vector.
 
 ```jldoctest
 julia> gen = ((i,j) for i in 1:3 for j in 1:i);
@@ -498,7 +510,7 @@ julia> collect(gen)
  (3, 3)
 ```
 
-Generated values can also be filtered using the `if` keyword.  Similarly to list comprehensions, the result in such a case will be a vector
+Generated values can also be filtered using the `if` keyword.  Similarly to list comprehensions, the result in such a case is a vector.
 
 ```jldoctest
 julia> gen = ((i,j) for i in 1:3 for j in 1:i if i+j == 4);
@@ -522,16 +534,17 @@ Use a generator to sum the square of all integers from `1` to `100`, which are d
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-There are two ways how to solve the exercise. We can create a generator first and then use the `sum` function to get the result
+There are two ways how to solve this exercise. The first one creates a generator and then uses the `sum` function.
 
 ```jldoctest
-julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0);
+julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
+Base.Generator{Base.Iterators.Filter{var"#2#4",UnitRange{Int64}},var"#1#3"}(var"#1#3"(), Base.Iterators.Filter{var"#2#4",UnitRange{Int64}}(var"#2#4"(), 1:100))
 
 julia> sum(gen)
 13230
 ```
 
-or we can use the shorter syntax that allows us to write a generator inside the `sum` function
+It is worth noting that `gen` is a `Generator` object and not an array. The second way uses the shorter syntax that allows us to write a generator inside the `sum` function.
 
 ```jldoctest compheresions_ex
 julia> sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
@@ -544,18 +557,14 @@ julia> sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
 
 ## Iterators
 
-Many structures are iterable in Julia. However, in many cases, it is not sufficient to iterate only over elements of a structure. Imagine the situation that we have the following array and we want to iterate over all its elements
+Many structures are iterable in Julia. However, it is not sufficient to iterate only over elements of a structure in many cases. Consider the situation when we have the following array, and we want to iterate over all its elements and print all indices and the corresponding values.
 
 ```jldoctest iterators
 julia> A = [2.3 4.5; 6.7 7.1]
 2×2 Array{Float64,2}:
  2.3  4.5
  6.7  7.1
-```
 
-Additionally, in each iteration, we want to print the index and the corresponding value. It can be done in the following way
-
-```jldoctest iterators
 julia> for i in 1:length(A)
            println("i = $(i) and A[i] = $(A[i])")
        end
@@ -565,7 +574,7 @@ i = 3 and A[i] = 4.5
 i = 4 and A[i] = 7.1
 ```
 
-However, there is an even simpler way. We can do the same using the `enumerate` function that returns an iterator (an iterable object that can be iterated in for loops). It will produce couples of the form `(i, x[i])`
+There is an even more straightforward way. We can do the same using the `enumerate` function that returns an iterator (an iterable object that can be iterated in for loops). It produces couples of the form `(i, x[i])`.
 
 ```jldoctest iterators
 julia> for (i, val) in enumerate(A)
@@ -577,7 +586,7 @@ i = 3 and A[i] = 4.5
 i = 4 and A[i] = 7.1
 ```
 
-Other very useful functions return iterators. For example, the `eachcol` function returns an iterator that will iterate over columns of the given matrix
+Other beneficial functions return iterators. For example, the `eachcol` function returns an iterator that iterates over matrix columns.
 
 ```jldoctest iterators
 julia> for col in eachcol(A)
@@ -587,7 +596,7 @@ col = [2.3, 6.7]
 col = [4.5, 7.1]
 ```
 
-Similarly, the `eachrow` function returns an iterator that will iterate over the given matrix's rows. A convenient function is the `zip` function, which can zip together multiple iterable objects and iterate over them simultaneously
+Similarly, `eachrow` returns an iterator that iterates over matrix rows. Another convenient function is the `zip` function, which zips together multiple iterable objects and iterates over them simultaneously.
 
 ```jldoctest
 julia> for (i, j, k) in zip([1, 4, 2, 5], 2:12, (:a, :b, :c))
@@ -598,9 +607,7 @@ julia> for (i, j, k) in zip([1, 4, 2, 5], 2:12, (:a, :b, :c))
 (i, j, k) = (2, 4, :c)
 ```
 
-Note that in this case, the iterable objects can be of different lengths. However, the iterator returned by the `zip` function will have the same length as the shortest of the input iterable objects
-
-It is also possible to combine these handy functions to get an even more useful iterator.
+In this case, the iterable objects were of different lengths. The iterator returned by the `zip` function will have the same length as the shortest of its inputs. It is also possible to combine these handy functions.
 
 ```jldoctest
 julia> for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
@@ -623,9 +630,9 @@ A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad 
 ```
 
 where ``x \in \{0.4, 2.3, 4.6\}``, ``y \in \{1.4, -3.1, 2.4, 5.2\}``. Compute the sum of all elements in each row and print the following message:
-> *Sum of all elements in a row `i` is `i_sum`*,
+> *Sum of all elements in a row `i` is `i_sum`*
 where `i` represents row's number and `i_sum` the sum of all elements in this row. Do the same for each column and print the following message:
-> *Sum of all elements in a column `i` is `i_sum`*,
+> *Sum of all elements in a column `i` is `i_sum`*
 
 **Hint:** use iterators `eachcol` and `eachrow`.
 
@@ -635,7 +642,7 @@ where `i` represents row's number and `i_sum` the sum of all elements in this ro
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Firstly we have to generate the matrix `A`. It can be done using list comprehension as follows
+First, we have to generate the matrix `A`. It can be done using list comprehension as follows:
 
 ```jldoctest iterators_ex; output = false
 X = [0.4, 2.3, 4.6]
@@ -649,7 +656,7 @@ A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
  7382.39      161.072       1104.17      0.0264329
 ```
 
-To compute the sum of each row and print the appropriate message, we can use a combination of the `enumerate` and `eachrow` functions
+To compute the sum of each row and print the appropriate message, we use the combination of `enumerate` and `eachrow` functions.
 
 ```jldoctest iterators_ex
 julia> for (i, row) in enumerate(eachrow(A))
@@ -660,7 +667,7 @@ Sum of all elements in a row 2 is 3.0957940729669864
 Sum of all elements in a row 3 is 8647.66342895583
 ```
 
-Similarly, to compute the sum of each column and print the appropriate message, we can use a combination of the `enumerate` and `eachcol` functions
+Similarly, to compute the sum of each column and print the appropriate message, we use the combination of `enumerate` and `eachcol` functions.
 
 ```jldoctest iterators_ex
 julia> for (i, row) in enumerate(eachcol(A))

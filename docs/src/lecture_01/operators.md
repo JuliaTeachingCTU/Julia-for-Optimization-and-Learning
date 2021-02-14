@@ -37,9 +37,9 @@ julia> (x + 2)/(y - 1) - 4*(x - 2)^2
 -2.5
 ```
 
-Note that we use a semicolon after some expressions. In the REPL, if we evaluate any expression, its result is printed. If we use the semicolon, the print is omitted. It is similar behavior as in Matlab, but in Julia, the print is automatic only in the REPL.
+Note that we use a semicolon after some expressions. In the REPL, if we evaluate any expression, its result is printed. If we use the semicolon, the output is omitted. It is similar behaviour as in Matlab, but in Julia, the printing is automatic only in the REPL.
 
-A numeric literal placed directly before an identifier or parentheses is treated as a multiplication (except with higher precedence than other binary operations)
+A numeric literal placed directly before an identifier or parentheses is treated as multiplication
 
 ```jldoctest
 julia> 2(3 + 4) # equivalent to 2*(3 + 4)
@@ -51,7 +51,7 @@ julia> 2(3 + 4) # equivalent to 2*(3 + 4)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-What is the value and type of `y` given by the following expression
+Determine the value and type of `y` given by the following expression
 
 ```math
 y = \frac{(x + 2)^2 - 4}{(x - 2)^{p - 2}},
@@ -115,7 +115,7 @@ Int64
 
 ## Promotion system
 
-As said in the section about [variables](@ref Primitive-numeric-types), there are many numeric types in Julia. To ensure that the correct type is always used, Julia has a promotion system that converts input values of mixed types to a type that can correctly represent all values. The promotion of mixed type variables can be done manually using the `promote` function. As an example, we can mention the promotion of multiple numeric types
+The section about [variables](@ref Primitive-numeric-types) showed that there are many numeric types in Julia. To ensure that the correct type is always used, Julia has a promotion system that converts input values of mixed types to a type that can correctly represent all values. The promotion of mixed type variables can be done manually using the `promote` function. As an example, we can mention the promotion of multiple numeric types
 
 ```jldoctest promotion
 julia> x = 1.0 # Float64
@@ -138,9 +138,9 @@ julia> typeof(yp)
 Float64
 ```
 
-Even though strictly, not all `Int64` values can be represented exactly as `Float64` values. The promotion system generally tries to return a type that approximates most values of either input type without excessively widening.
+Strictly speaking, not all `Int64` values can be represented exactly as `Float64` values. The promotion system generally tries to return a type that approximates well most values of either input type.
 
-Note that the `promote` function will accept any number of input arguments
+The `promote` function accepts any number of input arguments
 
 ```jldoctest
 julia> promote(1, 2f0, true, 4.5, Int32(1))
@@ -179,7 +179,7 @@ Float32
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-What type can represent the following values correctly
+All of these values represent number ``1``. Determine the smallest type which can represent them.
 
 ```jldoctest promotion3; output = false
 x = 1
@@ -197,7 +197,7 @@ w = Int32(1)
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-To get the correct promotion type, we can use a combination of the `promote` and `typeof` function
+To get the correct promotion type, we can use a combination of the `promote` and `typeof` functions
 
 ```jldoctest promotion3
 julia> xp, yp, zp, wp = promote(x, y, z, w)
@@ -207,7 +207,7 @@ julia> typeof(xp)
 Float32
 ```
 
-of  the `promote_type` and `typeof` function
+or the `promote_type` and `typeof` functions
 
 ```jldoctest promotion3
 julia> promote_type(typeof(x), typeof(y), typeof(z), typeof(w))
@@ -304,7 +304,7 @@ In addition to arithmetic and updating operators, basic comparison operators are
 | `&`       | bitwise and              |
 | `\|`      | bitwise or               |
 
-All these operators always return a boolean value (`true` or `false`), as can be seen in the following example
+All these operators always return a boolean value (`true` or `false`) as the following example shows
 
 ```jldoctest
 julia> 1 == 1
@@ -361,9 +361,9 @@ julia> 1 < 2 <= 2 < 3 == 3 > 2 >= 1 == 1 < 3 != 5
 true
 ```
 
-In general, the user should always try to write code that is easy to read. So writing expressions as in the example above is possible, however, the user always should consider if it is necessary.
+In general, the user should always try to write code that is easy to read. Even though writing expressions as in the example above is possible, the user should always consider if it is necessary.
 
-Comparison of special values such as `NaN` can lead to unexpected behavior
+Comparison of special values such as `NaN` can lead to unexpected behaviour
 
 ```jldoctest
 julia> NaN == NaN
@@ -395,7 +395,7 @@ julia> !isequal(NaN, NaN)
 false
 ```
 
-Note that we use the following operator `!` to negate the output of the `isequal` function in the example above. This operator is called boolean not and can be used to negate boolean values
+We used the operator `!` to negate the output of the `isequal` function in the example above. This operator is called boolean not and can be used to negate boolean values
 
 ```jldoctest
 julia> !true
@@ -416,7 +416,7 @@ Julia provides several functions for rounding numbers, as can be seen in the fol
 | `ceil(x)`  | round `x` towards `+Inf`        |
 | `trunc(x)` | round `x` towards `zero`        |
 
-All these functions can be used without a specified output type. In such a case, the output will have the same type as the input variable
+These functions can be used without specifying output types. In such a case, the output has the same type as the input variable
 
 ```jldoctest rounding
 julia> x = 3141.5926
@@ -432,7 +432,7 @@ julia> ceil(x)
 3142.0
 ```
 
-However, in many cases, it makes sense to convert the rounded value to a different type. For example, if the rounded value can be represented as an integer, it makes sense to convert the rounded value to an integer. The output type (only subtypes of `Integer` with exception of `Bool`) can be passed as the first argument to all rounding functions from the table above
+However, in many cases, it makes sense to convert the rounded value to a different type. For example, if the rounded value can be represented as an integer, it makes sense to convert the rounded value to an integer. The output type (only subtypes of `Integer` with the exception of `Bool`) can be passed as the first argument to all rounding functions from the table above
 
 ```jldoctest rounding
 julia> round(Int64, x)
@@ -513,7 +513,7 @@ julia> round(x; sigdigits = 3)
 
 ## Numerical Conversions
 
-As shown in the previous section, the numerical conversion can be done using rounding functions with a specified type of output variable. However, it only works for converting floating-point numbers to integers. Julia also provides a more general way how to perform a conversion between different (not only numerical): the notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
+The previous section showed that numerical conversions could be done by using rounding functions with a specified type of output variable. This works only for converting floating-point numbers to integers. Julia also provides a more general way of how to perform conversions between different (not only numerical) types: notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
 - If `T` is a floating-point type, the result is the nearest representable value, which could be positive or negative infinity
 
 ```jldoctest
@@ -574,7 +574,7 @@ julia> x + y
 0.8333333333333333
 ```
 
-The result of such an operation is a floating-point number. However, in this specific case, we have a rational number and floating-point number that can also be represented as a rational number. So the exact result can be obtained by converting the variable `y` to a rational number
+The result of this operation is a floating-point number. However, in this specific case, we have a rational number and a floating-point number that can also be represented as a rational number. The exact result can be obtained by converting the variable `y` to a rational number
 
 ```jldoctest conversion_ex
 julia> x + Rational(y)
