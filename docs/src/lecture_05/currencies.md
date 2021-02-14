@@ -584,11 +584,14 @@ Dollar(1.3) / 2
 
 ## Currency comparison
 
-```@example currency
-Base.:<(x::Currency, y::Currency) = <(promote(x, y)...)
-Base.:<(x::T, y::T) where {T <: Currency} = <(x.value, y.value)
-nothing # hide
+The last thing we should define are comparison operators. To provide the full functionality of all comparison operators we have to add new methods to two functions. The first one is value equality operator `==`. By default, the following definition is used `==(x, y) = x === y`. The `===` operator determines whether `x` and `y` are identical, in the sense that no program could distinguish them.
+
+```@repl currency
+Dollar(1) == Euro(0.83)
+Dollar(1) != Euro(0.83)
 ```
+
+Note that the result does not match the expected behavior since the `0.83 €` is equal to `1 $` with the given exchange rate. The reason is, that we want to compare values stored in the structures and not the structures themselves. To allow this kind of comparison, we can define new methods to the `==` function as follows
 
 ```@example currency
 Base.:(==)(x::Currency, y::Currency) = ==(promote(x, y)...)
@@ -596,13 +599,37 @@ Base.:(==)(x::T, y::T) where {T <: Currency} = ==(x.value, y.value)
 nothing # hide
 ```
 
+With these two methods defined, the comparison works as expected
+
+```@repl currency
+Dollar(1) == Euro(0.83)
+Dollar(1) != Euro(0.83)
+```
+
+Another function that we have to extend is the `isless` function. The logic, in this case, is the same as before: we want to compare values stored in the structure
+
+```@example currency
+Base.isless(x::Currency, y::Currency) = isless(promote(x, y)...)
+Base.isless(x::T, y::T) where {T <: Currency} = isless(x.value, y.value)
+nothing # hide
+```
+
+As can be seen below, all operations work as intended
+
 ```@repl currency
 Dollar(1) < Euro(0.83)
 Dollar(1) > Euro(0.83)
 Dollar(1) <= Euro(0.83)
 Dollar(1) >= Euro(0.83)
-Dollar(1) == Euro(0.83)
-Dollar(1) != Euro(0.83)
+```
+
+Moreover, also other functions work for all subtypes of the `Currency` type immediately without any additional changes
+
+```@repl currency
+vals = Currency[CzechCrown(100), Euro(0.83),  Pound(3.6), Dollar(1.2)]
+extrema(vals)
+argmin(vals)
+sort(vals)
 ```
 
 ## Back to bank account
@@ -677,46 +704,42 @@ b.transaction
 
 ## Extension
 
+```@example currency
+Base.delete_method.(methods(rate))
+```
 
 ```@example currency
 const ExchangeRates = Dict{String, Float64}()
 
-function exchangerate(T::Type{<:Currency}, C::Type{<:Currency})
+function rate(T::Type{<:Currency}, C::Type{<:Currency})
     key = string(nameof(T), "->", nameof(C))
     haskey(ExchangeRates, key) || error("exchange rate not defined")
     return ExchangeRates[key]
 end
 
-function addexchangerate(T::Type{<:Currency}, C::Type{<:Currency}, r::Real)
+function addrate(T::Type{<:Currency}, C::Type{<:Currency}, r::Real)
     key = string(nameof(T), "->", nameof(C))
     ExchangeRates[key] = r
     return
 end
 ```
 
-
 ```@example currency
-Base.convert(T::Type{<:Currency}, c::C) where {C<:Currency} = T(c.value * exchangerate(T, C))
-nothing # hide
-```
+addrate(Euro, Dollar, 0.82)
+addrate(Euro, Pound, 1.14)
+addrate(Euro, CzechCrown, 0.039)
 
+addrate(Dollar, Euro, 1.21)
+addrate(Dollar, Pound, 1.38)
+addrate(Dollar, CzechCrown, 0.047)
 
-```@example currency
-addexchangerate(Euro, Dollar, 0.82)
-addexchangerate(Euro, Pound, 1.14)
-addexchangerate(Euro, CzechCrown, 0.039)
+addrate(Pound, Euro, 0.88)
+addrate(Pound, Dollar, 0.72)
+addrate(Pound, CzechCrown, 0.034)
 
-addexchangerate(Dollar, Euro, 1.21)
-addexchangerate(Dollar, Pound, 1.38)
-addexchangerate(Dollar, CzechCrown, 0.047)
-
-addexchangerate(Pound, Euro, 0.88)
-addexchangerate(Pound, Dollar, 0.72)
-addexchangerate(Pound, CzechCrown, 0.034)
-
-addexchangerate(CzechCrown, Euro, 25.76)
-addexchangerate(CzechCrown, Dollar, 21.23)
-addexchangerate(CzechCrown, Pound, 29.33)
+addrate(CzechCrown, Euro, 25.76)
+addrate(CzechCrown, Dollar, 21.23)
+addrate(CzechCrown, Pound, 29.33)
 nothing # hide
 ```
 
