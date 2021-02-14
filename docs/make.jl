@@ -58,7 +58,6 @@ lecture_04 = [
 
 lecture_05 = [
     "Composite Types" => "./lecture_05/compositetypes.md",
-    "Constructors" => "./lecture_05/constructors.md",
     "Generic Programming" => "./lecture_05/currencies.md",
 ]
 
