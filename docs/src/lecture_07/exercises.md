@@ -10,9 +10,9 @@ Newton's method for unconstrained optimization replaces the optimization problem
 
 Implement Newton's method to minimize
 ```math
-f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
+f(x) = 2^{x_1^2 + x_2^2 - 1} + (x_1-1)^2
 ```
-with the starting point ``x^0=(0,-1)``.
+with the starting point ``x^0=(0,0)``.
 ```@raw html
 </p></div>
 ```   
