@@ -29,7 +29,7 @@ w = log_reg(X, y, zeros(size(X,2)))
 
 
 
-# Exercises
+# [Exercises](@id l8-exercises)
 
 ```@raw html
 <div class = "homework-body">

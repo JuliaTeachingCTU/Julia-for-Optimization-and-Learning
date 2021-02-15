@@ -20,9 +20,9 @@ The course's main requirement is to finish a small project of your choice. This 
 - Credits: 3
 - FJFI code: [01SUJ](http://bilakniha.cvut.cz/cs/predmet6606806.html)
 - Requirements for the course:
-    - Finish three [homeworks](@ref homeworks). Each homework is a short task.
+    - Finish three [homework](@ref homeworks). Each homework is a short task.
     - Finish one final [project](@ref project). Project is a more complex task, where you can choose the topic.
-- Grading: The attendance and homeworks are compulsory to pass the course. The final grade will be based solely on the project.
+- Grading: The attendance and homework are compulsory to pass the course. The final grade will be based solely on the project.
 - Teaching way: online via MS Teams. CTU students will be added automatically to a team after registering for the course in [KOS](https://www.kos.cvut.cz). Students from other universities should write us an email.
 
 
