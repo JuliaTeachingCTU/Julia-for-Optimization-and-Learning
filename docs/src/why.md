@@ -1,33 +1,33 @@
 # Why julia?
 
-There are a lot of established programming languages like Python, Matlab, R, or C. So when a new language is introduced, it is natural to ask, why should I learn this new language? What are the advantages and disadvantages of this language? In this section, we will try to introduce the major advantages and disadvantages of Julia and compare Julia to Python, Matlab, R, or C.
+There are many established programming languages like Python, Matlab, R, or C. When a new language is introduced, the natural question is why I should learn this new language. What are the advantages and disadvantages of this language? This section introduces significant advantages and disadvantages of Julia and compares it to Python, Matlab, R, and C.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Advantages:</header><p>
 ```
 
-- **Intuitive and flexible syntax:** Julia was designed to be easy to use and yet powerful. The result is, that Julia provides very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
-- **Performance:** Since Julia is a compiled language, the Julia code is generally faster than code written in pure Python or Matlab.  More details and examples are provided in the separate section below.
-- **Type system:** Similar to Matlab or Python, it is not necessary o use type annotation for variable or function input arguments. However, everything in Julia has its own type and thus it is possible to use type annotation to allow the compiler to optimize the code.
-- **Multiple dispatch:** Multiple-dispatch means that functions in Julia consist of multiple methods that differ in the number of input arguments and their type. When the function is called, the most specific method definition matching the number and types of the given arguments is executed. This allows defining for example general function `convert` that is used for all conversion operations, instead of using a special function names like `str2double` typically used in Matlab.
+- **Intuitive and flexible syntax:** Julia was designed to be easy to use and powerful at the same. Julia provides a very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
+- **Performance:** Since Julia is a compiled language, code in Julia is generally faster than code written in pure Python or Matlab. More details and examples are provided in the separate section below.
+- **Type system:** Like Matlab or Python, it is not necessary to use type annotations for variable or function input arguments. However, since everything in Julia has its own type, it is possible to use type annotation. This allows the compiler to optimize the code, and it can also prevent mistakes.
+- **Multiple dispatch:** Julia multiple dispatch means that one functions consist of multiple methods which may differ in the number of input arguments or their type. When a function is called, the most specific method definition matching the number and argument types is executed. This allows defining general functions such as `convert` for all conversion operations, instead of using specific function names like `str2double` typically used in Matlab.
 
 ```@raw html
 </p></div>
 ```
 
-To be as objective as possible we provide a list of disadvantages of Julia as well
+To be as objective as possible, we provide a list of Julia disadvantages.
 
 ```@raw html
 <div class = "theorem-body">
 <header class = "theorem-header">Disadvantages:</header><p>
 ```
 
-- **A limited number of packages:** Even though Julia grows rapidly and there are a large number of packages, it can not be compared to the number of available packages in Python or R. However, Julia provides a simple way how to interact with other languages. So if there is no adequate package in Julia, it is possible to use packages from other languages.
+- **A limited number of packages:** Even though Julia grows rapidly and there are many packages, it can not compete with the number of available packages in Python or R. However, Julia provides a simple way of interacting with other languages. If there is no adequate package in Julia, it is possible to use packages from other languages.
 
-- **Slow first run:** Since Julia uses just-in-time compilation, the first call of every function is slower due to compilation. This slowdown can be significant if multiple functions are called for the first time at once. Such a case is creating a plot in a fresh Julia session because packages for plotting are large and use a lot of functions.  It results in a long time to the first plot (~20 s with [Plots.jl](https://github.com/JuliaPlots/Plots.jl)).
+- **Slow first run:** Since Julia uses just-in-time compilation, the first call of every function is slower due to compilation. This slowdown can be significant if multiple functions are called for the first time. This includes creating a plot in a new Julia session because packages for plotting are large and use many functions. It results in a long time to the first plot (~20 s with [Plots.jl](https://github.com/JuliaPlots/Plots.jl)).
 
-- **Limited number of job opportunities:** Because Julia is a relatively new language, there is a limited number of job opportunities, especially compared to Python. On the other hand, there is a list of Julia users and Julia Computing customers on the official webpage of [Julia Computing](https://juliacomputing.com/) containing for example Amazon, Google, IBM, Intel and many others.
+- **Limited number of job opportunities:** Because Julia is a relatively new language, there is a limited number of job opportunities, especially compared to Python. On the other hand, there is a list of Julia users and Julia Computing customers on the official webpage of [Julia Computing](https://juliacomputing.com/) including Amazon, Google, IBM, Intel and many others.
 
 ```@raw html
 </p></div>
@@ -36,7 +36,7 @@ To be as objective as possible we provide a list of disadvantages of Julia as we
 
 ## Intuitive and flexible syntax
 
-Julia provides very intuitive and yet flexible syntax, that allows users to write relatively complicated functions in a simple and readable way. As an example, we can compare the definition of the function that computes the [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) in different languages. In Matlab, the naive implementation of such function is as follows
+Julia provides very intuitive and yet flexible syntax, which allows users to write relatively complicated functions in a simple and readable way. As an example, we can compare the definition of the function that computes the [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number). A naive Matlab implementation of this function would be:
 
 ```matlab
 function f = fib(n)
@@ -48,7 +48,7 @@ function f = fib(n)
 end
 ```
 
-Note that we do not check if the input argument is a non-negative integer. Using the Python, we get the following implementation
+We do not check whether the input argument is a non-negative integer for simplicity. Python would result in the following implementation:
 
 ```python
 def fib(n):
@@ -57,7 +57,7 @@ def fib(n):
     return fib(n-1) + fib(n-2)
 ```
 
-and if we use the C language the function definition is following
+Finally, an implementation in C would be close to:
 
 ```c
 int fib(int n) {
@@ -65,13 +65,13 @@ int fib(int n) {
 }
 ```
 
-We see that all three implementations are very different. Surprisingly, the implementation in C is the shortest one. The reason is, that in C it is possible to use the [ternary operator](https://en.wikipedia.org/wiki/%3F:). In Matlab, it is possible to write the `if-else` statement on one line, however, it will decrease the code readability. Implementation of the Fibonacci function in Julia is the following
+We see that these three implementations are very different. Surprisingly, the implementation in C is the shortest one. The reason is that C allows using the [ternary operator](https://en.wikipedia.org/wiki/%3F:). Even though Matlab allows to write the `if-else` statement on one line, this would decrease the code readability. Julia can implement this function in a simple way.
 
 ```julia
 fib(n::Int) = n < 2 ? n : fib(n-1) + fib(n-2)
 ```
 
-But it is also possible to use traditional multiline function declaration syntax
+At the same time, it is possible to use traditional multiline function declaration syntax.
 
 ```julia
 function fib(n::Int)
@@ -83,22 +83,22 @@ function fib(n::Int)
 end
 ```
 
-Note that annotation of the input argument type and use of the `return` keyword is optional and can be omitted. What we can see it, that Julia supports different syntax for defining functions. It is very useful because it is possible to write simple functions on one line and use a multiline syntax for more complicated functions. Additionally, the authors of Julia took inspiration from other languages and the result is, that Julia provides many handy features known from other languages. For example:
-- The syntax of matrix operations are inspired by the one in Matlab.
-- Statistical packages use similar syntax to the packages in R.
+The annotation of the input argument type and the `return` keyword are optional and can be both omitted. Julia, therefore, supports different syntax for defining functions. This is very useful because it is possible to write simple functions on one line or use a multiline syntax for more complicated functions. Additionally, Julia authors took inspiration from other languages, and Julia provides many handy features known from other languages:
+- The syntax of matrix operations is inspired by Matlab.
+- Statistical packages use similar syntax to R packages.
 - It is possible to use list comprehensions and generators like in Python.
 
 ## Performance
 
-One of the most obvious advantages of Julia is its speed. Since Julia uses just-in-time compilation it is possible to achieve the performance of C without using any special tricks or packages. It can be seen in the following figure which shows speed comparison of various languages in multiple micro-benchmarks. The full description of these micro-benchmarks can be found on the official [Julia Micro-Benchmarks](https://julialang.org/benchmarks/) webpage.
+One of the most obvious advantages of Julia is its speed. Since Julia uses just-in-time compilation, it is possible to achieve the performance of C without using any special tricks or packages. It can be seen in the following figure, which shows a speed comparison of various languages for multiple micro-benchmarks. A full description of these micro-benchmarks can be found on the official [Julia Micro-Benchmarks](https://julialang.org/benchmarks/) webpage.
 
-These micro-benchmarks test performance on a range of common code patterns, such as function calls, string parsing, sorting, numerical loops, random number generation, recursion, and array operations. It is important to say that the used benchmark codes are not optimized for maximal performance. Instead, the benchmarks are written to test the performance of identical algorithms and code patterns implemented in each language. In the following figure, we can see the computational time increase against the C language for several benchmark functions.
+These micro-benchmarks test performance on a range of common code patterns, such as function calls, string parsing, sorting, numerical loops, random number generation, recursion, or array operations. It is important to say that the used benchmark codes are not optimized for maximal performance. Instead, the benchmarks are written to test the performance of identical algorithms and code patterns implemented in each language. The following figure shows a computational time increase against the C language for several benchmark functions. The time on the ``y`` axis is logarithmic.
 
 ![](benchmarks.svg)
 
-It is fair to say, that in many cases it is possible to improve the performance of other languages using simple tricks. For example, the performance of Python can be improved using Numba, an open-source JIT compiler that translates a subset of Python and NumPy into fast machine code using [LLVM](https://en.wikipedia.org/wiki/LLVM) compiler. Since both Numba and Julia use the same compiler, it is interesting to compare the performance of Julia and Python+Numba.
+It is fair to say that sometimes other languages an use simple tricks to improve their performance. For example, the performance of Python can be enhanced by Numba: an open-source JIT compiler that translates a subset of Python and NumPy into fast machine code using the [LLVM](https://en.wikipedia.org/wiki/LLVM) compiler. Since both Numba and Julia use the same compiler, it is interesting to compare the performance of Julia and Python+Numba.
 
-For the comparison consider the following example of estimating ``\pi`` using Monte Carlo sampling originally posted [here](https://blakeaw.github.io/2019-09-20-numba-vs-julia/). A naive implementation of such estimation in pure Python 3.8.5 (using NumPy for the random number generator) is as follows
+For the comparison consider the following example of estimating ``\pi`` using the Monte Carlo sampling originally posted [here](https://blakeaw.github.io/2019-09-20-numba-vs-julia/). A naive implementation of such estimation in pure Python 3.8.5 (using NumPy for the random number generator) is as follows:
 
 ```python
 import numpy as np
@@ -113,7 +113,7 @@ def estimate_pi(n):
     return 4*n_circle/n
 ```
 
-In order to track the computational time, we use the [IPython 7.13.0](https://ipython.org/) command shell in combination with the `timeit` package as follows
+To track the computational time, we use the [IPython 7.13.0](https://ipython.org/) command shell in combination with the `timeit` package.
 
 ```python
 In [2]: import timeit
@@ -123,7 +123,7 @@ In [3]: %timeit estimate_pi(n)
 18.3 s ± 990 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
 
-We see that the average computation time is **19.3** seconds, which is a lot. The reason is, that `for` loops in Python are slow. One way how to improve the performance is to use NumPy vectorized operations (it is a similar approach used often in Matlab to improve performance). The vectorized version of the function above can be written as follows
+The average computation time is **18.3** seconds, which is a lot. The reason is that `for` loops in Python (and Matlab) are slow. One way to improve the performance is to use NumPy vectorized operations (it is a similar approach used often in Matlab to improve performance).
 
 ```python
 def estimate_pi_vec(n):
@@ -132,14 +132,12 @@ def estimate_pi_vec(n):
     return 4*n_circle/n
 ```
 
-Using the same function to track the computational time, we get **354** milliseconds as can be seen below
-
 ```python
 In [5]: %timeit estimate_pi_vec(n)
 354 ms ± 21.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
 
-The vectorized version is 50 times faster than the pure Python implementation using the `for` loop. However, it requires rewriting the code and in many cases, it can be very difficult or even impossible to vectorize the code. Another approach is to use the Numba package mentioned above. The Numba package is very easy to use. In our case, we only need to add one line of code before the function definition
+We use the same function to track the computational time, which amounts to **354** milliseconds. The vectorized version is 50 times faster than the pure Python implementation using the `for` loop. However, it requires rewriting the code and in many cases, which can often be very difficult or even impossible. Another approach is to use the Numba package mentioned above. The Numba package is straightforward to use by including one additional line of code before the function definition.
 
 ```python
 import numba
@@ -155,14 +153,14 @@ def estimate_pi_numba(n):
     return 4*n_circle/n
 ```
 
-The result, in this case, is quite impressive and the average computational time is only **109** milliseconds as can be seen below
-
 ```python
 In [7]: %timeit estimate_pi_numba(n)
 109 ms ± 2.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
 
-The resulting code is more than 150 times faster than the pure Python implementation. The question is, how fast is Julia? To answer this question, we use the exact same function definition as in the case of the pure Python implementation.
+The result is quite impressive and the average computational time is only **109** milliseconds, which is more than 150 times faster than the pure Python implementation. However, Numba is not guaranteed to speed all computations.
+
+How fast is Julia? To answer this question, we use the same function definition as in the pure Python implementation.
 
 ```julia
 function estimate_pi(n)
@@ -178,7 +176,7 @@ function estimate_pi(n)
 end
 ```
 
-In Julia, we can use the `BenchmarkTools` package that allows simple benchmarking of the code. To track the computational time we use `@benchmark` macro as follows
+In Julia, we can use the `BenchmarkTools` package that allows simple benchmarking of the code. To track the computational time we use `@benchmark` macro.
 
 ```julia
 julia> using BenchmarkTools
@@ -200,4 +198,4 @@ BenchmarkTools.Trial:
   evals/sample:     1
 ```
 
-We see that the average computation time is **95.266** seconds. Without any modifications, Julia's code is faster than the Python implementation that uses Numba. The performance gap is not large. However, the Numba package will work only on a small subset of Python and NumPy functionalities. Of course, there are other packages that can be used to increase performance such as Cython. But all these packages have the same problem as Numba and will not support all Python functionalities. The reason is, that Python was not designed to be compiled and thus there are many limitations that can not be solved. On the other hand, Julia was designed to be fast and provides high-performance out of the box without the necessity to do any additional steps. Moreover, the performance in Julia is not restricted only to the subset of the language as in the case of Numba and other similar packages.
+We see that the average computation time is **95** milliseconds. Without any modifications, the Julia code is slightly faster than the Python implementation with Numba. Even though the performance gap is not large, the Numba package will only work on a small Python and NumPy functionalities subset. Of course, other packages such as Cython can be used to increase performance. But all these packages have the same problem as Numba and will not support all Python functionalities. Python was not designed to be compiled, which results in many limitations that can not be easily solved. On the other hand, Julia was designed to be fast and provide high-performance without taking any additional steps. Moreover, Julia performance is not restricted to a subset of the language as in the case of Numba and other similar packages.

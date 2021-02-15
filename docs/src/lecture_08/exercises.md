@@ -29,7 +29,7 @@ w = log_reg(X, y, zeros(size(X,2)))
 
 
 
-# Exercises
+# [Exercises](@id l8-exercises)
 
 ```@raw html
 <div class = "homework-body">
@@ -39,7 +39,7 @@ Data are often normalized. Each feature subtracts its mean and then divides the 
 - When each feature has a different order of magnitude (such as millimetres and kilometres). Then the gradient would ignore the feature with the smaller values.
 - When problems such as vanishing gradients are present (we will elaborate on this in Exercise 4).
 
-Write function ```normalize``` which takes as an input a dataset and normalizes it. Then train the same classifier as in the lecture "logistic regression". Use the original and normalized dataset. Which differences did you observe when
+Write function ```normalize``` which takes as an input a dataset and normalizes it. Then train the same classifier as we did for [logistic regression](@ref log-reg). Use the original and normalized dataset. Which differences did you observe when
 - the logistic regression is optimized via gradient descent?
 - the logistic regression is optimized via Newton's method?
 Do you have any intuition as to why?

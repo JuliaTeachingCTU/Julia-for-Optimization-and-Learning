@@ -99,7 +99,7 @@ accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 
 
 
-# Exercises
+# [Exercises](@id l9-exercises)
 
 ```@raw html
 <div class = "homework-body">

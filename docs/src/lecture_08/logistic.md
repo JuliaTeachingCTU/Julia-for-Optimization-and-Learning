@@ -1,4 +1,4 @@
-# Logistic regression
+# [Logistic regression](@id log-reg)
 
 The last part predicted a continuous variable. This part will be closer to the iris dataset's spirit: It will predict one of two classes.
 
