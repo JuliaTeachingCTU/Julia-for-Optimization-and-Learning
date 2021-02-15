@@ -183,7 +183,7 @@ All of these values represent number ``1``. Determine the smallest type which ca
 
 ```jldoctest promotion3; output = false
 x = 1
-y = 2f0
+y = 1f0
 z = true
 w = Int32(1)
 
@@ -201,7 +201,7 @@ To get the correct promotion type, we can use a combination of the `promote` and
 
 ```jldoctest promotion3
 julia> xp, yp, zp, wp = promote(x, y, z, w)
-(1.0f0, 2.0f0, 1.0f0, 1.0f0)
+(1.0f0, 1.0f0, 1.0f0, 1.0f0)
 
 julia> typeof(xp)
 Float32
@@ -446,7 +446,7 @@ julia> ceil(Int16, x)
 ```
 
 All rounding functions also support additional keyword arguments:
-- If the `digits` keyword argument is provided, it rounds to the specified number of digits after the decimal place (or before if negative) in the base specified by the `base` keyword argument.
+- If the `digits` keyword argument is provided, it rounds to the specified number of digits after the decimal place in the base specified by the `base` keyword argument.
 
 ```jldoctest rounding
 julia> round(x; digits = 3)

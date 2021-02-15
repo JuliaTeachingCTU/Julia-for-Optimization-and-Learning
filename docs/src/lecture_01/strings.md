@@ -263,13 +263,15 @@ a = [1,2,3]
 b = [:a, :b, :c, :d]
 ```
 
+**Hint:** use the `length` and` eltype` functions.
+
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector an,d the `eltype` function to get the type of its elements.
+We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
 
 ```jldoctest
 julia> a = [1,2,3];
@@ -392,7 +394,7 @@ Use the `split` function to split the following string
 > "Julia!"
 into a vector of single-character strings.
 
-**Hint:** we can say that an empty string separates the characters in the string `""`.
+**Hint:** we can say that an empty string `""` separates the characters in the string.
 
 ```@raw html
 </p></div>
@@ -400,7 +402,7 @@ into a vector of single-character strings.
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter. 
+To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
 ```jldoctest
 julia> split("Julia!", "")
 6-element Array{SubString{String},1}:

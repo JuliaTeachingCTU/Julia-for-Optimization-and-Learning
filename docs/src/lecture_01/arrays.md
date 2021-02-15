@@ -73,7 +73,7 @@ julia> v[[2, 3]]
 It is also possible to select multiple indices using the `range` function. It always accepts the starting point as a first argument, and then the keyword argument `stop` or `length`. The user can also set the step length using the keyword argument `step`. If the keywords `length`, `stop`, and `step` are all specified, they must agree. For example, to generate integers from `1` to `10` with step length `2`, the following code can be used:
 
 ```jldoctest
-julia> range(1; stop = 10, step = 2)
+julia> range(1; stop = 10, step = 2) # or equivalently range(1, 10; step = 2)
 1:2:9
 ```
 

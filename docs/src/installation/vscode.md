@@ -18,7 +18,7 @@ If the installation was successful, the VS Code should open in a new window.
 
 ## Extensions
 
-To use the VS Code as anIDE for Julia, we have to install the Julia extension. It can be done directly from the VS Code. Open the `Extension MarketPlace` by pressing the button in the `Activity bar` (the left bar). Type `julia` in the search bar and select the Julia extension. Then press the `Install` button to install the extension.
+To use the VS Code as an IDE for Julia, we have to install the Julia extension. It can be done directly from the VS Code. Open the `Extension MarketPlace` by pressing the button in the `Activity bar` (the left bar). Type `julia` in the search bar and select the Julia extension. Then press the `Install` button to install the extension.
 
 ![](vscodeext_1.png)
 

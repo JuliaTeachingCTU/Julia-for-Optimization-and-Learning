@@ -7,7 +7,7 @@ There are many established programming languages like Python, Matlab, R, or C. W
 <header class = "exercise-header">Advantages:</header><p>
 ```
 
-- **Intuitive and flexible syntax:** Julia was designed to be easy to use and powerful at the same. Julia provides a very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
+- **Intuitive and flexible syntax:** Julia was designed to be easy to use and powerful at the same time. Julia provides a very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
 - **Performance:** Since Julia is a compiled language, code in Julia is generally faster than code written in pure Python or Matlab. More details and examples are provided in the separate section below.
 - **Type system:** Like Matlab or Python, it is not necessary to use type annotations for variable or function input arguments. However, since everything in Julia has its own type, it is possible to use type annotation. This allows the compiler to optimize the code, and it can also prevent mistakes.
 - **Multiple dispatch:** Julia multiple dispatch means that one functions consist of multiple methods which may differ in the number of input arguments or their type. When a function is called, the most specific method definition matching the number and argument types is executed. This allows defining general functions such as `convert` for all conversion operations, instead of using specific function names like `str2double` typically used in Matlab.
@@ -96,7 +96,7 @@ These micro-benchmarks test performance on a range of common code patterns, such
 
 ![](benchmarks.svg)
 
-It is fair to say that sometimes other languages an use simple tricks to improve their performance. For example, the performance of Python can be enhanced by Numba: an open-source JIT compiler that translates a subset of Python and NumPy into fast machine code using the [LLVM](https://en.wikipedia.org/wiki/LLVM) compiler. Since both Numba and Julia use the same compiler, it is interesting to compare the performance of Julia and Python+Numba.
+It is fair to say that sometimes other languages can use simple tricks to improve their performance. For example, the performance of Python can be enhanced by Numba: an open-source JIT compiler that translates a subset of Python and NumPy into fast machine code using the [LLVM](https://en.wikipedia.org/wiki/LLVM) compiler. Since both Numba and Julia use the same compiler, it is interesting to compare the performance of Julia and Python+Numba.
 
 For the comparison consider the following example of estimating ``\pi`` using the Monte Carlo sampling originally posted [here](https://blakeaw.github.io/2019-09-20-numba-vs-julia/). A naive implementation of such estimation in pure Python 3.8.5 (using NumPy for the random number generator) is as follows:
 
