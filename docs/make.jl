@@ -110,6 +110,7 @@ makedocs(;
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
         collapselevel = 1,
+        assets = ["assets/favicon.ico"],
     ),
     pages = [
         "Home" => "index.md",
