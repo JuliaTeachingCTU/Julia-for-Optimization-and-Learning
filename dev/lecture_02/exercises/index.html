@@ -20,12 +20,12 @@ L = 1500
 K = 1000</code></pre><p>The second step is to define vectors <code>x</code> and <code>y</code>. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we the <code>range</code> function.</p><pre><code class="language-julia">x = range(-1.5, 1.5; length = L)
 y = range(-1.0, 1.0; length = K)</code></pre><p>The next step is to define the <code>A</code> matrix of zeros by the <code>zeros</code> function.</p><pre><code class="language-julia">A = zeros(K, L)</code></pre><p>Now, we rewrite the for loops from the pseudocode. It is possible to rewrite the pseudocode in an almost identical way. However, in many cases, the code can be simplified. For example, we can use the shorter syntax for writing nested <code>for</code> loops.</p><pre><code class="language-julia">for k in 1:K, l in 1:L
     z = x[l] + y[k]*im
-    for n in 1:N
-        z = z^2 + c
+    for n in 0:N
         if abs(z) &gt; R^2 - R
             A[k, l] = n/N
             break
         end
+        z = z^2 + c
     end
 end</code></pre><p>Finally, we use the code provided to visualize the heatmap of the matrix <code>A</code>.</p><pre><code class="language-julia">using Plots
 heatmap(A;
@@ -38,15 +38,15 @@ heatmap(A;
 <header class = "exercise-header">Exercise 2:</header><p><p>In the previous exercise, we rewrote pseudocode to actual Julia code. However, the resulting code is not written in the best possible way. This exercise will improve the central part of the code: the inner loop. Write a function which replaces the inner loop in the code from the exercise above. Use the following function definition</p><pre><code class="language-julia">function juliaset(z, c, R, N)
     ???
     return ???
-end</code></pre><p>where <span>$z, c \in \mathbb{C}$</span>, <span>$R \in \mathbb{R}$</span> and <span>$N \in \mathbb{N}$</span>. Try to use the <code>while</code> loop to replace the <code>for</code> loop in the original pseudocode. Visualize the resulting matrix using the same code as in the previous exercise.</p><p><strong>Hint:</strong> do not forget, that the function should return <code>0</code> if <code>n == N</code> and <code>n/N</code> otherwise.</p></p></div>
+end</code></pre><p>where <span>$z, c \in \mathbb{C}$</span>, <span>$R \in \mathbb{R}$</span> and <span>$N \in \mathbb{N}$</span>. Try to use the <code>while</code> loop to replace the <code>for</code> loop in the original pseudocode. Visualize the resulting matrix using the same code as in the previous exercise.</p><p><strong>Hint:</strong> do not forget, that the function should return <code>0</code> if <code>n &gt; N</code> and <code>n/N</code> otherwise.</p></p></div>
 <details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p><p>As suggested in the exercise description, we will use the <code>while</code> loop because it is more suitable in this case. When using the <code>while</code> loop, we have to define the stopping condition. In this case, we have two conditions:</p><ol><li>maximal number of iterations is <code>N</code>,</li><li>the absolute value of variable <code>z</code> has to be smaller or equal to <code>R^2 - R</code>.</li></ol><p>These two conditions can be merged together as follows <code>n &lt;= N &amp;&amp; abs(z) &lt;= R^2 - R</code>. Inside the <code>while</code> loop, we onlye have to update variables <code>n</code> and <code>z</code>. Altogether the function can be defined in the following way</p><pre><code class="language-julia">function juliaset(z, c, R, N)
+<summary class = "solution-header">Solution:</summary><p><p>As suggested in the exercise description, we will use the <code>while</code> loop because it is more suitable in this case. When using the <code>while</code> loop, we have to define the stopping condition. In this case, we have two conditions:</p><ol><li>maximal number of iterations is <code>N + 1</code>,</li><li>the absolute value of variable <code>z</code> has to be smaller or equal to <code>R^2 - R</code>.</li></ol><p>These two conditions can be merged together as follows <code>n &gt; N &amp;&amp; abs(z) &lt;= R^2 - R</code>. Inside the <code>while</code> loop, we onlye have to update variables <code>n</code> and <code>z</code>. Altogether the function can be defined in the following way</p><pre><code class="language-julia">function juliaset(z, c, R, N)
     n = 0
     while n &lt;= N &amp;&amp; abs(z) &lt;= R^2 - R
         n += 1
         z = z^2 + c
     end
-    return n == N ? 0 : n/N
+    return n &gt; N ? 0 : n/N
 end</code></pre><p>Note that we use the ternary operator to decide which value is returned. With a defined function, we have to define all input parameters as in the previous exercise</p><pre><code class="language-julia">c = - 0.4 + 0.61im
 R = 2
 N = 1000
@@ -73,4 +73,4 @@ pyplot()</code></pre><p>Note that the PyPlot package must be installed first. An
         size = (800, 600),
     )
 end
-gif(anim, &quot;juliaset.gif&quot;, fps = 20) # save animation as a gif</code></pre><p>Note that the code inside the loop is the same as we used in the previous exercises. The result is the following animation</p><p><img src="../juliaset.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../scope/">« Soft Local Scope</a><a class="docs-footer-nextpage" href="../../lecture_03/functions/">Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 17 February 2021 16:23">Wednesday 17 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+gif(anim, &quot;juliaset.gif&quot;, fps = 20) # save animation as a gif</code></pre><p>Note that the code inside the loop is the same as we used in the previous exercises. The result is the following animation</p><p><img src="../juliaset.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../scope/">« Soft Local Scope</a><a class="docs-footer-nextpage" href="../../lecture_03/functions/">Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 17 February 2021 20:01">Wednesday 17 February 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
