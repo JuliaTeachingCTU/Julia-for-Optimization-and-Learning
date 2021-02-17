@@ -91,12 +91,12 @@ Now, we rewrite the for loops from the pseudocode. It is possible to rewrite the
 ```julia
 for k in 1:K, l in 1:L
     z = x[l] + y[k]*im
-    for n in 1:N
-        z = z^2 + c
+    for n in 0:N
         if abs(z) > R^2 - R
             A[k, l] = n/N
             break
         end
+        z = z^2 + c
     end
 end
 ```
@@ -138,7 +138,7 @@ end
 where ``z, c \in \mathbb{C}``, ``R \in \mathbb{R}`` and ``N \in \mathbb{N}``. Try to use the `while` loop to replace the `for` loop in the original pseudocode. Visualize the resulting matrix using the same code as in the previous exercise.
 
 
-**Hint:** do not forget, that the function should return `0` if `n == N` and `n/N` otherwise.
+**Hint:** do not forget, that the function should return `0` if `n > N` and `n/N` otherwise.
 
 ```@raw html
 </p></div>
@@ -147,9 +147,9 @@ where ``z, c \in \mathbb{C}``, ``R \in \mathbb{R}`` and ``N \in \mathbb{N}``. Tr
 ```
 
 As suggested in the exercise description, we will use the `while` loop because it is more suitable in this case. When using the `while` loop, we have to define the stopping condition. In this case, we have two conditions:
-1. maximal number of iterations is `N`,
+1. maximal number of iterations is `N + 1`,
 2. the absolute value of variable `z` has to be smaller or equal to `R^2 - R`.
-These two conditions can be merged together as follows `n <= N && abs(z) <= R^2 - R`. Inside the `while` loop, we onlye have to update variables `n` and `z`. Altogether the function can be defined in the following way
+These two conditions can be merged together as follows `n > N && abs(z) <= R^2 - R`. Inside the `while` loop, we onlye have to update variables `n` and `z`. Altogether the function can be defined in the following way
 
 ```julia
 function juliaset(z, c, R, N)
@@ -158,7 +158,7 @@ function juliaset(z, c, R, N)
         n += 1
         z = z^2 + c
     end
-    return n == N ? 0 : n/N
+    return n > N ? 0 : n/N
 end
 ```
 
