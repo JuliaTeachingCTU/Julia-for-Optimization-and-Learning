@@ -539,10 +539,6 @@ end
 With the defined type, we must add new methods for the `symbol` and `rate` function.
 
 ```jldoctest currency; output=false
-struct CzechCrown <: Currency
-    value::Float64
-end
-
 symbol(::Type{CzechCrown}) = "Kč"
 
 rate(::Type{Euro}, ::Type{CzechCrown}) = 0.038
