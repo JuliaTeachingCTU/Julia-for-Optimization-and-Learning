@@ -1,5 +1,7 @@
-![](Julia-for-Machine-Learning-logo.svg)
-
+```@raw html
+<img class="docs-dark-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo-dark.svg" alt="Julia for Machine Learning logo">
+<img class="docs-light-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo.svg" alt="Julia for Machine Learning logo">
+```
 ---
 
 ```@setup grsetup
