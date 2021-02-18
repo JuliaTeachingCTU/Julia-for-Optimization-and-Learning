@@ -1,23 +1,25 @@
 # Conway's Game of Life
 
-The [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) (the following description is taken from Wikipedia), also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One interacts with the Game of Life by creating an initial configuration and observing how it evolves. It is Turing complete and can simulate a universal constructor or any other Turing machine.
+The [Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) is a cellular automaton devised by the British mathematician John Horton Conway in 1970. It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. One only interacts with the Game of Life by creating an initial configuration.
 
-The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead, (or populated and unpopulated, respectively). Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:
+The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells, each of which is in one of two possible states: live or dead. Every cell interacts with its eight neighbours. The game evolves. At each time step, the following transitions occur:
 
-1. Any live cell with two or three live neighbours survives.
-2. Any dead cell with three live neighbours becomes a live cell.
-3. All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+1. Any live cell with exactly two or three live neighbours survives.
+2. Any dead cell with exactly three live neighbours becomes a live cell.
+3. All other live cells die in the next generation. All other dead cells stay dead.
 
-The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens is sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be applied repeatedly to create further generations.
+The first generation must be initialized. Every new generation is created by applying the above rules simultaneously to every cell in the previous generations; births and deaths occur simultaneously. The moment when this happens is called a tick. Since every generation depends only on the previous one, this process is a [Markov chain](https://en.wikipedia.org/wiki/Markov_chain).
+
+The following few exercises will implement the Game of Life. We will consider finite university with periodic boundary conditions.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a function `neighbours` that return the number of live neighbours of the given cell. The function should accept the `world` matrix of boolean values that represents state of all cells (`true` if cell is alive and `false` otherwise) and index of the row and column of the target cell.
+Write a function `neighbours` that return the number of live neighbours of a cell. The function should accept the `world` matrix of boolean values representing the state of all cells (`true` if the cell is alive and `false` otherwise) and index of the row and column of the cell.
 
-**Hint:** use the following properties of the `mod1` function to implement periodic boundaries
+**Hint:** use the following properties of the `mod1` function to implement periodic boundaries.
 
 ```@repl
 mod1(1, 4)
@@ -25,14 +27,14 @@ mod1(4, 4)
 mod1(5, 4)
 ```
 
-**Bonus:** define more general function that compute number of alive cells in a neighborhood of an arbitrary size.
+**Bonus:** implement a more general function which computes the number of alive cells in a neighbourhood of given size.
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-One way how to define the `neighbours` function is to manually write all neighbours indexes as follows
+One way to define the `neighbours` function is to check all neighbours manually.
 
 ```julia
 function neighbours(world, row, col)
@@ -50,13 +52,13 @@ function neighbours(world, row, col)
 end
 ```
 
-Note that it is possible to write an expression on multiple lines. However, the approach above can not be used to define a general version of the `neighbours` function. In this case, we can use nested loops. Firstly we compute proper row indexes using a linear range in combination with the `mod1` function
+The approach above can not define a general version of the `neighbours` function. In this case, we can use nested loops. First, we compute proper row indices by `range` combined with the `mod1` function.
 
 ```julia
 rows = mod1.(row .+ (-r:r), size(world, 1))
 ```
 
-Column indexes can be computed similarly. Then we use nested loops to iterate through the rows and columns defined above. Do not forget to subtract the state of the middle cell.
+Column indexes can be computed similarly. Then we use nested loops to iterate through both rows and columns. Since the iteration includes the middle cell, we need to subtract its state.
 
 ```julia
 function neighbours(world, row, col; r = 1)
@@ -77,7 +79,7 @@ end
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Add new method to the `neighbours` function that for the given `world` matrix returns matrix that contains numbers of living neighbours.
+Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
 
 ```@raw html
 </p></div>
@@ -85,7 +87,7 @@ Add new method to the `neighbours` function that for the given `world` matrix re
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is as follows
+We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is:
 
 ```julia
 function neighbours(world)
@@ -94,6 +96,8 @@ function neighbours(world)
 end
 ```
 
+This is an example of multiple dispatch. The function `neighbours` can have both one and three input arguments.
+
 ```@raw html
 </p></details>
 ```
@@ -103,7 +107,7 @@ end
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described in the beginning of the section, and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
+Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described at the beginning of the section and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
 
 ```@raw html
 </p></div>
@@ -111,13 +115,13 @@ Write a function `willsurvive` that returns `true` if the cell will survive base
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-This function can be written using the `if-elseif-else` statement as follows
+This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `call == 1`.
 
 ```julia
 function willsurvive(cell, k)
     if k == 3
         return true
-    elseif k == 2 && cell == 1
+    elseif k == 2 && cell
         return true
     else
         return false
@@ -125,10 +129,10 @@ function willsurvive(cell, k)
 end
 ```
 
-But we can also write the function in simpler form. The first thing that we have to realize the first two conditions can be merged together using short-circuit evaluation. Since the function returns  only `true` or `false`, we can write the function on one line as follows
+We can write this function in a simpler form. We first realize that the short-circuit evaluation can merge the first two conditions. Since the function returns only `true` or `false`, we can write the function on one line.
 
 ```julia
-willsurvive(cell, k) = k == 3 || k == 2 && cell == 1
+willsurvive(cell, k) = k == 3 || k == 2 && cell
 ```
 
 ```@raw html
@@ -141,7 +145,7 @@ willsurvive(cell, k) = k == 3 || k == 2 && cell == 1
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Use all functions defined above to write a function `evolve!` that evolve the given `world` matrix into a new generation.
+Combine these functions to write a function `evolve!` that evolves the given `world` matrix into a new generation.
 
 ```@raw html
 </p></div>
@@ -149,7 +153,7 @@ Use all functions defined above to write a function `evolve!` that evolve the gi
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The first thing we have to do is to compute the matrix  with numbers of living neighbours. Then we can iterate over all elements of the given `world` matrix and copute new state of the current element using the `willsurvive` function
+We first compute the matrix with the numbers of living neighbours. Then we iterate over all elements of the `world` matrix and compute new states of all elements with the `willsurvive` function. Since we computed the number of living neighbours before iterating, we can rewrite the `world` matrix.
 
 ```julia
 function evolve!(world)
@@ -165,7 +169,7 @@ end
 </p></details>
 ```
 
-In the four exercises above, we defined a function that are necessary to create an animation of Game of Life. Use the following code to get the initialization of the `world`
+In the four exercises above, we defined functions sufficient to animate the Game of Life. Use the following code to initialize the `world`.
 
 ```julia
 world = zeros(Bool, 30, 30)
@@ -180,7 +184,7 @@ world[row + 1, col + 6] = 1
 world[row + 1, col + 7] = 1
 ```
 
-To create an animation, we will use the Plots package, that we introduced in the previous [lecture](@ref Julia-set)
+We use the Plots package introduced in the previous [lecture](@ref Julia-set) to create animations.
 
 ```julia
 using Plots
@@ -194,7 +198,7 @@ gif(anim, "gameoflife.gif"; fps = 10)
 
 ![](gameoflife.gif)
 
-Many different types of patterns occur in the Game of Life. For example, the following initialization is called pulsar
+Many different types of patterns occur in the Game of Life. For example, the following initialization is called pulsar.
 
 ```julia
 world = zeros(Bool, 17, 17)
