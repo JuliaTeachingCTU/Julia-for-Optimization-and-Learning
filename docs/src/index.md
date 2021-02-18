@@ -1,10 +1,14 @@
+```@raw html
+<img class="docs-dark-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo-dark.svg" alt="Julia for Machine Learning logo">
+<img class="docs-light-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo.svg" alt="Julia for Machine Learning logo">
+```
+---
+
 ```@setup grsetup
 using Plots
 ENV["GKSwstype"] = "100"
 gr()
 ```
-
-# Julia for Machine Learning
 
 Welcome to our course *Julia for Machine Learning*. This course consists of two parts:
 - *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 25 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of February 2021).
