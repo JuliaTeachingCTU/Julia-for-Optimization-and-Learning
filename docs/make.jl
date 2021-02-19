@@ -49,7 +49,6 @@ lecture_03 = [
 ]
 
 lecture_04 = [
-    "Package Management" => "./lecture_04/basics.md",
     "Standard Library" => "./lecture_04/standardlibrary.md",
     "Plots.jl" => "./lecture_04/Plots.md",
     "DataFrames.jl" => "./lecture_04/DataFrames.md",
@@ -61,7 +60,9 @@ lecture_05 = [
     "Generic Programming" => "./lecture_05/currencies.md",
 ]
 
-lecture_06 = []
+lecture_06 = [
+    "Package Management" => "./lecture_06/basics.md",
+]
 
 finalproject = joinpath.("./final_project/", [
     "homeworks.md",
