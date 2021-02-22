@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://raw.githubusercontent.com/JuliaCourseFJFI/Graphics/master/logo/logo.svg" alt="FJFI logo"/>
+ <img src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/main/logo/Julia-for-Machine-Learning-logo.svg" alt="Course logo"/>
 </p>
 
 ---
