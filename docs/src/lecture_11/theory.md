@@ -1,0 +1,2 @@
+# [Statistics](@id statistics)
+
