@@ -255,7 +255,7 @@ julia> euro2dollar(eur)
 1.3 €
 ```
 
-It is a valid way to write a code. However, we can do it more generically. To write a generic code, we have to realize few things. Consider the situation that we have two currencies, and we know the exchange rate ``r_{1 \rightarrow 2}`` from the first currency to the second one. The transitivity assumption implies that the second currency's exchange rate to the first one is `r_{2 \rightarrow 1} = r_{1 \rightarrow 2}^{-1}`. This means that we only need to define one exchange rate from which the other can be calculated.
+It is a valid way to write a code. However, we can do it more generically. To write a generic code, we have to realize few things. Consider the situation that we have two currencies, and we know the exchange rate ``r_{1 \rightarrow 2}`` from the first currency to the second one. The transitivity assumption implies that the second currency's exchange rate to the first one is ``r_{2 \rightarrow 1} = r_{1 \rightarrow 2}^{-1}``. This means that we only need to define one exchange rate from which the other can be calculated.
 
 ```jldoctest currency; output=false
 rate(::Type{Euro}, ::Type{Dollar}) = 0.83
