@@ -62,10 +62,8 @@ lecture_05 = [
 
 lecture_06 = [
     "Modules" => "./lecture_06/modules.md",
-    "Unit Testing" => "./lecture_06/tests.md",
-    "Package Management" => "./lecture_06/pkg.md",
+    "Package Manager" => "./lecture_06/pkg.md",
     "Package Development" => "./lecture_06/develop.md",
-    "Research project" => "./lecture_06/research.md",
 ]
 
 finalproject = joinpath.("./final_project/", [
