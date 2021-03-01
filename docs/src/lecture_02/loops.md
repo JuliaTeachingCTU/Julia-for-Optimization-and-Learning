@@ -103,7 +103,7 @@ Hi, my name is Bob and I am 23 old.
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both ``3`` and ``7``.
+Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both `3` and `7`.
 
 **Hint:** use the `mod` function.
 
@@ -170,7 +170,7 @@ The `for` loop should be used here because the range is known before-hand and un
 
 ### `break` and `continue`
 
-Sometimes it is useful to stop the `for` loop when some condition is satisfied. This is done by the `break` keyword. In the following example, the loop iterates over the range from 1 to 10 and breaks when `i == 4`, i.e., only the first three numbers are printed.
+Sometimes it is useful to stop the loop when some condition is satisfied. This is done by the `break` keyword. In the following example, the loop iterates over the range from 1 to 10 and breaks when `i == 4`, i.e., only the first three numbers are printed.
 
 ```jldoctest
 julia> for i in 1:10
@@ -182,7 +182,7 @@ i = 2
 i = 3
 ```
 
-Another useful feature is to skip elements done by the `continue` keyword. The following code prints all even numbers from 1 to 10.
+Another useful feature is to skip elements using the `continue` keyword. The following code prints all even numbers from 1 to 10.
 
 ```jldoctest
 julia> for i in 1:10
@@ -211,7 +211,7 @@ Rewrite the code from the exercise above. Use a combination of the `while` loop 
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The `true` value creates an infinite loop. It is necessary to end it with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
+The `true` value creates an infinite loop, i.e., it is necessary to end the loop with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
 
 ```jldoctest
 julia> i = 0;
@@ -236,7 +236,7 @@ We used the short-circuit evaluation to break the loop. To check that the intege
 
 ### Nested loops
 
-Julia creates nested loops in the same way as other languages.
+In Julia, nested loops can be created in a similar way as in other languages.
 
 ```jldoctest
 julia> for i in 1:3
@@ -266,7 +266,7 @@ julia> for i in 1:3, j in i:3
 (i, j) = (3, 3)
 ```
 
-Even though the output is the same, this syntax is not equivalent to the previous one. The main difference is when using the `break` keyword. If we use it for the first syntax, it breaks only the inner loop while if we use it in the second syntax, it breaks both loops.
+Even though the output is the same, this syntax is not equivalent to the previous one. The main difference is when using the `break` keyword. If we use the traditional syntax and the `break` keyword inside the inner loop, it breaks only the inner loop. On the other hand, if we use the shorter syntax, the `break` keyword breaks both loops.
 
 ```jldoctest
 julia> for i in 1:3
@@ -301,12 +301,12 @@ There are other limitations of the shorter syntax, such as the impossibility to 
 Use nested loops to create a matrix with elements given by the formula
 
 ```math
-A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\},
+A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \quad j \in  \{1, 2, 3, 4\},
 ```
 
 where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 
-**Bonus:** create the same matrix in a more effective way.
+**Bonus:** try to create the same matrix in a more effective way.
 
 ```@raw html
 </p></div>
@@ -314,23 +314,11 @@ where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-First, we have to define vectors `x` and `y`:
+First, we have to define vectors `x` and `y`, and an empty array of the proper size and element type to use in nested loops.
 
 ```jldoctest nestedloops_ex; output = false
 x = [0.4, 2.3, 4.6]
 y = [1.4, -3.1, 2.4, 5.2]
-
-# output
-4-element Array{Float64,1}:
-  1.4
- -3.1
-  2.4
-  5.2
-```
-
-We have to create an empty array of the proper size and element type to use nested loops.
-
-```jldoctest nestedloops_ex; output = false
 A = zeros(Float64, length(x), length(y))
 
 # output
@@ -340,7 +328,7 @@ A = zeros(Float64, length(x), length(y))
  0.0  0.0  0.0  0.0
 ```
 
-The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:3` for `x` and `1:4` for `y`.
+The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:length(x)` for `x` and `1:length(y)` for `y`.
 
 ```jldoctest nestedloops_ex
 julia> for i in 1:length(x), j in 1:length(y)
@@ -368,7 +356,7 @@ julia> A = @. exp((x^2 - y_row^2)/2)/2
  7382.39      161.072       1104.17      0.0264329
 ```
 
-We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and the transposed `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
+We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
 
 The third way to create this matrix is to use list comprehension. Due to its importance, we dedicate a whole section to it.
 
@@ -384,7 +372,7 @@ As we mentioned in the last exercise, one way to create an array with prescribed
 A = [f(x, y, ...) for x in X, y in Y, ...]
 ```
 
-The previous example reads: the function `f` will be evaluated for each combination of elements of iterable objects  `X`, `Y`, etc. The result will be an `n`-dimensional array of size `(length(X), length(Y), ...)`. Returning to the previous exercise, we can create the required array as follows:
+The previous example reads: The function `f` will be evaluated for each combination of elements of iterable objects  `X`, `Y`, etc. The result will be an `n`-dimensional array of size `(length(X), length(Y), ...)`. Returning to the previous exercise, we can create the required array as follows:
 
 ```jldoctest comprehension
 julia> X = [0.4, 2.3, 4.6];
@@ -461,6 +449,11 @@ julia> sum(v)
 List comprehensions can also be written without the enclosing square brackets. This produces an object known as a generator. When iterating over a generator, the values are generated on demand instead of pre-allocating an array. For example, the following expression sums a series without allocating the full array in memory.
 
 ```jldoctest
+julia> gen = (1/n^2 for n in 1:1000);
+
+julia> sum(gen)
+1.6439345666815615
+
 julia> sum(1/n^2 for n in 1:1000)
 1.6439345666815615
 ```
@@ -474,25 +467,13 @@ julia> [(i,j) for i in 1:3, j in 1:2]
  (2, 1)  (2, 2)
  (3, 1)  (3, 2)
 
-julia> [(i,j) for i in 1:3 for j in 1:2]
-6-element Array{Tuple{Int64,Int64},1}:
- (1, 1)
- (1, 2)
- (2, 1)
- (2, 2)
- (3, 1)
- (3, 2)
-
-julia> gen = ((i,j) for i in 1:3 for j in 1:2);
+julia> gen = ((i,j) for i in 1:3, j in 1:2);
 
 julia> collect(gen)
-6-element Array{Tuple{Int64,Int64},1}:
- (1, 1)
- (1, 2)
- (2, 1)
- (2, 2)
- (3, 1)
- (3, 2)
+3×2 Array{Tuple{Int64,Int64},2}:
+ (1, 1)  (1, 2)
+ (2, 1)  (2, 2)
+ (3, 1)  (3, 2)
 ```
 
 Iterables may refer to outer loop variables. However, in such a case, it is necessary to use the `for` keyword before each iterable statement, and the result will be a vector.
@@ -536,9 +517,11 @@ Use a generator to sum the square of all integers from `1` to `100`, which are d
 
 There are two ways how to solve this exercise. The first one creates a generator and then uses the `sum` function.
 
-```jldoctest
-julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
-Base.Generator{Base.Iterators.Filter{var"#2#4",UnitRange{Int64}},var"#1#3"}(var"#1#3"(), Base.Iterators.Filter{var"#2#4",UnitRange{Int64}}(var"#2#4"(), 1:100))
+```julia
+julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0);
+
+julia> typeof(gen)
+Base.Generator{Base.Iterators.Filter{var"#2#4",UnitRange{Int64}},var"#1#3"}
 
 julia> sum(gen)
 13230
@@ -574,7 +557,7 @@ i = 3 and A[i] = 4.5
 i = 4 and A[i] = 7.1
 ```
 
-There is an even more straightforward way. We can do the same using the `enumerate` function that returns an iterator (an iterable object that can be iterated in for loops). It produces couples of the form `(i, x[i])`.
+There is an even more straightforward way. We can do the same using the `enumerate` function that returns an iterator (an iterable object that can be iterated in `for` loops). It produces couples of the form `(i, x[i])`.
 
 ```jldoctest iterators
 julia> for (i, val) in enumerate(A)

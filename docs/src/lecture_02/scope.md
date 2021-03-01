@@ -58,7 +58,7 @@ julia> code = """
        s = 0
        for i = 1:10
            t = 1 + i # new local variable t
-           s = t # new local variable s. results in a warning
+           s = t # new local variable s and warning
        end
        s
        """;
@@ -73,7 +73,7 @@ In this case, if we want to assign a value to a variable inside a loop, there ar
 - Variable `t`: there is no global variable with the same name. A new local variable is created.
 - Variable `s`: there is a global variable with the same name. The assignment in the soft scope is ambiguous, and a new local variable is created.
 
-In our example, the variable `s` is defined before the loop as global. In the loop, we get a warning that the assignment to `s` in soft scope is ambiguous, and a new local variable `s` is created instead. The behaviour described above can be changed by specifying the `local` variable.
+In our example, the variable `s` is defined before the loop as global. In the loop, we get a warning that the assignment to `s` in soft scope is ambiguous, and a new local variable `s` is created instead. The behaviour described above can be changed by specifying that variable `s` is `local`.
 
 ```jldoctest softscope; output = false
 code_local = """
@@ -89,7 +89,7 @@ s
 "s = 0\nfor i = 1:10\n    t = 1 + i # new local variable t\n    local s = t # assigning a new value to the global variable\nend\ns\n"
 ```
 
-Another option is to specify that the variable is `global`.
+Another option is to specify that the variable `s` is `global`.
 
 ```jldoctest softscope; output = false
 code_global = """
@@ -145,4 +145,4 @@ end
 y = x + 234
 ```
 
-It is not clear what should happen here. Should the variable `x` inside the loop be considered local or global? If it is local inside the loop, then the variable `y` will be `434`. On the other hand, if it is global inside the loop, then we assign a new value to it, and thee variable `y` will be `1234`. We can accidentally change a variable value and get incorrect results because we use the same variable name multiple times in different scopes.  In this case, it is complicated to find why the results are wrong since there is no error in the code. Julia prints the warning about the ambiguity in such cases to help users. For more information, see the official [documentation](https://docs.julialang.org/en/v1/manual/variables-and-scoping/).
+It is not clear what should happen here. Should the variable `x` inside the loop be considered local or global? If it is local inside the loop, then the variable `y` will be `434`. On the other hand, if it is global inside the loop, then we assign a new value to it, and the variable `y` will be `1234`. We can accidentally change a variable value and get incorrect results because we use the same variable name multiple times in different scopes.  In this case, it is complicated to find why the results are wrong since there is no error in the code. Julia prints the warning about the ambiguity in such cases to help users. For more information, see the official [documentation](https://docs.julialang.org/en/v1/manual/variables-and-scoping/).

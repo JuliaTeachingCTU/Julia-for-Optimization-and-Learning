@@ -1,6 +1,6 @@
 # Julia set
 
-So far, we used only the standard library shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. There is a [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package for creating plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, press `]` and install the package by
+So far, we used only the standard library shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. There is a [Plots](https://github.com/JuliaPlots/Plots.jl) package for creating plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, press `]` and install the package by
 
 ```julia
 (@v1.5) pkg> add Plots
@@ -27,7 +27,7 @@ There will be a whole [section](@ref Plots.jl) dedicated to the Plots package. H
 <header class = "exercise-header">Exercise 1: </header><p>
 ```
 
-Every programmer should be able to rewrite pseudocode to actual code. The goal of this exercise is to rewrite the pseudocode:
+Every programmer should be able to rewrite pseudocode to actual code. The goal of this exercise is to rewrite the following pseudocode:
 
 ![](juliasetalg.png)
 
@@ -38,8 +38,8 @@ f_c(z) = z^2 + c,
 ```
 
 where ``c \in \mathbb{C}`` is a complex parameter. To test the resulting code, try the following settings of input parameters
-- ``x`` is a vector of 1500 evenly spaced numbers from ``-1.5`` to ``1.5``.
-- ``y`` is a vector of 1000 evenly spaced numbers from ``-1`` to ``1``.
+- ``x`` is a vector of 1500 evenly spaced numbers from `-1.5` to `1.5`.
+- ``y`` is a vector of 1000 evenly spaced numbers from `-1` to `1`.
 - ``c = - 0.4 + 0.61 \cdot i``
 - ``R = 2``
 - ``N = 1000``
@@ -73,7 +73,7 @@ L = 1500
 K = 1000
 ```
 
-The second step is to define the vectors `x` and `y`. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we the `range` function.
+The second step is to define the vectors `x` and `y`. Since we know that these vectors contain evenly spaced numbers, and we also know the starting point, the stopping point, and the length of the vectors, we can use the `range` function.
 
 ```julia
 x = range(-1.5, 1.5; length = L)
@@ -149,7 +149,7 @@ where ``z, c \in \mathbb{C}``, ``R \in \mathbb{R}`` and ``N \in \mathbb{N}``. Us
 As suggested in the exercise description, we will use the `while` loop. Using the `while` loop, we have to define a stopping condition. In this case, we have two conditions:
 1. maximal number of iterations is `N + 1`,
 2. the absolute value of `z` needs to be smaller or equal to `R^2 - R`.
-These two conditions can be merged into `n > N && abs(z) <= R^2 - R`. Inside the `while` loop, we only have to update `n` and `z`.
+These two conditions can be merged into `n <= N && abs(z) <= R^2 - R`. Inside the `while` loop, we only have to update `n` and `z`.
 
 ```julia
 function juliaset(z, c, R, N)
@@ -172,7 +172,7 @@ x = range(-1.5, 1.5; length = 1500)
 y = range(-1.0, 1.0; length = 1000)
 ```
 
-Now we can use a nested `for` loops to create `A`. However, a simpler way is to use the list comprehension or broadcasting to vectorize the `juliaset` function.
+We can use a nested `for` loops to create `A`. However, a simpler way is to use the list comprehension or broadcasting to vectorize the `juliaset` function.
 
 ```julia
 A1 = [juliaset(xl + yk*im, c, R, N) for yk in y, xl in x]
@@ -232,19 +232,19 @@ Try different values of variable `c` to create different plots. For inspiration,
     ```
     The PyPlot package must be installed first. An alternative way is to use the [Makie](https://github.com/JuliaPlots/Makie.jl) package instead of the Plots package.
 
-We will now create an animation of the Julia sets for `c` from the interval
+We will now create an animation of the Julia sets for `c` defined as follows
 
 ```math
 c_k = 0.7885 \exp \{ k \cdot i \}, \qquad k \in \left [\frac{\pi}{2}, \frac{3\pi}{2} \right ].
 ```
 
-We create the vector of all values `c` by combining the `range` function and broadcasting.
+Firstly, we create the vector of all values `c` by combining the `range` function and broadcasting.
 
 ```julia
 cs = 0.7885 .* exp.(range(π/2, 3π/2; length = 500) .* im)
 ```
 
-We use the `length` keyword to specify the length of `cs`. To create an animation, it suffices to use the `for` loop in combination with the `@animate` macro.
+Note that we use the `length` keyword to specify the length of `cs`. To create an animation, it suffices to use the `for` loop in combination with the `@animate` macro.
 
 ```julia
 anim = @animate for c in cs

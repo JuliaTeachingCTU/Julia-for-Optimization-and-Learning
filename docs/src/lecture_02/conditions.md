@@ -1,6 +1,6 @@
 # Conditional evalutions
 
-This lecture handles control flow. The first part focuses on if conditions and the second one of loops.
+This lecture handles control flow. The first part focuses on `if` conditions and the second one of loops.
 
 ## `if-elseif-else` statement
 
@@ -40,13 +40,13 @@ x is equal to y
 <header class = "info-header">Function declaration:</header><p>
 ```
 
-So far, we did not show how to define functions. However, the above example should show the basic syntax for defining functions. The `return` keyword specifies the function output. In this case, the function returns nothing since we only want to compare numbers. If we need to define a function that returns one or more variables, then the following syntax is used:
+So far, we did not show how to define functions. However, the above example should show the basic syntax for defining functions. The `return` keyword specifies the function output. In this case, the function returns nothing since we only want to compare numbers. If we need to define a function that returns more than one variable, the following syntax is used.
 
 ```julia
 return x, y, z
 ```
 
-Here `x`, `y`, and `z` are some variables. We will define this properly in the [next lesson](@ref Functions).
+Here `x`, `y`, and `z` are some variables. We will discuss the function declaration in more detail in the [next lesson](@ref Functions).
 
 ```@raw html
 </p></div>
@@ -125,7 +125,7 @@ julia> compare(2.3, 2.3)
 ERROR: UndefVarError: z not defined
 ```
 
-The `if` blocks always return a value that equals the last expression evaluated within the `if` block. It is possible to assign this value to a new variable.
+The `if` blocks always return a value equal to the last expression evaluated in the `if` block. In other words, it is possible to assign the value returned by the `if` block to a new variable.
 
 ```jldoctest conditions; output = false
 function compare(x, y)
@@ -141,7 +141,7 @@ end
 compare (generic function with 1 method)
 ```
 
-In this case, `z` equals to `y` if `x < y`, and to `x` otherwise.
+In the example above, the variable `z` equals `y` if the expression` x <y` evaluates as `true`. Otherwise, the variable `z` equals` x`.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
@@ -184,7 +184,7 @@ We split the solution into three cases:
 
 ```jldoctest conditions_ex; output = false
 function fact(n)
-    if n < 0 | !isinteger(n)
+    return if n < 0 | !isinteger(n)
         error("argument must be non-negative integer")
     elseif n == 0
         1
@@ -197,7 +197,7 @@ end
 fact (generic function with 1 method)
 ```
 
-Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the function output.
+Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the function output. However, it is also possible to omit the `return` keyword since functions return the last evaluated expression if the `return` keyword is not used.
 
 ```jldoctest conditions_ex
 julia> fact(4)
@@ -225,7 +225,7 @@ The [ternary operator](https://en.wikipedia.org/wiki/%3F:) `?` is closely relate
 a ? b : c
 ```
 
-which can be read as *if `a` is true, then evaluate `b`; otherwise, evaluate `c`*. The white spaces around `?` and `:` are mandatory.
+which can be read as *"if `a` is true, then evaluate `b`; otherwise, evaluate `c`"*. The white spaces around `?` and `:` are mandatory.
 
 ```jldoctest
 julia> x, y = 2, 1;
@@ -274,6 +274,29 @@ julia> f(1) || println(2) # both expressions are evaluated
 1
 2
 ```
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Short-circuit evaluation vs. bitwise boolean operators</header><p>
+```
+
+Boolean operations without short-circuit evaluation can be done with the bitwise boolean operators `&` and `|` introduced in [previous lecture](@ref Numeric-comparison). These are normal functions, which happen to support infix operator syntax, but always evaluate their arguments.
+
+```jldoctest shortcirc
+julia> f(1) & t(2)
+1
+2
+false
+
+julia> f(1) && t(2)
+1
+false
+```
+
+```@raw html
+</p></div>
+```
+
 
 When multiple `&&` and `||` are chained together, `&&` has a higher precedence than `||`. For example, `a || b && c && d || e` is equivalent to `a || (b && c && d) || e`.
 
