@@ -218,13 +218,13 @@ Hello World!!!!
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-The goal of this exercise is to define a `grayimage` function that converts a given matrix of real numbers to a matrix of Gray points. The real number can be converted to a Gray point using the `Gray` constructor from the Colors package. Use the following code to test the function
+The goal of this exercise is to define a `image` function that converts a given matrix of real numbers to a matrix of Gray points. The real number can be converted to a Gray point using the `Gray` constructor from the Colors package. Use the following code to test the function
 
 ```julia
 using MLDatasets, Plots
 
 x = MNIST.traintensor(1)
-plot(grayimage(x); axis = nothing, border = :none)
+plot(image(x); axis = nothing, border = :none)
 ```
 
 **Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to install the Colors package as a dependency of the ImageInspector package.
@@ -235,7 +235,7 @@ plot(grayimage(x); axis = nothing, border = :none)
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since we want to add the `grayimage` function to the ImageInspector package, we have to install the Colors package.  The first step is to activate the environment in the ImageInspector package. Then we can use the `add Colors` to install the Colors package
+Since we want to add the `image` function to the ImageInspector package, we have to install the Colors package.  The first step is to activate the environment in the ImageInspector package. Then we can use the `add Colors` to install the Colors package
 
 ```julia
 (@v1.5) pkg> activate /..../ImageInspector
@@ -244,21 +244,21 @@ Since we want to add the `grayimage` function to the ImageInspector package, we 
 (ImageInspector) pkg> add Colors
 ```
 
-With the Colors package installed, we have to add `using Colors` into the ImageInspector package. Then we can define the `grayimage` as follows
+With the Colors package installed, we have to add `using Colors` into the ImageInspector package. Then we can define the `image` as follows
 
 ```julia
 module ImageInspector
 
 using Colors
 
-export grayimage
+export image
 
-grayimage(x::AbstractMatrix{<:Real}) = Gray.(x)
+image(x::AbstractMatrix{<:Real}) = Gray.(x)
 
 end
 ```
 
-Note that we also add `export grayimage`. It is not necessary and only functions that will be used outside of the module should be exported.
+Note that we also add `export image`. It is not necessary and only functions that will be used outside of the module should be exported.
 
 ```@raw html
 </p></details>
@@ -266,12 +266,12 @@ Note that we also add `export grayimage`. It is not necessary and only functions
 
 The testing code in the previous exercise uses the MLDatasets package. This package provides many well-known datasets used in machine learning. One of them is the `MNIST` dataset of hand-written digits. When we run the testing code from the previous exercise, we get the following result
 
-![](mnist_1.svg)
+![](image_1.svg)
 
-Even though the dataset should contain only images of hand-written digits, the resulting image does not seem to be a digit. The reason is, that images in the MNIST dataset are stored in the **width x height** format and the Plots package assumes **height x width** format. We can simply solve this issue by redefining the `grayimage` function as follows
+Even though the dataset should contain only images of hand-written digits, the resulting image does not seem to be a digit. The reason is, that images in the MNIST dataset are stored in the **width x height** format and the Plots package assumes **height x width** format. We can simply solve this issue by redefining the `image` function as follows
 
 ```julia
-function grayimage(x::AbstractMatrix{<:Real}; flip = true)
+function image(x::AbstractMatrix{<:Real}; flip = true)
     xx = flip ? PermutedDimsArray(x, (2, 1)) : x
     return Gray.(xx)
 end
@@ -281,15 +281,14 @@ Note that we use the `PermutedDimsArray`  that creates a view such that the dime
 
 ```julia
 plot(
-    plot(grayimage(x; flip = true); title = "flip = true"),
-    plot(grayimage(x; flip = false); title = "flip = false");
+    plot(image(x; flip = true); title = "flip = true"),
+    plot(image(x; flip = false); title = "flip = false");
     axis = nothing,
     border = :none,
-    size = (800, 400)
 )
 ```
 
-![](mnist_2.svg)
+![](image_2.svg)
 
 
 
@@ -298,13 +297,25 @@ plot(
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Follow the same logic as in the previous exercise and define a `colorimage` function that converts a given 3D array of real numbers to a matrix of RGB points. Assume that the third dimension represents color channels. Three real numbers can be converted to an RGB point using the `RGB` constructor from the Colors package. Use the following code to test the function
+Follow the same logic as in the previous exercise and define a new method for the `image` function that converts a given 3D array of real numbers to a matrix of RGB points. Assume that the third dimension represents color channels. Three real numbers can be converted to an RGB point using the `RGB` constructor from the Colors package. Make sure, that the input array is of the proper size. If the size of the third dimension is
+
+- `1` the function should return a gray image,
+- `3` the function should return a color image,
+- otherwise, the function should throw an error.
+
+Use the following code to test the `image` function
 
 ```julia
 using MLDatasets, Plots
 
-x = CIFAR10.traintensor(2)
-plot(colorimage(x); axis = nothing, border = :none)
+x1 = MNIST.traintensor(1)
+x2 = CIFAR10.traintensor(2)
+plot(
+    plot(image(x1)),
+    plot(image(x2));
+    axis = nothing,
+    border = :none
+)
 ```
 
 **Hint:** Use the `eachslice` function to split the given array along the third dimension.
@@ -315,24 +326,30 @@ plot(colorimage(x); axis = nothing, border = :none)
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The `colorimage` function can be defined in the almost same way as the `grayimage` function. The main difference is in the way how we create the resulting array of RGB points. Firstly, we have to split the input array along the third dimension to get the matrices representing red/green/blue channels. Then we can use broadcasting to create the array of RGB points from these three matrices.
+The new method can be defined in the almost same way as the previous exercise. The main difference is in the way how we create the resulting array of RGB points. Firstly, we have to split the input array along the third dimension to get the matrices representing red/green/blue channels. Then we can use broadcasting to create the array of RGB points from these three matrices.
 
 ```julia
-function colorimage(x::AbstractArray{T,3}; flip = true) where T
-    xx = flip ? PermutedDimsArray(x, (2, 1, 3)) : x
-    return RGB.(eachslice(xx; dims= 3)...)
+function image(x::AbstractArray{T,3}; flip = true) where {T <: Real}
+    s = size(x, 3)
+    if s == 1
+        return image(dropdims(x; dims = 3); flip)
+    elseif s == 3
+        xx = flip ? PermutedDimsArray(x, (2, 1, 3)) : x
+        return RGB.(eachslice(xx; dims= 3)...)
+    else
+        throw(ArgumentError("unsupported size of the third dimension $(s) ∉ [1,3]."))
+    end
 end
 ```
 
 Note that we use the `eachslice` function that returns a generator, where each element represents one color channel. We also use the three-dot syntax to unpack the generator as separate input arguments to the `RGB` constructor.
 
+
 ```@raw html
 </p></details>
 ```
 
-![](cifar10_1.svg)
-
-## [Unit testing](@id unit-testing)
+![](image_3.svg)
 
 
 ```@raw html
@@ -340,7 +357,25 @@ Note that we use the `eachslice` function that returns a generator, where each e
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Some text that describes the exercise
+Images are usually stored in multidimensional arrays for computational purposes. For example, gray images are often stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, color images are usually stored as a 4D array. Add new methods for the `image` function with the following properties:
+
+- New methods should accept two arguments:
+    - `x`: 3D or 4D array of real numbers that represents images,
+    - `inds`: one or more indices of images that we want to extract and convert to Gray/RGB representation.
+- If only one index is provided, the method should return a single image, i.e. array of Gray or RGB points.
+- If more indices are provided, the method should return an array of images.
+
+Use the following code to test the `image` function
+
+```julia
+using MLDatasets, Plots
+
+x = MNIST.traintensor(1:10)
+
+plot(plot.(image(x, [1,2]))...; axis = nothing, border = :none)
+```
+
+**Hint:** use the `selectdim` function to select an individual image from an array of images.
 
 ```@raw html
 </p></div>
@@ -348,8 +383,42 @@ Some text that describes the exercise
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Solution
+We have four possible combinations of the input arguments:
+
+1. 3D array and one index,
+2. 3D array and mutliple indices,
+3. 4D array and one index,
+4. 4D array and mutliple indices.
+
+It means that we should define a method for each combination of the input arguments. It can be done in the following way
+
+```julia
+image(x::AbstractArray{T,3}, inds) where {T} = [image(selectdim(x, 3, i)) for i in inds]
+image(x::AbstractArray{T,4}, inds) where {T} = [image(selectdim(x, 4, i)) for i in inds]
+image(x::AbstractArray{T,3}, ind::Int) where {T} = image(x, [ind])[1]
+image(x::AbstractArray{T,4}, ind::Int) where {T} = image(x, [ind])[1]
+```
+
+However, we can use the `Union` type and reduce the number of methods to two
+
+```julia
+const ImArray{T<:Real} = Union{AbstractArray{T,3}, AbstractArray{T,4}}
+
+image(x::ImArray, inds) = [image(selectdim(x, ndims(x), i)) for i in inds]
+image(x::ImArray, ind::Int) = image(x, [ind])[1]
+```
+
+Note that we use the `const` keyword to create a constant that represents a union type for the abstract 3D and 4D arrays of real numbers. Such a constant can be used in a normal type for multiple-dispatch.
 
 ```@raw html
 </p></details>
 ```
+
+![](image_4.svg)
+
+## [Unit testing](@id unit-testing)
+
+In the previous section, we added two new functions to our package and we also tested manually if these functions work properly. However, it is not an optimal way how to test the code, especially for large projects. The standard way for testing code is to use so-called [unit testing](https://en.wikipedia.org/wiki/Unit_testing).
+
+
+## Optional dependencies
