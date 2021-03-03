@@ -71,9 +71,8 @@ R> ggplot($mtcars, aes(x = WT, y = MPG)) + geom_point()
 The package also provides string syntax, that allows non-interactive usage. The previous example can be rewritten as follows.
 
 ```julia
-julia> using RCall, RDatasets
-
-julia> mtcars = dataset("datasets", "mtcars");
+using RCall, RDatasets
+mtcars = dataset("datasets", "mtcars");
 
 R"""
 library(ggplot2)
