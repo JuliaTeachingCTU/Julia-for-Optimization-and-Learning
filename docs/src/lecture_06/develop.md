@@ -1,4 +1,4 @@
-# Package Development
+# Package development
 
 The very nice thing about Julia is that it is simple to create a package that can then be easily installed and used by other users. This section contains a step-by-step tutorial on how to build a new package from scratch.
 

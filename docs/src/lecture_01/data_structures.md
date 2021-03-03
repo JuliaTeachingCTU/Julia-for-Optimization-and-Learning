@@ -79,7 +79,7 @@ julia> a, b, c, d = t
 </p></details>
 ```
 
-## Named Tuples
+## Named tuples
 
 Named tuples are similar to tuples, i.e., a named tuple is immutable, ordered, fixed-sized group of elements. The only difference is that each element consists of a name (identifier) and a value. Named tuples are created by the following syntax:
 

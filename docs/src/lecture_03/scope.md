@@ -1,5 +1,4 @@
-
-# Scope of Variables
+# Scope of variables
 
 The scope of a variable is the region of a code where the variable is visible. There are two main scopes in Julia: **global** and **local**. The global scope can contain multiple local scope blocks. Local scope blocks can be nested. There is also a distinction in Julia between constructs which introduce a *hard scope* and those which only introduce a *soft scope*. This affects whether shadowing a global variable by the same name is allowed.
 

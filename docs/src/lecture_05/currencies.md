@@ -1,4 +1,4 @@
-# Bank Account
+# Bank account
 
 This section aims to show the real power of the type system in combination with multiple-dispatch in Julia. The best way how to do it is to use an example. Nowadays is everything about money and our goal in this section is to create a structure that will represent a bank account with the following properties:
 

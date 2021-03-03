@@ -22,48 +22,49 @@ installation = [
     "Julia" => "./installation/julia.md",
     "Visual Studio Code" => "./installation/vscode.md",
     "Git" => "./installation/git.md",
-    "Quick Start Guide" => "./installation/tutorial.md",
+    "Quickstart guide" => "./installation/tutorial.md",
 ]
 
 lecture_01 = [
     "Variables" => "./lecture_01/variables.md",
-    "Elementary Functions" => "./lecture_01/operators.md",
+    "Elementary functions" => "./lecture_01/operators.md",
     "Strings" => "./lecture_01/strings.md",
     "Arrays" => "./lecture_01/arrays.md",
-    "Data Structures" => "./lecture_01/data_structures.md",
+    "Data structures" => "./lecture_01/data_structures.md",
 ]
 
 lecture_02 = [
-    "Conditional Evaluations" => "./lecture_02/conditions.md",
-    "Loops and Iterators" => "./lecture_02/loops.md",
-    "Soft Local Scope" => "./lecture_02/scope.md",
+    "Conditional evaluations" => "./lecture_02/conditions.md",
+    "Loops and iterators" => "./lecture_02/loops.md",
+    "Soft local scope" => "./lecture_02/scope.md",
     "Exercises" => "./lecture_02/exercises.md",
 ]
 
 lecture_03 = [
     "Functions" => "./lecture_03/functions.md",
     "Methods" => "./lecture_03/methods.md",
-    "Scope of Variables" => "./lecture_03/scope.md",
-    "Exception Handling" => "./lecture_03/exceptions.md",
+    "Scope of variables" => "./lecture_03/scope.md",
+    "Exception handling" => "./lecture_03/exceptions.md",
     "Exercises" => "./lecture_03/exercises.md",
 ]
 
 lecture_04 = [
-    "Standard Library" => "./lecture_04/standardlibrary.md",
+    "Standard library" => "./lecture_04/standardlibrary.md",
     "Plots.jl" => "./lecture_04/Plots.md",
     "DataFrames.jl" => "./lecture_04/DataFrames.md",
-    "Other Useful Packages" => "./lecture_04/otherpackages.md",
+    "Other useful packages" => "./lecture_04/otherpackages.md",
+    "Interaction with other languages" => "./lecture_04/interaction.md",
 ]
 
 lecture_05 = [
     "Abstract and composit types" => "./lecture_05/compositetypes.md",
-    "Generic Programming" => "./lecture_05/currencies.md",
+    "Generic programming" => "./lecture_05/currencies.md",
 ]
 
 lecture_06 = [
-    "Modules" => "./lecture_06/modules.md",
-    "Package Manager" => "./lecture_06/pkg.md",
-    "Package Development" => "./lecture_06/develop.md",
+    "Files and modules" => "./lecture_06/modules.md",
+    "Package manager" => "./lecture_06/pkg.md",
+    "Package development" => "./lecture_06/develop.md",
 ]
 
 finalproject = joinpath.("./final_project/", [
@@ -127,7 +128,7 @@ makedocs(;
         "3: Functions and methods" => lecture_03,
         "4: Packages" => lecture_04,
         "5: Type system and generic programming" => lecture_05,
-        "6: Modules and packages" => lecture_06,
+        "6: Code organization" => lecture_06,
         "Course requirements" => finalproject,
         "7: Optimization" => lecture_07,
         "8: Regression and classification" => lecture_08,

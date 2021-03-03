@@ -781,7 +781,7 @@ open("outfile", "w") do io
 end
 ```
 
-## Dot Syntax for Vectorizing Functions
+## Dot syntax for vectorizing functions
 
 In technical-computing languages, it is common to have *vectorized* versions of functions. Consider that we have a function `f(x)`. Its vectorized version is a function that applies function `f` to each element of an array `A` and returns a new array `f(A)`. Such functions are beneficial in languages, where loops are slow and vectorized versions of functions are written in a low-level language (C, Fortran,...) and are much faster.
 

@@ -1,4 +1,4 @@
-# Exception Handling
+# Exception handling
 
 Unexpected behaviour may often occur during running code, which may lead to the situation that some function cannot return a reasonable value. Such behaviour should be handled by either terminating the program with a proper diagnostic error message or allowing that code to take appropriate action.
 

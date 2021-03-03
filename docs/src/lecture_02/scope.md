@@ -1,6 +1,6 @@
-# Soft Local Scope
+# Soft local scope
 
-The scope of a variable is the region of a code where the variable is visible. There are two main types of scopes in Julia: **global** and **local**, and we will discuss it [later](@ref Scope-of-Variables). In this section, we will only focus on loops.
+The scope of a variable is the region of a code where the variable is visible. There are two main types of scopes in Julia: **global** and **local**, and we will discuss it [later](@ref Scope-of-variables). In this section, we will only focus on loops.
 
 Every variable created inside a loop is local, i.e., it is possible to use it only inside the loop.
 

@@ -511,7 +511,7 @@ julia> round(x; sigdigits = 3)
 </p></details>
 ```
 
-## Numerical Conversions
+## Numerical conversions
 
 The previous section showed that numerical conversions could be done by using rounding functions with a specified type of output variable. This works only for converting floating-point numbers to integers. Julia also provides a more general way of how to perform conversions between different (not only numerical) types: notation `T(x)` or `convert(T,x)` converts `x` to a value of type `T`.
 - If `T` is a floating-point type, the result is the nearest representable value, which could be positive or negative infinity

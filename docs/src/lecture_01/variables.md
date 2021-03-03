@@ -98,7 +98,7 @@ There are many types in Julia. In fact, every object in Julia has its type. As a
 
 All types shown in blue are abstract types, i.e., it is impossible to create an instance of such a type. Abstract types are useful for creating logical type hierarchy. Types highlighted in green are concrete types. In many cases, it is useful to have the choice to choose which type to use. As an example, we can see floating-point numbers. There are four concrete types for floating-point numbers. If we want to maximize the precision of some calculations, we can use `BigFloat`. Using `BigFloat` increases precision but also increases computational time. On the other hand, if we want to speed up the code, we can use the type with lower precision, such as `Float32`. However, in most cases, the user does not have to take care of types and use the default type.
 
-## Variable Names
+## Variable names
 
 Julia provides an extremely flexible system for naming variables. Variable names are case-sensitive and have no semantic meaning, i.e., the language will not treat variables differently based on their names.
 

@@ -26,7 +26,7 @@ The new file will open in the editor to the right of the File Explorer sidebar. 
 
 ![](tutorial_6.png)
 
-## Initialize Git Repository
+## Initialize Git repository
 
 Now that we have created a new project, it is time to initialize the git repository to track the project's changes. Go to the `Source Control` bar by pressing the appropriate button in the activity bar. Then press the `Initialize Repository` button, which will create a new Git repository in the project folder.
 

@@ -439,9 +439,7 @@ nothing # hide
 </p></details>
 ```
 
-
-
-## Method Ambiguities
+## Method ambiguities
 
 It is possible to define a set of function methods with no most specific method applicable to some combinations of arguments.
 

@@ -290,7 +290,7 @@ savefig("plot_exercise2.svg") # hide
 ![](plot_exercise2.svg)
 
 
-## Changing the Plotting Series
+## Changing the plotting series
 
 ```@setup plots_srs
 using Plots
