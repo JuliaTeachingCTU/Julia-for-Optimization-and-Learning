@@ -124,11 +124,11 @@ plot(cdfs, 0, 20;
 savefig("Gamma_cdf.svg") # hide
 ```
 
+![](Gamma_cdf.svg)
+
 ```@raw html
 </p></details>
 ```
-
-![](Gamma_cdf.svg)
 
 ## BSON.jl
 
