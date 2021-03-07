@@ -124,8 +124,8 @@ Updating and removing a package can be done in a similar way.
 </p></div>
 ```
 
-``` warning "JuliaHub"
-  [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows you to explore the ecosystem, build packages, and run code in the cloud on large machines and clusters on demand. The most important feature for beginners is the possibility to explore packages, documentation, repositories, or codes in a simple unified way.
+!!! warning "JuliaHub"
+    [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows you to explore the ecosystem, build packages, and run code in the cloud on large machines and clusters on demand. The most important feature for beginners is the possibility to explore packages, documentation, repositories, or codes in a simple unified way.
 
 ## Enviroments
 
