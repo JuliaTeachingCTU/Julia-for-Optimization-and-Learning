@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Package development · Julia for Machine Learning</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Julia for Machine Learning logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Julia for Machine Learning logo"/></a><div class="docs-package-name"><span class="docs-autofit">Julia for Machine Learning</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why/">Why Julia?</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Installation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../installation/julia/">Julia</a></li><li><a class="tocitem" href="../../installation/vscode/">Visual Studio Code</a></li><li><a class="tocitem" href="../../installation/git/">Git</a></li><li><a class="tocitem" href="../../installation/tutorial/">Quickstart guide</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/conditions/">Conditional evaluations</a></li><li><a class="tocitem" href="../../lecture_02/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_02/scope/">Soft local scope</a></li><li><a class="tocitem" href="../../lecture_02/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Scope of variables</a></li><li><a class="tocitem" href="../../lecture_03/exceptions/">Exception handling</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_04/standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../../lecture_04/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_04/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_04/otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../../lecture_04/interaction/">Interaction with other languages</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">5: Type system and generic programming</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_05/compositetypes/">Abstract and composit types</a></li><li><a class="tocitem" href="../../lecture_05/currencies/">Generic programming</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox" checked/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Code organization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../modules/">Files and modules</a></li><li><a class="tocitem" href="../pkg/">Package manager</a></li><li class="is-active"><a class="tocitem" href>Package development</a><ul class="internal"><li><a class="tocitem" href="#Pkg-templates"><span>Pkg templates</span></a></li><li><a class="tocitem" href="#Development-mode"><span>Development mode</span></a></li><li><a class="tocitem" href="#unit-testing"><span>Unit testing</span></a></li><li><a class="tocitem" href="#Image-grid"><span>Image grid</span></a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Course requirements</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../final_project/homeworks/">Homework</a></li><li><a class="tocitem" href="../../final_project/project/">Final project</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Introduction to continuous optimization</a></li><li><a class="tocitem" href="../../lecture_07/unconstrained/">Unconstrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/constrained/">Constrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">10: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">11: Statistics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_11/theory/">Statistics</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-16" type="checkbox"/><label class="tocitem" for="menuitem-16"><span class="docs-label">12: Ordinary differential equations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_12/theory/">Differential equations</a></li><li><a class="tocitem" href="../../lecture_12/ode/">Wave equation</a></li><li><a class="tocitem" href="../../lecture_12/diff_eq/">Julia package</a></li><li><a class="tocitem" href="../../lecture_12/optimal_control/">Optimal control</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">6: Code organization</a></li><li class="is-active"><a href>Package development</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Package development</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_06/develop.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Package-development"><a class="docs-heading-anchor" href="#Package-development">Package development</a><a id="Package-development-1"></a><a class="docs-heading-anchor-permalink" href="#Package-development" title="Permalink"></a></h1><p>The very nice thing about Julia is that it is simple to create a package and share it with other users. This section contains a step-by-step tutorial on how to build a new package from scratch. Moreover, the package that is described in this section, will be used later in the course.</p><h2 id="Pkg-templates"><a class="docs-heading-anchor" href="#Pkg-templates">Pkg templates</a><a id="Pkg-templates-1"></a><a class="docs-heading-anchor-permalink" href="#Pkg-templates" title="Permalink"></a></h2><p>The very first step is to generate a new empty package. There is a built-in function <code>generate</code> in the Pkg REPL that allows generating a new package in an easy way. The <code>generate</code> function can be used as follows from the Pkg REPL</p><pre><code class="language-julia">(@v1.5) pkg&gt; generate PackageName
+ Generating  project PackageName:
+    PackageName/Project.toml
+    PackageName/src/PackageName.jl</code></pre><p>Note that in the case above, a new package with the name <code>PackageName</code> is generated in the current folder. However, it is also possible to use an absolute/relative path to generate a new package in a specific folder. The <code>generate</code> function creates a new folder (with the name that matches the package name) with the following content</p><pre><code class="language-julia">├── Project.toml
+└── src
+    └── PackageName.jl</code></pre><p>We can see that the new package consists of the <code>Project.toml</code> file and the <code>src</code> folder with one <code>.jl</code> file. The <code>src/PackageName.jl</code> file contains a module <code>PackageName</code> as can be seen in the following code. Note that the package, the <code>.jl</code> file, and the module in the <code>.jl</code> file share the same name.</p><pre><code class="language-julia">module PackageName
+
+greet() = print(&quot;Hello World!&quot;)
+
+end # module</code></pre><p>Since the <code>generate</code> function creates an empty package, the <code>Project.toml</code> file is also almost empty. It only contains the name of the package, its unique UUID, its version and the the authors</p><pre><code class="language-toml">name = &quot;PackageName&quot;
+uuid = &quot;fa38fd22-11d6-48c8-ae38-ef06258216d8&quot;
+authors = [&quot;Author Name&quot;]
+version = &quot;0.1.0&quot;</code></pre><p>Note that the package in Julia has to contain only two things: <code>Project.toml</code> file and <code>.jl</code> (in <code>src</code> subfolder) file with a module that contains a source code. So in fact, packages are modules with their own environment.</p><p>The built-in <code>generate</code> function provides only basic functionality for generating packages. In many cases it is sufficient, however, there is the <a href="https://github.com/invenia/PkgTemplates.jl">PkgTemplates</a> packages that offers a very easy, repeatable, and customizable way to generate the files for a new package.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>The goal of this exercise is to create a new package using the PkgTemplates package. Install PkgTemplates and then use the following code to generate a new package template.</p><pre><code class="language-julia">using PkgTemplates
+
+template = Template(;
+    user = &quot;GithubUserName&quot;,            # github user name
+    authors = [&quot;Author1&quot;, &quot;Author2&quot;],   # list of authors
+    dir = &quot;/Path/To/Dir/&quot;,              # dir in which the package will be created
+    julia = v&quot;1.5&quot;,                     # compat version of Julia
+    plugins = [
+        !CompatHelper,                  # disable CompatHelper
+        !TagBot,                        # disable TagBot
+        Readme(; inline_badges = true), # added readme file with badges
+        Tests(; project = true),        # added Project.toml file for unit tests
+        Git(; manifest = true),         # remove manifest.toml from .gitignore
+        License(; name = &quot;MIT&quot;)         # addedMIT licence
+    ],
+)</code></pre><p>Do not forget to change the following keywords: <code>user</code>, <code>authors</code> and <code>dir</code>.</p><p>In the rest of the lecture, we will try to write a code that will help us to visualize gray and color images. The package will provide the following functionality:</p><ul><li>Converting array representation of image to gray or RGB representation.</li><li>Converting array representation of multiple images to an array of gray or RGB images.</li><li>Plotting multiple images at once in a grid.</li></ul><p>Try to come up with a suitable package name that will describe the functionality described above (for some tips on package naming see the official <a href="https://julialang.github.io/Pkg.jl/v1/creating-packages/#Package-naming-guidelines">package naming guidelines</a>. Change the package name in the following code and then use it to generate a new package.</p><pre><code class="language-julia">template(&quot;PackageName&quot;)</code></pre></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>There is no best way to choose the correct package name. In this example we can for example use the <code>ImageInspector</code> name. With the appropriately changed and created template, the package can be generated using the following code</p><pre><code class="language-julia">template(&quot;ImageInspector&quot;)</code></pre><p>If we look into the generated folder, we see that it contains more files than the folder generated by the built-in <code>generate</code> function.</p><pre><code class="language-julia">├── .git
+├── .gitignore
+├── LICENSE
+├── Manifest.toml
+├── Project.toml
+├── README.md
+├── src
+│   └── ImageInspector.jl
+└── test
+    ├── Manifest.toml
+    ├── Project.toml
+    └── runtests.jl</code></pre></p></details><div class = "info-body">
+<header class = "info-header">Interactive package generation</header><p><p>The PkgTemplate provides an interactive way how to generate a new package. The template can be created interactively using the following command.</p><pre><code class="language-julia">Template(; interactive=true)</code></pre><p>Note that we use a really simple template in the above exercise. However, PkgTemplates provides many additional features to simplify the package generation process. There are plugins that add documentation or integration with some GitHub features. See the official <a href="https://invenia.github.io/PkgTemplates.jl/stable/">PkgTemplates documentation</a> for more information.</p></p></div><h2 id="Development-mode"><a class="docs-heading-anchor" href="#Development-mode">Development mode</a><a id="Development-mode-1"></a><a class="docs-heading-anchor-permalink" href="#Development-mode" title="Permalink"></a></h2><p>In the previous section, we created a new empty package. The goal of this section is to show how to create the content of the package. Now we are in a situation, that we created only a folder with some Julia related content. The first thing we have to do is to tell Julia, that the folder is a package and we want to start the development of it. This can be done using the <code>dev</code> (or <code>develop</code>) command in the Pkg REPL followed by the (absolute or relative) path to the main folder of our new package.</p><pre><code class="language-julia">(@v1.5) pkg&gt; dev /absolute/or/relative/path/ImageInspector/</code></pre><p>Similar to the <code>add</code> command, the <code>dev</code> command allows us to load the package using the <code>using</code> or <code>import</code> keyword.</p><pre><code class="language-julia">using ImageInspector</code></pre><p>The difference between <code>add</code> and <code>dev</code> commands is, that the <code>dev</code> command tracks the current state of the package folder and not the concrete git commit in some branch. It means that we do not have to update the package to get the latest functionality. But there is a problem: a package can only be loaded once per Julia session. It means, that once we run <code>using</code> or <code>import</code> command for some package in development mode and then we make some changes in the code these changes will not be applied (even if we run <code>using</code> or <code>import</code> again). As an example, we can add the <code>greet</code> function to the<code>ImageInspector</code> package, which is already loaded in the current Julia session.</p><pre><code class="language-julia">module ImageInspector
+
+export greet
+
+greet() = print(&quot;Hello World!&quot;)
+
+end</code></pre><p>If we now call the <code>greet</code> function, we will get the <code>UndefVarError</code> error as can be seen below</p><pre><code class="language-julia">julia&gt; greet()
+ERROR: UndefVarError: greet not defined</code></pre><p>In this case, we have to restart Julia and start with a fresh Julia session to get the latest functionality.</p><pre><code class="language-julia">julia&gt; using ImageInspector
+
+julia&gt; greet()
+Hello World!</code></pre><p>This is very annoying and it prevents developing packages in a pleasant way. Luckily, there is a very handy package <a href="https://github.com/timholy/Revise.jl">Revise</a> that can make this process significantly more pleasant. The Revise package provides a lot of handy functionality, however, we will present only the basic usage. More advanced use cases can be found in the <a href="https://timholy.github.io/Revise.jl/stable/">documentation</a> of the Revise package.</p><p>The basic use case is as follows. If we want to develop a package and we have a fresh Julia session, we first load the Revise package, and then we load any other packages that we want to use or develop.</p><pre><code class="language-julia">julia&gt; using Revise # importantly, this must come before `using ImageInspector`
+
+julia&gt; using ImageInspector
+
+julia&gt; greet()
+Hello World!</code></pre><p>Now if we decided that we want to add new functionality to the <code>Image Inspector</code> package, we can do it and the Revise package ensures that the new functionality will be available immediately. For example, we can add the <code>greet2</code> function as follows.</p><pre><code class="language-julia">module ImageInspector
+
+export greet, greet2
+
+greet() = print(&quot;Hello World!&quot;)
+greet2() = print(&quot;Hello World!!!!&quot;)
+
+end</code></pre><p>Since we are using the <code>Revise</code> package, it should be possible to call the <code>greet2</code> function without restarting Julia session.</p><pre><code class="language-julia">julia&gt; greet2()
+Hello World!!!!</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>The goal of this exercise is to define a <code>image</code> function that converts a given matrix of real numbers to a matrix of Gray points. The real number can be converted to a Gray point using the <code>Gray</code> constructor from the Colors package. Use the following code to test the function</p><pre><code class="language-julia">using ImageInspector, MLDatasets, Plots
+
+x = MNIST.traintensor(1);
+plot(image(x); axis = nothing, border = :none)</code></pre><p><strong>Hint:</strong> Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to install the Colors package as a dependency of the ImageInspector package.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>Since we want to add the <code>image</code> function to the ImageInspector package, we have to install the Colors package.  The first step is to activate the environment in the ImageInspector package. Then we can use the <code>add Colors</code> to install the Colors package</p><pre><code class="language-julia">(@v1.5) pkg&gt; activate /path/ImageInspector
+ Activating environment at `/path/ImageInspector/Project.toml`
+
+(ImageInspector) pkg&gt; add Colors</code></pre><p>With the Colors package installed, we have to add <code>using Colors</code> into the ImageInspector package. Then we can define the <code>image</code> as follows</p><pre><code class="language-julia">module ImageInspector
+
+using Colors
+
+export image
+
+image(x::AbstractMatrix{&lt;:Real}) = Gray.(x)
+
+end</code></pre><p>Note that we also add <code>export image</code>. It is not necessary and only functions that will be used outside of the module should be exported.</p></p></details><p>The testing code in the previous exercise uses the MLDatasets package. This package provides many well-known datasets used in machine learning. One of them is the <code>MNIST</code> dataset of hand-written digits. When we run the testing code from the previous exercise, we get the following result</p><p><img src="../image_1.svg" alt/></p><p>Even though the dataset should contain only images of hand-written digits, the resulting image does not seem to be a digit. The reason is, that images in the MNIST dataset are stored in the <strong>width x height</strong> format and the Plots package assumes <strong>height x width</strong> format. We can simply solve this issue by redefining the <code>image</code> function as follows</p><pre><code class="language-julia">function image(x::AbstractMatrix{T}; flip = true) where {T &lt;: Real}
+    xx = flip ? PermutedDimsArray(x, (2, 1)) : x
+    return Gray.(xx)
+end</code></pre><p>Note that we use the <code>PermutedDimsArray</code>  that creates a view such that the dimensions appear to be permuted. There is also the <code>permutedims</code> function, that does the same but creates a copy. Now we can check if the function works as we wanted.</p><pre><code class="language-julia">plot(
+    plot(image(x; flip = true); title = &quot;flip = true&quot;),
+    plot(image(x; flip = false); title = &quot;flip = false&quot;);
+    axis = nothing,
+    border = :none,
+)</code></pre><p><img src="../image_2.svg" alt/></p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Follow the same logic as in the previous exercise and define a new method for the <code>image</code> function that converts a given 3D array of real numbers to a matrix of RGB points. Assume that the third dimension represents color channels. Three real numbers can be converted to an RGB point using the <code>RGB</code> constructor from the Colors package. Make sure, that the input array is of the proper size. If the size of the third dimension is</p><ul><li><code>1</code> the function should return a gray image,</li><li><code>3</code> the function should return a color image,</li><li>otherwise, the function should throw an error.</li></ul><p>Use the following code to test the <code>image</code> function</p><pre><code class="language-julia">using ImageInspector, MLDatasets, Plots
+
+x1 = MNIST.traintensor(1);
+x2 = CIFAR10.traintensor(2);
+plot(
+    plot(image(x1)),
+    plot(image(x2));
+    axis = nothing,
+    border = :none
+)</code></pre><p><strong>Hint:</strong> Use the <code>eachslice</code> function to split the given array along the third dimension. Use the <code>dropdims</code> function to drop dimension if necessary.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>In this case, we have three options as said in the description of exercises. If the size of the third dimension is</p><ul><li><code>1</code> we use the <code>dropdims</code> function to drop the third dimension and recursively call the <code>image</code> function.</li><li><code>2</code> we firstly use the <code>PermutedDimsArray</code> if <code>flip</code> is true and then the <code>eachslice</code> function to split the input array along the third dimension to get the matrices representing red/green/blue channels. Then we can use broadcasting to create the array of RGB points from these three matrices.</li><li><code>3</code> we throw and <code>ArgumentError</code>.</li></ul><p>Altogether, the new method can be defined as follows.</p><pre><code class="language-julia">function image(x::AbstractArray{T,3}; flip = true) where {T &lt;: Real}
+    s = size(x, 3)
+    if s == 1
+        return image(dropdims(x; dims = 3); flip)
+    elseif s == 3
+        xx = flip ? PermutedDimsArray(x, (2, 1, 3)) : x
+        return RGB.(eachslice(xx; dims= 3)...)
+    else
+        throw(ArgumentError(&quot;unsupported size of the third dimension $(s) ∉ [1,3].&quot;))
+    end
+end</code></pre><p>Note that we use the <code>eachslice</code> function that returns a generator, where each element represents one color channel. We also use the three-dot syntax to unpack the generator as separate input arguments to the <code>RGB</code> constructor.</p></p></details><p><img src="../image_3.svg" alt/></p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Images are usually stored in multidimensional arrays for computational purposes. For example, gray images are often stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, color images are usually stored as a 4D array. Add new methods for the <code>image</code> function with the following properties:</p><ul><li>New methods should accept two arguments:<ul><li><code>x</code>: 3D or 4D array of real numbers that represents images,</li><li><code>inds</code>: one or more indices of images that we want to extract and convert to Gray/RGB representation.</li></ul></li><li>If only one index is provided, the method should return a single image, i.e. array of Gray or RGB points.</li><li>If more indices are provided, the method should return an array of images.</li></ul><p>Use the following code to test the <code>image</code> function</p><pre><code class="language-julia">using ImageInspector, MLDatasets, Plots
+
+x = MNIST.traintensor(1:10);
+
+plot(plot.(image(x, [1,2]))...; axis = nothing, border = :none)</code></pre><p><strong>Hint:</strong> use the <code>selectdim</code> function to select an individual image from an array of all images.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>We have four possible combinations of the input arguments:</p><ol><li>3D array and one index,</li><li>3D array and mutliple indices,</li><li>4D array and one index,</li><li>4D array and mutliple indices.</li></ol><p>It means that we should define a method for each combination of the input arguments. It can be done in the following way</p><pre><code class="language-julia">image(x::AbstractArray{T,3}, inds) where {T} = [image(selectdim(x, 3, i)) for i in inds]
+image(x::AbstractArray{T,4}, inds) where {T} = [image(selectdim(x, 4, i)) for i in inds]
+image(x::AbstractArray{T,3}, ind::Int) where {T} = image(x, [ind])[1]
+image(x::AbstractArray{T,4}, ind::Int) where {T} = image(x, [ind])[1]</code></pre><p>However, these function definitions are redundant. In fact, we can reduce the number of methods to only two. It can be done as follows.</p><pre><code class="language-julia">const ImArray{T&lt;:Real} = Union{AbstractArray{T,3}, AbstractArray{T,4}}
+
+image(x::ImArray, inds) = [image(selectdim(x, ndims(x), i)) for i in inds]
+image(x::ImArray, ind::Int) = image(x, [ind])[1]</code></pre><p>Note that we use the <code>const</code> and <code>Union</code> type keyword to create a constant that represents a union type for the abstract 3D and 4D arrays of real numbers. Such a constant can be used in a normal type for multiple-dispatch.</p></p></details><p><img src="../image_4.svg" alt/></p><h2 id="unit-testing"><a class="docs-heading-anchor" href="#unit-testing">Unit testing</a><a id="unit-testing-1"></a><a class="docs-heading-anchor-permalink" href="#unit-testing" title="Permalink"></a></h2><p>In the previous section, we added a new function with four methods to our package and we also tested manually if these functions work properly. However, it is not an optimal way how to test the code, especially for large projects. The standard way for testing code is to use so-called <a href="https://en.wikipedia.org/wiki/Unit_testing">unit testing</a>.</p><p>The <code>Test</code> package from Julia&#39;s standard library provides utility functions to simplify the process of writing unit tests. The core of the package is the <code>@test</code> macro that tests if the given expression evaluates as <code>true</code>.</p><pre><code class="language-julia-repl">julia&gt; using Test
+
+julia&gt; @test 1 = 1
+ERROR: syntax: invalid assignment location &quot;1&quot;
+
+julia&gt; @test 1 = 3
+ERROR: syntax: invalid assignment location &quot;1&quot;</code></pre><p>It is also possible to pass additional arguments to the <code>@test</code> macro. In such a case the following syntax is used.</p><pre><code class="language-julia-repl">julia&gt; @test π ≈ 3.14 atol=0.01
+Test Passed</code></pre><p>If we go back to our package, we can start writing tests for the methods of the <code>image</code> function. To do that, we have to first import all necessary packages: <code>Test</code>, <code>ImageInspector</code> and <code>Colors</code>.</p><pre><code class="language-julia">using ImageInspector, Test
+using ImageInspector.Colors</code></pre><p>Note, that we import <code>Colors</code> from the <code>ImageInspector</code> to use the same version. Now we can define the input and corresponding expected output for the <code>image</code> function.</p><pre><code class="language-julia">x = [0.1 0.2; 0.3 0.4];
+img = Gray.(x);
+img_flipped = Gray.(x&#39;);</code></pre><p>Since the input to the <code>image</code> function is a matrix, our intention is to test the first method of the <code>image</code> function that creates gray images. The tests themselves can be performed as follows.</p><pre><code class="language-julia">julia&gt; @test image(x) == img_flipped
+Test Passed
+
+julia&gt; @test image(x; flip = false) == img
+Test Passed
+
+julia&gt; @test image(x; flip = true) == img_flipped
+Test Passed</code></pre><p>Since all tests passed correctly, after each test the message <code>Test Passed</code> is printed. It is fine to write tests in this way if there is only a small number of tests. However, in practice, it is better to group tests in some logical way. The <code>Test</code> package provides the <code>@testset</code> macro designed for such cases. The basic usage of the <code>@testset</code> macro is the following.</p><pre><code class="language-julia">julia&gt; @testset &quot;image function&quot; begin
+           @test image(x) == img_flipped
+           @test image(x; flip = false) == img
+           @test image(x; flip = true) == img_flipped
+       end
+Test Summary:  | Pass  Total
+image function |    3      3</code></pre><p>Note that we use the <code>begin ... end</code> block to specify which tests should be grouped together. Moreover, it is possible to use the <code>@testset</code> macro in combination with the <code>for</code> loop to perform more tests in a simple way. For example, we may want to test the <code>image</code> function for different input images.</p><pre><code class="language-julia">x1 = [0.1 0.2];
+x2 = [0.1 0.2; 0.3 0.4];
+x3 = [0.1 0.2 0.3; 0.4 0.5 0.6];
+x4 = [0.1 0.2; 0.3 0.4; 0.5 0.6];
+x5 = [0.1, 0.2];</code></pre><p>In such a case the tests can be performed in the following way. We use nested test sets to group all tests together, since each iteration of the <code>for</code> loop after the <code>@testset</code> is treated as a separate group of tests.</p><pre><code class="language-julia">julia&gt; @testset &quot;image function&quot; begin
+           @testset &quot;size(x) = $(size(x))&quot; for x in [x1, x2, x3, x4, x5]
+               img = Gray.(x);
+               img_flipped = Gray.(x&#39;);
+               @test image(x) == img_flipped
+               @test image(x; flip = false) == img
+               @test image(x; flip = true) == img_flipped
+           end
+       end
+size(x) = (2,): Error During Test
+[...]
+Test Summary:      | Pass  Error  Total
+image function     |   12      3     15
+  size(x) = (1, 2) |    3             3
+  size(x) = (2, 2) |    3             3
+  size(x) = (2, 3) |    3             3
+  size(x) = (3, 2) |    3             3
+  size(x) = (2,)   |           3      3
+ERROR: Some tests did not pass: 12 passed, 0 failed, 3 errored, 0 broken.</code></pre><p>Note that not all tests passed. The reason is, that the variable <code>x5</code> is a vector and not a matrix. From the list of all methods defined for the <code>image</code> function, we can see that there is no method for the vector.</p><pre><code class="language-julia">julia&gt; methods(image)
+# 4 methods for generic function &quot;image&quot;:
+[1] image(x::AbstractArray{T,2}; flip) where T&lt;:Real in ImageInspector at [...]
+[2] image(x::AbstractArray{T,3}; flip) where T&lt;:Real in ImageInspector at [...]
+[3] image(x::Union{AbstractArray{T,3}, AbstractArray{T,4}} where T&lt;:Real, ind::Int64) in ImageInspector at [...]
+[4] image(x::Union{AbstractArray{T,3}, AbstractArray{T,4}} where T&lt;:Real, inds) in ImageInspector at [...]</code></pre><p>It means, that if we pass a vector as an argument, the <code>MethodError</code> will appear. The <code>Test</code> package provides the <code>@test_throw</code> macro that can be used to test if the expression throws the correct exception.</p><pre><code class="language-julia">julia&gt; @test_throws MethodError image(x5)
+Test Passed
+      Thrown: MethodError</code></pre><p>There are other handy macros provided by the <code>Test</code> package besides the ones above For more details see the <a href="https://docs.julialang.org/en/v1/stdlib/Test/">documentation</a>.</p><p>The last thing that we have to do to allow automated testing is to copy the tests into the <code>/test/runtests.jl</code> file in the <code>ImageInspector</code> project folder. The contect of the <code>/test/runtests.jl</code> should be similar to the following one.</p><pre><code class="language-julia">using ImageInspector
+using ImageInspector.Colors
+using Test
+
+@testset &quot;ImageInspector.jl&quot; begin
+    x1 = [0.1 0.2]
+    x2 = [0.1 0.2; 0.3 0.4]
+    x3 = [0.1 0.2 0.3; 0.4 0.5 0.6]
+    x4 = [0.1 0.2; 0.3 0.4; 0.5 0.6]
+    x5 = [0.1, 0.2]
+
+    @testset &quot;size(x) = $(size(x))&quot; for x in [x1, x2, x3, x4]
+        img = Gray.(x);
+        img_flipped = Gray.(x&#39;);
+        @test image(x) == img_flipped
+        @test image(x; flip = false) == img
+        @test image(x; flip = true) == img_flipped
+    end
+
+    @test_throws MethodError image(x5)
+end</code></pre><p>Now we can run tests directly from the Pkg REPL using the <code>test</code> command.</p><pre><code class="language-julia">(@v1.5) pkg&gt; test ImageInspector
+    Testing ImageInspector
+Status `.../Project.toml`
+  [...]
+Status `.../Manifest.toml`
+  [...]
+Test Summary:     | Pass  Total
+ImageInspector.jl |   13     13
+    Testing ImageInspector tests passed</code></pre><p>Note that it is possible to test the activated package using the <code>test</code> command without the package name. In our case, if we activate the environment corresponding to the <code>ImageInspector</code>, we can run tests as follows.</p><pre><code class="language-julia">(@v1.5) pkg&gt; activate ImageInspector
+
+(ImageInspector) pkg&gt; test
+    Testing ImageInspector
+Status `.../Project.toml`
+  [...]
+Status `.../Manifest.toml`
+  [...]
+Test Summary:     | Pass  Total
+ImageInspector.jl |   13     13
+    Testing ImageInspector tests passed</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Follow the same logic as we in the examples above and write tests for the rest of the methods of the <code>image</code> function. Since there are many ways to write tests, we will leave this exercise without a solution.</p></p></div><h2 id="Image-grid"><a class="docs-heading-anchor" href="#Image-grid">Image grid</a><a id="Image-grid-1"></a><a class="docs-heading-anchor-permalink" href="#Image-grid" title="Permalink"></a></h2><p>Now we have the basic functionality of the <code>ImageInspector</code> package defined. However, we want to plot multiple images at once in a simple way to be able to inspect loaded data. To do so, we will define two functions that will allow us to group multiple images into a grid. The first function defined blow computes grid size for the given number of images.</p><pre><code class="language-julia">function gridsize(n::Int; nrows::Int = -1, ncols::Int = - 1)
+    if nrows &lt; 1
+        if ncols &lt; 1
+            nrows = round(Int, sqrt(n))
+            ncols = ceil(Int, n / nrows)
+        else
+            nrows = ceil(Int, n / ncols)
+        end
+    else
+        ncols = ceil(Int, n / nrows)
+    end
+    return nrows, ncols
+end</code></pre><p>Note that we can control the number of rows or columns using keyword arguments <code>nrows</code> and <code>ncols</code>. The second function consists of two methods and converts a given array of real numbers to one big image of the appropriate color type.</p><pre><code class="language-julia">imagegrid(x, ind::Int; kwargs...) = image(x, ind)
+
+function imagegrid(x, inds; sep = 1, kwargs...)
+    imgs = image(x, inds)
+    n = length(imgs)
+    nrows, ncols = gridsize(n; kwargs...)
+
+    h, w = size(imgs[1])
+    A = fill(
+        eltype(imgs[1])(1), # white color in proper color type
+        nrows*h + (nrows + 1)*sep, # height of the reculting image
+        ncols*w + (ncols + 1)*sep, # width of the reculting image
+    )
+
+    for i in 1:nrows, j in 1:ncols
+        k = j + (i - 1) * ncols
+        k &gt; n &amp;&amp; break
+
+        rows = (1:h) .+ (i - 1)*h .+ i*sep
+        cols = (1:w) .+ (j - 1)*w .+ j*sep
+        A[rows, cols] = imgs[k]
+    end
+    return A
+end</code></pre><p>Note that we use the <code>sep</code> keyword argument to specify the width of the separator between images. With all functions defined, we can test them on real images.</p><pre><code class="language-julia">using ImageInspector, MLDatasets, Plots
+
+x = MNIST.traintensor(1:10);
+plot(imagegrid(x, 1:10; n_rows = 2, sep = 2); axis = nothing, border = :none)</code></pre><p><img src="../image_5.svg" alt/></p><div class = "info-body">
+<header class = "info-header">Optional dependencies</header><p><p>We can notice, that in all previous examples, we use the same settings for the <code>plot</code> function. So it makes sense to write an auxiliary function that sets desired attributes for the <code>plot</code> function. However, such a function will depend on the <code>Plots</code> package. It means, that if we add the <code>Plots</code> package to the <code>ImageInspector</code> package it will significantly slow down the load time. It can be annoying if we want to use some functionality that does not depends on the <code>Plots</code> package and still we have to load that package. Luckily, there is the <code>Required</code> that allows loading of the code automatically when another package is loaded, so that explicit dependencies (and long load times) can be avoided. In our case, we can add <code>Requires</code> to the <code>ImageInspector</code> and write a new file <code>/src/imageplot.jl</code> with the following content.</p><pre><code class="language-julia">using .Plots
+
+export imageplot
+
+function imageplot(x, ind; nrows = -1, ncols = -1, sep = 1, kwargs...)
+    return plot(imagegrid(x, ind; nrows, ncols, sep);
+        legend = false,
+        axis = nothing,
+        border = :none,
+        kwargs...
+    )
+end</code></pre><p>Note that we only defined a wrapper function for the <code>plot</code> function and exported this function. Also note, that we have to use a relative path to the <code>Plots</code> package when using it. The last thing we have to do is to specify on what package the code depends. To do that we have to define the <code>__init__()</code> function in the <code>/src/ImageInspector.jl</code> file.</p><pre><code class="language-julia">function __init__()
+    @require Plots=&quot;91a5bcdd-55d7-5caf-9e0b-520d859cae80&quot; include(&quot;imageplot.jl&quot;)
+end</code></pre><p>The <code>__init__</code> function has to contain the <code>@require</code> macro followed by the package name and its unique UUID (can be found in the <a href="https://github.com/JuliaRegistries/General">JuliaRegistries</a> for public packages) and the code that should be included.</p><p>Now we can start a new Julia session and test if the loading works properly. If we do not load <code>Plots</code>, the <code>imageplot</code> function will not be available as can be seen below.</p><pre><code class="language-julia">julia&gt; using ImageInspector, MLDatasets
+
+julia&gt; x = CIFAR10.traintensor(1:10);
+
+julia&gt; imageplot(x, 1:10; nrows = 2, sep = 2)
+ERROR: UndefVarError: imageplot not defined</code></pre><p>Now we can load the <code>Plots</code> package and the <code>imageplot</code> function will start working.</p><pre><code class="language-julia">julia&gt; using Plots
+
+julia&gt; imageplot(x, 1:10; nrows = 2, sep = 1, background = RGB(184/255, 223/255, 250/255))</code></pre><p><img src="../image_6.svg" alt/></p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pkg/">« Package manager</a><a class="docs-footer-nextpage" href="../../final_project/homeworks/">Homework »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 8 March 2021 20:48">Monday 8 March 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
