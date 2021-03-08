@@ -38,7 +38,7 @@ struct Point{T <: Real}
     y::T
 end
 
-coordinates(p::Point) where T = (p.x, p.y)
+coordinates(p::Point) = (p.x, p.y)
 show(io::IO, p::Point) = print(io, coordinates(p))
 distance(p::Point, q::Point) = norm(coordinates(q) .- coordinates(p), 2)
 
