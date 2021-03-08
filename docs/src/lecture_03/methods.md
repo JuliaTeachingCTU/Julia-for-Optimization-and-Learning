@@ -116,7 +116,7 @@ The `supertypes_tree` function can be defined by:
 
 ```jldoctest methods; output = false
 function supertypes_tree(T::Type, level::Int = 0)
-    T === Any && return
+    isequal(T, Any) && return
     println(repeat("   ", level), T)
     supertypes_tree(supertype(T), level + 1)
     return
@@ -411,7 +411,7 @@ Write the `salary_yearly` function which computes the yearly salary for both stu
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_yearly` function.
+Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_monthly` function.
 ```@example methods
 salary_yearly(s::Student) = 12*salary_monthly(s)
 

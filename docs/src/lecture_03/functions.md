@@ -44,7 +44,7 @@ end
 plus (generic function with 1 method)
 ```
 
-The example above contains the `println` function on the last line. However, if the function is called, nothing is printed into the REPL. The happened because expressions after the `return` keyword are never evaluated.
+The example above contains the `println` function on the last line. However, if the function is called, nothing is printed into the REPL. This is because expressions after the `return` keyword are never evaluated.
 
 ```jldoctest functions
 julia> plus(4, 5)
@@ -75,7 +75,7 @@ julia> typeof(ps)
 NTuple{4,Int64}
 ```
 
-Since the function returns a tuple, returned values can be directly unpacked into multiple variables. This can be done in the same way as unpacking [tuples](@ref Tuples).
+Note that the function returns `NTuple{4, Int64}` which is a compact way of representing the type for a tuple of length `N = 4` where all elements are of the same type. Since the function returns a tuple, returned values can be directly unpacked into multiple variables. This can be done in the same way as unpacking [tuples](@ref Tuples).
 
 ```jldoctest functions
 julia> x1, x2, x3, x4 = powers(2)
@@ -105,7 +105,7 @@ To use recursion, we have to split the computation into three parts:
 - `p > 0`: the function should be called recursively with arguments `x`, `p - 1` and the result should be multiplied by `x`.
 - `p < 0`: then it is equivalent to call the power function with arguments `1/x`, `-p`.
 
-These three cases can be defined in one `if` condition as follows:
+These three cases can be defined using the `if-elseif` as follows:
 
 ```jldoctest functions_ex; output = false
 function power(x::Real, p::Integer)
@@ -401,7 +401,7 @@ julia> linear(2; a = 2, b = 4)
 The semicolon is not mandatory and can be omitted. Moreover, the order of keyword arguments is arbitrary. It is even possible to mix keyword arguments with positional arguments, as shown in the following example.
 
 ```jldoctest key_args
-julia> linear(b = 4, 2, a = 2) # If you use this, you will burn in hell. Also, Vasek does not check my changes :D
+julia> linear(b = 4, 2, a = 2) # If you use this, you will burn in hell :D
 8
 ```
 
@@ -714,7 +714,7 @@ Those two function declarations create functions with automatically generated na
 ```@example
 using Plots
 
-f(x,a) = (x+a)^2
+f(x,a) = (x + a)^2
 plot(-1:0.01:1, x -> f(x,0.5))
 
 savefig("Plots.svg") # hide

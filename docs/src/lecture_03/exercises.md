@@ -10,7 +10,7 @@ The universe of the Game of Life is an infinite, two-dimensional orthogonal grid
 
 The first generation must be initialized. Every new generation is created by applying the above rules simultaneously to every cell in the previous generations; births and deaths occur simultaneously. The moment when this happens is called a tick. Since every generation depends only on the previous one, this process is a [Markov chain](https://en.wikipedia.org/wiki/Markov_chain).
 
-The following few exercises will implement the Game of Life. We will consider finite university with periodic boundary conditions.
+The following few exercises will implement the Game of Life. We will consider finite universe with periodic boundary conditions.
 
 ```@raw html
 <div class = "exercise-body">
@@ -115,7 +115,7 @@ Write a function `willsurvive` that returns `true` if the cell will survive base
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `call == 1`.
+This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `cell == 1`.
 
 ```julia
 function willsurvive(cell, k)
