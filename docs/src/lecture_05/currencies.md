@@ -91,7 +91,7 @@ Base.zero(c::Currency) = zero(typeof(c))
 
 ```
 
-In our case, we added two new methods. The former one works for any subtype of the `Currency` type and the latter for any instance of any subtype of the `Currency` type. In the functions above, we use only the latter method. However, for convenience, it is useful to define the former method too. The rest of the methods can not be defined in such a simple way. In the rest of the section, we will show how to define the `conversion` function for currencies. We will also show how to define arithmetic operations and other basic functions on currencies.
+In our case, we added two new methods. The former one works for any subtype of the `Currency` type and the latter for any instance of any subtype of the `Currency` type. In the functions above, we use only the former method. However, for convenience, it is useful to define the latter method too. The rest of the methods can not be defined in such a simple way. In the rest of the section, we will show how to define the `conversion` function for currencies. We will also show how to define arithmetic operations and other basic functions on currencies.
 
 ## Concrete types
 
@@ -142,7 +142,7 @@ symbol(::Type{Euro}) = "€"
 symbol (generic function with 2 methods)
 ```
 
-Note that we defined one method for all subtypes of the `Currency` type and then one method that is used only for the `Euro` type. With the `symbol` function, we can define custom pretty printing. It can be done by adding a new method to the `show` function from the `Base`. It is possible to define a custom show function for different output formats. For example, it is possible to define different formating for HTML output. In the example below, we show only the basic usage. For more information the [official documentation](https://docs.julialang.org/en/v1/manual/types/#man-custom-pretty-printing).
+Note that we defined one method for all subtypes of the `Currency` type and then one method that is used only for the `Euro` type. With the `symbol` function, we can define custom pretty printing. It can be done by adding a new method to the `show` function from the `Base`. It is possible to define a custom show function for different output formats. For example, it is possible to define different formating for HTML output. In the example below, we show only the basic usage. For more information see the [official documentation](https://docs.julialang.org/en/v1/manual/types/#man-custom-pretty-printing).
 
 ```jldoctest currency; output=false
 Base.show(io::IO, c::T) where {T <: Currency} = print(io, c.value, " ", symbol(T))
@@ -255,7 +255,7 @@ julia> euro2dollar(eur)
 1.3 €
 ```
 
-It is a valid way to write a code. However, we can do it more generically. To write a generic code, we have to realize few things. Consider the situation that we have two currencies, and we know the exchange rate ``r_{1 \rightarrow 2}`` from the first currency to the second one. The transitivity assumption implies that the second currency's exchange rate to the first one is ``r_{2 \rightarrow 1} = r_{1 \rightarrow 2}^{-1}``. This means that we only need to define one exchange rate from which the other can be calculated.
+It is a valid way to write a code. However, we can do it more generically. To write a generic code, we have to realize few things. Consider the situation that we have two currencies, and we know the exchange rate ``r_{1 \rightarrow 2}`` from the first currency to the second one. The transitivity assumption implies that the exchange rate from the second currency to the first one is ``r_{2 \rightarrow 1} = r_{1 \rightarrow 2}^{-1}``. This means that we only need to define one exchange rate from which the other can be calculated.
 
 ```jldoctest currency; output=false
 rate(::Type{Euro}, ::Type{Dollar}) = 0.83
@@ -265,7 +265,7 @@ rate(::Type{Euro}, ::Type{Dollar}) = 0.83
 rate (generic function with 1 method)
 ```
 
-and then we can use a generic function that will define the exchange rate for the opposite direction
+Now we can use a generic function that will define the exchange rate for the opposite direction
 
 ```jldoctest currency; output=false
 rate(T::Type{<:Currency}, ::Type{Euro}) = 1 / rate(Euro, T)
@@ -359,7 +359,7 @@ rate(T::Type{<:Currency}, C::Type{<:Currency}) = rate(Euro, C) * rate(T, Euro)
 rate (generic function with 5 methods)
 ```
 
-To test if the `test` function works as intended, we have to add a new currency.
+To test if the `rate` function works as intended, we have to add a new currency.
 
 ```jldoctest currency; output=false
 struct Pound <: Currency
@@ -375,7 +375,7 @@ rate(::Type{Euro}, ::Type{Pound}) = 1.13
 rate (generic function with 6 methods)
 ```
 
-We can easily test that the rate function works in all possible cases correctly in the following way.
+We can easily test that the `rate` function works in all possible cases correctly in the following way.
 
 ```jldoctest currency
 julia> rate(Pound, Pound) # 1
@@ -455,6 +455,8 @@ julia> dlr = convert(Dollar, pnd)
 1.3 $
 ```
 
+Note that the rounding is done only for printing, but the original value is unchanged.
+
 ```@raw html
 </p></details>
 ```
@@ -474,7 +476,7 @@ Note that one does not need to define both methods, as can be seen below.
 
 ```julia
 Base.promote_rule(::Type{Euro}, ::Type{<:Currency}) = ...
-Base.promote_rule(::Type{Euro}, ::Type{<:Currency}) = ...
+Base.promote_rule(::Type{<:Currency}, ::Type{Euro}) = ...
 ```
 
 The symmetry is implied by the way `promote_rule` is used in the promotion process. Since we have three different currencies, we also have to define the promotion type for pair `Dollar`, `Pound`.
@@ -517,7 +519,7 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2))
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a new currency, `CzechCrown`, that will represent Czech crowns. The exchange rate to euro is `0.038.`
+Define a new currency, `CzechCrown`, that will represent Czech crowns. The exchange rate to euro is `0.038` and all other currencies should take precedence over the Czech crown.
 
 ```@raw html
 </p></div>
@@ -540,7 +542,6 @@ With the defined type, we must add new methods for the `symbol` and `rate` funct
 
 ```jldoctest currency; output=false
 symbol(::Type{CzechCrown}) = "Kč"
-
 rate(::Type{Euro}, ::Type{CzechCrown}) = 0.038
 
 # output

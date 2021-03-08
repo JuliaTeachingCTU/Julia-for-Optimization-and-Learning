@@ -230,28 +230,9 @@ true
 </p></div>
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
-
-```@raw html
-</p></details>
-```
-
 ## Parametric types
 
-An important and powerful feature of Julia's type system is that it is parametric: types can take parameters. It means that type declaration actually introduces a whole family of new types (one for each possible combination of parameter values). Parametric (abstract) types can be defined as follows.
+An important and powerful feature of Julia's type system is that it is parametric: types can take parameters. It means that type declaration actually introduces a whole family of new types (one for each possible combination of parameter values). Parametric abstract and composite types can be defined as follows.
 
 ```jldoctest structs; output = false
 abstract type AbstractPoint{T} end
@@ -278,20 +259,14 @@ true
 Thus, this single declaration actually declares concrete type for each type `T` that is a subtype of `Real`.  The `Point` type itself is also a valid type object, containing all instances `Point{Float64}`, `Point{Int64}`, etc., as subtypes.
 
 ```jldoctest structs
-julia> Point{Float64} <: Point
+julia> Point{Float64} <: Point <: AbstractPoint
 true
 
-julia> Point{Int64} <: Point
-true
-
-julia> Point{Float64} <: AbstractPoint
-true
-
-julia> Point{Int64} <: AbstractPoint
+julia> Point{Int64} <: Point <: AbstractPoint
 true
 ```
 
-However, concrete `Point` types with different `T` values are never subtypes of each other. Even though `Float64` is a subtype of ` Real`, the `Point{Float64}` is not a subtype of  `Point{Real}`.
+However, concrete `Point{T}` types with different `T` values are never subtypes of each other. Even though `Float64` is a subtype of ` Real`, the `Point{Float64}` is not a subtype of  `Point{Real}`.
 
 ```jldoctest structs
 julia> Point{Float64} <: Point{Real}
@@ -306,47 +281,59 @@ false
 
 This behavior is for practical reasons: while any instance of `Point{Float64}` may conceptually be like an instance of `Point{Real}` as well, the two types have different representations in memory:
 
-- An instance of `Point{Float64}` can be represented compactly and efficiently as an immediate pair of 64-bit values;
+- An instance of `Point{Float64}` can be represented compactly and efficiently as an immediate pair of 64-bit values.
 - An instance of `Point{Real}` must be able to hold any pair of instances of `Real`. Since objects that are instances of `Real` can be of arbitrary size and structure, in practice, an instance of `Point{Real}` must be represented as a pair of pointers to individually allocated `Real` objects.
 
 The efficiency gained by being able to store `Point{Float64}` objects with immediate values is magnified enormously in the case of arrays: an `Array{Float64}` can be stored as a contiguous memory block of 64-bit floating-point values, whereas an `Array{Real}` must be an array of pointers to individually allocated `Real` objects - which may well be boxed 64-bit floating-point values, but also might be arbitrarily large, complex objects, which are declared to be implementations of the `Real` abstract type.
 
 Since `Point{Float64}` is not a subtype of `Point{Real}`, the following method can't be applied to arguments of type `Point{Float64}`.
 
-```jldoctest structs
-julia> norm(p::Point{Real}) = sqrt(p.x^2 + p.y^2)
-norm (generic function with 1 method)
+```julia structs
+julia> coordinates(p::Point{Real}) = (p.x, p.y)
 
-julia> norm(Point(1,2))
-ERROR: MethodError: no method matching norm(::Point{Int64})
+julia> coordinates(Point(1,2))
+ERROR: MethodError: no method matching coordinates(::Point{Int64})
 [...]
 
-julia> norm(Point(1.0,2.0))
-ERROR: MethodError: no method matching norm(::Point{Float64})
+julia> coordinates(Point(1.0,2.0))
+ERROR: MethodError: no method matching coordinates(::Point{Float64})
 [...]
 ```
+
 
 A correct way to define a method that accepts all arguments of type `Point{T}` where `T` is a subtype of `Real` is as follows.
 
 ```jldoctest structs
-julia> norm(p::Point{<:Real}) = sqrt(p.x^2 + p.y^2)
-norm (generic function with 2 methods)
+julia> coordinates(p::Point{<:Real}) = (p.x, p.y)
+coordinates (generic function with 1 method)
 
-julia> norm(Point(1,2))
-2.23606797749979
+julia> coordinates(Point(1,2))
+(1, 2)
 
-julia> norm(Point(1.0,2.0))
-2.23606797749979
+julia> coordinates(Point(1.0,2.0))
+(1.0, 2.0)
+```
+
+Or simply use the `Point` type without specified parameter. It is also possible to define function for all subtypes of some abstract type.
+
+```jldoctest structs
+julia> Base.show(io::IO, p::AbstractPoint) = print(io, coordinates(p))
+
+julia> Point(4, 2)
+(4, 2)
+
+julia> Point(0.2, 1.3)
+(0.2, 1.3)
 ```
 
 There are two ways how to instantiate the `Point` type.  The first way is to create an instance of `Point{T}` without specifying the `T` parameter and letting Julia decide which type should be used.  The second way is to specify the `T` parameter manually.
 
 ```jldoctest structs
 julia> Point(1, 2)
-Point{Int64}(1, 2)
+(1, 2)
 
 julia> Point{Float32}(1, 2)
-Point{Float32}(1.0f0, 2.0f0)
+(1.0f0, 2.0f0)
 ```
 
  Note that the default constructors work only if we use arguments with the same type or if we specify the `T` parameter manually. In all other cases, an error will occur.
@@ -365,7 +352,7 @@ This situation can be handled by defining custom constructors, as discussed in t
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Some text that describes the exercise
+Define a structure that represents 3D-point. Do not forget to define it as a subtype of the AbstractPoint type. Also, add a new method to the `coordinates` function.
 
 ```@raw html
 </p></div>
@@ -373,7 +360,31 @@ Some text that describes the exercise
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Solution
+Since we did not specify what the structure should look like, there are several possibilities for how to define it. For example, we can define it as a structure with three fields.
+
+```jldoctest structs; output = false
+struct Point3D{T <: Real} <: AbstractPoint{T}
+    x::T
+    y::T
+    z::T
+end
+
+coordinates(p::Point3D) = (p.x, p.y, p.z)
+
+# output
+
+coordinates (generic function with 2 methods)
+```
+
+Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type.
+
+```jldoctest structs
+julia> Point3D(1, 2, 3)
+(1, 2, 3)
+
+julia> Point3D{Float32}(1, 2, 3)
+(1.0f0, 2.0f0, 3.0f0)
+```
 
 ```@raw html
 </p></details>
@@ -383,7 +394,7 @@ Solution
 
 Constructors are functions that create new instances of composite types. When the user defines a new composite type,  Julia creates default constructors. However, sometimes it is very useful to add additional constructors. As an example, we can mention the case from the end of the previous section. In this case, it makes sense to have the ability to create an instance of the `Point` type from two numbers that can be of any subtypes of `Real`. This can be achieved by defining the following constructor.
 
-```jldoctest structs
+```jldoctest structs; output = false
 Point(x::Real, y::Real) = Point(promote(x, y)...)
 
 # output
@@ -395,38 +406,60 @@ Note that we use the `promote` function. This function converts its arguments to
 
 ```jldoctest structs
 julia> Point(1, 2.0)
-Point{Float64}(1.0, 2.0)
+(1.0, 2.0)
+
+julia> typeof(Point(1, 2.0))
+Point{Float64}
 ```
 
 As expected, the result is of type `Point{Float64}`. The constructor defined above is called an outer constructor because it is defined outside the type definition. A constructor is just like any other function in Julia in that the combined behavior of its methods defines its overall behavior. Accordingly, you can add functionality to a constructor by defining new methods.
 
-Outer constructors can be used to provide additional convenience methods for constructing objects. However, they can not be used to constructing self-referential objects or if we want to ensure that the resulting instance has some special properties. In such a case, we have to use inner constructors.  An inner constructor method is like an outer constructor method, except for two differences
+Outer constructors can be used to provide additional convenience methods for constructing objects. However, they can not be used to constructing self-referential objects or if we want to ensure that the resulting instance has some special properties. In such a case, we have to use inner constructors.  An inner constructor method is like an outer constructor method, except for two differences.
 
 1. It is declared inside the block of a type declaration rather than outside of it like normal methods.
-2. It has access to a special locally existent function called new that creates objects of the block's type.
+2. It has access to a special locally existent function called `new` that creates objects of the block's type.
 
 For example, suppose one wants to declare a type that holds a pair of real numbers, subject to the constraint that the first number is not greater than the second one. One could declare it like this.
 
-```jldoctest; output = false
-struct OrderedPair
+```jldoctest ordered; output = false
+struct OrderedPair{T <: Real}
     x::Real
     y::Real
 
-    OrderedPair(x,y) = x > y ? error("out of order") : new(x,y)
+    function OrderedPair(x::Real, y::Real)
+        x > y && error("out of order")
+        xp, yp = promote(x, y)
+        return new{typeof(xp)}(xp, yp)
+    end
 end
 
 # output
 
 ```
 
-If any inner constructor method is defined, **no default constructor method is provided**.  In the example above it means, that any instance of the `OrderedPair` has to meet the assumption, that `x <= y`. Moreover, outer constructor methods can only create objects by calling other constructor methods, i.e., some inner constructor must be called to create an object. It means that even if we add any number of outer constructors, the resulting object is created by the inner constructor and therefore has to meet its assumptions.
+If any inner constructor method is defined, **no default constructor method is provided**.  In the example above it means, that any instance of the `OrderedPair` has to meet the assumption, that `x <= y`.
+
+```jldoctest ordered
+julia> OrderedPair(1,2)
+OrderedPair{Int64}(1, 2)
+
+julia> OrderedPair(2,1)
+ERROR: out of order
+[...]
+```
+
+Moreover, outer constructor methods can only create objects by calling other constructor methods, i.e., some inner constructor must be called to create an object. It means that even if we add any number of outer constructors, the resulting object is created by the inner constructor and therefore has to meet its assumptions.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Some text that describes the exercise
+Define a structure that represents ND-point and stores coordinates as `NTuple` type. Do not forget to define it as a subtype of the AbstractPoint type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to allow creating an instance of the `PointND` directly from values of different types.
+
+**Hint:** use the `new` function in the definition of the new inner.
+
+**Hint:** in the `NTuple{N, T}` type `N` represents a number of elements and `T` their type. Use similar notation in the definition of the `PointND` to specify a dimension.
 
 ```@raw html
 </p></div>
@@ -434,7 +467,34 @@ Some text that describes the exercise
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Solution
+In this case, we can use inner constructor with optional number of input arguments. In the definition belowe, we use type annotation to set, that these arguments have to be real numbers. Note that we the `new` function and we have to specify the value of `N` and type `T`.
+
+```jldoctest structs; output = false
+struct PointND{N, T <: Real} <: AbstractPoint{T}
+    x::NTuple{N, T}
+
+    function PointND(args::Real...)
+        vals = promote(args...)
+        return new{length(args), eltype(vals)}(vals)
+    end
+end
+
+coordinates(p::PointND) = p.x
+
+# output
+
+coordinates (generic function with 3 methods)
+```
+
+Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we are able to create instance of the `PointND` type from inputs of mixed types
+
+```jldoctest structs
+julia> PointND(1, 2)
+(1, 2)
+
+julia> PointND(1, 2.2, 3, 4.5)
+(1.0, 2.2, 3.0, 4.5)
+```
 
 ```@raw html
 </p></details>
@@ -444,7 +504,7 @@ Solution
 
 In many cases, it is beneficial to define custom types with default field values. This can be achieved by defining a constructor that uses optional or keyword arguments. Another option is to use the `@kwdef` macro from the `Base`. This macro automatically defines a keyword-based constructor
 
-```jldoctest structs
+```jldoctest structs; output = false
 Base.@kwdef struct MyType
     a::Int # required keyword
     b::Float64 = 2.3
@@ -481,45 +541,4 @@ MyType(3, 2.3, "hello")
 
 julia> MyType(; a = 5, b = 4.5)
 MyType(5, 4.5, "hello")
-```
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
-
-```@raw html
-</p></details>
-```
-
-## Function-like objects
-
-
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
-Some text that describes the exercise
-
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Solution
-
-```@raw html
-</p></details>
 ```
