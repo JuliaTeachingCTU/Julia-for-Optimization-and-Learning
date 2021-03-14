@@ -1,24 +1,24 @@
 # Package management
 
-Julia provides a simple and intuitive built-in package manager, that handles operations such as installing, updating, and removing packages. The package manager provides an interactive Pkg REPL, which simplifies the package management process. The Pkg REPL can be entered from the Julia REPL simply by pressing `]`. To get back to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, the screen similar to the following one should appear
+Julia provides a simple and intuitive built-in package manager that handles operations such as installing, updating, and removing packages. The package manager offers an interactive Pkg REPL, which simplifies the package management process. The Pkg REPL can be entered from the Julia REPL simply by pressing `]`. To get back to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, the screen similar to the following one should appear.
 
 ```julia
 (@v1.5) pkg>
 ```
 
-Registered packages can be installed using the `add` keyword in the following way
+Registered packages can be installed using the `add` keyword in the following way.
 
 ```julia
 (@v1.5) pkg> add JSON BSON
 ```
 
-Note that it is possible to install multiple packages at once simply by entering their names separated by a space. It is also possible to install the unregistered package using the `add` keyword. However, in this case, we have to specify an URL of a git repository
+Note that it is possible to install multiple packages simply by entering their names separated by a space. It is also possible to install the unregistered package using the `add` keyword. However, in this case, we have to specify an URL of a git repository.
 
 ```julia
 (@v1.5) pkg> add https://github.com/JuliaLang/Example.jl
 ```
 
-or absolute/relative path to the local git repository
+It is also possible to use the absolute/relative path to the local git repository.
 
 ```julia
 (@v1.5) pkg> add /absolute/or/relative/path/MyPackage
@@ -39,7 +39,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
 <header class = "info-header">Adding specific version</header><p>
 ```
 
-In most cases, we want to install the latest stable version of the package. However, it may occur that we want to use the older version of the package or the version from a different git branch that is not yet released. A specific version of the package can be installed by appending a version after a `@` symbol.
+In most cases, we want to install the latest stable version of the package. However, we may want to use the older version of the package or the version from a different git branch that is not yet released. A specific version of the package can be installed by appending a version after a `@` symbol.
 
 ```julia
 (@v1.5) pkg> add BSON@0.2.1
@@ -69,7 +69,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
 </p></div>
 ```
 
-If we want to update some package (for example, because the new version was released), we can do it using the `update` keyword followed by the package name
+If we want to update some packages (for example, because the new version was released), we can do it using the `update` keyword followed by the package name.
 
 ```julia
 (@v1.5) pkg> update Example
@@ -87,7 +87,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-Note the pin symbol `⚲` showing that the package is pinned. Removing the pin is done using the `free` command
+Note the pin symbol `⚲` showing that the package is pinned. Removing the pin is done using the `free` command.
 
 ```julia
 (@v1.5) pkg> free BSON
@@ -99,7 +99,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-Any installed package can be removed using the `rm` keyword similarly as the installation works
+Any installed package can be removed using the `rm` keyword similarly as the installation works.
 
 ```julia
 (@v1.5) pkg> rm Example
@@ -110,7 +110,7 @@ Any installed package can be removed using the `rm` keyword similarly as the ins
 <header class = "info-header">Non-interactive package manager</header><p>
 ```
 
-The package manager can also be used in a non-interactive way. For example, packages can be installed in the following way
+The package manager can also be used in a non-interactive way. For example, packages can be installed in the following way.
 
 ```julia
 using Pkg
@@ -131,7 +131,7 @@ Updating and removing a package can be done in a similar way.
 
 So far, we have dealt with the basic management of packages: adding, updating, or removing packages. However, Julia's package manager offers significant advantages over traditional package managers by organizing dependencies into environments. Environments should be familiar to people who use Python. The difference between Python and Julia is that it is effortless to create and manage environments in Julia. Of course, some utilities simplify the work with environments in Python, such as the Conda package manager. However, in Julia, it is still more convenient, and the whole process of creating and managing environments can be done within Julia itself.
 
-You may have noticed the (`v1.5`) in the REPL prompt. It indicates that the active environment is `v1.5`.  The active environment is the environment that will be modified by `Pkg` commands such as `add`, `rm` or `update`.A new environment can be set up using the `activate` keyword followed by the absolute or relative path
+You may have noticed the (`v1.5`) in the REPL prompt. It indicates that the active environment is `v1.5`.  The active environment is the environment that will be modified by `Pkg` commands such as `add`, `rm`, or `update`. A new environment can be set up using the `activate` keyword followed by the absolute or relative path.
 
 ```julia
 julia> mkdir("./tutorial") # create an empty folder tutorial
@@ -143,21 +143,21 @@ julia> mkdir("./tutorial") # create an empty folder tutorial
 (tutorial) pkg>
 ```
 
-In the example above, we create an empty directory `tutorial` and activate a new environment inside this directory. Note that the prompt in the package REPL changed from `@v1.5` to `tutorial`. It indicates that `tutorial` is the active environment, i.e., this environment will be modified by Pkg commands. Now we can check the status of the environment using the `status` keyword
+In the example above, we create an empty directory `tutorial` and activate a new environment inside this directory. Note that the prompt in the package REPL changed from `@v1.5` to `tutorial`. It indicates that `tutorial` is the active environment, i.e., this environment will be modified by Pkg commands. Now we can check the status of the environment using the `status` keyword.
 
 ```julia
 (tutorial) pkg> status
 Status `/tutorial/Project.toml` (empty project)
 ```
 
-Note that the path printed by the `status` command (`/tutorial/Project.toml`) is the location of the `Project.toml` corresponding to the active environment. A `Project.toml` is a file where the package manager stores metadata for the environment. Because we have not yet added any packages to the environment, the `Project.toml` is not created yet
+Note that the path printed by the `status` command (`/tutorial/Project.toml`) is the location of the `Project.toml` corresponding to the active environment. A `Project.toml` is a file where the package manager stores metadata for the environment. Because we have not yet added any packages to the environment, the `Project.toml` is not created yet.
 
 ```julia
 julia> readdir("./tutorial") # returns and empty array since tutorial is an empty folder
 String[]
 ```
 
-We can install packages to the `tutorial` environment in the same way as we did it in the section above
+We can install packages to the `tutorial` environment in the same way as we did it in the section above.
 
 ```julia
 (tutorial) pkg> add JSON BSON
@@ -177,6 +177,7 @@ julia> readdir("./tutorial")
  "Project.toml"
 ```
 
+We can install packages to the `tutorial` environment in the same way as we did in the section above.
 The `Project.toml` describes the project on a high level. For example, the package/project dependencies and compatibility constraints are listed in the `Project.toml` file. The `Manifest.toml` file is an absolute record of the state of the packages used in the environment. It includes exact information about (direct and indirect) dependencies of the project. Given a `Project.toml` + `Manifest.toml` pair, it is possible to [instantiate](https://julialang.github.io/Pkg.jl/v1/api/#Pkg.instantiate) the exact same package environment, which is very useful for reproducibility.
 
 ```julia
