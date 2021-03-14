@@ -18,7 +18,7 @@ abstract type Signed <: Integer end
 abstract type Unsigned <: Integer end
 ```
 
-When no supertype is given, the default supertype is `Any`, i.e., in our example, the `Number` type is a subtype of `Any`. The `Any` type is sometimes called the *top* type since all types are subtypes of it. In Julia, there is also the *bottom* type `Union{}`.  It is the exact opposite of the `Any` type since no object is an instance of `Union{}` and all types are supertypes of `Union{}`.
+When no supertype is given, the default supertype is `Any`, i.e., in our example, the `Number` type is a subtype of `Any`. The `Any` type is sometimes called the *top* type since all types are its subtypes. In Julia, there is also the *bottom* type `Union{}`.  It is the exact opposite of the `Any` type since no object is an instance of `Union{}` and all types are supertypes of `Union{}`.
 
 The `<:` operator can be used in expressions as a subtype operator that returns `true` when its left operand is a subtype of its right operand.
 
@@ -56,7 +56,7 @@ julia> isabstracttype(Float64)
 false
 ```
 
-Similarly, the `isconcretetype` function checks  whether the given type is concrete or not.
+Similarly, the `isconcretetype` function checks whether the given type is concrete or not.
 
 ```jldoctest
 julia> isconcretetype(Real)
@@ -68,7 +68,7 @@ true
 
 # Composite types
 
-Composite types are called *records*, *structs*, or *objects* in various languages. A composite type is a collection of named fields, an instance of which can be treated as a single value. In many languages, composite types are the only kind of user-definable type, and they are by far the most commonly used user-defined type in Julia.
+A composite type is a collection of pairs of keys and values, and its instance of which can be treated as a single value. In many languages, composite types are the only kind of user-definable type. In Julia, it is possible to define also other types (primitive types, for example). However, composite types are by far the most used.
 
 In object-oriented languages, such as Python or Java, composite types also have named functions associated with them, and the combination is called an *object*.  In Julia, all values are objects, but functions are not bundled with the objects they operate on. This is necessary since Julia chooses which method of function to use by multiple-dispatch. It means that the types of all of a function's arguments are considered when selecting a method, rather than just the first one. Thus, it would be inappropriate for functions to "belong" to only their first argument. Organizing methods into function objects rather than having named bags of methods "inside" each object ends up being a highly beneficial language design aspect.
 
@@ -84,7 +84,7 @@ end
 
 ```
 
-Note that if the type annotation of the field is omitted,  the `Any` type is used by default, i.e., such a field can contain any value. Also, note that there is a convention in Julia that the first letters in custom type names are in uppercase. We can create a new instance of the above type by calling `Foo` as a function with input arguments representing fields of the `Foo` type.
+Note that if the type annotation of the field is omitted,  the `Any` type is used by default, i.e., such a field can contain any value. Also, note that there is a convention in Julia that the first letter of each word in custom type names is in uppercase. We can create a new instance of the above type by calling `Foo` as a function with input arguments representing fields of the `Foo` type.
 
 ```jldoctest structs
 julia> foo = Foo([1,2,3], 4)
@@ -94,7 +94,7 @@ julia> isa(foo, Foo)
 true
 ```
 
-When a type is applied like a function, it is called a constructor. Two constructors are generated automatically. One accepts any arguments and calls convert to convert them to the types of the fields, and the other accepts arguments that match the field types exactly. If all fields are of type `Any` (or we do not specify their types), the later constructor is not generated.  We can list all constructors using the `methods` function.
+When a type is applied like a function, it is called a constructor. By default, two constructors are generated automatically. One accepts any arguments and calls convert to convert them to the fields' types, and the other accepts arguments that match the field's types exactly. If all fields are of type `Any` (or we do not specify their types), the later constructor is not generated.  We can list all constructors using the `methods` function.
 
 ```jldoctest structs
 julia> methods(Foo)
@@ -131,7 +131,7 @@ julia> getproperty(foo, :b)
 4
 ```
 
-There is also a convenient function, `fieldnames`, that returns a tuple with names of all fields of a given structure. Note that all field names are represented as symbols.
+There is also a convenient function, `fieldnames`, that returns a tuple with names of all fields of a given composite type. Note that all field names are represented as symbols.
 
 ```jldoctest structs
 julia> fieldnames(Foo)
@@ -145,7 +145,9 @@ julia> foo.a = 1
 ERROR: setfield! immutable struct of type Foo cannot be changed
 ```
 
-However, immutability is not recursive. It means that if an immutable object contains a mutable object, such as an array, elements of the mutable object can be modified. This can be seen in the following example. The `Foo` type is defined as immutable, but we instantiate the `foo` object with a vector as a first argument. Since vectors are mutable, we can modify the elements of the field `foo.a`.
+Composite types declared with `struct` are immutable, i.e., they cannot be modified after construction.
+
+However, immutability is not recursive. It means that if an immutable object contains a mutable object (such as an array), we can modify elements of the mutable object. We can observe this behavior in the following example. The `Foo` type is defined as immutable, but we instantiate the `foo` object with a vector as a first argument. Since a vector is mutable, we can modify its elements.
 
 ```jldoctest structs
 julia> foo.a[1] = 5
@@ -170,7 +172,7 @@ end
 
 ```
 
-Instances of mutable types are created in the same way as in the case of immutable types.
+Instances of mutable types are created in the same way as in the case of immutable ones.
 
 ```jldoctest structs
 julia> mfoo = MutableFoo([1,2,3], 4)
@@ -193,14 +195,14 @@ julia> mfoo
 MutableFoo(2, 4)
 ```
 
-Note that the syntax `mfoo.a = 2.345` is only shorthand, and internally the `setproperty!` function is called.
+Note that the syntax `mfoo.a = 2.345` is equivalent to `setproperty!(mfoo, :a, 2.345)`.
 
 ```@raw html
 <div class = "info-body">
 <header class = "info-header">Type unions</header><p>
 ```
 
-A type union is a special abstract type that includes as objects all instances of any of its argument types, constructed using the special `Union` keyword.
+A type union is a special abstract type that includes all instances of any of its argument types. Type unions can be constructed using the `Union` keyword.
 
 ```jldoctest structs
 julia> AbstractFoo = Union{Foo, MutableFoo}
@@ -213,7 +215,7 @@ julia> MutableFoo <: AbstractFoo
 true
 ```
 
-The `Union` type can be very useful in many cases. For example, if there is no connection between multiple types, and we want to write a specialized function shared for all of them. In such a case, we can use the type `Union` and write one function with type annotation to all of them at once.
+The `Union` type can be very useful in many cases. For example, if there is no supertype for multiple types, but we want to write a specialized function that can be used for all of them. In such a case, we can use the type `Union` and write one function with type annotation to all of them at once.
 
 ```jldoctest structs
 julia> geta(foo::AbstractFoo) = foo.a
@@ -256,7 +258,7 @@ julia> isconcretetype(Point{Int64})
 true
 ```
 
-Thus, this single declaration actually declares concrete type for each type `T` that is a subtype of `Real`.  The `Point` type itself is also a valid type object, containing all instances `Point{Float64}`, `Point{Int64}`, etc., as subtypes.
+Thus, this single declaration actually declares concrete type for each subtype `T` of `Real`.  The `Point` type itself is also a valid type object, containing all instances `Point{Float64}`, `Point{Int64}`, etc., as subtypes.
 
 ```jldoctest structs
 julia> Point{Float64} <: Point <: AbstractPoint
@@ -300,7 +302,6 @@ ERROR: MethodError: no method matching coordinates(::Point{Float64})
 [...]
 ```
 
-
 A correct way to define a method that accepts all arguments of type `Point{T}` where `T` is a subtype of `Real` is as follows.
 
 ```jldoctest structs
@@ -314,7 +315,7 @@ julia> coordinates(Point(1.0,2.0))
 (1.0, 2.0)
 ```
 
-Or simply use the `Point` type without specified parameter. It is also possible to define function for all subtypes of some abstract type.
+Or simply use the `Point` type without specified parameter. It is also possible to define a function for all subtypes of some abstract type.
 
 ```jldoctest structs
 julia> Base.show(io::IO, p::AbstractPoint) = print(io, coordinates(p))
@@ -336,7 +337,7 @@ julia> Point{Float32}(1, 2)
 (1.0f0, 2.0f0)
 ```
 
- Note that the default constructors work only if we use arguments with the same type or if we specify the `T` parameter manually. In all other cases, an error will occur.
+Note that the default constructors work only if we use arguments with the same type or if we specify the `T` parameter manually. In all other cases, an error will occur.
 
 ```jldoctest structs
 julia> Point(1, 2.0)
@@ -360,7 +361,7 @@ Define a structure that represents 3D-point. Do not forget to define it as a sub
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since we did not specify what the structure should look like, there are several possibilities for how to define it. For example, we can define it as a structure with three fields.
+Since we did not specify what the structure should look like, there are several possibilities for defining it. For example, we can define it as a structure with three fields as in the code below. Another option is to use, for example, a tuple to store the point coordinates.
 
 ```jldoctest structs; output = false
 struct Point3D{T <: Real} <: AbstractPoint{T}
@@ -402,7 +403,7 @@ Point(x::Real, y::Real) = Point(promote(x, y)...)
 Point
 ```
 
-Note that we use the `promote` function. This function converts its arguments to the type that can safely represents their types. For example, if we call `promote(1, 2.3)` the result will be a tuple `(1.0, 2.3)` because it is possible to represent `Int64` using `Float64` (not precisely), but it is not possible to represent `Float64` using `Int64`. We can test the new constructor on the example from the end of the previous section.
+Note that we use the `promote` function. This function converts its arguments to the type that can safely represent their types. For example, if we call `promote(1, 2.3)` the result will be a tuple `(1.0, 2.3)` because it is possible to represent `Int64` using `Float64` (not precisely), but it is not possible to represent `Float64` using `Int64`. We can test the new constructor on the example from the end of the previous section.
 
 ```jldoctest structs
 julia> Point(1, 2.0)
@@ -412,7 +413,7 @@ julia> typeof(Point(1, 2.0))
 Point{Float64}
 ```
 
-As expected, the result is of type `Point{Float64}`. The constructor defined above is called an outer constructor because it is defined outside the type definition. A constructor is just like any other function in Julia in that the combined behavior of its methods defines its overall behavior. Accordingly, you can add functionality to a constructor by defining new methods.
+As expected, the result is of type `Point{Float64}`. The constructor defined above is called an outer constructor because it is defined outside the type definition. A constructor is just like any other function in Julia, i.e., its methods' combined behavior defines its overall behavior. Accordingly, you can add functionality to a constructor by defining new methods.
 
 Outer constructors can be used to provide additional convenience methods for constructing objects. However, they can not be used to constructing self-referential objects or if we want to ensure that the resulting instance has some special properties. In such a case, we have to use inner constructors.  An inner constructor method is like an outer constructor method, except for two differences.
 
@@ -437,7 +438,7 @@ end
 
 ```
 
-If any inner constructor method is defined, **no default constructor method is provided**.  In the example above it means, that any instance of the `OrderedPair` has to meet the assumption, that `x <= y`.
+If the user defines any inner constructor method, **no additional constructor method is defined by default**.  The example above means that any instance of the `OrderedPair` has to meet the assumption that `x <= y`.
 
 ```jldoctest ordered
 julia> OrderedPair(1,2)
@@ -455,11 +456,11 @@ Moreover, outer constructor methods can only create objects by calling other con
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a structure that represents ND-point and stores coordinates as `NTuple` type. Do not forget to define it as a subtype of the AbstractPoint type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to allow creating an instance of the `PointND` directly from values of different types.
+Define a structure that represents ND-point and stores coordinates as `NTuple` type. Do not forget to define it as a subtype of the `AbstractPoint` type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to create an instance of the `PointND` directly from different types' values.
 
-**Hint:** use the `new` function in the definition of the new inner.
+**Hint:** use the `new` function in the definition of the new inner constructor.
 
-**Hint:** in the `NTuple{N, T}` type `N` represents a number of elements and `T` their type. Use similar notation in the definition of the `PointND` to specify a dimension.
+**Hint:** in the `NTuple{N, T}` type, `N` represents a number of elements and `T` their type. Use similar notation in the definition of the `PointND` to specify a dimension.
 
 ```@raw html
 </p></div>
@@ -467,7 +468,7 @@ Define a structure that represents ND-point and stores coordinates as `NTuple` t
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-In this case, we can use inner constructor with optional number of input arguments. In the definition belowe, we use type annotation to set, that these arguments have to be real numbers. Note that we the `new` function and we have to specify the value of `N` and type `T`.
+In this case, we can use an inner constructor with the optional number of input arguments. In the definition below, we use type annotation to set these arguments to be real numbers. Since we use the `new` function and our type is parametric, we have to specify `N` and type `T`.
 
 ```jldoctest structs; output = false
 struct PointND{N, T <: Real} <: AbstractPoint{T}
@@ -486,7 +487,7 @@ coordinates(p::PointND) = p.x
 coordinates (generic function with 3 methods)
 ```
 
-Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we are able to create instance of the `PointND` type from inputs of mixed types
+Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
 
 ```jldoctest structs
 julia> PointND(1, 2)
@@ -502,7 +503,7 @@ julia> PointND(1, 2.2, 3, 4.5)
 
 ## Default field values
 
-In many cases, it is beneficial to define custom types with default field values. This can be achieved by defining a constructor that uses optional or keyword arguments. Another option is to use the `@kwdef` macro from the `Base`. This macro automatically defines a keyword-based constructor
+In many cases, it is beneficial to define custom types with default field values. This can be achieved by defining a constructor that uses optional or keyword arguments. Another option is to use the `@kwdef` macro from the `Base`. This macro automatically defines a keyword-based constructor.
 
 ```jldoctest structs; output = false
 Base.@kwdef struct MyType
@@ -516,7 +517,7 @@ end
 MyType
 ```
 
-We can use the `methods` function to check which constructors have been created. As can be seen, there are three constructors.  The first constructor is the one created by the `@kwdef` macro. The latter two are the default constructors created if no inner constructor is provided by the user.
+We can use the `methods` function to check which constructors have been created. As can be seen, there are three constructors.  The first constructor is the one created by the `@kwdef` macro. The latter two are the default constructors created since we did not provide any inner constructor.
 
 ```jldoctest structs
 julia> methods(MyType)
@@ -526,7 +527,7 @@ julia> methods(MyType)
 [3] MyType(a, b, c) in Main at none:2
 ```
 
-The instance of the `MyType` type can be created using the default constructors as follows
+The instance of the `MyType` type can be created using the default constructors as follows.
 
 ```jldoctest structs
 julia> MyType(1, 2.3, "aaa")
@@ -541,4 +542,197 @@ MyType(3, 2.3, "hello")
 
 julia> MyType(; a = 5, b = 4.5)
 MyType(5, 4.5, "hello")
+```
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Function-like objects</header><p>
+```
+Methods are associated with types, so it is possible to make any arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called "functors." Using this technique to the `MyType` defined above, we can define a method that returns all field's values as a tuple.
+
+```jldoctest structs
+julia> (m::MyType)() = (m.a, m.b, m.c)
+
+julia> m = MyType(; a = 5, b = 4.5)
+MyType(5, 4.5, "hello")
+
+julia> m()
+(5, 4.5, "hello")
+```
+
+Moreover, we can use multiple-dispatch to define other methods. The first method for a given real number computes a simple linear and uses fields `a`, `b` of the `MyType` as slope and intercept. The second method creates a string from the given string and a field `c` of the `MyType`.
+
+```jldoctest structs; output = false
+(m::MyType)(x::Real) = m.a*x + m.b
+(m::MyType)(x::String) = "$(m.c), $(x)"
+
+# output
+
+```
+
+If we use these two methods and the instance of the `MyType` defined in the example above,  we get the following results.
+
+```jldoctest structs
+julia> m(1)
+9.5
+
+julia> m("world")
+"hello, world"
+```
+
+```@raw html
+</p></div>
+```
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+
+Write a structure `Gauss` that will represent a [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution). Write an inner constructor that checks if the given parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function in the given point. Recall that the probability density function for the Gaussian distribution is defined as follows.
+
+```math
+f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
+```
+
+where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Verify that the probability density function is defined correctly, i.e., its integral equals 1. Create a plot of the probability density function.
+
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+One of the possible ways how to define structure from the description of the exercise is the following. We use the `@kwdef` macro to define the default values of the parameters. We also defined an inner constructor that checks if the variance is positive.
+
+```jldoctest structs_gauss; output = false
+Base.@kwdef struct Gauss{T<:Real}
+    μ::T = 0
+    σ::T = 1
+
+    function Gauss(μ::Real, σ::Real)
+        σ > 0 || error("the variance `σ^2` must be positive")
+        pars = promote(μ, σ)
+        return new{eltype(pars)}(pars...)
+    end
+end
+
+# output
+
+```
+
+Note that in the inner constructor, we use the `promote` function and that we specify the parameter `T` in the call of the `new` function. The probability density function can be defined as a functor in the following way.
+
+
+```jldoctest structs_gauss; output = false
+(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))
+
+# output
+
+```
+
+We used type annotation to ensure that all input arguments are real numbers.
+
+```jldoctest structs_gauss
+julia> gauss = Gauss()
+Gauss{Int64}(0, 1)
+
+julia> gauss(0)
+0.3989422804014327
+```
+
+The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.
+
+```jldoctest structs_gauss
+julia> step = 0.01
+0.01
+
+julia> x = -100:step:100;
+
+julia> sum(Gauss(), x) * step
+1.0000000000000002
+
+julia> sum(Gauss(0.1, 2.3), x) * step
+1.0
+```
+
+We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. Since we defined a functor for the `Gauss` type, we can pass its instance as the fits argument, and the result will be the same as if we use `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
+
+We can also visualize the probability density functions with the [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package. Unfortunately, we cannot use the syntax for the plotting function described in the [Function plotting](@ref Function-plotting) section, i.e., the following will not work even though the `Gauss` type is callable.
+
+```julia
+plot(x, Gauss())
+```
+
+However, we can define a custom plot for our type using the `@recipe` macro. The syntax is straightforward. In the function head, we define two inputs: our type and some input `x`. Then in the function body, we define plot attributes in the same way as if we pass them in the `plot` function. Finally, we define the output of the function. Note that we use two different syntaxes for defining plot attributes. If we use `:=` operator, the attribute will be set to the provided value and can not be changed by the user. On the other hand, if we use `-->` operator, the provided value is used as default and can be changed by the user.
+
+```julia
+using Plots
+
+@recipe function f(d::Gauss, x)
+    seriestype := :path
+    label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
+    xguide --> "x"
+    yguide --> "f(x)"
+    linewidth --> 2
+    return x, d.(x)
+end
+```
+
+The recipe above is equivalent to calling the `plot` function as follows.
+
+```julia
+d = Gauss()
+plot(x, d.(x);
+    seriestype := :path,
+    label = "Gauss(μ = $(d.μ), σ = $(d.σ))",
+    xguide = "x",
+    yguide --> "f(x)",
+    linewidth --> 2
+)
+```
+
+```@setup plots
+using Plots
+
+Base.@kwdef struct Gauss{T<:Real}
+    μ::T = 0
+    σ::T = 1
+
+    function Gauss(μ::Real, σ::Real)
+        σ > 0 || error("the variance `σ^2` must be positive")
+        pars = promote(μ, σ)
+        return new{eltype(pars)}(pars...)
+    end
+end
+
+(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))
+
+@recipe function f(d::Gauss, x)
+    seriestype  :=  :path
+    label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
+    xguide --> "x"
+    yguide --> "f(x)"
+    linewidth --> 2
+    x, d.(x)
+end
+```
+
+With the new plot recipe, we can plot the probability density function of Gaussian distribution with different parameters in a simple way.
+
+```@example plots
+using Plots
+x = -15:0.1:15
+
+plot(Gauss(), x)
+plot!(Gauss(4, 2), x)
+plot!(Gauss(-3, 2), x)
+savefig("gauss.svg") # hide
+```
+
+![](gauss.svg)
+
+```@raw html
+</p></details>
 ```
