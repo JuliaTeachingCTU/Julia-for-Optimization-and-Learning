@@ -1,10 +1,10 @@
 # Package development
 
-The very nice thing about Julia is that it is simple to create a package and share it with other users. This section contains a step-by-step tutorial on how to build a new package from scratch. Moreover, the package that is described in this section, will be used later in the course.
+The very nice thing about Julia is that it is simple to create a package and share it with other users. This section contains a step-by-step tutorial on how to build a new package from scratch. Moreover, the package that is described in this section will be used later in the course.
 
 ## Pkg templates
 
-The very first step is to generate a new empty package. There is a built-in function `generate` in the Pkg REPL that allows generating a new package in an easy way. The `generate` function can be used as follows from the Pkg REPL
+The very first step is to generate a new empty package. A built-in function `generate` in the Pkg REPL allows easily generating a new package. The `generate` function can be used as follows from the Pkg REPL.
 
 ```julia
 (@v1.5) pkg> generate PackageName
@@ -13,7 +13,7 @@ The very first step is to generate a new empty package. There is a built-in func
     PackageName/src/PackageName.jl
 ```
 
-Note that in the case above, a new package with the name `PackageName` is generated in the current folder. However, it is also possible to use an absolute/relative path to generate a new package in a specific folder. The `generate` function creates a new folder (with the name that matches the package name) with the following content
+Note that a new package with the name `PackageName` is generated in the current folder in the case above. However, it is also possible to use an absolute/relative path to generate a new package in a specific folder. The `generate` function creates a new folder (with the name that matches the package name) with the following content.
 
 ```julia
 ├── Project.toml
@@ -21,7 +21,7 @@ Note that in the case above, a new package with the name `PackageName` is genera
     └── PackageName.jl
 ```
 
-We can see that the new package consists of the `Project.toml` file and the `src` folder with one `.jl` file. The `src/PackageName.jl` file contains a module `PackageName` as can be seen in the following code. Note that the package, the `.jl` file, and the module in the `.jl` file share the same name.
+We can see that the new package consists of the `Project.toml` file and the `src` folder with one `.jl` file. The `src/PackageName.jl` file contains a module `PackageName` as shown in the following code. Note that the package, the `.jl` file, and the module in the `.jl` file share the same name.
 
 ```julia
 module PackageName
@@ -31,7 +31,7 @@ greet() = print("Hello World!")
 end # module
 ```
 
-Since the `generate` function creates an empty package, the `Project.toml` file is also almost empty. It only contains the name of the package, its unique UUID, its version and the the authors
+Since the `generate` function creates an empty package, the `Project.toml` file is also almost empty. It only contains the name of the package, its unique UUID, its version, and the list of authors.
 
 ```toml
 name = "PackageName"
@@ -42,8 +42,7 @@ version = "0.1.0"
 
 Note that the package in Julia has to contain only two things: `Project.toml` file and `.jl` (in `src` subfolder) file with a module that contains a source code. So in fact, packages are modules with their own environment.
 
-The built-in `generate` function provides only basic functionality for generating packages. In many cases it is sufficient, however, there is the [PkgTemplates](https://github.com/invenia/PkgTemplates.jl) packages that offers a very easy, repeatable, and customizable way to generate the files for a new package.
-
+The built-in `generate` function provides only basic functionality for generating packages. In many cases, it is sufficient. However, the [PkgTemplates](https://github.com/invenia/PkgTemplates.jl) package offers a straightforward, repeatable, and customizable way to generate the files for a new package.
 
 ```@raw html
 <div class = "exercise-body">
@@ -75,11 +74,11 @@ Do not forget to change the following keywords: `user`, `authors` and `dir`.
 
 In the rest of the lecture, we will try to write a code that will help us to visualize gray and color images. The package will provide the following functionality:
 
-- Converting array representation of image to gray or RGB representation.
+- Converting array representation of the image to gray or RGB representation.
 - Converting array representation of multiple images to an array of gray or RGB images.
 - Plotting multiple images at once in a grid.
 
-Try to come up with a suitable package name that will describe the functionality described above (for some tips on package naming see the official [package naming guidelines](https://julialang.github.io/Pkg.jl/v1/creating-packages/#Package-naming-guidelines). Change the package name in the following code and then use it to generate a new package.
+Try to come up with a suitable package name that will describe the functionality described above (for some tips on package naming, see the official [package naming guidelines](https://julialang.github.io/Pkg.jl/v1/creating-packages/#Package-naming-guidelines). Change the package name in the following code and then use it to generate a new package.
 
 ```julia
 template("PackageName")
@@ -91,7 +90,7 @@ template("PackageName")
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-There is no best way to choose the correct package name. In this example we can for example use the `ImageInspector` name. With the appropriately changed and created template, the package can be generated using the following code
+There is no best way to choose the correct package name. In this example, we can, for example, use the `ImageInspector` name. With the appropriately changed and created template, the package can be generated using the following code.
 
 ```julia
 template("ImageInspector")
@@ -137,7 +136,7 @@ Note that we use a really simple template in the above exercise. However, PkgTem
 
 ## Development mode
 
-In the previous section, we created a new empty package. The goal of this section is to show how to create the content of the package. Now we are in a situation, that we created only a folder with some Julia related content. The first thing we have to do is to tell Julia, that the folder is a package and we want to start the development of it. This can be done using the `dev` (or `develop`) command in the Pkg REPL followed by the (absolute or relative) path to the main folder of our new package.
+In the previous section, we created a new empty package. The goal of this section is to show how to create the content of the package. Now we are in a situation, that we created only a folder with some Julia-related content. The first thing we have to do is tell Julia that the folder is a package and we want to start its development. This can be done using the `dev` (or `develop`) command in the Pkg REPL followed by the (absolute or relative) path to our new package's main folder.
 
 ```julia
 (@v1.5) pkg> dev /absolute/or/relative/path/ImageInspector/
@@ -149,7 +148,7 @@ Similar to the `add` command, the `dev` command allows us to load the package us
 using ImageInspector
 ```
 
-The difference between `add` and `dev` commands is, that the `dev` command tracks the current state of the package folder and not the concrete git commit in some branch. It means that we do not have to update the package to get the latest functionality. But there is a problem: a package can only be loaded once per Julia session. It means, that once we run `using` or `import` command for some package in development mode and then we make some changes in the code these changes will not be applied (even if we run `using` or `import` again). As an example, we can add the `greet` function to the` ImageInspector` package, which is already loaded in the current Julia session.
+The difference between `add` and `dev` commands is that the `dev` command tracks the package folder's current state and not the concrete git commit in some branch. It means that we do not have to update the package to get the latest functionality. But there is a problem: a package can only be loaded once per Julia session. Once we run the `using` or `import` command for some package in development mode, and then we make some changes in the code, these changes will not be applied (even if we run `using` or `import` again). For example, we can add the `greet` function to the `ImageInspector` package, which is already loaded in the current Julia session.
 
 ```julia
 module ImageInspector
@@ -161,14 +160,14 @@ greet() = print("Hello World!")
 end
 ```
 
-If we now call the `greet` function, we will get the `UndefVarError` error as can be seen below
+If we now call the `greet` function, we will get the `UndefVarError` error, as can be seen below.
 
 ```julia
 julia> greet()
 ERROR: UndefVarError: greet not defined
 ```
 
-In this case, we have to restart Julia and start with a fresh Julia session to get the latest functionality.
+In this case, we have to restart Julia and start with a new Julia session to get the latest functionality.
 
 ```julia
 julia> using ImageInspector
@@ -177,7 +176,7 @@ julia> greet()
 Hello World!
 ```
 
-This is very annoying and it prevents developing packages in a pleasant way. Luckily, there is a very handy package [Revise](https://github.com/timholy/Revise.jl) that can make this process significantly more pleasant. The Revise package provides a lot of handy functionality, however, we will present only the basic usage. More advanced use cases can be found in the [documentation](https://timholy.github.io/Revise.jl/stable/) of the Revise package.
+This isn't very pleasant, and it slows down the process of package development. Luckily, there is a very handy package [Revise](https://github.com/timholy/Revise.jl) that can make this process significantly more pleasant. The Revise package provides a lot of convenient functionality. However, we will present only the basic usage. More advanced use cases can be found in the [documentation](https://timholy.github.io/Revise.jl/stable/) of the Revise package.
 
 The basic use case is as follows. If we want to develop a package and we have a fresh Julia session, we first load the Revise package, and then we load any other packages that we want to use or develop.
 
@@ -190,7 +189,7 @@ julia> greet()
 Hello World!
 ```
 
-Now if we decided that we want to add new functionality to the `Image Inspector` package, we can do it and the Revise package ensures that the new functionality will be available immediately. For example, we can add the `greet2` function as follows.
+If we decided that we want to add new functionality to the `Image Inspector` package, we could do it. The Revise package ensures that the new functionality will be available immediately. For example, we can add the `greet2` function as follows.
 
 ```julia
 module ImageInspector
@@ -215,7 +214,7 @@ Hello World!!!!
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-The goal of this exercise is to define a `image` function that converts a given matrix of real numbers to a matrix of Gray points. The real number can be converted to a Gray point using the `Gray` constructor from the Colors package. Use the following code to test the function
+This exercise aims to define an `image` function that converts a given matrix of real numbers to a matrix of Gray points. The real number can be converted to a Gray point using the `Gray` constructor from the Colors package. Use the following code to test the function.
 
 ```julia
 using ImageInspector, MLDatasets, Plots
@@ -224,7 +223,7 @@ x = MNIST.traintensor(1);
 plot(image(x); axis = nothing, border = :none)
 ```
 
-**Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to install the Colors package as a dependency of the ImageInspector package.
+**Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add the Colors package as a dependency of the ImageInspector package.
 
 ```@raw html
 </p></div>
@@ -232,7 +231,7 @@ plot(image(x); axis = nothing, border = :none)
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since we want to add the `image` function to the ImageInspector package, we have to install the Colors package.  The first step is to activate the environment in the ImageInspector package. Then we can use the `add Colors` to install the Colors package
+Since we want to add the `image` function to the ImageInspector package, we have to install the Colors package.  The first step is to activate the environment in the ImageInspector package. Then we can use the `add Colors` to install the Colors package.
 
 ```julia
 (@v1.5) pkg> activate /path/ImageInspector
@@ -241,7 +240,7 @@ Since we want to add the `image` function to the ImageInspector package, we have
 (ImageInspector) pkg> add Colors
 ```
 
-With the Colors package installed, we have to add `using Colors` into the ImageInspector package. Then we can define the `image` as follows
+With the Colors package installed, we have to add `using Colors` into the ImageInspector module. Then we can define the `image` as follows.
 
 ```julia
 module ImageInspector
@@ -261,11 +260,11 @@ Note that we also add `export image`. It is not necessary and only functions tha
 </p></details>
 ```
 
-The testing code in the previous exercise uses the MLDatasets package. This package provides many well-known datasets used in machine learning. One of them is the `MNIST` dataset of hand-written digits. When we run the testing code from the previous exercise, we get the following result
+The testing code in the previous exercise uses the MLDatasets package. This package provides many well-known datasets used in machine learning. One of them is the `MNIST` dataset of hand-written digits. When we run the testing code from the previous exercise, we get the following result.
 
 ![](image_1.svg)
 
-Even though the dataset should contain only images of hand-written digits, the resulting image does not seem to be a digit. The reason is, that images in the MNIST dataset are stored in the **width x height** format and the Plots package assumes **height x width** format. We can simply solve this issue by redefining the `image` function as follows
+Even though the dataset should contain only images of hand-written digits, the resulting image does not seem to be a digit. The reason is that images in the MNIST dataset are stored in the **width x height** format, and the Plots package assumes **height x width** format. We can simply solve this issue by redefining the `image` function as follows.
 
 ```julia
 function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
@@ -274,7 +273,7 @@ function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
 end
 ```
 
-Note that we use the `PermutedDimsArray`  that creates a view such that the dimensions appear to be permuted. There is also the `permutedims` function, that does the same but creates a copy. Now we can check if the function works as we wanted.
+Note that we use the `PermutedDimsArray`  that creates a view such that the dimensions appear to be permuted. There is also the `permutedims` function that does the same but creates a copy. Now we can check if the function works as we wanted.
 
 ```julia
 plot(
@@ -287,20 +286,18 @@ plot(
 
 ![](image_2.svg)
 
-
-
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Follow the same logic as in the previous exercise and define a new method for the `image` function that converts a given 3D array of real numbers to a matrix of RGB points. Assume that the third dimension represents color channels. Three real numbers can be converted to an RGB point using the `RGB` constructor from the Colors package. Make sure, that the input array is of the proper size. If the size of the third dimension is
+Follow the same logic as in the previous exercise and define a new method for the `image` function that converts a given 3D array of real numbers to a matrix of RGB points. Assume that the third dimension represents color channels. Three real numbers can be converted to an RGB point using the `RGB` constructor from the Colors package. Make sure that the input array is of the proper size. If the size of the third dimension is:
 
 - `1` the function should return a gray image,
 - `3` the function should return a color image,
 - otherwise, the function should throw an error.
 
-Use the following code to test the `image` function
+Use the following code to test the `image` function.
 
 ```julia
 using ImageInspector, MLDatasets, Plots
@@ -315,7 +312,7 @@ plot(
 )
 ```
 
-**Hint:** Use the `eachslice` function to split the given array along the third dimension. Use the `dropdims` function to drop dimension if necessary.
+**Hint:** use the `eachslice` function to split the given array along the third dimension and the `dropdims` function to drop dimension if necessary.
 
 ```@raw html
 </p></div>
@@ -323,7 +320,7 @@ plot(
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-In this case, we have three options as said in the description of exercises. If the size of the third dimension is
+In this case, we have three options, as said in the description of exercises. If the size of the third dimension is:
 
 - `1` we use the `dropdims` function to drop the third dimension and recursively call the `image` function.
 - `2` we firstly use the `PermutedDimsArray` if `flip` is true and then the `eachslice` function to split the input array along the third dimension to get the matrices representing red/green/blue channels. Then we can use broadcasting to create the array of RGB points from these three matrices.
@@ -365,10 +362,10 @@ Images are usually stored in multidimensional arrays for computational purposes.
 - New methods should accept two arguments:
     - `x`: 3D or 4D array of real numbers that represents images,
     - `inds`: one or more indices of images that we want to extract and convert to Gray/RGB representation.
-- If only one index is provided, the method should return a single image, i.e. array of Gray or RGB points.
+- If only one index is provided, the method should return a single image, i.e., array of Gray or RGB points.
 - If more indices are provided, the method should return an array of images.
 
-Use the following code to test the `image` function
+Use the following code to test the `image` function.
 
 ```julia
 using ImageInspector, MLDatasets, Plots
@@ -389,11 +386,11 @@ plot(plot.(image(x, [1,2]))...; axis = nothing, border = :none)
 We have four possible combinations of the input arguments:
 
 1. 3D array and one index,
-2. 3D array and mutliple indices,
+2. 3D array and multiple indices,
 3. 4D array and one index,
-4. 4D array and mutliple indices.
+4. 4D array and multiple indices.
 
-It means that we should define a method for each combination of the input arguments. It can be done in the following way
+It means that we should define a method for each combination of the input arguments. It can be done in the following way.
 
 ```julia
 image(x::AbstractArray{T,3}, inds) where {T} = [image(selectdim(x, 3, i)) for i in inds]
@@ -411,7 +408,7 @@ image(x::ImArray, inds) = [image(selectdim(x, ndims(x), i)) for i in inds]
 image(x::ImArray, ind::Int) = image(x, [ind])[1]
 ```
 
-Note that we use the `const` and `Union` type keyword to create a constant that represents a union type for the abstract 3D and 4D arrays of real numbers. Such a constant can be used in a normal type for multiple-dispatch.
+Note that we use the `const` and the `Union` type to create a constant that represents a union type for the abstract 3D and 4D arrays of real numbers. Such a constant can be used in a normal type for multiple-dispatch.
 
 ```@raw html
 </p></details>
@@ -421,9 +418,9 @@ Note that we use the `const` and `Union` type keyword to create a constant that 
 
 ## [Unit testing](@id unit-testing)
 
-In the previous section, we added a new function with four methods to our package and we also tested manually if these functions work properly. However, it is not an optimal way how to test the code, especially for large projects. The standard way for testing code is to use so-called [unit testing](https://en.wikipedia.org/wiki/Unit_testing).
+In the previous section, we added a new function with four methods to our package, and we also tested manually if these functions work properly. However, it is not an optimal way how to test the code, especially for large projects. The standard way for testing code is to use so-called [unit testing](https://en.wikipedia.org/wiki/Unit_testing).
 
-The `Test` package from Julia's standard library provides utility functions to simplify the process of writing unit tests. The core of the package is the `@test` macro that tests if the given expression evaluates as `true`.
+The `Test` package from Julia's standard library provides utility functions to simplify the process of writing unit tests. The package's core is the `@test` macro that tests if the given expression evaluates as `true`.
 
 ```@repl tests
 using Test
@@ -432,20 +429,20 @@ using Test
 @test 1 = 3
 ```
 
-It is also possible to pass additional arguments to the `@test` macro. In such a case the following syntax is used.
+It is also possible to pass additional arguments to the `@test` macro. In such a case, the following syntax is used.
 
 ```@repl tests
 @test π ≈ 3.14 atol=0.01
 ```
 
-If we go back to our package, we can start writing tests for the methods of the `image` function. To do that, we have to first import all necessary packages: `Test`, `ImageInspector` and `Colors`.
+If we go back to our package, we can start writing tests for the methods of the `image` function. First, we have to import all necessary packages: `Test`, `ImageInspector` and `Colors`.
 
 ```julia
 using ImageInspector, Test
 using ImageInspector.Colors
 ```
 
-Note, that we import `Colors` from the `ImageInspector` to use the same version. Now we can define the input and corresponding expected output for the `image` function.
+Note that we import `Colors` from the `ImageInspector` to use the same version. Now we can define the input and corresponding expected output for the `image` function.
 
 ```julia
 x = [0.1 0.2; 0.3 0.4];
@@ -453,7 +450,7 @@ img = Gray.(x);
 img_flipped = Gray.(x');
 ```
 
-Since the input to the `image` function is a matrix, our intention is to test the first method of the `image` function that creates gray images. The tests themselves can be performed as follows.
+Since the input to the `image` function is a matrix, we intend to test the first method of the `image` function that creates gray images. The tests themselves can be performed as follows.
 
 ```julia
 julia> @test image(x) == img_flipped
@@ -488,7 +485,7 @@ x4 = [0.1 0.2; 0.3 0.4; 0.5 0.6];
 x5 = [0.1, 0.2];
 ```
 
-In such a case the tests can be performed in the following way. We use nested test sets to group all tests together, since each iteration of the `for` loop after the `@testset` is treated as a separate group of tests.
+In such a case, the tests can be performed in the following way. We use nested test sets to group all tests together since each iteration of the `for` loop after the `@testset` is treated as a separate group of tests.
 
 ```julia
 julia> @testset "image function" begin
@@ -512,7 +509,7 @@ image function     |   12      3     15
 ERROR: Some tests did not pass: 12 passed, 0 failed, 3 errored, 0 broken.
 ```
 
-Note that not all tests passed. The reason is, that the variable `x5` is a vector and not a matrix. From the list of all methods defined for the `image` function, we can see that there is no method for the vector.
+Note that not all tests passed. The reason is that the variable `x5` is a vector and not a matrix. From the list of all methods defined for the `image` function, we can see that there is no method for the vector.
 
 ```julia
 julia> methods(image)
@@ -523,7 +520,7 @@ julia> methods(image)
 [4] image(x::Union{AbstractArray{T,3}, AbstractArray{T,4}} where T<:Real, inds) in ImageInspector at [...]
 ```
 
-It means, that if we pass a vector as an argument, the `MethodError` will appear. The `Test` package provides the `@test_throw` macro that can be used to test if the expression throws the correct exception.
+It means that if we pass a vector as an argument, the `MethodError` will appear. The `Test` package provides the `@test_throw` macro that can be used to test if the expression throws the correct exception.
 
 ```julia
 julia> @test_throws MethodError image(x5)
@@ -531,9 +528,9 @@ Test Passed
       Thrown: MethodError
 ```
 
-There are other handy macros provided by the `Test` package besides the ones above For more details see the [documentation](https://docs.julialang.org/en/v1/stdlib/Test/).
+The `Test` package provides other handy macros besides the ones above. For more details, see the [documentation](https://docs.julialang.org/en/v1/stdlib/Test/).
 
-The last thing that we have to do to allow automated testing is to copy the tests into the `/test/runtests.jl` file in the `ImageInspector` project folder. The contect of the `/test/runtests.jl` should be similar to the following one.
+We have to do the last thing to allow automated testing: copy the tests into the `/test/runtests.jl` file in the `ImageInspector` project folder. The content of the `/test/runtests.jl` should be similar to the following one.
 
 ```julia
 using ImageInspector
@@ -559,7 +556,7 @@ using Test
 end
 ```
 
-Now we can run tests directly from the Pkg REPL using the `test` command.
+Note that there is `Project.toml` and `Manifest.toml` files in the' test' folder, i.e., there is a separate environment only for tests. It allows us to use some packages only for tests. Now we can run tests directly from the Pkg REPL using the `test` command.
 
 ```julia
 (@v1.5) pkg> test ImageInspector
@@ -595,7 +592,7 @@ ImageInspector.jl |   13     13
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Follow the same logic as we in the examples above and write tests for the rest of the methods of the `image` function. Since there are many ways to write tests, we will leave this exercise without a solution.
+Follow the same logic as we in the examples above and write tests for the rest of the `image` function methods. Since there are many ways to write tests, we will leave this exercise without a solution.
 
 ```@raw html
 </p></div>
@@ -603,7 +600,7 @@ Follow the same logic as we in the examples above and write tests for the rest o
 
 ## Image grid
 
-Now we have the basic functionality of the `ImageInspector` package defined. However, we want to plot multiple images at once in a simple way to be able to inspect loaded data. To do so, we will define two functions that will allow us to group multiple images into a grid. The first function defined blow computes grid size for the given number of images.
+Now we have the basic functionality of the `ImageInspector` package defined. However, we want to plot multiple images at once in a simple way to inspect loaded data. To do so, we will define two functions that will allow us to group multiple images into a grid. The first function defined blow computes grid size for the given number of images.
 
 ```julia
 function gridsize(n::Int; nrows::Int = -1, ncols::Int = - 1)
@@ -650,7 +647,7 @@ function imagegrid(x, inds; sep = 1, kwargs...)
 end
 ```
 
-Note that we use the `sep` keyword argument to specify the width of the separator between images. With all functions defined, we can test them on real images.
+Note that we use the `sep` keyword argument to specify the separator's width between images. With all functions defined, we can test them on real images.
 
 ```julia
 using ImageInspector, MLDatasets, Plots
@@ -666,7 +663,7 @@ plot(imagegrid(x, 1:10; n_rows = 2, sep = 2); axis = nothing, border = :none)
 <header class = "info-header">Optional dependencies</header><p>
 ```
 
-We can notice, that in all previous examples, we use the same settings for the `plot` function. So it makes sense to write an auxiliary function that sets desired attributes for the `plot` function. However, such a function will depend on the `Plots` package. It means, that if we add the `Plots` package to the `ImageInspector` package it will significantly slow down the load time. It can be annoying if we want to use some functionality that does not depends on the `Plots` package and still we have to load that package. Luckily, there is the `Required` that allows loading of the code automatically when another package is loaded, so that explicit dependencies (and long load times) can be avoided. In our case, we can add `Requires` to the `ImageInspector` and write a new file `/src/imageplot.jl` with the following content.
+We can notice that we use the same settings for the `plot` function in all previous examples. So it makes sense to write an auxiliary function that sets desired attributes for the `plot` function. However, such a function will depend on the `Plots` package. It means that if we add the `Plots` package to the `ImageInspector` package, it will significantly slow down the load time. It can be annoying if we want to use some functionality that does not depends on the `Plots` package, and still, we have to load that package. Luckily, the `Required` package automatically allows the code's loading when another package is loaded, so explicit dependencies (and long load times) can be avoided. In our case, we can add `Requires` to the `ImageInspector` and write a new file `/src/imageplot.jl` with the following content.
 
 ```julia
 using .Plots
@@ -683,7 +680,7 @@ function imageplot(x, ind; nrows = -1, ncols = -1, sep = 1, kwargs...)
 end
 ```
 
-Note that we only defined a wrapper function for the `plot` function and exported this function. Also note, that we have to use a relative path to the `Plots` package when using it. The last thing we have to do is to specify on what package the code depends. To do that we have to define the `__init__()` function in the `/src/ImageInspector.jl` file.
+Note that we only defined a wrapper function for the `plot` function and exported this function. Also note, that we have to use a relative path to the `Plots` package. The last thing we have to do is to specify on what package the code depends. To do that we have to define the `__init__()` function in the `/src/ImageInspector.jl` file.
 
 ```julia
 function __init__()
@@ -693,7 +690,7 @@ end
 
 The `__init__` function has to contain the `@require` macro followed by the package name and its unique UUID (can be found in the [JuliaRegistries](https://github.com/JuliaRegistries/General) for public packages) and the code that should be included.
 
-Now we can start a new Julia session and test if the loading works properly. If we do not load `Plots`, the `imageplot` function will not be available as can be seen below.
+Now we can start a new Julia session and test if the loading works properly. If we do not load `Plots`, the `imageplot` function will not be available, as can be seen below.
 
 ```julia
 julia> using ImageInspector, MLDatasets
@@ -704,7 +701,7 @@ julia> imageplot(x, 1:10; nrows = 2, sep = 2)
 ERROR: UndefVarError: imageplot not defined
 ```
 
-Now we can load the `Plots` package and the `imageplot` function will start working.
+Now we can load the `Plots` package, and the `imageplot` function will start working.
 
 ```julia
 julia> using Plots
