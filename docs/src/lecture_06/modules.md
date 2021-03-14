@@ -1,29 +1,29 @@
 # Files and modules
 
-When writing a code, especially in large projects, it is essential to organize code in a meaningful way. There are three main ways how to do it. The first one is to split code into multiple files. The second one is to use modules to create separates global scopes. The last and most advanced is to extract parts of the code that can be generalized into separate packages. All these three approaches can be (and usually are) used together to get even readable code. In this lecture, we describe how to use these three approaches in Julia.
+When writing a code, especially in large projects, it is essential to organize code in a meaningful way. There are three main ways how to do it. The first one is to split code into multiple files. The second one is to use modules to create global scopes. The last and most advanced is to extract parts of the code that can be generalized into separate packages. All these three approaches can be (and usually are) used together to get even more readable code. In this lecture, we describe how to use these three approaches in Julia.
 
 ## Files
 
-The first and most basic approach is to split the code into multiple files. Such files have to be of an appropriate type, i.e. it has to be Julia files with `.jl` extension. The code inside the Julia files can be loaded into global scope using the `include` function.
+The first and most basic approach is to split the code into multiple files. Such files have to be of an appropriate type, i.e., Julia files with `.jl` extension. The code inside the Julia files can be loaded into global scope using the `include` function.
 
 ```julia
 include("/absolute/path/to/the/file/filename.jl")
 include("../relative/path/to/the/file/filename.jl")
 ```
 
-The  `include` function evaluates the contents of the input source file in the global scope of the module where the `include` call occurs. If some file is included multiple times, the file is also evaluated multiple times.
+The  `include` function evaluates the input source file's contents in the global scope of the module where the `include` call occurs. If some file is included multiple times, the file is also evaluated multiple times.
 
-Using separate files to organize code can be very useful. However, this approach also has many disadvantages. The main one is, that we have to pay attention to avoid clashing of the variable/function names from different files, since all files are evaluated in the same global scope. This problem can be solved by using modules as described in the following section.
+Using separate files to organize code can be very useful. However, this approach also has many disadvantages. We have to pay attention to avoid clashing of the variable/function names from different files since all files are evaluated in the same global scope. This problem can be solved by using modules as described in the following section.
 
 ## Modules
 
-Modules allows user to specify what names of variables/functions/types can be visible outside of the module. As we briefly mentioned in the section [Scope of variables](@ref Scope-of-variables), modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces and provide the following key features
+Modules allow users to specify what names of variables/functions/types can be visible outside of the module. As we briefly mentioned in the section [Scope of variables](@ref Scope-of-variables), modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces and provide the following key features:
 
 - defining top-level definitions (aka global variables) without worrying about name conflicts when your code is used together with somebody else's,
-- control of the visibility of variables/functions/types outside of the module via exporitng,
-- control of the visibility of variables/functions/types from other modules inside the module via importing.
+- control of the visibility of variables/functions/types outside of the module via exporting,
+- control visibility of variables/functions/types from other modules inside the module via importing.
 
-The basic syntax for defining modules is following. Modules are created using the `module` keyword.
+The basic syntax for defining modules is the following. Modules are created using the `module` keyword.
 
 ```@example modules
 module Points
@@ -46,11 +46,11 @@ end
 nothing # hide
 ```
 
-In the example above, we define module `Points` in which we define custom type `Point` representing a point in two-dimensional Euclidean space. We also define three functions: `coordinates`, `show`, and `distance`. The `coordinates` function is only an auxiliary function that extracts point coordinates and returns them as a tuple. The `show` function defines a custom show for the `Point` type. Note that we use `import Base: show` to allow adding methods to the `Base.show` function. Finally, the `distance` function simply computes the euclidian distance using the `norm` function from the `LinearAlgebra` module. Note that we have to use `using` or `import` keyword to import other modules. Also, note that we use the `export` keyword to specify which functions/variables/types names are exported.
+In the example above, we define module `Points` in which we define custom type `Point` representing a point in two-dimensional Euclidean space. We also define three functions: `coordinates`, `show`, and `distance`. The `coordinates` function is only an auxiliary function that extracts point coordinates and returns them as a tuple. The `show` function defines a custom show for the `Point` type. Note that we use `import Base: show` to add methods to the `show` function. Finally, the `distance` function computes the euclidian distance using the `norm` function from the `LinearAlgebra` module. Note that we have to use the `using` or `import` keyword to import other modules. Also, note that we use the `export` keyword to specify which functions/variables/types names are exported.
 
 ## `using` and `import`
 
-All functions and types defined inside the `Points` module are defined and accessible in the module's global scope, i.e., inside the module we can use them without any restrictions. If we want to use the functionality outside the module, we must use `using` or `import` keyword. The following table shows some possible ways to use the `using` and` import` keywords.
+All functions and types defined inside the `Points` module are defined and accessible in the module's global scope, i.e., inside the module, we can use them without any restrictions. If we want to use the functionality outside the module, we must use the `using` or `import` keyword. The following table shows some possible ways to use the `using` and` import` keywords.
 
 ```@raw html
 <table>
@@ -183,9 +183,9 @@ Consider the following example to help us describe the differences in the use of
 1. Create an instance `p` of the `Point` type representing point `(4,2)`.
 2. Redefine the `coordinates` function to return an array instead of a tuple. Note that this step will change how the `Point` is printed.
 3. Create an instance `q` of the `Point` type representing point `(2,2)`.
-4. Compute the distance between point `p` and `q` using the `distance` function.
+4. Compute the distance between points `p` and `q` using the `distance` function.
 
-The most common way how to import modules is to use the `using` keyword and the name of the module. Note that packages are imported in the same way as modules. The reason is that the core of each package is a module as will be described later in this lecture.  As can be seen in the table above, if we use `using .Points` only the exported names are brought to the global scope, i.e., we can call the `Point` type and the `distance` by their names. However, to redefine the the `coordinates` function, we have to use `Points.coordinates` syntax.
+The most common way to import modules is to use the `using` keyword and the module's name. Note that packages are imported in the same way as modules. The reason is that each package's core is a module, as will be described later in this lecture.  As can be seen in the table above, if we use `using .Points` only the exported names are brought to the global scope, i.e., we can call the `Point` type and the `distance` by their names. However, to redefine the `coordinates` function, we have to use `Points.coordinates` syntax.
 
 ```@repl modules1
 using .Points
@@ -199,7 +199,7 @@ q = Point(2,2)
 distance(p, q)
 ```
 
-Note that we use a dot before the name of the module after the `using` keyword. The reason for that is described later. Also, note that the print style changed after the redefinition of the `coordinates` function, since the `show` function for the `Point` type uses the `coordinates` function.
+Note that we use a dot before the name of the module after the `using` keyword. The reason for that is described [later](@ref Relative-and-absolute-module-paths). Also, note that the print style changed after the redefinition of the `coordinates` function since the `show` function for the `Point` type uses the `coordinates` function.
 
 If we use `import .Points`, no names from the `Points` module are brought into the global scope. However, all names are available for usage and extension via `Points.<name>` syntax. The previous example can be rewritten as follows.
 
@@ -215,10 +215,7 @@ q = Points.Point(2,2)
 Points.distance(p, q)
 ```
 
-The keyword `import` can be used to avoid name conflicts.
-
-
-If we want to use only some functions from the module and do not import all of them, we can use the `using` keyword and specify which names should be imported. In such a case these names can be used directly, however, it is not possible to extend functions using this approach.
+If we want to use only some functions from the module and do not import all of them, we can use the `using` keyword and specify which names should be imported. In such a case, these names can be used directly. However, it is not possible to extend functions using this approach.
 
 ```@repl modules3
 using .Points: Point, distance
@@ -229,7 +226,7 @@ q = Point(2,2)
 distance(p, q)
 ```
 
-In the same way, we can also use the `import` keyword that allows method extension for imported names.
+Similarly, we can also use the `import` keyword that also allows method extension for imported names.
 
 ```@repl modules4
 import .Points: Point, coordinates, distance
@@ -243,20 +240,20 @@ q = Point(2,2)
 distance(p, q)
 ```
 
-To summarize the above examples, we can say, that in most cases it is sufficient to use the `using` keyword with the name of the module. The `import` keyword followed by the name of a module and a list of names that should be imported is usually used when we want to extend functions.
+To summarize the above examples, we can say that it is sufficient to use the `using` keyword with the name of the module in most cases. The `import` keyword followed by a module's name and a list of names that should be imported is usually used when we want to extend functions.
 
 ## Relative and absolute module paths
 
-In the previous section, we added dots before the module name when used after the `using` or `import` keyword. The reason is, that if we try to import a module, the system consults an internal table of top-level modules to look for the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
+In the previous section, we added dots before the module name when used after the `using` or `import` keyword. The reason is that if we try to import a module, the system consults an internal table of top-level modules to look for the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
 
-If we evaluate a code in the REPL, the code is actually evaluated in the `Main` module which serves as the default global scope. We can check it using the `@__MODULE__` macro that returns the module in which the macro is evaluated.
+If we evaluate a code in the REPL, the code is actually evaluated in the `Main` module, which serves as the default global scope. We can check it using the `@__MODULE__` macro that returns the module in which the macro is evaluated.
 
 ```julia
 julia> @__MODULE__
 Main
 ```
 
-It means, that the `Points` module is actually a submodule of the `Main` module, i.e. it is not a top-level module. It can be seen if we type `Points` in the REPL or if we use the `parentmodule` function that returns a `Module` in which the given module is defined.
+It means that the `Points` module is actually a submodule of the `Main` module, i.e., it is not a top-level module. It can be seen if we type `Points` in the REPL or if we use the `parentmodule` function that returns a `Module` in which the given module is defined.
 
 ```julia
 julia> Points
@@ -266,15 +263,14 @@ julia> parentmodule(Points)
 Main
 ```
 
-There are two possible ways how to load non-top-level modules: we can use the absolute or relative path to them. In our case, we have the following two options
+There are two possible ways how to load non-top-level modules: we can use the absolute or relative path to them. In our case, we have the following two options.
 
 ```julia
 using Main.Points
 using .Points
 ```
 
-Adding more leading periods moves up additional levels in the module hierarchy. For example `using ..Points` would look for `Points` in `Main`'s enclosing module rather than in `Main` itself. However, `Main` is its own parent so in this concrete example, the result will be the same.
-
+Adding more leading periods moves up additional levels in the module hierarchy. For example, `using ..Points` would look for `Points` in `Main`'s enclosing module rather than in `Main` itself. However, `Main` is its own parent, so that the result will be the same in this concrete example.
 
 ```@raw html
 <div class = "info-body">
