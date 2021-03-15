@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Methods · Julia for Machine Learning</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Julia for Machine Learning logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Julia for Machine Learning logo"/></a><div class="docs-package-name"><span class="docs-autofit">Julia for Machine Learning</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why/">Why Julia?</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Installation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../installation/julia/">Julia</a></li><li><a class="tocitem" href="../../installation/vscode/">Visual Studio Code</a></li><li><a class="tocitem" href="../../installation/git/">Git</a></li><li><a class="tocitem" href="../../installation/tutorial/">Quickstart guide</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/conditions/">Conditional evaluations</a></li><li><a class="tocitem" href="../../lecture_02/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_02/scope/">Soft local scope</a></li><li><a class="tocitem" href="../../lecture_02/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox" checked/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../functions/">Functions</a></li><li class="is-active"><a class="tocitem" href>Methods</a><ul class="internal"><li><a class="tocitem" href="#Type-hierarchy"><span>Type hierarchy</span></a></li><li><a class="tocitem" href="#Multiple-dispatch"><span>Multiple dispatch</span></a></li><li><a class="tocitem" href="#Method-ambiguities"><span>Method ambiguities</span></a></li></ul></li><li><a class="tocitem" href="../scope/">Scope of variables</a></li><li><a class="tocitem" href="../exceptions/">Exception handling</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_04/standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../../lecture_04/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_04/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_04/otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../../lecture_04/interaction/">Interaction with other languages</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">5: Type system and generic programming</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_05/compositetypes/">Abstract and composit types</a></li><li><a class="tocitem" href="../../lecture_05/currencies/">Generic programming</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Code organization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_06/modules/">Files and modules</a></li><li><a class="tocitem" href="../../lecture_06/pkg/">Package manager</a></li><li><a class="tocitem" href="../../lecture_06/develop/">Package development</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Course requirements</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../final_project/homeworks/">Homework</a></li><li><a class="tocitem" href="../../final_project/project/">Final project</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Introduction to continuous optimization</a></li><li><a class="tocitem" href="../../lecture_07/unconstrained/">Unconstrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/constrained/">Constrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">10: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">11: Statistics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_11/theory/">Statistics</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-16" type="checkbox"/><label class="tocitem" for="menuitem-16"><span class="docs-label">12: Ordinary differential equations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_12/theory/">Differential equations</a></li><li><a class="tocitem" href="../../lecture_12/ode/">Wave equation</a></li><li><a class="tocitem" href="../../lecture_12/diff_eq/">Julia package</a></li><li><a class="tocitem" href="../../lecture_12/optimal_control/">Optimal control</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">3: Functions and methods</a></li><li class="is-active"><a href>Methods</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Methods</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_03/methods.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Methods"><a class="docs-heading-anchor" href="#Methods">Methods</a><a id="Methods-1"></a><a class="docs-heading-anchor-permalink" href="#Methods" title="Permalink"></a></h1><p>So far, we defined all functions (with some exceptions) without annotating the types of input arguments. When the type annotation is omitted, the default behaviour in Julia is to allow values to be of any type. One can write many useful functions without stating the types. When additional expressiveness is needed, it is easy to introduce type annotations into previously <em>untyped</em> code.</p><p>In Julia, one function consists of multiple methods. A prime example is the <code>convert</code> function. When a user calls a function, the process of choosing which method to execute is called dispatch. The dispatch system in Julia decides which method to execute based on:</p><ul><li>the number of function arguments;</li><li>the types of function arguments.</li></ul><p>Using all function arguments to choose which method should be invoked is known as <strong>multiple dispatch</strong>.</p><p>As an example of multiple dispatch, we define the <code>product</code> function that computes the product of two numbers.</p><pre><code class="language-julia-repl">julia&gt; product(x, y) = x * y
+product (generic function with 1 method)</code></pre><p>In the REPL, we can see that the <code>product</code> function has only one method. In this case, we defined the method for any two input arguments without type specification.</p><pre><code class="language-julia-repl">julia&gt; product(1, 4.5)
+4.5
+
+julia&gt; product(2.4, 3.1)
+7.4399999999999995</code></pre><p>The <code>methods</code> function lists all methods for a function.</p><pre><code class="language-julia-repl">julia&gt; methods(product)
+# 1 method for generic function &quot;product&quot;:
+[1] product(x, y) in Main at none:1</code></pre><p>Because we did not specify types of input arguments, the <code>product</code> function accepts arguments of all types. For some inputs, such as symbols, the <code>*</code> operator will not work.</p><pre><code class="language-julia-repl">julia&gt; product(:a, :b)
+ERROR: MethodError: no method matching *(::Symbol, ::Symbol)
+[...]</code></pre><p>We can avoid such errors by specifying types of input arguments. Since we want to create a function that computes the product of two numbers, it makes sense to allow input arguments to be only numbers.</p><pre><code class="language-julia">product(x::Number, y::Number) = x * y
+product(x, y) = throw(ArgumentError(&quot;product is defined for numbers only.&quot;))</code></pre><p>The second line redefined the original definition of the <code>product</code> function. It now throws an error if <code>product</code> is called with non-numeric inputs.</p><pre><code class="language-julia-repl">julia&gt; methods(product)
+# 2 methods for generic function &quot;product&quot;:
+[1] product(x::Number, y::Number) in Main at none:1
+[2] product(x, y) in Main at none:1</code></pre><p>Now, we have a function with two methods, that returns a product if the input arguments are numbers, and throws an error otherwise.</p><pre><code class="language-julia-repl">julia&gt; product(1, 4.5)
+4.5
+
+julia&gt; product(:a, :b)
+ERROR: ArgumentError: product is defined for numbers only.
+
+julia&gt; product(&quot;a&quot;, &quot;b&quot;)
+ERROR: ArgumentError: product is defined for numbers only.</code></pre><h2 id="Type-hierarchy"><a class="docs-heading-anchor" href="#Type-hierarchy">Type hierarchy</a><a id="Type-hierarchy-1"></a><a class="docs-heading-anchor-permalink" href="#Type-hierarchy" title="Permalink"></a></h2><p>It is always better to use abstract types like <code>Number</code> or <code>Real</code> instead of concrete types like <code>Float64</code>, <code>Float32</code>, or <code>Int64</code>. The reason is that if we use an abstract type, the function will work for all its subtypes. To find a supertype for a specific type, we can use the <code>supertype</code> function from the <code>InteractiveUtils</code> package.</p><pre><code class="language-julia-repl">julia&gt; using InteractiveUtils: supertype
+
+julia&gt; supertype(Float64)
+AbstractFloat</code></pre><p>The problem with the <code>supertype</code> function is that it does not return the whole supertype hierarchy, but only the closest <em>larger</em> supertype. For <code>Float64</code> the closest larger supertype is <code>AbstractFloat</code>. However, as in the example above, we do not want to use this supertype, since then the function will only work for floating point numbers.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Create a function <code>supertypes_tree</code> which prints the whole tree of all supertypes. If the input type <code>T</code> satisfies the following condition <code>T === Any</code>, then the function should do nothing. Use the following function declaration:</p><pre><code class="language-julia">function supertypes_tree(T::Type, level::Int = 0)
+    # code
+end</code></pre><p>The optional argument <code>level</code> sets the printing indentation level.</p><p><strong>Hints:</strong></p><ul><li>Use the <code>supertype</code> function in combination with recursion.</li><li>Use the <code>repeat</code> function and string with white space <code>&quot;    &quot;</code> to create a proper indentation.</li></ul></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>The <code>supertypes_tree</code> function can be defined by:</p><pre><code class="language-julia">function supertypes_tree(T::Type, level::Int = 0)
+    isequal(T, Any) &amp;&amp; return
+    println(repeat(&quot;   &quot;, level), T)
+    supertypes_tree(supertype(T), level + 1)
+    return
+end</code></pre><p>The first line checks if the given input type is <code>Any</code>. If yes, then the function returns nothing. Otherwise, the function prints the type with a proper indentation provided by <code>repeat(&quot;   &quot;, level)</code>, i.e., four white-spaces repeated <code>level</code>-times. The third line calls the <code>supertypes_tree</code> function recursively for the supertype of the input type <code>T</code> and the level of indentation <code>level + 1</code>.</p></p></details><p>Now we can use the <code>supertypes_tree</code> function to get the whole supertype hierarchy for <code>Float64</code>.</p><pre><code class="language-julia">julia&gt; supertypes_tree(Float64)
+Float64
+   AbstractFloat
+      Real
+         Number</code></pre><p>We can check the type hierarchy by the <code>&lt;:</code> operator for comparing types: If <code>T1 &lt;: T2</code> is true, then <code>T1</code> is a subtype (or the same type) of <code>T2</code>.</p><pre><code class="language-julia-repl">julia&gt; Float64 &lt;: AbstractFloat &lt;: Real &lt;: Number
+true</code></pre><p>Similarly to the <code>supertype</code> function, there is the <code>subtypes</code> function that returns all subtypes for the given type.</p><pre><code class="language-julia">julia&gt; using InteractiveUtils: subtypes
+
+julia&gt; subtypes(Number)
+2-element Array{Any,1}:
+ Complex
+ Real</code></pre><p>This function suffers from a similar disadvantage as the <code>supertype</code> function: It is impossible to get the whole hierarchy of all subtypes using only this function.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Create a function <code>subtypes_tree</code> which prints the whole tree of all subtypes for the given type. Use the following function declaration:</p><pre><code class="language-julia">function subtypes_tree(T::Type, level::Int = 0)
+    # code
+end</code></pre><p>The optional argument <code>level</code> sets the printing indentation level.</p><p><strong>Hints:</strong></p><ul><li>Use the <code>subtypes</code> function in combination with recursion.</li><li>Use the <code>repeat</code> function and string with white space <code>&quot;    &quot;</code> to create a proper indentation.</li></ul></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>The <code>subtypes_tree</code> function is similar to <code>supertypes_tree</code>. The only differences are that we do not need to check for the top level of <code>Any</code>, and that we need to call the vectorized version <code>subtypes_tree.</code> because <code>subtypes(T)</code> returns an array.</p><pre><code class="language-julia">function subtypes_tree(T::Type, level::Int = 0)
+    println(repeat(&quot;   &quot;, level), T)
+    subtypes_tree.(subtypes(T), level + 1)
+    return
+end</code></pre></p></details><p>Now we can use the <code>subtypes_tree</code> function to get the whole subtypes hierarchy for the <code>Number</code> type.</p><pre><code class="language-julia">julia&gt; subtypes_tree(Number)
+Number
+   Complex
+   Real
+      AbstractFloat
+         BigFloat
+         Float16
+         Float32
+         Float64
+      AbstractIrrational
+         Irrational
+      Integer
+         Bool
+         Signed
+            BigInt
+            Int128
+            Int16
+            Int32
+            Int64
+            Int8
+         Unsigned
+            UInt128
+            UInt16
+            UInt32
+            UInt64
+            UInt8
+      Rational</code></pre><p>This tree shows the whole structure of Julia numerical types. If we want to define a function that accepts all numeric types, we should use inputs of type <code>Number</code>. However, many operations are restricted to only real numbers. In such a case, we want to use the <code>Real</code> type instead of <code>Number</code>.</p><h2 id="Multiple-dispatch"><a class="docs-heading-anchor" href="#Multiple-dispatch">Multiple dispatch</a><a id="Multiple-dispatch-1"></a><a class="docs-heading-anchor-permalink" href="#Multiple-dispatch" title="Permalink"></a></h2><p>Now we can go back to our example with the <code>product</code> function. The problem with this function is that it is too restrictive because the product of two strings is a legitimate operation that should return their concatenation. We should define a method for strings. To use the proper type, we can use the <code>supertypes_tree</code> function for the <code>String</code> type.</p><pre><code class="language-julia-repl">julia&gt; supertypes_tree(String)
+String
+   AbstractString</code></pre><p>We see that the <em>largest</em> supertype for <code>String</code> is <code>AbstractString</code>. This leads to</p><pre><code class="language-julia">product(x::AbstractString, y::AbstractString) = x * y
+product(x, y) = throw(ArgumentError(&quot;product is defined for numbers and strings only.&quot;))</code></pre><p>We also redefined the original definition of the <code>product</code> function to throw an appropriate error.</p><pre><code class="language-julia-repl">julia&gt; product(1, 4.5)
+4.5
+
+julia&gt; product(&quot;a&quot;, &quot;b&quot;)
+&quot;ab&quot;
+
+julia&gt; product(:a, :b)
+ERROR: ArgumentError: product is defined for numbers and strings only.</code></pre><p>Sometimes, it may be complicated to guess which method is used for concrete inputs. In such a case, there is a useful macro <code>@which</code> that returns the method that is called for given arguments.</p><pre><code class="language-julia-repl">julia&gt; using InteractiveUtils: @which
+
+julia&gt; @which product(1, 4.5)
+product(x::Number, y::Number) in Main at none:1
+
+julia&gt; @which product(&quot;a&quot;, :a)
+product(x, y) in Main at none:1
+
+julia&gt; @which product(&quot;a&quot;, &quot;b&quot;)
+product(x::AbstractString, y::AbstractString) in Main at none:1</code></pre><p>The previous example with the <code>product</code> function shows how methods in Julia works. However, it is a good practice to use type annotation only if we want to have a specialized function or if we want to define a function, which does different things for different types of input arguments.</p><pre><code class="language-julia">g(x::Real) = x + 1
+g(x::String) = repeat(x, 4)</code></pre><p>For example, the <code>g</code> function returns <code>x + 1</code> if the input <code>x</code> is a real number or repeats four times the input argument if it is a string. Otherwise, it will throw a method error.</p><pre><code class="language-julia-repl">julia&gt; g(1.2)
+2.2
+
+julia&gt; g(&quot;a&quot;)
+&quot;aaaa&quot;
+
+julia&gt; g(:a)
+ERROR: MethodError: no method matching g(::Symbol)
+Closest candidates are:
+  g(!Matched::String) at none:1
+  g(!Matched::Real) at none:1</code></pre><div class = "info-body">
+<header class = "info-header">Do not overuse type annotation!!!</header><p><p>The <code>product</code> function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function <code>product_new</code> by:</p><pre><code class="language-julia">product_new(x, y) = x * y</code></pre><p>Then we can apply this function to the same inputs as the original <code>product</code> function, and we will get the same results</p><pre><code class="language-julia-repl">julia&gt; product(1, 4.5)
+4.5
+
+julia&gt; product_new(1, 4.5)
+4.5
+
+julia&gt; product(&quot;a&quot;, &quot;b&quot;)
+&quot;ab&quot;
+
+julia&gt; product_new(&quot;a&quot;, &quot;b&quot;)
+&quot;ab&quot;</code></pre><p>with only one exception</p><pre><code class="language-julia-repl">julia&gt; product(&quot;a&quot;, :a)
+ERROR: ArgumentError: product is defined for numbers and strings only.
+
+julia&gt; product_new(&quot;a&quot;, :a)
+ERROR: MethodError: no method matching *(::String, ::Symbol)
+[...]</code></pre><p>Here we get a different error. However, the error returned by the <code>product_new</code> function is more useful because it tells us what the real problem is. We can see that it is impossible to use the <code>*</code> operator to multiply a <code>String</code> and a <code>Symbol</code>. We can decide if this is the desired behaviour, and if not, we can define a method for the <code>*</code> operator that will fix it.</p></p></div><p>We show a simple example when the multiple dispatch is useful.</p><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>We define the abstract type <code>Student</code> and specific types <code>Master</code> and <code>Doctoral</code>. The latter two are defined as structures containing one and three fields, respectively.</p><pre><code class="language-julia">abstract type Student end
+
+struct Master &lt;: Student
+    salary
+end
+
+struct Doctoral &lt;: Student
+    salary
+    exam_mid::Bool
+    exam_english::Bool
+end</code></pre><p>We can check that the <code>subtypes_tree</code> works correctly on any type, including the type <code>Student</code> which we defined.</p><pre><code class="language-julia">julia&gt; subtypes_tree(Student)
+Student
+   Doctoral
+   Master</code></pre><p>We create instances of two students by providing values for the struct fields.</p><pre><code class="language-julia">s1 = Master(5000)
+s2 = Doctoral(30000, 1, 0)</code></pre><p>Write the <code>salary_yearly</code> function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via <code>s1.salary</code>). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>Julia prefers to write many simple functions. We write <code>salary_yearly</code> based on the not-yet-defined <code>salary_monthly</code> function.</p><pre><code class="language-julia">salary_yearly(s::Student) = 12*salary_monthly(s)</code></pre><p>We specified that the input to <code>salary_yearly</code> is any <code>Student</code>. Since <code>Student</code> is an abstract type, we can call <code>salary_yearly</code> with both <code>Master</code> and <code>Doctoral</code> student. Now we need to define the <code>salary_monthly</code> function. Since the salary is computed in different ways for both students, we write two methods.</p><pre><code class="language-julia">salary_monthly(s::Master) = s.salary
+salary_monthly(s::Doctoral) = s.salary + s.exam_mid*2000 + s.exam_english*1000</code></pre><p>Both methods have the same name (they are the same function) but have different inputs. While the first one is used for <code>Master</code> students, the second one for <code>Doctoral</code> students. Now we print the salary.</p><pre><code class="language-julia">println(&quot;The yearly salary is $(salary_yearly(s1)).&quot;)
+println(&quot;The yearly salary is $(salary_yearly(s2)).&quot;)</code></pre><pre class="documenter-example-output">The yearly salary is 60000.
+The yearly salary is 384000.</pre></p></details><h2 id="Method-ambiguities"><a class="docs-heading-anchor" href="#Method-ambiguities">Method ambiguities</a><a id="Method-ambiguities-1"></a><a class="docs-heading-anchor-permalink" href="#Method-ambiguities" title="Permalink"></a></h2><p>It is possible to define a set of function methods with no most specific method applicable to some combinations of arguments.</p><pre><code class="language-julia">f(x::Float64, y) = x * y
+f(x, y::Float64) = x + y</code></pre><p>Here, <code>f</code> has two methods. The first method applies if the first argument is of type <code>Float64</code>, and the second method applies if the second argument is of type <code>Float64</code>.</p><pre><code class="language-julia-repl">julia&gt; f(2.0, 3)
+6.0
+
+julia&gt; f(2, 3.0)
+5.0</code></pre><p>Both methods can be used if both arguments are of type <code>Float64</code>. The problem is that neither method is more specific than the other. This results in <code>MethodError</code>.</p><pre><code class="language-julia-repl">julia&gt; f(2.0, 3.0)
+ERROR: MethodError: f(::Float64, ::Float64) is ambiguous. Candidates:
+  f(x::Float64, y) in Main at none:1
+  f(x, y::Float64) in Main at none:1
+Possible fix, define
+  f(::Float64, ::Float64)</code></pre><p>We can avoid method ambiguities by specifying an appropriate method for the intersection case.</p><pre><code class="language-julia-repl">julia&gt; f(x::Float64, y::Float64) = x - y
+f (generic function with 3 methods)</code></pre><p>Now <code>f</code> has three methods.</p><pre><code class="language-julia-repl">julia&gt; f(2.0, 3.0)
+-1.0</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><a class="docs-footer-nextpage" href="../scope/">Scope of variables »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 15 March 2021 19:53">Monday 15 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
