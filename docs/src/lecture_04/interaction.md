@@ -1,29 +1,33 @@
 # Interaction with other languages
 
-One of the biggest advantages of Julia is its speed. As we discussed in  the section [Why julia?](@ref Why-julia?), Julia is fast out-of-box without the necessity to do any additional steps. As a result, Julia solves the so-called Two-Language problem: *users are programming in a high-level language such as R and Python, but the performance-critical parts of the code have to be rewritten in C/Fortran for performance.* Since Julia is fast enough, most of the libraries are written in pure Julia and there is no need to use C/Fortran for performance. However, there are many high-quality, mature libraries for numerical computing already written in C and Fortran. It would be a shame if it will not be possible to use them in Julia.
+One of the most significant advantages of Julia is its speed. As we discussed in  the section [Why julia?](@ref Why-julia?), Julia is fast out-of-box without the necessity to do any additional steps. As a result, Julia solves the so-called Two-Language problem:
 
-To allow easy use of this existing code, Julia makes it simple and efficient to call C and Fortran functions. Julia has a **no boilerplate** philosophy: functions can be called directly from Julia without any glue code generation, or compilation – even from the interactive prompt. This is accomplished just by making an appropriate call with `ccall` syntax, which looks like an ordinary function call. Moreover, it is possible to pass Julia functions to native C functions that accept function pointer arguments. In this section, we will show one example of the interaction between Julia and C. Extensive description of all provided functionality can be found in the [official manual](https://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/).
+> Users are programming in a high-level language such as R and Python, but the performance-critical parts of the code have to be rewritten in C/Fortran for performance.
 
-The following example is taken from the official manual. Consider the situation, that we want to use the `qsort` function from the standard C library. The `qsort` function sortrs an array and is edclared as follows
+Since Julia is fast enough, most of the libraries are written in pure Julia, and there is no need to use C/Fortran for performance. However, there are many high-quality, mature libraries for numerical computing already written in C and Fortran. It would be a shame if it will not be possible to use them in Julia.
+
+To allow easy use of this existing code, Julia makes it simple and efficient to call C and Fortran functions. Julia has a **no boilerplate** philosophy: functions can be called directly from Julia without any glue code generation or compilation – even from the interactive prompt. This is accomplished just by making an appropriate call with the `ccall` syntax, which looks like an ordinary function call. Moreover, it is possible to pass Julia functions to native C functions that accept function pointer arguments. This section will show one example of the interaction between Julia and C. Extensive description of all provided functionality can be found in the [official manual](https://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/).
+
+The following example is taken from the official manual. Consider the situation that we want to use the `qsort` function from the standard C library. The `qsort` function sorts an array and is declared as follows.
 
 ```c
 void qsort(void *base, size_t nitems, size_t size,
            int (*compare)(const void*, const void*))
 ```
 
-The `base` is the pointer to the first element of the array to be sorted. The `nitems` is the number of elements in the array pointed by `base` and the `size` is the size in bytes of each element in the array. Finally, the `compare` is the function that compares two elements. The `compare` function should return a negative integer if the first argument is less than the second, a positive integer if the first argument is greater than the second, and otherwise zero. Such a function can be in Julia defined as follows.
+The `base` is the pointer to the first element of the array to be sorted. The `nitems` is the number of elements in the array pointed by `base`.  The `size` is the size in bytes of each element in the array. Finally, the `compare` is the function that compares two elements. The `compare` function should return a negative integer if the first argument is less than the second, a positive integer if the first argument is greater than the second, and otherwise zero. Such a Julia function can be defined as follows.
 
 ```julia
 mycompare(a, b)::Cint = sign(a - b)
 ```
 
-Since the `qsort` function expects, that the return type of the `compare` function is C `int`, we annotate the return type to be `Cint`. In order to pass this function to C, we obtain its address using the macro `@cfunction`.
+Since the `qsort` function expects that the return type of the `compare` function is C `int`, we annotate the return type to be `Cint`. In order to pass this function to C, we obtain its address using the macro `@cfunction`.
 
 ```julia
 mycompare_c = @cfunction(mycompare, Cint, (Ref{Cdouble}, Ref{Cdouble}))
 ```
 
-The `@cfunction` macro requires three arguments: the Julia function, the return type, and tuple of the input argument types. Finally we can use the `ccall` function to call the `qsort` function.
+The `@cfunction` macro requires three arguments: the Julia function, the return type, and the tuple of the input argument types. Finally, we can use the `ccall` function to call the `qsort` function.
 
 ```julia
 julia> A = [1.3, -2.7, 4.4, 3.1];
@@ -39,7 +43,7 @@ julia> A
   4.4
 ```
 
-Besides C and Fortran that can be called directly using `ccall` function, it is possible to interact with other languages. There are many packages that provide an interface to interact with other languages. The following table shows an overview of those packagess
+Besides C and Fortran that can be called directly using `ccall` function, it is possible to interact with other languages using third-party packages. The following table shows an overview of those packages.
 
 | Language    | Calling from Julia                                         | Calling Julia                                                                       |
 | :---        | :---                                                       | :---                                                                                |
@@ -50,11 +54,11 @@ Besides C and Fortran that can be called directly using `ccall` function, it is 
 | MATLAB      | [MATLAB.jl](https://github.com/JuliaInterop/MATLAB.jl)     | [Mex.jl](https://github.com/jebej/Mex.jl/)                                          |
 | Java        | [JavaCall.jl](https://github.com/JuliaInterop/JavaCall.jl) | [JuliaCaller](https://github.com/jbytecode/juliacaller)                             |
 
-Moreover, there are other Julia packages that provide Julia interface for some well-known libraries from other languages. As an example, we can mention ScikitLear.jl which provides an interface for the [scikit-learn](https://scikit-learn.org/stable/) library from Python or the [RDatasets.jl](https://github.com/JuliaStats/RDatasets.jls) that provides an easy way to load famous R datasets.
+Moreover, other Julia packages provide Julia interface for some well-known libraries from other languages. As an example, we can mention [ScikitLear.jl](https://github.com/cstjean/ScikitLearn.jl), which provides an interface for the [scikit-learn](https://scikit-learn.org/stable/) library from Python or the [RDatasets.jl](https://github.com/JuliaStats/RDatasets.jls) that provides an easy way to load famous R datasets.
 
 ## RCall.jl
 
-The [RCall.jl](https://github.com/JuliaInterop/RCall.jl) package provides an interface for calling R functions from Julia and passing data between these two languages. The package provides an interactive REPL for the R language that can be accessed from the Julia REPL by typing `$` symbol. As a consequence, it is possible to easily switch between these languages and use functionality provided by both languages simultaneously.
+The [RCall.jl](https://github.com/JuliaInterop/RCall.jl) package provides an interface for calling R functions from Julia and passing data between these two languages. The package provides an interactive REPL for the R language that can be accessed from the Julia REPL by typing the `$` symbol. Consequently, it is possible to easily switch between these languages and use functionality provided by both languages simultaneously.
 
 ```julia
 julia> using RCall, RDatasets
@@ -68,7 +72,7 @@ R> ggplot($mtcars, aes(x = WT, y = MPG)) + geom_point()
 
 ![](ggplot.svg)
 
-The package also provides string syntax, that allows non-interactive usage. The previous example can be rewritten as follows.
+The package also provides string syntax that allows non-interactive usage. The previous example can be rewritten as follows.
 
 ```julia
 using RCall, RDatasets
@@ -80,11 +84,11 @@ ggplot($mtcars, aes(x = WT, y = MPG)) + geom_point()
 """
 ```
 
-Note that we use multiline string syntax, but it is also possible to use standard string syntax as well. This multiline string syntax is very useful especially when we want to perform multiple operations in R at once and then just return the result to Julia.
+Note that we use multiline string syntax, but it is also possible to use standard string syntax. This multiline string syntax is very useful, especially when we want to perform multiple operations in R at once and then just return the result to Julia.
 
 ## MATLAB.jl
 
-The [MATLAB.jl](https://github.com/JuliaInterop/MATLAB.jl) provides an easy interface for calling Matlab functions and passing data between Julia and Matlab. Consider the situation, that you wrote a Matlab function, that uses some special functionality that is not available in Julia. Using the MATLAB.jl package, it is very easy to call this function directly from Julia as can be seen in the following example
+The [MATLAB.jl](https://github.com/JuliaInterop/MATLAB.jl) provides an easy interface for calling Matlab functions and passing data between Julia and Matlab. Consider the situation that you wrote a Matlab function that uses some special functionality that is not available in Julia. MATLAB.jl package provides an interface to call this function directly from Julia, as can be seen in the following example.
 
 ```julia
 using MATLAB, BSON
@@ -97,7 +101,7 @@ The `mxcall` function accepts the name of the function as the first argument and
 
 ![](../data/Video.gif)
 
-The package also provides string syntax, that allows writing the code in Matlab syntax. The previous example can be rewritten as follows.
+Like the RCall.jl package, the MATLAB.jl package also provides string syntax that allows for Matlab syntax. The previous example can be rewritten as follows.
 
 ```julia
 using MATLAB, BSON
@@ -107,5 +111,3 @@ mat"""
 MakeVideo($(X), 30, "Video2.gif");
 """
 ```
-
-Note that we use multiline string syntax as in the case of R.

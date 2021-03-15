@@ -31,12 +31,22 @@ In combination with the `StatsPlots` package, it is possible to plot probability
 
 ```@example distr
 using StatsPlots
-plot(D; linewidth = 2, xlabel = "x", ylabel = "pdf(x)", legend = false)
+plot(
+    plot(D; title = "pdf"),
+    plot(D; func = cdf,  title = "cdf");
+    legend = false,
+    xlabel = "x",
+    ylabel = "f(x)",
+    ylims = (0,1),
+    linewidth = 2,
+    layout = (1,2),
+    size = (800, 400)
+)
 ```
 
 The `Distributions` package also provides methods to fit a distribution to a given set of samples.
 
-```@example distr
+```@repl distr
 x = rand(Normal(2, 0.5), 10000); # generate 10000 random numbers from Normal(2, 0.5)
 D = fit(Normal, x)
 ```
@@ -113,7 +123,6 @@ The previous expression returns a vector of functions. Now we can use the `plot`
 
 ```@example distr
 plot(cdfs, 0, 20;
-    func = cdf,
     xaxis = ("x", (0, 20)),
     yaxis = ("cdf(x)", (0, 1.05)),
     labels = labels,

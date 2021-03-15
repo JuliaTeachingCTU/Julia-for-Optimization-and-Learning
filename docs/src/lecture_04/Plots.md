@@ -134,9 +134,9 @@ where ``t \in [0, 2\pi]``. Create a plot of the curve described by the equations
 2. The line color should change with the changing line width.
 Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.org/latest/generated/colorschemes/) supported by the Plots package. Use additional plot attributes to get a nice looking graph.
 
-**Hint:** use the `pallete` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
-
-**Hint:** remove all decorators by using: `axis = nothing`, `border = :none`.
+**Hints:**
+- use the `pallete` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
+- remove all decorators by using: `axis = nothing`, `border = :none`.
 
 ```@raw html
 </p></div>
@@ -221,7 +221,7 @@ savefig("plot_exercise1.svg") # hide
 using Plots
 ```
 
-The previous section showed basic functionality of `plot`. We first calculated the values to be plotted and then created the graphs. However, it is possible to pass functions directly to `plot`.
+The previous section showed basic functionality of the `plot` function. We first calculated the values to be plotted and then created the graphs. However, it is possible to pass functions directly to the `plot` function.
 
 ```@example plots_fce
 t = range(0, 2π; length = 100)
@@ -322,8 +322,8 @@ f(x, y) = \frac{x^2 \cdot y^2}{x^4 + y^4}.
 ```
 
 Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series `contourf`, `heatmap`, and `surface` with the following settings:
-- `:viridis` color scheme;
-- camera angle `(25, 65)`;
+- `:viridis` color scheme,
+- camera angle `(25, 65)`,
 - no legend, color bar, or decorators (`axis`, `frame` and `ticks`).
 
 ```@raw html
@@ -353,7 +353,7 @@ kwargs = (
 nothing # hide
 ```
 
-We use the `plot` function with the `seriestype = :contourf` keyword to draw a filled contour plot. The simpler option is to use the `contourf` function.
+We can use the `plot` function with the `seriestype = :contourf` keyword to draw a filled contour plot. The simpler option is to use the `contourf` function.
 
 ```julia
 contourf(x, x, fz; kwargs...) # or plot(x, x, fz; seriestype = :contourf, kwargs...)
@@ -369,7 +369,7 @@ heatmap(x, x, fz; kwargs...)
 
 ![](plots_srs_ex2.svg)
 
-For the `surface` plot, we can change the camera angle.
+For the `surface` plot, we can change the camera angle by setting the `camera` attribute.
 
 ```julia
 surface(x, x, fz; camera = (25, 65), kwargs...)
@@ -406,7 +406,7 @@ plot(x, [sin, cos, tan, sinc];
 )
 ```
 
-It is possible to create more advanced layouts with the `@layout` macro. In the example below, we create a non-symmetric layout with one subplot in the first row and two subplots in the second row. Moreover, we set the width of the first subplot in the second row to be `0.3` the whole plot width.
+It is possible to create more advanced layouts with the `@layout` macro. In the example below, we create a non-symmetric layout with one subplot in the first row and two subplots in the second row. Moreover, we set the width of the first subplot in the second row to be `0.3` of the whole plot width.
 
 ```@example plots_srs
 l = @layout [a ; b{0.3w} c]

@@ -64,7 +64,7 @@ Note that for `D+I` and `D-I`, the matrix `D` must be square.
 
 ## Random
 
-The last package that we will describe in more detail is the [Random](https://docs.julialang.org/en/v1/stdlib/Random/) package. This package provides more functionality for generating random numbers in Julia. The package allows setting the seed for the random generator using the `seed!` function. The `seed!` function is used to create a reproducible code that contains randomly generated values.
+The last package that we will describe in more detail is the [Random](https://docs.julialang.org/en/v1/stdlib/Random/) package. This package provides advanced functionality for generating random numbers in Julia. The package allows setting the seed for the random generator using the `seed!` function. The `seed!` function is used to create a reproducible code that contains randomly generated values.
 
 ```@repl rand
 using Random

@@ -16,13 +16,13 @@ df = DataFrame(A = 1:4, B = ["M", "F", "F", "M"], C = rand(4))
 
 Since each column is stored in a `DataFrame` as a separate vector, it is possible to combine columns of different element types. Columns can be accessed directly without copying.
 
-```@example dfbasics
+```@repl dfbasics
 df.A
 ```
 
 Another way is to use the indexing syntax similar to the one for arrays.
 
-```@example dfbasics
+```@repl dfbasics
 df[!, :A]
 ```
 
@@ -77,7 +77,7 @@ Alternatively, we can use the `insertcols!` function. This function can insert m
 insertcols!(df, 3, :B => rand(4), :B => 11:14; makeunique = true)
 ```
 
-New rows can be added to an existing `DataFrame` by the `push!` function. It is possible to append a new row in the form of a vector or a tuple of the correct length or in the form of a dictionary with the correct keys.
+New rows can be added to an existing `DataFrame` by the `push!` function. It is possible to append a new row in the form of a vector or a tuple of the correct length or in the form of a dictionary or `DataFrame` with the correct keys.
 
 ```@example dfbasics
 push!(df, [10, "F", 0.1, 15, 0.235, :f])
@@ -122,7 +122,7 @@ rename!(df, [:a, :b, :c, :d, :e, :f])
 df
 ```
 
-We can use it to rename only specific columns.
+Another option is to rename only some of the columns specified by their names.
 
 ```@example dfbasics
 rename!(df, :a => :A, :f => :F)
@@ -208,9 +208,9 @@ using StatsPlots
 @df iris scatter(
     :SepalLength,
     :SepalWidth;
+    group = :Species,
     xlabel = "SepalLength",
     ylabel = "SepalWidth",
-    group = :Species,
     marker = ([:d :h :star7], 8),
 )
 ```
