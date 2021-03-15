@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="600" height="400" viewBox="0 0 2400 1600">
 <defs>
-  <clipPath id="clip700">
+  <clipPath id="clip250">
     <rect x="0" y="0" width="2400" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip700)" d="
+<path clip-path="url(#clip250)" d="
 M0 1600 L2400 1600 L2400 0 L0 0  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip701">
+  <clipPath id="clip251">
     <rect x="480" y="0" width="1681" height="1600"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip700)" d="
+<path clip-path="url(#clip250)" d="
 M86.9921 1521.01 L2352.76 1521.01 L2352.76 47.2441 L86.9921 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip702">
+  <clipPath id="clip252">
     <rect x="86" y="47" width="2267" height="1475"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip702)" style="stroke:#009af9; stroke-width:8; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip252)" style="stroke:#009af9; stroke-width:8; stroke-opacity:1; fill:none" points="
   737.921,1286.82 824.018,1295.81 906.673,1297.22 984.064,1291.84 1054.66,1280.64 1117.26,1264.74 1171.05,1245.39 1215.62,1223.89 1250.97,1201.54 1277.51,1179.61 
   1296,1159.25 1307.57,1141.48 1313.62,1127.14 1315.78,1116.85 1315.84,1110.99 1315.64,1109.67 1317.04,1112.77 1321.8,1119.9 1331.52,1130.43 1347.58,1143.53 
   1371.04,1158.18 1402.64,1173.23 1442.72,1187.45 1491.23,1199.56 1547.72,1208.31 1611.34,1212.51 1680.85,1211.07 1754.71,1203.08 1831.1,1187.85 1907.97,1164.89 
