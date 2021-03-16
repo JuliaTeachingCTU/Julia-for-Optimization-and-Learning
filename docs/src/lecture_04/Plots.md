@@ -135,7 +135,7 @@ where ``t \in [0, 2\pi]``. Create a plot of the curve described by the equations
 Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.org/latest/generated/colorschemes/) supported by the Plots package. Use additional plot attributes to get a nice looking graph.
 
 **Hints:**
-- use the `pallete` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
+- use the `palette` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
 - remove all decorators by using: `axis = nothing`, `border = :none`.
 
 ```@raw html
