@@ -1,12 +1,12 @@
 # Abstract types
 
-In Julia, abstract types cannot be instantiated and are used to create a logical hierarchy of types. This can be seen in the hierarchy of numeric types introduced in the first lecture.
+Julia does not allow abstract types to be instantiated. They can only be used to create a logical hierarchy of types. The following figure shows this hierarchy for numeric types introduced in the first lecture.
 
 ![](types.svg)
 
-All types depicted in blue are abstract types. Note that Julia provides a variety of concrete types of numeric values. Although they have different representation sizes, `Int8`, `Int16`, `Int32`, `Int64`, and `Int128` all have in common that they are signed integer types. Likewise, `UInt8`, `UInt16`, `UInt32`, `UInt64`, and `UInt128` are all unsigned integer types, while `Float16`, `Float32`, and `Float64` are distinct in being floating-point types rather than integers. It is common for a piece of code to make sense, for example, only if its arguments are some integer, but not depend on what particular kind of integer. For example, the greatest common denominator algorithm works for all kinds of integers but will not work for floating-point numbers. Abstract types allow the construction of a hierarchy of types, providing a context into which concrete types can fit.
+All types depicted in blue are abstract types, and all green types are concrete types. For example, `Int8`, `Int16`, `Int32`, `Int64` and `Int128` are signed integer types, `UInt8`, `UInt16`, `UInt32`, `UInt64` and `UInt128` are unsigned integer types, while `Float16`, `Float32` and `Float64` are floating-point types. In many cases, the inputs must be of a specific type. An algorithm to find the greatest common denominator should work any integer types, but it should not work for any floating-point inputs. Abstract types specify these cases and provide a context into which concrete types can fit.
 
-Abstract types can be defined using the `abstract type` keyword followed by the type's name. Optionally, it is possible to specify that the type is a subtype of another existing abstract type. For example, the hierarchy of numeric types presented above can be defined as follows.
+Abstract types are defined by `abstract type` followed by the type. It is possible to specify a type to be a subtype of another abstract type. The definition of abstract numeric types would be:
 
 ```julia
 abstract type Number end
@@ -18,9 +18,9 @@ abstract type Signed <: Integer end
 abstract type Unsigned <: Integer end
 ```
 
-When no supertype is given, the default supertype is `Any`, i.e., in our example, the `Number` type is a subtype of `Any`. The `Any` type is sometimes called the *top* type since all types are its subtypes. In Julia, there is also the *bottom* type `Union{}`.  It is the exact opposite of the `Any` type since no object is an instance of `Union{}` and all types are supertypes of `Union{}`.
+When no supertype is specified, such as for `Number`, the default supertype is `Any`. The `Any` type is sometimes called the *top* type since all types are its subtypes. The *bottom* type is `Union{}`, and all types are supertypes of `Union{}`.
 
-The `<:` operator can be used in expressions as a subtype operator that returns `true` when its left operand is a subtype of its right operand.
+The `<:` operator can be used to check if the left operand is a subtype of the right operand.
 
 ```jldoctest
 julia> Signed <: Integer
@@ -33,7 +33,7 @@ julia> Signed <: AbstractFloat
 false
 ```
 
-Julia also provides the `isa` function, which can be used to test if the given variable is an instance of some type or subtype of some abstract type.
+Julia also provides the `isa` function, which checks if a variable is an instance of a type.
 
 ```jldoctest
 julia> isa(1, Int64) # equivalent to typeof(1) <: Int64
@@ -46,7 +46,7 @@ julia> isa(1, AbstractFloat) # equivalent to typeof(1) <: AbstractFloat
 false
 ```
 
-Another handy function is the `isabstracttype` function that checks whether the given type is abstract or not.
+Other handy functions are `isabstracttype` and `isconcretetype` that check whether a type is abstract and concrete, respectively.
 
 ```jldoctest
 julia> isabstracttype(Real)
@@ -54,11 +54,7 @@ true
 
 julia> isabstracttype(Float64)
 false
-```
 
-Similarly, the `isconcretetype` function checks whether the given type is concrete or not.
-
-```jldoctest
 julia> isconcretetype(Real)
 false
 
@@ -68,173 +64,168 @@ true
 
 # Composite types
 
-A composite type is a collection of pairs of keys and values, and its instance of which can be treated as a single value. In many languages, composite types are the only kind of user-definable type. In Julia, it is possible to define also other types (primitive types, for example). However, composite types are by far the most used.
+A composite type is a collection of key-value pairs. In many languages, composite types are the only kind of user-definable type. Even though Julia allows defining other types, composite types are used the most. Their main goal is to collect all information about one object within one structure. We will soon define the `Rectangle` type containing information about the size and the bottom-left point position of a rectangle. Collecting this information into one structure makes it simple to pass all information about the rectangle as arguments and use it for further computation.
 
-In object-oriented languages, such as Python or Java, composite types also have named functions associated with them, and the combination is called an *object*.  In Julia, all values are objects, but functions are not bundled with the objects they operate on. This is necessary since Julia chooses which method of function to use by multiple-dispatch. It means that the types of all of a function's arguments are considered when selecting a method, rather than just the first one. Thus, it would be inappropriate for functions to "belong" to only their first argument. Organizing methods into function objects rather than having named bags of methods "inside" each object ends up being a highly beneficial language design aspect.
-
-Composite types can be defined using the `struct` keyword followed by the type name and field names that can be optionally annotated with types.
+The `struct` keyword defines composite types. It is followed by the composite type name and field names, where the latter may be annotated with types.
 
 ```jldoctest structs; output = false
-struct Foo
-    a
-    b::Int
+struct Rectangle
+    bottomleft::AbstractVector{Float64}
+    width
+    height
 end
 
 # output
 
 ```
 
-Note that if the type annotation of the field is omitted,  the `Any` type is used by default, i.e., such a field can contain any value. Also, note that there is a convention in Julia that the first letter of each word in custom type names is in uppercase. We can create a new instance of the above type by calling `Foo` as a function with input arguments representing fields of the `Foo` type.
+If the type annotation is omitted, `Any` is used, and such a field may contain any value. A Julia convention suggests making the first letter in custom type names uppercase. We can create a new instance of the above type by calling `Rectangle` as a function. Its input arguments represent the fields of the `Rectangle` type.
 
 ```jldoctest structs
-julia> foo = Foo([1,2,3], 4)
-Foo([1, 2, 3], 4)
+julia> r = Rectangle([1,2], 3, 4)
+Rectangle([1.0, 2.0], 3, 4)
 
-julia> isa(foo, Foo)
+julia> isa(r, Rectangle)
 true
 ```
 
-When a type is applied like a function, it is called a constructor. By default, two constructors are generated automatically. One accepts any arguments and calls convert to convert them to the fields' types, and the other accepts arguments that match the field's types exactly. If all fields are of type `Any` (or we do not specify their types), the later constructor is not generated.  We can list all constructors using the `methods` function.
+A constructor is calling a type as a function. Two constructors are automatically generated when a type is created. One accepts any arguments and converts them to the field types, and the other accepts arguments that match the field types exactly. If all fields are `Any`, only one constructor is generated. Julia creates these two constructors to make it easier to add new definitions without replacing the default constructor. We can list all constructors by the `methods` function.
 
 ```jldoctest structs
-julia> methods(Foo)
+julia> methods(Rectangle)
 # 2 methods for type constructor:
-[1] Foo(a, b::Int64) in Main at none:2
-[2] Foo(a, b) in Main at none:2
+[1] Rectangle(bottomleft::AbstractArray{Float64,1}, width, height) in Main at none:2
+[2] Rectangle(bottomleft, width, height) in Main at none:2
 ```
 
-By default, Julia generates these two constructors because it makes it easier to add new definitions without inadvertently replacing a default constructor.
-
-The fields of composite types can be accessed via dot notation similarly to named tuples.
+The fields of composite types can be accessed via the dot notation similarly to named tuples or via the `getproperty` function.
 
 ```jldoctest structs
-julia> foo.a
-3-element Array{Int64,1}:
- 1
- 2
- 3
+julia> r.width
+3
 
-julia> foo.b
-4
+julia> getproperty(r, :width)
+3
 ```
 
-Internally `foo.a` is just a shortcut for the `getproperty(foo, :a)`.
+The fields can be then accessed anywhere, for example, within a function.
 
 ```jldoctest structs
-julia> getproperty(foo, :a)
-3-element Array{Int64,1}:
- 1
- 2
- 3
+julia> area(r::Rectangle) = r.width * r.height
+area (generic function with 1 method)
 
-julia> getproperty(foo, :b)
-4
+julia> area(r)
+12
 ```
 
-There is also a convenient function, `fieldnames`, that returns a tuple with names of all fields of a given composite type. Note that all field names are represented as symbols.
+The convenient function `fieldnames` returns a tuple with names of all structure fields represented as symbols.
 
 ```jldoctest structs
-julia> fieldnames(Foo)
-(:a, :b)
+julia> fieldnames(Rectangle)
+(:bottomleft, :width, :height)
+
+julia> fieldnames(typeof(r))
+(:bottomleft, :width, :height)
 ```
 
-Composite types declared with `struct` are immutable, i.e., they cannot be modified after construction.
+Composite types declared with `struct` keyword are immutable and cannot be modified after being constructed.
 
 ```jldoctest structs
-julia> foo.a = 1
-ERROR: setfield! immutable struct of type Foo cannot be changed
+julia> r.bottomleft = [2;2]
+ERROR: setfield! immutable struct of type Rectangle cannot be changed
 ```
 
-Composite types declared with `struct` are immutable, i.e., they cannot be modified after construction.
-
-However, immutability is not recursive. It means that if an immutable object contains a mutable object (such as an array), we can modify elements of the mutable object. We can observe this behavior in the following example. The `Foo` type is defined as immutable, but we instantiate the `foo` object with a vector as a first argument. Since a vector is mutable, we can modify its elements.
+However, immutability is not recursive. If an immutable object contains a mutable object, such as an array, elements of this mutable object can be modified. Even though `Rectangle` is an immutable type, its `bottomleft` field is a mutable array and can be changed.
 
 ```jldoctest structs
-julia> foo.a[1] = 5
+julia> r.bottomleft[1] = 5
 5
 
-julia> foo.a
-3-element Array{Int64,1}:
- 5
- 2
- 3
+julia> r.bottomleft
+2-element Array{Float64,1}:
+ 5.0
+ 2.0
 ```
 
-Mutable composite types can be declared in a similar way as immutable ones. The only difference is that we have to add the `mutable` keyword before the `struct` keyword.
+To allow changing their fields, we need to define composite types as mutable by adding the `mutable` keyword.
 
 ```jldoctest structs; output = false
-mutable struct MutableFoo
-    a
-    b::Int
+mutable struct MutableRectangle
+    bottomleft::AbstractVector{Float64}
+    width
+    height
 end
 
 # output
 
 ```
 
-Instances of mutable types are created in the same way as in the case of immutable ones.
+We can work with mutable and immutable types in the same way.
 
 ```jldoctest structs
-julia> mfoo = MutableFoo([1,2,3], 4)
-MutableFoo([1, 2, 3], 4)
+julia> mr = MutableRectangle([1,2], 3, 4)
+MutableRectangle([1.0, 2.0], 3, 4)
 
-julia> isa(mfoo, MutableFoo)
+julia> isa(mr, MutableRectangle)
 true
 ```
 
-There are two ways how to change fields of mutable types. The first one is to use the `setproperty!` function. The second one is to use the shorthand dot syntax to access the field and the `=` operator to assign a new value.
+Similarly to accessing field values, we can change them by the dot notation or the `setproperty!` function.
 
 ```jldoctest structs
-julia> mfoo.a = 2.345
-2.345
+julia> mr.width = 1.5
+1.5
 
-julia> setproperty!(mfoo, :a, 2)
-2
+julia> setproperty!(mr, :height, 2.5)
+2.5
 
-julia> mfoo
-MutableFoo(2, 4)
+julia> mr
+MutableRectangle([1.0, 2.0], 1.5, 2.5)
 ```
-
-Note that the syntax `mfoo.a = 2.345` is equivalent to `setproperty!(mfoo, :a, 2.345)`.
 
 ```@raw html
 <div class = "info-body">
 <header class = "info-header">Type unions</header><p>
 ```
 
-A type union is a special abstract type that includes all instances of any of its argument types. Type unions can be constructed using the `Union` keyword.
+The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
 
 ```jldoctest structs
-julia> AbstractFoo = Union{Foo, MutableFoo}
-Union{Foo, MutableFoo}
+julia> AbstractRectangle = Union{Rectangle, MutableRectangle}
+Union{MutableRectangle, Rectangle}
 
-julia> Foo <: AbstractFoo
+julia> Rectangle <: AbstractRectangle
 true
 
-julia> MutableFoo <: AbstractFoo
+julia> MutableRectangle <: AbstractRectangle
 true
 ```
 
-The `Union` type can be very useful in many cases. For example, if there is no supertype for multiple types, but we want to write a specialized function that can be used for all of them. In such a case, we can use the type `Union` and write one function with type annotation to all of them at once.
+We now create the `circumference(r::AbstractRectangle)` function. Since we specify that its input is an `AbstractRectangle`, it will work for both mutable `MutableRectangle` and immutable `Rectangle` types.
 
 ```jldoctest structs
-julia> geta(foo::AbstractFoo) = foo.a
-geta (generic function with 1 method)
+julia> circumference(r::AbstractRectangle) = 2*(r.width + r.height)
+circumference (generic function with 1 method)
 
-julia> geta(foo) == foo.a
-true
+julia> circumference(r)
+14
 
-julia> geta(mfoo) == mfoo.a
-true
+julia> circumference(mr)
+8.0
 ```
 
 ```@raw html
 </p></div>
 ```
 
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p>
+```
+
 ## Parametric types
 
-An important and powerful feature of Julia's type system is that it is parametric: types can take parameters. It means that type declaration actually introduces a whole family of new types (one for each possible combination of parameter values). Parametric abstract and composite types can be defined as follows.
+An important and powerful feature of the Julia type system is that it is parametric. Types can take parameters, and type declarations introduce a whole family of new types (one for each possible combination of parameter values). Parametric (abstract) types can be defined as follows:
 
 ```jldoctest structs; output = false
 abstract type AbstractPoint{T} end
@@ -248,17 +239,14 @@ end
 
 ```
 
-In the example above, we defined one parametric abstract type, `AbstractPoint`, and its parametric subtype `Point`. The declaration of the concrete type `Point{T <: Real}` has two fields of type `T`, where `T` can be any subtype of `Real`. This definition ensures that both fields are always of the same type. Note that `Point{Float64}` is a concrete type equivalent to the type defined by replacing `T` in the definition of `Point` with `Float64`.
+The example above defines a parametric abstract type `AbstractPoint` and its parametric subtype `Point`. The declaration of the concrete type `Point{T <: Real}` has two fields of type `T`, where `T` can be any subtype of `Real`. This definition ensures that both fields are always of the same type. Note that `Point{Float64}` is a concrete type equivalent to replacing `T` in the definition of `Point` by `Float64`.
 
 ```jldoctest structs
 julia> isconcretetype(Point{Float64})
 true
-
-julia> isconcretetype(Point{Int64})
-true
 ```
 
-Thus, this single declaration actually declares concrete type for each subtype `T` of `Real`.  The `Point` type itself is also a valid type object, containing all instances `Point{Float64}`, `Point{Int64}`, etc., as subtypes.
+This single declaration declares a concrete type for each type `T` that is a subtype of `Real`.  The `Point` type itself is also a valid type object, containing all instances `Point{Float64}`, `Point{Int64}`, etc., as subtypes.
 
 ```jldoctest structs
 julia> Point{Float64} <: Point <: AbstractPoint
@@ -268,7 +256,7 @@ julia> Point{Int64} <: Point <: AbstractPoint
 true
 ```
 
-However, concrete `Point{T}` types with different `T` values are never subtypes of each other. Even though `Float64` is a subtype of ` Real`, the `Point{Float64}` is not a subtype of  `Point{Real}`.
+Concrete `Point` types with different `T` values are never subtypes of each other. Even though `Float64` is a subtype of ` Real`, `Point{Float64}` is not a subtype of  `Point{Real}`.
 
 ```jldoctest structs
 julia> Point{Float64} <: Point{Real}
@@ -281,14 +269,14 @@ julia> Point{Float64} <: AbstractPoint{Real}
 false
 ```
 
-This behavior is for practical reasons: while any instance of `Point{Float64}` may conceptually be like an instance of `Point{Real}` as well, the two types have different representations in memory:
+This behaviour has important consequences: while any instance of `Point{Float64}` may be represented as an instance of `Point{Real}`, these two types have different representations in memory:
 
-- An instance of `Point{Float64}` can be represented compactly and efficiently as an immediate pair of 64-bit values.
-- An instance of `Point{Real}` must be able to hold any pair of instances of `Real`. Since objects that are instances of `Real` can be of arbitrary size and structure, in practice, an instance of `Point{Real}` must be represented as a pair of pointers to individually allocated `Real` objects.
+- An instance of `Point{Float64}` can be efficiently represented as a pair of 64-bit values;
+- An instance of `Point{Real}` must be able to hold any pair of `Real` values. Since instances of `Real` can have arbitrary size and structure, an instance of `Point{Real}` must be represented as a pair of pointers to individually allocated `Real` objects.
 
-The efficiency gained by being able to store `Point{Float64}` objects with immediate values is magnified enormously in the case of arrays: an `Array{Float64}` can be stored as a contiguous memory block of 64-bit floating-point values, whereas an `Array{Real}` must be an array of pointers to individually allocated `Real` objects - which may well be boxed 64-bit floating-point values, but also might be arbitrarily large, complex objects, which are declared to be implementations of the `Real` abstract type.
+This efficiency gain is magnified for arrays: `Array{Float64}` can be stored as a contiguous memory block of 64-bit floating-point values, whereas `Array{Real}` is an array of pointers to `Real` objects.
 
-Since `Point{Float64}` is not a subtype of `Point{Real}`, the following method can't be applied to arguments of type `Point{Float64}`.
+Since `Point{Float64}` is not a subtype of `Point{Real}`, the following method cannot be applied to arguments of type `Point{Float64}`.
 
 ```julia structs
 julia> coordinates(p::Point{Real}) = (p.x, p.y)
@@ -302,7 +290,7 @@ ERROR: MethodError: no method matching coordinates(::Point{Float64})
 [...]
 ```
 
-A correct way to define a method that accepts all arguments of type `Point{T}` where `T` is a subtype of `Real` is as follows.
+The correct way to define a method that accepts all arguments of type `Point{T}` where `T` is a subtype of `Real` is as follows:
 
 ```jldoctest structs
 julia> coordinates(p::Point{<:Real}) = (p.x, p.y)
@@ -315,7 +303,7 @@ julia> coordinates(Point(1.0,2.0))
 (1.0, 2.0)
 ```
 
-Or simply use the `Point` type without specified parameter. It is also possible to define a function for all subtypes of some abstract type.
+It is also possible to define a function for all subtypes of some abstract type.
 
 ```jldoctest structs
 julia> Base.show(io::IO, p::AbstractPoint) = print(io, coordinates(p))
@@ -327,7 +315,7 @@ julia> Point(0.2, 1.3)
 (0.2, 1.3)
 ```
 
-There are two ways how to instantiate the `Point` type.  The first way is to create an instance of `Point{T}` without specifying the `T` parameter and letting Julia decide which type should be used.  The second way is to specify the `T` parameter manually.
+There are two ways how to instantiate the `Point` type.  The first one does not specify the `T` parameter and lets Julia automatically decide the appropriate type. The second one specifies the `T` parameter manually.
 
 ```jldoctest structs
 julia> Point(1, 2)
@@ -337,7 +325,7 @@ julia> Point{Float32}(1, 2)
 (1.0f0, 2.0f0)
 ```
 
-Note that the default constructors work only if we use arguments with the same type or if we specify the `T` parameter manually. In all other cases, an error will occur.
+The first way works only if the arguments have the same type.
 
 ```jldoctest structs
 julia> Point(1, 2.0)
@@ -346,14 +334,14 @@ Closest candidates are:
   Point(::T, !Matched::T) where T<:Real at none:3
 ```
 
-This situation can be handled by defining custom constructors, as discussed in the next section.
+This situation can be handled by defining custom constructors, as we will discuss in the next section.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a structure that represents 3D-point. Do not forget to define it as a subtype of the AbstractPoint type. Also, add a new method to the `coordinates` function.
+Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the `coordinates` function.
 
 ```@raw html
 </p></div>
@@ -361,7 +349,7 @@ Define a structure that represents 3D-point. Do not forget to define it as a sub
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since we did not specify what the structure should look like, there are several possibilities for defining it. For example, we can define it as a structure with three fields as in the code below. Another option is to use, for example, a tuple to store the point coordinates.
+There are several possibilities for defining the structure. We define it as a structure with three fields. Another option is to use a tuple to store the point coordinates.
 
 ```jldoctest structs; output = false
 struct Point3D{T <: Real} <: AbstractPoint{T}
@@ -377,7 +365,7 @@ coordinates(p::Point3D) = (p.x, p.y, p.z)
 coordinates (generic function with 2 methods)
 ```
 
-Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type.
+Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is applied to `Point3D` without the need for further changes.
 
 ```jldoctest structs
 julia> Point3D(1, 2, 3)
@@ -393,7 +381,7 @@ julia> Point3D{Float32}(1, 2, 3)
 
 ## Constructors
 
-Constructors are functions that create new instances of composite types. When the user defines a new composite type,  Julia creates default constructors. However, sometimes it is very useful to add additional constructors. As an example, we can mention the case from the end of the previous section. In this case, it makes sense to have the ability to create an instance of the `Point` type from two numbers that can be of any subtypes of `Real`. This can be achieved by defining the following constructor.
+Constructors are functions that create new instances of composite types. When a user defines a new composite type,  Julia creates the default constructors. Sometimes it is helpful to add additional constructors. In the example from the previous section, we may want to create an instance of `Point` from two numbers with different types. This can be achieved by defining the following constructor.
 
 ```jldoctest structs; output = false
 Point(x::Real, y::Real) = Point(promote(x, y)...)
@@ -403,7 +391,7 @@ Point(x::Real, y::Real) = Point(promote(x, y)...)
 Point
 ```
 
-Note that we use the `promote` function. This function converts its arguments to the type that can safely represent their types. For example, if we call `promote(1, 2.3)` the result will be a tuple `(1.0, 2.3)` because it is possible to represent `Int64` using `Float64` (not precisely), but it is not possible to represent `Float64` using `Int64`. We can test the new constructor on the example from the end of the previous section.
+The `promote` function converts its arguments to the supertype that can represent both inputs. For example, `promote(1, 2.3)` results in the tuple `(1.0, 2.3)` because it is possible to represent `Int64` by `Float64`, but not the other way round. We can test the new constructor on the example from the end of the previous section. As expected, the result has the type `Point{Float64}`. 
 
 ```jldoctest structs
 julia> Point(1, 2.0)
@@ -413,14 +401,12 @@ julia> typeof(Point(1, 2.0))
 Point{Float64}
 ```
 
-As expected, the result is of type `Point{Float64}`. The constructor defined above is called an outer constructor because it is defined outside the type definition. A constructor is just like any other function in Julia, i.e., its methods' combined behavior defines its overall behavior. Accordingly, you can add functionality to a constructor by defining new methods.
-
-Outer constructors can be used to provide additional convenience methods for constructing objects. However, they can not be used to constructing self-referential objects or if we want to ensure that the resulting instance has some special properties. In such a case, we have to use inner constructors.  An inner constructor method is like an outer constructor method, except for two differences.
-
-1. It is declared inside the block of a type declaration rather than outside of it like normal methods.
-2. It has access to a special locally existent function called `new` that creates objects of the block's type.
-
-For example, suppose one wants to declare a type that holds a pair of real numbers, subject to the constraint that the first number is not greater than the second one. One could declare it like this.
+The constructor defined above is the outer constructor because it is defined outside of the type definition. A constructor behaves like any other function in Julia and may have multiple methods. We can define new methods to add additional functionality to a constructor. On the other hand, outer constructors cannot construct self-referential objects or instances with some special properties. In such a case, we have to use inner constructors, which differ from outer constructors in two aspects:
+    
+1. They are declared inside the composite type declaration rather than outside of it.
+2. They have access to the local function `new` that creates new instances of the composite type.
+    
+For example, one may want to create a type with two real numbers, where the first number cannot be greater than the second one. The inner constructor can ensure this.
 
 ```jldoctest ordered; output = false
 struct OrderedPair{T <: Real}
@@ -428,7 +414,7 @@ struct OrderedPair{T <: Real}
     y::Real
 
     function OrderedPair(x::Real, y::Real)
-        x > y && error("out of order")
+        x > y && error("wrong input: x > y")
         xp, yp = promote(x, y)
         return new{typeof(xp)}(xp, yp)
     end
@@ -438,18 +424,18 @@ end
 
 ```
 
-If the user defines any inner constructor method, **no additional constructor method is defined by default**.  The example above means that any instance of the `OrderedPair` has to meet the assumption that `x <= y`.
+If an inner constructor method is provided, **no default constructor method is constructed**.  The example above ensures that any instance of the `OrderedPair` satisfies `x <= y`.
 
 ```jldoctest ordered
 julia> OrderedPair(1,2)
 OrderedPair{Int64}(1, 2)
 
 julia> OrderedPair(2,1)
-ERROR: out of order
+ERROR: wrong input: x > y
 [...]
 ```
 
-Moreover, outer constructor methods can only create objects by calling other constructor methods, i.e., some inner constructor must be called to create an object. It means that even if we add any number of outer constructors, the resulting object is created by the inner constructor and therefore has to meet its assumptions.
+Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the inner constructor will create the instances of `OrderedPair`, and they will, therefore, always satisfy `x <= y`.
 
 ```@raw html
 <div class = "exercise-body">
@@ -503,7 +489,7 @@ julia> PointND(1, 2.2, 3, 4.5)
 
 ## Default field values
 
-In many cases, it is beneficial to define custom types with default field values. This can be achieved by defining a constructor that uses optional or keyword arguments. Another option is to use the `@kwdef` macro from the `Base`. This macro automatically defines a keyword-based constructor.
+It may be beneficial to define custom types with default field values. Since a constructor is a function, one way to achieve this is to use optional or keyword arguments in its declaration. Another option is to use the `@kwdef` macro from `Base` that automatically defines keyword-based constructors.
 
 ```jldoctest structs; output = false
 Base.@kwdef struct MyType
@@ -516,8 +502,8 @@ end
 
 MyType
 ```
-
-We can use the `methods` function to check which constructors have been created. As can be seen, there are three constructors.  The first constructor is the one created by the `@kwdef` macro. The latter two are the default constructors created since we did not provide any inner constructor.
+    
+The `methods` function shows that Julia created three constructors.  The `@kwdef` macro creates the first constructor; the other two constructors are the default constructors.
 
 ```jldoctest structs
 julia> methods(MyType)
@@ -527,14 +513,14 @@ julia> methods(MyType)
 [3] MyType(a, b, c) in Main at none:2
 ```
 
-The instance of the `MyType` type can be created using the default constructors as follows.
+A `MyType` instance can be created by the default constructors.
 
 ```jldoctest structs
 julia> MyType(1, 2.3, "aaa")
 MyType(1, 2.3, "aaa")
 ```
 
-The other way is to use the constructor with predefined field values. In such a case, all values have to be passed as keyword arguments. The fields without default values are mandatory keyword arguments, i.e., we have to specify them.
+The other way is to use the constructor with predefined field values. Then all values have to be passed as keyword arguments. The fields without default values are mandatory keyword arguments: we have to specify them.
 
 ```jldoctest structs
 julia> MyType(; a = 3)
