@@ -218,11 +218,6 @@ julia> circumference(mr)
 </p></div>
 ```
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
-```
-
 ## Parametric types
 
 An important and powerful feature of the Julia type system is that it is parametric. Types can take parameters, and type declarations introduce a whole family of new types (one for each possible combination of parameter values). Parametric (abstract) types can be defined as follows:
