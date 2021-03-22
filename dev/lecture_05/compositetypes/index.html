@@ -47,17 +47,17 @@ julia&gt; getproperty(r, :width)
 3</code></pre><p>The fields can be then accessed anywhere, for example, within a function.</p><pre><code class="language-julia-repl">julia&gt; area(r::Rectangle) = r.width * r.height
 area (generic function with 1 method)
 
-julia&gt; function verteces(r::Rectangle)
+julia&gt; function vertices(r::Rectangle)
            x, y = r.bottomleft
            w, h = r.width, r.height
            return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
        end
-verteces (generic function with 1 method)
+vertices (generic function with 1 method)
 
 julia&gt; area(r)
 12
 
-julia&gt; verteces(r)
+julia&gt; vertices(r)
 4-element Array{Array{Float64,1},1}:
  [1.0, 2.0]
  [4.0, 2.0]
@@ -67,7 +67,7 @@ julia&gt; verteces(r)
 
 julia&gt; fieldnames(typeof(r))
 (:bottomleft, :width, :height)</code></pre><div class = "info-body">
-<header class = "info-header">Comparison with Python</header><p><p>The same object can be defined in Python in the following way</p><pre><code class="language-python">class Rectangle:
+<header class = "info-header">Comparison with Python</header><p><p>The same object can be defined in Python in the following way:</p><pre><code class="language-python">class Rectangle:
     def __init__(self, bottomleft, width, height):
         self.bottomleft = bottomleft
         self.width = width
@@ -79,13 +79,13 @@ julia&gt; fieldnames(typeof(r))
     def vertices(self):
         x, y = self.bottomleft
         w, h = self.width, self.height
-        return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]</code></pre><p>We can create an instance of that object and call two functions defined in the class definition.</p><pre><code class="language-python">In [2]: r = Rectangle([1.0, 2.0], 3, 4)
+        return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]</code></pre><p>We can create an instance of this object and call the two functions defined in the class definition.</p><pre><code class="language-python">In [2]: r = Rectangle([1.0, 2.0], 3, 4)
 
 In [3]: r.area()
 Out[3]: 12
 
 In [4]: r.vertices()
-Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]</code></pre><p>The declaration of the <code>Rectangle</code> class is very similar to the one in Julia. The main difference is that in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to &quot;belong&quot; to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.</p></p></div><h2 id="Mutable-composite-types"><a class="docs-heading-anchor" href="#Mutable-composite-types">Mutable composite types</a><a id="Mutable-composite-types-1"></a><a class="docs-heading-anchor-permalink" href="#Mutable-composite-types" title="Permalink"></a></h2><p>Composite types declared with <code>struct</code> keyword are immutable and cannot be modified after being constructed.</p><pre><code class="language-julia-repl">julia&gt; r.bottomleft = [2;2]
+Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]</code></pre><p>The declaration of the <code>Rectangle</code> class is very similar to the one in Julia. The main difference is that Python defines the functions inside of the class while Julia defines them outside. The Julia approach has several advantages:</p><ol><li>Julia has more options to logically split the code. This may increase readability.</li><li>When working with a class defined in an external package, Julia can simply define additional functions to this class. Python needs to use inheritance to modify the class. When a multiple people use inheritance to the same class, it is not clear how to merge the inherited classes together. Therefore, Julia makes it simpler to create packages which combine and modify multiple existing packages.</li><li>When working with multiple classes, it does not need to be clear to which a function should belong. Python sometimes needs to create an additional class which unites these two classes. Julia does not have this problem as functions are defined externally.</li></ol><p>in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to &quot;belong&quot; to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.</p></p></div><h2 id="Mutable-composite-types"><a class="docs-heading-anchor" href="#Mutable-composite-types">Mutable composite types</a><a id="Mutable-composite-types-1"></a><a class="docs-heading-anchor-permalink" href="#Mutable-composite-types" title="Permalink"></a></h2><p>Composite types declared with <code>struct</code> keyword are immutable and cannot be modified after being constructed.</p><pre><code class="language-julia-repl">julia&gt; r.bottomleft = [2;2]
 ERROR: setfield! immutable struct of type Rectangle cannot be changed</code></pre><p>However, immutability is not recursive. If an immutable object contains a mutable object, such as an array, elements of this mutable object can be modified. Even though <code>Rectangle</code> is an immutable type, its <code>bottomleft</code> field is a mutable array and can be changed.</p><pre><code class="language-julia-repl">julia&gt; r.bottomleft[1] = 5
 5
 
@@ -97,7 +97,7 @@ julia&gt; r.bottomleft
 julia&gt; area(r)
 12
 
-julia&gt; verteces(r)
+julia&gt; vertices(r)
 4-element Array{Array{Float64,1},1}:
  [5.0, 2.0]
  [8.0, 2.0]
@@ -209,8 +209,8 @@ OrderedPair{Int64}(1, 2)
 julia&gt; OrderedPair(2,1)
 ERROR: the first argument must be less than or equal to the second one
 [...]</code></pre><p>Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the resulting instances of the <code>OrderedPair</code> type will always satisfy <code>x &lt;= y</code>.</p><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p><p>Define a structure that represents ND-point and stores coordinates as <code>Tuple</code>. Do not forget to define it as a subtype of the <code>AbstractPoint</code> type. Also, add a new method to the <code>coordinates</code> function. Redefine the default inner constructor to create an instance of the <code>PointND</code> directly from different types&#39; values. Define function <code>dim</code> that returns the dimension of the point.</p><p><strong>Hints:</strong> use the <code>new</code> function in the definition of the new inner constructor.</p><p><strong>Bonus:</strong> Tuples with elements of the same type can be described using special type <code>NTuple{N, T}</code>, where <code>N</code> represents a number of elements and <code>T</code> their type.</p><pre><code class="language-julia-repl">julia&gt; NTuple{2, Int64} &lt;: Tuple{Int64, Int64}
-true</code></pre><p>Use similar notation in the definition of the <code>PointND</code> to specify a dimension.</p></p></div>
+<header class = "exercise-header">Exercise:</header><p><p>Define a structure that represents ND-points and stores their coordinates as <code>Tuple</code>. Do not forget to define it as a subtype of the <code>AbstractPoint</code> type. Redefine the default inner constructor to create an instance of <code>PointND</code> from different types. Then add a new method to the <code>coordinates</code> function, and define function <code>dim</code> that returns the dimension of the point.</p><p><strong>Hints:</strong> use the <code>new</code> function in the definition of the new inner constructor.</p><p><strong>Bonus:</strong> Tuples with elements of the same type can be described by the special type <code>NTuple{N, T}</code>, where <code>N</code> is the number of elements and <code>T</code> their type.</p><pre><code class="language-julia-repl">julia&gt; NTuple{2, Int64} &lt;: Tuple{Int64, Int64}
+true</code></pre></p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p><p>In this case, we can use an inner constructor with the optional number of input arguments. In the definition below, we use type annotation to set these arguments to be real numbers. Since we use the <code>new</code> function and our type is parametric, we have to specify <code>N</code> and type <code>T</code>.</p><pre><code class="language-julia">struct PointND{N, T &lt;: Real} &lt;: AbstractPoint{T}
     x::NTuple{N, T}
@@ -222,7 +222,7 @@ true</code></pre><p>Use similar notation in the definition of the <code>PointND<
 end
 
 coordinates(p::PointND) = p.x
-dim(p::PointND{N}) where N = N</code></pre><p>Note that we use the parameter <code>N</code> in the definition of the <code>dim</code> function.</p><p>Since the <code>show</code> function was defined for the abstract type <code>AbstractPoint</code> and uses the <code>coordinates</code> function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we can create an instance of the <code>PointND</code> type from inputs of mixed types.</p><pre><code class="language-julia-repl">julia&gt; p = PointND(1, 2)
+dim(p::PointND{N}) where N = N</code></pre><p>Note that we use the parameter <code>N</code> in the definition of the <code>dim</code> function.</p><p>Since the <code>show</code> function was defined for the abstract type <code>AbstractPoint</code> and uses the <code>coordinates</code> function, the custom printing function is immediately applied to the new type. Since we redefined the default constructors, we can create an instance of the <code>PointND</code> type from inputs of mixed types.</p><pre><code class="language-julia-repl">julia&gt; p = PointND(1, 2)
 (1, 2)
 
 julia&gt; dim(p)
@@ -246,34 +246,34 @@ MyType(3, 2.3, &quot;hello&quot;)
 
 julia&gt; MyType(; a = 5, b = 4.5)
 MyType(5, 4.5, &quot;hello&quot;)</code></pre><div class = "info-body">
-<header class = "info-header">Function-like objects</header><p><p>Methods are associated with types, so it is possible to make any arbitrary Julia object &quot;callable&quot; by adding methods to its type. Such &quot;callable&quot; objects are sometimes called &quot;functors.&quot; Using this technique to the <code>MyType</code> defined above, we can define a method that returns all field&#39;s values as a tuple.</p><pre><code class="language-julia-repl">julia&gt; (m::MyType)() = (m.a, m.b, m.c)
+<header class = "info-header">Function-like objects</header><p><p>Methods are associated with types; therefore, it is possible to make an arbitrary Julia object &quot;callable&quot; by adding methods to its type. Such &quot;callable&quot; objects are sometimes called functors. Using this technique to the <code>MyType</code> defined above, we can define a method that returns values of all its fields.</p><pre><code class="language-julia-repl">julia&gt; (m::MyType)() = (m.a, m.b, m.c)
 
 julia&gt; m = MyType(; a = 5, b = 4.5)
 MyType(5, 4.5, &quot;hello&quot;)
 
 julia&gt; m()
-(5, 4.5, &quot;hello&quot;)</code></pre><p>Moreover, we can use multiple-dispatch to define other methods. The first method for a given real number computes a simple linear function and uses fields <code>a</code>, <code>b</code> of the <code>MyType</code> as slope and intercept. The second method creates a string from the given string and a field <code>c</code> of the <code>MyType</code>.</p><pre><code class="language-julia">(m::MyType)(x::Real) = m.a*x + m.b
-(m::MyType)(x::String) = &quot;$(m.c), $(x)&quot;</code></pre><p>If we use these two methods and the instance of the <code>MyType</code> defined in the example above,  we get the following results.</p><pre><code class="language-julia-repl">julia&gt; m(1)
+(5, 4.5, &quot;hello&quot;)</code></pre><p>Moreover, we can use multiple-dispatch for functors. We show an example, where the functor has a different behaviour when it is called with a number and a string.</p><pre><code class="language-julia">(m::MyType)(x::Real) = m.a*x + m.b
+(m::MyType)(x::String) = &quot;$(m.c), $(x)&quot;</code></pre><p>These two methods give different results.</p><pre><code class="language-julia-repl">julia&gt; m(1)
 9.5
 
 julia&gt; m(&quot;world&quot;)
 &quot;hello, world&quot;</code></pre></p></div><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p><p>Write a structure <code>Gauss</code> that will represent a <a href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian distribution</a>. Write an inner constructor that checks if the given parameters are correct. Initialization without arguments <code>Gauss()</code> should return the standardized normal distribution (<span>$\mu = 0$</span> and <span>$\sigma = 1$</span>).  Define a functor that computes the probability density function in the given point. Recall that the probability density function for the Gaussian distribution is defined as follows.</p><p class="math-container">\[f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},\]</p><p>where <span>$\mu \in \mathbb{R}$</span> and <span>$\sigma^2 &gt; 0$</span>. Verify that the probability density function is defined correctly, i.e., its integral equals 1.</p></p></div>
+<header class = "exercise-header">Exercise:</header><p><p><a href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian distribution</a> is uniquely represented by its mean <span>$\mu$</span> and variance <span>$\sigma^2&gt;0$</span>. Write a structure <code>Gauss</code> with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments <code>Gauss()</code> should return the standardized normal distribution (<span>$\mu = 0$</span> and <span>$\sigma = 1$</span>).  Define a functor that computes the probability density function at a given point defined by</p><p class="math-container">\[f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},\]</p><p>Verify that the probability density function is defined correctly, i.e., its integral equals 1.</p></p></div>
 <details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p><p>One of the possible ways how to define structure from the description of the exercise is the following. We use the <code>@kwdef</code> macro to define the default values of the parameters. We also defined an inner constructor that checks if the variance is positive.</p><pre><code class="language-julia">Base.@kwdef struct Gauss{T&lt;:Real}
+<summary class = "solution-header">Solution:</summary><p><p>One possible way to define this structure is the <code>@kwdef</code> macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.</p><pre><code class="language-julia">Base.@kwdef struct Gauss{T&lt;:Real}
     μ::T = 0
     σ::T = 1
 
     function Gauss(μ::Real, σ::Real)
-        σ &gt; 0 || error(&quot;the variance `σ^2` must be positive&quot;)
+        σ^2 &gt; 0 || error(&quot;the variance `σ^2` must be positive&quot;)
         pars = promote(μ, σ)
         return new{eltype(pars)}(pars...)
     end
-end</code></pre><p>Note that in the inner constructor, we use the <code>promote</code> function and that we specify the parameter <code>T</code> in the call of the <code>new</code> function. The probability density function can be defined as a functor in the following way.</p><pre><code class="language-julia">(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))</code></pre><p>We used type annotation to ensure that all input arguments are real numbers.</p><pre><code class="language-julia-repl">julia&gt; gauss = Gauss()
+end</code></pre><p>We specified the parameter <code>T</code> by <code>eltype(pars)</code> in the call of the <code>new</code> function. The probability density function can be defined as a functor in the following way:</p><pre><code class="language-julia">(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))</code></pre><p>We use type annotation to ensure that all input arguments are real numbers.</p><pre><code class="language-julia-repl">julia&gt; gauss = Gauss()
 Gauss{Int64}(0, 1)
 
 julia&gt; gauss(0)
-0.3989422804014327</code></pre><p>The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.</p><pre><code class="language-julia-repl">julia&gt; step = 0.01
+0.3989422804014327</code></pre><p>The integral of the probability density function over the real line should equal one. We check it numerically by discretizing the integral into a finite sum.</p><pre><code class="language-julia-repl">julia&gt; step = 0.01
 0.01
 
 julia&gt; x = -100:step:100;
@@ -282,8 +282,8 @@ julia&gt; sum(Gauss(), x) * step
 1.0000000000000002
 
 julia&gt; sum(Gauss(0.1, 2.3), x) * step
-1.0</code></pre><p>We use the <code>sum</code> function, which can accept a function as the first argument and apply it to each value before summation. Since we defined a functor for the <code>Gauss</code> type, we can pass its instance as the fits argument, and the result will be the same as if we use <code>sum(Gauss().(x))</code>. The difference is that the former, similarly to generators, does not allocate an array.</p></p></details><div class = "info-body">
-<header class = "info-header">Plot recipes</header><p><p>In the previous exercise, we defined a new type, that represents Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the <a href="../../lecture_04/Plots/#Plots.jl">Plots</a> package introduces in the previous lecture. Unfortunately, we cannot use the syntax for the plotting function described in the <a href="../../lecture_04/Plots/#Function-plotting">Function plotting</a> section, i.e., the following will not work even though the <code>Gauss</code> type is callable.</p><pre><code class="language-julia">plot(x, Gauss())</code></pre><p>However, we can define a custom plot for our type using the <code>@recipe</code> macro. Note that we use the <a href="https://github.com/JuliaPlots/RecipesBase.jl">RecipesBase</a> package instead of the Plots package. The reason is that the RecipesBase package provides all functionality related to creating custom plots and the Plots package only uses this functionality. Moreover, since the RecipesBase package is much smaller, the first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and some input <code>x</code>. Then in the function body, we define plot attributes in the same way as if we pass them into the <code>plot</code> function. Finally, we define the output of the function.</p><pre><code class="language-julia">using RecipesBase
+1.0</code></pre><p>We use <code>sum</code> with a function as the first input argument and apply it to each value of the second argument. This is possible because we defined a functor for <code>Gauss</code>. The result is the same as <code>sum(Gauss().(x))</code>. The difference is that the former, similarly to generators, does not allocate an array.</p></p></details><div class = "info-body">
+<header class = "info-header">Plot recipes</header><p><p>The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the <a href="../../lecture_04/Plots/#Plots.jl">Plots</a> package. Unfortunately, it is not possible to use <a href="../../lecture_04/Plots/#Function-plotting">Function plotting</a>, i.e., the following will not work even though the <code>Gauss</code> type is callable.</p><pre><code class="language-julia">plot(x, Gauss())</code></pre><p>Using the system of Julia types, it is possible to obtain special behaviour for a certain type only by defining a new method for this type. For example, if we use the <code>plot</code> function, all input data and plot attributes are preprocessed to some standard format and then the final graph is created. Due to the Julia type system, we can easily change how this preprocessing happens and define special behaviour for custom types.</p><p>For plotting, this is done by the <code>@recipe</code> macro from the <a href="https://github.com/JuliaPlots/RecipesBase.jl">RecipesBase</a> package. The RecipesBase package provides the functionality related to creating custom plots and the Plots package uses this functionality. Moreover, since the RecipesBase package is much smaller, its first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and input <code>x</code>. In the function body, we define plot attributes in the same way as if we pass them into the <code>plot</code> function. Finally, we define the output of the function.</p><pre><code class="language-julia">using RecipesBase
 
 @recipe function f(d::Gauss, x = (d.μ - 4d.σ):0.1:(d.μ + 4d.σ))
     seriestype  :=  :path
@@ -292,15 +292,15 @@ julia&gt; sum(Gauss(0.1, 2.3), x) * step
     yguide --&gt; &quot;f(x)&quot;
     linewidth --&gt; 2
     return x, d.(x)
-end</code></pre><p>Note that we use two different syntaxes for defining plot attributes. If we use <code>:=</code> operator, the attribute will be set to the provided value and can not be changed by the user. On the other hand, if we use <code>--&gt;</code> operator, the provided value is used as default and can be changed by the user.</p><p>The recipe above is equivalent to calling the <code>plot</code> function as follows.</p><pre><code class="language-julia">d = Gauss()
+end</code></pre><p>The operators <code>:=</code> and <code>--&gt;</code> are specific for this package. Both set default values for plotting attributes. The difference is that the default values can be changed for <code>--&gt;</code> but cannot be changed for <code>:=</code>.</p><p>The recipe above is equivalent to calling the <code>plot</code> function.</p><pre><code class="language-julia">d = Gauss()
 plot(x, d.(x);
     seriestype := :path,
     label = &quot;Gauss(μ = $(d.μ), σ = $(d.σ))&quot;,
     xguide = &quot;x&quot;,
     yguide = &quot;f(x)&quot;,
     linewidth = 2
-)</code></pre><p>With the new plot recipe, we can plot the probability density function of Gaussian distribution with different parameters in a simple way.</p><pre><code class="language-julia">using Plots
+)</code></pre><p>With the new plot recipe, we can plot the probability density function of the Gaussian distribution with different parameters.</p><pre><code class="language-julia">using Plots
 
 plot(Gauss())
 plot!(Gauss(4, 2); linewidth = 4, color = :red)
-plot!(Gauss(-3, 2); label = &quot;new label&quot;, linestyle = :dash)</code></pre><p><img src="../gauss.svg" alt/></p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_04/interaction/">« Interaction with other languages</a><a class="docs-footer-nextpage" href="../currencies/">Generic programming »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 22 March 2021 09:49">Monday 22 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plot!(Gauss(-3, 2); label = &quot;new label&quot;, linestyle = :dash)</code></pre><p><img src="../gauss.svg" alt/></p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_04/interaction/">« Interaction with other languages</a><a class="docs-footer-nextpage" href="../currencies/">Generic programming »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 22 March 2021 13:30">Monday 22 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
