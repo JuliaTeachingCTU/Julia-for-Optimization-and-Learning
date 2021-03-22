@@ -6,16 +6,32 @@ This section aims to show the real power of the type system in combination with 
 - It is possible to make transactions in different currencies.
 - All transactions are stored in the currency in which they were made.
 
-To be able to create such a structure, we first define an abstract type `Currency`.
+To be able to create such a structure, we first define an abstract type `Currency`. We also define two concrete subtypes of the `Currency` type that allow us to test functions.
 
 ```jldoctest currency; output=false
 abstract type Currency end
 
+struct Euro <: Currency
+    value::Float64
+end
+
+struct Dollar <: Currency
+    value::Float64
+end
+
 # output
 
 ```
+Since `Euro` and `Dollar` are concrete types, we can create their instances. We can also use the `isa` function to check that the resulting instance is a subtype of the `Currency` type.
 
-Since the `Currency` is an abstract type, it is impossible to create an instance. Defining abstract type allows us to define methods for all subtypes of the abstract type at once. Now we can create the `BankAccount` type as follows.
+```jldoctest currency
+julia> Euro(1)
+Euro(1.0)
+
+julia> isa(Dollar(2), Currency) # equivalent to typeof(Dollar(2)) <: Currency
+true
+```
+`Currency` is an abstract type, so we can't create its instance. However, abstract types allow us to define generic functions that will work for all their subtypes. Using this property, we can define a `BankAccount` type in the following way.
 
 ```jldoctest currency; output=false
 struct BankAccount{C<:Currency}
@@ -23,7 +39,7 @@ struct BankAccount{C<:Currency}
     transaction::Vector{Currency}
 
     function BankAccount(owner::String, C::Type{<:Currency})
-        return new{C}(owner, Currency[zero(C)])
+        return new{C}(owner, Currency[C(0)])
     end
 end
 
@@ -31,10 +47,45 @@ end
 
 ```
 
-There are few things we need to explain. The structure has two fields with predefined types:
+There are several things that we have to explain. First of all, we use the `Euro` to test if the `BankAccount` is defined properly.
 
-- The `owner` field represents the name of the owner of the account, i.e., it makes sense to use `String`  as a field type.
-- The `transaction` field represents all executed transactions. In this case, we need to store two pieces of information: the amount of money and which currency was used. Since we defined the abstract type `Currency`, every currency can be defined as a subtype of this abstract type. These subtypes will store both pieces of information that we need, i.e., we can store transactions as a vector with elements of type `Currency`.
+```jldoctest currency
+julia> b = BankAccount("Paul", Euro)
+BankAccount{Euro}("Paul", Currency[Euro(0.0)])
+```
+
+The first thing we have to notice is, that we use the `Euro` type itself (not the instance of this type) to instantiate the `BankAccount` type. The reason for that is hidden in the definition of the inner constructor of the `BankAccount`. The type annotation of the second argument is `::Type{<:Currency}`. This special syntax tells us, that the argument can be any subtype of the `Currency` type, but it has to be type and not its instance. On the other hand, type annotation `::Currency` tells us, that the argument can be instance of any subtype of the `Currency` type.
+
+The second thing we have to notice is, that transactions are stored in a vector of type `Vector{Currency}`. It is achieved by this line in the inner constructor `Currency[C(0)]`. Here, the expression `C(0)` creates an instance of the given currency `C` with zero value. The `Currency` type before square brackets creates a vector that can contain an instance of any subtype of the `Currency`. So it is possible to push a new transaction in a different currency to the `transaction` field.
+
+```jldoctest currency
+julia> push!(b.transaction, Dollar(2))
+2-element Array{Currency,1}:
+ Euro(0.0)
+ Dollar(2.0)
+
+julia> b
+BankAccount{Euro}("Paul", Currency[Euro(0.0), Dollar(2.0)])
+```
+
+Note that it is crucial to use the `Currency` type before brackets as can be seen in the example below.
+
+```jldoctest currency
+julia> w = [Euro(0)]
+1-element Array{Euro,1}:
+ Euro(0.0)
+
+julia> push!(w, Dollar(2))
+ERROR: MethodError: Cannot `convert` an object of type Dollar to an object of type Euro
+[...]
+```
+
+In this case, the vector `w` can store only elements of type `Euro`. When we try to push `Dollar(2)` to the vector, Julia tries to convert it to the `Euro` and we get the `MethodError` since the conversion is not defined.
+
+The last thing we have to notice is, that the primal account currency is stored as a parameter after the type name `BankAccount{Euro}`.
+
+One may notice that we use only the abstract type `Currency` to define the `BankAccount` type. It is very useful since it allows us to write a generic code that is not specified for some concrete type. We checked, that we are able to create an instance of the `BankAccount` type and add a new transaction. However, we are unable to calculate an account balance (compute sum of all transactions), for example, because we can't convert money from one currency to another. In the rest of the lecture, we will show, how to define the `convert` function for currencies as well as basic arithmetic operations such as `+` or `-`.
+
 
 ```@raw html
 <div class = "info-body">
@@ -69,67 +120,8 @@ In this case, the types of all elements are preserved.
 </p></div>
 ```
 
-In the definition of the `BankAccount` type, we also define the following inner constructor.
 
-```julia
-function BankAccount(owner::String, C::Type{<:Currency})
-    return new{C}(owner, Currency[zero(C)])
-end
-```
-
-This constructor rewrites the default constructor for creating a new instance of the `BankAccount` type. The idea is as follows: when we want to create a new account, we must know the owner's name and the account's primary currency. The constructor above accepts two inputs arguments: the name of the owner and the primary currency. Then it will create a new instance of the `BankAccount` type with the name of the owner and zero transaction, i.e., the transaction of amount zero in the primary currency. We defined the `BankAccount` type as a parametric type, where the parameter is the account's primary currency. Note that the primary currency is stored only in the parameter of the type.
-
-One may notice that we use only the abstract type `Currency` to define the `BankAccount` type. It is very useful since it allows us to write a generic code that is not specified for some concrete type. However, we are now in a situation that we defined a new type, but we cannot test it since the type uses concrete subtypes of the `Currency` abstract type. Moreover, we used functions that are not defined for the `Currency` type, such as the `zero` function. There are also other functions such as the `sum` function or the `convert` function that should be defined for currencies as well.
-
-The situation with the `zero` function can be fixed easily by adding new methods to the `zero` function from the `Base`.
-
-```jldoctest currency; output=false
-Base.zero(C::Type{<:Currency}) = C(0)
-Base.zero(c::Currency) = zero(typeof(c))
-
-# output
-
-```
-
-In our case, we added two new methods. The former one works for any subtype of the `Currency` type and the latter for any instance of any subtype of the `Currency` type. In the functions above, we use only the former method. However, for convenience, it is useful to define the latter method too. The rest of the methods can not be defined in such a simple way. In the rest of the section, we will show how to define the `conversion` function for currencies. We will also show how to define arithmetic operations and other basic functions on currencies.
-
-## Concrete types
-
-Firstly we create one concrete subtype of the `Currency` abstract type that allows us to test functions. It can be done as follows.
-
-```jldoctest currency; output=false
-struct Euro <: Currency
-    value::Float64
-end
-
-# output
-
-```
-
-Note that we use the `Float64` type to store the amount of the currency. It should probably be better to define the `Euro` type as a parametric type as follows.
-
-```julia
-struct Euro{T<:Real} <: Currency
-    value::T
-end
-```
-
-However, since we want to make all examples as understandable as possible, we use the simplified version. Since `Euro` is a concrete type, we can create its instance.
-
-```jldoctest currency
-julia> Euro(1)
-Euro(1.0)
-
-julia> Euro(1.5)
-Euro(1.5)
-```
-
-We can also use the `isa` function to check that the resulting instance is a subtype of the `Currency` type.
-
-```jldoctest currency
-julia> isa(Euro(1), Currency) # equivalent to typeof(Euro(1)) <: Currency
-true
-```
+## Custom print
 
 Each currency typically has its symbol that is used instead of the name of the currency. We can redefine the `show` function to print the currencies in a prettier way. Firstly we define a new function `symbol` that will return the symbol of the used currency.
 
@@ -145,10 +137,16 @@ symbol (generic function with 2 methods)
 Note that we defined one method for all subtypes of the `Currency` and then one method that is used only for the `Euro` type. With the `symbol` function, we can define custom pretty printing. It can be done by adding a new method to the `show` function from the `Base`. It is possible to define a custom show function for different output formats. For example, it is possible to define different formating for HTML output. In the example below, we show only the basic usage. For more information, see the [official documentation](https://docs.julialang.org/en/v1/manual/types/#man-custom-pretty-printing).
 
 ```jldoctest currency; output=false
-Base.show(io::IO, c::T) where {T <: Currency} = print(io, c.value, " ", symbol(T))
+Base.show(io::IO, c::C) where {C <: Currency} = print(io, c.value, " ", symbol(C))
 
 # output
 
+```
+
+Note that the `show` function has two input arguments. The first one is of type `IO` that specifies where the output will be printed (for example in the REPL). The second argument is an instance of some currency. Note that we use the `where` keyword in the definition of the function to get the type of the given currency. Using this syntax, the type of the input currency is stored in `C` and thus we can pass it directly to the `symbol` function. Alternatively, we can rewrite the function in the following way, where we use the `typeof` function to get the type of the currency.
+
+```julia
+Base.show(io::IO, c::Currency) = print(io, c.value, " ", symbol(typeof(c)))
 ```
 
 We can check that now the printing of the currencies is prettier than the default one.
@@ -161,43 +159,20 @@ julia> Euro(1.5)
 1.5 €
 ```
 
-Finally, we can check that we define the `zero` function properly.
-
-```jldoctest currency
-julia> zero(Euro)
-0.0 €
-
-julia> zero(Euro(1.5))
-0.0 €
-```
-
 It seems that everything works well. Note one big difference against Python. In Python, we can create a class and then define methods inside the class. If we want to add a new method, we have to modify the class. In Julia, methods for types can be defined at any time without the necessity to modify the type definition.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
-
-In the next section, we will define the `conversion` function for the currencies. However, we have defined only one concrete currency so far. Define `Dollar` structure, and do not forget to add a new method to the `symbol` function.
+Define a new method for the `symbol` function that will be used for the `Dollar` type.
 
 **Hint:** the dollar symbol `$` has a special meaning in Julia. Do not forget to use the `\` symbol when using the dollar symbol in a string.
-
 
 ```@raw html
 </p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
-```
-
-The `Dollar` currency can be defined in the same way as we defined `Euro` earlier.
-
-```jldoctest currency; output=false
-struct Dollar <: Currency
-    value::Float64
-end
-
-# output
-
 ```
 
 When adding a new method to the `symbol` function, we have to take in mind that we used the currency type for dispatch, i.e., we have to use `::Type{Dollar}` instead of `::Dollar` in the type annotation.
@@ -218,12 +193,6 @@ julia> Dollar(1)
 
 julia> Dollar(1.5)
 1.5 $
-
-julia> zero(Dollar)
-0.0 $
-
-julia> zero(Dollar(1.5))
-0.0 $
 ```
 
 ```@raw html
@@ -565,9 +534,6 @@ Finally, we can test the functionality.
 ```jldoctest currency
 julia> CzechCrown(2.8)
 2.8 Kč
-
-julia> zero(CzechCrown)
-0.0 Kč
 
 julia> dl = convert(Dollar, CzechCrown(64))
 2.93 $
@@ -914,7 +880,7 @@ The last function that we define is the function that adds a new transaction int
 
 ```jldoctest currency; output=false
 function (b::BankAccount{T})(c::Currency) where {T}
-    balance(b) + c >= zero(T) || throw(ArgumentError("insufficient bank account balance."))
+    if balance(b) + c >= T(0) || throw(ArgumentError("insufficient bank account balance."))
     push!(b.transaction, c)
     return
 end
