@@ -115,17 +115,17 @@ The fields can be then accessed anywhere, for example, within a function.
 julia> area(r::Rectangle) = r.width * r.height
 area (generic function with 1 method)
 
-julia> function verteces(r::Rectangle)
+julia> function vertices(r::Rectangle)
            x, y = r.bottomleft
            w, h = r.width, r.height
            return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
        end
-verteces (generic function with 1 method)
+vertices (generic function with 1 method)
 
 julia> area(r)
 12
 
-julia> verteces(r)
+julia> vertices(r)
 4-element Array{Array{Float64,1},1}:
  [1.0, 2.0]
  [4.0, 2.0]
@@ -148,7 +148,7 @@ julia> fieldnames(typeof(r))
 <header class = "info-header">Comparison with Python</header><p>
 ```
 
-The same object can be defined in Python in the following way
+The same object can be defined in Python in the following way:
 
 ```python
 class Rectangle:
@@ -166,7 +166,7 @@ class Rectangle:
         return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
 ```
 
-We can create an instance of that object and call two functions defined in the class definition.
+We can create an instance of this object and call the two functions defined in the class definition.
 
 ```python
 In [2]: r = Rectangle([1.0, 2.0], 3, 4)
@@ -178,7 +178,14 @@ In [4]: r.vertices()
 Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
 ```
 
-The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
+The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that Python defines the functions inside of the class while Julia defines them outside. The Julia approach has several advantages:
+1. Julia has more options to logically split the code. This may increase readability.
+2. When working with a class defined in an external package, Julia can simply define additional functions to this class. Python needs to use inheritance to modify the class. When a multiple people use inheritance to the same class, it is not clear how to merge the inherited classes together. Therefore, Julia makes it simpler to create packages which combine and modify multiple existing packages.
+3. When working with multiple classes, it does not need to be clear to which a function should belong. Python sometimes needs to create an additional class which unites these two classes. Julia does not have this problem as functions are defined externally.
+
+
+
+in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
 
 ```@raw html
 </p></div>
@@ -207,7 +214,7 @@ julia> r.bottomleft
 julia> area(r)
 12
 
-julia> verteces(r)
+julia> vertices(r)
 4-element Array{Array{Float64,1},1}:
  [5.0, 2.0]
  [8.0, 2.0]
@@ -505,18 +512,16 @@ Inner constructors have an additional advantage. Since outer constructors create
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a structure that represents ND-point and stores coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to create an instance of the `PointND` directly from different types' values. Define function `dim` that returns the dimension of the point.
+Define a structure that represents ND-points and stores their coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Redefine the default inner constructor to create an instance of `PointND` from different types. Then add a new method to the `coordinates` function, and define function `dim` that returns the dimension of the point.
 
 **Hints:** use the `new` function in the definition of the new inner constructor.
 
-**Bonus:** Tuples with elements of the same type can be described using special type `NTuple{N, T}`, where `N` represents a number of elements and `T` their type.
+**Bonus:** Tuples with elements of the same type can be described by the special type `NTuple{N, T}`, where `N` is the number of elements and `T` their type.
 
 ```jldoctest
 julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
 true
 ```
-
-Use similar notation in the definition of the `PointND` to specify a dimension.
 
 ```@raw html
 </p></div>
@@ -546,7 +551,7 @@ dim (generic function with 1 method)
 
 Note that we use the parameter `N` in the definition of the `dim` function.
 
-Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
+Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom printing function is immediately applied to the new type. Since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
 
 ```jldoctest structs
 julia> p = PointND(1, 2)
@@ -613,7 +618,7 @@ MyType(5, 4.5, "hello")
 <div class = "info-body">
 <header class = "info-header">Function-like objects</header><p>
 ```
-Methods are associated with types, so it is possible to make any arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called "functors." Using this technique to the `MyType` defined above, we can define a method that returns all field's values as a tuple.
+Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called functors. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
 
 ```jldoctest structs
 julia> (m::MyType)() = (m.a, m.b, m.c)
@@ -625,7 +630,7 @@ julia> m()
 (5, 4.5, "hello")
 ```
 
-Moreover, we can use multiple-dispatch to define other methods. The first method for a given real number computes a simple linear function and uses fields `a`, `b` of the `MyType` as slope and intercept. The second method creates a string from the given string and a field `c` of the `MyType`.
+Moreover, we can use multiple-dispatch for functors. We show an example, where the functor has a different behaviour when it is called with a number and a string.
 
 ```jldoctest structs; output = false
 (m::MyType)(x::Real) = m.a*x + m.b
@@ -635,7 +640,7 @@ Moreover, we can use multiple-dispatch to define other methods. The first method
 
 ```
 
-If we use these two methods and the instance of the `MyType` defined in the example above,  we get the following results.
+These two methods give different results.
 
 ```jldoctest structs
 julia> m(1)
@@ -655,13 +660,13 @@ julia> m("world")
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write a structure `Gauss` that will represent a [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution). Write an inner constructor that checks if the given parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function in the given point. Recall that the probability density function for the Gaussian distribution is defined as follows.
+[Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution) is uniquely represented by its mean ``\mu`` and variance ``\sigma^2>0``. Write a structure `Gauss` with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function at a given point defined by
 
 ```math
 f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
 ```
 
-where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Verify that the probability density function is defined correctly, i.e., its integral equals 1.
+Verify that the probability density function is defined correctly, i.e., its integral equals 1.
 
 ```@raw html
 </p></div>
@@ -669,7 +674,7 @@ where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Verify that the probability d
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-One of the possible ways how to define structure from the description of the exercise is the following. We use the `@kwdef` macro to define the default values of the parameters. We also defined an inner constructor that checks if the variance is positive.
+One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.
 
 ```jldoctest structs_gauss; output = false
 Base.@kwdef struct Gauss{T<:Real}
@@ -677,7 +682,7 @@ Base.@kwdef struct Gauss{T<:Real}
     σ::T = 1
 
     function Gauss(μ::Real, σ::Real)
-        σ > 0 || error("the variance `σ^2` must be positive")
+        σ^2 > 0 || error("the variance `σ^2` must be positive")
         pars = promote(μ, σ)
         return new{eltype(pars)}(pars...)
     end
@@ -687,7 +692,7 @@ end
 
 ```
 
-Note that in the inner constructor, we use the `promote` function and that we specify the parameter `T` in the call of the `new` function. The probability density function can be defined as a functor in the following way.
+We specified the parameter `T` by `eltype(pars)` in the call of the `new` function. The probability density function can be defined as a functor in the following way:
 
 
 ```jldoctest structs_gauss; output = false
@@ -697,7 +702,7 @@ Note that in the inner constructor, we use the `promote` function and that we sp
 
 ```
 
-We used type annotation to ensure that all input arguments are real numbers.
+We use type annotation to ensure that all input arguments are real numbers.
 
 ```jldoctest structs_gauss
 julia> gauss = Gauss()
@@ -707,7 +712,7 @@ julia> gauss(0)
 0.3989422804014327
 ```
 
-The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.
+The integral of the probability density function over the real line should equal one. We check it numerically by discretizing the integral into a finite sum.
 
 ```jldoctest structs_gauss
 julia> step = 0.01
@@ -722,7 +727,7 @@ julia> sum(Gauss(0.1, 2.3), x) * step
 1.0
 ```
 
-We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. Since we defined a functor for the `Gauss` type, we can pass its instance as the fits argument, and the result will be the same as if we use `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
+We use `sum` with a function as the first input argument and apply it to each value of the second argument. This is possible because we defined a functor for `Gauss`. The result is the same as `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
 
 ```@raw html
 </p></details>
@@ -733,13 +738,15 @@ We use the `sum` function, which can accept a function as the first argument and
 <header class = "info-header">Plot recipes</header><p>
 ```
 
-In the previous exercise, we defined a new type, that represents Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package introduces in the previous lecture. Unfortunately, we cannot use the syntax for the plotting function described in the [Function plotting](@ref Function-plotting) section, i.e., the following will not work even though the `Gauss` type is callable.
+The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package. Unfortunately, it is not possible to use [Function plotting](@ref Function-plotting), i.e., the following will not work even though the `Gauss` type is callable.
 
 ```julia
 plot(x, Gauss())
 ```
 
-However, we can define a custom plot for our type using the `@recipe` macro. Note that we use the [RecipesBase](https://github.com/JuliaPlots/RecipesBase.jl) package instead of the Plots package. The reason is that the RecipesBase package provides all functionality related to creating custom plots and the Plots package only uses this functionality. Moreover, since the RecipesBase package is much smaller, the first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and some input `x`. Then in the function body, we define plot attributes in the same way as if we pass them into the `plot` function. Finally, we define the output of the function.
+Using the system of Julia types, it is possible to obtain special behaviour for a certain type only by defining a new method for this type. For example, if we use the `plot` function, all input data and plot attributes are preprocessed to some standard format and then the final graph is created. Due to the Julia type system, we can easily change how this preprocessing happens and define special behaviour for custom types.
+
+For plotting, this is done by the `@recipe` macro from the [RecipesBase](https://github.com/JuliaPlots/RecipesBase.jl) package. The RecipesBase package provides the functionality related to creating custom plots and the Plots package uses this functionality. Moreover, since the RecipesBase package is much smaller, its first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and input `x`. In the function body, we define plot attributes in the same way as if we pass them into the `plot` function. Finally, we define the output of the function.
 
 ```julia
 using RecipesBase
@@ -754,9 +761,9 @@ using RecipesBase
 end
 ```
 
-Note that we use two different syntaxes for defining plot attributes. If we use `:=` operator, the attribute will be set to the provided value and can not be changed by the user. On the other hand, if we use `-->` operator, the provided value is used as default and can be changed by the user.
+The operators `:=` and `-->` are specific for this package. Both set default values for plotting attributes. The difference is that the default values can be changed for `-->` but cannot be changed for `:=`.
 
-The recipe above is equivalent to calling the `plot` function as follows.
+The recipe above is equivalent to calling the `plot` function.
 
 ```julia
 d = Gauss()
@@ -769,7 +776,7 @@ plot(x, d.(x);
 )
 ```
 
-With the new plot recipe, we can plot the probability density function of Gaussian distribution with different parameters in a simple way.
+With the new plot recipe, we can plot the probability density function of the Gaussian distribution with different parameters.
 
 ```julia
 using Plots
