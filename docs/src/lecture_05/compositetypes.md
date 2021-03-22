@@ -64,13 +64,14 @@ true
 
 # Composite types
 
-A composite type is a collection of key-value pairs. In many languages, composite types are the only kind of user-definable type. Even though Julia allows defining other types, composite types are used the most. Their main goal is to collect all information about one object within one structure. We will soon define the `Rectangle` type containing information about the size and the bottom-left point position of a rectangle. Collecting this information into one structure makes it simple to pass all information about the rectangle as arguments and use it for further computation.
+A composite type is a collection of key-value pairs. In many languages, composite types are the only kind of user-definable type. Even though Julia allows defining other types, composite types are used the most.
+Their main goal is to collect all information about one object within one structure. We will soon define the `Rectangle` type containing information about the size and the bottom-left point position of a rectangle. Collecting this information into one structure makes it simple to pass all information about the rectangle as arguments and use it for further computation. Moreover, it is possible to use composite types in combination with multiple-dispatch and define specialized functions for custom types.
 
 The `struct` keyword defines composite types. It is followed by the composite type name and field names, where the latter may be annotated with types.
 
 ```jldoctest structs; output = false
 struct Rectangle
-    bottomleft::AbstractVector{Float64}
+    bottomleft::Vector{Float64}
     width
     height
 end
@@ -94,7 +95,7 @@ A constructor is calling a type as a function. Two constructors are automaticall
 ```jldoctest structs
 julia> methods(Rectangle)
 # 2 methods for type constructor:
-[1] Rectangle(bottomleft::AbstractArray{Float64,1}, width, height) in Main at none:2
+[1] Rectangle(bottomleft::Array{Float64,1}, width, height) in Main at none:2
 [2] Rectangle(bottomleft, width, height) in Main at none:2
 ```
 
@@ -114,8 +115,22 @@ The fields can be then accessed anywhere, for example, within a function.
 julia> area(r::Rectangle) = r.width * r.height
 area (generic function with 1 method)
 
+julia> function verteces(r::Rectangle)
+           x, y = r.bottomleft
+           w, h = r.width, r.height
+           return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
+       end
+verteces (generic function with 1 method)
+
 julia> area(r)
 12
+
+julia> verteces(r)
+4-element Array{Array{Float64,1},1}:
+ [1.0, 2.0]
+ [4.0, 2.0]
+ [4.0, 6.0]
+ [1.0, 6.0]
 ```
 
 The convenient function `fieldnames` returns a tuple with names of all structure fields represented as symbols.
@@ -127,6 +142,49 @@ julia> fieldnames(Rectangle)
 julia> fieldnames(typeof(r))
 (:bottomleft, :width, :height)
 ```
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Comparison with Python</header><p>
+```
+
+The same object can be defined in Python in the following way
+
+```python
+class Rectangle:
+    def __init__(self, bottomleft, width, height):
+        self.bottomleft = bottomleft
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def vertices(self):
+        x, y = self.bottomleft
+        w, h = self.width, self.height
+        return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
+```
+
+We can create an instance of that object and call two functions defined in the class definition.
+
+```python
+In [2]: r = Rectangle([1.0, 2.0], 3, 4)
+
+In [3]: r.area()
+Out[3]: 12
+
+In [4]: r.vertices()
+Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
+```
+
+The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
+
+```@raw html
+</p></div>
+```
+
+## Mutable composite types
 
 Composite types declared with `struct` keyword are immutable and cannot be modified after being constructed.
 
@@ -145,13 +203,23 @@ julia> r.bottomleft
 2-element Array{Float64,1}:
  5.0
  2.0
+
+julia> area(r)
+12
+
+julia> verteces(r)
+4-element Array{Array{Float64,1},1}:
+ [5.0, 2.0]
+ [8.0, 2.0]
+ [8.0, 6.0]
+ [5.0, 6.0]
 ```
 
 To allow changing their fields, we need to define composite types as mutable by adding the `mutable` keyword.
 
 ```jldoctest structs; output = false
 mutable struct MutableRectangle
-    bottomleft::AbstractVector{Float64}
+    bottomleft::Vector{Float64}
     width
     height
 end
@@ -191,7 +259,7 @@ MutableRectangle([1.0, 2.0], 1.5, 2.5)
 The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
 
 ```jldoctest structs
-julia> AbstractRectangle = Union{Rectangle, MutableRectangle}
+julia> const AbstractRectangle = Union{Rectangle, MutableRectangle}
 Union{MutableRectangle, Rectangle}
 
 julia> Rectangle <: AbstractRectangle
@@ -201,16 +269,16 @@ julia> MutableRectangle <: AbstractRectangle
 true
 ```
 
-We now create the `circumference(r::AbstractRectangle)` function. Since we specify that its input is an `AbstractRectangle`, it will work for both mutable `MutableRectangle` and immutable `Rectangle` types.
+We now create the `perimeter(r::AbstractRectangle)` function. Since we specify that its input is an `AbstractRectangle`, it will work for both mutable `MutableRectangle` and immutable `Rectangle` types.
 
 ```jldoctest structs
-julia> circumference(r::AbstractRectangle) = 2*(r.width + r.height)
-circumference (generic function with 1 method)
+julia> perimeter(r::AbstractRectangle) = 2*(r.width + r.height)
+perimeter (generic function with 1 method)
 
-julia> circumference(r)
+julia> perimeter(r)
 14
 
-julia> circumference(mr)
+julia> perimeter(mr)
 8.0
 ```
 
@@ -386,7 +454,7 @@ Point(x::Real, y::Real) = Point(promote(x, y)...)
 Point
 ```
 
-The `promote` function converts its arguments to the supertype that can represent both inputs. For example, `promote(1, 2.3)` results in the tuple `(1.0, 2.3)` because it is possible to represent `Int64` by `Float64`, but not the other way round. We can test the new constructor on the example from the end of the previous section. As expected, the result has the type `Point{Float64}`. 
+The `promote` function converts its arguments to the supertype that can represent both inputs. For example, `promote(1, 2.3)` results in the tuple `(1.0, 2.3)` because it is possible to represent `Int64` by `Float64`, but not the other way round. We can test the new constructor on the example from the end of the previous section. As expected, the result has the type `Point{Float64}`.
 
 ```jldoctest structs
 julia> Point(1, 2.0)
@@ -397,10 +465,10 @@ Point{Float64}
 ```
 
 The constructor defined above is the outer constructor because it is defined outside of the type definition. A constructor behaves like any other function in Julia and may have multiple methods. We can define new methods to add additional functionality to a constructor. On the other hand, outer constructors cannot construct self-referential objects or instances with some special properties. In such a case, we have to use inner constructors, which differ from outer constructors in two aspects:
-    
+
 1. They are declared inside the composite type declaration rather than outside of it.
 2. They have access to the local function `new` that creates new instances of the composite type.
-    
+
 For example, one may want to create a type with two real numbers, where the first number cannot be greater than the second one. The inner constructor can ensure this.
 
 ```jldoctest ordered; output = false
@@ -409,7 +477,7 @@ struct OrderedPair{T <: Real}
     y::Real
 
     function OrderedPair(x::Real, y::Real)
-        x > y && error("wrong input: x > y")
+        x > y && error("the first argument must be less than or equal to the second one")
         xp, yp = promote(x, y)
         return new{typeof(xp)}(xp, yp)
     end
@@ -426,22 +494,29 @@ julia> OrderedPair(1,2)
 OrderedPair{Int64}(1, 2)
 
 julia> OrderedPair(2,1)
-ERROR: wrong input: x > y
+ERROR: the first argument must be less than or equal to the second one
 [...]
 ```
 
-Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the inner constructor will create the instances of `OrderedPair`, and they will, therefore, always satisfy `x <= y`.
+Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the resulting instances of the `OrderedPair` type will always satisfy `x <= y`.
 
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a structure that represents ND-point and stores coordinates as `NTuple` type. Do not forget to define it as a subtype of the `AbstractPoint` type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to create an instance of the `PointND` directly from different types' values.
+Define a structure that represents ND-point and stores coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Also, add a new method to the `coordinates` function. Redefine the default inner constructor to create an instance of the `PointND` directly from different types' values. Define function `dim` that returns the dimension of the point.
 
-**Hint:** use the `new` function in the definition of the new inner constructor.
+**Hints:** use the `new` function in the definition of the new inner constructor.
 
-**Hint:** in the `NTuple{N, T}` type, `N` represents a number of elements and `T` their type. Use similar notation in the definition of the `PointND` to specify a dimension.
+**Bonus:** Tuples with elements of the same type can be described using special type `NTuple{N, T}`, where `N` represents a number of elements and `T` their type.
+
+```jldoctest
+julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
+true
+```
+
+Use similar notation in the definition of the `PointND` to specify a dimension.
 
 ```@raw html
 </p></div>
@@ -462,20 +537,29 @@ struct PointND{N, T <: Real} <: AbstractPoint{T}
 end
 
 coordinates(p::PointND) = p.x
+dim(p::PointND{N}) where N = N
 
 # output
 
-coordinates (generic function with 3 methods)
+dim (generic function with 1 method)
 ```
 
-Note that since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
+Note that we use the parameter `N` in the definition of the `dim` function.
+
+Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is immediately applied to the new type. Also note, that since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
 
 ```jldoctest structs
-julia> PointND(1, 2)
+julia> p = PointND(1, 2)
 (1, 2)
 
-julia> PointND(1, 2.2, 3, 4.5)
+julia> dim(p)
+2
+
+julia> p = PointND(1, 2.2, 3, 4.5)
 (1.0, 2.2, 3.0, 4.5)
+
+julia> dim(p)
+4
 ```
 
 ```@raw html
@@ -497,7 +581,7 @@ end
 
 MyType
 ```
-    
+
 The `methods` function shows that Julia created three constructors.  The `@kwdef` macro creates the first constructor; the other two constructors are the default constructors.
 
 ```jldoctest structs
@@ -541,7 +625,7 @@ julia> m()
 (5, 4.5, "hello")
 ```
 
-Moreover, we can use multiple-dispatch to define other methods. The first method for a given real number computes a simple linear and uses fields `a`, `b` of the `MyType` as slope and intercept. The second method creates a string from the given string and a field `c` of the `MyType`.
+Moreover, we can use multiple-dispatch to define other methods. The first method for a given real number computes a simple linear function and uses fields `a`, `b` of the `MyType` as slope and intercept. The second method creates a string from the given string and a field `c` of the `MyType`.
 
 ```jldoctest structs; output = false
 (m::MyType)(x::Real) = m.a*x + m.b
@@ -577,7 +661,7 @@ Write a structure `Gauss` that will represent a [Gaussian distribution](https://
 f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
 ```
 
-where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Verify that the probability density function is defined correctly, i.e., its integral equals 1. Create a plot of the probability density function.
+where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Verify that the probability density function is defined correctly, i.e., its integral equals 1.
 
 ```@raw html
 </p></div>
@@ -640,19 +724,28 @@ julia> sum(Gauss(0.1, 2.3), x) * step
 
 We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. Since we defined a functor for the `Gauss` type, we can pass its instance as the fits argument, and the result will be the same as if we use `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
 
-We can also visualize the probability density functions with the [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package. Unfortunately, we cannot use the syntax for the plotting function described in the [Function plotting](@ref Function-plotting) section, i.e., the following will not work even though the `Gauss` type is callable.
+```@raw html
+</p></details>
+```
+
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Plot recipes</header><p>
+```
+
+In the previous exercise, we defined a new type, that represents Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package introduces in the previous lecture. Unfortunately, we cannot use the syntax for the plotting function described in the [Function plotting](@ref Function-plotting) section, i.e., the following will not work even though the `Gauss` type is callable.
 
 ```julia
 plot(x, Gauss())
 ```
 
-However, we can define a custom plot for our type using the `@recipe` macro. The syntax is straightforward. In the function head, we define two inputs: our type and some input `x`. Then in the function body, we define plot attributes in the same way as if we pass them in the `plot` function. Finally, we define the output of the function. Note that we use two different syntaxes for defining plot attributes. If we use `:=` operator, the attribute will be set to the provided value and can not be changed by the user. On the other hand, if we use `-->` operator, the provided value is used as default and can be changed by the user.
+However, we can define a custom plot for our type using the `@recipe` macro. Note that we use the [RecipesBase](https://github.com/JuliaPlots/RecipesBase.jl) package instead of the Plots package. The reason is that the RecipesBase package provides all functionality related to creating custom plots and the Plots package only uses this functionality. Moreover, since the RecipesBase package is much smaller, the first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and some input `x`. Then in the function body, we define plot attributes in the same way as if we pass them into the `plot` function. Finally, we define the output of the function.
 
 ```julia
-using Plots
+using RecipesBase
 
-@recipe function f(d::Gauss, x)
-    seriestype := :path
+@recipe function f(d::Gauss, x = (d.μ - 4d.σ):0.1:(d.μ + 4d.σ))
+    seriestype  :=  :path
     label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
     xguide --> "x"
     yguide --> "f(x)"
@@ -660,6 +753,8 @@ using Plots
     return x, d.(x)
 end
 ```
+
+Note that we use two different syntaxes for defining plot attributes. If we use `:=` operator, the attribute will be set to the provided value and can not be changed by the user. On the other hand, if we use `-->` operator, the provided value is used as default and can be changed by the user.
 
 The recipe above is equivalent to calling the `plot` function as follows.
 
@@ -669,51 +764,23 @@ plot(x, d.(x);
     seriestype := :path,
     label = "Gauss(μ = $(d.μ), σ = $(d.σ))",
     xguide = "x",
-    yguide --> "f(x)",
-    linewidth --> 2
+    yguide = "f(x)",
+    linewidth = 2
 )
-```
-
-```@setup plots
-using Plots
-
-Base.@kwdef struct Gauss{T<:Real}
-    μ::T = 0
-    σ::T = 1
-
-    function Gauss(μ::Real, σ::Real)
-        σ > 0 || error("the variance `σ^2` must be positive")
-        pars = promote(μ, σ)
-        return new{eltype(pars)}(pars...)
-    end
-end
-
-(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))
-
-@recipe function f(d::Gauss, x)
-    seriestype  :=  :path
-    label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
-    xguide --> "x"
-    yguide --> "f(x)"
-    linewidth --> 2
-    x, d.(x)
-end
 ```
 
 With the new plot recipe, we can plot the probability density function of Gaussian distribution with different parameters in a simple way.
 
-```@example plots
+```julia
 using Plots
-x = -15:0.1:15
 
-plot(Gauss(), x)
-plot!(Gauss(4, 2), x)
-plot!(Gauss(-3, 2), x)
-savefig("gauss.svg") # hide
+plot(Gauss())
+plot!(Gauss(4, 2); linewidth = 4, color = :red)
+plot!(Gauss(-3, 2); label = "new label", linestyle = :dash)
 ```
 
 ![](gauss.svg)
 
 ```@raw html
-</p></details>
+</p></div>
 ```

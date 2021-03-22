@@ -20,7 +20,7 @@ Since the `Currency` is an abstract type, it is impossible to create an instance
 ```jldoctest currency; output=false
 struct BankAccount{C<:Currency}
     owner::String
-    transaction::Vector{<:Currency}
+    transaction::Vector{Currency}
 
     function BankAccount(owner::String, C::Type{<:Currency})
         return new{C}(owner, Currency[zero(C)])
