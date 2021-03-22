@@ -6,7 +6,7 @@ Julia does not allow abstract types to be instantiated. They can only be used to
 
 All types depicted in blue are abstract types, and all green types are concrete types. For example, `Int8`, `Int16`, `Int32`, `Int64` and `Int128` are signed integer types, `UInt8`, `UInt16`, `UInt32`, `UInt64` and `UInt128` are unsigned integer types, while `Float16`, `Float32` and `Float64` are floating-point types. In many cases, the inputs must be of a specific type. An algorithm to find the greatest common denominator should work any integer types, but it should not work for any floating-point inputs. Abstract types specify these cases and provide a context into which concrete types can fit.
 
-Abstract types are defined by `abstract type` followed by the type. It is possible to specify a type to be a subtype of another abstract type. The definition of abstract numeric types would be:
+Abstract types are defined by `abstract type` followed by the type name. It is possible to specify a type to be a subtype of another abstract type. The definition of abstract numeric types would be:
 
 ```julia
 abstract type Number end
@@ -480,8 +480,8 @@ For example, one may want to create a type with two real numbers, where the firs
 
 ```jldoctest ordered; output = false
 struct OrderedPair{T <: Real}
-    x::Real
-    y::Real
+    x::T
+    y::T
 
     function OrderedPair(x::Real, y::Real)
         x > y && error("the first argument must be less than or equal to the second one")

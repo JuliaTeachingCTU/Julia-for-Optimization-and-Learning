@@ -58,9 +58,9 @@ BankAccount{Euro}("Paul", Currency[Euro(0.0)])
 
 First, we observe that we use the `Euro` type (and not its instance) to instantiate the `BankAccount` type. The reason is the definition of the inner constructor for `BankAccount`, where the type annotation is `::Type{<:Currency}`. This is in contrast with `::Currency`. The former requires that the argument is a type, while the former needs an instance.
 
-Second, due to the line `Currency[C(0)]` in the inner constructor, transactions are stored in a vector of type `Vector{Currency}`. The expression `C(0)` creates an instance of the currency `C` with zero value. The `Currency` type combined with the square brackets creates a vector that may contain instances of any subtypes of `Currency`. It is, therefore, possible to push a new transaction in a different currency to the `transaction` field.
+Second, `BankAccount` is a parametric type, as can be seen from `BankAccount{Euro}`. In our example, this parameter plays the role of the primary account currency.
 
-Third, `BankAccount` is a parametric type, as can be seen from `BankAccount{Euro}`. In our example, this parameter plays the role of the primary account currency.
+Third, due to the line `Currency[C(0)]` in the inner constructor, transactions are stored in a vector of type `Vector{Currency}`. The expression `C(0)` creates an instance of the currency `C` with zero value. The `Currency` type combined with the square brackets creates a vector that may contain instances of any subtypes of `Currency`. It is, therefore, possible to push a new transaction in a different currency to the `transaction` field.
 
 ```jldoctest currency
 julia> push!(b.transaction, Dollar(2))
@@ -336,7 +336,6 @@ struct Pound <: Currency
 end
 
 symbol(::Type{Pound}) = "£"
-
 rate(::Type{Euro}, ::Type{Pound}) = 1.13
 
 # output
@@ -704,7 +703,7 @@ julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
  18.3 Kč
 ```
 
-Finally, we can define division. In this case, it makes sense to define the division of the instance of any `Currency` subtype by a real number. In such a case, the result is the instance of the same currency.
+Finally, we can define division. In this case, it makes sense to define the division of the currency by a real number. In such a case, the result is the instance of the same currency.
 
 ```jldoctest currency; output=false
 Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
@@ -713,7 +712,7 @@ Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
 
 ```
 
-But it also makes sense to define the division of one amount of money by another amount of money. In this case, a result is a real number representing the ratio of the given amounts of money.
+But it also makes sense to define the division of one amount of money by another amount of money in different currencies. In this case, a result is a real number representing their ratio.
 
 ```jldoctest currency; output=false
 Base.:/(x::Currency, y::Currency) = /(promote(x, y)...)
@@ -826,14 +825,7 @@ julia> sort(vals)
 
 ## Back to bank account
 
-In the previous sections, we defined all the functions and types needed for the `BankAccount` type's proper functionality at the top of the page. We can test it by creating a new instance of this type.
-
-```jldoctest currency
-julia> b = BankAccount("Paul", CzechCrown)
-BankAccount{CzechCrown}("Paul", Currency[0.0 Kč])
-```
-
-Now it is time to define some auxiliary functions. For example, we can define the `balance` function that will return the account's current balance. Since we store all transactions in a vector, the account's current balance can be simply computed as a sum of the `transaction` field.
+In the previous sections, we defined all the functions and types that allow us to define the `BankAccount` type and perform basic arithmetic and other operations on currencies.  We can test it by creating a new instance of this type. Now it is time to define some auxiliary functions. For example, we can define the `balance` function that will return the account's current balance. Since we store all transactions in a vector, the account's current balance can be simply computed as a sum of the `transaction` field.
 
 ```jldoctest currency; output=false
 balance(b::BankAccount{C}) where {C} = convert(C, sum(b.transaction))
@@ -846,6 +838,9 @@ balance (generic function with 1 method)
 Note that we convert the balance to the primary currency of the account.
 
 ```jldoctest currency
+julia> b = BankAccount("Paul", CzechCrown)
+BankAccount{CzechCrown}("Paul", Currency[0.0 Kč])
+
 julia> balance(b)
 0.0 Kč
 ```

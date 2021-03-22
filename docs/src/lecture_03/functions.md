@@ -449,7 +449,7 @@ The probability density function for the Gaussian distribution equals to
 
 ```jldoctest key_args_ex; output = false
 function gauss(x::Real; μ::Real = 0, σ::Real = 1)
-    σ > 0 || error("the variance `σ^2` must be positive")
+    σ^2 > 0 || error("the variance `σ^2` must be positive")
     return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
 end
 
