@@ -207,7 +207,7 @@ The simplest way to define conversions between the currencies is to define the c
 
 ```jldoctest currency; output=false
 dollar2euro(c::Dollar) = Euro(0.83 * c.value)
-euro2dollar(c::Euro) = Euro(c.value / 0.83)
+euro2dollar(c::Euro) = Dollar(c.value / 0.83)
 
 # output
 
