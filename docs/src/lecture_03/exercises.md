@@ -91,7 +91,7 @@ We created a function that computes the number of living neighbours in the exerc
 
 ```julia
 function neighbours(world)
-    n, m = size(world, 1)
+    n, m = size(world)
     return [neighbours(world, row, col) for row in 1:n, col in 1:m]
 end
 ```
