@@ -221,7 +221,7 @@ julia> eur = dollar2euro(Dollar(1.3))
 1.079 €
 
 julia> euro2dollar(eur)
-1.3 €
+1.3 $
 ```
 
 Even though this is a way to write code, there is a more general way. We start with a conversion rate between two types.
@@ -450,7 +450,7 @@ Base.promote_rule(::Type{Dollar}, ::Type{Pound}) = Dollar
 
 ```
 
-The `promote_rule` function is used as a building block for the `promote_type` function, which returns the promoted type of inputs. 
+The `promote_rule` function is used as a building block for the `promote_type` function, which returns the promoted type of inputs.
 
 ```jldoctest currency
 julia> promote_type(Euro, Dollar)
