@@ -391,7 +391,7 @@ julia> dlr = convert(Dollar, pnd)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-We see that the print style of currencies is not ideal. Usually, we are not interested in more than the first two digits after the decimal point. Redefine the method in the `show` function to print currencies so that the result will be rounded to 2 digits after the decimal point.
+The printing style is not ideal because we are usually not interested in more than the first two digits after the decimal point. Redefine the method in the `show` function to print currencies so that the result is rounded to 2 digits after the decimal point.
 
 ```@raw html
 </p></div>
@@ -399,7 +399,7 @@ We see that the print style of currencies is not ideal. Usually, we are not inte
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Any real number can be rounded to 2 digits after the decimal point using the `round` function with the keyword argument `digits = 2`. Then we can use an almost identical definition of the method as before and only add the `round` function.
+Any real number can be rounded to 2 digits after the decimal point by the `round` function with the keyword argument `digits = 2`. Then we can use an almost identical definition of the method as before.
 
 ```jldoctest currency; output=false
 function Base.show(io::IO, c::T) where {T <: Currency}
@@ -411,7 +411,7 @@ end
 
 ```
 
-If we use the same example as the one placed before this exercise, we get the following results.
+The same code as before this example gives the following results.
 
 ```jldoctest currency
 julia> eur = convert(Euro, Dollar(1.3))
@@ -424,7 +424,7 @@ julia> dlr = convert(Dollar, pnd)
 1.3 $
 ```
 
-Note that the rounding is done only for printing, but the original value is unchanged.
+We realize that the rounding is done only for printing, while the original value remains unchanged.
 
 ```@raw html
 </p></details>
@@ -432,7 +432,7 @@ Note that the rounding is done only for printing, but the original value is unch
 
 ## Promotion
 
-Before defining the basic arithmetic operations for currencies, we have to decide how to work with money in different currencies. Imagine the situation, that we want to sum `1€` with `1$`. What should be the result? Should it be euro or dollar? For such a situation, Julia provides a promotion system that allows defining simple rules for promoting custom types. The promotion system can be modified by defining custom methods for the `promote_rule` function. For example, the following definition means that the euro has precedence against all other currencies.
+Before defining basic arithmetic operations for currencies, we have to decide how to work with money in different currencies. Imagine that we want to add `1€` and `1$`. Should the result be euro or dollar? For such a situation, Julia provides a promotion system that allows defining simple rules for promoting custom types. The promotion system can be modified by defining custom methods for the `promote_rule` function. For example, the following definition means that the euro has precedence against all other currencies.
 
 ```jldoctest currency; output=false
 Base.promote_rule(::Type{Euro}, ::Type{<:Currency}) = Euro
@@ -441,14 +441,7 @@ Base.promote_rule(::Type{Euro}, ::Type{<:Currency}) = Euro
 
 ```
 
-Note that one does not need to define both methods, as can be seen below.
-
-```julia
-Base.promote_rule(::Type{Euro}, ::Type{<:Currency}) = ...
-Base.promote_rule(::Type{<:Currency}, ::Type{Euro}) = ...
-```
-
-The symmetry is implied by the way `promote_rule` is used in the promotion process. Since we have three different currencies, we also have to define the promotion type for pair `Dollar`, `Pound`.
+One does not need to define both methods. The symmetry is implied by the way `promote_rule` is used in the promotion process. Since we have three different currencies, we also define the promotion type for the pair `Dollar` and `Pound`.
 
 ```jldoctest currency; output=false
 Base.promote_rule(::Type{Dollar}, ::Type{Pound}) = Dollar
@@ -457,7 +450,7 @@ Base.promote_rule(::Type{Dollar}, ::Type{Pound}) = Dollar
 
 ```
 
-The `promote_rule` function is used as a building block to define a second function called `promote_type`, which, given any number of type objects, returns the common type to which those values, as arguments to promote should be promoted. In the absence of actual values, we can use the `promote_type` function to test to what type a collection of values of certain types would promote.
+The `promote_rule` function is used as a building block for the `promote_type` function, which returns the promoted type of inputs. 
 
 ```jldoctest currency
 julia> promote_type(Euro, Dollar)
@@ -470,7 +463,7 @@ julia> promote_type(Pound, Dollar, Euro)
 Euro
 ```
 
-We can use the `promote` function that converts all its input arguments to their promote type to perform actual promotion.
+When we have instances instead of types, we can use the `promote` function to convert them to their representation in the promoted type.
 
 ```jldoctest currency
 julia> promote(Euro(2), Dollar(2.4))
@@ -488,7 +481,7 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2))
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Define a new currency, `CzechCrown`, that will represent Czech crowns. The exchange rate to euro is `0.038`, and all other currencies should take precedence over the Czech crown.
+Define a new currency `CzechCrown` representing Czech crowns. The exchange rate to euro is `0.038`, and all other currencies should take precedence over the Czech crown.
 
 ```@raw html
 </p></div>
@@ -496,7 +489,7 @@ Define a new currency, `CzechCrown`, that will represent Czech crowns. The excha
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Firstly we have to define a new type `CzechCrown`.
+We define first the new type `CzechCrown`.
 
 ```jldoctest currency; output=false
 struct CzechCrown <: Currency
@@ -507,7 +500,7 @@ end
 
 ```
 
-We must add new methods for the `symbol` and `rate` function with the defined type.
+We must add new methods for the `symbol` and `rate` functions.
 
 ```jldoctest currency; output=false
 symbol(::Type{CzechCrown}) = "Kč"
@@ -550,7 +543,7 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2), CzechCrown(2.8))
 
 ## Basic arithmetic operations
 
-Now we are ready to define basic arithmetic operations. As usual, it can be done by adding a new method into standard functions. We will start with the addition. There are two cases that we have to take into account. The first is that we want to sum two different currencies. In this case, we use the `promote` function to convert these to currencies to their promote type.
+Now we are ready to define basic arithmetic operations. As usual, we can do this by adding a new method to standard functions. We start with the addition, where there are two cases to consider. The first one is the summation of two different currencies. In this case, we use the `promote` function to convert these two currencies to their promote type.
 
 ```jldoctest currency; output=false
 Base.:+(x::Currency, y::Currency) = +(promote(x, y)...)
@@ -559,7 +552,7 @@ Base.:+(x::Currency, y::Currency) = +(promote(x, y)...)
 
 ```
 
-The second case is that we want to sum money in the same currency. In this case, we know the resulting currency, and we can sum the `value` fields.
+The second one is the summation of the same currency. In this case, we know the resulting currency, and we can sum the `value` fields.
 
 ```jldoctest currency; output=false
 Base.:+(x::T, y::T) where {T <: Currency} = T(x.value + y.value)
@@ -568,7 +561,7 @@ Base.:+(x::T, y::T) where {T <: Currency} = T(x.value + y.value)
 
 ```
 
-And that is all. Now we are able to sum money in different currencies.
+Note that the first function calls the second one. We have finished with addition, and now we can sum money in different currencies.
 
 ```jldoctest currency
 julia> Dollar(1.3) + CzechCrown(4.5)
@@ -585,7 +578,7 @@ julia> sum([CzechCrown(4.5), Euro(3.2), Pound(3.6), Dollar(12)])
 17.4 €
 ```
 
-Also, the broadcasting will work natively if we use arrays of currencies.
+Also, the broadcasting works natively for arrays of currencies.
 
 ```jldoctest currency
 julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Pound.([1.2, 2.6, 0.6, 1.8])
@@ -596,7 +589,7 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Pound.([1.2, 2.6, 0.6, 1.8])
  2.42 £
 ```
 
-However, there is a problem if we want a sum vector of currencies with one currency. In such a case, an error will occur.
+However, there is a problem if we want to sum a vector of currencies with one currency. In such a case, an error will occur.
 
 ```julia
 julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
@@ -604,7 +597,7 @@ ERROR: MethodError: no method matching length(::Main.Dollar)
 [...]
 ```
 
-The reason is that Julia assumes that custom structure is iterable. But in our case, all subtypes of the `Currency` type represent scalar values. This situation can be easily fixed by defining a new method to the `broadcastable` function from the `Base`.
+The reason is that Julia assumes that custom structures are iterable. But in our case, all subtypes of the `Currency` type represent scalar values. This situation can be easily fixed by defining a new method to the `broadcastable` function from `Base`.
 
 ```jldoctest currency; output=false
 Base.broadcastable(c::Currency) = Ref(c)
@@ -613,7 +606,7 @@ Base.broadcastable(c::Currency) = Ref(c)
 
 ```
 
-This function should return either the given object or some representation of the given object that supports the `axes` function, `ndims` function, and `indexing`. To create such a representation of all subtypes of the `Currency` type, we can use the `Ref` function. The `Ref` function creates an object that refers to the given currency instance and supports all necessary operations.
+This function should return either an object or some representation of an object that supports the `axes`, `ndims`, and `indexing` functions. To create such a representation of all subtypes of the `Currency` type, we use the `Ref` function, which creates an object referring to the given currency instance and supports all necessary operations.
 
 ```jldoctest currency
 julia> c_ref = Ref(Euro(1))
@@ -645,9 +638,9 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-In the section above, we defined the addition for all subtypes of the `Currency`. We also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define all following operations: `-`, `*`, `/`.
+In the section above, we defined the addition for all subtypes of `Currency`. We also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define the following operations: `-`, `*`, `/`.
 
-**Hint:** Define only the operations that make sense. For example, It makes sense to multiply `1 €` by 2 and get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
+**Hint:** Define only operations that make sense. For example, it makes sense to multiply `1 €` by 2 to get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
 
 ```@raw html
 </p></div>
@@ -655,7 +648,7 @@ In the section above, we defined the addition for all subtypes of the `Currency`
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The `-` operation can be defined in the exact same way as the addition in the previous section.
+The `-` operation can be defined exactly as the addition.
 
 ```jldoctest currency; output=false
 Base.:-(x::Currency, y::Currency) = -(promote(x, y)...)
@@ -679,7 +672,7 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
  -11.16 $
 ```
 
-The situation with the multiplication is a little bit different. It makes sense to multiply `1 €` by 2 and get `2 €`. But it does not make sense to multiply `1 €` by `2 €`. It means that we have to define a method for multiplying any `Currency` subtype by a real number. Moreover, we have to define multiplication from the right and also from the left. It can be done as follows.
+The situation with the multiplication is different as it makes sense to multiply `1 €` by 2 but not by `2 €`. We have to define a method for multiplying any `Currency` subtype by a real number. We have to define the multiplication both from the right and the left.
 
 ```jldoctest currency; output=false
 Base.:*(a::Real, x::T) where {T <: Currency} = T(a * x.value)
@@ -703,7 +696,7 @@ julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
  18.3 Kč
 ```
 
-Finally, we can define division. In this case, it makes sense to define the division of the currency by a real number. In such a case, the result is the instance of the same currency.
+Finally, we can define division. In this case, it makes sense to divide a currency by a real number.
 
 ```jldoctest currency; output=false
 Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
@@ -743,7 +736,7 @@ julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
 
 ## Currency comparison
 
-The last thing we should define is comparison operators. To provide all comparison operators' full functionality, we have to add new methods to two functions. The first one is value equality operator `==`. By default, the following definition is used `==(x, y) = x === y`. The `===` operator determines whether `x` and `y` are identical, in the sense that no program could distinguish them.
+The last thing we should define is comparison operators. To provide full functionality, we have to add new methods to two functions. The first one is the value equality operator `==`. By default, it uses the following definition `==(x, y) = x === y`. The `===` operator determines whether `x` and `y` are identical, in the sense that no program could distinguish them.
 
 ```jldoctest currency
 julia> Dollar(1) == Euro(0.83)
@@ -753,7 +746,7 @@ julia> Dollar(1) != Euro(0.83)
 true
 ```
 
-Note that the result does not match the expected behavior since the `0.83 €` is equal to `1 $` with the given exchange rate. The reason is that we want to compare values stored in the structures and not the structures themselves. To allow this kind of comparison, we can define new methods to the `==` function as follows.
+The result does not match the expected behaviour since `0.83 €` is equal to `1 $` with the given exchange rate. The reason is that we want to compare values stored in the structures and not the structures themselves. To allow this kind of comparison, we can define new methods to the `==` function as follows:
 
 ```jldoctest currency; output=false
 Base.:(==)(x::Currency, y::Currency) = ==(promote(x, y)...)
@@ -763,7 +756,7 @@ Base.:(==)(x::T, y::T) where {T <: Currency} = ==(x.value, y.value)
 
 ```
 
-With these two methods defined, the comparison works as expected.
+Again, the first function (for different currencies) calls the second function (for the same currencies). With these two methods defined, the comparison works as expected.
 
 ```jldoctest currency
 julia> Dollar(1) == Euro(0.83)
@@ -773,7 +766,7 @@ julia> Dollar(1) != Euro(0.83)
 false
 ```
 
-Another function that we have to extend is the `isless` function. In this case, the logic is the same as before: we want to compare values stored in the structure.
+The second function to extend is the `isless` function. In this case, the logic is the same as before: We want to compare values stored in the structure.
 
 ```jldoctest currency; output=false
 Base.isless(x::Currency, y::Currency) = isless(promote(x, y)...)
@@ -799,7 +792,7 @@ julia> Dollar(1) >= Euro(0.83)
 true
 ```
 
-Moreover, also other functions work for all subtypes of the `Currency` type immediately without any additional changes.
+Other functions based only on comparison will work for all subtypes of `Currency` without any additional changes. Examples include `extrema`, `argmin` or `sort` functions.
 
 ```jldoctest currency
 julia> vals = Currency[CzechCrown(100), Euro(0.83),  Pound(3.6), Dollar(1.2)]
@@ -823,9 +816,9 @@ julia> sort(vals)
  3.6 £
 ```
 
-## Back to bank account
+## Back to the bank account
 
-In the previous sections, we defined all the functions and types that allow us to define the `BankAccount` type and perform basic arithmetic and other operations on currencies.  We can test it by creating a new instance of this type. Now it is time to define some auxiliary functions. For example, we can define the `balance` function that will return the account's current balance. Since we store all transactions in a vector, the account's current balance can be simply computed as a sum of the `transaction` field.
+In the previous sections, we defined all the functions and types needed for the `BankAccount` type and performed basic arithmetic and other operations on currencies.  For a bank account, we are primarily interested in its balance. Since we store all transactions in a vector, the account balance can be computed as a sum of the `transaction` field.
 
 ```jldoctest currency; output=false
 balance(b::BankAccount{C}) where {C} = convert(C, sum(b.transaction))
@@ -835,7 +828,7 @@ balance(b::BankAccount{C}) where {C} = convert(C, sum(b.transaction))
 balance (generic function with 1 method)
 ```
 
-Note that we convert the balance to the primary currency of the account.
+We convert the balance to the primary currency of the account.
 
 ```jldoctest currency
 julia> b = BankAccount("Paul", CzechCrown)
@@ -871,7 +864,7 @@ Bank Account:
   - Number of transactions: 1
 ```
 
-The last function that we define is the function that adds a new transaction into the given bank account. This function can be defined like a normal function. However, we decided to use a special syntax. Since methods are associated with types, it is possible to make any arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called "functors." Functor for the `BankAccount` type can be defined in the following way.
+The last function that we define is the function that adds a new transaction into the given bank account. Even though it can be defined like any other function, we decided to use a special syntax. Since methods are associated with types, making any arbitrary Julia object "callable" is possible by adding methods to its type. Such "callable" objects are sometimes called "functors".
 
 ```jldoctest currency; output=false
 function (b::BankAccount{T})(c::Currency) where {T}
@@ -884,7 +877,7 @@ end
 
 ```
 
-The first thing that happened in the function above is the check if there is a sufficient bank account balance. If not, the function will throw an error. Otherwise, the function will push a new element to the `transaction` field.
+The first thing in the function above is the check whether there is a sufficient account balance. If not, the function will throw an error. Otherwise, the function will push a new element to the `transaction` field.
 
 ```jldoctest currency
 julia> b(Dollar(10))
