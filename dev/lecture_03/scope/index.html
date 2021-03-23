@@ -60,23 +60,23 @@ f_local (generic function with 1 method)
 
 julia&gt; hcat(f_global(), f_local(x, y))
 10×2 Array{Float64,2}:
- 0.64097   0.64097
- 1.13186   1.13186
- 1.45499   1.45499
- 1.25448   1.25448
- 1.29454   1.29454
- 1.31387   1.31387
- 1.64455   1.64455
- 1.75064   1.75064
- 0.775428  0.775428
- 1.4806    1.4806</code></pre><p>In the example above, we defined two functions that do the same thing. The first function has no arguments and returns a sum of two global variables, <code>x</code> and <code>y</code>. The second function also returns a sum of variables <code>x</code> and <code>y</code>. However, in this case, these variables are local since they are introduced as the inputs to the function. If we use the <code>@time</code> macro, we can measure the time needed to call these two functions.</p><pre><code class="language-julia-repl">julia&gt; @time f_global();
-  0.000017 seconds (3 allocations: 224 bytes)
+ 0.91804   0.91804
+ 0.912085  0.912085
+ 0.521917  0.521917
+ 0.99327   0.99327
+ 0.184458  0.184458
+ 1.19694   1.19694
+ 1.30397   1.30397
+ 1.23662   1.23662
+ 0.488445  0.488445
+ 0.46454   0.46454</code></pre><p>In the example above, we defined two functions that do the same thing. The first function has no arguments and returns a sum of two global variables, <code>x</code> and <code>y</code>. The second function also returns a sum of variables <code>x</code> and <code>y</code>. However, in this case, these variables are local since they are introduced as the inputs to the function. If we use the <code>@time</code> macro, we can measure the time needed to call these two functions.</p><pre><code class="language-julia-repl">julia&gt; @time f_global();
+  0.000024 seconds (3 allocations: 224 bytes)
 
 julia&gt; @time f_local(x, y);
-  0.000002 seconds (1 allocation: 160 bytes)</code></pre><p>The second function is faster and also needs fewer allocations. The reason is that when we call the <code>f_local</code> function for the first time, the function is optimized for the given arguments. Each time a function is called for the first time with new types of arguments, it is compiled. This can be seen in the following example: the first call is slower due to the compilation.</p><pre><code class="language-julia-repl">julia&gt; a, b = 1:10, 11:20;
+  0.000004 seconds (1 allocation: 160 bytes)</code></pre><p>The second function is faster and also needs fewer allocations. The reason is that when we call the <code>f_local</code> function for the first time, the function is optimized for the given arguments. Each time a function is called for the first time with new types of arguments, it is compiled. This can be seen in the following example: the first call is slower due to the compilation.</p><pre><code class="language-julia-repl">julia&gt; a, b = 1:10, 11:20;
 
 julia&gt; @time f_local(a, b);
-  0.021742 seconds (39.33 k allocations: 2.130 MiB)
+  0.026313 seconds (39.33 k allocations: 2.130 MiB)
 
 julia&gt; @time f_local(a, b);
-  0.000002 seconds (1 allocation: 32 bytes)</code></pre><p>On the other hand, the <code>f_global</code> function cannot be optimized because it contains two global variables, and these two variables can change at any time.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../methods/">« Methods</a><a class="docs-footer-nextpage" href="../exceptions/">Exception handling »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 23 March 2021 11:21">Tuesday 23 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+  0.000004 seconds (1 allocation: 32 bytes)</code></pre><p>On the other hand, the <code>f_global</code> function cannot be optimized because it contains two global variables, and these two variables can change at any time.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../methods/">« Methods</a><a class="docs-footer-nextpage" href="../exceptions/">Exception handling »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 23 March 2021 11:26">Tuesday 23 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
