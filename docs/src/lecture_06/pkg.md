@@ -105,6 +105,30 @@ Any installed package can be removed using the `rm` keyword similarly as the ins
 (@v1.5) pkg> rm Example
 ```
 
+The package REPL provides a lot of functionality. To list all available commands, we can type `?` into the Pkg REPL and press enter.
+
+```julia
+@v1.5) pkg> ?
+  Welcome to the Pkg REPL-mode. To return to the julia> prompt, either press backspace when the input
+  line is empty or press Ctrl+C.
+
+  Synopsis
+
+  pkg> cmd [opts] [args]
+
+  Multiple commands can be given on the same line by interleaving a ; between the commands. Some
+  commands have an alias, indicated below.
+
+  Commands
+
+  activate: set the primary environment the package manager manipulates
+
+  add: add packages to project
+
+  build: run the build script for packages
+[...]
+```
+
 ```@raw html
 <div class = "info-body">
 <header class = "info-header">Non-interactive package manager</header><p>
@@ -137,8 +161,10 @@ You may have noticed the (`v1.5`) in the REPL prompt. It indicates that the acti
 julia> mkdir("./tutorial") # create an empty folder tutorial
 "./tutorial"
 
-(@v1.5) pkg> activate ./tutorial/
- Activating new environment at `/tutorial/Project.toml`
+julia> cd("./tutorial") # change the current working directory to tutorial
+
+(@v1.5) pkg> activate . # alternatively we can specify full path
+ Activating new environment at `path/to/the/tutorial/Project.toml`
 
 (tutorial) pkg>
 ```
