@@ -151,15 +151,15 @@ Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
 
 ## Enviroments
 
-So far, we have dealt with the basic management of packages: adding, updating, or removing packages. However, Julia's package manager offers significant advantages over traditional package managers by organizing dependencies into environments. Environments should be familiar to people who use Python. The difference between Python and Julia is that it is effortless to create and manage environments in Julia. Of course, some utilities simplify the work with environments in Python, such as the Conda package manager. However, in Julia, it is still more convenient, and the whole process of creating and managing environments can be done within Julia itself.
+So far, we have dealt with the basic package management: adding, updating, or removing packages. However, Julia package manager offers significant advantages over traditional package managers by organizing dependencies into environments. Environments should be familiar to people who use Python. The difference from Python is that Julia provides an effortless way to create and manage environments. Even though some utilities, such as Conda, simplify working with Python environments, Julia handles environments natively within Julia itself.
 
-You may have noticed the `(v1.5)` in the REPL prompt. It indicates that the name of the active environment is `v1.5`.  The active environment is the environment that will be modified by `Pkg` commands such as `add`, `rm`, or `update`. A new environment can be set up using the `activate` keyword followed by the absolute or relative path.
+You may have noticed the `(v1.5)` in the REPL prompt. It indicates the name of the active environment.  The active environment is the environment modified by `Pkg` commands such as `add`, `rm`, or `update`. We can set up a new environment by the `activate` command, followed by the absolute or relative path.
 
 ```julia
-julia> mkdir("./tutorial") # create an empty folder tutorial
+julia> mkdir("./tutorial") # create a folder named tutorial
 "./tutorial"
 
-julia> cd("./tutorial") # change the current working directory to tutorial
+julia> cd("./tutorial") # change the working directory to tutorial
 
 (@v1.5) pkg> activate . # alternatively we can specify full path
  Activating new environment at `path/to/the/tutorial/Project.toml`
@@ -167,21 +167,16 @@ julia> cd("./tutorial") # change the current working directory to tutorial
 (tutorial) pkg>
 ```
 
-In the example above, we create an empty directory `tutorial` and activate a new environment inside this directory. Note that the prompt in the package REPL changed from `@v1.5` to `tutorial`. It indicates that `tutorial` is the active environment, i.e., this environment will be modified by Pkg commands. Now we can check the status of the environment using the `status` keyword.
+The example above creates an empty directory `tutorial` and activates a new environment inside it. The prompt in the package REPL changed from `@v1.5` to `tutorial`. It indicates that `tutorial` is the active environment, and Pkg commands will modify it. Since it is a new environment, it has no installed packages.
 
 ```julia
 (tutorial) pkg> status
 Status `path/to/the/tutorial/Project.toml` (empty project)
 ```
 
-Note that the path printed by the `status` command (`path/to/the/tutorial/Project.toml`) is the location of the `Project.toml` corresponding to the active environment. A `Project.toml` is a file where the package manager stores metadata for the environment. Because we have not yet added any packages to the environment, the `Project.toml` is not created yet.
+The path printed by the `status` command (`path/to/the/tutorial/Project.toml`) is the location of the `Project.toml` file, where the package manager stores metadata for the environment.
 
-```julia
-julia> readdir() # returns and empty array since tutorial is an empty folder
-String[]
-```
-
-We can install packages to the `tutorial` environment in the same way as we did in the section above.
+Since `tutorial` is an environment, we can use the same commands as before.
 
 ```julia
 (tutorial) pkg> add JSON BSON
@@ -192,7 +187,7 @@ Status `path/to/the/tutorial/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-We can see that two packages were installed in the environment, and we can also check that the project file was created.
+Since we added two new packages, this information is stored in the files `Project.toml` and `Manifest.toml`.
 
 ```julia
 julia> readdir("./tutorial")
@@ -201,9 +196,10 @@ julia> readdir("./tutorial")
  "Project.toml"
 ```
 
-We can install packages to the `tutorial` environment in the same way as we did in the section above.
-The `Project.toml` describes the project on a high level. For example, the package/project dependencies and compatibility constraints are listed in the `Project.toml` file. The `Manifest.toml` file is an absolute record of the state of the packages used in the environment. It includes exact information about (direct and indirect) dependencies of the project. Given a `Project.toml` + `Manifest.toml` pair, it is possible to [instantiate](https://julialang.github.io/Pkg.jl/v1/api/#Pkg.instantiate) the exact same package environment, which is very useful for reproducibility.
+The `Project.toml` file describes the project on a high level. It contains the package/project dependencies and compatibility constraints. On the other hand, the `Manifest.toml` file is an absolute record of the state of packages used in the environment. It includes exact information about (direct and indirect) dependencies of the project. Given `Project.toml` and `Manifest.toml`, it is possible to [instantiate](https://julialang.github.io/Pkg.jl/v1/api/#Pkg.instantiate) the same package environment.
 
 ```julia
 (tutorial) pkg> instantiate
 ```
+
+Different users may use different package versions. Since updated packages provide different functionality for some functions, instantiating is extremely useful for reproducing code across multiple computers.
