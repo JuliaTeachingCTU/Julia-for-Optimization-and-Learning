@@ -149,7 +149,7 @@ Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
 !!! warning "JuliaHub"
     [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows to explore the Julia ecosystem, build packages, and run code in the cloud. It allows for exploring packages, documentation, repositories and code written by other users.
 
-## Enviroments
+## Environments
 
 So far, we have dealt with the basic package management: adding, updating, or removing packages. However, Julia package manager offers significant advantages over traditional package managers by organizing dependencies into environments. Environments should be familiar to people who use Python. The difference from Python is that Julia provides an effortless way to create and manage environments. Even though some utilities, such as Conda, simplify working with Python environments, Julia handles environments natively within Julia itself.
 

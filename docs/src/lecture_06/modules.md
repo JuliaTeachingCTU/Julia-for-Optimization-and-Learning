@@ -47,13 +47,13 @@ Main
 
 ## Modules
 
-Modules allow users to specify which data from the module is visible outside of the module. In the section [Scope of variables](@ref Scope-of-variables), we briefly mentioned that modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces that provide three key features. They all help to prevent unexpected name clashes:
+Modules allow users to specify which data from the module is visible outside of the module. In the section [Scope of variables](@ref Scope-of-variables), we briefly mentioned that modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces that provide three key features. They all help to prevent unexpected name clashes.
 
 - They define top-level definitions (global variables) without worrying about name conflicts.
 - They control the visibility of variables/functions/types outside of the module via exporting.
 - They control the visibility of variables/functions/types from other modules via importing.
 
-The following example defines the module `Points`. We create it with the `module` keyword and load the `LinearAlgebra` package by the `using` keyword. Then we use the `export` keyword to export the `Point` type and the `distance` function. Then we write the actual content of the module.
+The following example defines the module `Points`. We create it with the `module` keyword and load the `LinearAlgebra` package by the `using` keyword. Then we use the `export` keyword to export the `Point` type and the `distance` function. Finally, we write the actual content of the module.
 
 ```@example modules
 module Points
@@ -75,7 +75,7 @@ end
 nothing # hide
 ```
 
-Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify `using Main.Points` or `using .Points` because we defined the package in the `Main` scope. If we loaded an external package `Points`, we would use `using Point`. After loading a package, we can directly access all the exported data.
+Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify `using Main.Points` or `using .Points` because we defined the package in the `Main` scope. If we loaded an external package `Points`, we would use `using Points`. After loading a package, we can directly access all the exported data.
 
 ```@repl modules
 using .Points # alternatively using Main.Points
@@ -107,7 +107,7 @@ end
 nothing # hide
 ```
 
-Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the `Points` module, where we extend the `show` function from the `Base` module. Also, note that we used `using .Points: coordinates` syntax to allow calling the `coordinates` function without specifying the module name.
+We can see the same syntax in the `Points` module, where we extend the `show` function from the `Base` module. We used the `using .Points: coordinates` syntax to call the `coordinates` function without specifying the module name.
 
 ```@repl modules
 p = Point(4,2)
@@ -115,16 +115,16 @@ q = Point(2,2)
 distance(p, q)
 ```
 
-Besides the `using` keyword, Julia also provides the `import` keyword to importing modules and packages. The behavior of the `import` keyword is slightly different. For more information, see the [official documentation](https://docs.julialang.org/en/v1/manual/modules/#Summary-of-module-usage).
+Besides the `using` keyword, Julia also provides the `import` keyword to import modules and packages. Its behaviour is slightly different; for more information, see the [official documentation](https://docs.julialang.org/en/v1/manual/modules/#Summary-of-module-usage).
 
 ```@raw html
 <div class = "info-body">
 <header class = "info-header">Relative and absolute module paths</header><p>
 ```
 
-In the previous section, we added dots before the module name when used after the `using` keyword. The reason is that if we try to import a module, the system consults an internal table of top-level modules to look for the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
+In the previous section, we added a dot before the module name in the `using` keyword. The reason is that if we import a module, the system consults an internal table of top-level modules to find the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
 
-However, if we evaluate code in the REPL, the code is evaluated in the `Main` module. It means that the `Points` in not a top-level module, but a submodule of the `Main` module. It can be seen if we type `Points` in the REPL or use the `parentmodule` function that returns a `Module` in which the given module is defined.
+However, if we evaluate code in the REPL, the code is evaluated in the `Main` module. Then `Points` are not in a top-level module but in a submodule of `Main`.
 
 ```julia
 julia> Points
@@ -134,14 +134,14 @@ julia> parentmodule(Points)
 Main
 ```
 
-There are two possible ways how to load non-top-level modules: we can use the absolute or relative path to them. In our case, we have the following two options.
+Non-top-level modules can be loaded by both absolute and relative paths.
 
 ```julia
 using Main.Points
 using .Points
 ```
 
-Adding more leading periods moves up additional levels in the module hierarchy. For example, `using ..Points` would look for `Points` in `Main`'s enclosing module rather than in `Main` itself. However, `Main` is its own parent, so that the result will be the same in this concrete example.
+Adding one more leading dot moves the path one additional level up in the module hierarchy. For example, `using ..Points` would look for `Points` in the enclosing module for `Main` rather than `Main` itself.
 
 ```@raw html
 </p></div>
@@ -152,7 +152,7 @@ Adding more leading periods moves up additional levels in the module hierarchy. 
 <header class = "info-header">Modules and files</header><p>
 ```
 
-Files are mainly unrelated to modules, since modules are associated only with module expressions. One can have multiple files per module.
+Since modules are associated only with module expressions, files are largely unrelated to modules. One can have multiple files in a module.
 
 ```julia
 module MyModule
@@ -163,7 +163,7 @@ include("file2.jl")
 end
 ```
 
-It is also perfectly fine to have multiple modules per file.
+It is also possible to have multiple modules in a file.
 
 ```julia
 module MyModule1
