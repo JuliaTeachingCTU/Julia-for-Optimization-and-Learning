@@ -1,30 +1,30 @@
 # Package management
 
-Julia provides a simple and intuitive built-in package manager that handles installing, updating and removing packages. The package manager offers an interactive Pkg REPL, which simplifies the package management process. The Pkg REPL can be entered from the Julia REPL simply by pressing `]`. To get back to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, the screen similar to the following one should appear.
+Julia provides a simple and intuitive built-in package manager that handles installing, updating and removing packages. The package manager offers an interactive Pkg REPL, which simplifies the package management process. We enter the Pkg REPL from the Julia REPL by pressing `]`. To return to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, a screen similar to the following one will appear:
 
 ```julia
 (@v1.5) pkg>
 ```
 
-Registered packages can be installed using the `add` keyword in the following way.
+Registered packages can be installed by the `add` keyword.
 
 ```julia
 (@v1.5) pkg> add JSON BSON
 ```
 
-Note that it is possible to install multiple packages simply by entering their names separated by a space. It is also possible to install the unregistered package using the `add` keyword. However, in this case, we have to specify an URL of a git repository.
+It is possible to install multiple packages by entering their names separated by spaces. The `add` keyword can also install unregistered packages by specifying the URL of a git repository.
 
 ```julia
 (@v1.5) pkg> add https://github.com/JuliaLang/Example.jl
 ```
 
-It is also possible to use the absolute/relative path to the local git repository.
+We can use both absolute and relative path to a local git repository.
 
 ```julia
 (@v1.5) pkg> add /absolute/or/relative/path/MyPackage
 ```
 
-The `status` keyword or its shorthand `st` can be used to list all installed packages.
+The `status` keyword, abbreviated as `st`, can be used to list all installed packages.
 
 ```julia
 (@v1.5) pkg> st
@@ -39,7 +39,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
 <header class = "info-header">Adding specific version</header><p>
 ```
 
-In most cases, we want to install the latest stable version of the package. However, we may want to use the older version of the package or the version from a different git branch that is not yet released. A specific version of the package can be installed by appending a version after a `@` symbol.
+The syntax above installs the latest stable version of packages. In some cases, we may want to use an older or a not-yet-released package version. We can install such a specific version by appending the version number after the `@` symbol.
 
 ```julia
 (@v1.5) pkg> add BSON@0.2.1
@@ -51,7 +51,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-If a branch (or a certain commit) of the package has a hotfix that is not yet included in a registered version, we can explicitly track that branch (or commit) by appending `#branchname` (or `#commitSHA1`) to the package name.
+If a branch (or a certain commit) is not yet included in a registered version, we can explicitly track it by appending `#branchname` (or `#commitSHA1`) to the package name.
 
 ```julia
 (@v1.5) pkg> add BSON#master
@@ -69,15 +69,13 @@ Status `~/.julia/environments/v1.5/Project.toml`
 </p></div>
 ```
 
-If we want to update some packages (for example, because the new version was released), we can use the `update` keyword followed by the package name.
+We use the `update` keyword to update for registered and unregistered packages. If we do not provide a package name, all installed packages will be updated.
 
 ```julia
 (@v1.5) pkg> update Example
 ```
 
-Note that, in this case, even the unregistered packages are update based on their name. The difference between managing the registered and the unregistered packages is only during installation. If the package name is not provided, all installed packages will be updated.
-
-Sometimes it is very useful to disallow updating of some package. It can be done using the `pin` command. A pinned package will never be updated.
+Sometimes it is helpful to disallow updating a package. This is done by the `pin` command.
 
 ```julia
 (@v1.5) pkg> pin Example BSON
@@ -89,7 +87,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-Note the pin symbol `⚲` showing that the package is pinned. Removing the pin is done using the `free` command.
+The pin symbol `⚲` shows that the package is pinned. The keyword `free` removes the pin.
 
 ```julia
 (@v1.5) pkg> free BSON
@@ -101,12 +99,13 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1
 ```
 
-Any installed package can be removed using the `rm` keyword (or `remove`) similarly as the installation works.
+To remove a package, we use the `rm` or `remove` keyword.
+
 ```julia
 (@v1.5) pkg> rm Example
 ```
 
-The package REPL provides a lot of functionality. We can type `?` into the Pkg REPL and press enter to list all available commands.
+Like the help for functions, we can use `?` in the Pkg REPL to list all its available commands.
 
 ```julia
 @v1.5) pkg> ?
@@ -135,7 +134,7 @@ The package REPL provides a lot of functionality. We can type `?` into the Pkg R
 <header class = "info-header">Non-interactive package manager</header><p>
 ```
 
-The package manager can also be used in a non-interactive way. For example, packages can be installed in the following way.
+We can also use the package manager in a non-interactive way from the Julia REPL by the `Pkg` package.
 
 ```julia
 using Pkg
@@ -143,14 +142,12 @@ Pkg.add(["JSON", "BSON"])
 Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
 ```
 
-All other commands that we introduced above can be used similarly.
-
 ```@raw html
 </p></div>
 ```
 
 !!! warning "JuliaHub"
-    [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows you to explore the ecosystem, build packages, and run code in the cloud on large machines and clusters on demand. The most important feature for beginners is the possibility to explore packages, documentation, repositories, or codes in a simple unified way.
+    [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows to explore the Julia ecosystem, build packages, and run code in the cloud. It allows for exploring packages, documentation, repositories and code written by other users.
 
 ## Enviroments
 

@@ -1,33 +1,37 @@
 # Files and modules
 
-When writing a code, especially in large projects, it is essential to organize code in a meaningful way. There are three main ways how to do it. The first one is to split code into multiple files. The second one is to use modules to create global scopes. The last and most advanced is to extract parts of the code that can be generalized into separate packages. These three approaches can be (and usually are) used together to get even more readable code. In this lecture, we describe how to use these three approaches in Julia.
+When writing code, it is essential to organize it effectively. There are three main ways of achieving this:
+1. Split code into multiple files.
+2. Use modules to create global scopes.
+3. Create separate packages by extracting code with general functionality.
+These three approaches are often used together. This lecture describes how to use them in Julia.
 
 ## Files
 
-The first and most basic approach is to split the code into multiple files. Such files have to be of an appropriate type, i.e., Julia files with `.jl` extension. The code inside the Julia files can be loaded into global scope using the `include` function.
+The first and most basic approach is to split code into multiple files. Such files have to be of an appropriate type, i.e., Julia files with the `.jl` extension. These files can be loaded into the global scope by the `include` function.
 
 ```julia
 include("/absolute/path/to/the/file/filename.jl")
 include("../relative/path/to/the/file/filename.jl")
 ```
 
-The  `include` function evaluates the input source file's contents in the module's global scope where the `include` call occurs. If some file is included multiple times, the file is also evaluated multiple times.
+The  `include` function evaluates the source file content in the global scope of the module, where the `include` call occurs. If a file is included multiple times, it is also evaluated multiple times.
 
-Using separate files to organize code can be very useful. However, this approach also has many disadvantages. For example, we have to avoid clashing the variable/function names from different files since all files are evaluated in the same global scope. This problem can be solved by using modules as described in the following section.
+Even though using separate files to organize code can be very useful, this approach also has several disadvantages. For example, since all files are evaluated in the same global scope, we have to avoid clashes of variable/function names from different files.  This problem can be solved by using modules as described in the following section.
 
 ```@raw html
 <div class = "info-body">
 <header class = "info-header">Main module</header><p>
 ```
 
-If we evaluate a code in the REPL, the code is actually evaluated in the `Main` module, which serves as the default global scope. We can check it using the `@__MODULE__` macro that returns the module in which the macro is evaluated.
+If we run a code in the REPL, the code is evaluated in the `Main` module, which serves as the default global scope. We can check this by the `@__MODULE__` macro that returns the module in which the macro is evaluated.
 
 ```julia
 julia> @__MODULE__
 Main
 ```
 
-It means that if we evaluate code in the REPL, it is actually evaluated in the Main module. It can be easily checked using the `parentmodule` function that determines the module containing the (first) definition of a generic function.
+The `parentmodule` function determines the module containing the (first) definition of a generic function.
 
 ```julia
 julia> foo() = 1
@@ -43,13 +47,13 @@ Main
 
 ## Modules
 
-Modules allow users to specify what names of variables/functions/types can be visible outside of the module. As we briefly mentioned in the section [Scope of variables](@ref Scope-of-variables), modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces and provide the following key features:
+Modules allow users to specify which data from the module is visible outside of the module. In the section [Scope of variables](@ref Scope-of-variables), we briefly mentioned that modules in Julia introduce a new global scope. In other words, modules in Julia are separate variable workspaces that provide three key features. They all help to prevent unexpected name clashes:
 
-- defining top-level definitions (aka global variables) without worrying about name conflicts when your code is used together with somebody else's,
-- control of the visibility of variables/functions/types outside of the module via exporting,
-- control visibility of variables/functions/types from other modules inside the module via importing.
+- They define top-level definitions (global variables) without worrying about name conflicts.
+- They control the visibility of variables/functions/types outside of the module via exporting.
+- They control the visibility of variables/functions/types from other modules via importing.
 
-The basic syntax for defining modules is the following. Modules are created using the `module` keyword.
+The following example defines the module `Points`. We create it with the `module` keyword and load the `LinearAlgebra` package by the `using` keyword. Then we use the `export` keyword to export the `Point` type and the `distance` function. Then we write the actual content of the module.
 
 ```@example modules
 module Points
@@ -71,7 +75,7 @@ end
 nothing # hide
 ```
 
-In the example above, we define module `Points`. Firstly we import the `LinearAlgebra` package using the `using` keyword, which is the most common way to import modules. Note that packages are imported in the same way as modules. The reason is that each package's core is a module, as we will be described later in this lecture.  If we use `using Points` only the exported names are brought to the global scope. In our example, we use the `export` keyword to export the `Point` type and the `distance` function.
+Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify `using Main.Points` because we defined the package in the `Main` scope. If we loaded an external package `Points`, we would use `using Point`. After loading a package, we can directly access all the exported data.
 
 ```@repl modules
 using Main.Points
@@ -81,16 +85,16 @@ q = Point(2,2)
 distance(p, q)
 ```
 
-It is also possible to use all other functions and types that are not exported from a module. However, in such a case, we have to specify in which module the functions/types are defined. For example, we can call the `coordinates` function, which is not exported using the following syntax.
+It is also possible to access all non-exported functions and types. To do so, we need to specify which module they are defined in. For example, we can call the non-exported `coordinates` function by the following syntax:
 
 ```@repl modules
 Points.coordinates(p)
 Points.coordinates(q)
 ```
 
-When writing a module, we have to decide which functions/types export. Generally, only the ones that are supposed to be used by the end-user should be exported.
+When writing a module, we have to decide which functions and types we want to export. The rule of thumb is that we export only the data end-users should use.
 
-When we want to redefine or extend some function from a module imported by the `using` keyword, we have to use the same syntax as in the example above. It means if we want to redefine the `distance` function, we can do it in the following way.
+To redefine or extend an imported function, we need to specify the module. We can use the following way to redefine the `distance` function:
 
 ```@example modules
 using Main.Points: coordinates
