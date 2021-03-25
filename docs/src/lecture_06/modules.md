@@ -74,7 +74,7 @@ nothing # hide
 In the example above, we define module `Points`. Firstly we import the `LinearAlgebra` package using the `using` keyword, which is the most common way to import modules. Note that packages are imported in the same way as modules. The reason is that each package's core is a module, as we will be described later in this lecture.  If we use `using Points` only the exported names are brought to the global scope. In our example, we use the `export` keyword to export the `Point` type and the `distance` function.
 
 ```@repl modules
-using .Points
+using Main.Points
 
 p = Point(4,2)
 q = Point(2,2)
@@ -93,7 +93,7 @@ When writing a module, we have to decide which functions/types export. Generally
 When we want to redefine or extend some function from a module imported by the `using` keyword, we have to use the same syntax as in the example above. It means if we want to redefine the `distance` function, we can do it in the following way.
 
 ```@example modules
-using .Points: coordinates
+using Main.Points: coordinates
 
 function Points.distance(p::Point, q::Point)
     d = sqrt(sum(abs2, coordinates(q) .- coordinates(p)))
@@ -103,7 +103,7 @@ end
 nothing # hide
 ```
 
-Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the `Points` module, where we extend the `show` function from the `Base` module. Also, note that we used `using .Points: coordinates` syntax to allow calling the `coordinates` function without specifying the module name.
+Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the `Points` module, where we extend the `show` function from the `Base` module. Also, note that we used `using Main.Points: coordinates` syntax to allow calling the `coordinates` function without specifying the module name.
 
 ```@repl modules
 p = Point(4,2)
