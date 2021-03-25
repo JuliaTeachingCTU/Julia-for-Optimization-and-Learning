@@ -21,35 +21,32 @@ coordinates(p::Point) = (p.x, p.y)
 Base.show(io::IO, p::Point) = print(io, coordinates(p))
 distance(p::Point, q::Point) = norm(coordinates(q) .- coordinates(p), 2)
 
-end</code></pre><p>Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify <code>using Main.Points</code> because we defined the package in the <code>Main</code> scope. If we loaded an external package <code>Points</code>, we would use <code>using Point</code>. After loading a package, we can directly access all the exported data.</p><pre><code class="language-julia-repl">julia&gt; using Main.Points
-ERROR: UndefVarError: Points not defined
+end</code></pre><p>Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify <code>using Main.Points</code> or <code>using .Points</code> because we defined the package in the <code>Main</code> scope. If we loaded an external package <code>Points</code>, we would use <code>using Point</code>. After loading a package, we can directly access all the exported data.</p><pre><code class="language-julia-repl">julia&gt; using .Points # alternatively using Main.Points
 
 julia&gt; p = Point(4,2)
-ERROR: UndefVarError: Point not defined
+(4, 2)
 
 julia&gt; q = Point(2,2)
-ERROR: UndefVarError: Point not defined
+(2, 2)
 
 julia&gt; distance(p, q)
-ERROR: UndefVarError: distance not defined</code></pre><p>It is also possible to access all non-exported functions and types. To do so, we need to specify which module they are defined in. For example, we can call the non-exported <code>coordinates</code> function by the following syntax:</p><pre><code class="language-julia-repl">julia&gt; Points.coordinates(p)
-ERROR: UndefVarError: p not defined
+2.0</code></pre><p>It is also possible to access all non-exported functions and types. To do so, we need to specify which module they are defined in. For example, we can call the non-exported <code>coordinates</code> function by the following syntax:</p><pre><code class="language-julia-repl">julia&gt; Points.coordinates(p)
+(4, 2)
 
 julia&gt; Points.coordinates(q)
-ERROR: UndefVarError: q not defined</code></pre><p>When writing a module, we have to decide which functions and types we want to export. The rule of thumb is that we export only the data end-users should use.</p><p>To redefine or extend an imported function, we need to specify the module. We can use the following way to redefine the <code>distance</code> function:</p><pre><code class="language-">using Main.Points: coordinates
+(2, 2)</code></pre><p>When writing a module, we have to decide which functions and types we want to export. The rule of thumb is that we export only the data end-users should use.</p><p>To redefine or extend an imported function, we need to specify the module. We can use the following way to redefine the <code>distance</code> function:</p><pre><code class="language-julia">using .Points: coordinates
 
 function Points.distance(p::Point, q::Point)
     d = sqrt(sum(abs2, coordinates(q) .- coordinates(p)))
     return &quot;Distance is $d&quot;
-end
-
-nothing # hide</code></pre><p>Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the <code>Points</code> module, where we extend the <code>show</code> function from the <code>Base</code> module. Also, note that we used <code>using Main.Points: coordinates</code> syntax to allow calling the <code>coordinates</code> function without specifying the module name.</p><pre><code class="language-julia-repl">julia&gt; p = Point(4,2)
-ERROR: UndefVarError: Point not defined
+end</code></pre><p>Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the <code>Points</code> module, where we extend the <code>show</code> function from the <code>Base</code> module. Also, note that we used <code>using .Points: coordinates</code> syntax to allow calling the <code>coordinates</code> function without specifying the module name.</p><pre><code class="language-julia-repl">julia&gt; p = Point(4,2)
+(4, 2)
 
 julia&gt; q = Point(2,2)
-ERROR: UndefVarError: Point not defined
+(2, 2)
 
 julia&gt; distance(p, q)
-ERROR: UndefVarError: distance not defined</code></pre><p>Besides the <code>using</code> keyword, Julia also provides the <code>import</code> keyword to importing modules and packages. The behavior of the <code>import</code> keyword is slightly different. For more information, see the <a href="https://docs.julialang.org/en/v1/manual/modules/#Summary-of-module-usage">official documentation</a>.</p><div class = "info-body">
+&quot;Distance is 2.0&quot;</code></pre><p>Besides the <code>using</code> keyword, Julia also provides the <code>import</code> keyword to importing modules and packages. The behavior of the <code>import</code> keyword is slightly different. For more information, see the <a href="https://docs.julialang.org/en/v1/manual/modules/#Summary-of-module-usage">official documentation</a>.</p><div class = "info-body">
 <header class = "info-header">Relative and absolute module paths</header><p><p>In the previous section, we added dots before the module name when used after the <code>using</code> keyword. The reason is that if we try to import a module, the system consults an internal table of top-level modules to look for the given module name. If the module does not exist, the system attempts to <code>require(:ModuleName)</code>, which typically results in loading code from an installed package.</p><p>However, if we evaluate code in the REPL, the code is evaluated in the <code>Main</code> module. It means that the <code>Points</code> in not a top-level module, but a submodule of the <code>Main</code> module. It can be seen if we type <code>Points</code> in the REPL or use the <code>parentmodule</code> function that returns a <code>Module</code> in which the given module is defined.</p><pre><code class="language-julia">julia&gt; Points
 Main.Points
 
@@ -67,4 +64,4 @@ end
 
 module MyModule2
 ...
-end</code></pre></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_05/currencies/">« Generic programming</a><a class="docs-footer-nextpage" href="../pkg/">Package manager »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 25 March 2021 16:33">Thursday 25 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_05/currencies/">« Generic programming</a><a class="docs-footer-nextpage" href="../pkg/">Package manager »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 25 March 2021 16:34">Thursday 25 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
