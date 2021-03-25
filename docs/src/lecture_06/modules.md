@@ -75,10 +75,10 @@ end
 nothing # hide
 ```
 
-Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify `using Main.Points` because we defined the package in the `Main` scope. If we loaded an external package `Points`, we would use `using Point`. After loading a package, we can directly access all the exported data.
+Assume now that we want to load this module from a different file. Since each package core is a module, packages are loaded in the same way as modules. We need to specify `using Main.Points` or `using .Points` because we defined the package in the `Main` scope. If we loaded an external package `Points`, we would use `using Point`. After loading a package, we can directly access all the exported data.
 
 ```@repl modules
-using Main.Points
+using .Points # alternatively using Main.Points
 
 p = Point(4,2)
 q = Point(2,2)
@@ -97,7 +97,7 @@ When writing a module, we have to decide which functions and types we want to ex
 To redefine or extend an imported function, we need to specify the module. We can use the following way to redefine the `distance` function:
 
 ```@example modules
-using Main.Points: coordinates
+using .Points: coordinates
 
 function Points.distance(p::Point, q::Point)
     d = sqrt(sum(abs2, coordinates(q) .- coordinates(p)))
@@ -107,7 +107,7 @@ end
 nothing # hide
 ```
 
-Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the `Points` module, where we extend the `show` function from the `Base` module. Also, note that we used `using Main.Points: coordinates` syntax to allow calling the `coordinates` function without specifying the module name.
+Note that even if the function is exported, we have to specify in which module the function is defined. We can see the same syntax in the definition of the `Points` module, where we extend the `show` function from the `Base` module. Also, note that we used `using .Points: coordinates` syntax to allow calling the `coordinates` function without specifying the module name.
 
 ```@repl modules
 p = Point(4,2)
