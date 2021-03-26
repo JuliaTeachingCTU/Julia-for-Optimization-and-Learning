@@ -25,7 +25,7 @@ template = Template(;
         !TagBot,                        # disable TagBot
         Readme(; inline_badges = true), # added readme file with badges
         Tests(; project = true),        # added Project.toml file for unit tests
-        Git(; manifest = true),         # remove manifest.toml from .gitignore
+        Git(; manifest = false),        # add manifest.toml to .gitignore
         License(; name = &quot;MIT&quot;)         # addedMIT licence
     ],
 )</code></pre><p>Do not forget to change <code>user</code>, <code>authors</code> and <code>dir</code>.</p><p>In the rest of the lecture, we will write code to visualize grayscale and colour images. Come up with a proper package name and use the following code to generate a new package.</p><pre><code class="language-julia">template(&quot;PackageName&quot;)</code></pre><p>For naming conventions, see the official <a href="https://julialang.github.io/Pkg.jl/v1/creating-packages/#Package-naming-guidelines">package naming guidelines</a>. Finally, create the folder <code>scripts</code> in the main package folder.</p></p></div>
@@ -61,7 +61,7 @@ export greet
 greet() = print(&quot;Hello World!&quot;)
 
 end</code></pre><p>Since we have already loaded the package, this change is not reloaded. If we call the <code>greet</code> function, we get the <code>UndefVarError</code> error.</p><pre><code class="language-julia">julia&gt; greet()
-ERROR: UndefVarError: greet not defined</code></pre><p>In this case, we have to restart Julia. Even though we can use the <code>greet()</code> function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the <a href="https://github.com/timholy/Revise.jl">Revise</a> package. Even though it provides lots of convenient features, we will present only its basic use. First, we install it.</p><pre><code class="language-julia">(scripts) pkg&gt; add Revise</code></pre><p>If we develop a package and load the Revise package first, all package changes will be reloaded without restarting Julia.</p><pre><code class="language-julia"># /scripts/example.jl
+ERROR: UndefVarError: greet not defined</code></pre><p>In this case, we have to restart Julia. There are two ways how to exit Julia interactive session: using keyword shortcut <code>ctrl + D</code> or using the <code>exit()</code> function. Even though we can use the <code>greet()</code> function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the <a href="https://github.com/timholy/Revise.jl">Revise</a> package. Even though it provides lots of convenient features, we will present only its basic use. First, we install it.</p><pre><code class="language-julia">(scripts) pkg&gt; add Revise</code></pre><p>If we develop a package and load the Revise package first, all package changes will be reloaded without restarting Julia.</p><pre><code class="language-julia"># /scripts/example.jl
 using Revise # this must come before `using ImageInspector`
 using ImageInspector
 
@@ -167,7 +167,7 @@ plot(
     border = :none
 )</code></pre><p><strong>Hint:</strong> use the <code>eachslice</code> function to split the array along the third dimension and the <code>dropdims</code> function to drop a dimension slice.</p></p></div>
 <details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p><p>The functionality depends on the size of the third dimension.</p><ul><li>If the size of the third dimension is 1, we the <code>dropdims</code> to remove the third dimension. Then we call the <code>image</code> method from the previous exercise. </li><li>If the dimension size is 3, we use <code>PermutedDimsArray</code> if <code>flip</code> is true. We can extract the three channels manually, or we can use the <code>eachslice</code> function.</li><li>Otherwise, we throw an <code>ArgumentError</code>.</li></ul><p>Altogether, the new method can be defined as follows.</p><pre><code class="language-julia"># /src/ImageInspector.jl
+<summary class = "solution-header">Solution:</summary><p><p>The functionality depends on the size of the third dimension.</p><ul><li>If the size of the third dimension is 1, we the <code>dropdims</code> to remove the third dimension. Then we call the <code>image</code> method from the previous exercise.</li><li>If the dimension size is 3, we use <code>PermutedDimsArray</code> if <code>flip</code> is true. We can extract the three channels manually, or we can use the <code>eachslice</code> function.</li><li>Otherwise, we throw an <code>ArgumentError</code>.</li></ul><p>Altogether, the new method can be defined as follows.</p><pre><code class="language-julia"># /src/ImageInspector.jl
 function image(x::AbstractArray{T,3}; flip = true) where {T &lt;: Real}
     s = size(x, 3)
     if s == 1
@@ -179,16 +179,16 @@ function image(x::AbstractArray{T,3}; flip = true) where {T &lt;: Real}
     else
         throw(ArgumentError(&quot;unsupported size of the third dimension $(s) ∉ [1,3].&quot;))
     end
-end</code></pre></p></details><p><img src="../image_3.svg" alt/></p><p>Multiple images are usually stored in multi-dimensional arrays. For example, grayscale images are stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, colour images are stored as a 4D array. </p><div class = "exercise-body">
+end</code></pre></p></details><p><img src="../image_3.svg" alt/></p><p>Multiple images are usually stored in multi-dimensional arrays. For example, grayscale images are stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, colour images are stored as a 4D array.</p><div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p><p>Add new methods for the <code>image</code> function with the following properties:</p><ul><li>New methods should accept two arguments:<ul><li><code>x</code>: 3D or 4D array of real numbers that represents images,</li><li><code>inds</code>: one or more image indices to extract and convert to Gray/RGB representation.</li></ul></li><li>If only one index is provided, the method should return a single image in its representation.</li><li>If more indices are provided, the method should return an array of images.</li></ul><p>Use the following code to test the <code>image</code> function.</p><pre><code class="language-julia"># /scripts/example.jl
 x = MNIST.traintensor(1:10);
 plot(plot.(image(x, [1,2]))...; axis = nothing, border = :none)</code></pre></p></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p><p>We have four possible combinations of the input arguments:</p><ol><li>3D array and one index,</li><li>3D array and multiple indices,</li><li>4D array and one index,</li><li>4D array and multiple indices.</li></ol><p>We should, therefore, define a method for each combination of input arguments. We can do this in the following way:</p><pre><code class="language-julia"># /src/ImageInspector.jl
-image(x::AbstractArray{T,3}, inds) where {T &lt;: Real} = [image(x[:,:,i]) for i in inds]
-image(x::AbstractArray{T,4}, inds) where {T &lt;: Real} = [image(x[:,:,:,i]) for i in inds]
-image(x::AbstractArray{T,3}, ind::Int) where {T &lt;: Real} = image(x, [ind])[1]
-image(x::AbstractArray{T,4}, ind::Int) where {T &lt;: Real} = image(x, [ind])[1]</code></pre><p>Since <code>x[:,:,i]</code> creates a new copy, it can be replaced by <code>selectdim(x, 3, i)</code>, which creates a view.</p></p></details><p><img src="../image_4.svg" alt/></p><h2 id="unit-testing"><a class="docs-heading-anchor" href="#unit-testing">Unit testing</a><a id="unit-testing-1"></a><a class="docs-heading-anchor-permalink" href="#unit-testing" title="Permalink"></a></h2><p>The previous section added the <code>image</code> function with multiple methods. We also manually tested if these methods work correctly. Even though this practice works for small projects, it is not optimal for code testing and should be automized by <a href="https://en.wikipedia.org/wiki/Unit_testing">unit testing</a>. The <code>Test</code> package from the standard library provides utility functions to simplify writing unit tests. Its core is the <code>@test</code> macro that tests if an expression evaluates as <code>true</code>.</p><pre><code class="language-julia-repl">julia&gt; using Test
+image(x::AbstractArray{T,3}, inds; flip = true) where {T &lt;: Real} = [image(x[:,:,i]; flip) for i in inds]
+image(x::AbstractArray{T,4}, inds; flip = true) where {T &lt;: Real} = [image(x[:,:,:,i]; flip) for i in inds]
+image(x::AbstractArray{T,3}, ind::Int; flip = true) where {T &lt;: Real} = image(x, [ind]; flip)[1]
+image(x::AbstractArray{T,4}, ind::Int; flip = true) where {T &lt;: Real} = image(x, [ind]; flip)[1]</code></pre><p>Since <code>x[:,:,i]</code> creates a new copy, it can be replaced by <code>selectdim(x, 3, i)</code>, which creates a view.</p></p></details><p><img src="../image_4.svg" alt/></p><h2 id="unit-testing"><a class="docs-heading-anchor" href="#unit-testing">Unit testing</a><a id="unit-testing-1"></a><a class="docs-heading-anchor-permalink" href="#unit-testing" title="Permalink"></a></h2><p>The previous section added the <code>image</code> function with multiple methods. We also manually tested if these methods work correctly. Even though this practice works for small projects, it is not optimal for code testing and should be automized by <a href="https://en.wikipedia.org/wiki/Unit_testing">unit testing</a>. The <code>Test</code> package from the standard library provides utility functions to simplify writing unit tests. Its core is the <code>@test</code> macro that tests if an expression evaluates as <code>true</code>.</p><pre><code class="language-julia-repl">julia&gt; using Test
 
 julia&gt; @test 1 == 1
 Test Passed
@@ -245,10 +245,10 @@ ERROR: Some tests did not pass: 12 passed, 0 failed, 3 errored, 0 broken.</code>
 # 6 methods for generic function &quot;image&quot;:
 [1] image(x::AbstractArray{var&quot;#s1&quot;,2} where var&quot;#s1&quot;&lt;:Real) in ImageInspector at [...]
 [2] image(x::AbstractArray{T,3}; flip) where T&lt;:Real in ImageInspector at [...]
-[3] image(x::AbstractArray{T,3}, ind::Int64) where T&lt;:Real in ImageInspector at [...]
-[4] image(x::AbstractArray{T,3}, inds) where T&lt;:Real in ImageInspector at [...]
-[5] image(x::AbstractArray{T,4}, ind::Int64) where T&lt;:Real in ImageInspector at [...]
-[6] image(x::AbstractArray{T,4}, inds) where T&lt;:Real in ImageInspector at [...]</code></pre><p>If we pass a vector as an argument, the <code>MethodError</code> will appear. The <code>Test</code> package provides the <code>@test_throw</code> macro to test if the expression throws the correct exception.</p><pre><code class="language-julia">julia&gt; @test_throws MethodError image(x5)
+[3] image(x::AbstractArray{T,3}, ind::Int64; flip) where T&lt;:Real in ImageInspector at [...]
+[4] image(x::AbstractArray{T,3}, inds; flip) where T&lt;:Real in ImageInspector at [...]
+[5] image(x::AbstractArray{T,4}, ind::Int64; flip) where T&lt;:Real in ImageInspector at [...]
+[6] image(x::AbstractArray{T,4}, inds; flip) where T&lt;:Real in ImageInspector at [...]</code></pre><p>If we pass a vector as an argument, the <code>MethodError</code> will appear. The <code>Test</code> package provides the <code>@test_throw</code> macro to test if the expression throws the correct exception.</p><pre><code class="language-julia">julia&gt; @test_throws MethodError image(x5)
 Test Passed
       Thrown: MethodError</code></pre><p>The final testing file should be similar to the following one.</p><pre><code class="language-julia"># /test/runtests.jl
 using ImageInspector
@@ -293,10 +293,10 @@ function gridsize(n::Int; nrows::Int = -1, ncols::Int = - 1)
     end
     return nrows, ncols
 end</code></pre><p>Note that we can control the number of rows or columns using keyword arguments <code>nrows</code> and <code>ncols</code>. The second function consists of two methods and converts a given array of real numbers to one big image of the appropriate color type.</p><pre><code class="language-julia"># /src/ImageInspector.jl
-imagegrid(x, ind::Int; kwargs...) = image(x, ind)
+imagegrid(x, ind::Int; flip = true, kwargs...) = image(x, ind; flip)
 
-function imagegrid(x, inds; sep = 1, kwargs...)
-    imgs = image(x, inds)
+function imagegrid(x, inds; flip = true, sep = 1, kwargs...)
+    imgs = image(x, inds; flip)
     n = length(imgs)
     nrows, ncols = gridsize(n; kwargs...)
 
@@ -335,13 +335,21 @@ using .Plots
 
 export imageplot
 
-function imageplot(x, ind; nrows = -1, ncols = -1, sep = 1, kwargs...)
-    return plot(imagegrid(x, ind; nrows, ncols, sep);
-        legend = false,
-        axis = nothing,
-        border = :none,
-        kwargs...
-    )
+imageplot(x; flip = true, kwargs...) =  imageplot(image(x; flip); kwargs...)
+
+function imageplot(x, ind; flip = true, nrows = -1, ncols = -1, sep = 1, kwargs...)
+    img = imagegrid(x, ind; flip, nrows, ncols, sep)
+    return imageplot(img; kwargs...)
+end
+
+function imageplot(
+    x::AbstractMatrix{&lt;:Color};
+    legend = false,
+    axis = nothing,
+    border = :none,
+    kwargs...
+)
+    return plot(x; legend, axis, border, kwargs...)
 end</code></pre><p>Note that we only defined a wrapper function for the <code>plot</code> function and exported this function. Also note, that we have to use a relative path to the <code>Plots</code> package. The last thing we have to do is to specify on what package the code depends. To do that we have to define the <code>__init__()</code> function in the <code>/src/ImageInspector.jl</code> file.</p><pre><code class="language-julia"># /src/ImageInspector.jl
 using Requires
 
@@ -352,4 +360,4 @@ end</code></pre><p>The <code>__init__</code> function has to contain the <code>@
 julia&gt; imageplot(x, 1:10; nrows = 2, sep = 2)
 ERROR: UndefVarError: imageplot not defined</code></pre><p>Now we can load the <code>Plots</code> package, and the <code>imageplot</code> function will start working.</p><pre><code class="language-julia">julia&gt; using Plots
 
-julia&gt; imageplot(x, 1:10; nrows = 2, sep = 1, background = RGB(184/255, 223/255, 250/255))</code></pre><p><img src="../image_6.svg" alt/></p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pkg/">« Package manager</a><a class="docs-footer-nextpage" href="../../final_project/homeworks/">Homework »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 26 March 2021 15:25">Friday 26 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+julia&gt; imageplot(x, 1:10; nrows = 2, sep = 1, background = RGB(184/255, 223/255, 250/255))</code></pre><p><img src="../image_6.svg" alt/></p></p></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../pkg/">« Package manager</a><a class="docs-footer-nextpage" href="../../final_project/homeworks/">Homework »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 26 March 2021 15:40">Friday 26 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
