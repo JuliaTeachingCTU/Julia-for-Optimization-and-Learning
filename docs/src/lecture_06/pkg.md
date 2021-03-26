@@ -108,7 +108,7 @@ To remove a package, we use the `rm` or `remove` keyword.
 Like the help for functions, we can use `?` in the Pkg REPL to list all its available commands.
 
 ```julia
-@v1.5) pkg> ?
+(@v1.5) pkg> ?
   Welcome to the Pkg REPL-mode. To return to the julia> prompt, either press backspace when
   the input line is empty or press Ctrl+C.
 

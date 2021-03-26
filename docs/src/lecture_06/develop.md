@@ -65,7 +65,7 @@ template = Template(;
         !TagBot,                        # disable TagBot
         Readme(; inline_badges = true), # added readme file with badges
         Tests(; project = true),        # added Project.toml file for unit tests
-        Git(; manifest = true),         # remove manifest.toml from .gitignore
+        Git(; manifest = false),        # add manifest.toml to .gitignore
         License(; name = "MIT")         # addedMIT licence
     ],
 )
@@ -202,7 +202,7 @@ julia> greet()
 ERROR: UndefVarError: greet not defined
 ```
 
-In this case, we have to restart Julia. Even though we can use the `greet()` function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the [Revise](https://github.com/timholy/Revise.jl) package. Even though it provides lots of convenient features, we will present only its basic use. First, we install it.
+In this case, we have to restart Julia. There are two ways how to exit Julia interactive session: using keyword shortcut `ctrl + D` or using the `exit()` function. Even though we can use the `greet()` function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the [Revise](https://github.com/timholy/Revise.jl) package. Even though it provides lots of convenient features, we will present only its basic use. First, we install it.
 
 ```julia
 (scripts) pkg> add Revise
@@ -445,7 +445,7 @@ plot(
 ```
 
 The functionality depends on the size of the third dimension.
-- If the size of the third dimension is 1, we the `dropdims` to remove the third dimension. Then we call the `image` method from the previous exercise. 
+- If the size of the third dimension is 1, we the `dropdims` to remove the third dimension. Then we call the `image` method from the previous exercise.
 - If the dimension size is 3, we use `PermutedDimsArray` if `flip` is true. We can extract the three channels manually, or we can use the `eachslice` function.
 - Otherwise, we throw an `ArgumentError`.
 Altogether, the new method can be defined as follows.
@@ -472,7 +472,7 @@ end
 
 ![](image_3.svg)
 
-Multiple images are usually stored in multi-dimensional arrays. For example, grayscale images are stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, colour images are stored as a 4D array. 
+Multiple images are usually stored in multi-dimensional arrays. For example, grayscale images are stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, colour images are stored as a 4D array.
 
 ```@raw html
 <div class = "exercise-body">
@@ -512,10 +512,10 @@ We should, therefore, define a method for each combination of input arguments. W
 
 ```julia
 # /src/ImageInspector.jl
-image(x::AbstractArray{T,3}, inds) where {T <: Real} = [image(x[:,:,i]) for i in inds]
-image(x::AbstractArray{T,4}, inds) where {T <: Real} = [image(x[:,:,:,i]) for i in inds]
-image(x::AbstractArray{T,3}, ind::Int) where {T <: Real} = image(x, [ind])[1]
-image(x::AbstractArray{T,4}, ind::Int) where {T <: Real} = image(x, [ind])[1]
+image(x::AbstractArray{T,3}, inds; flip = true) where {T <: Real} = [image(x[:,:,i]; flip) for i in inds]
+image(x::AbstractArray{T,4}, inds; flip = true) where {T <: Real} = [image(x[:,:,:,i]; flip) for i in inds]
+image(x::AbstractArray{T,3}, ind::Int; flip = true) where {T <: Real} = image(x, [ind]; flip)[1]
+image(x::AbstractArray{T,4}, ind::Int; flip = true) where {T <: Real} = image(x, [ind]; flip)[1]
 ```
 
 Since `x[:,:,i]` creates a new copy, it can be replaced by `selectdim(x, 3, i)`, which creates a view.
@@ -629,10 +629,10 @@ julia> methods(image)
 # 6 methods for generic function "image":
 [1] image(x::AbstractArray{var"#s1",2} where var"#s1"<:Real) in ImageInspector at [...]
 [2] image(x::AbstractArray{T,3}; flip) where T<:Real in ImageInspector at [...]
-[3] image(x::AbstractArray{T,3}, ind::Int64) where T<:Real in ImageInspector at [...]
-[4] image(x::AbstractArray{T,3}, inds) where T<:Real in ImageInspector at [...]
-[5] image(x::AbstractArray{T,4}, ind::Int64) where T<:Real in ImageInspector at [...]
-[6] image(x::AbstractArray{T,4}, inds) where T<:Real in ImageInspector at [...]
+[3] image(x::AbstractArray{T,3}, ind::Int64; flip) where T<:Real in ImageInspector at [...]
+[4] image(x::AbstractArray{T,3}, inds; flip) where T<:Real in ImageInspector at [...]
+[5] image(x::AbstractArray{T,4}, ind::Int64; flip) where T<:Real in ImageInspector at [...]
+[6] image(x::AbstractArray{T,4}, inds; flip) where T<:Real in ImageInspector at [...]
 ```
 
 If we pass a vector as an argument, the `MethodError` will appear. The `Test` package provides the `@test_throw` macro to test if the expression throws the correct exception.
@@ -710,10 +710,10 @@ Note that we can control the number of rows or columns using keyword arguments `
 
 ```julia
 # /src/ImageInspector.jl
-imagegrid(x, ind::Int; kwargs...) = image(x, ind)
+imagegrid(x, ind::Int; flip = true, kwargs...) = image(x, ind; flip)
 
-function imagegrid(x, inds; sep = 1, kwargs...)
-    imgs = image(x, inds)
+function imagegrid(x, inds; flip = true, sep = 1, kwargs...)
+    imgs = image(x, inds; flip)
     n = length(imgs)
     nrows, ncols = gridsize(n; kwargs...)
 
@@ -776,13 +776,21 @@ using .Plots
 
 export imageplot
 
-function imageplot(x, ind; nrows = -1, ncols = -1, sep = 1, kwargs...)
-    return plot(imagegrid(x, ind; nrows, ncols, sep);
-        legend = false,
-        axis = nothing,
-        border = :none,
-        kwargs...
-    )
+imageplot(x; flip = true, kwargs...) =  imageplot(image(x; flip); kwargs...)
+
+function imageplot(x, ind; flip = true, nrows = -1, ncols = -1, sep = 1, kwargs...)
+    img = imagegrid(x, ind; flip, nrows, ncols, sep)
+    return imageplot(img; kwargs...)
+end
+
+function imageplot(
+    x::AbstractMatrix{<:Color};
+    legend = false,
+    axis = nothing,
+    border = :none,
+    kwargs...
+)
+    return plot(x; legend, axis, border, kwargs...)
 end
 ```
 
