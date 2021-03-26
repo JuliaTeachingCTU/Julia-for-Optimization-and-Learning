@@ -243,7 +243,7 @@ julia> greet2()
 Hello World!!!!
 ```
 
-## Adding content
+## Adding content 1
 
 This section adds content to the package.
 
@@ -405,10 +405,10 @@ plot(
 
 The `image` function also used `AbstractMatrix` to specify that the input must be a matrix. In general, we can specify the types of multi-dimensional input arrays in multiple ways:
 - `AbstractArray` specifies that the input must be an array.
-- `AbstractArray{T}` specifies that the input must be an array of type `T`.
-- `AbstractArray{T, N}` specifies that the input must be an array of type `T` and dimension `N`.
-- `AbstractMatrix` or `AbstractMatrix{T}` uses `N=2`.
-- `AbstractVector` or `AbstractVector{T}` uses `N=1`.
+- `AbstractArray{T}` specifies that the input must be an array with elements of type `T`.
+- `AbstractArray{T, N}` specifies that the input must be an array of dimension `N` with elements of type `T`.
+- `AbstractMatrix` or `AbstractMatrix{T}` is equivalent to  `AbstractArray` with `N=2`.
+- `AbstractVector` or `AbstractVector{T}` is equivalent to  `AbstractArray` with `N=1`.
 We will now extend the `image` function to three-dimensional inputs. The third dimension represents the colour channels.
 
 ```@raw html
@@ -628,7 +628,7 @@ Not all tests passed. The reason is that the variable `x5` is a vector and not a
 julia> methods(image)
 # 6 methods for generic function "image":
 [1] image(x::AbstractArray{var"#s1",2} where var"#s1"<:Real) in ImageInspector at [...]
-[2] image(x::AbstractArray{T,3}; flip) where T<:Real in ImageInspector at [...]1
+[2] image(x::AbstractArray{T,3}; flip) where T<:Real in ImageInspector at [...]
 [3] image(x::AbstractArray{T,3}, ind::Int64) where T<:Real in ImageInspector at [...]
 [4] image(x::AbstractArray{T,3}, inds) where T<:Real in ImageInspector at [...]
 [5] image(x::AbstractArray{T,4}, ind::Int64) where T<:Real in ImageInspector at [...]
@@ -685,7 +685,7 @@ ImageInspector.jl |   13     13
 ```
 
 
-## Image grid
+## Adding content 2
 
 Now we have the basic functionality of the `ImageInspector` package defined. However, we want to plot multiple images at once in a simple way to inspect loaded data. To do so, we will define two functions that will allow us to group multiple images into a grid. The first function defined blow computes grid size for the given number of images.
 
