@@ -55,18 +55,34 @@ Now return to the file explorer bar and open the `Timeline` drop-down menu at th
 
 Now it's time to publish our work on GitHub. With GitHub, it's easy to share and collaborate on a project with multiple people. If you did not create a GitHub account in the previous section about Git installation, please do it now.
 
-To publish a local git project on GitHub, press the `Publish Changes` button on the bottom status bar. Then VS Code extension `GitHub` asks to sign in using a GitHub account. Press the `Allow` button and follow the given instructions.
+Firstly we have to create a new empty repository on GitHub. Press the `+` button in the GitHub website's top right corner and select the `New repository` option.
 
 ![](tutorial_12.png)
 
-After logging into GitHub, a pop-up window will appear. Enter the desired repository name and select whether the repository should be private or public, and press `Enter`. In our case, we use the `Tutorial.jl` name for the repository since it is an easy way to show that the project is written in Julia. You may also need to add permissions to Git Credential Manager to access your GitHub account.
+Enter the desired repository name and select whether the repository should be private or public, and press `Enter`. In our case, we use the `Tutorial.jl` name for the repository since it is an easy way to show that the project is written in Julia.
 
 ![](tutorial_13.png)
 
-If everything went well, a pop-up window would inform you that the project was successfully published to Github. Press the `Open in GitHub` button to open the repository in your browser.
+When the new repository is created, select the repository URL and copy it. We will need it in the next step.
 
 ![](tutorial_14.png)
 
-And that's all. Now that you've published your first repository on GitHub, you can easily share your project with others.
+The next step is to add a new remote repository to the local Git repository. It can be done directly from the VS Code. Go to the `Source Control` bar by pressing the appropriate button in the activity bar. Then press the `...` button to open the pop-up window and select the option `Remote` and then `Add Remote...`.
 
 ![](tutorial_15.png)
+
+In the pop-up window, enter the URL of the GitHub repository created in the previous steps and press enter.
+
+![](tutorial_16.png)
+
+The next step is to choose a remote repository name. This name is used by Git to recognize what remote repository we want to work with, since it is possible to have multiple remote repositories linked with the local repository. If there is only one remote repository, the usual choice of the name is `origin`.
+
+![](tutorial_17.png)
+
+The last step is to push local changes to the remote repository. To do that, press the `Publich on GitHub` button in the left bottom corner.
+
+![](tutorial_18.png)
+
+And that's all. Now that you've published your first repository on GitHub, you can easily share your project with others.
+
+![](tutorial_19.png)
