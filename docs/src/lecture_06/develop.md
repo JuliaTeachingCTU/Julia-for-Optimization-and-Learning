@@ -323,70 +323,13 @@ end
 
 ![](image_1.svg)
 
-The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function. We also add a [docstring](https://docs.julialang.org/en/v1/manual/documentation/) as a multiline string that describes what the function does.
+The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function.
 
-````julia
-# /src/ImageInspector.jl
-"""
-    image(x::AbstractMatrix{T}; flip = true)
-
-Converts a matrix of real numbers to a matrix of `Gray` points. If the keyword argument
-`flip` is true, the matrix is transposed.
-
-# Example
-
-```julia-repl
-julia> x = [0.1 0.25; 0.4 0.6]
-2×2 Array{Float64,2}:
- 0.1  0.25
- 0.4  0.6
-
-julia> image(x)
-2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
- Gray{Float64}(0.1)   Gray{Float64}(0.4)
- Gray{Float64}(0.25)  Gray{Float64}(0.6)
-
-julia> image(x; flip = false)
-2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
- Gray{Float64}(0.1)  Gray{Float64}(0.25)
- Gray{Float64}(0.4)  Gray{Float64}(0.6)
-```
-"""
+```julia
 function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
     xx = flip ? PermutedDimsArray(x, (2, 1)) : x
     return Gray.(xx)
 end
-````
-
-We first wrote a function header, and then we used one tab as an indentation. Then we wrote a short description of the function. Finally, we wrote usage examples. To get a well-looking format of the docstring, we use [markdown](https://en.wikipedia.org/wiki/Markdown) `# Example` to represents a title. We use the `julia-repl` block to write code. Now we type the function name into the Julia help.
-
-
-```julia
-help?> image
-search: image imag
-
-  image(x::AbstractMatrix{T}; flip = true)
-
-  Converts a matrix of real numbers to a matrix of `Gray` points. If the keyword argument
-  `flip` is true, the matrix is transposed.
-
-  Example
-  ≡≡≡≡≡≡≡≡≡
-
-  julia> x = [0.1 0.25; 0.4 0.6]
-  2×2 Array{Float64,2}:
-   0.1  0.25
-   0.4  0.6
-
-  julia> image(x)
-  2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
-   Gray{Float64}(0.1)   Gray{Float64}(0.4)
-   Gray{Float64}(0.25)  Gray{Float64}(0.6)
-
-  julia> image(x; flip = false)
-  2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
-   Gray{Float64}(0.1)  Gray{Float64}(0.25)
-   Gray{Float64}(0.4)  Gray{Float64}(0.6)
 ```
 
 In the definition of `image`, we use `PermutedDimsArray` that creates a permuted view without making a copy. There is also the `permutedims` function that does the same but creates a copy. Now we plot both images.
@@ -683,6 +626,77 @@ Test Summary:     | Pass  Total
 ImageInspector.jl |   13     13
     Testing ImageInspector tests passed
 ```
+
+
+## Writing documentation
+
+Writing documentation is a good coding practice. It helps others to understand your code. It may even help the author after working on the code after a longer period of time. The most used documentation type is the [docstring](https://docs.julialang.org/en/v1/manual/documentation/) that is a multiline string describing what the function does.
+
+````julia
+# /src/ImageInspector.jl
+"""
+    image(x::AbstractMatrix{T}; flip = true)
+
+Converts a matrix of real numbers to a matrix of `Gray` points. If the keyword argument
+`flip` is true, the matrix is transposed.
+
+# Example
+
+```julia-repl
+julia> x = [0.1 0.25; 0.4 0.6]
+2×2 Array{Float64,2}:
+ 0.1  0.25
+ 0.4  0.6
+
+julia> image(x)
+2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
+ Gray{Float64}(0.1)   Gray{Float64}(0.4)
+ Gray{Float64}(0.25)  Gray{Float64}(0.6)
+
+julia> image(x; flip = false)
+2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
+ Gray{Float64}(0.1)  Gray{Float64}(0.25)
+ Gray{Float64}(0.4)  Gray{Float64}(0.6)
+```
+"""
+function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
+    xx = flip ? PermutedDimsArray(x, (2, 1)) : x
+    return Gray.(xx)
+end
+````
+
+We first wrote a function header, and then we used one tab as an indentation. Then we wrote a short description of the function. Finally, we wrote usage examples. To get a well-looking format of the docstring, we use [markdown](https://en.wikipedia.org/wiki/Markdown) `# Example` to represents a title. We use the `julia-repl` block to write code. Now we type the function name into the Julia help.
+
+
+```julia
+help?> image
+search: image imag
+
+  image(x::AbstractMatrix{T}; flip = true)
+
+  Converts a matrix of real numbers to a matrix of `Gray` points. If the keyword argument
+  `flip` is true, the matrix is transposed.
+
+  Example
+  ≡≡≡≡≡≡≡≡≡
+
+  julia> x = [0.1 0.25; 0.4 0.6]
+  2×2 Array{Float64,2}:
+   0.1  0.25
+   0.4  0.6
+
+  julia> image(x)
+  2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
+   Gray{Float64}(0.1)   Gray{Float64}(0.4)
+   Gray{Float64}(0.25)  Gray{Float64}(0.6)
+
+  julia> image(x; flip = false)
+  2×2 Array{Gray{Float64},2} with eltype Gray{Float64}:
+   Gray{Float64}(0.1)  Gray{Float64}(0.25)
+   Gray{Float64}(0.4)  Gray{Float64}(0.6)
+```
+
+
 
 
 ## Adding content 2
