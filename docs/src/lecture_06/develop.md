@@ -182,7 +182,7 @@ We now create a script `/scripts/example.jl` for testing the package functionali
 using ImageInspector
 ```
 
-Julia can load a package only once per Julia session. If we load a package by the `using` or `import` commands and then make changes in the code, these changes will not be reloaded. This holds even if we try to reload the package by running `using` or `import` again). For example, we add the `greet` function to the `ImageInspector` package.
+Julia can load a package only once per Julia session. If we load a package by the `using` or `import` commands and then make changes in the code, these changes will not be reloaded. This holds even if we try to reload the package by running `using` or `import` again. For example, we add the `greet` function to the `ImageInspector` package.
 
 ```julia
 # /src/ImageInspector.jl
@@ -263,8 +263,7 @@ x = FashionMNIST.traintensor(1);
 plot(image(x); axis = nothing, border = :none)
 ```
 
-**Hint:**
-- Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add `MLDataset` and `Plots` to the `scripts` environment.
+**Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add `MLDataset` and `Plots` to the `scripts` environment.
 
 ```@raw html
 </p></div>
@@ -388,7 +387,7 @@ plot(
 ```
 
 The functionality depends on the size of the third dimension.
-- If the size of the third dimension is 1, we the `dropdims` to remove the third dimension. Then we call the `image` method from the previous exercise.
+- If the size of the third dimension is 1, we use the `dropdims` to remove the third dimension. Then we call the `image` method from the previous exercise.
 - If the dimension size is 3, we use `PermutedDimsArray` if `flip` is true. We can extract the three channels manually, or we can use the `eachslice` function.
 - Otherwise, we throw an `ArgumentError`.
 Altogether, the new method can be defined as follows.
@@ -565,7 +564,7 @@ image function     |   12      3     15
 ERROR: Some tests did not pass: 12 passed, 0 failed, 3 errored, 0 broken.
 ```
 
-Not all tests passed. The reason is that the variable `x5` is a vector and not a matrix. From the list of all methods defined for the `image` function, we see that there is no method for a vector.
+Not all tests passed. The reason is that the variable `x5` is a vector. From the list of all methods defined for the `image` function, we see that there is no method for a vector.
 
 ```julia
 julia> methods(image)
@@ -732,7 +731,7 @@ The Markdown syntax starts with `#`. Among others, it allows to use:
 - Variables or latex syntax such as `$[-1,1]$`.
 
 Exporting the script into a notebook is simple.
-```julia 
+```julia
 julia> Literate.notebook("report.jl"; execute=false)
 ```
 The resulting notebook can be found at our [Github](https://github.com/JuliaTeachingCTU/ImageInspector.jl/blob/master/report/report.ipynb). All required data are in the [report folder](https://github.com/JuliaTeachingCTU/ImageInspector.jl/tree/master/report).
