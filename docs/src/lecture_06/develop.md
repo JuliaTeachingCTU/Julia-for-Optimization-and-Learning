@@ -697,6 +697,51 @@ search: image imag
 ```
 
 
+```@raw html
+<div class = "info-body">
+<header class = "info-header">Creating reports</header><p>
+```
+
+Reports may be written externally in Latex. However, when we want to show some code, it may be advantageous to write them directly in Julia and export them to [Jupyter notebooks](https://jupyter.org/). The [Literate](https://fredrikekre.github.io/Literate.jl/v2/) package allows to combine Julia code with the [Markdown syntax](https://www.markdownguide.org/cheat-sheet) in a script. As an example we mention the following code:
+
+```julia
+# # ImageInspector
+
+# ImageInspector is a small package for educational purposes. Its main goal is not presenting functionality, but presenting package structure. This is its short documentation created in the package [Literate](https://fredrikekre.github.io/Literate.jl/v2) which uses the [Markdown](https://www.markdownguide.org/cheat-sheet) syntax.
+
+# To use the package, we need to load first the required packages.
+
+using ImageInspector
+using Plots
+
+# ## Grayscale images
+
+# As a test example, we create the real matrix `img1` representing a circle. We first discretize the domain $[-1,1]$ in `xs`. We assign black colour whenever $x^2 + y^2 \le 1$. Since the white colour is represented by `[1; 1; 1]` and the black colour by `[0; 0; 0]`, we can do it by the following code:
+
+xs = -1:0.001:1
+img1 = [x^2+y^2>1 for x in xs, y in xs];
+
+# This is a two-dimensional matrix, which represents a grayscale image. We convert it to an image by calling `image` and then we plot it.
+
+plot(image(img1); axis = nothing, border = :none)
+
+```
+
+The Markdown syntax starts with `#`. Among others, it allows to use:
+- Links such as `[Literate](https://fredrikekre.github.io/Literate.jl/v2)`.
+- Variables or latex syntax such as `$[-1,1]$`.
+
+Exporting the script into a notebook is simple.
+```julia 
+julia> Literate.notebook("report.jl"; execute=false)
+```
+The resulting notebook can be found at our [Github](https://github.com/JuliaTeachingCTU/ImageInspector.jl/blob/master/report/report.ipynb). All required data are in the [report folder](https://github.com/JuliaTeachingCTU/ImageInspector.jl/tree/master/report).
+
+```@raw html
+</p></div>
+```
+
+
 
 
 ## Adding content 2
