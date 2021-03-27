@@ -1,4 +1,4 @@
-# Package development
+# [Package development](@id development)
 
 The cool thing about Julia is the simplicity of creating packages and sharing them with others. This section contains a step-by-step tutorial on how to build a package from scratch. Moreover, we will use this package later in the course.
 
