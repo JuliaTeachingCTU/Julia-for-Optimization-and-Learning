@@ -259,7 +259,7 @@ This exercise defines the `image` function that converts a matrix of real number
 using Revise # this must come before `using ImageInspector`
 using ImageInspector, MLDatasets, Plots
 
-x = MNIST.traintensor(1);
+x = FashionMNIST.traintensor(1);
 plot(image(x); axis = nothing, border = :none)
 ```
 
@@ -323,7 +323,7 @@ end
 
 ![](image_1.svg)
 
-The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `MNIST` dataset of hand-written digits. However, the resulting image does not seem to be a digit. The reason is that images in the MNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function. We also add a [docstring](https://docs.julialang.org/en/v1/manual/documentation/) as a multiline string that describes what the function does.
+The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function. We also add a [docstring](https://docs.julialang.org/en/v1/manual/documentation/) as a multiline string that describes what the function does.
 
 ````julia
 # /src/ImageInspector.jl
@@ -426,7 +426,7 @@ Use the following code to test the `image` function.
 
 ```julia
 # /scripts/example.jl
-x1 = MNIST.traintensor(1);
+x1 = FashionMNIST.traintensor(1);
 x2 = CIFAR10.traintensor(2);
 plot(
     plot(image(x1)),
@@ -491,7 +491,7 @@ Use the following code to test the `image` function.
 
 ```julia
 # /scripts/example.jl
-x = MNIST.traintensor(1:10);
+x = FashionMNIST.traintensor(1:10);
 plot(plot.(image(x, [1,2]))...; axis = nothing, border = :none)
 ```
 
@@ -740,7 +740,7 @@ Note that we use the `sep` keyword argument to specify the separator's width bet
 
 ```julia
 # /scripts/example.jl
-x = MNIST.traintensor(1:10);
+x = FashionMNIST.traintensor(1:10);
 plot(imagegrid(x, 1:10; nrows = 2, sep = 2); axis = nothing, border = :none)
 ```
 
