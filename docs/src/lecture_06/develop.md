@@ -140,7 +140,7 @@ The exercise above used a simple template. However, PkgTemplates provides many a
 
 ## Development mode
 
-In the previous section, we created a new empty package. In this section, we will fill the package with content. **Before we continue, open the main folder of the ImageInspector package in a new VS Code window.** You can use the default shortcut `Ctrl K Ctrl O`.
+In the previous section, we created a new empty package. In this section, we will fill the package with content. **Before we continue, open the main folder of the ImageInspector package in a new VS Code window.** One can access it from `File -> Open folder`.
 
 The content of the `ImageInspector` folder can be divided into four parts:
 - *Root folder* contains information about the package and git.
@@ -630,7 +630,7 @@ ImageInspector.jl |   13     13
 
 ## Writing documentation
 
-Writing documentation is a good coding practice. It helps others to understand your code. It may even help the author after working on the code after a longer period of time. The most used documentation type is the [docstring](https://docs.julialang.org/en/v1/manual/documentation/) that is a multiline string describing what the function does.
+Writing documentation is a good coding practice. It helps others to understand your code. It may even help the author after working on the code after an extended break. The most used documentation type is the [docstring](https://docs.julialang.org/en/v1/manual/documentation/), a multiline string describing the functionality.
 
 ````julia
 # /src/ImageInspector.jl
@@ -702,7 +702,7 @@ search: image imag
 <header class = "info-header">Creating reports</header><p>
 ```
 
-Reports may be written externally in Latex. However, when we want to show some code, it may be advantageous to write them directly in Julia and export them to [Jupyter notebooks](https://jupyter.org/). The [Literate](https://fredrikekre.github.io/Literate.jl/v2/) package allows to combine Julia code with the [Markdown syntax](https://www.markdownguide.org/cheat-sheet) in a script. As an example we mention the following code:
+Reports may be written externally in Latex. However, when we want to show some code, it may be advantageous to write them directly in Julia and export them to [Jupyter notebooks](https://jupyter.org/). The [Literate](https://fredrikekre.github.io/Literate.jl/v2/) package allows combining Julia code with the [Markdown syntax](https://www.markdownguide.org/cheat-sheet) in a script. We mention the following code, which should be read with the soft wrapping on, as an example:
 
 ```julia
 # # ImageInspector
@@ -746,7 +746,7 @@ The resulting notebook can be found at our [Github](https://github.com/JuliaTeac
 
 ## Adding content 2
 
-Now we have the basic functionality of the `ImageInspector` package defined. However, we want to plot multiple images at once in a simple way to inspect loaded data. To do so, we will define two functions that will allow us to group multiple images into a grid. The first function defined blow computes grid size for the given number of images.
+We will add more functions to the `ImageInspector` package. To plot multiple images at once, we will define two functions. The first one computes an optimal grid size for a given number of images.
 
 ```julia
 # /src/ImageInspector.jl
@@ -765,7 +765,7 @@ function gridsize(n::Int; nrows::Int = -1, ncols::Int = - 1)
 end
 ```
 
-Note that we can control the number of rows or columns using keyword arguments `nrows` and `ncols`. The second function consists of two methods and converts a given array of real numbers to one big image of the appropriate color type.
+The second function consists of two methods and converts an array of real numbers to one big image of the appropriate colour type.
 
 ```julia
 # /src/ImageInspector.jl
@@ -795,7 +795,7 @@ function imagegrid(x, inds; flip = true, sep = 1, kwargs...)
 end
 ```
 
-Note that we use the `sep` keyword argument to specify the separator's width between images. With all functions defined, we can test them on real images.
+We use the `sep` keyword argument to specify the separator width between images. With all functions defined, we can test them.
 
 ```julia
 # /scripts/example.jl
@@ -810,7 +810,7 @@ plot(imagegrid(x, 1:10; nrows = 2, sep = 2); axis = nothing, border = :none)
 <header class = "info-header">Optional dependencies</header><p>
 ```
 
-We can notice that we use the same settings for the `plot` function in all previous examples. So it makes sense to write an auxiliary function that sets desired attributes for the `plot` function. However, such a function will depend on the `Plots` package. It means that if we add the `Plots` package to the `ImageInspector` package, it will significantly slow down the load time. It can be annoying if we want to use some functionality that does not depends on the `Plots` package, and still, we have to load that package. Luckily, the `Requires` package automatically allows the code's loading when another package is loaded, so explicit dependencies (and long load times) can be avoided. In our case, we firstly have to add `Requires` to the `ImageInspector`.
+We used the same settings for the `plot` function in all previous examples. Therefore, it makes sense to write an auxiliary function setting attributes for the `plot` function. However, this function will depend on the `Plots` package, and if we add `Plots` to `ImageInspector`, it will significantly slow the loading time. The `Requires` package prevents explicit dependencies (and long load times) by allowing conditional code loading. In our case, we first add `Requires` to the `ImageInspector`.
 
 ```julia
 julia> pwd()
@@ -827,7 +827,7 @@ julia> pwd()
 (scripts)
 ```
 
-Then we can write a new file `/src/imageplot.jl` with the following content.
+Then we create a new file `/src/imageplot.jl` with the following content:
 
 ```julia
 # /src/imageplot.jl
@@ -853,7 +853,7 @@ function imageplot(
 end
 ```
 
-Note that we only defined a wrapper function for the `plot` function and exported this function. Also note, that we have to use a relative path to the `Plots` package. The last thing we have to do is to specify on what package the code depends. To do that we have to define the `__init__()` function in the `/src/ImageInspector.jl` file.
+We only defined a wrapper function for the `plot` function and exported this function. We use a relative path to the `Plots` package. Then we specify on which package the code depends by defining the `__init__()` function in the `/src/ImageInspector.jl` file.
 
 ```julia
 # /src/ImageInspector.jl
@@ -875,7 +875,7 @@ julia> imageplot(x, 1:10; nrows = 2, sep = 2)
 ERROR: UndefVarError: imageplot not defined
 ```
 
-Now we can load the `Plots` package, and the `imageplot` function will start working.
+After loading the `Plots` package, the `imageplot` function will start working.
 
 ```julia
 julia> using Plots
