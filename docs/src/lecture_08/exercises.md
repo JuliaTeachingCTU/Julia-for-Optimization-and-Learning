@@ -44,7 +44,7 @@ Write function ```normalize``` which takes as an input a dataset and normalizes 
 - the logistic regression is optimized via Newton's method?
 Do you have any intuition as to why?
 
-Write a short report (in Latex) summarizing your findings.
+Write a short report (in LaTeX) summarizing your findings.
 ```@raw html
 </p></div>
 ```   
