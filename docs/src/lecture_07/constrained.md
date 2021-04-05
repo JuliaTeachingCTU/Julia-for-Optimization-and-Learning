@@ -1,24 +1,42 @@
 ```@setup optim
 using Plots
+using Random
 
-function create_anim(f, path, xlims, ylims; file_name = "", fps=15)
+function create_anim(
+    f,
+    path,
+    xlims,
+    ylims,
+    file_name = joinpath(pwd(), randstring(12) * ".gif");
+    xbounds = xlims,
+    ybounds = ylims,
+    fps = 15,
+)
     xs = range(xlims...; length = 100)
     ys = range(ylims...; length = 100)
-    plt = contourf(xs, ys, f, color = :jet, axis = false, ticks = false, cbar = false)
+    plt = contourf(xs, ys, f; color = :jet)
 
-    # adds an empty plot to plt
-    plot!(Float64[], Float64[]; line = (4, :black), label = "")
-    
-    # extracts last plot series
+    # add constraints if provided
+    if !(xbounds == xlims && ybounds == ylims)
+        x_rect = [xbounds[1]; xbounds[2]; xbounds[2]; xbounds[1]; xbounds[1]]
+        y_rect = [ybounds[1]; ybounds[1]; ybounds[2]; ybounds[2]; ybounds[1]]
+        
+        plot!(x_rect, y_rect; line = (2, :dash, :red), label="")
+    end
+
+    # add an empty plot
+    plot!(Float64[], Float64[]; line = (4, :arrow, :black), label = "")
+
+    # extract the last plot series
     plt_path = plt.series_list[end]
-    
-    # creates the  animation
+
+    # create the animation and save it
     anim = Animation()
     for x in eachcol(path)
-        push!(plt_path, x[1], x[2]) # add new point to plt_grad
+        push!(plt_path, x[1], x[2]) # add a new point
         frame(anim)
     end
-    gif(anim, file_name, fps = fps)
+    gif(anim, file_name; fps = fps, show_msg = false)
     return nothing
 end
 
@@ -40,7 +58,7 @@ The usual formulation of constrained optimization is
 &h_j(x) = 0,\ j=1,\dots,J.
 \end{aligned}
 ```
-This optimization problem is also called the primal formulation. It is closely connected with the Lagrangian
+Functions ``g_i`` generate inequality constraints, while functions ``h_j`` generate equality constraints. Box constraints such as ``x\in[0,1]`` are the simplest case of the former. This optimization problem is also called the primal formulation. It is closely connected with the Lagrangian
 ```math
 L(x;\lambda,\mu) = f(x)  + \sum_{i=1}^I \lambda_i g_i(x) + \sum_{j=1}^J \mu_j h_j(x).
 ```
@@ -52,6 +70,8 @@ The dual problem then switches the minimization and maximization to arrive at
 ```math
 \tag{D} \operatorname*{maximize}_{\lambda\ge 0,\mu} \quad\operatorname*{minimize}_x\quad L(x;\lambda,\mu).
 ```
+
+Even though the primal and dual formulations are not generally equivalent, they are often used interchangeably.
 
 ```@raw html
 <div class = "info-body">
@@ -79,7 +99,7 @@ We can observe several things:
 </p></div>
 ```
 
-The optimality conditions for constrained optimization take a more complex form.
+For the unconstrained optimization, we showed that each local minimum satisfies the optimality condition ``\nabla f(x)=0``. This condition does not have to hold for unconstrained optimization, where the optimality conditions are of a more complex form.
 
 ```@raw html
 <div class = "theorem-body">
@@ -98,6 +118,8 @@ If $f$ and $g$ are convex and $h$ is linear, then every stationary point is a gl
 </p></div>
 ```
 
+When there are no constraints, the Lagrangian ``L`` reduces to the objective ``f``, and the optimality conditions are equivalent. Therefore, the optimality conditions for constrained optimization generalize those for unconstrained optimization.
+
 ## Numerical method
 
 We present only the simplest method for constraint optimization. Projected gradients 
@@ -107,7 +129,7 @@ y^{k+1} &= x^k - \alpha^k\nabla f(x^k), \\
 x^{k+1} &= P_X(y^{k+1})
 \end{aligned}
 ```
-compute the gradient as for standard gradient descent, and then project the point onto the feasible set. Since the projection needs to be simple to compute, projected gradients are used for simple sets ``X`` such as boxes or balls. 
+compute the gradient as for standard gradient descent, and then project the point onto the feasible set. Since the projection needs to be simple to calculate, projected gradients are used for simple ``X`` such as boxes or balls. 
 
 We will use projected gradients to solve
 ```math
@@ -131,13 +153,17 @@ end
 
 nothing # hide
 ```
+
 The projection function ```P``` computes the projection on ```[x_min, x_max]```. Since it is a box, the projection is computed componentwise:
+
 ```@example optim
 P(x, x_min, x_max) = min.(max.(x, x_min), x_max)
 
 nothing # hide
 ```
-Now we can call projected gradients from the same starting point as before
+
+Now we can call projected gradients from the same starting point as before.
+
 ```@example optim
 x_min = [-1; -1]
 x_max = [0; 0]
@@ -146,34 +172,43 @@ xs, ys = optim(f, g, x -> P(x,x_min,x_max), [0;-1], 0.1)
 
 nothing # hide
 ```
-To plot the path, we need to merge them together when one point from ```xs``` is followed by a point from ```ys``` and so on. Since ```xs``` and ```ys``` have different number of entries, we can do it via
-```@example optim
-xys = hcat(reshape([xs[:,1:end-1]; ys][:], 2, :), xs[:,end])
 
-nothing # hide
-```
-It is probably not the nicest thing to do, but it is Saturday evening, I am tired and it works. Sorry :) The animation can be created in the same way aa before. 
+We use the keyword arguments `xbounds` and `ybounds` to plot the feasible region in the animation. First, we plot only the iterations `xs`.
+
 ```@example optim
 xlims = (-3, 1)
 ylims = (-2, 1)
 
-create_anim(f, xys, xlims, ylims; file_name = "anim6.gif")
+create_anim(f, xs, xlims, ylims, "anim6.gif";
+    xbounds=(x_min[1], x_max[1]),
+    ybounds=(x_min[2], x_max[2]),
+)
 
 nothing # hide
 ```
 
 ![](anim6.gif)
 
-There is one significant drawback to this animation: One cannot see the boundary. One possibility would be to reduce the plotting ranges ```xlims``` and ```ylims```. However, then one would not see the iterations outside of the box. Another possibility is to modify ```f``` into ```f_mod``` which has the same values inside the box and is constant outside of it. Because ```f``` is bounded below by ``-1``, we define ```f_mod``` by ``-2`` outside of the box. 
-```@example optim
-f_mod(x) = all(x .>= x_min) && all(x .<= x_max) ? f(x) : -2
-f_mod(x1,x2) = f_mod([x1; x2])
 
-create_anim(f_mod, xys, xlims, ylims; file_name = "anim7.gif")
+To plot the path, we need to merge them by following one point from ```xs``` by a point from ```ys``` and so on. Since ```xs``` and ```ys``` have different number of entries, we can do it via
+
+```@example optim
+xys = hcat(reshape([xs[:,1:end-1]; ys][:], 2, :), xs[:,end])
+
+nothing # hide
+```
+
+It is probably not the nicest thing to do, but it is Saturday evening, I am tired, and it works. Sorry :) The animation can now be created in the same way as before. 
+
+```@example optim
+create_anim(f, xys, xlims, ylims, "anim7.gif";
+    xbounds=(x_min[1], x_max[1]),
+    ybounds=(x_min[2], x_max[2]),
+)
 
 nothing # hide
 ```
 
 ![](anim7.gif)
 
-The animation shows that projected gradients converge to the global minimum. Most of the iterations are outside of the feasible region but they are projected back to boundary. 
+The animation shows that projected gradients converge to the global minimum. Most of the iterations are outside of the feasible region, but they are projected back to the boundary. One can use the optimality conditions to verify that the gradient of the objective and the active constraint have the same direction.
