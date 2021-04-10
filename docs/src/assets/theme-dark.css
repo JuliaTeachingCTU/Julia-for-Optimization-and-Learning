@@ -71,6 +71,30 @@
     margin-bottom: 1.5rem;
 }
 
+/* Extra class */
+.extra-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #296816;
+    border: 1px solid #296816;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.extra-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #22bb5d;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
 /* Theorem class */
 .theorem-header {
     font-weight: bold;
