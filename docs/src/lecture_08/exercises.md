@@ -4,6 +4,7 @@ using StatsPlots
 using RDatasets
 using Statistics
 using LinearAlgebra
+using Query
 
 function log_reg(X, y, w; max_iter=100)
     X_mult = [row*row' for row in eachrow(X)]
@@ -17,12 +18,24 @@ function log_reg(X, y, w; max_iter=100)
 end
 
 iris = dataset("datasets", "iris")
-iris_reduced = iris[iris.Species .!= "setosa", :]
+iris_reduced = @from i in iris begin
+    @where i.Species != "setosa"
+    @select {
+        i.PetalLength,
+        i.PetalWidth,
+        intercept = 1,
+        i.Species,
+        label = i.Species == "virginica",
+    }
+    @collect DataFrame
+end
 
-X = hcat(Matrix(iris_reduced[:, 3:4]), ones(size(iris_reduced,1)))
-y = iris_reduced.Species .== "virginica"
+X = Matrix(iris_reduced[:, 1:3])
+y = iris_reduced.label
 
 w = log_reg(X, y, zeros(size(X,2)))
+
+σ(z) = 1/(1+exp(-z))
 ```
 
 
@@ -65,25 +78,30 @@ The logistic regression on the iris dataset failed in 6 out of 100 samples. But 
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-We use the same code as before and find indices of the misclassified samples
+
+We use the `iris_reduced` dataframe and add the column `prediction` to it.
+
 ```@example ex_log
-y_hat = 1 ./(1 .+exp.(-X*w))
-pred = y_hat .>= 0.5
-ii = findall(pred .!= y)
+df = iris_reduced
+df.prediction = σ.(X*w) .>= 0.5
 
 nothing # hide
 ```
-Then we show the values of the data and labels at these indices. We sort the rows by ```sortslices```. You cannot use ```sort``` as it would not sort rows, but it would perform the sorting operator on every column independently.
+
+Now we show all misclassified samples.
+
 ```@example ex_log
-aux = hcat(X[ii,:], y[ii])
-sortslices(aux, dims=1)
+sort(df[df.label .!= df.prediction, :], [:PetalLength, :PetalWidth])
 ```
-A short look at the image shows that the point ``(4.8, 1.8)`` is misclassified but the image shows it correctly. Let us show all such points
+
+A quick look at the image shows that the point ``(4.8,1.8)`` is misclassified, but the image shows it correctly. Let us show all such points.
+
 ```@example ex_log
-ii = findall((X[:,1].==4.8) .& (X[:,2].==1.8))
-aux = hcat(X[ii,:], y[ii])
+df[(df.PetalLength .== 4.8) .& (df.PetalWidth .== 1.8), :]
 ```
+
 As we can see, there are three samples with the same data. Two of them have label 1 and one label 0. Since the incorrectly classified sample was redrawn, it was not possible to see it.
+
 ```@raw html
 </p></details>
 ```
@@ -96,7 +114,7 @@ As we can see, there are three samples with the same data. Two of them have labe
 
 ```@raw html
 <div class = "exercise-body">
-<header class = "exercise-header">Exercise 2: Why not use sigmoid</header><p>
+<header class = "exercise-header">Exercise 2: Disadvantages of the sigmoid function</header><p>
 ```
 Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?
 ```@raw html
@@ -133,7 +151,6 @@ minimum(X*[1;2;3])
 ```
 is large, all ``w^\top x_i`` are large. But plotting the sigmoid funtion
 ```@example ex_log
-σ(z) = 1/(1+exp(-z))
 xs = -10:0.01:10
 plot(xs, σ, label="", ylabel="Sigmoid function")
 
@@ -142,9 +159,9 @@ savefig("sigmoid.svg") # hide
 
 ![](sigmoid.svg)
 
-it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. This means that the derivative is almost zero and the Hessian is "even smaller" zero. Then the ratio of the gradient and Hessian is huge as we observed above.
+it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. This means that the derivative is almost zero, and the Hessian is "even smaller" zero. Then the ratio of the gradient and Hessian is huge.
 
-The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a very large number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
+The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a huge number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
 ```@raw html
 </p></details>
 ```
@@ -210,7 +227,7 @@ For any vector ``a``, we have
 ```math
 a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
 ```
-which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since the Newton's method found a stationary point, this points is a global minimum.
+which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.
 ```@raw html
 </p></details>
 ```
