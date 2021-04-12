@@ -1,3 +1,7 @@
+using Pkg
+Pkg.activate(".")
+Pkg.instantiate()
+
 using Plots
 using StatsPlots
 using RDatasets
