@@ -115,14 +115,14 @@ y = iris_reduced.label
     legend = :topleft,
 )
 
-σ(z) = 1/(1+exp(z))
+σ(z) = 1/(1+exp(-z))
 
 # Exercise
 
 function log_reg(X, y, w; max_iter=100, tol=1e-6)
     X_mult = [row*row' for row in eachrow(X)]
     for i in 1:max_iter
-        y_hat = σ.(-X*w)
+        y_hat = σ.(X*w)
         grad = X'*(y_hat.-y) / size(X,1)
         hess = y_hat.*(1 .-y_hat).*X_mult |> mean
         w -= hess \ grad
@@ -154,7 +154,7 @@ plot!(xlims, x -> separ(x,w); label = "Separation", line = (:black,3))
 
 # Check optimality
 
-y_hat = σ.(-X*w)
+y_hat = σ.(X*w)
 grad = X'*(y_hat.-y) / size(X,1)
 norm(grad)
 

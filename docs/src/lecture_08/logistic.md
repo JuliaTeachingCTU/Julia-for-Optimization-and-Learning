@@ -207,16 +207,16 @@ It would be possible to use the code ```optim(f, g, x, s::Step)``` from the prev
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To write the desired function, we need to implement the gradient and Hessian from derived in the theoretical lecture. First, we define the sigmoid function in `σ`. Then we need to create ``\hat y``. We may use for loop notation ```[σ(-w'*x) for x in eachrow(X)]```. However, in this case, it is simpler to use matrix operations ```σ.(-X*w)``` to get the same result. The gradient can be written in the same way. Again, we use matrix notation. For the Hessian, we first create ```X_mult = [row*row' for row in eachrow(X)]``` which computes all products ``x_ix_i^\top``. This creates an array of length ``100``; each element of this array is a ``2\times 2`` matrix. Since it is an array, we may multiply it by ```y_hat.*(1 .-y_hat)```. As ```mean``` from the ```Statistics``` package operates on any array, we can call it (or similarly ```sum```). We may use ```mean(???)``` but we find the alternative  ```??? |> mean``` more readable in this case. We use ```hess \ grad```, as explained in the previous lecture for Newton's method, to update the weights.
+To write the desired function, we need to implement the gradient and Hessian from derived in the theoretical lecture. First, we define the sigmoid function in `σ`. Then we need to create ``\hat y``. We may use for loop notation ```[σ(w'*x) for x in eachrow(X)]```. However, in this case, it is simpler to use matrix operations ```σ.(X*w)``` to get the same result. The gradient can be written in the same way. Again, we use matrix notation. For the Hessian, we first create ```X_mult = [row*row' for row in eachrow(X)]``` which computes all products ``x_ix_i^\top``. This creates an array of length ``100``; each element of this array is a ``2\times 2`` matrix. Since it is an array, we may multiply it by ```y_hat.*(1 .-y_hat)```. As ```mean``` from the ```Statistics``` package operates on any array, we can call it (or similarly ```sum```). We may use ```mean(???)``` but we find the alternative  ```??? |> mean``` more readable in this case. We use ```hess \ grad```, as explained in the previous lecture for Newton's method, to update the weights.
 ```@example logistic
 using Statistics
 
-σ(z) = 1/(1+exp(z))
+σ(z) = 1/(1+exp(-z))
 
 function log_reg(X, y, w; max_iter=100, tol=1e-6)
     X_mult = [row*row' for row in eachrow(X)]
     for i in 1:max_iter
-        y_hat = σ.(-X*w)
+        y_hat = σ.(X*w)
         grad = X'*(y_hat.-y) / size(X,1)
         hess = y_hat.*(1 .-y_hat).*X_mult |> mean
         w -= hess \ grad
@@ -283,7 +283,7 @@ This is the optimal solution obtained by the logistic regression. Since the norm
 ```@example logistic
 using LinearAlgebra
 
-y_hat = σ.(-X*w)
+y_hat = σ.(X*w)
 grad = X'*(y_hat.-y) / size(X,1)
 norm(grad)
 ```
