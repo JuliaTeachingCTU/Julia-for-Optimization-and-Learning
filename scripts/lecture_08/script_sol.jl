@@ -21,6 +21,11 @@ end
 # Linear regression
 ###########################################
 
+# EXTRA
+
+σ(z) = 1/(1+exp(-z))
+plot(-10:0.01:10, σ)
+
 # Load data
 
 using Plots
@@ -49,16 +54,31 @@ X = hcat(iris.PetalLength, ones(length(y)))
 
 # Exercise
 
-w = (X'*X) \ (X'*y)
+w = (X'*X)^(-1)*X'*y
+w = (X'*X)^(-1)*(X'*y)
+w = X'*X \ X'*y
 
 g(w) = X'*(X*w-y)
 w2 = optim([], g, zeros(size(X,2)), GD(1e-4); max_iter=10000)
 
 norm(w-w2)
 
+# EXTRA
+
+w = (X'*X)^(-1)*X'*y
+w = (X'*X)^(-1)*(X'*y)
+w = X'*X \ X'*y
+
+A = randn(1000,1000)
+b = randn(1000)
+
+@time (A*A)*b;
+@time A*(A*b);
+
 # Exercise
 
-f_pred(x, w) = w[1]*x + w[2]
+f_pred(x::Real, w) = ([x 1]*w)[1]
+f_pred(x::Real, w) = w[1]*x + w[2]*1
 
 x_lims = extrema(iris.PetalLength) .+ [-0.1, 0.1]
 
@@ -89,7 +109,9 @@ iris_reduced = @from i in iris begin
         label = i.Species == "virginica",
     }
     @collect DataFrame
- end
+end
+
+# EXTRA
 
 iris_reduced2 = iris[iris.Species .!= "setosa", :]
 iris_reduced2 = iris_reduced2[:,[3;4;5]]
@@ -115,7 +137,20 @@ y = iris_reduced.label
     legend = :topleft,
 )
 
-σ(z) = 1/(1+exp(-z))
+# EXTRA
+
+ii = iris_reduced.Species .== "virginica"
+
+scatter(iris_reduced.PetalLength[ii,:], iris_reduced.PetalWidth[ii,:];
+    xlabel = "Petal length",
+    ylabel = "Petal width",
+    legend = :topleft,
+    label = "virginica"
+)
+
+scatter!(iris_reduced.PetalLength[.!ii,:], iris_reduced.PetalWidth[.!ii,:];
+    label = "versicolor"
+)
 
 # Exercise
 
@@ -131,6 +166,16 @@ function log_reg(X, y, w; max_iter=100, tol=1e-6)
 end
 
 w = log_reg(X, y, zeros(size(X,2)))
+
+# EXTRA
+
+function g(w, X, y)
+    n = size(X,1)
+    y_hat = σ.(X*w)
+    return X'*(y_hat - y) / n
+end
+
+optim([], w -> g(w, X, y), [0;0;0], GD(5e-1); max_iter=1000000)
 
 # Plot the separating hyperplane
 
