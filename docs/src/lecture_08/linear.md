@@ -179,7 +179,7 @@ The desired dependence is
 ```
 Before plotting the prediction, we save it into ```f_pred```.
 ```@example linear
-f_pred(x, w) = w[1]*x + w[2]
+f_pred(x::Real, w) = w[1]*x + w[2]
 
 nothing # hide
 ```

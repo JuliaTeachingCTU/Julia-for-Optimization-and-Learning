@@ -254,7 +254,7 @@ To express it as a function, we obtain
 ```
 Now we plot it.
 ```@example logistic
-separ(x, w) = (-w[3]-w[1]*x)/w[2]
+separ(x::Real, w) = (-w[3]-w[1]*x)/w[2]
 
 xlims = extrema(iris_reduced.PetalLength) .+ [-0.1, 0.1]
 ylims = extrema(iris_reduced.PetalWidth) .+ [-0.1, 0.1]
