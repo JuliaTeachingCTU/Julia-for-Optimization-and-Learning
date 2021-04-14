@@ -116,37 +116,6 @@ Write a short summary (in LaTeX) of your suggestions.
 
 
 
-```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 1: Universal approximation of neural networks</header><p>
-```
-Proof the theorem about universal approximation of neural networks.
-```@raw html
-</p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
-```math
-d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
-```
-then ``h`` has the form
-```math
-h(x) = y_i + d_i(x-x_i) \qquad\text{ for }x\in [x_i,x_{i+1}].
-```
-It is not difficult to show that
-```math
-h(x) = y_1 + \sum_{i=1}^n(d_i-d_{i-1})\operatorname{max}\{x-x_i,0\},
-```
-where we defined ``d_0=0``.
-
-Then ``h`` can be represented as the following network with two layers:
-- Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
-- Dense layer with ``1`` ouput neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is ``y_1``.
-This finishes the proof.
-```@raw html
-</p></details>
-```
 
 
 
@@ -436,4 +405,41 @@ If a classifier does not have any data in some region, it may predict anything t
 </p></details>
 ```
 
+
+
+
+
+
+
+```@raw html
+<div class = "exercise-body">
+<header class = "exercise-header">Exercise 1: Universal approximation of neural networks</header><p>
+```
+Proof the theorem about universal approximation of neural networks.
+```@raw html
+</p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
+```math
+d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
+```
+then ``h`` has the form
+```math
+h(x) = y_i + d_i(x-x_i) \qquad\text{ for }x\in [x_i,x_{i+1}].
+```
+It is not difficult to show that
+```math
+h(x) = y_1 + \sum_{i=1}^n(d_i-d_{i-1})\operatorname{max}\{x-x_i,0\},
+```
+where we defined ``d_0=0``.
+
+Then ``h`` can be represented as the following network with two layers:
+- Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
+- Dense layer with ``1`` ouput neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is ``y_1``.
+This finishes the proof.
+```@raw html
+</p></details>
+```
 
