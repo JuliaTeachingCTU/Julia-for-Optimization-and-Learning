@@ -1,10 +1,10 @@
 # Theory of neural networks
 
 Neural networks appeared for the first time decades ago but were almost forgotten after a few years. Their resurgence in the last one or two decades is mainly due to available computational power. Their impressive list of applications include:    
-- One of the first applications was reading of postal codes to automatize sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks could be used.
+- One of the first applications was reading postal codes to automatize the sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks were used.
 - A similar type of neural (convolutional) networks is used in autonomous vehicles to provide information about cars, pedestrians or traffic signs. These networks may also use bounding boxes to specify the position of the desired object.
-- While the previous techniques used 2D structure of the input (image), recurrent neural networks are used for series-type data (text, sound). The major application is automatic translators.
-- Another application includes generating new content. While there may exist useful applications such as artistic composition (music or writing scripts), these networks are often used to generate fake content (news, images).
+- While the previous techniques used the 2D structure of the input (image), recurrent neural networks are used for series-type data (text, sound). The major application is automatic translators.
+- Another application includes generating new content. While practical applications such as artistic composition exist, these networks are often used to generate fake content (news, images).
 
 
 ## Neural networks
@@ -22,11 +22,11 @@ Neural networks use more complex function than linear for better prediction powe
 
 ## Layers
 
-The previous bullets are achieved in an elegant way by representing the neural network via layers. The input ``x`` enters the first layers, the output of the first layer goes into the second layer and so on. Mathematically speaking, a network with ``M`` layers has the structure
+The previous bullets are elegantly achieved by representing the neural network via layers. The input ``x`` enters the first layers, the output of the first layer goes into the second layer and so on. Mathematically speaking, a network with ``M`` layers has the structure
 ```math
-\operatorname{predict}(w;x) = (f_M \circ \dots \circ f_1)(x),
+\hat y = \operatorname{predict}(w;x) = (f_M \circ \dots \circ f_1)(x),
 ```
-where ``f_1,\dots,f_M`` are individual layers. Most of these layers depend on the weights ``w`` but for simplicity we omit this dependence. On the other hand, only the first layer ``f_1`` depends direcly on the input ``x``. Since two layers that are not next to each other (such as the first and the third layer) are not directly connected, this allows for simple propagation of function values and derivatives.
+where ``f_1,\dots,f_M`` are individual layers. Most of these layers depend on the weights ``w``, but we omit this dependence for simplicity. On the other hand, only the first layer ``f_1`` depends directly on the input ``x``. Since two layers that are not next to each other (such as the first and the third layer) are not directly connected, this allows for the simple propagation of function values and derivatives.
 
 ![](nn.png)
 
@@ -114,18 +114,18 @@ Mean square error is usually used for regression problems while both cross-entro
 
 ## Making predictions
 
-For classification with ``K`` classes, the classifier predicts a probability distribution of ``K`` classes. The hard prediction is the label with the highest probability. Using the terminology from above, the classifier output has the one-hot form, while the actual prediction has the one-cold form.
+For classification with ``K`` classes, the classifier predicts a probability distribution of ``K`` classes. The hard prediction is the label with the highest probability. Using the above terminology, the classifier output has the one-hot form, while the actual prediction has the one-cold form.
 
 The most common metric for evaluating classifiers is the accuracy defined by
 ```math
 \operatorname{accuracy} = \frac 1n\sum_{i=1}^n I(y_i = \hat y_i),
 ```
-where ``I`` is the characteristic (0/1) function which counts how often the argument is satisfied. With an abuse of notation, we use both the label ``y_i`` and the prediction ``\hat y_i`` as their one-cold representation. Therefore, accuracy measures the fraction of samples with correct predictions.
+where ``I`` is the characteristic (0/1) function which counts how often the argument is satisfied. With abuse of notation, we use both the label ``y_i`` and the prediction ``\hat y_i`` in the one-cold representation. Therefore, accuracy measures the fraction of samples with correct predictions.
 
 
 ## Overfitting and regularization
 
-While large neural network may fit to arbitrary precision, this is usually not preferred and overfitting may occur. This is especially true for large network with more parameters than samples.
+While large neural networks may fit arbitrarily precisely, this is usually not preferred as overfitting may occur. This is especially true for large networks with more parameters than samples.
 
 ```@setup overfit
 using Plots
@@ -159,7 +159,7 @@ savefig("Overfit.svg")
 
 ![](Overfit.svg)
 
-This figure shows data with quadratic dependence and a small added error. While the complex classifier (a polynomial of order 9) fits the data perfectly, the correct classifier (a polynomial of order 2) does not fit the data so well, but it is much better at predicting unseen samples. The more complicated classifier overfits the data. 
+This figure shows data with quadratic dependence and a small added error. While the complex classifier (a polynomial of order 9) fits the data perfectly, the correct classifier (a polynomial of order 2) fits the data slightly worse, but it is much better at predicting unseen samples. The more complicated classifier overfits the data. 
 
 
 #### Preventing overfitting
@@ -171,33 +171,33 @@ Multiple techniques were developed to prevent overfitting.
   \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)) + \frac{\lambda}{2}\|w\|^2.
   ```
   The more complicated classifier from the figure above contains (among others) the term ``20222x^9``. Since the coefficient is huge, its ``l_2`` norm would be huge as well. Regularization prevents such classifiers. Another possibility is the (non-differentiable) ``l_1`` norm, which induces sparsity (many weights should be zero).
-- *Simple networks* cannot approximate overly complicated functions and they can also prevent overfitting.
+- *Simple networks* cannot approximate overly complicated functions, and they can also prevent overfitting.
 
 
 #### Train-test split
 
-How should the classifier be evaluated? The figure above suggests that it is a bad idea to evaluate it on the same data, where it was trained. The dataset is usually split into training and testing sets. The classifier is trained on the training and evaluated on the testing set. The classifier is not allowed to see the testing set during training. When the classifier contains a large number of hyperparameters, which need to be tuned, the dataset is split into training, validation and testing sets. Then multiple classifiers are trained on the training set, the best values of hyperparameters are selected on the validation set, and the classifier performance is evaluated on the testing set.
+How should the classifier be evaluated? The figure above suggests that it is a bad idea to evaluate it on the same data where it was trained. The dataset is usually split into training and testing sets. The classifier is trained on the training and evaluated on the testing set. The classifier is not allowed to see the testing set during training. When the classifier contains many hyperparameters, which need to be tuned, the dataset is split into training, validation and testing sets. Then multiple classifiers are trained on the training set, the best values of hyperparameters are selected on the validation set, and the classifier performance is evaluated on the testing set.
 
 
 ## Additional topics
 
-The next result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
+The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
 
 ```@raw html
 <div class = "extra-body">
 <header class = "extra-header">BONUS: Universal approximation of neural networks</header><p>
 ```
 Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
-- Dense layer with ReLU activation function.
-- Dense layer with identity activation function.
+- Dense layer with the ReLU activation function.
+- Dense layer with the identity activation function.
 ```@raw html
 </p></div>
 ```
 
 
-A prerequisite for traning neural networks is efficient computation of derivatives. We derive this computation in the next box. Even though it looks complicated, it is just a simple application of the chain rule. It consists of forward and backward passes. The forward pass starts with the input, computes the values at each neuron and finishes with evaluating the loss function. The backward pass starts with the loss function, computes the partial derivatives in a backward way and chains them together to obtain the composite derivative.
+A prerequisite for training neural networks is the efficient computation of derivatives. We derive this computation in the next box. Even though it looks complicated, it is just a simple application of the chain rule. It consists of forward and backward passes. The forward pass starts with the input, computes the values at each neuron and finishes with evaluating the loss function. The backward pass starts with the loss function, computes the partial derivatives in a backward way and chains them together to obtain the composite derivative.
 
-This computation is extremely efficient because the forward pass (computing function value) and the backward pass (computing derivatives) have the same complexity. This is in sharp contrast with the finite difference method, where the computation of derivatives is much more expensive.
+This computation is highly efficient because the forward pass (computing function value) and the backward pass (computing derivatives) have the same complexity. This is in sharp contrast with the finite difference method, where the computation of derivatives is much more expensive.
 
 
 ```@raw html
@@ -227,7 +227,7 @@ for ``m=1,\dots,M`` is performed. The first equation ``z_m = W_ma_{m-1} + b_m`` 
 \nabla_{b_m} f &= \nabla_{b_m}a_M = \nabla_{z_M}a_M\nabla_{z_{M-1}}a_M\nabla_{a_{M-1}}z_{M-1}\dots \nabla_{z_m}a_m\nabla_{b_m}z_m.
 \end{aligned}
 ```
-Care needs to be taken with this expression, for example ``\nabla_{W_m}z_m`` differentiates a vector with respect to a matrix. The computation of ``\nabla_{W_m} f`` and ``\nabla_{b_m} f`` is almost the same and only the last term differs. This is the basics for an efficient computational procedure.
+Care needs to be taken with this expression; for example ``\nabla_{W_m}z_m`` differentiates a vector with respect to a matrix. The computation of ``\nabla_{W_m} f`` and ``\nabla_{b_m} f`` is almost the same and only the last term differs.
 
 Now we need to compute the individual derivatives
 ```math
@@ -236,13 +236,11 @@ Now we need to compute the individual derivatives
 \nabla_{z_m} a_m &= \operatorname{diag}(l_m'(z_m)).
 \end{aligned}
 ```
-The derivative in ``l_m'(z_m)`` is understood componentwise and ``\operatorname{diag}`` makes a diagonal matrix from the vector.
+The derivative in ``l_m'(z_m)`` is understood componentwise, and ``\operatorname{diag}`` makes a diagonal matrix from the vector.
 
 Combining all these relations allow computing the derivative of the whole network.
 
 ```@raw html
 </p></div>
 ```
-
-
 
