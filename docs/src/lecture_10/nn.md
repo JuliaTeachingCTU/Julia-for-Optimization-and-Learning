@@ -7,7 +7,7 @@ Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 X_train = MNIST.traindata()[1]
 
-imageplot(1 .- X_train, 1:15; nrows = 3, size=(800,480))
+# imageplot(1 .- X_train, 1:15; nrows = 3, size=(800,480))
 
 savefig("mnist_intro.svg")
 ```
@@ -28,7 +28,7 @@ During the last lecture, we implemented everything from scratch. This lecture wi
 - It automatically computes gradients and trains the model by updating the parameters.
 This functionality requires inputs in a specific format.
 - Images must be stored in `Float32` instead of the commonly used `Float64` to speed up operations.
-- Convolutional layers require that the input has dimension ``n_x\times n_y\times n_c\times n_s``, where ``(n_x,n_y)`` is the number of pixels in each dimension, ``n_c`` is the number of channels (1 for grayscale, and 3 for coloured images) and ``n_s`` is the number of samples. 
+- Convolutional layers require that the input has dimension ``n_x\times n_y\times n_c\times n_s``, where ``(n_x,n_y)`` is the number of pixels in each dimension, ``n_c`` is the number of channels (1 for grayscale, and 3 for coloured images) and ``n_s`` is the number of samples.
 - In general, samples are always stored in the last dimension.
 
 We use the package [MLDatasets](https://juliaml.github.io/MLDatasets.jl/stable/) to load the data.
@@ -59,7 +59,7 @@ The first two exercises visualize the data and transform it into the correct inp
 
 Plot the first 15 images of the digit 0 from the training set.
 
-**Hint**: The `ImageInspector` package written earlier provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices. 
+**Hint**: The `ImageInspector` package written earlier provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices.
 
 **Hint**: To find the correct indices, use the function `findall`.
 
@@ -98,7 +98,7 @@ savefig("mnist_intro2.svg") # hide
 </p></details>
 ```
 
-# ![](mnist_intro2.svg)
+![](mnist_intro2.svg)
 
 
 
@@ -165,7 +165,7 @@ using Flux: onehotbatch, onecold
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
     X_train, y_train = dataset.traindata(T)
     X_test, y_test = dataset.testdata(T)
-    
+
     X_train = reshape_data(X_train)
     X_test = reshape_data(X_test)
 
@@ -257,7 +257,7 @@ We see that it correctly returned a tuple of four items.
 
 ## Training and storing the network
 
-We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amount to minimizing the following objective function.  
+We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amount to minimizing the following objective function.
 
 ```math
 L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w; x_i)).
@@ -436,7 +436,7 @@ The function `train_model!` first splits the datasets into minibatches `batches`
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set. 
+Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set.
 
 ```@raw html
 </p></div>
@@ -493,7 +493,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 Write a function `train_or_load!(file_name, m, args...; ???)` checking whether the file `file_name` exists.
 - If it exists, it loads it and then copies its parameters into `m` using the function `Flux.loadparams!`.
 - If it does not exist, it trains it using `train_model!`.
-In both cases, the model `m` should be modified inside the `train_or_load!` function. Pay special attention to the optional arguments `???`. 
+In both cases, the model `m` should be modified inside the `train_or_load!` function. Pay special attention to the optional arguments `???`.
 
 Use this function to load the model from `data/mnist.bson` and evaluate the performance at the testing set.
 
@@ -509,7 +509,7 @@ First, we should check whether the directory exists ```!isdir(dirname(file_name)
 
 ```@example nn
 function train_or_load!(file_name, m, args...; force=false, kwargs...)
-    
+
     !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
     if force || !isfile(file_name)

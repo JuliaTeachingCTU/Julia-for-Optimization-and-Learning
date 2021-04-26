@@ -16,7 +16,7 @@ function reshape_data(X::AbstractArray{<:Real, 3})
 end
 
 function train_or_load!(file_name, m, args...; force=false, kwargs...)
-    
+
     !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
     if force || !isfile(file_name)
@@ -30,7 +30,7 @@ end
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
     X_train, y_train = dataset.traindata(T)
     X_test, y_test = dataset.testdata(T)
-    
+
     X_train = reshape_data(X_train)
     X_test = reshape_data(X_test)
 
@@ -328,7 +328,7 @@ savefig("miss.svg") # hide
 
 
 
-# ![](miss.svg)
+![](miss.svg)
 
 We see that some of the nines could be recognized as a seven even by humans.
 
@@ -412,15 +412,15 @@ We plot and comment on three selected digits below.
 
 Digit 0
 
-# ![](Layers_0.svg)
+![](Layers_0.svg)
 
 Digit 1
 
-# ![](Layers_1.svg)
+![](Layers_1.svg)
 
 Digit 9
 
-# ![](Layers_9.svg)
+![](Layers_9.svg)
 
 We may observe several things:
 - The functions inside the neural network do the same operations on all samples. The second row is always a black digit on a grey background.
