@@ -9,7 +9,7 @@ X_train = MNIST.traindata()[1]
 
 # imageplot(1 .- X_train, 1:15; nrows = 3, size=(800,480))
 
-savefig("mnist_intro.svg")
+# savefig("mnist_intro.svg")
 ```
 
 # More complex networks
