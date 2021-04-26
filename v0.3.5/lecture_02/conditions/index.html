@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Conditional evaluations · Julia for Machine Learning</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Julia for Machine Learning logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Julia for Machine Learning logo"/></a><div class="docs-package-name"><span class="docs-autofit">Julia for Machine Learning</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why/">Why Julia?</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Installation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../installation/julia/">Julia</a></li><li><a class="tocitem" href="../../installation/vscode/">Visual Studio Code</a></li><li><a class="tocitem" href="../../installation/git/">Git</a></li><li><a class="tocitem" href="../../installation/tutorial/">Quickstart guide</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox" checked/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Conditional evaluations</a><ul class="internal"><li><a class="tocitem" href="#if-elseif-else-statement"><span><code>if-elseif-else</code> statement</span></a></li><li><a class="tocitem" href="#Ternary-operator"><span>Ternary operator</span></a></li><li><a class="tocitem" href="#Short-circuit-evaluation"><span>Short-circuit evaluation</span></a></li></ul></li><li><a class="tocitem" href="../loops/">Loops and iterators</a></li><li><a class="tocitem" href="../scope/">Soft local scope</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Scope of variables</a></li><li><a class="tocitem" href="../../lecture_03/exceptions/">Exception handling</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_04/standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../../lecture_04/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_04/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_04/otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../../lecture_04/interaction/">Interaction with other languages</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">5: Type system and generic programming</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_05/compositetypes/">Abstract and composite types</a></li><li><a class="tocitem" href="../../lecture_05/currencies/">Generic programming</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Code organization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_06/modules/">Files and modules</a></li><li><a class="tocitem" href="../../lecture_06/pkg/">Package manager</a></li><li><a class="tocitem" href="../../lecture_06/develop/">Package development</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">Course requirements</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../final_project/homeworks/">Homework</a></li><li><a class="tocitem" href="../../final_project/project/">Final project</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Introduction to continuous optimization</a></li><li><a class="tocitem" href="../../lecture_07/unconstrained/">Unconstrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/constrained/">Constrained optimization</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Introduction to regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">9: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_09/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">10: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/iris/">Introduction to Flux</a></li><li><a class="tocitem" href="../../lecture_10/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">11: Statistics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_11/theory/">Statistics</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-16" type="checkbox"/><label class="tocitem" for="menuitem-16"><span class="docs-label">12: Ordinary differential equations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_12/theory/">Differential equations</a></li><li><a class="tocitem" href="../../lecture_12/ode/">Wave equation</a></li><li><a class="tocitem" href="../../lecture_12/diff_eq/">Julia package</a></li><li><a class="tocitem" href="../../lecture_12/optimal_control/">Optimal control</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">2: Control flow</a></li><li class="is-active"><a href>Conditional evaluations</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Conditional evaluations</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_02/conditions.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Conditional-evalutions"><a class="docs-heading-anchor" href="#Conditional-evalutions">Conditional evalutions</a><a id="Conditional-evalutions-1"></a><a class="docs-heading-anchor-permalink" href="#Conditional-evalutions" title="Permalink"></a></h1><p>This lecture handles control flow. The first part focuses on <code>if</code> conditions and the second one of loops.</p><h2 id="if-elseif-else-statement"><a class="docs-heading-anchor" href="#if-elseif-else-statement"><code>if-elseif-else</code> statement</a><a id="if-elseif-else-statement-1"></a><a class="docs-heading-anchor-permalink" href="#if-elseif-else-statement" title="Permalink"></a></h2><p>In many cases, we have to decide what to do for different conditions. Julia supports the standard <code>if-elseif-else</code> syntax, which determines which part of the code will be evaluated. This depends on the logical expression value. For example, the following function compares two numerical values.</p><pre><code class="language-julia">function compare(x, y)
+    if x &lt; y
+        println(&quot;x is less than y&quot;)
+    elseif x &gt; y
+        println(&quot;x is greater than y&quot;)
+    else
+        println(&quot;x is equal to y&quot;)
+    end
+    return
+end</code></pre><p>If the expression <code>x &lt; y</code> is true, the functions prints <em>&quot;x is less than y&quot;</em>, otherwise, the expression <code>x &gt; y</code> is evaluated, and if it is true, the functions prints <em>&quot;x is greater than y&quot;</em>. If neither expression is true, the function prints the remaining option <em>&quot;x is equal to y&quot;</em>.</p><pre><code class="language-julia-repl">julia&gt; compare(1, 2.3)
+x is less than y
+
+julia&gt; compare(4.7, 2.3)
+x is greater than y
+
+julia&gt; compare(2.3, 2.3)
+x is equal to y</code></pre><div class = "info-body">
+<header class = "info-header">Function declaration:</header><p><p>So far, we did not show how to define functions. However, the above example should show the basic syntax for defining functions. The <code>return</code> keyword specifies the function output. In this case, the function returns nothing since we only want to compare numbers. If we need to define a function that returns more than one variable, the following syntax is used.</p><pre><code class="language-julia">return x, y, z</code></pre><p>Here <code>x</code>, <code>y</code>, and <code>z</code> are some variables. We will discuss the function declaration in more detail in the <a href="../../lecture_03/functions/#Functions">next lesson</a>.</p></p></div><p>The <code>elseif</code> and <code>else</code> keywords are optional. Moreover, it is possible to use as many <code>elseif</code> blocks as needed.</p><pre><code class="language-julia-repl">julia&gt; x, y = 2, 1;
+
+julia&gt; if x &lt; y
+           println(&quot;x is less than y&quot;)
+       elseif x &gt; y
+           println(&quot;x is greater than y&quot;)
+       end
+x is greater than y
+
+julia&gt; if x &lt; y
+           println(&quot;x is less than y&quot;)
+       end</code></pre><p>The conditions in the <code>if-elseif-else</code> construction are evaluated until the first one is <code>true</code>. The associated block is then evaluated, and no other condition expressions or blocks are evaluated.</p><p>In contrast to languages like Python or Matlab, the logical expression in the <code>if-elseif-else</code> statement must always return a boolean value. Otherwise, an error will occur.</p><pre><code class="language-julia-repl">julia&gt; if 1
+           println(&quot;Hello&quot;)
+       end
+ERROR: TypeError: non-boolean (Int64) used in boolean context</code></pre><p>The <code>if</code> blocks do not introduce a <a href="https://docs.julialang.org/en/v1/manual/variables-and-scoping/">local scope</a>, i.e., it is possible to introduce a new variable inside the <code>if</code> block and use this variable outside the block.</p><pre><code class="language-julia-repl">julia&gt; x, y = 2, 1;
+
+julia&gt; if x &lt; y
+           z = y
+       else
+           z = x
+       end
+2
+
+julia&gt; z
+2</code></pre><p>However, it is necessary to ensure that the variable is always declared in all cases.</p><pre><code class="language-julia">function compare(x, y)
+    if x &lt; y
+        z = y
+    elseif x &gt; y
+        z = x
+    end
+    return z
+end</code></pre><p>The function defined above works only for numbers which are not equal.</p><pre><code class="language-julia-repl">julia&gt; compare(1, 2.3)
+2.3
+
+julia&gt; compare(4.7, 2.3)
+4.7
+
+julia&gt; compare(2.3, 2.3)
+ERROR: UndefVarError: z not defined</code></pre><p>The <code>if</code> blocks always return a value equal to the last expression evaluated in the <code>if</code> block. In other words, it is possible to assign the value returned by the <code>if</code> block to a new variable.</p><pre><code class="language-julia">function compare(x, y)
+    z = if x &lt; y
+        y
+    else
+        x
+    end
+    return z
+end</code></pre><p>In the example above, the variable <code>z</code> equals <code>y</code> if the expression<code>x &lt;y</code> evaluates as <code>true</code>. Otherwise, the variable <code>z</code> equals<code>x</code>.</p><pre><code class="language-julia-repl">julia&gt; compare(1, 2.3)
+2.3
+
+julia&gt; compare(4.7, 2.3)
+4.7
+
+julia&gt; compare(2.3, 2.3)
+2.3</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Write the <code>fact(n)</code> function that computes the factorial of <code>n</code>. Use the following function declaration:</p><pre><code class="language-julia">function fact(n)
+    # some code
+end</code></pre><p>Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.</p><p><strong>Hint:</strong> use recursion, the <code>isinteger</code> function and the <code>error</code> function. The or operator is written by <code>|</code>.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>We split the solution into three cases:</p><ol><li>If <code>n</code> is smaller than zero or not an integer, we throw an error.</li><li>If <code>n</code> is equal to zero, the function returns <code>1</code>.</li><li>If <code>n</code> is a positive integer, we use recursion.</li></ol><pre><code class="language-julia">function fact(n)
+    return if n &lt; 0 | !isinteger(n)
+        error(&quot;argument must be non-negative integer&quot;)
+    elseif n == 0
+        1
+    else
+        n * fact(n - 1)
+    end
+end</code></pre><p>Since the <code>if</code> block returns a value from the latest evaluated expression, it is possible to use it after the <code>return</code> keyword to define the function output. However, it is also possible to omit the <code>return</code> keyword since functions return the last evaluated expression if the <code>return</code> keyword is not used.</p><pre><code class="language-julia-repl">julia&gt; fact(4)
+24
+
+julia&gt; fact(0)
+1
+
+julia&gt; fact(-5)
+ERROR: argument must be non-negative integer
+
+julia&gt; fact(1.4)
+ERROR: argument must be non-negative integer</code></pre></p></details><h2 id="Ternary-operator"><a class="docs-heading-anchor" href="#Ternary-operator">Ternary operator</a><a id="Ternary-operator-1"></a><a class="docs-heading-anchor-permalink" href="#Ternary-operator" title="Permalink"></a></h2><p>The <a href="https://en.wikipedia.org/wiki/%3F:">ternary operator</a> <code>?</code> is closely related to the <code>if-else</code> statement. It can instead be used to decide between two simple options. The syntax is the following:</p><pre><code class="language-julia">a ? b : c</code></pre><p>which can be read as <em>&quot;if <code>a</code> is true, then evaluate <code>b</code>; otherwise, evaluate <code>c</code>&quot;</em>. The white spaces around <code>?</code> and <code>:</code> are mandatory.</p><pre><code class="language-julia-repl">julia&gt; x, y = 2, 1;
+
+julia&gt; println(x &lt; y ? &quot;x is less than y&quot; : &quot;x is greater than or equal to y&quot;)
+x is greater than or equal to y</code></pre><p>In this case, there are two possibilities:</p><ul><li>if <code>x &lt; y</code> is true, then the string <code>&quot;x is less than y&quot;</code> is returned,</li><li>if <code>x &lt; y</code> is false, then the string <code>&quot;x is greater than or equal to y&quot;</code> is returned.</li></ul><p>Since we wrapped the whole expression into the <code>println</code> function, the ternary operator output is printed.</p><h2 id="Short-circuit-evaluation"><a class="docs-heading-anchor" href="#Short-circuit-evaluation">Short-circuit evaluation</a><a id="Short-circuit-evaluation-1"></a><a class="docs-heading-anchor-permalink" href="#Short-circuit-evaluation" title="Permalink"></a></h2><p>Julia provides the so-called short-circuit evaluation which is similar to the conditional evaluation. The behaviour exists in most imperative programming languages having the <code>&amp;&amp;</code> and <code>||</code> boolean operators. In a series of boolean expressions connected by these operators, only the minimal number of expressions is evaluated  to determine the final boolean value of the entire chain:</p><ul><li>In the expression <code>a &amp;&amp; b</code>, the subexpression <code>b</code> is only evaluated if <code>a</code> evaluates true.</li><li>In the expression <code>a || b</code>, the subexpression <code>b</code> is only evaluated if <code>a</code> evaluates to false.</li></ul><p>To investigate this behavior, let&#39;s define the following two functions:</p><pre><code class="language-julia">t(x) = (println(x); true)
+f(x) = (println(x); false)</code></pre><p>The <code>t</code> function prints <code>x</code> and returns true. Similarly, the <code>f</code> function prints <code>x</code> and returns false. Using these two functions, we can easily determine which expressions are evaluated when using short-circuit evaluation.</p><pre><code class="language-julia-repl">julia&gt; t(1) &amp;&amp; println(2) # both expressions are evaluated
+1
+2
+
+julia&gt; f(1) &amp;&amp; println(2) # only the first expression is evaluated
+1
+false
+
+julia&gt; t(1) || println(2) # only the first expression is evaluated
+1
+true
+
+julia&gt; f(1) || println(2) # both expressions are evaluated
+1
+2</code></pre><div class = "info-body">
+<header class = "info-header">Short-circuit evaluation vs. bitwise boolean operators</header><p><p>Boolean operations without short-circuit evaluation can be done with the bitwise boolean operators <code>&amp;</code> and <code>|</code> introduced in <a href="../../lecture_01/operators/#Numeric-comparison">previous lecture</a>. These are normal functions, which happen to support infix operator syntax, but always evaluate their arguments.</p><pre><code class="language-julia-repl">julia&gt; f(1) &amp; t(2)
+1
+2
+false
+
+julia&gt; f(1) &amp;&amp; t(2)
+1
+false</code></pre></p></div><p>When multiple <code>&amp;&amp;</code> and <code>||</code> are chained together, <code>&amp;&amp;</code> has a higher precedence than <code>||</code>. For example, <code>a || b &amp;&amp; c &amp;&amp; d || e</code> is equivalent to <code>a || (b &amp;&amp; c &amp;&amp; d) || e</code>.</p><pre><code class="language-julia-repl">julia&gt; t(1) &amp;&amp; t(2) || println(3) # the first two expressions are evaluated
+1
+2
+true
+
+julia&gt; f(1) &amp;&amp; t(2) || println(3) # the first and the last expressions are evaluated
+1
+3
+
+julia&gt; f(1) &amp;&amp; f(2) || println(3) # the first and the last expressions are evaluated
+1
+3
+
+julia&gt; t(1) &amp;&amp; f(2) || println(3) # all expressions are evaluated
+1
+2
+3
+
+julia&gt; t(1) || t(2) &amp;&amp; println(3) # the first expression is evaluated
+1
+true
+
+julia&gt; f(1) || t(2) &amp;&amp; println(3) # all expressions are evaluated
+1
+2
+3
+
+julia&gt; f(1) || f(2) &amp;&amp; println(3) # the first two expressions are evaluated
+1
+2
+false
+
+julia&gt; t(1) || f(2) &amp;&amp; println(3) # the first expression is evaluated
+1
+true</code></pre><div class = "exercise-body">
+<header class = "exercise-header">Exercise:</header><p><p>Rewrite the factorial function from the exercises above. Use the short-circuit evaluation to check if the given number is a non-negative integer and the ternary operator for recursion.</p></p></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p><p>Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately by the short-circuit evaluation.</p><pre><code class="language-julia">function fact(n)
+    isinteger(n) || error(&quot;argument must be non-negative integer&quot;)
+    n &gt;= 0 || error(&quot;argument must be non-negative integer&quot;)
+    return n == 0 ? 1 : n * fact(n - 1)
+end</code></pre><p>This can be further simplified by combining the <code>&amp;&amp;</code> and <code>||</code> operators.</p><pre><code class="language-julia">function fact(n)
+    isinteger(n) &amp;&amp; n &gt;= 0 || error(&quot;argument must be non-negative integer&quot;)
+    return n == 0 ? 1 : n * fact(n - 1)
+end</code></pre><p>Since <code>&amp;&amp;</code> has higher precedence than <code>||</code>, the error function is evaluated only if <code>isinteger(n) &amp;&amp; n &gt;= 0</code> is violated. We can then check that this function works the same as the <code>fact</code> function from above.</p><pre><code class="language-julia-repl">julia&gt; fact(4)
+24
+
+julia&gt; fact(0)
+1
+
+julia&gt; fact(-5)
+ERROR: argument must be non-negative integer
+
+julia&gt; fact(1.4)
+ERROR: argument must be non-negative integer</code></pre></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_01/data_structures/">« Data structures</a><a class="docs-footer-nextpage" href="../loops/">Loops and iterators »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 26 April 2021 20:33">Monday 26 April 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
