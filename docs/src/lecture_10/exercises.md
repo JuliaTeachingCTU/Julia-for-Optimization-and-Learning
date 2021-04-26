@@ -3,65 +3,54 @@ using BSON
 using Flux
 using MLDatasets
 using DataFrames
-
+using Plots
 using Flux: onehotbatch, onecold, flatten
 
 Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 MNIST.traindata()
 
-function reshape_data(X::AbstractArray{T, 3}, y::AbstractVector) where T
+function reshape_data(X::AbstractArray{<:Real, 3})
     s = size(X)
-    return reshape(X, s[1], s[2], 1, s[3]), reshape(y, 1, :)
+    return reshape(X, s[1], s[2], 1, s[3])
 end
 
-function train_or_load!(file_name, m, X, y; force=false, kwargs...)
-
+function train_or_load!(file_name, m, args...; force=false, kwargs...)
+    
     !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
     if force || !isfile(file_name)
-        train_model!(m, X, y; file_name=file_name, kwargs...)
+        train_model!(m, args...; file_name=file_name, kwargs...)
     else
-        m_loaded = BSON.load(file_name)[:m]
-        Flux.loadparams!(m, params(m_loaded))
+        m_weights = BSON.load(file_name)[:m]
+        Flux.loadparams!(m, params(m_weights))
     end
 end
 
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
-    X_train, y_train = reshape_data(dataset.traindata(T)...)
-    X_test, y_test = reshape_data(dataset.testdata(T)...)
-    y_train = T.(y_train)
-    y_test = T.(y_test)
+    X_train, y_train = dataset.traindata(T)
+    X_test, y_test = dataset.testdata(T)
+    
+    X_train = reshape_data(X_train)
+    X_test = reshape_data(X_test)
 
     if onehot
-        y_train = onehotbatch(y_train[:], classes)
-        y_test = onehotbatch(y_test[:], classes)
+        y_train = onehotbatch(y_train, classes)
+        y_test = onehotbatch(y_test, classes)
     end
 
     return X_train, y_train, X_test, y_test
 end
 
-using Plots
-
-plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=false, ticks=false)
-
-function plot_image(x::AbstractArray{T, 3}) where T
-    size(x,3) == 1 || error("Image is not grayscale.")
-    plot_image(x[:,:,1])
-end
-
-
 T = Float32
-dataset = MLDatasets.MNIST
-
-X_train, y_train, X_test, y_test = load_data(dataset; T=T, onehot=true)
+X_train, y_train, X_test, y_test = load_data(MLDatasets.MNIST; T=T, onehot=true)
 ```
 
 
 
 # Exercises
 
-The first two exercises handle training neural networks on GPUs instead of CPUs. Even though this is extremely important for reducing the training time, we postponed it to the exercises because some course participants may not have a compatible GPU for training. If you are not able to do these two exercises for this reason, we apologize.
+The first two exercises handle training neural networks on GPUs instead of CPUs. Even though this is extremely important for reducing the training time, we postponed it to the exercises because some course participants may not have a compatible GPU for training. If anyone is not able to do these two exercises, we apologize.
 
 
 ```@raw html
@@ -70,7 +59,7 @@ The first two exercises handle training neural networks on GPUs instead of CPUs.
 ```
 While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs.
 
-To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory (RAM) and the computation will be performed on CPU. To move them to the GPU memory and allow computations on GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
+To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory (RAM), and the computation will be performed on CPU. To move them to the GPU memory and allow computations on GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
 
 Investigate how long it takes to perform multiplication ``Ab`` if both objects are on CPU, GPU or if they are saved differently. Check that both multiplications resulted in the same vector.
 ```@raw html
@@ -99,7 +88,7 @@ To test the time, we measure the time for multiplication
 0.806913 seconds (419.70 k allocations: 22.046 MiB)
 0.709140 seconds (720.01 k allocations: 34.860 MiB, 1.53% gc time)
 ```
-We see that all three times are different. Can we infer anything from it? No! The problem is that during a first call to a function, some compilation usually takes place. We should always compare only the second time.
+We see that all three times are different. Can we infer anything from it? No! The problem is that during the first call to a function, some compilation usually takes place. We should always compare only the second time.
 ```julia
 @time A*b;
 @time A_g*b_g;
@@ -110,7 +99,7 @@ We see that all three times are different. Can we infer anything from it? No! Th
 0.000154 seconds (11 allocations: 272 bytes)
 0.475280 seconds (10.20 k allocations: 957.125 KiB)
 ```
-We conclude that while the computation on CPU and GPU takes approximately the same time, when using the mixed types, it takes much longer.
+We conclude that while the computation on CPU and GPU takes approximately the same time, it takes much longer when using the mixed types.
 
 To compare the results, the first idea would be to run
 ```julia
@@ -144,7 +133,7 @@ we realize that one of the arrays is stored in ```Float64``` while the second on
 
 
 
-The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The next exercise shows the time difference when applied to a larger problem.
+The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The following exercise shows the time difference when applied to a larger problem.
 
 
 
@@ -179,12 +168,12 @@ m = Chain(
 )
 
 file_name = joinpath("data", "mnist.bson")
-train_or_load!(file_name, m, X_train, y_train)
+train_or_load!(file_name, m)
 
 m_g = m |> gpu
 X_test_g = X_test |> gpu
 ```
-Now we can measure the evaluation time. Remember that before doing so, we need to compile all the functions by evaluating at least one sample.
+Now we can measure the evaluation time. Remember that we need to compile all the functions by evaluating at least one sample before doing so.
 ```julia
 m(X_test[:,:,:,1:1])
 m_g(X_test_g[:,:,:,1:1])
@@ -264,7 +253,7 @@ m = Chain(
 )
 
 file_name = joinpath("data", "mnist.bson")
-train_or_load!(file_name, m, X_train, y_train)
+train_or_load!(file_name, m)
 ```
 When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts.
 ```@example gpuu
@@ -315,15 +304,18 @@ Plot all images which are ``9`` but were classified as ``7``.
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
-To plot all these misclassified images, we find their indices and use the function ```plot_image```. Since ```y``` are stored in the 1:10 format, we need to shift the indices by one. Since there are 11 of these images, and since 11 is a prime number, we cannot plot it in a ```layout```. We use a hack and add an empty plot ```p_empty```. When plotting, we specify ```layout``` and to minimize the empty space between images also ```size```.
+
+To plot all these misclassified images, we find their indices and use the function `imageplot`. Since `y` are stored in the 1:10 format, we need to specify `classes`.
+
 ```@example gpuu
-i1 = 9
-i2 = 7
+using ImageInspector
 
-p = [plot_image(X_test[:,:,:,i]) for i in findall((y.==i1+1) .& (y_hat.==i2+1))]
-p_empty = plot(legend=false,grid=false,foreground_color_subplot=:white)
+classes = 0:9
 
-plot(p..., p_empty; layout=(3,4), size=(800,600))
+targets = onecold(y_test, classes)
+predicts = onecold(m(X_test), classes)
+
+imageplot(1 .- X_test, findall((targets .== 9) .& (predicts .== 7)); nrows=3)
 
 savefig("miss.svg") # hide
 ```
@@ -380,29 +372,40 @@ m = Chain(
 )
 
 file_name = joinpath("data", "mnist_sigmoid.bson")
-train_or_load!(file_name, m, X_train, y_train)
+train_or_load!(file_name, m)
 ```
-Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Since ```plot_image(z1[:,:,1,i])``` plots the first channel of the ``i^{\rm th}`` samples from ```z1```, we create an array of plots by ```p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]```. As the length of ```z1``` is five, the length of ```p1``` is also five. This is the first row of the final plot. We create the other rows in the same way. To plot the final plot, we do ```plot(p1..., p2a..., p2b..., p3a..., p3b...)```, which unpacks the 5 arrays into 25 inputs to the ```plot``` function.
+
+Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Then we need to access to desired channels and plot then via the `ImageInspector` package.
+
 ```@example gpuu
+using ImageInspector
+
 classes = 0:9
+plts = []
 for i in classes
-    ii = findall(onecold(y_train, classes) .== i)[1:5]
+    jj = 1:5
+    ii = findall(onecold(y_train, classes) .== i)[jj]
 
     z1 = X_train[:,:,:,ii]
     z2 = m[1:2](X_train[:,:,:,ii])
     z3 = m[1:4](X_train[:,:,:,ii])
 
-    p1 = [plot_image(z1[:,:,1,i]) for i in 1:size(z1,4)]
-    p2a = [plot_image(z2[:,:,1,i]) for i in 1:size(z2,4)]
-    p3a = [plot_image(z3[:,:,1,i]) for i in 1:size(z3,4)]
-    p2b = [plot_image(z2[:,:,end,i]) for i in 1:size(z2,4)]
-    p3b = [plot_image(z3[:,:,end,i]) for i in 1:size(z3,4)]
-
-    plot(p1..., p2a..., p2b..., p3a..., p3b...; layout=(5,5), size=(600,600))
+    kwargs = (nrows = 1, size = (600, 140))
+    plot(
+        imageplot(1 .- z1[:, :, 1, :], jj; kwargs...),
+        imageplot(1 .- z2[:, :, 1, :], jj; kwargs...),
+        imageplot(1 .- z2[:, :, end, :], jj; kwargs...),
+        imageplot(1 .- z3[:, :, 1, :], jj; kwargs...),
+        imageplot(1 .- z3[:, :, end, :], jj; kwargs...);
+        layout = (5,1),
+        size=(700,800)
+    )
     savefig("Layers_$(i).svg")
 end
 ```
+
 We plot and comment on three selected digits below.
+
 ```@raw html
 </p></details>
 ```

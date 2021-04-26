@@ -21,12 +21,12 @@ This lecture shows how to train more complex networks using stochastic gradient 
 
 ## Preparing data
 
-During the last lecture, we implemented everything from the scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) which automizes most of the things needed for neural networks.
-- It creates many layers including convolutional layers.
+During the last lecture, we implemented everything from scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) which automizes most of the things needed for neural networks.
+- It creates many layers, including convolutional layers.
 - It creates the model by chaining layers together.
 - It efficiently represents model parameters.
 - It automatically computes gradients and trains the model by updating the parameters.
-This functionaly requires inputs in specific format.
+This functionality requires inputs in a specific format.
 - Images must be stored in `Float32` instead of the commonly used `Float64` to speed up operations.
 - Convolutional layers require that the input has dimension ``n_x\times n_y\times n_c\times n_s``, where ``(n_x,n_y)`` is the number of pixels in each dimension, ``n_c`` is the number of channels (1 for grayscale, and 3 for coloured images) and ``n_s`` is the number of samples. 
 - In general, samples are always stored in the last dimension.
@@ -61,7 +61,7 @@ Plot the first 15 images of the digit 0 from the training set.
 
 **Hint**: The `ImageInspector` package written earlier provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices. 
 
-**Hint**: To find the correct indices, use function `findall`.
+**Hint**: To find the correct indices, use the function `findall`.
 
 ```@raw html
 </p></div>
@@ -75,7 +75,7 @@ The unique elements in `y_train` show that it represents the digits.
 unique(y_train)
 ```
 
-Then we use the `findall` function to find the indices the the first 15 images of the digit zero.
+Then we use the `findall` function to find the indices of the first 15 images of the digit zero.
 
 ```@example nn
 inds = findall(y_train .== 0)[1:15]
@@ -113,9 +113,9 @@ savefig("mnist_intro2.svg") # hide
 <header class = "exercise-header">Exercise:</header><p>
 ```
 
-Write function `reshape_data` which reshapes `X_train` and `X_test` into the correct size required by Flux.
+Write function `reshape_data`, which reshapes `X_train` and `X_test` into the correct size required by Flux.
 
-**Hint**: The function should work only of inputs with the correct size. This can be achieved by specifying the correct input type `X::AbstractArray{<:Real, 3}`.
+**Hint**: The function should work only on inputs with the correct size. This can be achieved by specifying the correct input type `X::AbstractArray{<:Real, 3}`.
 
 ```@raw html
 </p></div>
@@ -146,7 +146,7 @@ end
 nothing # hide
 ```
 
-We specify that the input array has three dimensions via `X::AbstractArray{T, 3}`. This may prevent unexpected surprises when called with a input different size.
+We specify that the input array has three dimensions via `X::AbstractArray{T, 3}`. This may prevent surprises when called with different input size.
 
 ```@raw html
 </p></details>
@@ -156,7 +156,7 @@ We specify that the input array has three dimensions via `X::AbstractArray{T, 3}
 
 
 
-We write now the function `load_data` which loads the data and transform it into the the correct shape. The keyword argument `onehot` specifies whether the labels should be converted into their one-hot representation. The `dataset` keyword specifies which dataset to load. It can be any dataset from the MLDatasets package, or we can even use datasets outside of this package provided that we define the `traindata` and `testdata` functions for it.
+We write now the function `load_data`, which loads the data and transform it into the correct shape. The keyword argument `onehot` specifies whether the labels should be converted into their one-hot representation. The `dataset` keyword specifies which dataset to load. It can be any dataset from the MLDatasets package, or we can even use datasets outside of this package provided that we define the `traindata` and `testdata` functions for it.
 
 ```@example nn
 using Flux
@@ -231,7 +231,7 @@ reshape_data(X::AbstractArray{<:Real, 4}) = X
 nothing # hide
 ```
 
-Now we can load the data
+Now we can load the data.
 
 ```julia
 typeof(load_data(MLDatasets.CIFAR10; T=T, onehot=true))
@@ -263,7 +263,7 @@ We recall that machine learning minimizes the discrepancy between the prediction
 L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w; x_i)).
 ```
 
-The gradient descent works with the derivative ``\nabla L(w)``, which contains the mean over all samples. Since the MNIST training set size is 50000, evaluating one full gradient is constly. For this reasons, the gradient is approximated by a mean over a small number of samples. This small set is called a minibatch and this accelerated method stochastic gradient descent.
+The gradient descent works with the derivative ``\nabla L(w)``, which contains the mean over all samples. Since the MNIST training set size is 50000, evaluating one full gradient is costly. For this reasons, the gradient is approximated by a mean over a small number of samples. This small set is called a minibatch, and this accelerated method stochastic gradient descent.
 
 
 
@@ -330,7 +330,7 @@ nothing # hide
 <header class = "extra-header">BONUS: Manually splitting the dataset</header><p>
 ```
 
-We can do the same procedure manually. To create minibatches, we create a random partion of all indices `randperm(size(y, 2))`, and use function `partition` to create an iterator, which creates the minibatches in the form of tuples ``(X,y)``.
+We can do the same procedure manually. To create minibatches, we create a random partition of all indices `randperm(size(y, 2))` and use function `partition` to create an iterator, which creates the minibatches in the form of tuples ``(X,y)``.
 
 ```julia
 using Base.Iterators: partition
@@ -347,7 +347,7 @@ This procedure is equivalent to the `map` function.
 [(X[:, :, :, inds], y[:, inds]) for inds in partition(randperm(size(y, 2)), batchsize)]
 ```
 
-The type of ```batches``` is one-dimensional array (vector) of tuples.
+The type of `batches` is a one-dimensional array (vector) of tuples.
 
 ```@raw html
 </p></div>
@@ -364,7 +364,7 @@ To build the objective ``L``, we first specify the prediction function ``\operat
 - Two pooling layers reduce the size of the previous layer.
 - One flatten layer converts multi-dimensional arrays into one-dimensional vectors.
 - One dense layer is usually applied at the end of the chain.
-- One softmax layer is usually the last layer and results in probabilities.
+- One softmax layer is usually the last one and results in probabilities.
 
 ```@example nn
 using Random
@@ -383,7 +383,7 @@ m = Chain(
 nothing # hide
 ```
 
-The objective function ``L`` then applies the crossentropy loss to the predictions and labels.
+The objective function ``L`` then applies the cross-entropy loss to the predictions and labels.
 
 ```@example nn
 using Flux: crossentropy
@@ -483,7 +483,7 @@ println("Test accuracy = ", accuracy(X_test, y_test)) # hide
 
 
 
-The accuracy is over 93%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model again and again. The next exercise determines automatically whether the trained model already exists. If not, it trains it.
+The accuracy is over 93%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model repeatedly. The following exercise determines automatically whether the trained model already exists. If not, it trains it.
 
 ```@raw html
 <div class = "exercise-body">
@@ -523,7 +523,7 @@ end
 nothing # hide
 ```
 
-To load the model, we should use ```joinpath``` to be compatible with all operating systems. The accuracy is evaluated as before.
+To load the model, we should use `joinpath` to be compatible with all operating systems. The accuracy is evaluated as before.
 
 ```@example nn
 file_name = joinpath("data", "mnist.bson")
@@ -542,6 +542,6 @@ nothing # hide
 println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
-The externally trained model has the accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
+The externally trained model has an accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
 
 

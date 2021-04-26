@@ -23,7 +23,7 @@ Then
 ```math
 (f\ast g)(x) = \int_{-\infty}^{\infty} f(x - t)g(t) dt = \frac{1}{2\varepsilon}\int_{-\varepsilon}^{\varepsilon}f(x - t)dt.
 ```
-Then ``(f\ast g)(x)`` does not take the value of ``f`` at ``x`` but it integrates ``f`` over a small neighbourhood of ``x``. Applying this kernel results in a smoothening of ``f``.  
+Then ``(f\ast g)(x)`` does not take the value of ``f`` at ``x`` but integrates ``f`` over a small neighbourhood of ``x``. Applying this kernel results in a smoothening of ``f``.  
 
 In image processing, the image ``f`` is not represented by a function but by a collection of pixels. The kernel ``g`` is represented by a small matrix. For the commonly used ``3\times 3`` kernel matrix, the convolution has the form
 ```math
@@ -50,7 +50,7 @@ The input of a convolutional layer has dimension ``I_1\times J_1\times C_1``, wh
 ```math
 \text{output}(i_0,j_0,c_0) = l\left(\sum_{c=1}^C\sum_{i=-a}^{a}\sum_{j=-b}^b \Big( K_{c_0}(i,j,c) \text{input}(i_0+i,j_0+j,c) + b(c)\Big)\right).
 ```
-After the linear operation inside, an activation function ``l`` is applied. Without it, the whole network would a product of linear function and therefore linear function (written in a very complicated form).
+After the linear operation inside, an activation function ``l`` is applied. Without it, the whole network would a product of linear function and, therefore, linear function (written in a complicated form).
 
 The natural question is the interpretation of the linear operator and the number of parameters:
 - The kernel matrix ``K`` contains ``(2a+1)(2b+1)C_1C_2`` parameters. What does it mean? First, there is a separate kernel for each output channels. Second, the kernel also averages (more precisely, computes a linear combination) over all input channels. However, the coefficients of this linear combination do not depend on the position ``(i_0,j_0)``. 
@@ -98,9 +98,9 @@ From the previous lecture, we know that the gradient is computed via the chain r
 ```math
 \nabla f = \nabla f_M\nabla f_{M-1}\dots\nabla f_1.
 ```
-Since the formula contains multiplication, it means that if any of the gradients is too small, then the whole gradient will be too small. Specifically, the deeper the network, the higher the chance that the initial point will be in a point with a small gradient and the training will progress slowly. This phenomenon is called vanishing gradients.
+Since the formula contains multiplication, if any of the gradients is too small, then the whole gradient will be too small. Specifically, the deeper the network, the higher the chance that the initial point will be in a point with a small gradient and the training will progress slowly. This phenomenon is called vanishing gradients.
 
-To solve the issue with vanishing gradients, skip connections are sometimes added. Even though it is not a layer, we include it here. They do precisely what their name suggest: They skip one or more layers. This makes the network more flexible: Due to its deep structure, it can approximate complicated functions, and due to its shallow structure (because of skip connections), the initial training can be fast.
+To solve the issue with vanishing gradients, skip connections are sometimes added. Even though it is not a layer, we include it here. They do precisely what their name suggests: They skip one or more layers. This makes the network more flexible: Due to its deep structure, it can approximate complicated functions, and due to its shallow structure (because of skip connections), the initial training can be fast.
 
 ```@raw html
 </p></div>
@@ -123,4 +123,4 @@ If the dataset contains many samples (``n`` is large), then it takes long time t
 ```
 Here, the minibatch``I`` is a small (``32, 64, \dots``) subset of all samples ``\{1,\dots,n\}``. Sometimes the gradient descent is replaced by other options such as ADAM or RMSprop, which in some way consider the history of gradients.
 
-This technique is called stochastic gradient descent. During one epoch (the time during which the optimizer evaluates each sample once), it performs many gradient updates (unlike the standard gradient descent which performs only one update). Even though these updates are imprecise, numerical experiments show that stochastic gradient descent is much faster than standard gradient descent. The probable reason is that the full dataset contains lots of duplicate information, and the full gradient performs unnecessary computation, which slows it down.  
+This technique is called stochastic gradient descent. During one epoch (the time when the optimizer evaluates each sample once), it performs many gradient updates (unlike the standard gradient descent, which performs only one update). Even though these updates are imprecise, numerical experiments show that stochastic gradient descent is much faster than standard gradient descent. The probable reason is that the entire dataset contains lots of duplicate information, and the full gradient performs unnecessary computation, which slows it down.  
