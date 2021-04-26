@@ -6,6 +6,8 @@ using MLDatasets
 using Flux
 using Flux: onehotbatch, onecold, crossentropy
 using Flux.Data: DataLoader
+using Plots
+using ImageInspector
 
 T = Float32
 X_train, y_train = MLDatasets.MNIST.traindata(T)

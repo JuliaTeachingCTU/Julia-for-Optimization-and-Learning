@@ -10,11 +10,15 @@ using MLDatasets
 using Flux
 using Flux: onehotbatch, onecold, crossentropy
 using Flux.Data: DataLoader
+using Plots
+using ImageInspector
 
 function reshape_data(X::AbstractArray{<:Real, 3})
     s = size(X)
     return reshape(X, s[1], s[2], 1, s[3])
 end
+
+reshape_data(X::AbstractArray{<:Real, 4}) = X
 
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
     X_train, y_train = dataset.traindata(T)
@@ -33,7 +37,7 @@ end
 
 T = Float32
 X_train, y_train, X_test, y_test = load_data(MLDatasets.MNIST; T=T, onehot=true);
-load_data(MLDatasets.CIFAR; T=T, onehot=true);
+load_data(MLDatasets.CIFAR10; T=T, onehot=true);
 
 inds = findall(y_train .== 0)[1:15]
 imageplot(1 .- X_train, inds; nrows=3, size=(800,480))
@@ -71,4 +75,4 @@ train_model!(m, L, X_train, y_train; n_epochs=1)
 
 accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
 
-string(accuracy(X_test, y_test))
+accuracy(X_test, y_test)
