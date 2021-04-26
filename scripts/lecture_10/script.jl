@@ -65,22 +65,11 @@ X_test, y_test = MLDatasets.MNIST.testdata(T)
 
 # Exercise
 
-unique(y_train)
 
-inds = findall(y_train .== 0)[1:15]
-
-imageplot(1 .- X_train, inds; nrows=3, size=(800,480))
 
 # Exercise
 
-typeof(X_train)
 
-size(X_train)
-
-function reshape_data(X::AbstractArray{<:Real, 3})
-    s = size(X)
-    return reshape(X, s[1], s[2], 1, s[3])
-end
 
 # Loading data
 
@@ -103,20 +92,15 @@ X_train, y_train, X_test, y_test = load_data(MLDatasets.MNIST; T=T, onehot=true)
 
 # Exercise
 
-load_data(MLDatasets.CIFAR10; T=T, onehot=true)
 
-reshape_data(X::AbstractArray{<:Real, 4}) = X
 
 # Exercise
 
-typeof(load_data(MLDatasets.CIFAR10; T=T, onehot=true))
 
-batchsize = 32
-batches = DataLoader((X_train, y_train); batchsize, shuffle = true)
 
 # Bonus
 
-map(partition(randperm(size(y, 2)), batchsize)) do inds
+batches = map(partition(randperm(size(y, 2)), batchsize)) do inds
     return (X[:, :, :, inds], y[:, inds])
 end
 
@@ -158,28 +142,9 @@ end
 
 # Exercise
 
-file_name = "mnist_simple.bson"
-train_model!(m, L, X_train, y_train; n_epochs=1, file_name=file_name)
 
-accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
-
-"Test accuracy = " * string(accuracy(X_test, y_test))
 
 # Exercise
 
-function train_or_load!(file_name, m, args...; force=false, kwargs...)
-    
-    !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
-    if force || !isfile(file_name)
-        train_model!(m, args...; file_name=file_name, kwargs...)
-    else
-        m_weights = BSON.load(file_name)[:m]
-        Flux.loadparams!(m, params(m_weights))
-    end
-end
 
-file_name = joinpath("data", "mnist.bson")
-train_or_load!(file_name, m, L, X_train, y_train)
-
-"Test accuracy = " * string(accuracy(X_test, y_test))

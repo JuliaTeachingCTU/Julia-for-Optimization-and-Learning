@@ -12,37 +12,22 @@ using Flux: onehotbatch, onecold, crossentropy
 using Flux.Data: DataLoader
 using Plots
 using ImageInspector
+import RDatasets: dataset
 
-function reshape_data(X::AbstractArray{<:Real, 3})
-    s = size(X)
-    return reshape(X, s[1], s[2], 1, s[3])
-end
+plot(1:10)
 
-reshape_data(X::AbstractArray{<:Real, 4}) = X
-
-function load_data(dataset; T=Float32, onehot=false, classes=0:9)
-    X_train, y_train = dataset.traindata(T)
-    X_test, y_test = dataset.testdata(T)
-    
-    X_train = reshape_data(X_train)
-    X_test = reshape_data(X_test)
-
-    if onehot
-        y_train = onehotbatch(y_train, classes)
-        y_test = onehotbatch(y_test, classes)
-    end
-
-    return X_train, y_train, X_test, y_test
-end
+iris = dataset("datasets", "iris")
 
 T = Float32
-X_train, y_train, X_test, y_test = load_data(MLDatasets.MNIST; T=T, onehot=true);
-load_data(MLDatasets.CIFAR10; T=T, onehot=true);
+X_train, y_train = MLDatasets.MNIST.traindata(T)
+X_train = reshape(X_train, size(X_train,1), size(X_train,2), 1, size(X_train,3))
+y_train = onehotbatch(y_train, 0:9)
+MLDatasets.MNIST.testdata(T)
+MLDatasets.CIFAR10.traindata(T)
 
-inds = findall(y_train .== 0)[1:15]
-imageplot(1 .- X_train, inds; nrows=3, size=(800,480))
+imageplot(1 .- X_train, 1:3; nrows=1, size=(800,480))
 
-m = Chain(
+m_aux = Chain(
     Conv((2,2), 1=>16, relu),
     MaxPool((2,2)),
     Conv((2,2), 16=>8, relu),
@@ -52,27 +37,10 @@ m = Chain(
     softmax,
 )
 
-L(X, y) = crossentropy(m(X), y)
+L_aux(X, y) = crossentropy(m_aux(X), y)
 
-function train_model!(m, L, X, y;
-        opt = Descent(0.1),
-        batchsize = 128,
-        n_epochs = 10,
-        file_name = "")
+batches_aux = DataLoader((X_train, y_train); batchsize=64, shuffle = true)
 
-    batches = DataLoader((X, y); batchsize, shuffle = true)
+gradient(() -> L_aux(X_train[:,:,:,1:10], y_train[:,1:10]), params(m_aux))
 
-    for _ in 1:n_epochs
-        Flux.train!(L, params(m), batches, opt)
-    end
-
-    !isempty(file_name) && BSON.bson(file_name, m=m)
-
-    return
-end
-
-train_model!(m, L, X_train, y_train; n_epochs=1)
-
-accuracy(x, y) = mean(onecold(m(x)) .== onecold(y))
-
-accuracy(X_test, y_test)
+onecold(m_aux(X_train[:,:,:,1:10]))
