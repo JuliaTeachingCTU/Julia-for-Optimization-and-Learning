@@ -232,9 +232,9 @@ Exercises which do not require GPUs start here.
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise 3:</header><p>
 ```
-Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``.
+Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``. This matrix is called the [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
 
-Convert the table into a dataframe and add labels.
+Convert the confusion matrix into a dataframe and add labels.
 ```@raw html
 </p></div>
 <details class = "solution-body">
