@@ -94,6 +94,7 @@ lecture_09 = joinpath.("./lecture_09/", [
 
 lecture_10 = joinpath.("./lecture_10/", [
     "theory.md",
+    "iris.md",
     "nn.md",
     "exercises.md",
 ])

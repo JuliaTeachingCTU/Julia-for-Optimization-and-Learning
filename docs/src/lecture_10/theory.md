@@ -2,14 +2,14 @@
 
 In the previous lecture, we presented an introduction to neural networks. We also showed how to train neural networks using gradient descent. This lecture is going to show more layers and a more sophisticated way of training.
 
-## Layers
+## Convolutional layers
 
 The last lecture concentrated on the dense layer. Even though it is widely used due to its simplicity, it suffers from several disadvantages, especially in visual recognition. These disadvantages include:
 - *Large number of parameters*. For an image with ``500\times 500\times 3`` pixels and the output layer of only ``1000`` neurons, the dense layer would contain ``750`` million parameters. This is too much to optimize.
 - *No structural information*. Dense layers assign a weight to every pixel and then add the weighted values. This means that information from the top-leftmost and bottom-rightmost pixels of the image will be combined. Since a combination of these two pixels should carry no meaningful information, redundant computation is performed.
 Convolutional layers were designed to alleviate these issues.
 
-#### Convolutional layer: Motivation
+#### Motivation
 
 To understand the convolutional layers, we need to go back to the definition of convolution. Having a function ``f`` and  a kernel ``g``, their convolution is defined by
 ```math
@@ -40,7 +40,7 @@ perform identity, image smoothening and edge detection, respectively.
 
 ![](turtles.png)
 
-#### Convolutional layer: Formulas
+#### Formulas
 
 Traditional techniques for image processing use multiple fixed kernels and combine their results. The idea of convolutional layers is to remove all human-made assumptions about which kernels to choose and learn the kernels' parameters based purely on data. Even though it gives superb results, it also removes any insight or interpretation humans may make. 
 
@@ -61,8 +61,27 @@ This results in fixing the two issues mentioned above.
 - The number of parameters of convolutional layers stays relatively small.
 - Using kernels means that only local information from neighbouring pixels is propagated to subsequent layers.
 
-Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
 
+
+
+
+## Network structure
+
+When an input is an image, the usual structure of the neural network is the following:
+- Convolutional layer followed by a pooling layer.
+- This is repeated many times.
+- Flatten layer (it reshapes the three-dimensional tensor into a vector).
+- Dense (fully connected) layer.
+- Softmax layer.
+- Cross-entropy loss function.
+
+
+```@raw html
+<div class = "extra-body">
+<header class = "extra-header">BONUS: Additional layers</header><p>
+```
+
+Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
 
 #### Recurrent layer
 
@@ -83,15 +102,10 @@ Since the formula contains multiplication, it means that if any of the gradients
 
 To solve the issue with vanishing gradients, skip connections are sometimes added. Even though it is not a layer, we include it here. They do precisely what their name suggest: They skip one or more layers. This makes the network more flexible: Due to its deep structure, it can approximate complicated functions, and due to its shallow structure (because of skip connections), the initial training can be fast.
 
-#### Network structure
+```@raw html
+</p></div>
+```
 
-When an input is an image, the usual structure of the neural network is the following:
-- Convolutional layer followed by a pooling layer.
-- This is repeated many times.
-- Flatten layer (it reshapes the three-dimensional tensor into a vector).
-- Dense (fully connected) layer.
-- Softmax layer.
-- Cross-entropy loss function.
 
 ## Stochastic gradient descent
 
