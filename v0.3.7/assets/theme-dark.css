@@ -1,0 +1,144 @@
+/* Exercise class */
+.exercise-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #008438;
+    border: 1px solid #008438;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.exercise-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #008438;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Solution class */
+.solution-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #FF8000;
+    border: 1px solid #FF8000;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+    cursor: pointer;
+}
+
+.solution-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #FF8000;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Info class */
+.info-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #024c7d;
+    border: 1px solid #024c7d;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.info-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #024c7d;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Extra class */
+.extra-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #296816;
+    border: 1px solid #296816;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.extra-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #22bb5d;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Theorem class */
+.theorem-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #B03a2e;
+    border: 1px solid #B03a2e;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.theorem-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #B03a2e;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Homework class */
+.homework-header {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    background-color: #6c3483;
+    border: 1px solid #6c3483;
+    color: #FFFFFF;
+    align-items: center;
+    font-weight: 700;
+    justify-content: space-between;
+    line-height: 1.25;
+    padding: 0.75em;
+    position: relative;
+}
+
+.homework-body {
+    border-radius: 4px;
+    padding: .5em .5em 0;
+    background-color: #282F2F;
+    border: 1px solid #6c3483;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
