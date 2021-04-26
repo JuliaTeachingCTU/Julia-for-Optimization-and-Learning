@@ -1,7 +1,7 @@
 ```@setup nn
 using Plots
 using MLDatasets
-using ImageInspector
+# using ImageInspector
 
 Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
@@ -85,7 +85,7 @@ nothing # hide
 
 We use the `imageplot` function to plot the images. To invert the colours, we need to call it with `1 .- X_train` instead of `X_train`.
 
-```@example nn
+```julia
 using Plots
 using ImageInspector
 
@@ -98,7 +98,7 @@ savefig("mnist_intro2.svg") # hide
 </p></details>
 ```
 
-![](mnist_intro2.svg)
+# ![](mnist_intro2.svg)
 
 
 

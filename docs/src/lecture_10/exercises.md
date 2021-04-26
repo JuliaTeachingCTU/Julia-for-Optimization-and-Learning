@@ -307,7 +307,7 @@ Plot all images which are ``9`` but were classified as ``7``.
 
 To plot all these misclassified images, we find their indices and use the function `imageplot`. Since `y` are stored in the 1:10 format, we need to specify `classes`.
 
-```@example gpuu
+```julia
 using ImageInspector
 
 classes = 0:9
@@ -328,7 +328,7 @@ savefig("miss.svg") # hide
 
 
 
-![](miss.svg)
+# ![](miss.svg)
 
 We see that some of the nines could be recognized as a seven even by humans.
 
@@ -377,7 +377,7 @@ train_or_load!(file_name, m)
 
 Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Then we need to access to desired channels and plot then via the `ImageInspector` package.
 
-```@example gpuu
+```julia
 using ImageInspector
 
 classes = 0:9
@@ -412,15 +412,15 @@ We plot and comment on three selected digits below.
 
 Digit 0
 
-![](Layers_0.svg)
+# ![](Layers_0.svg)
 
 Digit 1
 
-![](Layers_1.svg)
+# ![](Layers_1.svg)
 
 Digit 9
 
-![](Layers_9.svg)
+# ![](Layers_9.svg)
 
 We may observe several things:
 - The functions inside the neural network do the same operations on all samples. The second row is always a black digit on a grey background.
