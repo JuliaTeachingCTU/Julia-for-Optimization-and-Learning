@@ -545,3 +545,29 @@ println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 The externally trained model has an accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
 
 
+
+
+```@setup nn
+using Plots
+
+plot_image(x::AbstractArray{T, 2}) where T = plot(Gray.(1 .-x'), axis=false, ticks=false)
+
+function plot_image(x::AbstractArray{T, 3}) where T
+    size(x,3) == 1 || error("Image is not grayscale.")
+    plot_image(x[:,:,1])
+end
+
+ii = [1;2;54]
+
+p1 = plot_image(X_train[:,:,:,ii[1]])
+p2 = plot_image(X_train[:,:,:,ii[2]])
+p3 = plot_image(X_train[:,:,:,ii[3]])
+
+plot(p1, p2, p3; layout=(1,3), size=(900,300))
+
+savefig("nn_intro.svg")
+
+m_val = m(X_train[:,:,:,ii])
+p = maximum(m_val, dims=1)
+y_hat = onecold(m_val, 0:9)
+```
