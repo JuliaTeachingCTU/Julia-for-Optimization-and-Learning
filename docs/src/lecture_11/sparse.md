@@ -15,7 +15,7 @@ Often, a regularization term is added. There are two possibilities. The [ridge r
 [LASSO](https://en.wikipedia.org/wiki/Lasso_(statistics)) adds the weighted ``l_1``-norm penalization term to the objective:
 
 ```math
-\operatorname{minimize}_w\qquad \sum_{i=1}^n(w^\top x_i - y_i)^2 + \mu \|w|\|_1.
+\operatorname{minimize}_w\qquad \sum_{i=1}^n(w^\top x_i - y_i)^2 + \mu \|w\|_1.
 ```
 
 Both approaches try to keep the norm of parameters ``w`` small to prevent overfitting. The first approach results in a simpler numerical method, while the second one induces sparsity. Before we start with both topics, we will briefly mention matrix decompositions which plays a crucial part in numerical computations.
@@ -27,7 +27,7 @@ Both approaches try to keep the norm of parameters ``w`` small to prevent overfi
 Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries. We there exist ``\lambda\in\mathbb R`` and ``v\in\mathbb^n`` such that
 
 ```math
-Av = \lambda b,
+Av = \lambda v,
 ```
 
 we say that ``\lambda`` is a eigenvalue of ``A`` and ``v`` is the corresponding eigenvector.
@@ -41,13 +41,13 @@ A = Q\Lambda Q^\top
 and for any real number ``\mu``, we also have
 
 ```math
-A + \mu I = Q(\Lambda + \mu I) Q^\top
+A + \mu I = Q(\Lambda + \mu I) Q^\top.
 ```
 
 Since the eigenvectors are perpendicular, ``Q`` is an orthonormal matrix and therefore ``Q^{-1} = Q^\top``. This implies that we can easily invert the matrix ``A + \mu I`` by
 
 ```math
-(A + \mu I)^{-1} = Q^\top (\Lambda + \mu I)^{-1} Q.
+(A + \mu I)^{-1} = Q (\Lambda + \mu I)^{-1} Q^\top.
 ```
 
 Because ``\Lambda + \mu I`` is a diagonal matrix, its inverse is simple to compute.
@@ -78,7 +78,7 @@ X^\top X = Q\Lambda Q^\top.
 Then the formula for optimal weights simplifies into 
 
 ```math
-w = Q^\top (\Lambda+\mu I)^{-1} QX^\top y.
+w = Q(\Lambda+\mu I)^{-1} Q^\top X^\top y.
 ```
 
 Since this formula uses only matrix-vector multiplication and an inversion of a diagonal matrix, we can employ it to fast compute the solution for multiple values of ``\mu``.
