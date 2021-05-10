@@ -296,7 +296,7 @@ Now we use `add Colors` to install the Colors package.
 Since we want to work in `scripts`, we change the environment back.
 
 ```julia
-(ImageInspector) pkg> activate /scripts
+(ImageInspector) pkg> activate ./scripts
 
 (scripts)
 ```

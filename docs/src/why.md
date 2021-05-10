@@ -52,9 +52,7 @@ We do not check whether the input argument is a non-negative integer for simplic
 
 ```python
 def fib(n):
-    if n<2:
-        return n
-    return fib(n-1) + fib(n-2)
+    return n if n<2 else fib(n-1) + fib(n-2)
 ```
 
 Finally, an implementation in C would be close to:
@@ -65,7 +63,7 @@ int fib(int n) {
 }
 ```
 
-We see that these three implementations are very different. Surprisingly, the implementation in C is the shortest one. The reason is that C allows using the [ternary operator](https://en.wikipedia.org/wiki/%3F:). Even though Matlab allows to write the `if-else` statement on one line, this would decrease the code readability. Julia can implement this function in a simple way.
+We see that these three implementations are very different. Surprisingly, the implementation in C is the shortest one on par with python. The reason is that C allows using the [ternary operator](https://en.wikipedia.org/wiki/%3F:). Even though Matlab allows to write the `if-else` statement on one line, this would decrease the code readability. Julia can implement this function in a simple way.
 
 ```julia
 fib(n::Int) = n < 2 ? n : fib(n-1) + fib(n-2)
