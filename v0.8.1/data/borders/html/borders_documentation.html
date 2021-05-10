@@ -1,0 +1,214 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>borders documentation</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-04-06"><meta name="DC.source" content="borders_documentation.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1><tt>borders</tt> documentation</h1><!--introduction--><p>This function plots borders of nations or US states.  This function does <b>not</b> require Matlab's Mapping Toolbox. Data are compiled from <a href="https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html">2013 US Census Bureau 500k data</a> and a <a href="http://thematicmapping.org/downloads/world_borders.php">thematicmapping.org TM World Borders 0.3</a> dataset.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Example 1: Very simple</a></li><li><a href="#4">Example 2: Red Russia, red Russia</a></li><li><a href="#5">Example 3: Continental US</a></li><li><a href="#6">Example 4: Fancy formatting</a></li><li><a href="#7">Example 5: Georgia vs. Georgia.</a></li><li><a href="#8">Example 6: Data only</a></li><li><a href="#9">Example 7: No Mapping Toolbox?  No problem!</a></li><li><a href="#10">Example 8: Formatting without the Mapping Toolbox</a></li><li><a href="#11">Author Info</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre>borders
+borders(place)
+borders(...,LineProperty,LineValue)
+borders(...,PatchProperty,PatchValue)
+borders(...,'NoMappingToolbox')
+h = borders(...)
+[lat,lon] = borders(place)</pre><h2>Description<a name="2"></a></h2><p><tt>borders</tt> plots national borders.</p><p><tt>borders(place)</tt> plots the borders of a <tt>place</tt>, which can be any country or US state.  <tt>place</tt> may also be <tt>'countries'</tt> to plot all national borders, <tt>'states'</tt> to plot all US state borders, or <tt>'Continental US'</tt> to plot only the continental United States (sorry Guam).  Note: to plot the nation of Georgia, use <tt>'Georgia'</tt>. To plot the US state of Georgia, specify <tt>'Georgia.'</tt> with a period.</p><p><tt>borders(...,LineProperty,LineValue)</tt> specifies linestyle or markerstyle.</p><p><tt>borders(...,PatchProperty,PatchValue)</tt> outlines states or nations as patch objects if any property begins with <tt>'face'</tt>, (e.g., <tt>'facecolor','red'</tt>). Note that plotting all countries as patches can be a bit slow.</p><p><tt>borders(...,'NoMappingToolbox')</tt> plots data in plain old unprojected cartesian coordinates by <tt>plot(lon,lat)</tt>. If you do not have Matlab's Mapping Toolbox, this option is selected automatically. If you do have Matlab's Mapping Toolbox, but you do not want to plot in map axes, include <tt>'NoMappingToolbox'</tt> or simply <tt>'nomap'</tt>.</p><p><tt>h = borders(...)</tt> returns a handle <tt>h</tt> of plotted object(s).</p><p><tt>[lat,lon] = borders(place)</tt> does not plot any borders, but returns arrays of their geographic coordinates.</p><h2>Example 1: Very simple<a name="3"></a></h2><p>To plot all national borders, just type <tt>borders</tt>:</p><pre class="codeinput">borders
+</pre><img vspace="5" hspace="5" src="borders_documentation_01.png" alt=""> <h2>Example 2: Red Russia, red Russia<a name="4"></a></h2><p>Add Russia to the map as a big red patch:</p><pre class="codeinput">borders(<span class="string">'russia'</span>,<span class="string">'facecolor'</span>,<span class="string">'red'</span>)
+</pre><img vspace="5" hspace="5" src="borders_documentation_02.png" alt=""> <h2>Example 3: Continental US<a name="5"></a></h2><p>Open a new figure and plot the continental United States oulined in black:</p><pre class="codeinput">figure
+borders(<span class="string">'continental us'</span>,<span class="string">'k'</span>)
+</pre><img vspace="5" hspace="5" src="borders_documentation_03.png" alt=""> <h2>Example 4: Fancy formatting<a name="6"></a></h2><p>Let's turn Texas blue (that'll be the day), give it a thick magenta outline, and give Nebraska a thick green outline.  The <tt>labelborders</tt> function works just like the <tt>borders</tt> function.</p><pre class="codeinput">borders(<span class="string">'texas'</span>,<span class="string">'facecolor'</span>,<span class="string">'blue'</span>,<span class="string">'edgecolor'</span>,<span class="string">'m'</span>,<span class="string">'linewidth'</span>,2)
+borders(<span class="string">'nebraska'</span>,<span class="string">'g'</span>,<span class="string">'linewidth'</span>,2)
+labelborders(<span class="string">'continental us'</span>,<span class="string">'fontsize'</span>,6);
+labelborders(<span class="string">'Texas'</span>,<span class="string">'color'</span>,<span class="string">'r'</span>,<span class="string">'backgroundcolor'</span>,<span class="string">'y'</span>,<span class="keyword">...</span>
+    <span class="string">'fontangle'</span>,<span class="string">'italic'</span>,<span class="string">'fontsize'</span>,16)
+</pre><img vspace="5" hspace="5" src="borders_documentation_04.png" alt=""> <h2>Example 5: Georgia vs. Georgia.<a name="7"></a></h2><p>There are two Georgias.  To distinguish between them, I've placed a period at the end of the US state called Georgia. Let us compare:</p><pre class="codeinput">figure
+subplot(121)
+borders <span class="string">'georgia'</span>
+labelborders <span class="string">'Georgia'</span>
+subplot(122)
+borders <span class="string">'georgia.'</span>
+labelborders <span class="string">'Georgia.'</span>
+</pre><img vspace="5" hspace="5" src="borders_documentation_05.png" alt=""> <h2>Example 6: Data only<a name="8"></a></h2><p>Just want the outline of a country or state without plotting it?  Using <tt>borders</tt> with two outputs returns lat, lon arrays without plotting.</p><pre class="codeinput">[lat,lon] = borders(<span class="string">'kenya'</span>);
+</pre><h2>Example 7: No Mapping Toolbox?  No problem!<a name="9"></a></h2><p>You don't need Matlab's Mapping Toolbox to use this function. If you do not have the Mapping Toolbox, the <tt>'nomap'</tt> option is selected by default. I do have the Mapping Toolbox, so if I don't want data plotted in map axes, I have to specify <tt>'nomap'</tt> like this:</p><pre class="codeinput">figure
+borders(<span class="string">'countries'</span>,<span class="string">'nomap'</span>)
+axis <span class="string">tight</span>
+</pre><img vspace="5" hspace="5" src="borders_documentation_06.png" alt=""> <h2>Example 8: Formatting without the Mapping Toolbox<a name="10"></a></h2><p>With or without Matlab's Mapping Toolbox, formatting patches and country outlines is easy:</p><pre class="codeinput">figure
+borders(<span class="string">'mexico'</span>,<span class="string">'r:'</span>,<span class="string">'linewidth'</span>,2,<span class="string">'nomap'</span>)
+hold <span class="string">on</span>
+borders(<span class="string">'belize'</span>,<span class="string">'facecolor'</span>,<span class="string">'b'</span>,<span class="string">'linestyle'</span>,<span class="string">'-'</span>,<span class="string">'linewidth'</span>,3,<span class="string">'nomap'</span>)
+labelborders(<span class="string">'Mexico'</span>,<span class="string">'color'</span>,<span class="string">'r'</span>,<span class="string">'nomap'</span>)
+labelborders(<span class="string">'Belize'</span>,<span class="string">'color'</span>,<span class="string">'g'</span>,<span class="string">'nomap'</span>)
+</pre><img vspace="5" hspace="5" src="borders_documentation_07.png" alt=""> <h2>Author Info<a name="11"></a></h2><p>The <tt>borders</tt> and <tt>labelborders</tt> functions were written by <a href="http://www.chadagreene.com">Chad A. Greene</a> of the University of Texas at Austin's Institute for Geophysics (UTIG), April 2015.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% |borders| documentation
+% This function plots borders of nations or US states.  This function does
+% *not* require Matlab's Mapping Toolbox. Data are compiled from <https://www.census.gov/geo/maps-data/data/tiger-cart-boundary.html
+% 2013 US Census Bureau 500k data> and a
+% <http://thematicmapping.org/downloads/world_borders.php
+% thematicmapping.org TM World Borders 0.3> dataset. 
+% 
+%% Syntax 
+% 
+%  borders
+%  borders(place)
+%  borders(...,LineProperty,LineValue)
+%  borders(...,PatchProperty,PatchValue)
+%  borders(...,'NoMappingToolbox')
+%  h = borders(...)
+%  [lat,lon] = borders(place) 
+% 
+%% Description 
+% 
+% |borders| plots national borders. 
+% 
+% |borders(place)| plots the borders of a |place|, which can be any country or US state.  |place| may also be 
+% |'countries'| to plot all national borders, |'states'| to plot all US state borders, or |'Continental US'| to 
+% plot only the continental United States (sorry Guam).  Note: to plot the nation of Georgia, use |'Georgia'|.
+% To plot the US state of Georgia, specify |'Georgia.'| with a period. 
+%
+% |borders(...,LineProperty,LineValue)| specifies linestyle or markerstyle.
+% 
+% |borders(...,PatchProperty,PatchValue)| outlines states or nations as patch objects if any property begins
+% with |'face'|, (e.g., |'facecolor','red'|). Note that plotting all countries as patches can be a bit slow.  
+%
+% |borders(...,'NoMappingToolbox')| plots data in plain old unprojected cartesian coordinates by |plot(lon,lat)|. 
+% If you do not have Matlab's Mapping Toolbox, this option is selected automatically. If you do have Matlab's Mapping
+% Toolbox, but you do not want to plot in map axes, include |'NoMappingToolbox'| or simply |'nomap'|.  
+%
+% |h = borders(...)| returns a handle |h| of plotted object(s). 
+%
+% |[lat,lon] = borders(place)| does not plot any borders, but returns arrays of their geographic coordinates.    
+% 
+%% Example 1: Very simple
+% To plot all national borders, just type |borders|: 
+
+borders
+
+%% Example 2: Red Russia, red Russia 
+% Add Russia to the map as a big red patch:
+
+borders('russia','facecolor','red')
+
+%% Example 3: Continental US
+% Open a new figure and plot the continental United States oulined in
+% black: 
+
+figure
+borders('continental us','k')
+
+%% Example 4: Fancy formatting
+% Let's turn Texas blue (that'll be the day), give it a thick magenta
+% outline, and give Nebraska a thick green outline.  The |labelborders|
+% function works just like the |borders| function. 
+
+borders('texas','facecolor','blue','edgecolor','m','linewidth',2)
+borders('nebraska','g','linewidth',2)
+labelborders('continental us','fontsize',6);
+labelborders('Texas','color','r','backgroundcolor','y',...
+    'fontangle','italic','fontsize',16)
+
+%% Example 5: Georgia vs. Georgia.
+% There are two Georgias.  To distinguish between them, I've placed a
+% period at the end of the US state called Georgia. Let us compare: 
+
+figure
+subplot(121)
+borders 'georgia'
+labelborders 'Georgia'
+subplot(122)
+borders 'georgia.'
+labelborders 'Georgia.'
+
+%% Example 6: Data only
+% Just want the outline of a country or state without plotting it?  Using
+% |borders| with two outputs returns lat, lon arrays without plotting. 
+
+[lat,lon] = borders('kenya'); 
+
+%% Example 7: No Mapping Toolbox?  No problem! 
+% You don't need Matlab's Mapping Toolbox to use this function. If you do
+% not have the Mapping Toolbox, the |'nomap'| option is selected by
+% default. I do have the Mapping Toolbox, so if I don't want data plotted
+% in map axes, I have to specify |'nomap'| like this: 
+
+figure
+borders('countries','nomap')
+axis tight
+
+%% Example 8: Formatting without the Mapping Toolbox
+% With or without Matlab's Mapping Toolbox, formatting patches and country
+% outlines is easy: 
+
+figure
+borders('mexico','r:','linewidth',2,'nomap') 
+hold on
+borders('belize','facecolor','b','linestyle','-','linewidth',3,'nomap')
+labelborders('Mexico','color','r','nomap')
+labelborders('Belize','color','g','nomap')
+
+%% Author Info
+% The |borders| and |labelborders| functions were written by <http://www.chadagreene.com 
+% Chad A. Greene> of the University of Texas at Austin's Institute for Geophysics (UTIG),
+% April 2015. 
+
+##### SOURCE END #####
+--></body></html>
