@@ -21,10 +21,10 @@ Often, a regularization term is added. There are two possibilities. The [ridge r
 Both approaches try to keep the norm of parameters ``w`` small to prevent overfitting. The first approach results in a simpler numerical method, while the second one induces sparsity. Before we start with both topics, we will briefly mention matrix decompositions which plays a crucial part in numerical computations.
 
 
-## Theory of matrix eigendecomposition
+## [Theory of matrix eigendecomposition](@id matrix-eigen)
 
 
-Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries. We there exist ``\lambda\in\mathbb R`` and ``v\in\mathbb^n`` such that
+Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries. We there exist ``\lambda\in\mathbb R`` and ``v\in\mathbb R^n`` such that
 
 ```math
 Av = \lambda v,
@@ -85,7 +85,7 @@ Since this formula uses only matrix-vector multiplication and an inversion of a 
 
 
 
-## Theory of LASSO
+## [Theory of LASSO](@id lasso)
 
 
 Unlike ridge regression, LASSO does not have a closed-form solution. Since it is a structured convex problem, it can be solved the [ADMM algorithm](https://web.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf). It is a primal-dual algorithm, which employs the primal original variable ``w``, the primal auxiliary variable ``z`` and the dual variable ``u`` with the iterative updates:
