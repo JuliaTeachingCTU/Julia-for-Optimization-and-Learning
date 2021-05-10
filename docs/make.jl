@@ -100,9 +100,9 @@ lecture_10 = joinpath.("./lecture_10/", [
 ])
 
 lecture_11 = joinpath.("./lecture_11/", [
+    "sparse.md",
     "monte.md",
     "glm.md",
-    "sparse.md",
 ])
 
 lecture_12 = joinpath.("./lecture_12/", [

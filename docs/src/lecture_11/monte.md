@@ -345,7 +345,7 @@ While the rejection sampling provides a good approximation for the first two dis
 
 This exercise computes the expected value
 ```math
-\mathbb E_3 \cos(100x) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
+\mathbb E_3 \cos(100X) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
 ```
 where we consider the expectation ``\mathbb E`` with respect to ``d_3\sim  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
 
@@ -361,19 +361,15 @@ nothing # hide
 
 The second possibility is to approximate the integral by
 ```math
-\mathbb E_3 \cos(100x) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
+\mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
 ```
-where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling.
+where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
 
 ```@example monte
-function expectation1(h, d; n=1000000)
-    xs = rand(d, n)
-    return mean(h.(xs))
-end
+expectation1(h, d; n = 1000000) = mean(h, rand(d, n))
 
-function expectation2(h, f, x_max, xlims; n=1000000)
-    xs = rejection_sampling(f, f(x_max), xlims...; n=n)
-    return mean(h.(xs))
+function expectation2(h, f, f_max, xlims; n=1000000)
+    return mean(h, rejection_sampling(f, f_max, xlims...; n))
 end
 
 nothing # hide
@@ -382,21 +378,21 @@ nothing # hide
 If it is difficult to sample from ``d_3``, we can use a trick to sample from some other distribution. This is based on the following formula:
 
 ```math
-\mathbb E_3 h(x) = \int_{-\infty}^\infty h(x) f_3(x) dx = \int_{-\infty}^\infty h(x) \frac{f_3(x)}{f_1(x)}f_1(x) dx = \mathbb E_1 \frac{h(x)}{f_1(x)}.
+\mathbb E_3 h(x) = \int_{-\infty}^\infty h(x) f_3(x) dx = \int_{-\infty}^\infty h(x) \frac{f_3(x)}{f_1(x)}f_1(x) dx = \mathbb E_1 \frac{h(x)f_3(x)}{f_1(x)}.
 ```
 
 This gives rise to another implementation of the same thing.
 
 ```@example monte
 function expectation3(h, f, d_gen; n=1000000)
-    xs = rand(d_gen, n)
-    return mean(h.(xs) .* f.(xs) ./ pdf(d_gen, xs))
+    g(x) = h(x)*f(x)/pdf(d_gen, x)
+    return mean(g, rand(d_gen, n))
 end
 
 nothing # hide
 ```
 
-We run these three approaches for ``20`` repetition.s 
+We run these three approaches for ``20`` repetitions.
 
 ```@example monte
 n = 100000
@@ -404,7 +400,7 @@ n_rep = 20
 
 Random.seed!(666)
 e1 = [expectation1(h, d3; n=n) for _ in 1:n_rep]
-e2 = [expectation2(h, f3, d3.μ, xlims; n=n) for _ in 1:n_rep]
+e2 = [expectation2(h, f3, f3(d3.μ), xlims; n=n) for _ in 1:n_rep]
 e3 = [expectation3(h, f3, d1; n=n) for _ in 1:n_rep]
 
 nothing # hide
@@ -505,7 +501,7 @@ Quantiles form an important concept in statistics. Its definition is slightly co
 
 The quantile at level ``\alpha=0.5`` is the mean. Quantiles play an important role in estimates, where they form upper and lower bounds for confidence intervals. They are also used in hypothesis testing.
 
-This part will investigate how quantiles on a finite sample differ from the true quantile. We will consider two ways of computing the quantile. Both of them sample ``n`` points from some distribution ``d``. The first one follows the statistical definition and selects the index of the ``n\alpha`` smallest observation. The second one uses the function `quantile`, which performs some interpolation.
+This part will investigate how quantiles on a finite sample differ from the true quantile. We will consider two ways of computing the quantile. Both of them sample ``n`` points from some distribution ``d``. The first one follows the statistical definition and selects the index of the ``n\alpha`` smallest observation by the `partialsort` function. The second one uses the function `quantile`, which performs some interpolation.
 
 ```@example monte
 quantile_sampled1(d, n::Int, α) = partialsort(rand(d, n), floor(Int, α*n))
@@ -514,7 +510,7 @@ quantile_sampled2(d, n::Int, α) = quantile(rand(d, n), α)
 nothing # hide
 ```
 
-We defined the vectorized version. This is not the efficient way because for every ``n``, the samples will be randomly generated again.
+We defined the vectorized version. This is not efficient because for every ``n``, the samples will be randomly generated again.
 
 ```@example monte
 quantile_sampled1(d, ns::AbstractVector, α) = quantile_sampled1.(d, ns, α)
@@ -554,7 +550,7 @@ plt2 = deepcopy(plt1)
 nothing # hide
 ```
 
-Now we add the sampled quantiles and the mean over all repetitions. Since we work with two plots at the same time, we specify into which plot we want to add the new data. It would be better to create a function for plotting and call it for `qs1` and `qs2`, but we wanted to show how to work two plots at the same time.
+Now we add the sampled quantiles and the mean over all repetitions. Since we work with two plots, we specify into which plot we want to add the new data. It would be better to create a function for plotting and call it for `qs1` and `qs2`, but we wanted to show how to work two plots simultaneously.
 
 ```@example monte
 for i in 1:size(qs1,1)
@@ -589,7 +585,7 @@ savefig(plt2, "quantile2.svg") # hide
 ![](quantile1.svg)
 ![](quantile2.svg)
 
-Both sampled estimates give a lower estimate than the true quantile. In statistical methodology, these estimates are biased. We observe that the interpolated estimate is closer to the true value, and that computing the quantile even on ``10000`` points gives an uncertainty interval of approximately ``0.25``.
+Both sampled estimates give a lower estimate than the true quantile. In statistical methodology, these estimates are biased. We observe that the interpolated estimate is closer to the true value and that computing the quantile even on ``10000`` points gives an uncertainty interval of approximately ``0.25``.
 
 
 ```@raw html
