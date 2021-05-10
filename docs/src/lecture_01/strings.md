@@ -322,7 +322,7 @@ julia> split(str)
  "language!"
 ```
 
-By default, the function splits the given string based on spaces. This can be changed by defining a delimiter.
+By default, the function splits the given string based on whitespace characters. This can be changed by defining a delimiter.
 
 ```jldoctest joins
 julia> split(str, " a ")
