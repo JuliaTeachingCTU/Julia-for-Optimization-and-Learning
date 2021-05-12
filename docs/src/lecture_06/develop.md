@@ -263,7 +263,7 @@ x = FashionMNIST.traintensor(1);
 plot(image(x); axis = nothing, border = :none)
 ```
 
-**Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add `MLDataset` and `Plots` to the `scripts` environment.
+**Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add `MLDatasets` and `Plots` to the `scripts` environment.
 
 ```@raw html
 </p></div>
@@ -271,7 +271,7 @@ plot(image(x); axis = nothing, border = :none)
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-First, we need to install all necessary packages. Since we set the `scripts` environment as the default one for this project, we first install `MLDataset` and `Plots`.
+First, we need to install all necessary packages. Since we set the `scripts` environment as the default one for this project, we first install `MLDatasets` and `Plots`.
 
 ```julia
 (scripts) pkg> add MLDatasets Plots
