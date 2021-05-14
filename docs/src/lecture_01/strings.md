@@ -391,6 +391,13 @@ julia> replace("Sherlock Holmes", "e" => uppercase)
 "ShErlock HolmEs"
 ```
 
+It is even possible to replace a whole substring:
+
+```jldoctest
+julia> replace("Sherlock Holmes", "Holmes" => "Homeless")
+"Sherlock Homeless"
+```
+
 ```@raw html
 <div class = "exercise-body">
 <header class = "exercise-header">Exercise:</header><p>
