@@ -58,7 +58,7 @@ julia> str[1:1] # returns the first character as String
 "H"
 ```
 
-When using strings, we have to pay attention to some special characters, specifically to the following three characters: `\`, `"` and `$`. If we want to use any of these three characters, we have to use a backslash before them. The reason is that these characters have a special meaning. For example, if we use a quote inside a string, then the rest of the string will be interpreted as a Julia code and not a string.
+When using strings, we have to pay attention to following characters with special meaning: `\`, `"` and `$`. In order to use them as regular characters, they need to be escaped with a backslash (`\`). For example, unescaped double quote (`"`) would end the string prematurely, forcing the rest being interpreted as Julia code. This is a common malicious attack vector called [code injection](https://en.wikipedia.org/wiki/Code_injection).
 
 ```jldoctest strings
 julia> str1 = "This is how a string is created: \"string\"."
@@ -72,6 +72,12 @@ julia> str2 = "\$\$\$ dollars everywhere \$\$\$"
 "\$\$\$ dollars everywhere \$\$\$"
 ```
 
+```jldoctest strings
+julia> "The $ will be fine."
+ERROR: syntax: invalid interpolation syntax: "$ "
+```
+
+No, they won't. If used incorrectly, Julia with throw an error.
 Printing of strings can be done by the `print` function or the `println` function that also add a new line at the end of the string.
 
 ```jldoctest strings
@@ -383,6 +389,13 @@ It is also possible to apply a function to a specific substring using the `repla
 ```jldoctest
 julia> replace("Sherlock Holmes", "e" => uppercase)
 "ShErlock HolmEs"
+```
+
+It is even possible to replace a whole substring:
+
+```jldoctest
+julia> replace("Sherlock Holmes", "Holmes" => "Homeless")
+"Sherlock Homeless"
 ```
 
 ```@raw html
