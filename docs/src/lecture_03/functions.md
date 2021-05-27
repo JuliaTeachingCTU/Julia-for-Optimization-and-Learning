@@ -72,7 +72,7 @@ julia> ps = powers(2)
 (2, 4, 8, 16)
 
 julia> typeof(ps)
-NTuple{4,Int64}
+NTuple{4, Int64}
 ```
 
 Note that the function returns `NTuple{4, Int64}` which is a compact way of representing the type for a tuple of length `N = 4` where all elements are of the same type. Since the function returns a tuple, returned values can be directly unpacked into multiple variables. This can be done in the same way as unpacking [tuples](@ref Tuples).
@@ -726,7 +726,7 @@ Another example is the `map` function, which applies a function to each value of
 
 ```jldoctest
 julia> map(x -> x^2 + 2x - 1, [1,3,-1])
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
   2
  14
  -2
@@ -742,7 +742,7 @@ julia> map([1,3,-1], [2,4,-2]) do x, y
 x = 1, y = 2
 x = 3, y = 4
 x = -1, y = -2
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
   3
   7
  -3
@@ -767,7 +767,7 @@ julia> map(f, [1,3,-1], [2,4,-2])
 x = 1, y = 2
 x = 3, y = 4
 x = -1, y = -2
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
   3
   7
  -3
@@ -797,7 +797,7 @@ julia> for (i, xi) in enumerate(x)
        end
 
 julia> A
-3-element Array{Float64,1}:
+3-element Vector{Float64}:
  0.0
  1.0
  0.7071067811865476
@@ -807,7 +807,7 @@ Or by a list compherension.
 
 ```jldoctest dot
 julia> A = [sin(xi) for xi in x]
-3-element Array{Float64,1}:
+3-element Vector{Float64}:
  0.0
  1.0
  0.7071067811865476
@@ -817,7 +817,7 @@ However, the most convenient way is to use dot syntax for vectorizing functions.
 
 ```jldoctest dot
 julia> A = sin.(x)
-3-element Array{Float64,1}:
+3-element Vector{Float64}:
  0.0
  1.0
  0.7071067811865476
@@ -848,7 +848,7 @@ If we try to apply this function to arrays, an error occurs.
 julia> x = [1,2,3,4]; # column vector
 
 julia> plus(x, x)
-ERROR: MethodError: no method matching plus(::Array{Int64,1}, ::Array{Int64,1})
+ERROR: MethodError: no method matching plus(::Vector{Int64}, ::Vector{Int64})
 [...]
 ```
 
@@ -856,7 +856,7 @@ However, we can use the dot syntax for vectorizing functions. The `plus` functio
 
 ```jldoctest dot
 julia> plus.(x, x)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  2
  4
  6
@@ -867,7 +867,7 @@ More generally, if we have a function `f` and use dot syntax `f.(args...)`, then
 
 ```jldoctest dot
 julia> broadcast(plus, x, x)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  2
  4
  6
@@ -880,7 +880,7 @@ The dot syntax allows us to operate on multiple arrays even of different shapes.
 julia> y = [1 2 3 4]; # row vector
 
 julia> plus.(x, y)
-4×4 Array{Int64,2}:
+4×4 Matrix{Int64}:
  2  3  4  5
  3  4  5  6
  4  5  6  7
@@ -891,7 +891,7 @@ Similarly, it can be used to broadcast a scalar to a vector in the following exa
 
 ```jldoctest dot
 julia> plus.(x, 1)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  2
  3
  4
@@ -933,7 +933,7 @@ The pipe operator can be combined with broadcasting.
 
 ```jldoctest
 julia> [-4, 9, -16] .|> abs .|> sqrt
-3-element Array{Float64,1}:
+3-element Vector{Float64}:
  2.0
  3.0
  4.0
@@ -943,7 +943,7 @@ Or as in the next example, we can use broadcasting in combination with the pipe 
 
 ```jldoctest
 julia> ["a", "list", "of", "strings"] .|> [uppercase, reverse, titlecase, length]
-4-element Array{Any,1}:
+4-element Vector{Any}:
   "A"
   "tsil"
   "Of"

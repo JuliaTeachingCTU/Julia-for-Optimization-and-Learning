@@ -191,7 +191,7 @@ Since we added two new packages, this information is stored in the files `Projec
 
 ```julia
 julia> readdir("./tutorial")
-2-element Array{String,1}:
+2-element Vector{String}:
  "Manifest.toml"
  "Project.toml"
 ```

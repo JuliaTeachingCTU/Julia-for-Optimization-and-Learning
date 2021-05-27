@@ -64,7 +64,7 @@ Third, due to the line `Currency[C(0)]` in the inner constructor, transactions a
 
 ```jldoctest currency
 julia> push!(b.transaction, Dollar(2))
-2-element Array{Currency,1}:
+2-element Vector{Currency}:
  Euro(0.0)
  Dollar(2.0)
 
@@ -76,7 +76,7 @@ It is crucial to use `Currency` in `Currency[C(0)]`. Without it, we would create
 
 ```jldoctest currency
 julia> w = [Euro(0)]
-1-element Array{Euro,1}:
+1-element Vector{Euro}:
  Euro(0.0)
 
 julia> push!(w, Dollar(2))
@@ -96,7 +96,7 @@ It is generally not good to use [containers with abstract element type](https://
 
 ```jldoctest
 julia> [Int32(123), 1, 1.5, 1.234f0]
-4-element Array{Float64,1}:
+4-element Vector{Float64}:
  123.0
    1.0
    1.5
@@ -107,7 +107,7 @@ The smallest supertype is `Float64`, and the result is `Array{Float64, 1}`. When
 
 ```jldoctest
 julia> Real[Int32(123), 1, 1.5, 1.234f0]
-4-element Array{Real,1}:
+4-element Vector{Real}:
  123
    1
    1.5
@@ -582,7 +582,7 @@ Also, the broadcasting works natively for arrays of currencies.
 
 ```jldoctest currency
 julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Pound.([1.2, 2.6, 0.6, 1.8])
-4-element Array{Pound,1}:
+4-element Vector{Pound}:
  1.35 £
  2.68 £
  1.16 £
@@ -626,7 +626,7 @@ Now we can test if the broadcasting works as expected.
 
 ```jldoctest currency
 julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
-4-element Array{Dollar,1}:
+4-element Vector{Dollar}:
  12.21 $
  12.11 $
  12.76 $
@@ -665,7 +665,7 @@ julia> Dollar(1.3) - CzechCrown(4.5)
 1.09 $
 
 julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
-4-element Array{Dollar,1}:
+4-element Vector{Dollar}:
  -11.79 $
  -11.89 $
  -11.24 $
@@ -689,7 +689,7 @@ julia> 2 * Dollar(1.3) * 0.5
 1.3 $
 
 julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
-4-element Array{CzechCrown,1}:
+4-element Vector{CzechCrown}:
  4.5 Kč
  2.4 Kč
  16.7 Kč
@@ -723,7 +723,7 @@ julia> Dollar(1.3) / 2
 0.65 $
 
 julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
-4-element Array{Float64,1}:
+4-element Vector{Float64}:
  2.0
  4.0
  6.0
@@ -796,7 +796,7 @@ Other functions based only on comparison will work for all subtypes of `Currency
 
 ```jldoctest currency
 julia> vals = Currency[CzechCrown(100), Euro(0.83),  Pound(3.6), Dollar(1.2)]
-4-element Array{Currency,1}:
+4-element Vector{Currency}:
  100.0 Kč
  0.83 €
  3.6 £
@@ -809,7 +809,7 @@ julia> argmin(vals)
 2
 
 julia> sort(vals)
-4-element Array{Currency,1}:
+4-element Vector{Currency}:
  0.83 €
  1.2 $
  100.0 Kč
@@ -903,7 +903,7 @@ Note that all transactions are stored in their original currency, as can be seen
 
 ```jldoctest currency
 julia> b.transaction
-5-element Array{Currency,1}:
+5-element Vector{Currency}:
  0.0 Kč
  10.0 $
  10.0 £

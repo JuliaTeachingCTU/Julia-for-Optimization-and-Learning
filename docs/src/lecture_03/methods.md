@@ -155,7 +155,7 @@ Similarly to the `supertype` function, there is the `subtypes` function that ret
 julia> using InteractiveUtils: subtypes
 
 julia> subtypes(Number)
-2-element Array{Any,1}:
+2-element Vector{Any}:
  Complex
  Real
 ```
@@ -314,8 +314,8 @@ julia> g("a")
 julia> g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
 Closest candidates are:
-  g(!Matched::String) at none:1
   g(!Matched::Real) at none:1
+  g(!Matched::String) at none:1
 ```
 
 

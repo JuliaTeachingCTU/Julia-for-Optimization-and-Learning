@@ -18,7 +18,7 @@ The same syntax is used in [function definitions](@ref Functions) to return mult
 
 ```jldoctest tuples
 julia> typeof(t)
-Tuple{Int64,Float64,String}
+Tuple{Int64, Float64, String}
 ```
 
 In this case, we have a tuple that contains three elements: `Int64`, `Float64`, and `String`.
@@ -111,7 +111,7 @@ julia> t[end] # the last element
 "3"
 
 julia> t[1:2] # error
-ERROR: MethodError: no method matching getindex(::NamedTuple{(:a, :b, :c),Tuple{Int64,Float64,String}}, ::UnitRange{Int64})
+ERROR: MethodError: no method matching getindex(::NamedTuple{(:a, :b, :c), Tuple{Int64, Float64, String}}, ::UnitRange{Int64})
 [...]
 ```
 
@@ -137,7 +137,7 @@ Dictionaries are mutable, unordered (random order) collections of pairs of keys 
 
 ```jldoctest dicts
 julia> d = Dict("a" => [1, 2, 3], "b" => 1)
-Dict{String,Any} with 2 entries:
+Dict{String, Any} with 2 entries:
   "b" => 1
   "a" => [1, 2, 3]
 ```
@@ -146,7 +146,7 @@ Another possibility is to use symbols instead of strings as keys.
 
 ```jldoctest dicts
 julia> d = Dict(:a => [1, 2, 3], :b => 1)
-Dict{Symbol,Any} with 2 entries:
+Dict{Symbol, Any} with 2 entries:
   :a => [1, 2, 3]
   :b => 1
 ```
@@ -155,7 +155,7 @@ It is possible to use almost any type as a key in a dictionary. Dictionary's ele
 
 ```jldoctest dicts
 julia> d[:a]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
@@ -185,12 +185,12 @@ julia> get!(d, :c, 42)
 42
 
 julia> get!(d, :d, ["hello", "world"])
-2-element Array{String,1}:
+2-element Vector{String}:
  "hello"
  "world"
 
 julia> d
-Dict{Symbol,Any} with 4 entries:
+Dict{Symbol, Any} with 4 entries:
   :a => [1, 2, 3]
   :b => 1
   :d => ["hello", "world"]
@@ -201,7 +201,7 @@ Unwanted keys from the dictionary can be removed by the `delete!` function.
 
 ```jldoctest dicts
 julia> delete!(d, :d)
-Dict{Symbol,Any} with 3 entries:
+Dict{Symbol, Any} with 3 entries:
   :a => [1, 2, 3]
   :b => 1
   :c => 42

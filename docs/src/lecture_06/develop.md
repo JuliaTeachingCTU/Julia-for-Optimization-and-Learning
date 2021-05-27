@@ -643,7 +643,7 @@ Converts a matrix of real numbers to a matrix of `Gray` points. If the keyword a
 
 ```julia-repl
 julia> x = [0.1 0.25; 0.4 0.6]
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
  0.1  0.25
  0.4  0.6
 
@@ -680,7 +680,7 @@ search: image imag
   ≡≡≡≡≡≡≡≡≡
 
   julia> x = [0.1 0.25; 0.4 0.6]
-  2×2 Array{Float64,2}:
+  2×2 Matrix{Float64}:
    0.1  0.25
    0.4  0.6
 

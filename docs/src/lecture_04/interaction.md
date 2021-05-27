@@ -36,7 +36,7 @@ julia> ccall(:qsort, Cvoid, (Ptr{Cdouble}, Csize_t, Csize_t, Ptr{Cvoid}),
              A, length(A), sizeof(eltype(A)), mycompare_c)
 
 julia> A
-4-element Array{Float64,1}:
+4-element Vector{Float64}:
  -2.7
   1.3
   3.1

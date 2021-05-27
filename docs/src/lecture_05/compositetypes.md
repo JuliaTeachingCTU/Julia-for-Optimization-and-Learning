@@ -95,7 +95,7 @@ A constructor is calling a type as a function. Two constructors are automaticall
 ```jldoctest structs
 julia> methods(Rectangle)
 # 2 methods for type constructor:
-[1] Rectangle(bottomleft::Array{Float64,1}, width, height) in Main at none:2
+[1] Rectangle(bottomleft::Vector{Float64}, width, height) in Main at none:2
 [2] Rectangle(bottomleft, width, height) in Main at none:2
 ```
 
@@ -126,7 +126,7 @@ julia> area(r)
 12
 
 julia> vertices(r)
-4-element Array{Array{Float64,1},1}:
+4-element Vector{Vector{Float64}}:
  [1.0, 2.0]
  [4.0, 2.0]
  [4.0, 6.0]
@@ -207,7 +207,7 @@ julia> r.bottomleft[1] = 5
 5
 
 julia> r.bottomleft
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
  5.0
  2.0
 
@@ -215,7 +215,7 @@ julia> area(r)
 12
 
 julia> vertices(r)
-4-element Array{Array{Float64,1},1}:
+4-element Vector{Vector{Float64}}:
  [5.0, 2.0]
  [8.0, 2.0]
  [8.0, 6.0]
@@ -592,7 +592,7 @@ The `methods` function shows that Julia created three constructors.  The `@kwdef
 ```jldoctest structs
 julia> methods(MyType)
 # 3 methods for type constructor:
-[1] MyType(; a, b, c) in Main at util.jl:438
+[1] MyType(; a, b, c) in Main at util.jl:450
 [2] MyType(a::Int64, b::Float64, c::String) in Main at none:2
 [3] MyType(a, b, c) in Main at none:2
 ```

@@ -240,7 +240,7 @@ Both concatenation and string interpolation call `string` to convert objects int
 
 ```jldoctest
 julia> v = [1,2,3]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
@@ -319,7 +319,7 @@ julia> str = "JuliaLang is a pretty cool language!"
 "JuliaLang is a pretty cool language!"
 
 julia> split(str)
-6-element Array{SubString{String},1}:
+6-element Vector{SubString{String}}:
  "JuliaLang"
  "is"
  "a"
@@ -332,7 +332,7 @@ By default, the function splits the given string based on whitespace characters.
 
 ```jldoctest joins
 julia> split(str, " a ")
-2-element Array{SubString{String},1}:
+2-element Vector{SubString{String}}:
  "JuliaLang is"
  "pretty cool language!"
 ```
@@ -361,7 +361,7 @@ julia> str = "JuliaLang is a pretty cool language!"
 "JuliaLang is a pretty cool language!"
 
 julia> findall(isequal('a'), str)
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
   5
   7
  14
@@ -418,7 +418,7 @@ into a vector of single-character strings.
 To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
 ```jldoctest
 julia> split("Julia!", "")
-6-element Array{SubString{String},1}:
+6-element Vector{SubString{String}}:
  "J"
  "u"
  "l"

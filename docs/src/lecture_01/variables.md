@@ -83,7 +83,7 @@ julia> typeof(y)
 Rational{Int64}
 
 julia> typeof(z)
-Complex{Float64}
+ComplexF64 (alias for Complex{Float64})
 ```
 
 ```@raw html

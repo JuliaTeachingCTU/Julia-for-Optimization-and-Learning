@@ -322,7 +322,7 @@ y = [1.4, -3.1, 2.4, 5.2]
 A = zeros(Float64, length(x), length(y))
 
 # output
-3×4 Array{Float64,2}:
+3×4 Matrix{Float64}:
  0.0  0.0  0.0  0.0
  0.0  0.0  0.0  0.0
  0.0  0.0  0.0  0.0
@@ -336,7 +336,7 @@ julia> for i in 1:length(x), j in 1:length(y)
        end
 
 julia> A
-3×4 Array{Float64,2}:
+3×4 Matrix{Float64}:
     0.203285    0.00443536     0.030405  7.27867e-7
     2.64284     0.0576626      0.395285  9.46275e-6
  7382.39      161.072       1104.17      0.0264329
@@ -346,11 +346,11 @@ There are more efficient ways to create this array. The one way is to use broadc
 
 ```jldoctest nestedloops_ex
 julia> y_row = y'
-1×4 LinearAlgebra.Adjoint{Float64,Array{Float64,1}}:
+1×4 adjoint(::Vector{Float64}) with eltype Float64:
  1.4  -3.1  2.4  5.2
 
 julia> A = @. exp((x^2 - y_row^2)/2)/2
-3×4 Array{Float64,2}:
+3×4 Matrix{Float64}:
     0.203285    0.00443536     0.030405  7.27867e-7
     2.64284     0.0576626      0.395285  9.46275e-6
  7382.39      161.072       1104.17      0.0264329
@@ -380,7 +380,7 @@ julia> X = [0.4, 2.3, 4.6];
 julia> Y = [1.4, -3.1, 2.4, 5.2];
 
 julia> A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
-3×4 Array{Float64,2}:
+3×4 Matrix{Float64}:
     0.203285    0.00443536     0.030405  7.27867e-7
     2.64284     0.0576626      0.395285  9.46275e-6
  7382.39      161.072       1104.17      0.0264329
@@ -390,7 +390,7 @@ The resulting array type depends on the types of the computed elements. A type c
 
 ```jldoctest comprehension
 julia> A = Float32[exp((x^2 - y^2)/2)/2 for x in X, y in Y]
-3×4 Array{Float32,2}:
+3×4 Matrix{Float32}:
     0.203285    0.00443536     0.030405  7.27867f-7
     2.64284     0.0576626      0.395285  9.46275f-6
  7382.39      161.072       1104.17      0.0264329
@@ -400,7 +400,7 @@ A handy feature is the possibility to filter values when creating list comprehen
 
 ```jldoctest
 julia> [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y < 5]
-6-element Array{Tuple{Int64,Int64,Int64},1}:
+6-element Vector{Tuple{Int64, Int64, Int64}}:
  (1, 1, 2)
  (2, 1, 3)
  (3, 1, 4)
@@ -426,7 +426,7 @@ We can use list comprehension with the same condition that we used in the exerci
 
 ```jldoctest compheresions_ex
 julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  21
  42
  63
@@ -462,7 +462,7 @@ It is possible to write nested list comprehensions and generators. The syntax is
 
 ```jldoctest
 julia> [(i,j) for i in 1:3, j in 1:2]
-3×2 Array{Tuple{Int64,Int64},2}:
+3×2 Matrix{Tuple{Int64, Int64}}:
  (1, 1)  (1, 2)
  (2, 1)  (2, 2)
  (3, 1)  (3, 2)
@@ -470,7 +470,7 @@ julia> [(i,j) for i in 1:3, j in 1:2]
 julia> gen = ((i,j) for i in 1:3, j in 1:2);
 
 julia> collect(gen)
-3×2 Array{Tuple{Int64,Int64},2}:
+3×2 Matrix{Tuple{Int64, Int64}}:
  (1, 1)  (1, 2)
  (2, 1)  (2, 2)
  (3, 1)  (3, 2)
@@ -482,7 +482,7 @@ Iterables may refer to outer loop variables. However, in such a case, it is nece
 julia> gen = ((i,j) for i in 1:3 for j in 1:i);
 
 julia> collect(gen)
-6-element Array{Tuple{Int64,Int64},1}:
+6-element Vector{Tuple{Int64, Int64}}:
  (1, 1)
  (2, 1)
  (2, 2)
@@ -497,7 +497,7 @@ Generated values can also be filtered using the `if` keyword.  Similarly to list
 julia> gen = ((i,j) for i in 1:3 for j in 1:i if i+j == 4);
 
 julia> collect(gen)
-2-element Array{Tuple{Int64,Int64},1}:
+2-element Vector{Tuple{Int64, Int64}}:
  (2, 2)
  (3, 1)
 ```
@@ -544,7 +544,7 @@ Many structures are iterable in Julia. However, it is not sufficient to iterate 
 
 ```jldoctest iterators
 julia> A = [2.3 4.5; 6.7 7.1]
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
  2.3  4.5
  6.7  7.1
 
@@ -633,7 +633,7 @@ Y = [1.4, -3.1, 2.4, 5.2]
 A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
 
 # output
-3×4 Array{Float64,2}:
+3×4 Matrix{Float64}:
     0.203285    0.00443536     0.030405  7.27867e-7
     2.64284     0.0576626      0.395285  9.46275e-6
  7382.39      161.072       1104.17      0.0264329

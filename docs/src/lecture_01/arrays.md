@@ -4,7 +4,7 @@ A vector is a particular case of an array with only one dimension. It is represe
 
 ```jldoctest vectors
 julia> v = [1, 2, 3, 4, 5, 6, 7, 8] # or equivalently v = [1; 2; 3; 4; ...]
-8-element Array{Int64,1}:
+8-element Vector{Int64}:
  1
  2
  3
@@ -19,7 +19,7 @@ The number of dimensions and the type of elements can be obtained from the outpu
 
 ```jldoctest vectors
 julia> typeof(v)
-Array{Int64,1}
+Vector{Int64} (alias for Array{Int64, 1})
 ```
 
 The general description of an array in Julia is as follows: `Array{T,N}` denotes `N`-dimensional dense array with elements of type `T`. From this description, we can immediately see that vector `v` has one dimension and contains elements of type `Int64`. Another way to get this information is to use the `ndims` and `eltype` functions.
@@ -65,7 +65,7 @@ Multiple elements can be accessed at once. The only difference is that instead o
 
 ```jldoctest vectors
 julia> v[[2, 3]]
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  2
  3
 ```
@@ -88,20 +88,20 @@ This shorter syntax is handy for accessing array elements.
 
 ```jldoctest vectors
 julia> v[1:3] # the first three elements
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
 
 julia> v[1:2:end] # select all elements with odd index
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  3
  5
  7
 
 julia> v[:] # all elements
-8-element Array{Int64,1}:
+8-element Vector{Int64}:
  1
  2
  3
@@ -116,20 +116,20 @@ New elements can be appended to the vector using the `append!` function. Notice 
 
 ```jldoctest vectors
 julia> v = [1,2,3]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
 
 julia> append!(v, 4)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  2
  3
  4
 
 julia> append!(v, [5,6])
-6-element Array{Int64,1}:
+6-element Vector{Int64}:
  1
  2
  3
@@ -138,7 +138,7 @@ julia> append!(v, [5,6])
  6
 
 julia> append!(v, 7:8)
-8-element Array{Int64,1}:
+8-element Vector{Int64}:
  1
  2
  3
@@ -153,7 +153,7 @@ As has already been said, the elements of a vector share the same type. In this 
 
 ```jldoctest vectors
 julia> append!(v, 3.0)
-9-element Array{Int64,1}:
+9-element Vector{Int64}:
  1
  2
  3
@@ -179,13 +179,13 @@ In the second case, we cannot convert the given number to `Int64` without losing
 
 ```jldoctest
 julia> v = Float64[1, 2, 3]
-3-element Array{Float64,1}:
+3-element Vector{Float64}:
  1.0
  2.0
  3.0
 
 julia> append!(v, 3.1415)
-4-element Array{Float64,1}:
+4-element Vector{Float64}:
  1.0
  2.0
  3.0
@@ -196,7 +196,7 @@ Since arrays in Julia are mutable objects, it is possible to change their values
 
 ```jldoctest vectors
 julia> v = [1, 2, 3, 4]
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  2
  3
@@ -206,7 +206,7 @@ julia> v[2] = 4
 4
 
 julia> v
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  4
  3
@@ -217,12 +217,12 @@ It is also possible to assign one value to multiple array elements at once. Howe
 
 ```jldoctest vectors
 julia> v[3:4] .= 11
-2-element view(::Array{Int64,1}, 3:4) with eltype Int64:
+2-element view(::Vector{Int64}, 3:4) with eltype Int64:
  11
  11
 
 julia> v
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
   1
   4
  11
@@ -246,7 +246,7 @@ Such a vector can be either created manually by
 
 ```jldoctest matrices
 julia> v = [1,3,5,7,9]
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
  1
  3
  5
@@ -258,7 +258,7 @@ or we can use the `range` function to create a range with given properties and t
 
 ```jldoctest matrices
 julia> collect(1:2:9)
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
  1
  3
  5
@@ -266,7 +266,7 @@ julia> collect(1:2:9)
  9
 
 julia> Vector(1:2:9)
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
  1
  3
  5
@@ -281,12 +281,12 @@ julia> v[1] = 4
 4
 
 julia> v[end-1:end] .= 1
-2-element view(::Array{Int64,1}, 4:5) with eltype Int64:
+2-element view(::Vector{Int64}, 4:5) with eltype Int64:
  1
  1
 
 julia> v
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
  4
  3
  5
@@ -304,7 +304,7 @@ A matrix is a special case of an array with precisely two dimensions. In Julia, 
 
 ```jldoctest matrices
 julia> m = [1  2  3  4; 5  6  7  8]
-2×4 Array{Int64,2}:
+2×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
 ```
@@ -313,7 +313,7 @@ The same functions can obtain the basic information about matrices as for vector
 
 ```jldoctest matrices
 julia> typeof(m)
-Array{Int64,2}
+Matrix{Int64} (alias for Array{Int64, 2})
 
 julia> eltype(m)
 Int64
@@ -352,30 +352,30 @@ It is also possible to access multiple elements at once
 
 ```jldoctest matrices
 julia> m[1, [2, 3]] # the second and third element in the first row
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  2
  3
 
 julia> m[1:3] # the first three elements according to linear indexing
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  5
  2
 
 julia> m[:, 1:3] # the first three columns
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  1  2  3
  5  6  7
 
 julia> m[1, :] # the first row
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  2
  3
  4
 
 julia> m[:] # all elements
-8-element Array{Int64,1}:
+8-element Vector{Int64}:
  1
  5
  2
@@ -390,7 +390,7 @@ It is impossible to append new elements into arrays directly, except for vectors
 
 ```jldoctest matrices
 julia> hcat(m, m)
-2×8 Array{Int64,2}:
+2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
  5  6  7  8  5  6  7  8
 ```
@@ -399,7 +399,7 @@ For concatenating vertically, we use the `vcat` function.
 
 ```jldoctest matrices
 julia> vcat(m, m)
-4×4 Array{Int64,2}:
+4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
  1  2  3  4
@@ -410,12 +410,12 @@ The general function `cat` concatenates arrays along the dimension specified by 
 
 ```jldoctest matrices
 julia> cat(m, m; dims = 2) # equivalent to hcat(m, m)
-2×8 Array{Int64,2}:
+2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
  5  6  7  8  5  6  7  8
 
 julia> cat(m, m; dims = 1) # equivalent to vcat(m, m)
-4×4 Array{Int64,2}:
+4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
  1  2  3  4
@@ -426,7 +426,7 @@ If the sizes of arrays do not match, an error occurs.
 
 ```jldoctest matrices
 julia> v = [11, 12]
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  11
  12
 
@@ -452,7 +452,7 @@ First, we have to create the two vectors. We can do it manually, or we can use r
 
 ```jldoctest matrices_ex
 julia> v1 = collect(1:2:9)
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
  1
  3
  5
@@ -460,7 +460,7 @@ julia> v1 = collect(1:2:9)
  9
 
 julia> v2 = collect(2:2:10)
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
   2
   4
   6
@@ -472,7 +472,7 @@ Then we use the `hcat` function to concatenate these two vectors horizontally.
 
 ```jldoctest matrices_ex
 julia> m = hcat(v1, v2)
-5×2 Array{Int64,2}:
+5×2 Matrix{Int64}:
  1   2
  3   4
  5   6
@@ -484,12 +484,12 @@ Finally, we select all elements in the third row and assign the new value to the
 
 ```jldoctest matrices_ex
 julia> m[3,:] .= 4
-2-element view(::Array{Int64,2}, 3, :) with eltype Int64:
+2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
  4
  4
 
 julia> m
-5×2 Array{Int64,2}:
+5×2 Matrix{Int64}:
  1   2
  3   4
  4   4
@@ -509,7 +509,7 @@ There are several ways to initialize an array. The simplest and most common is u
 
 ```jldoctest arrays
 julia> A = zeros(3, 5, 2) # equivalent to A = zeros((3, 5, 2))
-3×5×2 Array{Float64,3}:
+3×5×2 Array{Float64, 3}:
 [:, :, 1] =
  0.0  0.0  0.0  0.0  0.0
  0.0  0.0  0.0  0.0  0.0
@@ -525,7 +525,7 @@ The element type can be changed by passing the type as a first argument.
 
 ```jldoctest arrays
 julia> B = zeros(Int64, 3, 5, 2)  # equivalent to B = zeros(Int64, (3, 5, 2))
-3×5×2 Array{Int64,3}:
+3×5×2 Array{Int64, 3}:
 [:, :, 1] =
  0  0  0  0  0
  0  0  0  0  0
@@ -541,7 +541,7 @@ As in the case of vectors and matrices, we can use the same functions to obtain 
 
 ```jldoctest arrays
 julia> typeof(A)
-Array{Float64,3}
+Array{Float64, 3}
 
 julia> eltype(A)
 Float64
@@ -566,7 +566,7 @@ julia> B[1, 2, 2] = 2 # assign 2 to the element at position (1,2,2)
 2
 
 julia> B[2,:,1] .= 4
-5-element view(::Array{Int64,3}, 2, :, 1) with eltype Int64:
+5-element view(::Array{Int64, 3}, 2, :, 1) with eltype Int64:
  4
  4
  4
@@ -574,7 +574,7 @@ julia> B[2,:,1] .= 4
  4
 
 julia> B
-3×5×2 Array{Int64,3}:
+3×5×2 Array{Int64, 3}:
 [:, :, 1] =
  1  0  0  0  0
  4  4  4  4  4
@@ -590,7 +590,7 @@ Other useful functions can be used to initialize an array. The `ones` function i
 
 ```jldoctest
 julia> ones(Float32, 2, 3, 1)
-2×3×1 Array{Float32,3}:
+2×3×1 Array{Float32, 3}:
 [:, :, 1] =
  1.0  1.0  1.0
  1.0  1.0  1.0
@@ -600,7 +600,7 @@ Function `fill` creates an array of given size filled with the given value.
 
 ```jldoctest
 julia> fill(1.234, 2, 2)
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
  1.234  1.234
  1.234  1.234
 ```
@@ -628,18 +628,18 @@ Matrix `A` can be created using the `zeros` function, and similarly, matrix `B` 
 
 ```jldoctest arrays_ex
 julia> A = zeros(2, 3)
-2×3 Array{Float64,2}:
+2×3 Matrix{Float64}:
  0.0  0.0  0.0
  0.0  0.0  0.0
 
 julia> B = ones(2, 3, 1)
-2×3×1 Array{Float64,3}:
+2×3×1 Array{Float64, 3}:
 [:, :, 1] =
  1.0  1.0  1.0
  1.0  1.0  1.0
 
 julia> C = fill(2, 2, 3)
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  2  2  2
  2  2  2
 ```
@@ -648,7 +648,7 @@ Now we can use the `cat` function with `dims = 3` to concatenate the matrices al
 
 ```jldoctest arrays_ex
 julia> cat(A, B, C; dims = 3)
-2×3×3 Array{Float64,3}:
+2×3×3 Array{Float64, 3}:
 [:, :, 1] =
  0.0  0.0  0.0
  0.0  0.0  0.0
@@ -674,13 +674,13 @@ The broadcasting notation for operators consists of adding a dot `.` before the 
 
 ```jldoctest broadcasting
 julia> a = [1,2,3] # column vector
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
 
 julia> a .-= 4 # from each element of vector subtracts 4
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  -3
  -2
  -1
@@ -690,7 +690,7 @@ Without the dot, we get an error since we cannot subtract a number from a vector
 
 ```jldoctest broadcasting
 julia> a -= 1
-ERROR: MethodError: no method matching -(::Array{Int64,1}, ::Int64)
+ERROR: MethodError: no method matching -(::Vector{Int64}, ::Int64)
 For element-wise subtraction, use broadcasting with dot syntax: array .- scalar
 [...]
 ```
@@ -699,7 +699,7 @@ The same syntax can be applied to any function in Julia. It is beneficial for ba
 
 ```jldoctest broadcasting
 julia> abs.(a)
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  3
  2
  1
@@ -722,13 +722,13 @@ Broadcasting can also be used for matrix multiplication. Consider the following 
 
 ```jldoctest broadcasting
 julia> a = [1,2,3] # column vector
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
 
 julia> b = [4,5,6] # column vector
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  4
  5
  6
@@ -738,7 +738,7 @@ Since we have two column vectors, the matrix multiplication will not work.
 
 ```jldoctest broadcasting
 julia> a * b
-ERROR: MethodError: no method matching *(::Array{Int64,1}, ::Array{Int64,1})
+ERROR: MethodError: no method matching *(::Vector{Int64}, ::Vector{Int64})
 [...]
 ```
 
@@ -749,7 +749,7 @@ julia> a' * b
 32
 
 julia> a * b'
-3×3 Array{Int64,2}:
+3×3 Matrix{Int64}:
   4   5   6
   8  10  12
  12  15  18
@@ -759,7 +759,7 @@ Nonetheless, it is often useful to write operations in an element-wise manner in
 
 ```jldoctest broadcasting
 julia> a .* b
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
   4
  10
  18
@@ -784,7 +784,7 @@ B = [
 ]
 
 # output
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  -1   0  2
   2  -3  1
 ```
@@ -799,7 +799,7 @@ Each element of the matrix `A` depends on only one element of the matrix `B`. In
 
 ```jldoctest broadcasting_ex
 julia> A = exp.((B .+ 1) .^ 2) ./ 2
-2×3 Array{Float64,2}:
+2×3 Matrix{Float64}:
     0.5    1.35914  4051.54
  4051.54  27.2991     27.2991
 ```
@@ -808,7 +808,7 @@ We use a dot before each operation since we want to perform all operations eleme
 
 ```jldoctest broadcasting_ex
 julia> A = @. exp((B + 1) ^ 2) / 2
-2×3 Array{Float64,2}:
+2×3 Matrix{Float64}:
     0.5    1.35914  4051.54
  4051.54  27.2991     27.2991
 ```
@@ -823,7 +823,7 @@ julia> for i in 1:length(A)
        end
 
 julia> A
-2×3 Array{Float64,2}:
+2×3 Matrix{Float64}:
     0.5    1.35914  4051.54
  4051.54  27.2991     27.2991
 ```
@@ -838,12 +838,12 @@ As in other programming languages, arrays are pointers to memory location. Thus 
 
 ```jldoctest views
 julia> A = [1 2 3; 4 5 6]
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  1  2  3
  4  5  6
 
 julia> B = A
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  1  2  3
  4  5  6
 
@@ -862,7 +862,7 @@ The reason is that Julia, by default, does not create a copy of an array when as
 
 ```jldoctest views
 julia> C = copy(A)
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
   1  2  3
  42  5  6
 
@@ -877,7 +877,7 @@ Different behaviour occurs when accessing elements. Every time we access multipl
 
 ```jldoctest views
 julia> D = A[1:2, 1:2]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
   1  2
  42  5
 
@@ -896,12 +896,12 @@ Even if we want to select a subarray, it may be useful to create only a link to 
 
 ```jldoctest views
 julia> E = view(A, 1:2, 1:2)
-2×2 view(::Array{Int64,2}, 1:2, 1:2) with eltype Int64:
+2×2 view(::Matrix{Int64}, 1:2, 1:2) with eltype Int64:
   1  2
  42  5
 
 julia> E = @view A[1:2, 1:2]
-2×2 view(::Array{Int64,2}, 1:2, 1:2) with eltype Int64:
+2×2 view(::Matrix{Int64}, 1:2, 1:2) with eltype Int64:
   1  2
  42  5
 
@@ -920,19 +920,19 @@ The function `view` creates the special type `SubArray`.
 
 ```jldoctest views
 julia> typeof(E)
-SubArray{Int64,2,Array{Int64,2},Tuple{UnitRange{Int64},UnitRange{Int64}},false}
+SubArray{Int64, 2, Matrix{Int64}, Tuple{UnitRange{Int64}, UnitRange{Int64}}, false}
 ```
 
 Since `SubArray` is a subtype of `AbstractArray`, we can apply any function defined for `AbstractArray`s to `SubArray`. In other words, (almost) all functions that work for arrays will also work for subarrays.
 
 ```jldoctest views
 julia> A = [1 2 3; 4 5 6]
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  1  2  3
  4  5  6
 
 julia> A_view = @view A[:, :]
-2×3 view(::Array{Int64,2}, :, :) with eltype Int64:
+2×3 view(::Matrix{Int64}, :, :) with eltype Int64:
  1  2  3
  4  5  6
 
@@ -943,11 +943,11 @@ julia> sum(A_view)
 21
 
 julia> minimum(A; dims = 1)
-1×3 Array{Int64,2}:
+1×3 Matrix{Int64}:
  1  2  3
 
 julia> minimum(A_view; dims = 1)
-1×3 Array{Int64,2}:
+1×3 Matrix{Int64}:
  1  2  3
 ```
 

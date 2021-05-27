@@ -119,7 +119,7 @@ The norm is surprisingly large. Checking the types
 (typeof(A), typeof(A_g))
 ```
 ```julia
-(Array{Float64,2}, CUDA.CuArray{Float32,2})
+(Matrix{Float64}, CUDA.CuMatrix{Float32})
 ```
 we realize that one of the arrays is stored in ```Float64``` while the second one in ```Float32```. Due to the different number of saved digits, the multiplication results in this error.
 ```@raw html
