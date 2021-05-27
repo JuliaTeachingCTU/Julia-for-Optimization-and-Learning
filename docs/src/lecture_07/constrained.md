@@ -74,8 +74,9 @@ The dual problem then switches the minimization and maximization to arrive at
 Even though the primal and dual formulations are not generally equivalent, they are often used interchangeably.
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Linear programming</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Linear programming</header>
+<div class="admonition-body"><p>
 ```
 The linear program
 ```math
@@ -96,14 +97,15 @@ We can observe several things:
 1. Primal and dual problems switch minimization and maximization.
 2. Primal and dual problems switch variables and constraints.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 For the unconstrained optimization, we showed that each local minimum satisfies the optimality condition ``\nabla f(x)=0``. This condition does not have to hold for unconstrained optimization, where the optimality conditions are of a more complex form.
 
 ```@raw html
-<div class = "theorem-body">
-<header class = "theorem-header">Theorem: Karush-Kuhn-Tucker conditions</header><p>
+<div class="admonition is-category-theorem">
+<header class="admonition-header">Theorem: Karush-Kuhn-Tucker conditions</header>
+<div class="admonition-body"><p>
 ```
 Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
 ```math
@@ -115,7 +117,7 @@ Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint q
 ```
 If $f$ and $g$ are convex and $h$ is linear, then every stationary point is a global minimum of (P).
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 When there are no constraints, the Lagrangian ``L`` reduces to the objective ``f``, and the optimality conditions are equivalent. Therefore, the optimality conditions for constrained optimization generalize those for unconstrained optimization.

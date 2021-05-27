@@ -47,10 +47,10 @@ julia> 2(3 + 4) # equivalent to 2*(3 + 4)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Determine the value and type of `y` given by the following expression
 
 ```math
@@ -58,9 +58,8 @@ y = \frac{(x + 2)^2 - 4}{(x - 2)^{p - 2}},
 ```
 
 where `x = 4` and `p = 5`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -175,10 +174,10 @@ Float32
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 All of these values represent number ``1``. Determine the smallest type which can represent them.
 
 ```jldoctest promotion3; output = false
@@ -190,9 +189,8 @@ w = Int32(1)
 # output
 1
 ```
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -240,10 +238,10 @@ julia> x \= 16 # x = x \ 16 = 16 / x
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Compute the value of `y` given by the following expression
 
 ```math
@@ -251,9 +249,8 @@ y = \frac{(x + 4)^{\frac{3}{2}}}{(x + 1)^{p - 1}},
 ```
 
 where `x = 5` and `p = 3`. Then multiply the result by `8`, add `3`, divide by `3`, and subtract `1`. What are all the intermediate results and the final result?
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -460,18 +457,17 @@ julia> round(x; sigdigits = 3)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use rounding functions to solve the following tasks:
 - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
 - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
 - Round `1252.1518` to `2` digits after the decimal point.
 - Round `1252.1518` to `3` significant digits.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -545,10 +541,10 @@ ERROR: InexactError: Int64(1.234)
 Conversion to other types works in a similar way.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use the proper numeric conversion to get the correct result (not approximate) of summing the following two numbers
 
 ```jldoctest conversion_ex; output = false
@@ -560,9 +556,8 @@ y = 0.5
 ```
 
 **Hint:** rational numbers can be summed without approximation.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

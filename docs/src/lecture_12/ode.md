@@ -48,16 +48,15 @@ The following exercise derives the mathematical formulas needed for solving the 
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Consider equidistant discretizations with stepsizes ``\Delta t`` and ``\Delta x``. Derive mathematical formulas for solving the one-dimensional wave equation on ``[0,T]\times [0,L]`` by applying finite differences in time and space. Do not write any code.
 
 **Hint**: Start with the initial time and compute the solution after each time step. Use the condition on ``f`` at the first time step, the condition on ``g`` at the second time step and the wave equation at further steps.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -123,16 +122,15 @@ The first exercise solves the wave equation.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write the function `solve_wave(T, L, wave::Wave; n_t=100, n_x=100)` that solves the wave equation.
 
 **Hint**: Follow the procedure from the previous exercise. Discretize time and space, initialize the solution, add the boundary conditions, add the initial conditions and finally, iterate over time.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -223,10 +221,10 @@ nothing # hide
 Now we can finally plot the solution.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Solve the wave equation for ``L=\frac32\pi``, ``T=240``, ``c=0.02`` and the initial conditions
 
 ```math
@@ -237,9 +235,8 @@ g(x) &= 0.
 ```
 
 Use time discretization with stepsize ``\Delta t=1`` and the space discretization with number of points ``n_x=101`` and ``n_x=7`` steps. Plot two graphs.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

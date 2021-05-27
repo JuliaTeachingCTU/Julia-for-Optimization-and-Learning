@@ -49,14 +49,13 @@ The values stored in the tuple are: 1, 2.0 and 3
 Arrays can be unpacked similarly. However, tuples are usually used for storing a small number of values, while arrays are typically large. Recall that while tuples are immutable, arrays are mutable.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a tuple that contains the first four letters of the alphabet (these letters should be of type `String`). Then unpack this tuple into four variables `a`, `b`, `c` and `d`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

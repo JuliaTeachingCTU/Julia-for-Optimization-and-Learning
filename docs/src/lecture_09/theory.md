@@ -184,14 +184,15 @@ How should the classifier be evaluated? The figure above suggests that it is a b
 The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
 
 ```@raw html
-<div class = "extra-body">
-<header class = "extra-header">BONUS: Universal approximation of neural networks</header><p>
+<div class="admonition is-compat">
+<header class="admonition-header">BONUS: Universal approximation of neural networks</header>
+<div class="admonition-body"><p>
 ```
 Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
 - Dense layer with the ReLU activation function.
 - Dense layer with the identity activation function.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
@@ -201,10 +202,10 @@ This computation is highly efficient because the forward pass (computing functio
 
 
 ```@raw html
-<div class = "extra-body">
-<header class = "extra-header">BONUS: Computation of gradients</header><p>
+<div class="admonition is-compat">
+<header class="admonition-header">BONUS: Computation of gradients</header>
+<div class="admonition-body"><p>
 ```
-
 For simplicity, we denote ``f = \operatorname{predict}`` and consider
 ```math
 L(w) := \sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).
@@ -239,8 +240,6 @@ Now we need to compute the individual derivatives
 The derivative in ``l_m'(z_m)`` is understood componentwise, and ``\operatorname{diag}`` makes a diagonal matrix from the vector.
 
 Combining all these relations allow computing the derivative of the whole network.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
-

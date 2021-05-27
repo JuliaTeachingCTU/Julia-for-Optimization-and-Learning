@@ -116,10 +116,10 @@ plotattr("guide")
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Consider the following set of equations
 
 ```math
@@ -137,9 +137,8 @@ Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.o
 **Hints:**
 - use the `palette` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
 - remove all decorators by using: `axis = nothing`, `border = :none`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -241,10 +240,10 @@ plot(sin, x -> sin(2x), 0, 2π, 100; linewidth = 2, label = "")
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a plot given by the following set of equations:
 
 ```math
@@ -254,9 +253,8 @@ y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \ri
 \end{aligned}
 ```
 where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Use additional plot attributes to get a nicely looking graph.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -311,10 +309,10 @@ scatter(x, y)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Consider the following function:
 
 ```math
@@ -325,9 +323,8 @@ Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series
 - `:viridis` color scheme,
 - camera angle `(25, 65)`,
 - no legend, color bar, or decorators (`axis`, `frame` and `ticks`).
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

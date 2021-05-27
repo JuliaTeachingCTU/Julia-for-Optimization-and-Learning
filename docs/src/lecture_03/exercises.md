@@ -13,10 +13,10 @@ The first generation must be initialized. Every new generation is created by app
 The following few exercises will implement the Game of Life. We will consider finite universe with periodic boundary conditions.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a function `neighbours` that return the number of live neighbours of a cell. The function should accept the `world` matrix of boolean values representing the state of all cells (`true` if the cell is alive and `false` otherwise) and index of the row and column of the cell.
 
 **Hint:** use the following properties of the `mod1` function to implement periodic boundaries.
@@ -28,9 +28,8 @@ mod1(5, 4)
 ```
 
 **Bonus:** implement a more general function which computes the number of alive cells in a neighbourhood of given size.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -75,14 +74,13 @@ end
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -103,14 +101,13 @@ This is an example of multiple dispatch. The function `neighbours` can have both
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described at the beginning of the section and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -141,14 +138,13 @@ willsurvive(cell, k) = k == 3 || k == 2 && cell
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Combine these functions to write a function `evolve!` that evolves the given `world` matrix into a new generation.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

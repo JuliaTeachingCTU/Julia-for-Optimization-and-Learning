@@ -53,18 +53,17 @@ nothing # hide
 The first two exercises visualize the data and transform it into the correct input shape required by Flux.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Plot the first 15 images of the digit 0 from the training set.
 
 **Hint**: The `ImageInspector` package written earlier provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices.
 
 **Hint**: To find the correct indices, use the function `findall`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -109,16 +108,15 @@ savefig("mnist_intro2.svg") # hide
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write function `reshape_data`, which reshapes `X_train` and `X_test` into the correct size required by Flux.
 
 **Hint**: The function should work only on inputs with the correct size. This can be achieved by specifying the correct input type `X::AbstractArray{<:Real, 3}`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -198,16 +196,15 @@ nothing # hide
 The previous example mentioned that `load_data` is rather general. The next exercise makes it work for datasets with coloured images.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Try to load the CIFAR10 dataset via the `load_data` function and fix the error in one line of code.
 
 **Hint**: Use ` dataset = MLDatasets.CIFAR10`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -275,16 +272,15 @@ The gradient descent works with the derivative ``\nabla L(w)``, which contains t
 The following exercise splits the dataset into minibatches. While we can do it manually, Flux provides a simple way to do so.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use the help of the function `DataLoader` to split the dataset into minibatches.
 
 **Hint**: It needs to be imported from Flux via `using Flux.Data: DataLoader`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -326,10 +322,10 @@ nothing # hide
 
 
 ```@raw html
-<div class = "extra-body">
-<header class = "extra-header">BONUS: Manually splitting the dataset</header><p>
+<div class="admonition is-compat">
+<header class="admonition-header">BONUS: Manually splitting the dataset</header>
+<div class="admonition-body"><p>
 ```
-
 We can do the same procedure manually. To create minibatches, we create a random partition of all indices `randperm(size(y, 2))` and use function `partition` to create an iterator, which creates the minibatches in the form of tuples ``(X,y)``.
 
 ```julia
@@ -348,9 +344,8 @@ This procedure is equivalent to the `map` function.
 ```
 
 The type of `batches` is a one-dimensional array (vector) of tuples.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
@@ -432,14 +427,13 @@ The function `train_model!` first splits the datasets into minibatches `batches`
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -486,19 +480,18 @@ println("Test accuracy = ", accuracy(X_test, y_test)) # hide
 The accuracy is over 93%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model repeatedly. The following exercise determines automatically whether the trained model already exists. If not, it trains it.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a function `train_or_load!(file_name, m, args...; ???)` checking whether the file `file_name` exists.
 - If it exists, it loads it and then copies its parameters into `m` using the function `Flux.loadparams!`.
 - If it does not exist, it trains it using `train_model!`.
 In both cases, the model `m` should be modified inside the `train_or_load!` function. Pay special attention to the optional arguments `???`.
 
 Use this function to load the model from `data/mnist.bson` and evaluate the performance at the testing set.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

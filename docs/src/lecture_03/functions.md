@@ -86,16 +86,15 @@ julia> x3
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write function `power(x::Real, p::Integer)` that for a number ``x`` and a (possibly negative) integer ``p`` computes ``x^p`` without using the `^` operator. Use only basic arithmetic operators `+`, `-`, `*`, `/` and the `if` condition. The annotation `p::Integer` ensures that the input `p` is always an integer.
 
 **Hint:** use recursion.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -207,16 +206,15 @@ julia> g(3)
 However, for better code readability, the traditional multiline syntax is preferred for more complex functions.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a one-line function that returns `true` if the input argument is an even number and `false` otherwise.
 
 **Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -316,10 +314,10 @@ ERROR: UndefVarError: y not defined
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a function which computes the value of the following quadratic form
 
 ```math
@@ -333,9 +331,8 @@ a = 1, \quad b = 2a, \quad c = 3(a + b).
 ```
 
 What is the function value at point ``(4, 2)`` for default parameters? What is the function value at the same point if we use ``c = 3``?
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -425,10 +422,10 @@ julia> linear(2; a, b)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a probability density function for the [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution)
 
 ```math
@@ -438,9 +435,8 @@ f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \le
 where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to obtain the standardized normal distribution (``\mu = 0`` and ``\sigma = 1``). Check that the inputs are correct.
 
 **Bonus:** verify that this function is a probability density function, i.e., its integral equals 1.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -598,18 +594,17 @@ julia> roundmod(12.529, 5; sigdigits = 2)
 This construction is beneficial whenever there are multiple chained functions, and only the deepest ones need keyword arguments.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write a function `wrapper`, that accepts a number and applies one of `round`, `ceil` or `floor` functions based on the keyword argument `type`. Use the function to solve the following tasks:
 - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
 - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
 - Round `1252.1518` to `2` digits after the decimal point.
 - Round `1252.1518` to `3` significant digits.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

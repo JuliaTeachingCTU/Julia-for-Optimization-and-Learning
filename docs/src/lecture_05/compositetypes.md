@@ -144,10 +144,10 @@ julia> fieldnames(typeof(r))
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Comparison with Python</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Comparison with Python</header>
+<div class="admonition-body"><p>
 ```
-
 The same object can be defined in Python in the following way:
 
 ```python
@@ -186,9 +186,8 @@ The declaration of the `Rectangle` class is very similar to the one in Julia. Th
 
 
 in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## Mutable composite types
@@ -259,10 +258,10 @@ MutableRectangle([1.0, 2.0], 1.5, 2.5)
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Type unions</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Type unions</header>
+<div class="admonition-body"><p>
 ```
-
 The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
 
 ```jldoctest structs
@@ -288,9 +287,8 @@ julia> perimeter(r)
 julia> perimeter(mr)
 8.0
 ```
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## Parametric types
@@ -407,14 +405,13 @@ Closest candidates are:
 This situation can be handled by defining custom constructors, as we will discuss in the next section.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the `coordinates` function.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -508,10 +505,10 @@ ERROR: the first argument must be less than or equal to the second one
 Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the resulting instances of the `OrderedPair` type will always satisfy `x <= y`.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Define a structure that represents ND-points and stores their coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Redefine the default inner constructor to create an instance of `PointND` from different types. Then add a new method to the `coordinates` function, and define function `dim` that returns the dimension of the point.
 
 **Hints:** use the `new` function in the definition of the new inner constructor.
@@ -522,9 +519,8 @@ Define a structure that represents ND-points and stores their coordinates as `Tu
 julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
 true
 ```
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -615,8 +611,9 @@ MyType(5, 4.5, "hello")
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Function-like objects</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Function-like objects</header>
+<div class="admonition-body"><p>
 ```
 Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called functors. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
 
@@ -649,17 +646,16 @@ julia> m(1)
 julia> m("world")
 "hello, world"
 ```
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution) is uniquely represented by its mean ``\mu`` and variance ``\sigma^2>0``. Write a structure `Gauss` with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function at a given point defined by
 
 ```math
@@ -667,9 +663,8 @@ f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \le
 ```
 
 Verify that the probability density function is defined correctly, i.e., its integral equals 1.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -734,10 +729,10 @@ We use `sum` with a function as the first input argument and apply it to each va
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Plot recipes</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Plot recipes</header>
+<div class="admonition-body"><p>
 ```
-
 The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package. Unfortunately, it is not possible to use [Function plotting](@ref Function-plotting), i.e., the following will not work even though the `Gauss` type is callable.
 
 ```julia
@@ -787,7 +782,6 @@ plot!(Gauss(-3, 2); label = "new label", linestyle = :dash)
 ```
 
 ![](gauss.svg)
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```

@@ -47,10 +47,10 @@ i = 5
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">An alternative notation for <code>for</code> loops</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">An alternative notation for <code>for</code> loops</header>
+<div class="admonition-body"><p>
 ```
-
 There are two alternative notations for the `for` loop. It is possible to use the `=` or `∈` symbol instead of the `in` keyword.
 
 ```jldoctest
@@ -65,9 +65,8 @@ i = 5
 ```
 
 However, it is better to use the `in` keyword to improve code readability. Regardless of which notation is used, it is essential to be consistent and use the same notation in all `for` loops.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 In Julia (similarly to Python), it is possible to loop not only over ranges but over any iterable object such as arrays or tuples. This is advantageous because it allows getting elements of iterable objects directly without using indices.
@@ -99,16 +98,15 @@ Hi, my name is Bob and I am 23 old.
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both `3` and `7`.
 
 **Hint:** use the `mod` function.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -199,14 +197,13 @@ i = 10
 The code after the `continue` keyword is not evaluated.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Rewrite the code from the exercise above. Use a combination of the `while` loop and the keyword `continue` to print all integers between `1` and `100` divisible by both `3` and `7`. In the declaration of the `while` loop use the `true` value instead of a condition. Use the `break` keyword and a proper condition to terminate the loop.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -294,10 +291,10 @@ julia> for i in 1:3, j in i:10
 There are other limitations of the shorter syntax, such as the impossibility to perform any operation outside the inner loop. Nevertheless, it is a useful syntax in many cases.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use nested loops to create a matrix with elements given by the formula
 
 ```math
@@ -307,9 +304,8 @@ A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad 
 where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 
 **Bonus:** try to create the same matrix in a more effective way.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -410,14 +406,13 @@ julia> [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y < 5]
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use the list comprehension to create a vector of all integers from `1` to `100` divisible by `3` and `7` simultaneously. What is the sum of all these integers?
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -503,14 +498,13 @@ julia> collect(gen)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use a generator to sum the square of all integers from `1` to `100`, which are divisible by `3` and `7` simultaneously.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -602,10 +596,10 @@ julia> for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a matrix with elements given by the following formula
 
 ```math
@@ -618,9 +612,8 @@ where `i` represents row's number and `i_sum` the sum of all elements in this ro
 > *Sum of all elements in a column `i` is `i_sum`*
 
 **Hint:** use iterators `eachcol` and `eachrow`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

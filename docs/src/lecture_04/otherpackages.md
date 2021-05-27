@@ -59,16 +59,15 @@ plot!(D; linewidth = 2, xlabel = "x", ylabel = "pdf(x)")
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a figure that shows the gamma distributions with the following parameters: `(2, 2)`, `(9, 0.5)`, `(7.5, 1)` and `(0.5, 1)`.
 
 **Hint:** to plot cumulative probability functions, use the Plots ability to plot functions.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

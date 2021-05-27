@@ -77,18 +77,17 @@ The following exercise performs the ``t``-test to check whether the data come fr
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use the ``t``-test to verify whether the samples were generated from a distribution with zero mean.
 
 **Hint**: the Student's distribution is invoked by `TDist()`.
 
 **Hint**: the probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -249,18 +248,17 @@ The table shows the parameter values and their confidence intervals. Besides tha
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Check that the solution computed by hand and by `lm` are the same.
 
 Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coeffient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
 
 **Hint**: Use functions `coef` and `r2`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -340,14 +338,13 @@ model = glm(@formula(W ~ 1 + N + Y + I + K + F), wages, InverseGaussian(), SqrtL
 The following exercise plots the predictions for the generalized linear model.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create the scatter plot of predictions and labels. Do not use the `predict` function.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -380,4 +377,3 @@ savefig("glm_predict.svg")
 ```
 
 ![](glm_predict.svg)
-

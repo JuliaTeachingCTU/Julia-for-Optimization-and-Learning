@@ -22,8 +22,9 @@ Denoting ``\hat y = \mathbb{P}(y=1\mid x)`` the probabily of predicting ``1``, t
 
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Cross-entropy loss</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Cross-entropy loss</header>
+<div class="admonition-body"><p>
 ```
 Even though the cross-entropy loss may seem overwhelming, it is quite simple. When a sample is of the positive class, we have ``y=1``, and the cross-entropy loss reduces to
 ```math
@@ -31,7 +32,7 @@ Even though the cross-entropy loss may seem overwhelming, it is quite simple. Wh
 ```
 Since ``\hat y`` lies in the interval ``(0,1)`` due to the sigmoid function, the cross-entropy is minimized when ``\hat y = 1``. Since we get similar results for ``y=0``, the cross-entropy is minimal whenever the labels ``y`` equal to the predictions ``\hat y``.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 Then is not difficult to show that then the logistic regression problems reads
@@ -90,8 +91,9 @@ nothing # hide
 The data contain three classes. However, we considered only binary problems with two classes. We therefore cheat.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Create the `iris_reduced` dataframe in the following way:
 - Label "setosa" will be deleted.
@@ -102,7 +104,7 @@ For the features, consider only petal length and petal width.
 
 **Hint**: Use the `Query` package or do it manually via the `!insertcols` function.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -161,12 +163,13 @@ nothing # hide
 We again plot the data. Since we are interested in a different prediction than last time, we will plot them differently.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Since ```X``` has two features (columns), it is simple to visualize. Use scatter plot to show the data. Use different colours for different classes. Try to produce a nice graph by including names of classes and axis labels (petal length and petal width).
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -196,14 +199,15 @@ We see that the classes are almost perfectly separable. It would not be difficul
 ## Training the classifier
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Write a function ```log_reg``` which takes as an input the dataset, the labels and the initial point. It should use Newton's method to find the optimal weights ``w``. Print the results when started from zero.
 
 It would be possible to use the code ```optim(f, g, x, s::Step)``` from the previous lecture and define only the step function ```s``` for the Newton's method. However, sometimes it may be better to write simple functions separately instead of using more complex machinery.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -292,12 +296,13 @@ equals to zero, we found a stationary point. It can be shown that logistic regre
 
 The picture shows that there are misclassified samples. The next exercise analyses them.
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Compute how many samples were correctly and incorrectly classified.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

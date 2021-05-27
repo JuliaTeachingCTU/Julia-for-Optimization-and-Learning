@@ -90,17 +90,16 @@ shuffle(v)
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Other useful standard packages</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Other useful standard packages</header>
+<div class="admonition-body"><p>
 ```
-
 There are other useful standard packages in Julia, but there is not enough space to present them all.
 - `Test` provides simple unit testing functionality. Unit testing is a process to determine if your code is correct by checking that the results are what you expect. It helps to ensure the code works after changes. Unit tests can also be used during the development phase to specify the expected behaviour when implemented. We will provide more details [later](@ref unit-testing).
 - `SparseArrays` provides special types to store and work with sparse arrays.
 - `Distributed` includes support for distributed computing.
 
 The section Standard Library in the official [documentation](https://docs.julialang.org/en/v1/) provides more information.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```

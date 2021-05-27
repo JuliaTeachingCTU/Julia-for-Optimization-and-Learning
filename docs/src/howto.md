@@ -3,14 +3,13 @@
 ## Exercise
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Some text that describes the exercise
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -24,38 +23,35 @@ Solution
 ## Info
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">???</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">???</header>
+<div class="admonition-body"><p>
 ```
-
 Some info
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## Homework
 
 ```@raw html
-<div class = "homework-body">
-<header class = "homework-header">Homework</header><p>
+<div class="admonition is-category-homework">
+<header class="admonition-header">Homework</header>
+<div class="admonition-body"><p>
 ```
-
 Homework text
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## Theorem
 
 ```@raw html
-<div class = "theorem-body">
-<header class = "theorem-header">???</header><p>
+<div class="admonition is-category-theorem">
+<header class="admonition-header">???</header>
+<div class="admonition-body"><p>
 ```
-
 Some info
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```

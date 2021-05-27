@@ -155,18 +155,17 @@ nothing # hide
 The first exercise compares both approaches to solving the ridge regression.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
 
 **Hint**: The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
 
 **Hint**: The identity matrix is implemented by `I` in the `LinearAlgebra` package.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -315,13 +314,11 @@ plot(μs, abs.(ws');
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Warm start</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Warm start</header>
+<div class="admonition-body"><p>
 ```
-
 The technique of starting from a previously computed value is called warm start or hor start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
-

@@ -36,10 +36,10 @@ x is equal to y
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Function declaration:</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Function declaration:</header>
+<div class="admonition-body"><p>
 ```
-
 So far, we did not show how to define functions. However, the above example should show the basic syntax for defining functions. The `return` keyword specifies the function output. In this case, the function returns nothing since we only want to compare numbers. If we need to define a function that returns more than one variable, the following syntax is used.
 
 ```julia
@@ -47,9 +47,8 @@ return x, y, z
 ```
 
 Here `x`, `y`, and `z` are some variables. We will discuss the function declaration in more detail in the [next lesson](@ref Functions).
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 The `elseif` and `else` keywords are optional. Moreover, it is possible to use as many `elseif` blocks as needed.
@@ -155,10 +154,10 @@ julia> compare(2.3, 2.3)
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Write the `fact(n)` function that computes the factorial of `n`. Use the following function declaration:
 
 ```julia
@@ -170,9 +169,8 @@ end
 Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.
 
 **Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written by `|`.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -276,10 +274,10 @@ julia> f(1) || println(2) # both expressions are evaluated
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Short-circuit evaluation vs. bitwise boolean operators</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Short-circuit evaluation vs. bitwise boolean operators</header>
+<div class="admonition-body"><p>
 ```
-
 Boolean operations without short-circuit evaluation can be done with the bitwise boolean operators `&` and `|` introduced in [previous lecture](@ref Numeric-comparison). These are normal functions, which happen to support infix operator syntax, but always evaluate their arguments.
 
 ```jldoctest shortcirc
@@ -292,9 +290,8 @@ julia> f(1) && t(2)
 1
 false
 ```
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
@@ -339,14 +336,13 @@ true
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Rewrite the factorial function from the exercises above. Use the short-circuit evaluation to check if the given number is a non-negative integer and the ternary operator for recursion.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

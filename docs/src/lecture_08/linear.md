@@ -41,12 +41,13 @@ w = (X^\top X)^{-1}X^\top y.
 ```
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Closed-form solution</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Closed-form solution</header>
+<div class="admonition-body"><p>
 ```
 Linear regression is probably the only machine learning model with a closed-form solution. All other models must be solved by iterative algorithms such as gradient descent. In some cases, it may be advantageous to use iterative algorithms even for linear regression. For example, this includes the case of a large number of features ``m`` because then ``X^\top X`` is an ``m\times m`` matrix that may be difficult to invert.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## UCI repository
@@ -78,14 +79,15 @@ Printing the first five entries of the data shows that they are saved in DataFra
 When designing a classification method, a good practice is to perform at least a basic analysis of the data. That may include checking for NaNs, infinite values, obvious errors, standard deviations of features or others. Here, we only plot the data. 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 We will simplify the goal and estimate the dependence of petal width on petal length. Create the data ``X`` (do not forget to add the bias) and the labels ``y``.
 
 Make a graph of the dependence of petal width on petal length.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -122,12 +124,13 @@ The figure shows a positive correlation between length and width. This is natura
 ## Training the classifier
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Use the closed-form formula to get the coefficients ``w`` for the linear regression. Then use the ```optim``` method derived in the previous lecture to solve the optimization problem via gradient descent. The results should be identical.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -164,12 +167,13 @@ Now we can estimate the petal width if only petal length is known.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 Write the dependence on the petal width on the petal length. Plot it in the previous graph.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

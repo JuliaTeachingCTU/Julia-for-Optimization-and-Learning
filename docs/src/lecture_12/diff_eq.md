@@ -70,14 +70,13 @@ sol(0.8)
 The following exercise shows how to specify the interpolation technique and compares the results.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 When calling the `solve` function, we can specify the interpolation way. Solve the ODE with linear interpolation (`dense=false`) and the Runge-Kutta method of the fourth order (`RK4()`). Plot the results and compare them with the default and original solutions.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -195,14 +194,13 @@ plot(traj[1,:], traj[2,:], traj[3,:]; label="")
 In the introduction, we mentioned chaos theory. We will elaborate on this in the following exercise.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Use the `nextfloat` function to perturb the first parameter of `p` by the smallest possible value. Then solve the Lorenz system again and compare the results by plotting the two trajectories next to each other.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -240,14 +238,13 @@ shows that they are different by a large margin. This raises a natural question.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Can we trust the solutions? Why?
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -262,5 +259,3 @@ However, if the system itself is unstable and an extremely small perturbation re
 ```
 
 The following section shows a situation where we try to mitigate this possible effect by using mathematical formulas to compute the exact solution as long as possible. This aproach delays the necessary discretization and may bring better stability.
-
-

@@ -77,10 +77,10 @@ When an input is an image, the usual structure of the neural network is the foll
 
 
 ```@raw html
-<div class = "extra-body">
-<header class = "extra-header">BONUS: Additional layers</header><p>
+<div class="admonition is-compat">
+<header class="admonition-header">BONUS: Additional layers</header>
+<div class="admonition-body"><p>
 ```
-
 Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
 
 #### Recurrent layer
@@ -101,9 +101,8 @@ From the previous lecture, we know that the gradient is computed via the chain r
 Since the formula contains multiplication, if any of the gradients is too small, then the whole gradient will be too small. Specifically, the deeper the network, the higher the chance that the initial point will be in a point with a small gradient and the training will progress slowly. This phenomenon is called vanishing gradients.
 
 To solve the issue with vanishing gradients, skip connections are sometimes added. Even though it is not a layer, we include it here. They do precisely what their name suggests: They skip one or more layers. This makes the network more flexible: Due to its deep structure, it can approximate complicated functions, and due to its shallow structure (because of skip connections), the initial training can be fast.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 

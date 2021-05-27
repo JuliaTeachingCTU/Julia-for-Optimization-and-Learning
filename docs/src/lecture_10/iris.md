@@ -92,12 +92,13 @@ L(X_train, y_train)
 This computes the objective function on the whole training set. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Notation</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Notation</header>
+<div class="admonition-body"><p>
 ```
 While the [standard definition](https://en.wikipedia.org/wiki/Cross_entropy) of cross-entropy is ``\operatorname{loss}(y,\hat y)``, [Flux](https://fluxml.ai/Flux.jl/stable/models/losses/) uses ``\operatorname{loss}(\hat y,y)``.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 Since we have the model and the loss function, the only remaining thing is the gradient. Flux again provides a smart way to compute it.

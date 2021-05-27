@@ -14,12 +14,13 @@ f(x) \le f(y) \text{ for all }y\in X.
 This point is often challenging to find. Sometimes we can find a local minimum, which is a global minimum on some small neighbourhood of ``x``. However, as the following theorem suggests, we often need to lower our requirements even lower.
 
 ```@raw html
-<div class = "theorem-body">
-<header class = "theorem-header">Theorem: Connection between optimization problems and gradients</header><p>
+<div class="admonition is-category-theorem">
+<header class="admonition-header">Theorem: Connection between optimization problems and gradients</header>
+<div class="admonition-body"><p>
 ```
 Consider a differentiable function ``f`` over ``X=\mathbb{R}^n``. If ``x`` is its local minimum, then ``\nabla f(x)=0``. Conversely, if ``f`` is convex, then every point ``x`` with ``\nabla f(x)=0`` is a global minimum of ``f``.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algorithms often try to find local minima or stationary points, hoping to minimize the function ``f``. The reason is the following: To optimize ``f``, we can evaluate it only at a limited number of points. Since evaluating ``f`` at a point conveys only information about the function value at this point or its small neighbourhood, we collect only local information about ``f``. Therefore, unless ``f`` has a special structure, it is possible to obtain global results from only local evaluations. 
@@ -28,12 +29,13 @@ Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algor
 
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Take care</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Take care</header>
+<div class="admonition-body"><p>
 ```
 This theorem does not hold if ``X`` is not the whole space. A simple counterexmple is minimization of ``f(x)=x`` on ``X=[0,1]``.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 The gradient at a stationary points equals to zero. But what is the gradient? For a function ``f:\mathbb{R}\to \mathbb{R}``, its gradient is defined by
@@ -47,26 +49,28 @@ For a mapping  ``f:\mathbb{R}^n\to \mathbb{R}^m``, its Jacobian is a matrix ``\n
 The formal definition is more complicated, but this one is better for visualization.
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Confusion</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Confusion</header>
+<div class="admonition-body"><p>
 ```
 Gradient ``\nabla f(x)`` of a function ``f:\mathbb{R}^n\to\mathbb{R}`` should be of size  ``1\times n`` but it is commonly considered as ``n\times 1``.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 Functions are usually complicated, and this definition cannot be used to compute the gradient. Instead, the objective function ``f`` is rewritten as a composition of simple functions, these simple functions are differentiated, and the chain rule is applied to get ``\nabla f``.
 
 ```@raw html
-<div class = "theorem-body">
-<header class = "theorem-header">Theorem: Chain</header><p>
+<div class="admonition is-category-theorem">
+<header class="admonition-header">Theorem: Chain</header>
+<div class="admonition-body"><p>
 ```
 Consider two differentiable functions ``f:\mathbb{R}^m\to\mathbb{R}^s`` and ``g:\mathbb{R}^n\to\mathbb{R}^m``. Then its composition ``h(x) := f(g(x))`` is differentiable with Jacobian
 ```math
 \nabla h(x) = \nabla f(g(x))\nabla g(x).
 ```
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
@@ -82,14 +86,15 @@ f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
 on domain ``[-3,1]\times [-2,1]``.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Contour plot</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Contour plot</header>
+<div class="admonition-body"><p>
 ```
 Write a function ```g(x)``` which computes the derivative of ``f`` at a point  ``x``. Plot the contours of ``f`` on the domain. 
 
 **Hint**: Use the optional argument ```color = :jet``` for better visualization.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -143,13 +148,13 @@ f'(x) \approx \frac{f(x+h)-f(x)}{h}.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Finite difference approximation</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Finite difference approximation</header>
+<div class="admonition-body"><p>
 ```
 Write a function ```finite_difference``` which computes the approximation of ``f'(x)`` by finite differences. The inputs are a function ``f:\mathbb R\to\mathbb R`` and a point ``x\in\mathbb{R}``. It should have an optional input ``h\in\mathbb{R}``, for which you need to choose a reasonable value.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -167,14 +172,15 @@ This way of computing the gradient has two disadvantages:
 2. It is not precise, as the following example shows.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Finite difference approximation</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Finite difference approximation</header>
+<div class="admonition-body"><p>
 ```
 Fix a point ``x=(-2,-1)``. For a proper discretization of ``h\in [10^{-15}, 10^{-1}]`` compute the finite difference approximation of the partial derivative of ``f`` with respect to the second variable.
 
 Plot the dependence of this approximation on ``h``. Add the true derivative computed from ```g```.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -232,12 +238,13 @@ gives an error already at the fourth valid digit. It is important to realize how
 Finally, we show how the gradients look like.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Direction of gradients</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Direction of gradients</header>
+<div class="admonition-body"><p>
 ```
 Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -285,8 +292,9 @@ The stepsize ``\alpha^k>0`` can be tuned as a hyperparameter.
 
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Terminology</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Terminology</header>
+<div class="admonition-body"><p>
 ```
 In classical optimization, the usual terminology is:
 - Variable is to be optimized.
@@ -296,18 +304,19 @@ In machine learning, the usual terminology is:
 - Hyperparameter is an external model parameter that is not optimized and needs to be tuned. The example is the steplength because the gradient descent finds a different solution for different steplength, but it is not changed during the optimization.
 The different terminology (and possibly the fact that there are adaptive schemes to select the steplength, which should make it a parameter instead of a hyperparameter) makes the notation confusing.
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Gradient descent</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Gradient descent</header>
+<div class="admonition-body"><p>
 ```
 Implement function `optim`, which takes as inputs function ``f``, its gradient, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. Its output should be the first 100 iterations.
 
 This example is rather artificial because usually only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations. We want to get all iterations to make visualizations.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -379,8 +388,9 @@ nothing # hide
 We now plot how gradient descent behaves.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Gradient descent</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Gradient descent</header>
+<div class="admonition-body"><p>
 ```
 Use the implementation of the gradient descent to minimize the function
 ```math
@@ -394,7 +404,7 @@ Use one line of code to evaluate the function values for all iterations ```xs```
 
 **Hint**: to evaluate all ``xs`` in one line, use iterate either via ```eachcol(xs)``` or ```eachrow(xs)```.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -503,14 +513,15 @@ nothing # hide
 The result is the same as in the previous case. This is not surprising as the code does the same things; it is only written differently. The following exercise shows the power of defining the ```Step``` class.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Armijo condition</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Armijo condition</header>
+<div class="admonition-body"><p>
 ```
 Implement the ```Armijo``` subclass of the ```Step``` class. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
 
 Then run the optimization with the Armijo stepsize selection and plot the animation.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

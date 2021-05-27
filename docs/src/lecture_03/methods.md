@@ -88,10 +88,10 @@ AbstractFloat
 The problem with the `supertype` function is that it does not return the whole supertype hierarchy, but only the closest *larger* supertype. For `Float64` the closest larger supertype is `AbstractFloat`. However, as in the example above, we do not want to use this supertype, since then the function will only work for floating point numbers.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a function `supertypes_tree` which prints the whole tree of all supertypes. If the input type `T` satisfies the following condition `T === Any`, then the function should do nothing. Use the following function declaration:
 
 ```julia
@@ -105,9 +105,8 @@ The optional argument `level` sets the printing indentation level.
 **Hints:**
 - Use the `supertype` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -163,10 +162,10 @@ julia> subtypes(Number)
 This function suffers from a similar disadvantage as the `supertype` function: It is impossible to get the whole hierarchy of all subtypes using only this function.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
-
 Create a function `subtypes_tree` which prints the whole tree of all subtypes for the given type. Use the following function declaration:
 
 ```@meta
@@ -186,9 +185,8 @@ The optional argument `level` sets the printing indentation level.
 **Hints:**
 - Use the `subtypes` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
-
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -321,10 +319,10 @@ Closest candidates are:
 
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">Do not overuse type annotation!!!</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">Do not overuse type annotation!!!</header>
+<div class="admonition-body"><p>
 ```
-
 The `product` function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function `product_new` by:
 
 ```jldoctest methods; output = false
@@ -362,17 +360,17 @@ ERROR: MethodError: no method matching *(::String, ::Symbol)
 ```
 
 Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 
 We show a simple example when the multiple dispatch is useful.
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>
 ```
 We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
 ```@example methods
@@ -407,7 +405,7 @@ nothing # hide
 ```
 Write the `salary_yearly` function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via `s1.salary`). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

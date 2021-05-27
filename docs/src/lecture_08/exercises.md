@@ -45,8 +45,9 @@ w = log_reg(X, y, zeros(size(X,2)))
 # [Exercises](@id l8-exercises)
 
 ```@raw html
-<div class = "homework-body">
-<header class = "homework-header">Homework: Data normalization</header><p>
+<div class="admonition is-category-homework">
+<header class="admonition-header">Homework: Data normalization</header>
+<div class="admonition-body"><p>
 ```
 Data are often normalized. Each feature subtracts its mean and then divides the result by its standard deviation. The normalized features have zero mean and unit standard deviation. This may help in several cases:
 - When each feature has a different order of magnitude (such as millimetres and kilometres). Then the gradient would ignore the feature with the smaller values.
@@ -59,7 +60,7 @@ Do you have any intuition as to why?
 
 Write a short report (in LaTeX) summarizing your findings.
 ```@raw html
-</p></div>
+</p></div></div>
 ```   
 
 
@@ -69,12 +70,12 @@ Write a short report (in LaTeX) summarizing your findings.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 1</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 1</header>
+<div class="admonition-body"><p>
 ```
-The logistic regression on the iris dataset failed in 6 out of 100 samples. But the visualization shows the failure only in 5 cases. How is it possible?
-```@raw html
-</p></div>
+The logistic regression on the iris dataset failed in 6 out of 100 samples. But the visualization shows the failure only in 5 cases. How is it possible?```@raw html
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -113,12 +114,12 @@ As we can see, there are three samples with the same data. Two of them have labe
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 2: Disadvantages of the sigmoid function</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 2: Disadvantages of the sigmoid function</header>
+<div class="admonition-body"><p>
 ```
-Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?
-```@raw html
-</p></div>
+Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?```@raw html
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -177,12 +178,13 @@ The gradient descent will probably run into the same difficulty. Since the gradi
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 3 (theory)</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 3 (theory)</header>
+<div class="admonition-body"><p>
 ```
 Show the details for the derivation of the loss function of the logistic regression.
 ```@raw html
-</p></div>
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -210,12 +212,12 @@ Then it remains to sum this term over all samples.
 
 
 ```@raw html
-<div class = "exercise-body">
-<header class = "exercise-header">Exercise 4 (theory)</header><p>
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 4 (theory)</header>
+<div class="admonition-body"><p>
 ```
-Show that if the Newton's method converged for the logistic regression, then it found a point globally minimizing the logistic loss. 
-```@raw html
-</p></div>
+Show that if the Newton's method converged for the logistic regression, then it found a point globally minimizing the logistic loss. ```@raw html
+</p></div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -231,7 +233,3 @@ which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is kno
 ```@raw html
 </p></details>
 ```
-
-
-
-

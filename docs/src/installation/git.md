@@ -17,14 +17,13 @@ There is no need to change the default settings. However, we recommend changing 
 After setting the editor used by Git, finish the installation with default settings.
 
 ```@raw html
-<div class = "info-body">
-<header class = "info-header">GitHub Account</header><p>
+<div class="admonition is-info">
+<header class="admonition-header">GitHub Account</header>
+<div class="admonition-body"><p>
 ```
-
 Create a GitHub account on the official [GitHub page](https://github.com/). Do not forget to verify your email address.
-
 ```@raw html
-</p></div>
+</p></div></div>
 ```
 
 ## User settings
