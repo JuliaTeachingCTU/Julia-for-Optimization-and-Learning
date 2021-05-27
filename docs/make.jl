@@ -133,7 +133,6 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
-        #"How to..." => "howto.md",
         "Why Julia?" => "why.md",
         "Installation" => installation,
         "1: Variables and basic operators" => lecture_01,

@@ -51,6 +51,7 @@ julia> 2(3 + 4) # equivalent to 2*(3 + 4)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Determine the value and type of `y` given by the following expression
 
 ```math
@@ -58,6 +59,7 @@ y = \frac{(x + 2)^2 - 4}{(x - 2)^{p - 2}},
 ```
 
 where `x = 4` and `p = 5`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -178,6 +180,7 @@ Float32
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 All of these values represent number ``1``. Determine the smallest type which can represent them.
 
 ```jldoctest promotion3; output = false
@@ -189,6 +192,7 @@ w = Int32(1)
 # output
 1
 ```
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -242,6 +246,7 @@ julia> x \= 16 # x = x \ 16 = 16 / x
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Compute the value of `y` given by the following expression
 
 ```math
@@ -249,6 +254,7 @@ y = \frac{(x + 4)^{\frac{3}{2}}}{(x + 1)^{p - 1}},
 ```
 
 where `x = 5` and `p = 3`. Then multiply the result by `8`, add `3`, divide by `3`, and subtract `1`. What are all the intermediate results and the final result?
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -449,6 +455,7 @@ All rounding functions also support additional keyword arguments:
 julia> round(x; digits = 3)
 3141.593
 ```
+
 - If the `sigdigits` keyword argument is provided, it rounds to the specified number of significant digits in the base specified by the `base` keyword argument.
 
 ```jldoctest rounding
@@ -461,11 +468,13 @@ julia> round(x; sigdigits = 3)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Use rounding functions to solve the following tasks:
 - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
 - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
 - Round `1252.1518` to `2` digits after the decimal point.
 - Round `1252.1518` to `3` significant digits.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -545,6 +554,7 @@ Conversion to other types works in a similar way.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Use the proper numeric conversion to get the correct result (not approximate) of summing the following two numbers
 
 ```jldoctest conversion_ex; output = false
@@ -556,6 +566,7 @@ y = 0.5
 ```
 
 **Hint:** rational numbers can be summed without approximation.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">

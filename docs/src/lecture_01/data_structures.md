@@ -53,7 +53,9 @@ Arrays can be unpacked similarly. However, tuples are usually used for storing a
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create a tuple that contains the first four letters of the alphabet (these letters should be of type `String`). Then unpack this tuple into four variables `a`, `b`, `c` and `d`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">

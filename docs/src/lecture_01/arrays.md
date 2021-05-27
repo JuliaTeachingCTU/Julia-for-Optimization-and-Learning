@@ -234,7 +234,9 @@ julia> v
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create a vector of positive integers that contains all odd numbers smaller than `10`. Then change the first element to `4` and the last two elements to `1`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -439,7 +441,9 @@ ERROR: ArgumentError: number of columns of each array must match (got (4, 1))
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create two vectors: vector of all odd positive integers smaller than `10` and vector of all even positive integers smaller than `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -608,6 +612,7 @@ julia> fill(1.234, 2, 2)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create three matrices with the following properties:
 - Matrix `A` is of size `2x3`, and all its elements equal 0.
 - Matrix `B` is of size `2x3x1`, and all its elements equal 1.
@@ -615,6 +620,7 @@ Create three matrices with the following properties:
 Concatenate these three matrices along the third dimension.
 
 **Hint:** use the `cat` function and the keyword `dims`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -767,7 +773,9 @@ julia> a .* b
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Construct a matrix whose elements are given by the following formula
+
 ```math
 A_{i, j} = \frac{1}{2}\exp\{(B_{i, j} + 1)^2\}, \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
 ```
@@ -785,6 +793,7 @@ B = [
  -1   0  2
   2  -3  1
 ```
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
