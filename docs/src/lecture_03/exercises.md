@@ -15,7 +15,7 @@ The following few exercises will implement the Game of Life. We will consider fi
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write a function `neighbours` that return the number of live neighbours of a cell. The function should accept the `world` matrix of boolean values representing the state of all cells (`true` if the cell is alive and `false` otherwise) and index of the row and column of the cell.
 
@@ -29,7 +29,7 @@ mod1(5, 4)
 
 **Bonus:** implement a more general function which computes the number of alive cells in a neighbourhood of given size.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -76,11 +76,11 @@ end
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -103,11 +103,11 @@ This is an example of multiple dispatch. The function `neighbours` can have both
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described at the beginning of the section and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -140,11 +140,11 @@ willsurvive(cell, k) = k == 3 || k == 2 && cell
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Combine these functions to write a function `evolve!` that evolves the given `world` matrix into a new generation.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

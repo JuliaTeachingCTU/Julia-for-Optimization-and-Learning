@@ -139,13 +139,13 @@ The first exercise checks that we computed the matrix exponential correctly.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Verify that the matrix exponential is computed correctly and that it is different from the elementwise exponential.
 
 **Hint**: The matrix exponential can also be computed directly by the `exp` function from the `LinearAlgebra` package.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -193,13 +193,13 @@ Now we can finally plot the trajectories of the electric motor.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write two function `trajectory_fin_diff` and `trajectory_exact` which compute the trajectory. The first one should use the finite difference method to discretize the time, while the second one should use the closed-form formula.
 
 Plot both trajectories on time interval ``[0,10]`` with time discretization step ``\Delta t=0.01``. Since ``x(t)`` is a two-dimensional vector, plot each component on one axis.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -312,7 +312,7 @@ u(t) &= U_{\rm max}\frac{p(t)}{||p(t)||}.
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Connection with optimization</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 This part hints at the derivation of the previous result and the connection to constrained optimization. Optimal control forms the Hamiltonian (similar to the [Langrangian](@ref lagrangian))
 
@@ -334,7 +334,7 @@ p(t) = e^{-A^\top t}p_0.
 
 This is the first condition written above. The second condition can be obtained by maximizing the Hamiltonian with respect to ``u`` and arguing that the constraint ``||u(t)||=U_{\rm max}`` will always be satisfied (this goes beyond the content of this lecture).
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -396,13 +396,13 @@ Since this is one equation for one variable, we can compute the optimal time ``\
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Solve the optimal time for ``x_{\rm tar}= (0.25, -0.5)`` with the maximum voltage ``U_{\rm max} = 0.1``.
 
 **Hint**: To solve the equation above for ``t``, use the [bisection method](@ref l7-exercises).
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -490,7 +490,7 @@ We confirm that the optimal trajectory leads from the starting to the target poi
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Plotting all optimal trajectories</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The optimal trajectory depends on the normed vector ``p_0``. All such vectors form a unit circle in ``\mathbb R^2``. Therefore, they can be parameterized by an angle ``\alpha\in[0,2\pi]``. We plot eight possible optimal trajectories, each corresponding to a different target ``x_{\rm tar}``, with uniformly distributed ``\alpha``. Since we plot in a loop, we need to initialize an empty plot and then `display` it.
 

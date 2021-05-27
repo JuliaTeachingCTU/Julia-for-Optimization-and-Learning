@@ -55,7 +55,7 @@ The first two exercises visualize the data and transform it into the correct inp
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Plot the first 15 images of the digit 0 from the training set.
 
@@ -63,7 +63,7 @@ Plot the first 15 images of the digit 0 from the training set.
 
 **Hint**: To find the correct indices, use the function `findall`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -110,13 +110,13 @@ savefig("mnist_intro2.svg") # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write function `reshape_data`, which reshapes `X_train` and `X_test` into the correct size required by Flux.
 
 **Hint**: The function should work only on inputs with the correct size. This can be achieved by specifying the correct input type `X::AbstractArray{<:Real, 3}`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -198,13 +198,13 @@ The previous example mentioned that `load_data` is rather general. The next exer
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Try to load the CIFAR10 dataset via the `load_data` function and fix the error in one line of code.
 
 **Hint**: Use ` dataset = MLDatasets.CIFAR10`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -274,13 +274,13 @@ The following exercise splits the dataset into minibatches. While we can do it m
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the help of the function `DataLoader` to split the dataset into minibatches.
 
 **Hint**: It needs to be imported from Flux via `using Flux.Data: DataLoader`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -324,7 +324,7 @@ nothing # hide
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Manually splitting the dataset</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 We can do the same procedure manually. To create minibatches, we create a random partition of all indices `randperm(size(y, 2))` and use function `partition` to create an iterator, which creates the minibatches in the form of tuples ``(X,y)``.
 
@@ -345,7 +345,7 @@ This procedure is equivalent to the `map` function.
 
 The type of `batches` is a one-dimensional array (vector) of tuples.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -429,11 +429,11 @@ The function `train_model!` first splits the datasets into minibatches `batches`
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -482,7 +482,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write a function `train_or_load!(file_name, m, args...; ???)` checking whether the file `file_name` exists.
 - If it exists, it loads it and then copies its parameters into `m` using the function `Flux.loadparams!`.
@@ -491,7 +491,7 @@ In both cases, the model `m` should be modified inside the `train_or_load!` func
 
 Use this function to load the model from `data/mnist.bson` and evaluate the performance at the testing set.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

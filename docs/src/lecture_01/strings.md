@@ -117,7 +117,7 @@ julia> print(str)
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create a string with the following text
 > Quotation is the repetition or copy of someone else's statement or thoughts. \
@@ -125,7 +125,7 @@ Create a string with the following text
 > Both of these words are sometimes abbreviated as "quote(s)".
 and print it into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Use an indent of length 4 for each sentence.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -258,7 +258,7 @@ julia> "tuple: $(t)"
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Print the following message for a given vector
 > "<vec> is a vector of length <len> with elements of type <type>"
@@ -271,7 +271,7 @@ b = [:a, :b, :c, :d]
 
 **Hint:** use the `length` and` eltype` functions.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -400,7 +400,7 @@ julia> replace("Sherlock Holmes", "Holmes" => "Homeless")
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the `split` function to split the following string
 > "Julia!"
@@ -408,7 +408,7 @@ into a vector of single-character strings.
 
 **Hint:** we can say that an empty string `""` separates the characters in the string.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

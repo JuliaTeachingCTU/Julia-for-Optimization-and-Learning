@@ -44,11 +44,11 @@ df
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Column names</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 DataFrames allow using symbols (like `:A`) and strings (like `"A"`) for all column indexing operations. Using symbols is slightly faster and should be preferred. One exception is when the column names are generated using string manipulation.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 The standard format for storing table data is the `csv` file format. The [CSV](https://github.com/JuliaData/CSV.jl) package provides an interface for saving and loading `csv` files.

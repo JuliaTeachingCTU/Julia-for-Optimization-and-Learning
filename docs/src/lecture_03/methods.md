@@ -90,7 +90,7 @@ The problem with the `supertype` function is that it does not return the whole s
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create a function `supertypes_tree` which prints the whole tree of all supertypes. If the input type `T` satisfies the following condition `T === Any`, then the function should do nothing. Use the following function declaration:
 
@@ -106,7 +106,7 @@ The optional argument `level` sets the printing indentation level.
 - Use the `supertype` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -164,7 +164,7 @@ This function suffers from a similar disadvantage as the `supertype` function: I
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create a function `subtypes_tree` which prints the whole tree of all subtypes for the given type. Use the following function declaration:
 
@@ -186,7 +186,7 @@ The optional argument `level` sets the printing indentation level.
 - Use the `subtypes` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -321,7 +321,7 @@ Closest candidates are:
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Do not overuse type annotation!!!</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The `product` function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function `product_new` by:
 
@@ -361,7 +361,7 @@ ERROR: MethodError: no method matching *(::String, ::Symbol)
 
 Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -370,7 +370,7 @@ We show a simple example when the multiple dispatch is useful.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
 ```@example methods
@@ -405,7 +405,7 @@ nothing # hide
 ```
 Write the `salary_yearly` function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via `s1.salary`). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

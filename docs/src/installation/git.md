@@ -19,11 +19,11 @@ After setting the editor used by Git, finish the installation with default setti
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">GitHub Account</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create a GitHub account on the official [GitHub page](https://github.com/). Do not forget to verify your email address.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 ## User settings

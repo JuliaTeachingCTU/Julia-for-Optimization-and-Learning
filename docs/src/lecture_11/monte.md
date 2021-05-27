@@ -55,11 +55,11 @@ Machine learning datasets contain many features. Even simple datasets such as MN
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the [formula](https://en.wikipedia.org/wiki/Volume_of_an_n-ball) to compute the volume of a ``m``-dimensional ball. Plot the dependence of the volume on the dimension ``m=1,\dots,100``.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -105,13 +105,13 @@ The following exercise uses the Monte Carlo sampling to estimate this volume. We
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Write the function `volume_monte_carlo`, which estimates the volume of the ``m``-dimensional ball based on ``n`` randomly sampled points.
 
 **Hint**: function `rand(m,n)` creates a ``m\times n`` matrix, which can be understood as ``n`` randomly sampled points in ``[0,1]^m``. Transform them to ``[-1,1]^m``.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -176,7 +176,7 @@ It is not surprising that with increasing dimension, we need a much larger numbe
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Generating from the uniform distribution</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 While we wrote our function for generating from the uniform distribution, we can also use the Distributions package.
 
@@ -190,7 +190,7 @@ nothing # hide
 
 We will discuss this topic more in the following section.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -269,11 +269,11 @@ The rejection sampling technique first randomly samples a trial point ``x\in [x_
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Implement the `rejection_sampling` function. It should generate ``n`` trial points and return all accepted points.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -337,7 +337,7 @@ While the rejection sampling provides a good approximation for the first two dis
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Using rejection sampling to compute expected value</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 This exercise computes the expected value
 ```math
@@ -413,7 +413,7 @@ scatter!(4*ones(n_rep), e3; label="Generating from other distribution")
 
 This exercise considered the computation of a one-dimensional integral. It is important to realize that even for such a simple case, it is necessary to sample a sufficiently large number of points. Even when we sampled ``100000`` points, there is still some variance in the results, as the last three columns show.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -430,11 +430,11 @@ Previous sections showed that we need many samples to obtain a good approximatio
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Sample ``n=1000`` in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -485,7 +485,7 @@ extrema(dist2)
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Approximating the quantiles</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Quantiles form an important concept in statistics. Its definition is slightly complicated; we will consider only absolutely continuous random variables: one-dimensional variables ``X`` with continuous density ``f``. Then the quantile at a level ``\alpha\in[0,1]`` is the unique point ``x`` such that 
 
@@ -582,5 +582,5 @@ savefig(plt2, "quantile2.svg") # hide
 Both sampled estimates give a lower estimate than the true quantile. In statistical methodology, these estimates are biased. We observe that the interpolated estimate is closer to the true value and that computing the quantile even on ``10000`` points gives an uncertainty interval of approximately ``0.25``.
 
 ```@raw html
-</p></div></div>
+</div></div>
 ```

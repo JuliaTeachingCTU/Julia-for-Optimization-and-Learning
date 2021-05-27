@@ -72,11 +72,11 @@ The following exercise shows how to specify the interpolation technique and comp
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 When calling the `solve` function, we can specify the interpolation way. Solve the ODE with linear interpolation (`dense=false`) and the Runge-Kutta method of the fourth order (`RK4()`). Plot the results and compare them with the default and original solutions.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -196,11 +196,11 @@ In the introduction, we mentioned chaos theory. We will elaborate on this in the
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the `nextfloat` function to perturb the first parameter of `p` by the smallest possible value. Then solve the Lorenz system again and compare the results by plotting the two trajectories next to each other.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -240,11 +240,11 @@ shows that they are different by a large margin. This raises a natural question.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Can we trust the solutions? Why?
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

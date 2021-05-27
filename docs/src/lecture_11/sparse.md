@@ -157,7 +157,7 @@ The first exercise compares both approaches to solving the ridge regression.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
 
@@ -165,7 +165,7 @@ Implement the methods for the `ridge_reg` function. Verify that the result in th
 
 **Hint**: The identity matrix is implemented by `I` in the `LinearAlgebra` package.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -316,9 +316,9 @@ plot(μs, abs.(ws');
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Warm start</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The technique of starting from a previously computed value is called warm start or hor start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.
 ```@raw html
-</p></div></div>
+</div></div>
 ```

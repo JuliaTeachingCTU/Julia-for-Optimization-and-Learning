@@ -22,7 +22,7 @@ Even though using separate files to organize code can be very useful, this appro
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Main module</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 If we run a code in the REPL, the code is evaluated in the `Main` module, which serves as the default global scope. We can check this by the `@__MODULE__` macro that returns the module in which the macro is evaluated.
 
@@ -41,7 +41,7 @@ julia> parentmodule(foo)
 Main
 ```
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 ## Modules
@@ -119,7 +119,7 @@ Besides the `using` keyword, Julia also provides the `import` keyword to import 
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Relative and absolute module paths</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 In the previous section, we added a dot before the module name in the `using` keyword. The reason is that if we import a module, the system consults an internal table of top-level modules to find the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
 
@@ -142,13 +142,13 @@ using .Points
 
 Adding one more leading dot moves the path one additional level up in the module hierarchy. For example, `using ..Points` would look for `Points` in the enclosing module for `Main` rather than `Main` itself.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Modules and files</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Since modules are associated only with module expressions, files are largely unrelated to modules. One can have multiple files in a module.
 
@@ -173,5 +173,5 @@ module MyModule2
 end
 ```
 ```@raw html
-</p></div></div>
+</div></div>
 ```

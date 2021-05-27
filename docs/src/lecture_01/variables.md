@@ -46,7 +46,7 @@ In this case, the variable `x` is of type `Float64`, which is a type that repres
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create the following three variables:
 1. Variable `x` with value `1.234`.
@@ -54,7 +54,7 @@ Create the following three variables:
 3. Variable `z` with value `x + y*im`.
 What are the types of these three variables?
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -172,7 +172,7 @@ In many cases, it is beneficial to have the choice to use special symbols as var
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Stylistic Conventions:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 While there are almost no restrictions on valid names in Julia, it is useful to adopt the following conventions:
 - Names of variables are in lower case.
@@ -180,5 +180,5 @@ While there are almost no restrictions on valid names in Julia, it is useful to 
 - Do not overuse special symbols, i.e., avoid using symbols like `🍕` as variable names.
 For more information about stylistic conventions, see the official [style guide](https://docs.julialang.org/en/v1/manual/style-guide/#Style-Guide-1) or [Blue Style](https://github.com/invenia/BlueStyle).
 ```@raw html
-</p></div></div>
+</div></div>
 ```

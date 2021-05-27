@@ -58,7 +58,7 @@ while non-linear predictions are considered in the following lecture.
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Linear classifiers</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 We realize that
 ```math
@@ -66,7 +66,7 @@ w^\top x + b = (w, b)^\top \begin{pmatrix}x \\ 1\end{pmatrix}.
 ```
 That means that if we add ``1`` to each sample ``x_i``, it is sufficient to consider the classifier in the form ``w^\top x`` without the bias (shift, intercept) ``b``. This allows for simpler implementation.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -74,7 +74,7 @@ That means that if we add ``1`` to each sample ``x_i``, it is sufficient to cons
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Data transformation</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Linear models have many advantages, such as simplicity or guaranteed convergence for optimization methods. Sometimes it is possible to transform non-linear dependences into linear ones. For example, the body-mass index
 ```math
@@ -95,5 +95,5 @@ in logarithmic variables. We show the same table as for regression but with loga
 
 It is not difficult to see the simple linear relation with coefficients ``1`` and ``-2``, namely ``\log y = \log x^1 - 2\log x^2.``
 ```@raw html
-</p></div></div>
+</div></div>
 ```

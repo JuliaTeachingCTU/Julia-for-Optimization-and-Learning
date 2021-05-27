@@ -3,7 +3,7 @@
 ```@raw html
 <div class="admonition is-category-homework">
 <header class="admonition-header">Homework: Newton's method</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```Newton's method for solving equation ``g(x)=0`` is an iterative procedure which at every iteration ``x^k`` approximates the function ``g(x)`` by its first-order (linear) expansion ``g(x) \approx g(x^k) + \nabla g(x^k)(x-x^k)`` and finds the zero point of this approximation.
 
 Newton's method for unconstrained optimization replaces the optimization problem by its optimality condition and solves the resulting equation.
@@ -14,7 +14,7 @@ f(x) = e^{x_1^2 + x_2^2 - 1} + (x_1-1)^2
 ```
 with the starting point ``x^0=(0,0)``.
 ```@raw html
-</p></div></div>
+</div></div>
 ```   
 
 
@@ -23,7 +23,7 @@ with the starting point ``x^0=(0,0)``.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 1: Solving a system of linear equations</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The update of Newton's method computes ``A^{-1}b``. The most intuitive way of writing this is to use `inv(A) * b`, which first computes the inverse of `A` and then multiplies it with a vector. However, this approach has several disadvantages:
 - Specialized algorithms for solving the linear system ``Ax=b`` cannot be used.
@@ -32,7 +32,7 @@ For these reasons, the linear system of equations is solved by `A \ b`, which ca
 
 Use the package `BenchmarkTools` to benchmark both possibilities.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -89,13 +89,13 @@ The second possibility is faster and has lower memory requirements.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 2: Bisection method</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Similarly to Newton's method, the bisection method is primarily designed to solve equations by finding their zero points. It is only able to solve equations ``f(x)=0`` where ``f:\mathbb{R}\to\mathbb{R}``. It starts with an interval ``[a,b]`` where ``f`` has opposite values ``f(a)f(b)<0``. Then it selects the middle point on ``[a,b]`` and halves the interval so that the new interval again satisfies the constraint on opposite signs ``f(a)f(b)<0``. This is repeated until the function value is small or until the interval has a small length.
 
 Implement the bisection method and use it to minimize ``f(x) = x^2 - x`` on ``[-1,1]``. During the implementation, do not evaluate ``f`` unless necessary.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -148,7 +148,7 @@ println(round(x_opt, digits=4)) # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 3: JuMP</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The library to perform optimization is called ```JuMP```. Install it, go briefly through its documentation, and use it to solve the linear optimization problem
 ```math
@@ -159,7 +159,7 @@ The library to perform optimization is called ```JuMP```. Install it, go briefly
 &x_1+x_2 = 2.
 \end{aligned}
 ```    ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -202,7 +202,7 @@ println(round.(x_val, digits=4)) # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 4: SQP method</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Derive the SQP method for optimization problem with only equality constraints
 ```math
@@ -222,7 +222,7 @@ Apply the obtained algorithm to
 ``` 
 Verify that the numerically obtained solution is correct.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -294,11 +294,11 @@ println(round.(x, digits=4)) # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 5 (theory)</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -331,11 +331,11 @@ If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maxi
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 6 (theory)</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Derive the dual formulation for the linear programming.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

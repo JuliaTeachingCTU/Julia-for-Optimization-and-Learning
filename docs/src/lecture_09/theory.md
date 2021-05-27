@@ -186,13 +186,13 @@ The following result shows that even shallow neural networks (not many layers) c
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Universal approximation of neural networks</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
 - Dense layer with the ReLU activation function.
 - Dense layer with the identity activation function.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -204,7 +204,7 @@ This computation is highly efficient because the forward pass (computing functio
 ```@raw html
 <div class="admonition is-compat">
 <header class="admonition-header">BONUS: Computation of gradients</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 For simplicity, we denote ``f = \operatorname{predict}`` and consider
 ```math
@@ -241,5 +241,5 @@ The derivative in ``l_m'(z_m)`` is understood componentwise, and ``\operatorname
 
 Combining all these relations allow computing the derivative of the whole network.
 ```@raw html
-</p></div></div>
+</div></div>
 ```

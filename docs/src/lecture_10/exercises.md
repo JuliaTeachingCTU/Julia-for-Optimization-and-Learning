@@ -56,7 +56,7 @@ The first two exercises handle training neural networks on GPUs instead of CPUs.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 1: Operations on GPUs</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs.
 
@@ -64,7 +64,7 @@ To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\i
 
 Investigate how long it takes to perform multiplication ``Ab`` if both objects are on CPU, GPU or if they are saved differently. Check that both multiplications resulted in the same vector.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -147,11 +147,11 @@ The previous exercise did not show any differences when performing a matrix-vect
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -202,7 +202,7 @@ Using GPU speeded the computation by more than ten times.
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Computation on GPU</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Using GPUs speeds up the training of neural networks in orders of magnitude. However, one needs to be aware of some pitfalls.
 
@@ -214,7 +214,7 @@ Because ```onecold``` accesses individual elements of an array, it is extremely 
 
 Another thing to remember is to always convert all objects to CPU before saving them.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 
@@ -234,13 +234,13 @@ Exercises which do not require GPUs start here.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 3:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``. This matrix is called the [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
 
 Convert the confusion matrix into a dataframe and add labels.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -301,11 +301,11 @@ Surprisingly, the largest number of misclassifications is 9 into 7. One would ex
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 4:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Plot all images which are ``9`` but were classified as ``7``.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -349,7 +349,7 @@ The following exercise depicts how images propagate through the network.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 5: Visualization of neural networks 1</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 We know that the output of the convolutional layers has the same number of dimensions as the inputs. If the activation function is the sigmoid, the output values stay within ``[0,1]`` and can also be interpreted as images. Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson``` (you can check that the model accuracy is 0.9831).
 
@@ -361,7 +361,7 @@ For all digits, select the first five samples from the training set of this digi
 - The last channel of the layer after the second pooling layer.
 Discuss the images.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

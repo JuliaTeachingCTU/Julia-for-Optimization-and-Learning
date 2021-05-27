@@ -30,7 +30,7 @@ The stepsize ``\alpha^k>0`` can be tuned as a hyperparameter.
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Terminology</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 In classical optimization, the usual terminology is:
 - Variable is to be optimized.
@@ -40,19 +40,19 @@ In machine learning, the usual terminology is:
 - Hyperparameter is an external model parameter which is not optimized and needs to be tuned. The example is the steplength because the gradient descent finds a different solution for different steplength but it is not changed during the optimization.
 The different terminology (and the fact that there are adaptive schemes to select the steplenght which should make it a parameter instead of a hyperparameter) makes the notation confusing.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Gradient descent</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Implement function `optim` which takes as inputs function ``f``, its gradient, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. Its output should be the first 100 iterations.
 
 This example is rather artificial because usually only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations. We want to get all iterations to make visualizations.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -79,7 +79,7 @@ The implementation does not use the values of ``f`` but only its gradient ``\nab
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Gradient descent</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the implementation of the gradient descent to minimize the function
 ```math
@@ -90,7 +90,7 @@ from the starting point ``x^0=(0,-1)`` and constant stepsize ``\alpha=0.1``. Sto
 Plot again the contours of ``f`` and all iterations ```xs```.
 
 Use one line of code to evaluate the function values for all iterations ```xs``` (hint: you need to iterate via ```eachcol(xs)``` or ```eachrow(xs)``` depending on how you represent ```xs```). Plot these values. ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -194,13 +194,13 @@ We obtained the same results as in the previous case. This is not surprising as 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Armijo condition</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Implement the ```Armijo``` subclass of the ```Step``` class. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
 
 Then run the optimization with the Armijo selection of the stepsize.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

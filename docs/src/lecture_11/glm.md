@@ -79,7 +79,7 @@ The following exercise performs the ``t``-test to check whether the data come fr
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the ``t``-test to verify whether the samples were generated from a distribution with zero mean.
 
@@ -87,7 +87,7 @@ Use the ``t``-test to verify whether the samples were generated from a distribut
 
 **Hint**: the probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -250,7 +250,7 @@ The table shows the parameter values and their confidence intervals. Besides tha
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Check that the solution computed by hand and by `lm` are the same.
 
@@ -258,7 +258,7 @@ Then remove the feature with the highest ``p``-value and observe whether there w
 
 **Hint**: Use functions `coef` and `r2`.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -340,11 +340,11 @@ The following exercise plots the predictions for the generalized linear model.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Create the scatter plot of predictions and labels. Do not use the `predict` function.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

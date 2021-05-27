@@ -94,11 +94,11 @@ This computes the objective function on the whole training set. Since Flux is (u
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Notation</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 While the [standard definition](https://en.wikipedia.org/wiki/Cross_entropy) of cross-entropy is ``\operatorname{loss}(y,\hat y)``, [Flux](https://fluxml.ai/Flux.jl/stable/models/losses/) uses ``\operatorname{loss}(\hat y,y)``.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 Since we have the model and the loss function, the only remaining thing is the gradient. Flux again provides a smart way to compute it.

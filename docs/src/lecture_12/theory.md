@@ -24,11 +24,11 @@ on some interval ``t\in [0,T]``. To obtain a correct definition, the initial val
 ```@raw html
 <div class="admonition is-category-theorem">
 <header class="admonition-header">Picard–Lindelöf theorem</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Suppose ``f`` is uniformly Lipschitz continuous in ``y`` (the Lipschitz constant is independent of ``t``) and continuous in ``t``. Then for some value ``\varepsilon > 0``, there exists a unique solution ``y(t)`` to the initial value problem on the interval ``[t_0-\varepsilon, t_0+\varepsilon]``.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 However, it may happen that even simple equations do not have a unique solution.
@@ -36,7 +36,7 @@ However, it may happen that even simple equations do not have a unique solution.
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Uniqueness</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The uniqueness of solution is not guaranteed even for simple equations. Equation
 ```math
@@ -47,7 +47,7 @@ y(0) &= 0
 ```
 has at least two solution: ``y_1(t)=0`` and ``y_2(t)=(\frac t3)^3``. This is possible because the right-hand side of the ODE has an infinite derivative at zero, and the Lipschitz continuity assumption of the Picard–Lindelöf theorem is not satisfied.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 The theory of partial differential equations is complicated because they employ a special definition of derivative (weak derivative), and the solution is defined on special spaces (Sobolev spaces).
@@ -80,7 +80,7 @@ because ``e^{At}e^{-At}`` is the identity matrix (similarly to ``e^xe^{-x}=1``).
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Matrix decompositions in solving linear ODEs</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The [lecture on statistics](@ref matrix-eigen) showed the eigendecomposition for square matrices ``A\in\mathbb R^{n\times n}``. The eigendecomposition
 
@@ -102,5 +102,5 @@ Because ``\Lambda`` is a diagonal matrix, its exponential equals to a diagonal m
 
 Since we need to compute the matrix exponential multiple times, similarly to [LASSO](@ref lasso), using the eigendecomposition saves computational times.
 ```@raw html
-</p></div></div>
+</div></div>
 ```

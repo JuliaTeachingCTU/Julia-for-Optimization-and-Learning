@@ -115,13 +115,13 @@ y = iris.Species
 ```@raw html
 <div class="admonition is-category-homework">
 <header class="admonition-header">Homework: Optimal setting</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Perform an analysis of hyperparameters of the neural network from this lecture. Examples may include network architecture, learning rate (stepsize), activation functions or normalization.
 
 Write a short summary (in LaTeX) of your suggestions.
 ```@raw html
-</p></div></div>
+</div></div>
 ```   
 
 
@@ -137,7 +137,7 @@ Write a short summary (in LaTeX) of your suggestions.
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 1: Keyword arguments</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Keyword arguments (often denoted as `kwargs` but any name may be used) specify additional arguments which do not need to be used when the function is called. We recall the `prepare_data` function written earlier.
 
@@ -167,7 +167,7 @@ Recall that `split` takes `ratio_split` as an optional argument. Write a one-lin
 - no normalization and the default split ratio;
 - normalization and the split ratio of 50/50;
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -210,13 +210,13 @@ nothing # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 2: Showing the contours</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Use the same training procedure for 1000 iterations to train the classifier with the new data. Then plot a graph depicting which classes are predicted at subregions of ``[-2,2]\times [-2,2]``. Moreover, depict the testing data in this graph.
 
 **Hint**: use the `heatmap` function.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -297,13 +297,13 @@ savefig("Separation.svg") # hide
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 3: Overfitting</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 This exercise shows the well-known effect of overfitting. Since the model sees only the training set, it may fit it too perfectly (overfit it) and generalize poorly to the testing set of unseen examples.
 
 Consider the same data as in the previous exercise but train a network with 25 hidden neurons for 25000 iterations. Plot the loss function values on the training and testing sets. Then plot the same prediction visualization as in the previous exercise for both testing and training sets. Describe what went wrong.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -419,11 +419,11 @@ The separation on the testing set is quite good, but it could be better for the 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 4: Generalization</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The contour plots from Exercises 2 and 3 are strikingly different, especially in the top-left and bottom-right corners. Why is that?
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
@@ -433,11 +433,11 @@ Since the dataset does not contain any data in the top-left or bottom-right corn
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Generalization</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 If a classifier does not have any data in some region, it may predict anything there, including predictions with no sense.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 ```@raw html
@@ -453,11 +453,11 @@ If a classifier does not have any data in some region, it may predict anything t
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 5: Universal approximation of neural networks (theory)</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 Proof the theorem about universal approximation of neural networks.
 ```@raw html
-</p></div></div>
+</div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```

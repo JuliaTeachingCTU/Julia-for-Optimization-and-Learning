@@ -5,14 +5,14 @@ There are many established programming languages like Python, Matlab, R, or C. W
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Advantages:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 - **Intuitive and flexible syntax:** Julia was designed to be easy to use and powerful at the same time. Julia provides a very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
 - **Performance:** Since Julia is a compiled language, code in Julia is generally faster than code written in pure Python or Matlab. More details and examples are provided in the separate section below.
 - **Type system:** Like Matlab or Python, it is not necessary to use type annotations for variable or function input arguments. However, since everything in Julia has its own type, it is possible to use type annotation. This allows the compiler to optimize the code, and it can also prevent mistakes.
 - **Multiple dispatch:** Julia multiple dispatch means that one functions consist of multiple methods which may differ in the number of input arguments or their type. When a function is called, the most specific method definition matching the number and argument types is executed. This allows defining general functions such as `convert` for all conversion operations, instead of using specific function names like `str2double` typically used in Matlab.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 To be as objective as possible, we provide a list of Julia disadvantages.
@@ -20,7 +20,7 @@ To be as objective as possible, we provide a list of Julia disadvantages.
 ```@raw html
 <div class="admonition is-category-theorem">
 <header class="admonition-header">Disadvantages:</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 - **A limited number of packages:** Even though Julia grows rapidly and there are many packages, it can not compete with the number of available packages in Python or R. However, Julia provides a simple way of interacting with other languages. If there is no adequate package in Julia, it is possible to use packages from other languages.
 
@@ -28,7 +28,7 @@ To be as objective as possible, we provide a list of Julia disadvantages.
 
 - **Limited number of job opportunities:** Because Julia is a relatively new language, there is a limited number of job opportunities, especially compared to Python. On the other hand, there is a list of Julia users and Julia Computing customers on the official webpage of [Julia Computing](https://juliacomputing.com/) including Amazon, Google, IBM, Intel and many others.
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 

@@ -37,7 +37,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Adding specific version</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 The syntax above installs the latest stable version of packages. In some cases, we may want to use an older or a not-yet-released package version. We can install such a specific version by appending the version number after the `@` symbol.
 
@@ -65,7 +65,7 @@ Status `~/.julia/environments/v1.5/Project.toml`
   [682c06a0] JSON v0.21.1+ `https://github.com/JuliaIO/JSON.jl.git#1231b52`
 ```
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 We use the `update` keyword to update for registered and unregistered packages. If we do not provide a package name, all installed packages will be updated.
@@ -131,7 +131,7 @@ Like the help for functions, we can use `?` in the Pkg REPL to list all its avai
 ```@raw html
 <div class="admonition is-info">
 <header class="admonition-header">Non-interactive package manager</header>
-<div class="admonition-body"><p>
+<div class="admonition-body">
 ```
 We can also use the package manager in a non-interactive way from the Julia REPL by the `Pkg` package.
 
@@ -141,7 +141,7 @@ Pkg.add(["JSON", "BSON"])
 Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
 ```
 ```@raw html
-</p></div></div>
+</div></div>
 ```
 
 !!! warning "JuliaHub"
