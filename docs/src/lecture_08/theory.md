@@ -72,7 +72,7 @@ That means that if we add ``1`` to each sample ``x_i``, it is sufficient to cons
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Data transformation</header>
 <div class="admonition-body">
 ```

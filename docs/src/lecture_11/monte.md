@@ -335,7 +335,7 @@ While the rejection sampling provides a good approximation for the first two dis
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Using rejection sampling to compute expected value</header>
 <div class="admonition-body">
 ```
@@ -483,7 +483,7 @@ extrema(dist2)
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Approximating the quantiles</header>
 <div class="admonition-body">
 ```

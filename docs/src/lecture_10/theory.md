@@ -77,7 +77,7 @@ When an input is an image, the usual structure of the neural network is the foll
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Additional layers</header>
 <div class="admonition-body">
 ```

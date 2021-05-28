@@ -184,7 +184,7 @@ How should the classifier be evaluated? The figure above suggests that it is a b
 The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Universal approximation of neural networks</header>
 <div class="admonition-body">
 ```
@@ -202,7 +202,7 @@ This computation is highly efficient because the forward pass (computing functio
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Computation of gradients</header>
 <div class="admonition-body">
 ```

@@ -310,7 +310,7 @@ u(t) &= U_{\rm max}\frac{p(t)}{||p(t)||}.
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Connection with optimization</header>
 <div class="admonition-body">
 ```
@@ -488,7 +488,7 @@ We confirm that the optimal trajectory leads from the starting to the target poi
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Plotting all optimal trajectories</header>
 <div class="admonition-body">
 ```

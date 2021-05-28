@@ -322,7 +322,7 @@ nothing # hide
 
 
 ```@raw html
-<div class="admonition is-compat">
+<div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Manually splitting the dataset</header>
 <div class="admonition-body">
 ```
