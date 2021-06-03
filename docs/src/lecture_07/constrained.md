@@ -46,10 +46,10 @@ g(x) = [cos(x[1] + x[2]) - 2*cos(x[1])*sin(x[1]); cos(x[1] + x[2])]
 f(x1,x2) = f([x1;x2])
 ```
 
-
 # [Constrained optimization](@id lagrangian)
 
 The usual formulation of constrained optimization is
+
 ```math
 \tag{P}
 \begin{aligned}
@@ -58,89 +58,92 @@ The usual formulation of constrained optimization is
 &h_j(x) = 0,\ j=1,\dots,J.
 \end{aligned}
 ```
+
 Functions ``g_i`` generate inequality constraints, while functions ``h_j`` generate equality constraints. Box constraints such as ``x\in[0,1]`` are the simplest case of the former. This optimization problem is also called the primal formulation. It is closely connected with the Lagrangian
+
 ```math
 L(x;\lambda,\mu) = f(x)  + \sum_{i=1}^I \lambda_i g_i(x) + \sum_{j=1}^J \mu_j h_j(x).
 ```
+
 Namely, it is simple to show that the primal formulation (P) is equivalent to
+
 ```math
 \operatorname*{minimize}_x\quad \operatorname*{maximize}_{\lambda\ge 0,\mu}\quad L(x;\lambda,\mu).
 ```
+
 The dual problem then switches the minimization and maximization to arrive at
+
 ```math
 \tag{D} \operatorname*{maximize}_{\lambda\ge 0,\mu} \quad\operatorname*{minimize}_x\quad L(x;\lambda,\mu).
 ```
 
 Even though the primal and dual formulations are not generally equivalent, they are often used interchangeably.
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Linear programming</header>
-<div class="admonition-body">
-```
-The linear program
-```math
-\begin{aligned}
-\text{minimize}\qquad &c^\top x \\
-\text{subject to}\qquad &Ax=b, \\
-&x\ge 0
-\end{aligned}
-```
-is equivalent to
-```math
-\begin{aligned}
-\text{maximize}\qquad &b^\top \mu \\
-\text{subject to}\qquad &A^\top \mu\le c.
-\end{aligned}
-```
-We can observe several things:
-1. Primal and dual problems switch minimization and maximization.
-2. Primal and dual problems switch variables and constraints.
-```@raw html
-</div></div>
-```
+!!! info "Linear programming:"
+    The linear program
+
+    ```math
+    \begin{aligned}
+    \text{minimize}\qquad &c^\top x \\
+    \text{subject to}\qquad &Ax=b, \\
+    &x\ge 0
+    \end{aligned}
+    ```
+
+    is equivalent to
+    
+    ```math
+    \begin{aligned}
+    \text{maximize}\qquad &b^\top \mu \\
+    \text{subject to}\qquad &A^\top \mu\le c.
+    \end{aligned}
+    ```
+    
+    We can observe several things:
+    1. Primal and dual problems switch minimization and maximization.
+    2. Primal and dual problems switch variables and constraints.
 
 For the unconstrained optimization, we showed that each local minimum satisfies the optimality condition ``\nabla f(x)=0``. This condition does not have to hold for unconstrained optimization, where the optimality conditions are of a more complex form.
 
-```@raw html
-<div class="admonition is-category-theorem">
-<header class="admonition-header">Theorem: Karush-Kuhn-Tucker conditions</header>
-<div class="admonition-body">
-```
-Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
-```math
-    \begin{aligned}
-    &\text{Optimality:} && \nabla_x L(x;\lambda,\mu) = 0, \\
-    &\text{Feasibility:} && \nabla_\lambda L(x;\lambda,\mu)\le 0,\ \nabla_\mu L(x;\lambda,\mu) = 0, \\
-    &\text{Complementarity:} && \lambda^\top g(x) = 0.
-    \end{aligned}
-```
-If $f$ and $g$ are convex and $h$ is linear, then every stationary point is a global minimum of (P).
-```@raw html
-</div></div>
-```
+!!! theorem "Theorem: Karush-Kuhn-Tucker conditions"
+    Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that
+
+    ```math
+        \begin{aligned}
+        &\text{Optimality:} && \nabla_x L(x;\lambda,\mu) = 0, \\
+        &\text{Feasibility:} && \nabla_\lambda L(x;\lambda,\mu)\le 0,\ \nabla_\mu L(x;\lambda,\mu) = 0, \\
+        &\text{Complementarity:} && \lambda^\top g(x) = 0.
+        \end{aligned}
+    ```
+
+    If $f$ and $g$ are convex and $h$ is linear, then every stationary point is a global minimum of (P).
 
 When there are no constraints, the Lagrangian ``L`` reduces to the objective ``f``, and the optimality conditions are equivalent. Therefore, the optimality conditions for constrained optimization generalize those for unconstrained optimization.
 
 ## Numerical method
 
-We present only the simplest method for constraint optimization. Projected gradients 
+We present only the simplest method for constraint optimization. Projected gradients
+
 ```math
 \begin{aligned}
 y^{k+1} &= x^k - \alpha^k\nabla f(x^k), \\
 x^{k+1} &= P_X(y^{k+1})
 \end{aligned}
 ```
+
 compute the gradient as for standard gradient descent, and then project the point onto the feasible set. Since the projection needs to be simple to calculate, projected gradients are used for simple ``X`` such as boxes or balls. 
 
 We will use projected gradients to solve
+
 ```math
 \begin{aligned}
 \text{minimize}\qquad &\sin(x_1 + x_2) + \cos(x_1)^2 \\
 \text{subject to}\qquad &x_1, x_2\in [-1,1].
 \end{aligned}
 ```
+
 The implementation of projected gradients is the same as gradient descent but it needs projection function ```P``` as input. For reasons of plotting, it returns both ``x`` and ``y``.
+
 ```@example optim
 function optim(f, g, P, x, α; max_iter=100)
     xs = zeros(length(x), max_iter+1)

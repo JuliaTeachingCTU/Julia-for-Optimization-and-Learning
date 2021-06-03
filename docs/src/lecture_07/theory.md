@@ -17,18 +17,24 @@ This short analysis implies that there is no single "optimization topic", and th
 ## Problem definition
 
 The goal of an optimization problem is to minimize or maximize a function ``f`` over a set ``X``:
+
 ```math
     \begin{aligned}
     \text{minimize}\qquad &f(x) \\
     \text{subject to}\qquad &x\in X.
     \end{aligned}
 ```
+
 Should we consider both minimization and maximization problems? No. Because
+
 ```math
     \text{maximize}\qquad f(x)
 ```
+
 is equivalent to 
+
 ```math
     -\text{minimize}\qquad -f(x).
 ```
+
 This trick has a neat consequence: All numerical and theoretical results are derived only for minimization problems. If we deal with a maximization problem, we convert it first to an optimization problem and then use the known results.
