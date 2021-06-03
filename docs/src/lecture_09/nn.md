@@ -27,11 +27,13 @@ The first exercise splits the dataset into the training and testing sets. Recall
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write the `split` function, which randomly splits the dataset and the labels into training and testing sets. Its input should be the dataset `X` and the labels `y`. It should have four outputs. Include 80% of data in the training set and 20% of data in the testing set by default.
 
-**Hint**: use the `randperm` function from the `Random` package.
+**Hints:**
+- Use the `randperm` function from the `Random` package.
+- While `y` can be assumed to a vector, `X` is a matrix or a more-dimensional array. Then it is beneficial to use the `selectdim` function to select subindices along the correct dimension.
 
-**Hint**: while `y` can be assumed to a vector, `X` is a matrix or a more-dimensional array. Then it is beneficial to use the `selectdim` function to select subindices along the correct dimension.
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -77,9 +79,11 @@ The following exercise normalizes the data. In the previous lecture, we have alr
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write the `normalize` functions as described above. It should have two inputs and two outputs. The keyword argument `dims` should also be included.
 
 **Hint**: check the help for the `mean` function.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -120,13 +124,15 @@ The following exercise modifies the labels into a standard form for machine lear
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write the `onehot` function that converts the labels `y` into their one-hot representation. The samples should be along the second dimension. Write the `onecold` function that converts the one-hot representation into the one-cold (original) representation. Both these functions need to have two arguments; the second one is `classes`, which equals `unique(y)`.
 
 Write a check that both functions work correctly.
 
-**Hint**: the one-hot representation for a label has the size equalling to the number of classes. All entries besides one are zeros.
+**Hints:**
+- The one-hot representation for a label has the size equalling to the number of classes. All entries besides one are zeros.
+- Since the one-hot representation represents probabilities, the prediction is the class with the highest probability.
 
-**Hint**: since the one-hot representation represents probabilities, the prediction is the class with the highest probability.
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -165,7 +171,6 @@ isequal(onecold(onehot(y, classes), classes), y)
 ```@raw html
 </p></details>
 ```
-
 
 Preparing the data is spread over many lines. It is better to combine them into the function `prepare_data`.
 
@@ -218,9 +223,7 @@ aux2 = prepare_data(X', y; dims=2)
 norm(aux1[1] - aux2[1]')
 ```
 
-
 ## Create the network
-
 
 We will now construct a simple neural network `SimpleNet` with the following three layers:
 - The first layer is a dense layer with the ReLU activation function.
@@ -244,9 +247,11 @@ We will start with initializing the weights stored in the `SimpleNet` structure.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write an outer constructor for `SimpleNet`. Its inputs should be three integers representing the input size of the three layers. All matrices should be initialized based on the normal distribution.
 
 **Hint**: think about the representation of the dense layer.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -282,9 +287,11 @@ The following exercise computes the network prediction for samples. For a callin
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write a functor `function (m::SimpleNet)(x)` which computes the prediction (forward pass) of the neural network `SimpleNet`.
 
 **Bonus**: try to make the functor work for both vectors (one sample) and matrices (multiple samples) `x`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -309,9 +316,11 @@ nothing # hide
 ```
 
 It is simple now to evaluate the first two samples one the training set.
+
 ```@example nn
 m(X_train[:,1:2]) 
 ```
+
 Due to the softmax layer, they sum to one and form a probability distribution describing the probability of each class.
 
 
@@ -346,23 +355,18 @@ end
 
 nothing # hide
 ```
+
 The function returns the function value `l` and derivatives with respect to all four variables.
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">That's it? I thought neural networks are magic...</header>
-<div class="admonition-body">
-```
-Well, for a network with two layers and a loss, we can compute the function value and its derivative in only 16 lines of code.
-```@raw html
-</div></div>
-```
+!!! info "That's it? I thought neural networks are magic..."
+    Well, for a network with two layers and a loss, we can compute the function value and its derivative in only 16 lines of code.
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Simple implementation</header>
+<header class="admonition-header">Simple implementation:</header>
 <div class="admonition-body">
 ```
+
 The previous function `grad` can compute the gradient for only one sample. Since the objective in training a neural network is a mean over all samples, this mean needs to be included externally. This is NOT the correct way of writing function. However, we decided to present it in the current way to keep the presentation (relatively) simple. When such a simplification is included in the code, we should include a check such as `x::AbstractVector` to prevent unexpected errors. 
 
 When we compute gradients of multiple samples, we obtain an array. Each element is a tuple with five elements from the `grad` function.
@@ -388,6 +392,7 @@ g_mean = mean_tuple(g_all)
 
 typeof(g_mean)
 ```
+
 ```@raw html
 </div></div>
 ```
@@ -399,7 +404,9 @@ Having the gradient at hand, we can finally train the network.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Train the network with a gradient descent with stepsize ``\alpha=0.1`` for ``200`` iterations. Save the objective value at each iteration and plot the results.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -426,6 +433,7 @@ end
 
 nothing # hide
 ```
+
 ```@raw html
 </p></details>
 ```
@@ -443,13 +451,14 @@ nothing # hide
 
 We have trained our first network. We saw that the loss function keeps decreasing, which indicates a good training procedure. Now we will evaluate the performance.
 
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write a function which predict the labels for samples. Show the accuracy on both training and testing sets.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -473,6 +482,7 @@ nothing # hide
 ```
 
 The correct answer is
+
 ```@example nn
 println("Train accuracy = ", accuracy(X_train, y_train)) # hide
 println("Test accuracy = ", accuracy(X_test, y_test)) # hide

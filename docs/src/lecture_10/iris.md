@@ -67,10 +67,6 @@ params(m[2])[2] .= [-1;0;1]
 nothing # hide
 ```
 
-
-
-
-
 ## Training the network
 
 To train the network, we need to define the objective function ``L``. Since we already defined ``\operatorname{predict}``, it suffices to define the loss function ``\operatorname{loss}``. Since we work with a multi-class problem, the loss function is usually the cross-entropy.
@@ -91,15 +87,8 @@ L(X_train, y_train)
 
 This computes the objective function on the whole training set. Since Flux is (unlike our implementation from the last lecture) smart, there is no need to take care of individual samples.
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Notation</header>
-<div class="admonition-body">
-```
-While the [standard definition](https://en.wikipedia.org/wiki/Cross_entropy) of cross-entropy is ``\operatorname{loss}(y,\hat y)``, [Flux](https://fluxml.ai/Flux.jl/stable/models/losses/) uses ``\operatorname{loss}(\hat y,y)``.
-```@raw html
-</div></div>
-```
+!!! info "Notation:"
+    While the [standard definition](https://en.wikipedia.org/wiki/Cross_entropy) of cross-entropy is ``\operatorname{loss}(y,\hat y)``, [Flux](https://fluxml.ai/Flux.jl/stable/models/losses/) uses ``\operatorname{loss}(\hat y,y)``.
 
 Since we have the model and the loss function, the only remaining thing is the gradient. Flux again provides a smart way to compute it.
 

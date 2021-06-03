@@ -469,14 +469,6 @@ We defined ```accuracy``` in a different way than before. Can you spot the diffe
 println("Test accuracy = ", accuracy(X_test, y_test)) # hide
 ```
 
-
-
-
-
-
-
-
-
 The accuracy is over 93%, which is not bad for training for one epoch only. Let us recall that training for one epoch means that the classifier evaluates each sample only once. To obtain better accuracy, we need to train the model for more epochs. Since that may take some time, it is not good to train the same model repeatedly. The following exercise determines automatically whether the trained model already exists. If not, it trains it.
 
 ```@raw html
@@ -484,12 +476,14 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write a function `train_or_load!(file_name, m, args...; ???)` checking whether the file `file_name` exists.
 - If it exists, it loads it and then copies its parameters into `m` using the function `Flux.loadparams!`.
 - If it does not exist, it trains it using `train_model!`.
 In both cases, the model `m` should be modified inside the `train_or_load!` function. Pay special attention to the optional arguments `???`.
 
 Use this function to load the model from `data/mnist.bson` and evaluate the performance at the testing set.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -536,9 +530,6 @@ println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
 The externally trained model has an accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
-
-
-
 
 ```@setup nn
 using Plots
