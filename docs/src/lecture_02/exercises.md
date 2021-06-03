@@ -27,6 +27,7 @@ There will be a whole [section](@ref Plots.jl) dedicated to the Plots package. H
 <header class="admonition-header">Exercise 1: </header>
 <div class="admonition-body">
 ```
+
 Every programmer should be able to rewrite pseudocode to actual code. The goal of this exercise is to rewrite the following pseudocode:
 
 ![](juliasetalg.png)
@@ -56,6 +57,7 @@ heatmap(A;
     ticks = :none
 )
 ```
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -125,6 +127,7 @@ heatmap(A;
 <header class="admonition-header">Exercise 2:</header>
 <div class="admonition-body">
 ```
+
 In the previous exercise, we rewrote pseudocode to an actual Julia code. This exercise will improve the central part of the code: the inner loop. Write a function which replaces the inner loop in the code from the exercise above. Use the following function definition
 
 ```julia
@@ -202,10 +205,12 @@ heatmap(A1;
 <header class="admonition-header">Exercise 3: </header>
 <div class="admonition-body">
 ```
+
 Try different values of variable `c` to create different plots. For inspiration, check the Wikipedia page about [Julia set](https://en.wikipedia.org/wiki/Julia_set).
 ```@raw html
 </div></div>
 ```
+
 - ``c = 0.285 + 0.01 \cdot i``
 ![](juliaset_ex3_1.svg)
 
