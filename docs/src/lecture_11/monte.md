@@ -4,9 +4,6 @@ The three previous lectures presented data analysis from an optimization viewpoi
 
 We will also present several topics on the curse of dimensionality, where behaviour in a large dimension is entirely different from the one in a small dimension. Since we humans cannot properly comprehend more than three dimensions, some of the results may be counter-intuitive.
 
-
-
-
 ## Gamma function
 
 One of the most commonly used functions in statistical analysis is the [``\Gamma``-function](https://en.wikipedia.org/wiki/Gamma_function) defined by
@@ -35,29 +32,18 @@ plot(0:0.1:10, gamma;
 )
 ```
 
-
-
-
-
-
-
 ## Volume of m-dimensional ball
 
 Machine learning datasets contain many features. Even simple datasets such as MNIST live in ``28\times 28=784`` dimensions. However, we humans are unable to think in more than three dimensions. Working with more-dimensional spaces can bring many surprises. This section computes the volume of ``m``-dimensional balls. Before we start, try to guess the volume of the unit balls in ``\mathbb R^{10}`` and ``\mathbb R^{100}``. 
-
-
-
-
-
-
-
 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Use the [formula](https://en.wikipedia.org/wiki/Volume_of_an_n-ball) to compute the volume of a ``m``-dimensional ball. Plot the dependence of the volume on the dimension ``m=1,\dots,100``.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -93,13 +79,6 @@ savefig("dimension1.svg") # hide
 
 This result may be surprising. While the volume of the ``10``-dimensional ball is approximately ``2.55``, the volume of the ``100``-dimensional ball is almost ``0``.
 
-
-
-
-
-
-
-
 The following exercise uses the Monte Carlo sampling to estimate this volume. We will sample points in the hypercube ``[-1,1]^m`` and then compute the unit ball volume by realizing that the volume of the ball divided by the volume of the box equals the fraction of sampled points inside the ball.
 
 ```@raw html
@@ -107,9 +86,11 @@ The following exercise uses the Monte Carlo sampling to estimate this volume. We
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write the function `volume_monte_carlo`, which estimates the volume of the ``m``-dimensional ball based on ``n`` randomly sampled points.
 
 **Hint**: function `rand(m,n)` creates a ``m\times n`` matrix, which can be understood as ``n`` randomly sampled points in ``[0,1]^m``. Transform them to ``[-1,1]^m``.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -134,10 +115,6 @@ nothing # hide
 ```@raw html
 </p></details>
 ```
-
-
-
-
 
 The next figure shows the estimated volume from ``n\in \{10, 1000, 100000\}`` samples for the unit ball in dimension ``m=1,\dots,15``.
 
@@ -168,14 +145,9 @@ savefig("dimension2.svg") # hide
 
 It is not surprising that with increasing dimension, we need a much larger number of samples to obtain good estimates. This number grows exponentially with the dimension. This phenomenon explains why machine learning models with large feature spaces need lots of data. Moreover, the number of samples should increase with the complexity of the input and the network. 
 
-
-
-
-
-
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Generating from the uniform distribution</header>
+<header class="admonition-header">Generating from the uniform distribution:</header>
 <div class="admonition-body">
 ```
 While we wrote our function for generating from the uniform distribution, we can also use the Distributions package.
@@ -184,7 +156,6 @@ While we wrote our function for generating from the uniform distribution, we can
 using Distributions
 
 rand(Uniform(-1, 1), 10, 5)
-
 nothing # hide
 ```
 
@@ -193,11 +164,7 @@ We will discuss this topic more in the following section.
 </div></div>
 ```
 
-
-
-
 ## Sampling from distributions
-
 
 This section shows how to generate from various distributions. We use the [Distributions](https://juliastats.org/Distributions.jl/stable/) package to create the normal distribution with three sets of parameters.
 
@@ -252,26 +219,19 @@ savefig("density0.svg") # hide
 
 When the sampled point number is high enough, the sampled histogram is a good approximation of its density function.
 
-
-
-
-
-
-
-
-
 We may work with a distribution ``d`` for which we know the density ``f``, but there is no sampling function. Then we can use the [rejection sampling](https://en.wikipedia.org/wiki/Rejection_sampling) technique, which assumes the knowledge of:
 - the interval ``[x_{\rm min}, x_{\rm max}]`` containing the support of ``f``.
 - the upper bound  ``f_{\rm max}`` for the density ``f``.
 The rejection sampling technique first randomly samples a trial point ``x\in [x_{\rm min}, x_{\rm max}]`` and a scalar ``p\in [0,f_{\rm max}]``. It accepts ``x`` if ``p \le f(x)`` and rejects it otherwise. This technique ensures that a point is accepted with a probability proportional to its density function value.
-
 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Implement the `rejection_sampling` function. It should generate ``n`` trial points and return all accepted points.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -293,13 +253,6 @@ nothing # hide
 ```@raw html
 </p></details>
 ```
-
-
-
-
-
-
-
 
 We will now use the rejection sampling technique to generate the random samples from the three distributions from above. Since the density ``f`` of the normal distribution achieves its maximum at the mean, we specify `f_max = f(d.μ)`.
 
@@ -326,23 +279,18 @@ nothing # hide
 
 While the rejection sampling provides a good approximation for the first two distributions, it performs subpar for the last distribution. The reason is that the rejection sampling is sensitive to the choice of the interval ``[x_{\rm min}, x_{\rm max}]``. Because we chose the interval ``[-10,10]`` and ``f_3`` has negligible values outside of the interval ``[-0.1,0.1]``,  most trial points got rejected. It is not difficult to verify that from the ``1000000`` trial points, only approximately ``1200`` got accepted. The small number of accepted points makes for the poor approximation. If we generated from a narrower interval, the results would be much better.
 
-
-
-
-
-
-
-
-
 ```@raw html
 <div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Using rejection sampling to compute expected value</header>
 <div class="admonition-body">
 ```
+
 This exercise computes the expected value
+
 ```math
 \mathbb E_3 \cos(100X) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
 ```
+
 where we consider the expectation ``\mathbb E`` with respect to ``d_3\sim  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
 
 ```@example monte 
@@ -356,9 +304,11 @@ nothing # hide
 ```
 
 The second possibility is to approximate the integral by
+
 ```math
 \mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
 ```
+
 where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
 
 ```@example monte
@@ -412,15 +362,10 @@ scatter!(4*ones(n_rep), e3; label="Generating from other distribution")
 ```
 
 This exercise considered the computation of a one-dimensional integral. It is important to realize that even for such a simple case, it is necessary to sample a sufficiently large number of points. Even when we sampled ``100000`` points, there is still some variance in the results, as the last three columns show.
+
 ```@raw html
 </div></div>
 ```
-
-
-
-
-
-
 
 # How many samples do we need?
 
@@ -432,7 +377,9 @@ Previous sections showed that we need many samples to obtain a good approximatio
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Sample ``n=1000`` in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -474,19 +421,12 @@ The minimum of these distances is roughly ``0.2``, while the maximum is ``2.2``.
 extrema(dist2)
 ```
 
-
-
-
-
-
-
-
-
 ```@raw html
 <div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Approximating the quantiles</header>
 <div class="admonition-body">
 ```
+
 Quantiles form an important concept in statistics. Its definition is slightly complicated; we will consider only absolutely continuous random variables: one-dimensional variables ``X`` with continuous density ``f``. Then the quantile at a level ``\alpha\in[0,1]`` is the unique point ``x`` such that 
 
 ```math
@@ -571,7 +511,6 @@ plot!(plt2, ns, mean(qs2; dims=2);
 
 display(plt1)
 display(plt2)
-
 savefig(plt1, "quantile1.svg") # hide
 savefig(plt2, "quantile2.svg") # hide
 ```

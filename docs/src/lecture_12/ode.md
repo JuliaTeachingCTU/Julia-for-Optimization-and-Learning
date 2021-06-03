@@ -2,7 +2,6 @@
 
 [Wave equation](https://en.wikipedia.org/wiki/Wave_equation) is one of the most important differential equation. It models wave propagation and has numerous applications in acoustics, electromagnetics or fluid dynamics.
 
-
 ## Statement
 
 We consider the simplest case of a one-dimensional wave equation, such as a string. The wave equation in ``t\in[0,T]`` has the form
@@ -28,8 +27,6 @@ y(0,\cdot) &= f(\cdot), \\
 
 which vary in space. For consistency, we need ``f(0)=y_0`` and ``f(L)=y_L``.
 
-
-
 ## Solving the wave equation
 
 The following few exercises show how to solve the wave equation via the [finite differences](@ref comp-grad) technique. It discretizes both time and space into equidistant discretization. For a function ``h`` and a discretization stepsize ``\Delta x``, the approximation of the first derivative reads
@@ -46,15 +43,16 @@ A similar formula for the second derivatives reads
 
 The following exercise derives the mathematical formulas needed for solving the wave equation.
 
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Consider equidistant discretizations with stepsizes ``\Delta t`` and ``\Delta x``. Derive mathematical formulas for solving the one-dimensional wave equation on ``[0,T]\times [0,L]`` by applying finite differences in time and space. Do not write any code.
 
 **Hint**: Start with the initial time and compute the solution after each time step. Use the condition on ``f`` at the first time step, the condition on ``g`` at the second time step and the wave equation at further steps.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -97,17 +95,6 @@ y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2
 </p></details>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
 The most challenging part is done: We have finished the discretization scheme. Now we need to code it. We will employ a structure storing the wave equation parameters. 
 
 ```@example wave
@@ -120,15 +107,16 @@ end
 
 The first exercise solves the wave equation.
 
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write the function `solve_wave(T, L, wave::Wave; n_t=100, n_x=100)` that solves the wave equation.
 
 **Hint**: Follow the procedure from the previous exercise. Discretize time and space, initialize the solution, add the boundary conditions, add the initial conditions and finally, iterate over time.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -181,14 +169,7 @@ nothing # hide
 </p></details>
 ```
 
-
-
-
-
-
-
 The best visualization of the wave equation is via animation. Each frame will be a plot of a row of `y`. We use the keyword arguments `kwargs`, where we store additional arguments for plotting. We run the for loop over all rows, create the animation via the `@animate` macro and save it into `anim`. To save the animation to the hard drive, we use the `gif` function.
-
 
 ```@example wave
 using Plots
@@ -213,11 +194,6 @@ end
 nothing # hide
 ```
 
-
-
-
-
-
 Now we can finally plot the solution.
 
 ```@raw html
@@ -225,6 +201,7 @@ Now we can finally plot the solution.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Solve the wave equation for ``L=\frac32\pi``, ``T=240``, ``c=0.02`` and the initial conditions
 
 ```math
@@ -235,6 +212,7 @@ g(x) &= 0.
 ```
 
 Use time discretization with stepsize ``\Delta t=1`` and the space discretization with number of points ``n_x=101`` and ``n_x=7`` steps. Plot two graphs.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -267,6 +245,7 @@ plot_wave(y2, "wave2.gif"; ylims=(-2,3), label="")
 
 nothing # hide
 ```
+
 ```@raw html
 </p></details>
 ```

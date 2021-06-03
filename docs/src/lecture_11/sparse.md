@@ -52,10 +52,7 @@ Since the eigenvectors are perpendicular, ``Q`` is an orthonormal matrix and the
 
 Because ``\Lambda + \mu I`` is a diagonal matrix, its inverse is simple to compute.
 
-
-
 ## Theory of ridge regression
-
 
 The optimality condition for the ridge regression reads
 
@@ -83,10 +80,7 @@ w = Q(\Lambda+\mu I)^{-1} Q^\top X^\top y.
 
 Since this formula uses only matrix-vector multiplication and an inversion of a diagonal matrix, we can employ it to fast compute the solution for multiple values of ``\mu``.
 
-
-
 ## [Theory of LASSO](@id lasso)
-
 
 Unlike ridge regression, LASSO does not have a closed-form solution. Since it is a structured convex problem, it can be solved the [ADMM algorithm](https://web.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf). It is a primal-dual algorithm, which employs the primal original variable ``w``, the primal auxiliary variable ``z`` and the dual variable ``u`` with the iterative updates:
 
@@ -106,11 +100,7 @@ S_\eta(z) = \max\{z - \eta, 0\} - \max\{-z -\eta, 0\}
 
 is the so-called soft thresholding operator. Since these updates must be performed many times, it may be a good idea to perform the same factorization of the matrix ``X^\top X + \rho I`` as in the case of ridge regression.
 
-
-
-
 ## Ridge regression
-
 
 We will randomly generate ``10000`` samples in ``\mathbb R^{1000}``.
 
@@ -142,16 +132,6 @@ y = 10*X[:,1] + X[:,2] + randn(n)
 nothing # hide
 ```
 
-
-
-
-
-
-
-
-
-
-
 The first exercise compares both approaches to solving the ridge regression.
 
 ```@raw html
@@ -159,11 +139,13 @@ The first exercise compares both approaches to solving the ridge regression.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
 
-**Hint**: The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
+**Hints:**
+- The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
+- The identity matrix is implemented by `I` in the `LinearAlgebra` package.
 
-**Hint**: The identity matrix is implemented by `I` in the `LinearAlgebra` package.
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -210,19 +192,6 @@ norm(w1 - w2)
 </p></details>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 To test the speed, we use the `BenchmarkTools` package. The second option is significantly faster. The price to pay is the need to pre-compute the matrix decomposition.
 
 ```julia
@@ -239,7 +208,6 @@ Now we create multiple values of ``\mu`` and compute the ridge regression for al
 
 ```@example sparse
 μs = range(0, 1000; length=50)
-
 ws = hcat(ridge_reg.(Ref(X), Ref(y), μs, Ref(Q), Ref(Q_inv), Ref(λ))...)
 
 plot(μs, abs.(ws');
@@ -255,7 +223,6 @@ savefig("Sparse1.svg") # hide
 ![](Sparse1.svg)
 
 The regularization seems to have a small effect on the solution.
-
 
 ## Lasso
 
@@ -313,12 +280,5 @@ plot(μs, abs.(ws');
 )
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Warm start</header>
-<div class="admonition-body">
-```
-The technique of starting from a previously computed value is called warm start or hor start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.
-```@raw html
-</div></div>
-```
+!!! info "Warm start:"
+    The technique of starting from a previously computed value is called warm start or hor start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.

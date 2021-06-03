@@ -19,15 +19,11 @@ function plot_histogram(xs, f; kwargs...)
 end
 ```
 
-
 # [Linear regression revisited](@id statistics)
 
 This section revisits the linear regression. The classical statistical approach uses derives the same formulation for linear regression as the optimization approach. Besides point estimates for parameters, it also computes their confidence intervals and can test whether some parameters can be omitted from the model. We will start with hypothesis testing and then continue with regression.
 
 Julia provides lots of statistical packages. They are summarized at the [JuliaStats](https://juliastats.org/) webpage. This section will give a brief introduction to many of them.
-
-
-
 
 ## Theory of hypothesis testing
 
@@ -47,12 +43,7 @@ p = 2\min\{\mathbb P(T\le t \mid H_0), \mathbb P(T\ge t\mid H_0)\}
 
 If the ``p``-value is smaller than a given threshold, usually ``5\%``, the null hypothesis is rejected. In the opposite case, it is not rejected. The ``p``-value is a measure of the probability that an observed difference could have occurred just by random chance.
 
-
-
-
 ## Hypothesis testing
-
-
 
 We first randomly generate data from the normal distribution with zero mean.
 
@@ -72,20 +63,18 @@ nothing # hide
 
 The following exercise performs the ``t``-test to check whether the data come from a distribution with zero mean.
 
-
-
-
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Use the ``t``-test to verify whether the samples were generated from a distribution with zero mean.
 
-**Hint**: the Student's distribution is invoked by `TDist()`.
+**Hints:**
+- The Student's distribution is invoked by `TDist()`.
+- The probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
 
-**Hint**: the probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -109,14 +98,6 @@ The ``p``-value is significantly larger than ``5\%``. Therefore, we cannot rejec
 </p></details>
 ```
 
-
-
-
-
-
-
-
-
 Even though the computation of the ``p``-value is simple, we can use the [HypothesisTests](https://juliastats.org/HypothesisTests.jl/stable/) package. When we run the test, it gives us the same results as we computed.
 
 ```@example glm
@@ -124,12 +105,6 @@ using HypothesisTests
 
 OneSampleTTest(xs)
 ```
-
-
-
-
-
-
 
 ## Theory of generalized linear models
 
@@ -153,11 +128,6 @@ Since the density is the derivative of the distribution function, the term ``f(y
 
 is often maximized. Since the logarithm is an increasing function, these two formulas are equivalent.
 
-
-
-
-
-
 #### Case 1: Linear regression
 
 The first case considers ``g(z)=z`` to be the identity function and ``y\mid x`` with the [normal distribution](https://en.wikipedia.org/wiki/Normal_distribution) ``N(\mu_i, \sigma^2)``. Then
@@ -174,14 +144,11 @@ and, therefore, we need the solve the following optimization problem:
 
 Since we maximize with respect to ``w``, most terms behave like constants, and this optimization problem is equivalent to
 
-
 ```math
 \operatorname{minimize}_w\qquad \sum_{i=1}^n (y_i - w^\top x_i)^2.
 ```
 
 This is precisely linear regression as derived in the previous lectures.
-
-
 
 #### Case 2: Logistic regression
 
@@ -204,7 +171,6 @@ By using the formula for ``\lambda_i`` and getting rid of constants, we transfor
 ```
 
 This function is similar to the one derived for logistic regression.
-
 
 ## Linear models
 
@@ -241,22 +207,18 @@ model = lm(@formula(W ~ 1 + N + Y + I + K + F), wages)
 
 The table shows the parameter values and their confidence intervals. Besides that, it also tests the null hypothesis ``H_0: w_j = 0`` whether some of the regression coefficients can be omitted. The ``t`` statistics is in column `t`, while its ``p``-value in column `Pr(>|t|)`. The next exercise checks whether we can achieve the same results with fewer features.
 
-
-
-
-
-
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Check that the solution computed by hand and by `lm` are the same.
 
 Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coeffient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
 
 **Hint**: Use functions `coef` and `r2`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -287,13 +249,6 @@ Since we observe only a small performance drop, we could omit this feature witho
 </p></details>
 ```
 
-
-
-
-
-
-
-
 The core assumption of this approach is that ``y`` follows the normal distribution. We use the `predict` function for predictions and then use the `plot_histogram` function written earlier to plot the histogram and a density of the normal distribution. For the normal distribution, we need to specify the correct mean and variance.
 
 ```@example glm
@@ -316,8 +271,6 @@ test_normality = ExactOneSampleKSTest(y_hat, Normal(mean(y_hat), std(y_hat)))
 
 The result is expected. The ``p``-value is close to ``1\%``, which means that we reject the null hypothesis that the data follow the normal distribution even though it is not entirely far away.
 
-
-
 ## Generalized linear models
 
 While the linear models do not transform the labels, the generalized models transform them by the link function. Moreover, they allow choosing other than the normal distribution for labels. Therefore, we need to specify the link function ``g`` and the distribution of ``y \mid x``.
@@ -328,13 +281,6 @@ We repeat the same example with the link function ``g(z) = \sqrt{z}`` and the [i
 model = glm(@formula(W ~ 1 + N + Y + I + K + F), wages, InverseGaussian(), SqrtLink())
 ```
 
-
-
-
-
-
-
-
 The following exercise plots the predictions for the generalized linear model.
 
 ```@raw html
@@ -342,7 +288,9 @@ The following exercise plots the predictions for the generalized linear model.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create the scatter plot of predictions and labels. Do not use the `predict` function.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -370,7 +318,6 @@ scatter(y, y_hat;
 
 savefig("glm_predict.svg")
 ```
-
 
 ```@raw html
 </p></details>

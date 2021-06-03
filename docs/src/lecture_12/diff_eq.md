@@ -8,9 +8,6 @@ To solve differential equations, we use the package [DifferentialEquations](http
 
 with the initial condition ``u(t_0)= u_0``. While ``u`` is the solution, ``p`` describes external parameters.
 
-
-
-
 ## Introduction
 
 We start with the following simple problem:
@@ -61,12 +58,6 @@ The `sol` structure can be used to evaluate the solution ``u``.
 sol(0.8)
 ```
 
-
-
-
-
-
-
 The following exercise shows how to specify the interpolation technique and compares the results.
 
 ```@raw html
@@ -74,7 +65,9 @@ The following exercise shows how to specify the interpolation technique and comp
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 When calling the `solve` function, we can specify the interpolation way. Solve the ODE with linear interpolation (`dense=false`) and the Runge-Kutta method of the fourth order (`RK4()`). Plot the results and compare them with the default and original solutions.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -109,8 +102,6 @@ savefig("Comparison.svg") # hide
 ![](Comparison.svg)
 
 We see that all solutions are the same except for the linear approximation.
-
-
 
 ## Lorenz system
 
@@ -198,7 +189,9 @@ In the introduction, we mentioned chaos theory. We will elaborate on this in the
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Use the `nextfloat` function to perturb the first parameter of `p` by the smallest possible value. Then solve the Lorenz system again and compare the results by plotting the two trajectories next to each other.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -212,6 +205,7 @@ p0 = (nextfloat(p[1]), p[2:end]...)
 ```
 
 Then we plot the graphs as before
+
 ```@example intro
 prob0 = ODEProblem(lorenz, u0, tspan, p0)
 sol0 = solve(prob0)
@@ -222,6 +216,7 @@ plot(plt1, plt0; layout=(1,2))
 
 savefig("lorenz4.svg") # hide
 ```
+
 ```@raw html
 </p></details>
 ```
@@ -236,13 +231,14 @@ hcat(sol(tspan[2]), sol0(tspan[2]))
 
 shows that they are different by a large margin. This raises a natural question.
 
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Can we trust the solutions? Why?
+
 ```@raw html
 </div></div>
 <details class = "solution-body">

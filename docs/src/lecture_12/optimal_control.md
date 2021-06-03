@@ -21,15 +21,9 @@ function bisection(f, a, b; tol=1e-6)
 end
 ```
 
-
-
-
 # Optimal control
 
 Optimal control combines ordinary differential equations with optimization. It was extensively studied many decades ago when it was used to steer rockets in space.
-
-
-
 
 ## Permanent magnet synchronous motors
 
@@ -71,13 +65,7 @@ e^{At} &= \frac 12\begin{pmatrix} i & -i \\ 1 & 1 \end{pmatrix} \begin{pmatrix} 
 \end{aligned}
 ```
 
-
-
-
-
-
 ## Computing trajectories with no control
-
 
 We start with no control term, therefore ``u(t)=0``. Then the trajectory simplifies to:
 
@@ -127,13 +115,6 @@ ps = PMSM(ρ, ω)
 nothing # hide
 ```
 
-
-
-
-
-
-
-
 The first exercise checks that we computed the matrix exponential correctly.
 
 ```@raw html
@@ -141,9 +122,11 @@ The first exercise checks that we computed the matrix exponential correctly.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Verify that the matrix exponential is computed correctly and that it is different from the elementwise exponential.
 
 **Hint**: The matrix exponential can also be computed directly by the `exp` function from the `LinearAlgebra` package.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -178,16 +161,6 @@ Since the computation resulted in no error (note the opposite sign for ```exp0``
 </p></details>
 ```
 
-
-
-
-
-
-
-
-
-
-
 Now we can finally plot the trajectories of the electric motor.
 
 ```@raw html
@@ -195,9 +168,11 @@ Now we can finally plot the trajectories of the electric motor.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Write two function `trajectory_fin_diff` and `trajectory_exact` which compute the trajectory. The first one should use the finite difference method to discretize the time, while the second one should use the closed-form formula.
 
 Plot both trajectories on time interval ``[0,10]`` with time discretization step ``\Delta t=0.01``. Since ``x(t)`` is a two-dimensional vector, plot each component on one axis.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -230,7 +205,6 @@ nothing # hide
 ```
 
 For plotting, we create the time discretization, compute both trajectories and then plot them.
-
 
 ```@example oc
 using Plots
@@ -270,20 +244,10 @@ savefig("Comparison2.svg") # hide
 
 Can you guess why this happened? The problem is that the finite difference method performs a first-order approximation of the non-linear function ``x(t)``. Since the trajectory always "bends leftwards", the finite differences follow this bending with a delay. The error accumulates over time and is quite large at the end.
 
-
-
-
-
-
-
-
-
 ## Solving the optimal control problem
 
-
-
-
 The goal is to apply such voltage so that the system reaches the desired position ``x_{\rm tar}`` from an initial position ``x_0`` in minimal possible time. With maximal possible allowed voltage ``U_{\rm max}`` this amounts to solving
+
 ```math
 \begin{aligned}
 \text{minimize}\qquad &\tau \\
@@ -302,46 +266,26 @@ u(t) &= U_{\rm max}\frac{p(t)}{||p(t)||}.
 \end{aligned}
 ```
 
+!!! bonus "BONUS: Connection with optimization"
+    This part hints at the derivation of the previous result and the connection to constrained optimization. Optimal control forms the Hamiltonian (similar to the [Langrangian](@ref lagrangian))
 
+    ```math
+    H = \tau + p(t)^\top (Ax(t) + q + u(t))
+    ```
 
+    Since the constraint is time-dependent, the adjoint variable ([multiplier](@ref lagrangian)) ``p(t)`` must also depend on time. Differentiating the Hamiltonian with respect to the ``x(t)`` and setting the derivative to ``-\dot p(t)`` (instead of zero as in nonlinear optimization) results in
 
+    ```math
+    -\dot p(t) = A^\top p(t),
+    ```
 
+    which has the solution
 
+    ```math
+    p(t) = e^{-A^\top t}p_0.
+    ```
 
-
-```@raw html
-<div class="admonition is-category-bonus">
-<header class="admonition-header">BONUS: Connection with optimization</header>
-<div class="admonition-body">
-```
-This part hints at the derivation of the previous result and the connection to constrained optimization. Optimal control forms the Hamiltonian (similar to the [Langrangian](@ref lagrangian))
-
-```math
-H = \tau + p(t)^\top (Ax(t) + q + u(t))
-```
-
-Since the constraint is time-dependent, the adjoint variable ([multiplier](@ref lagrangian)) ``p(t)`` must also depend on time. Differentiating the Hamiltonian with respect to the ``x(t)`` and setting the derivative to ``-\dot p(t)`` (instead of zero as in nonlinear optimization) results in
-
-```math
--\dot p(t) = A^\top p(t),
-```
-
-which has the solution
-
-```math
-p(t) = e^{-A^\top t}p_0.
-```
-
-This is the first condition written above. The second condition can be obtained by maximizing the Hamiltonian with respect to ``u`` and arguing that the constraint ``||u(t)||=U_{\rm max}`` will always be satisfied (this goes beyond the content of this lecture).
-```@raw html
-</div></div>
-```
-
-
-
-
-
-
+    This is the first condition written above. The second condition can be obtained by maximizing the Hamiltonian with respect to ``u`` and arguing that the constraint ``||u(t)||=U_{\rm max}`` will always be satisfied (this goes beyond the content of this lecture).
 
 It is not difficult to show
 
@@ -387,20 +331,16 @@ Since this relation needs to hold for all ``t\in[0,\tau]``, we set ``t=\tau`` an
 
 Since this is one equation for one variable, we can compute the optimal time ``\tau`` from it.
 
-
-
-
-
-
-
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Solve the optimal time for ``x_{\rm tar}= (0.25, -0.5)`` with the maximum voltage ``U_{\rm max} = 0.1``.
 
 **Hint**: To solve the equation above for ``t``, use the [bisection method](@ref l7-exercises).
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -426,14 +366,9 @@ f(t) = norm(expA(ps, -t)*x_t - x0 - ps.invA*(I-expA(ps, -t))*q) - U_max/ps.ρ*(e
 nothing # hide
 ```
 
-
 ```@raw html
 </p></details>
 ```
-
-
-
-
 
 To compute the optimal control and optimal trajectory, we rewrite one of the formulas derived above.
 
@@ -454,7 +389,6 @@ nothing # hide
 
 To compute the optimal trajectory, we compute ``p_0`` by the formula derived above. Then we plot the trajectory and the target point.
 
-
 ```@example oc
 p0 = ps.ρ/(U_max*(exp(ps.ρ*τ)-1))*(expA(ps, -τ)*x_t - x0 - ps.invA*(I-expA(ps, -τ))*q)
 p0 /= norm(p0)
@@ -474,24 +408,12 @@ savefig("Optimal.svg") # hide
 
 We confirm that the optimal trajectory leads from the starting to the target point.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```@raw html
 <div class="admonition is-category-bonus">
 <header class="admonition-header">BONUS: Plotting all optimal trajectories</header>
 <div class="admonition-body">
 ```
+
 The optimal trajectory depends on the normed vector ``p_0``. All such vectors form a unit circle in ``\mathbb R^2``. Therefore, they can be parameterized by an angle ``\alpha\in[0,2\pi]``. We plot eight possible optimal trajectories, each corresponding to a different target ``x_{\rm tar}``, with uniformly distributed ``\alpha``. Since we plot in a loop, we need to initialize an empty plot and then `display` it.
 
 ```@example oc
@@ -503,12 +425,10 @@ for α = 0:π/4:2*π
     plot!(plt, trj[1,:], trj[2,:], label="")
 end
 display(plt)
-
 savefig("Trajectories.svg") # hide
 ```
 
 ![](Trajectories.svg)
-
 
 ```@raw html
 </p></details>
