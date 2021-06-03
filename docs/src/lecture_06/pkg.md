@@ -3,83 +3,76 @@
 Julia provides a simple and intuitive built-in package manager that handles installing, updating and removing packages. The package manager offers an interactive Pkg REPL, which simplifies the package management process. We enter the Pkg REPL from the Julia REPL by pressing `]`. To return to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, a screen similar to the following one will appear:
 
 ```julia
-(@v1.5) pkg>
+(@v1.6) pkg>
 ```
 
 Registered packages can be installed by the `add` keyword.
 
 ```julia
-(@v1.5) pkg> add JSON BSON
+(@v1.6) pkg> add JSON BSON
 ```
 
 It is possible to install multiple packages by entering their names separated by spaces. The `add` keyword can also install unregistered packages by specifying the URL of a git repository.
 
 ```julia
-(@v1.5) pkg> add https://github.com/JuliaLang/Example.jl
+(@v1.6) pkg> add https://github.com/JuliaLang/Example.jl
 ```
 
 We can use both absolute and relative path to a local git repository.
 
 ```julia
-(@v1.5) pkg> add /absolute/or/relative/path/MyPackage
+(@v1.6) pkg> add /absolute/or/relative/path/MyPackage
 ```
 
 The `status` keyword, abbreviated as `st`, can be used to list all installed packages.
 
 ```julia
-(@v1.5) pkg> st
+(@v1.6) pkg> st
 Status `~/.julia/environments/v1.5/Project.toml`
   [fbb218c0] BSON v0.2.6
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
   [682c06a0] JSON v0.21.1
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Adding specific version</header>
-<div class="admonition-body">
-```
-The syntax above installs the latest stable version of packages. In some cases, we may want to use an older or a not-yet-released package version. We can install such a specific version by appending the version number after the `@` symbol.
+!!! info "Adding specific version:"
+    The syntax above installs the latest stable version of packages. In some cases, we may want to use an older or a not-yet-released package version. We can install such a specific version by appending the version number after the `@` symbol.
 
-```julia
-(@v1.5) pkg> add BSON@0.2.1
+    ```julia
+    (@v1.6) pkg> add BSON@0.2.1
 
-(@v1.5) pkg> st
-Status `~/.julia/environments/v1.5/Project.toml`
-  [fbb218c0] BSON v0.2.1
-  [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
-  [682c06a0] JSON v0.21.1
-```
+    (@v1.6) pkg> st
+    Status `~/.julia/environments/v1.5/Project.toml`
+      [fbb218c0] BSON v0.2.1
+      [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
+      [682c06a0] JSON v0.21.1
+    ```
 
-If a branch (or a certain commit) is not yet included in a registered version, we can explicitly track it by appending `#branchname` (or `#commitSHA1`) to the package name.
+    If a branch (or a certain commit) is not yet included in a registered version, we can explicitly track it by appending `#branchname` (or `#commitSHA1`) to the package name.
 
-```julia
-(@v1.5) pkg> add BSON#master
+    ```julia
+    (@v1.6) pkg> add BSON#master
 
-(@v1.5) pkg> add JSON#1231b521196de6697d682940b963167fbe4d5cd8
+    (@v1.6) pkg> add JSON#1231b521196de6697d682940b963167fbe4d5cd8
 
-(@v1.5) pkg> st
-Status `~/.julia/environments/v1.5/Project.toml`
-  [fbb218c0] BSON v0.3.2 `https://github.com/JuliaIO/BSON.jl.git#master`
-  [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
-  [682c06a0] JSON v0.21.1+ `https://github.com/JuliaIO/JSON.jl.git#1231b52`
-```
-```@raw html
-</div></div>
-```
+    (@v1.6) pkg> st
+    Status `~/.julia/environments/v1.5/Project.toml`
+      [fbb218c0] BSON v0.3.2 `https://github.com/JuliaIO/BSON.jl.git#master`
+      [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
+      [682c06a0] JSON v0.21.1+ `https://github.com/JuliaIO/JSON.jl.git#1231b52`
+    ```
 
 We use the `update` keyword to update for registered and unregistered packages. If we do not provide a package name, all installed packages will be updated.
 
 ```julia
-(@v1.5) pkg> update Example
+(@v1.6) pkg> update Example
 ```
 
 Sometimes it is helpful to disallow updating a package. This is done by the `pin` command.
 
 ```julia
-(@v1.5) pkg> pin Example BSON
+(@v1.6) pkg> pin Example BSON
 
-(@v1.5) pkg> st
+(@v1.6) pkg> st
 Status `~/.julia/environments/v1.5/Project.toml`
   [fbb218c0] BSON v0.3.2 ⚲
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master` ⚲
@@ -89,9 +82,9 @@ Status `~/.julia/environments/v1.5/Project.toml`
 The pin symbol `⚲` shows that the package is pinned. The keyword `free` removes the pin.
 
 ```julia
-(@v1.5) pkg> free BSON
+(@v1.6) pkg> free BSON
 
-(@v1.5) pkg> st
+(@v1.6) pkg> st
 Status `~/.julia/environments/v1.5/Project.toml`
   [fbb218c0] BSON v0.3.2
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master` ⚲
@@ -101,13 +94,13 @@ Status `~/.julia/environments/v1.5/Project.toml`
 To remove a package, we use the `rm` or `remove` keyword.
 
 ```julia
-(@v1.5) pkg> rm Example
+(@v1.6) pkg> rm Example
 ```
 
 Like the help for functions, we can use `?` in the Pkg REPL to list all its available commands.
 
 ```julia
-(@v1.5) pkg> ?
+(@v1.6) pkg> ?
   Welcome to the Pkg REPL-mode. To return to the julia> prompt, either press backspace when
   the input line is empty or press Ctrl+C.
 
@@ -128,23 +121,16 @@ Like the help for functions, we can use `?` in the Pkg REPL to list all its avai
 [...]
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Non-interactive package manager</header>
-<div class="admonition-body">
-```
-We can also use the package manager in a non-interactive way from the Julia REPL by the `Pkg` package.
+!!! bonus "Non-interactive package manager:"
+    We can also use the package manager in a non-interactive way from the Julia REPL by the `Pkg` package.
 
-```julia
-using Pkg
-Pkg.add(["JSON", "BSON"])
-Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
-```
-```@raw html
-</div></div>
-```
+    ```julia
+    using Pkg
+    Pkg.add(["JSON", "BSON"])
+    Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
+    ```
 
-!!! warning "JuliaHub"
+!!! bonus "JuliaHub:"
     [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows to explore the Julia ecosystem, build packages, and run code in the cloud. It allows for exploring packages, documentation, repositories and code written by other users.
 
 ## Environments
@@ -159,7 +145,7 @@ julia> mkdir("./tutorial") # create a folder named tutorial
 
 julia> cd("./tutorial") # change the working directory to tutorial
 
-(@v1.5) pkg> activate . # alternatively we can specify full path
+(@v1.6) pkg> activate . # alternatively we can specify full path
  Activating new environment at `path/to/the/tutorial/Project.toml`
 
 (tutorial) pkg>

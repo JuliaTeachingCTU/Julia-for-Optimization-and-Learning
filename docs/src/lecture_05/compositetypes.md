@@ -143,52 +143,43 @@ julia> fieldnames(typeof(r))
 (:bottomleft, :width, :height)
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Comparison with Python</header>
-<div class="admonition-body">
-```
-The same object can be defined in Python in the following way:
+!!! info "Comparison with Python:"
+    The same object can be defined in Python in the following way:
 
-```python
-class Rectangle:
-    def __init__(self, bottomleft, width, height):
-        self.bottomleft = bottomleft
-        self.width = width
-        self.height = height
+    ```python
+    class Rectangle:
+        def __init__(self, bottomleft, width, height):
+            self.bottomleft = bottomleft
+            self.width = width
+            self.height = height
 
-    def area(self):
-        return self.width * self.height
+        def area(self):
+            return self.width * self.height
 
-    def vertices(self):
-        x, y = self.bottomleft
-        w, h = self.width, self.height
-        return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
-```
+        def vertices(self):
+            x, y = self.bottomleft
+            w, h = self.width, self.height
+            return [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
+    ```
 
-We can create an instance of this object and call the two functions defined in the class definition.
+    We can create an instance of this object and call the two functions defined in the class definition.
 
-```python
-In [2]: r = Rectangle([1.0, 2.0], 3, 4)
+    ```python
+    In [2]: r = Rectangle([1.0, 2.0], 3, 4)
 
-In [3]: r.area()
-Out[3]: 12
+    In [3]: r.area()
+    Out[3]: 12
 
-In [4]: r.vertices()
-Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
-```
+    In [4]: r.vertices()
+    Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
+    ```
 
-The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that Python defines the functions inside of the class while Julia defines them outside. The Julia approach has several advantages:
-1. Julia has more options to logically split the code. This may increase readability.
-2. When working with a class defined in an external package, Julia can simply define additional functions to this class. Python needs to use inheritance to modify the class. When a multiple people use inheritance to the same class, it is not clear how to merge the inherited classes together. Therefore, Julia makes it simpler to create packages which combine and modify multiple existing packages.
-3. When working with multiple classes, it does not need to be clear to which a function should belong. Python sometimes needs to create an additional class which unites these two classes. Julia does not have this problem as functions are defined externally.
+    The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that Python defines the functions inside of the class while Julia defines them outside. The Julia approach has several advantages:
+    1. Julia has more options to logically split the code. This may increase readability.
+    2. When working with a class defined in an external package, Julia can simply define additional functions to this class. Python needs to use inheritance to modify the class. When a multiple people use inheritance to the same class, it is not clear how to merge the inherited classes together. Therefore, Julia makes it simpler to create packages which combine and modify multiple existing packages.
+    3. When working with multiple classes, it does not need to be clear to which a function should belong. Python sometimes needs to create an additional class which unites these two classes. Julia does not have this problem as functions are defined externally.
 
-
-
-in Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
-```@raw html
-</div></div>
-```
+    In Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
 
 ## Mutable composite types
 
@@ -259,9 +250,10 @@ MutableRectangle([1.0, 2.0], 1.5, 2.5)
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Type unions</header>
+<header class="admonition-header">Type unions:</header>
 <div class="admonition-body">
 ```
+
 The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
 
 ```jldoctest structs
@@ -287,6 +279,7 @@ julia> perimeter(r)
 julia> perimeter(mr)
 8.0
 ```
+
 ```@raw html
 </div></div>
 ```
@@ -409,7 +402,9 @@ This situation can be handled by defining custom constructors, as we will discus
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the `coordinates` function.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -509,6 +504,7 @@ Inner constructors have an additional advantage. Since outer constructors create
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Define a structure that represents ND-points and stores their coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Redefine the default inner constructor to create an instance of `PointND` from different types. Then add a new method to the `coordinates` function, and define function `dim` that returns the dimension of the point.
 
 **Hints:** use the `new` function in the definition of the new inner constructor.
@@ -519,6 +515,7 @@ Define a structure that represents ND-points and stores their coordinates as `Tu
 julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
 true
 ```
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -612,10 +609,11 @@ MyType(5, 4.5, "hello")
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Function-like objects</header>
+<header class="admonition-header">Function-like objects (functors):</header>
 <div class="admonition-body">
 ```
-Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called functors. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
+
+Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called **functors**. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
 
 ```jldoctest structs
 julia> (m::MyType)() = (m.a, m.b, m.c)
@@ -646,16 +644,17 @@ julia> m(1)
 julia> m("world")
 "hello, world"
 ```
+
 ```@raw html
 </div></div>
 ```
-
 
 ```@raw html
 <div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution) is uniquely represented by its mean ``\mu`` and variance ``\sigma^2>0``. Write a structure `Gauss` with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function at a given point defined by
 
 ```math
@@ -663,6 +662,7 @@ f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \le
 ```
 
 Verify that the probability density function is defined correctly, i.e., its integral equals 1.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -729,10 +729,11 @@ We use `sum` with a function as the first input argument and apply it to each va
 ```
 
 ```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Plot recipes</header>
+<div class="admonition is-category-bonus">
+<header class="admonition-header">Plot recipes:</header>
 <div class="admonition-body">
 ```
+
 The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package. Unfortunately, it is not possible to use [Function plotting](@ref Function-plotting), i.e., the following will not work even though the `Gauss` type is callable.
 
 ```julia

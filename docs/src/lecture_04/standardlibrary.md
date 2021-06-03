@@ -1,18 +1,23 @@
 # Useful packages
 
 Julia provides a large package library. To add a package, we enter the package REPL by pressing `]` and install a package by the keyword `add`.
+
 ```julia
-(@v1.5) pkg> add Plots
+(@v1.6) pkg> add Plots
 ```
+
 Another option is to use the `Pkg` package to add it directly from the standard REPL.
+
 ```julia
 julia> using Pkg
 
 julia> Pkg.add("Plots")
 ```
-We return from the package REPL `(@v1.5) pkg>` to the standard REPL `julia>` by pressing escape.
+
+We return from the package REPL `(@v1.6) pkg>` to the standard REPL `julia>` by pressing escape.
 
 Multiple standard packages are shipped together with Julia. These packages do not need to be installed. They include `Pkg` and all packages introduced on this page. However, we still need to load them to use them.
+
 ```julia
 julia> using Statistics
 ```
@@ -30,7 +35,6 @@ std(x)
 ```
 
 See the official [documentation](https://docs.julialang.org/en/v1/stdlib/Statistics/) for more information. More statistics-related functions can be found in the [StatsBase](https://juliastats.org/StatsBase.jl/stable/) package. This package provides functions for computing scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation. This course dedicates one lecture to [statisctics](@ref statistics).
-
 
 ## LinearAlgebra
 
@@ -89,17 +93,10 @@ v = [1,2,3,4]
 shuffle(v)
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Other useful standard packages</header>
-<div class="admonition-body">
-```
-There are other useful standard packages in Julia, but there is not enough space to present them all.
-- `Test` provides simple unit testing functionality. Unit testing is a process to determine if your code is correct by checking that the results are what you expect. It helps to ensure the code works after changes. Unit tests can also be used during the development phase to specify the expected behaviour when implemented. We will provide more details [later](@ref unit-testing).
-- `SparseArrays` provides special types to store and work with sparse arrays.
-- `Distributed` includes support for distributed computing.
+!!! info "Other useful standard packages:"
+    There are other useful standard packages in Julia, but there is not enough space to present them all.
+    - `Test` provides simple unit testing functionality. Unit testing is a process to determine if your code is correct by checking that the results are what you expect. It helps to ensure the code works after changes. Unit tests can also be used during the development phase to specify the expected behaviour when implemented. We will provide more details [later](@ref unit-testing).
+    - `SparseArrays` provides special types to store and work with sparse arrays.
+    - `Distributed` includes support for distributed computing.
 
-The section Standard Library in the official [documentation](https://docs.julialang.org/en/v1/) provides more information.
-```@raw html
-</div></div>
-```
+    The section Standard Library in the official [documentation](https://docs.julialang.org/en/v1/) provides more information.

@@ -48,7 +48,7 @@ i = 5
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">An alternative notation for <code>for</code> loops</header>
+<header class="admonition-header">An alternative notation for <code>for</code> loops:</header>
 <div class="admonition-body">
 ```
 

@@ -92,6 +92,7 @@ The problem with the `supertype` function is that it does not return the whole s
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create a function `supertypes_tree` which prints the whole tree of all supertypes. If the input type `T` satisfies the following condition `T === Any`, then the function should do nothing. Use the following function declaration:
 
 ```julia
@@ -105,6 +106,7 @@ The optional argument `level` sets the printing indentation level.
 **Hints:**
 - Use the `supertype` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -166,6 +168,7 @@ This function suffers from a similar disadvantage as the `supertype` function: I
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create a function `subtypes_tree` which prints the whole tree of all subtypes for the given type. Use the following function declaration:
 
 ```@meta
@@ -185,11 +188,13 @@ The optional argument `level` sets the printing indentation level.
 **Hints:**
 - Use the `subtypes` function in combination with recursion.
 - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
 The `subtypes_tree` function is similar to `supertypes_tree`. The only differences are that we do not need to check for the top level of `Any`, and that we need to call the vectorized version `subtypes_tree.` because `subtypes(T)` returns an array.
 
 ```jldoctest methods; output = false
@@ -320,9 +325,10 @@ Closest candidates are:
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Do not overuse type annotation!!!</header>
+<header class="admonition-header">Do not overuse type annotation:</header>
 <div class="admonition-body">
 ```
+
 The `product` function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function `product_new` by:
 
 ```jldoctest methods; output = false
@@ -360,10 +366,10 @@ ERROR: MethodError: no method matching *(::String, ::Symbol)
 ```
 
 Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
+
 ```@raw html
 </div></div>
 ```
-
 
 We show a simple example when the multiple dispatch is useful.
 
@@ -372,7 +378,9 @@ We show a simple example when the multiple dispatch is useful.
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
+
 ```@example methods
 abstract type Student end
 
@@ -388,13 +396,16 @@ end
 
 nothing # hide
 ```
+
 We can check that the `subtypes_tree` works correctly on any type, including the type `Student` which we defined.
+
 ```julia
 julia> subtypes_tree(Student)
 Student
    Doctoral
    Master
 ```
+
 We create instances of two students by providing values for the struct fields.
 
 ```@example methods
@@ -403,13 +414,17 @@ s2 = Doctoral(30000, 1, 0)
 
 nothing # hide
 ```
+
 Write the `salary_yearly` function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via `s1.salary`). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
 <summary class = "solution-header">Solution:</summary><p>
 ```
+
 Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_monthly` function.
+
 ```@example methods
 salary_yearly(s::Student) = 12*salary_monthly(s)
 
@@ -417,6 +432,7 @@ nothing # hide
 ```
 
 We specified that the input to `salary_yearly` is any `Student`. Since `Student` is an abstract type, we can call `salary_yearly` with both `Master` and `Doctoral` student. Now we need to define the `salary_monthly` function. Since the salary is computed in different ways for both students, we write two methods.
+
 ```@example methods
 salary_monthly(s::Master) = s.salary
 salary_monthly(s::Doctoral) = s.salary + s.exam_mid*2000 + s.exam_english*1000
@@ -450,6 +466,7 @@ f (generic function with 2 methods)
 ```
 
 Here, `f` has two methods. The first method applies if the first argument is of type `Float64`, and the second method applies if the second argument is of type `Float64`.
+
 ```jldoctest methods_amb
 julia> f(2.0, 3)
 6.0

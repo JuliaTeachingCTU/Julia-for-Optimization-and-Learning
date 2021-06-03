@@ -6,7 +6,7 @@ using Plots
 
 The [Plots](https://github.com/JuliaPlots/Plots.jl) package is not a standard plotting package known from other languages. The Plots package provides a unified interface and toolset for creating plots. The plots themselves are drawn by different [backends](http://docs.juliaplots.org/latest/backends/), like GR, PyPlot, PGFPlotsX, or Plotly. If one backend does not support desired features, it is possible to switch to another backend with one command without any further changes to the code.
 
-!!! warning "Time for the first plot"
+!!! warning "Time for the first plot:"
     Compared to Python or Matlab, it takes some time to create the first plot in a new Julia session. In Julia, all functions are compiled during their first run, which slows the first run down.
 
 The core of the Plots package is the `plot` function that provides an interface for creating all types of plots. The default plot style is the line style. The line plot can be created by calling the plot function on two vectors.
@@ -120,6 +120,7 @@ plotattr("guide")
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Consider the following set of equations
 
 ```math
@@ -137,6 +138,7 @@ Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.o
 **Hints:**
 - use the `palette` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
 - remove all decorators by using: `axis = nothing`, `border = :none`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -244,6 +246,7 @@ plot(sin, x -> sin(2x), 0, 2π, 100; linewidth = 2, label = "")
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Create a plot given by the following set of equations:
 
 ```math
@@ -252,7 +255,9 @@ x(t) & = (a + b)\cos(t) - b \cdot \cos \left( \left(\frac{a}{b} + 1 \right)t \ri
 y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \right), \\
 \end{aligned}
 ```
+
 where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Use additional plot attributes to get a nicely looking graph.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -313,6 +318,7 @@ scatter(x, y)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Consider the following function:
 
 ```math
@@ -323,6 +329,7 @@ Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series
 - `:viridis` color scheme,
 - camera angle `(25, 65)`,
 - no legend, color bar, or decorators (`axis`, `frame` and `ticks`).
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -377,7 +384,6 @@ surface(x, x, fz; camera = (25, 65), kwargs...)
 ```@raw html
 </p></details>
 ```
-
 
 ## Subplots
 

@@ -3,7 +3,7 @@
 So far, we used only the standard library shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. There is a [Plots](https://github.com/JuliaPlots/Plots.jl) package for creating plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, press `]` and install the package by
 
 ```julia
-(@v1.5) pkg> add Plots
+(@v1.6) pkg> add Plots
 ```
 
 We need to use the `using` keyword to load the package. For example, we can use the Plots package to visualize the `sin` and `cos` functions.
@@ -225,13 +225,14 @@ Try different values of variable `c` to create different plots. For inspiration,
 
 ## Animation
 
-!!! warning "Warning"
+!!! warning "Warning:"
     It takes a lot of time to create the animation below, especially when using the default [GR](https://github.com/jheinen/GR.jl) backend for the Plots package. The plotting time can be reduced by using a different backend such as the [PyPlot](https://github.com/JuliaPy/PyPlot.jl) backend.
 
     ```julia
     using Plots, PyPlot
     pyplot()
     ```
+    
     The PyPlot package must be installed first. An alternative way is to use the [Makie](https://github.com/JuliaPlots/Makie.jl) package instead of the Plots package.
 
 We will now create an animation of the Julia sets for `c` defined as follows

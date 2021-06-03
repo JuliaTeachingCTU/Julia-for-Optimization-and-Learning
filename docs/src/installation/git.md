@@ -16,7 +16,7 @@ There is no need to change the default settings. However, we recommend changing 
 
 After setting the editor used by Git, finish the installation with default settings.
 
-!!! info "GitHub Account"
+!!! info "GitHub Account:"
     Create a GitHub account on the official [GitHub page](https://github.com/). Do not forget to verify your email address.
 
 ## User settings

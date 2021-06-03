@@ -89,9 +89,10 @@ We used only the abstract type `Currency` to define the `BankAccount` type. This
 
 ```@raw html
 <div class="admonition is-info">
-<header class="admonition-header">Avoid containers with abstract type parameters</header>
+<header class="admonition-header">Avoid containers with abstract type parameters:</header>
 <div class="admonition-body">
 ```
+
 It is generally not good to use [containers with abstract element type](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container) as we did for storing transactions. We used it in the example above because we do not want to convert all transactions to a common currency. When we create an array from different types, the promotion system converts these types to their smallest supertype for efficient memory storage.
 
 ```jldoctest
@@ -115,10 +116,10 @@ julia> Real[Int32(123), 1, 1.5, 1.234f0]
 ```
 
 In this case, the types of all elements are preserved.
+
 ```@raw html
 </div></div>
 ```
-
 
 ## Custom print
 
@@ -165,9 +166,11 @@ There is one big difference with Python, where we can create a class and define 
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Define a new method for the `symbol` function for `Dollar`.
 
 **Hint:** the dollar symbol `$` has a special meaning in Julia. Do not forget to use the `\` symbol when using the dollar symbol in a string.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -342,7 +345,6 @@ rate(::Type{Euro}, ::Type{Pound}) = 1.13
 rate (generic function with 6 methods)
 ```
 
-
 We can quickly test that the `rate` function works in all possible cases correctly in the following way.
 
 ```jldoctest currency
@@ -390,7 +392,9 @@ julia> dlr = convert(Dollar, pnd)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 The printing style is not ideal because we are usually not interested in more than the first two digits after the decimal point. Redefine the method in the `show` function to print currencies so that the result is rounded to 2 digits after the decimal point.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -479,7 +483,9 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2))
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 Define a new currency `CzechCrown` representing Czech crowns. The exchange rate to euro is `0.038`, and all other currencies should take precedence over the Czech crown.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
@@ -635,9 +641,11 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body">
 ```
+
 In the section above, we defined the addition for all subtypes of `Currency`. We also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define the following operations: `-`, `*`, `/`.
 
 **Hint:** Define only operations that make sense. For example, it makes sense to multiply `1 €` by 2 to get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
+
 ```@raw html
 </div></div>
 <details class = "solution-body">
