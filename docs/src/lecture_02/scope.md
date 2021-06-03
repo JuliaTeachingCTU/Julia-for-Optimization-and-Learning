@@ -80,7 +80,7 @@ code_local = """
 s = 0
 for i = 1:10
     t = 1 + i # new local variable t
-    local s = t # assigning a new value to the global variable
+    local s = t # assigning a new value to the local variable
 end
 s
 """
