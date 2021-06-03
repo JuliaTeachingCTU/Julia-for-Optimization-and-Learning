@@ -1,6 +1,6 @@
 ```@raw html
-<img class="docs-dark-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo-dark.svg" alt="Julia for Machine Learning logo">
-<img class="docs-light-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/master/logo/Julia-for-Machine-Learning-logo.svg" alt="Julia for Machine Learning logo">
+<img class="docs-light-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/main/logo/Julia-for-Optimization-and-Learning.svg" alt="Julia for Optimization and Learning logo">
+<img class="docs-dark-only" src="https://raw.githubusercontent.com/JuliaTeachingCTU/JuliaCTUGraphics/main/logo/Julia-for-Optimization-and-Learning-dark.svg" alt="Julia for Optimization and Learning logo">
 ```
 ---
 
@@ -10,7 +10,7 @@ ENV["GKSwstype"] = "100"
 gr()
 ```
 
-Welcome to our course *Julia for Machine Learning*. This course consists of two parts:
+Welcome to our course *Julia for Optimization and Learning*. This course consists of two parts:
 - *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 25 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of February 2021).
 - *Applications*: The second part of the course will be dedicated to applications. The main emphasis will given to machine learning, but we will also go through statistics and differential equations.
 Since there are no course requirements, all students who want to learn to program efficiently or machine learning techniques are welcome to join.

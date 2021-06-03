@@ -125,7 +125,7 @@ lecture_12 = joinpath.("./lecture_12/", [
 # make docs options
 makedocs(;
     authors = "Václav Mácha",
-    sitename = "Julia for Machine Learning",
+    sitename = "Julia for Optimization and Learning",
     format = Documenter.HTML(;
         prettyurls = get(ENV, "CI", "false") == "true",
         collapselevel = 1,
