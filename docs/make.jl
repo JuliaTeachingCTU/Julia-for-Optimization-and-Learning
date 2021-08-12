@@ -152,5 +152,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/VaclavMacha/JuliaCourse.git",
+    repo="github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning.git"
 )
