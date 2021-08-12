@@ -6,16 +6,16 @@ julia&gt; Pkg.add(&quot;Plots&quot;)</code></pre><p>We return from the package R
 julia&gt; x = rand(10);
 
 julia&gt; mean(x)
-0.501058328749334
+0.5408694504939309
 
 julia&gt; var(x)
-0.06652103795777776
+0.05747512211371992
 
 julia&gt; std(x)
-0.25791672678943833</code></pre><p>See the official <a href="https://docs.julialang.org/en/v1/stdlib/Statistics/">documentation</a> for more information. More statistics-related functions can be found in the <a href="https://juliastats.org/StatsBase.jl/stable/">StatsBase</a> package. This package provides functions for computing scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation. This course dedicates one lecture to <a href="../../lecture_11/glm/#statistics">statisctics</a>.</p><h2 id="LinearAlgebra"><a class="docs-heading-anchor" href="#LinearAlgebra">LinearAlgebra</a><a id="LinearAlgebra-1"></a><a class="docs-heading-anchor-permalink" href="#LinearAlgebra" title="Permalink"></a></h2><p>Another package worth mentioning is the <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgebra</a> package, which provides a native implementation of many linear algebra operations. The package provides functions for computing matrix determinant, inversion, norm, eigenvalues, or eigenvectors.</p><pre><code class="language-julia-repl">julia&gt; using LinearAlgebra
+0.23973969657468058</code></pre><p>See the official <a href="https://docs.julialang.org/en/v1/stdlib/Statistics/">documentation</a> for more information. More statistics-related functions can be found in the <a href="https://juliastats.org/StatsBase.jl/stable/">StatsBase</a> package. This package provides functions for computing scalar statistics, high-order moment computation, counting, ranking, covariances, sampling, and empirical density estimation. This course dedicates one lecture to <a href="../../lecture_11/glm/#statistics">statisctics</a>.</p><h2 id="LinearAlgebra"><a class="docs-heading-anchor" href="#LinearAlgebra">LinearAlgebra</a><a id="LinearAlgebra-1"></a><a class="docs-heading-anchor-permalink" href="#LinearAlgebra" title="Permalink"></a></h2><p>Another package worth mentioning is the <a href="https://docs.julialang.org/en/v1/stdlib/LinearAlgebra/">LinearAlgebra</a> package, which provides a native implementation of many linear algebra operations. The package provides functions for computing matrix determinant, inversion, norm, eigenvalues, or eigenvectors.</p><pre><code class="language-julia-repl">julia&gt; using LinearAlgebra
 
 julia&gt; A = [-4.0 -17.0; 2.0 2.0]
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
  -4.0  -17.0
   2.0    2.0
 
@@ -23,7 +23,7 @@ julia&gt; det(A)
 26.0
 
 julia&gt; inv(A)
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
   0.0769231   0.653846
  -0.0769231  -0.153846
 
@@ -31,25 +31,25 @@ julia&gt; norm(A)
 17.69180601295413
 
 julia&gt; eigvals(A)
-2-element Array{Complex{Float64},1}:
+2-element Vector{ComplexF64}:
  -1.0 - 5.0im
  -1.0 + 5.0im
 
 julia&gt; eigvecs(A)
-2×2 Array{Complex{Float64},2}:
+2×2 Matrix{ComplexF64}:
   0.945905-0.0im        0.945905+0.0im
  -0.166924+0.278207im  -0.166924-0.278207im</code></pre><p>The package also provides implementation of multiple matrix types that represent matrices with special symmetries and structures. As examples, we mention <code>Symmetric</code>, <code>Hermitian</code> or <code>Diagonal</code> matrices. These particular matrix types allow for fast computation due to using specialized algorithms. Matrices of these types can be constructed via their constructors.</p><pre><code class="language-julia-repl">julia&gt; D = Diagonal([1,2,3])
-3×3 LinearAlgebra.Diagonal{Int64,Array{Int64,1}}:
+3×3 LinearAlgebra.Diagonal{Int64, Vector{Int64}}:
  1  ⋅  ⋅
  ⋅  2  ⋅
  ⋅  ⋅  3</code></pre><p>Another useful function provided by the package is the identity operator <code>I</code> representing the identity matrix. The identity operator <code>I</code> is defined as a constant and is an instance of <code>UniformScaling</code>. The size of this operator is generic and match the other matrix in the binary operations <code>+</code>, <code>-</code>, <code>*</code> and <code>\</code>.</p><pre><code class="language-julia-repl">julia&gt; D + I
-3×3 LinearAlgebra.Diagonal{Int64,Array{Int64,1}}:
+3×3 LinearAlgebra.Diagonal{Int64, Vector{Int64}}:
  2  ⋅  ⋅
  ⋅  3  ⋅
  ⋅  ⋅  4
 
 julia&gt; D - I
-3×3 LinearAlgebra.Diagonal{Int64,Array{Int64,1}}:
+3×3 LinearAlgebra.Diagonal{Int64, Vector{Int64}}:
  0  ⋅  ⋅
  ⋅  1  ⋅
  ⋅  ⋅  2</code></pre><p>Note that for <code>D+I</code> and <code>D-I</code>, the matrix <code>D</code> must be square.</p><h2 id="Random"><a class="docs-heading-anchor" href="#Random">Random</a><a id="Random-1"></a><a class="docs-heading-anchor-permalink" href="#Random" title="Permalink"></a></h2><p>The last package that we will describe in more detail is the <a href="https://docs.julialang.org/en/v1/stdlib/Random/">Random</a> package. This package provides advanced functionality for generating random numbers in Julia. The package allows setting the seed for the random generator using the <code>seed!</code> function. The <code>seed!</code> function is used to create a reproducible code that contains randomly generated values.</p><pre><code class="language-julia-repl">julia&gt; using Random
@@ -59,30 +59,30 @@ julia&gt; using Random: seed!
 julia&gt; seed!(1234);
 
 julia&gt; rand(2)
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
  0.5908446386657102
  0.7667970365022592
 
 julia&gt; seed!(1234);
 
 julia&gt; rand(2)
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
  0.5908446386657102
  0.7667970365022592</code></pre><p>The <code>randperm</code> function constructs a random permutation of a given length.</p><pre><code class="language-julia-repl">julia&gt; randperm(4)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  2
  1
  3
  4</code></pre><p>The <code>shuffle</code> function returns a randomly permuted copy of a given array.</p><pre><code class="language-julia-repl">julia&gt; v = [1,2,3,4]
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  1
  2
  3
  4
 
 julia&gt; shuffle(v)
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
  4
  1
  3
- 2</code></pre><div class="admonition is-info"><header class="admonition-header">Other useful standard packages:</header><div class="admonition-body"><p>There are other useful standard packages in Julia, but there is not enough space to present them all.</p><ul><li><code>Test</code> provides simple unit testing functionality. Unit testing is a process to determine if your code is correct by checking that the results are what you expect. It helps to ensure the code works after changes. Unit tests can also be used during the development phase to specify the expected behaviour when implemented. We will provide more details <a href="../../lecture_06/develop/#unit-testing">later</a>.</li><li><code>SparseArrays</code> provides special types to store and work with sparse arrays.</li><li><code>Distributed</code> includes support for distributed computing.</li></ul><p>The section Standard Library in the official <a href="https://docs.julialang.org/en/v1/">documentation</a> provides more information.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_03/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../Plots/">Plots.jl »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 4 June 2021 08:04">Friday 4 June 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+ 2</code></pre><div class="admonition is-info"><header class="admonition-header">Other useful standard packages:</header><div class="admonition-body"><p>There are other useful standard packages in Julia, but there is not enough space to present them all.</p><ul><li><code>Test</code> provides simple unit testing functionality. Unit testing is a process to determine if your code is correct by checking that the results are what you expect. It helps to ensure the code works after changes. Unit tests can also be used during the development phase to specify the expected behaviour when implemented. We will provide more details <a href="../../lecture_06/develop/#unit-testing">later</a>.</li><li><code>SparseArrays</code> provides special types to store and work with sparse arrays.</li><li><code>Distributed</code> includes support for distributed computing.</li></ul><p>The section Standard Library in the official <a href="https://docs.julialang.org/en/v1/">documentation</a> provides more information.</p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_03/exercises/">« Exercises</a><a class="docs-footer-nextpage" href="../Plots/">Plots.jl »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 12 August 2021 10:20">Thursday 12 August 2021</span>. Using Julia version 1.6.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -11,13 +11,13 @@ tspan = (0.0, 1.0)
 
 prob = ODEProblem(f, u0, tspan)</code></pre><p>Then we use the <code>solve</code> function to solve the equation.</p><pre><code class="language-julia">sol = solve(prob)</code></pre><pre class="documenter-example-output">retcode: Success
 Interpolation: automatic order switching interpolation
-t: 5-element Array{Float64,1}:
+t: 5-element Vector{Float64}:
  0.0
  0.10042494449239292
  0.35218603951893646
  0.6934436028208104
  1.0
-u: 5-element Array{Float64,1}:
+u: 5-element Vector{Float64}:
  1.0
  1.1034222047865465
  1.4121908848175448
@@ -60,11 +60,11 @@ sol0 = solve(prob0)
 
 plt0 = plot(sol0, vars=(1,2,3), label=&quot;&quot;)
 
-plot(plt1, plt0; layout=(1,2))</code></pre></p></details><p><img src="../lorenz4.svg" alt/></p><p>The solutions look different. Comparing the terminal states of both solutions</p><pre><code class="language-julia">hcat(sol(tspan[2]), sol0(tspan[2]))</code></pre><pre class="documenter-example-output">3×2 Array{Float64,2}:
+plot(plt1, plt0; layout=(1,2))</code></pre></p></details><p><img src="../lorenz4.svg" alt/></p><p>The solutions look different. Comparing the terminal states of both solutions</p><pre><code class="language-julia">hcat(sol(tspan[2]), sol0(tspan[2]))</code></pre><pre class="documenter-example-output">3×2 Matrix{Float64}:
  -2.94542  -0.628467
  -1.84189  -3.10333
  22.7963   23.3035</pre><p>shows that they are different by a large margin. This raises a natural question.</p><div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body"><p>Can we trust the solutions? Why?</p></div></div>
 <details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p><p>Unfortunately, we cannot. Numerical methods always introduce some errors by</p><ul><li><em>Rounding errors</em> due to representing real numbers in machine precision.</li><li><em>Discretization errors</em> for continuous systems when the finite difference method approximates the derivative.</li></ul><p>However, if the system itself is unstable and an extremely small perturbation results in big differences in solutions, the numerical method even enhances these errors. The solution could be trusted on some small interval but not after it.</p></p></details><p>The following section shows a situation where we try to mitigate this possible effect by using mathematical formulas to compute the exact solution as long as possible. This aproach delays the necessary discretization and may bring better stability.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ode/">« Wave equation</a><a class="docs-footer-nextpage" href="../optimal_control/">Optimal control »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 4 June 2021 08:04">Friday 4 June 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<summary class = "solution-header">Solution:</summary><p><p>Unfortunately, we cannot. Numerical methods always introduce some errors by</p><ul><li><em>Rounding errors</em> due to representing real numbers in machine precision.</li><li><em>Discretization errors</em> for continuous systems when the finite difference method approximates the derivative.</li></ul><p>However, if the system itself is unstable and an extremely small perturbation results in big differences in solutions, the numerical method even enhances these errors. The solution could be trusted on some small interval but not after it.</p></p></details><p>The following section shows a situation where we try to mitigate this possible effect by using mathematical formulas to compute the exact solution as long as possible. This aproach delays the necessary discretization and may bring better stability.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ode/">« Wave equation</a><a class="docs-footer-nextpage" href="../optimal_control/">Optimal control »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 12 August 2021 10:20">Thursday 12 August 2021</span>. Using Julia version 1.6.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
