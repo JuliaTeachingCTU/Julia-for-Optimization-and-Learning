@@ -1,102 +1,134 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Strings · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Numerical computing in Julia logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Numerical computing in Julia logo"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox" checked/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../variables/">Variables</a></li><li><a class="tocitem" href="../operators/">Mathematical operations and Elementary functions</a></li><li><a class="tocitem" href="../arrays/">Arrays</a></li><li><a class="tocitem" href="../data_structures/">Data structures</a></li><li class="is-active"><a class="tocitem" href>Strings</a><ul class="internal"><li><a class="tocitem" href="#Splitting-and-joining-strings"><span>Splitting and joining strings</span></a></li><li><a class="tocitem" href="#String-interpolation"><span>String interpolation</span></a></li><li><a class="tocitem" href="#Find-and-replace"><span>Find and replace</span></a></li></ul></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/control_flow/">Iteration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and multiple-dispatch</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">4: Composite types and constructors</span></li><li><span class="tocitem">5: Modules and enviroments</span></li><li><span class="tocitem">6: Useful packages</span></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">9: Neural networks I.</span></li><li><span class="tocitem">10: Neural networks II.</span></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">1: Variables and basic operators</a></li><li class="is-active"><a href>Strings</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Strings</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_01/strings.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Strings"><a class="docs-heading-anchor" href="#Strings">Strings</a><a id="Strings-1"></a><a class="docs-heading-anchor-permalink" href="#Strings" title="Permalink"></a></h1><p>In Julia as in other programming languages, a string a sequence of one or more characters. Strings can be created using quotes</p><pre><code class="language-julia-repl">julia&gt; str = &quot;Hello, world.&quot;
-&quot;Hello, world.&quot;</code></pre><p>The strings are immutable and therefore cannot be changed after creation. However, it is very easy to create a new string from parts of existing strings. Individual characters of a string can be accessed via square brackets and indices (the same syntax as for <a href="../arrays/#Vectors">arrays</a>)</p><pre><code class="language-julia-repl">julia&gt; str[1] # returns the first character
-&#39;H&#39;: ASCII/Unicode U+0048 (category Lu: Letter, uppercase)</code></pre><p>The return type, in this case, is a <code>Char</code></p><pre><code class="language-julia-repl">julia&gt; typeof(str[1])
-Char</code></pre><p>A <code>Char</code> value represents a single character. It is just a 32-bit primitive type with a special literal representation and appropriate arithmetic behaviors. Chars can be created using apostrophe</p><pre><code class="language-julia-repl">julia&gt; &#39;x&#39;
-&#39;x&#39;: ASCII/Unicode U+0078 (category Ll: Letter, lowercase)</code></pre><p>Characters can be converted to a numeric value representing a Unicode code point and vice versa</p><pre><code class="language-julia-repl">julia&gt; Int(&#39;x&#39;)
+<!DOCTYPE html><HTML lang="en"><head><meta charset="UTF-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Strings · Numerical computing in Julia</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script data-main="../../assets/documenter.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" data-theme-name="documenter-dark" data-theme-primary-dark="" href="../../assets/themes/documenter-dark.css" rel="stylesheet" type="text/css"/><link class="docs-theme-link" data-theme-name="documenter-light" data-theme-primary="" href="../../assets/themes/documenter-light.css" rel="stylesheet" type="text/css"/><script src="../../assets/themeswap.js"></script><script data-outdated-warner="">function maybeAddWarning () {
+    const head = document.getElementsByTagName('head')[0];
+
+    // Add a noindex meta tag (unless one exists) so that search engines don't index this version of the docs.
+    if (document.body.querySelector('meta[name="robots"]') === null) {
+        const meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex';
+
+        head.appendChild(meta);
+    };
+
+    // Add a stylesheet to avoid inline styling
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode('.outdated-warning-overlay {  position: fixed;  top: 0;  left: 0;  right: 0;  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);  z-index: 999;  background-color: #ffaba7;  color: rgba(0, 0, 0, 0.7);  border-bottom: 3px solid #da0b00;  padding: 10px 35px;  text-align: center;  font-size: 15px; }  .outdated-warning-overlay .outdated-warning-closer {    position: absolute;    top: calc(50% - 10px);    right: 18px;    cursor: pointer;    width: 12px; }  .outdated-warning-overlay a {    color: #2e63b8; }    .outdated-warning-overlay a:hover {      color: #363636; }'));
+    head.appendChild(style);
+
+    const div = document.createElement('div');
+    div.classList.add('outdated-warning-overlay');
+    const closer = document.createElement('div');
+    closer.classList.add('outdated-warning-closer');
+
+    // Icon by font-awesome (license: https://fontawesome.com/license, link: https://fontawesome.com/icons/times?style=solid)
+    closer.innerHTML = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" class="svg-inline--fa fa-times fa-w-11" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"></path></svg>';
+    closer.addEventListener('click', function () {
+        document.body.removeChild(div);
+    });
+    let href = '/stable';
+    if (window.documenterBaseURL) {
+        href = window.documenterBaseURL + '/../stable';
+    }
+    div.innerHTML = 'This documentation is not for the latest version. <br> <a href="' + href + '">Go to the latest documentation</a>.';
+    div.appendChild(closer);
+    document.body.appendChild(div);
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', maybeAddWarning);
+} else {
+    maybeAddWarning();
+};
+</script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img alt="Numerical computing in Julia logo" class="docs-light-only" src="../../assets/logo.svg"/><img alt="Numerical computing in Julia logo" class="docs-dark-only" src="../../assets/logo-dark.svg"/></a><div class="docs-package-name"><span class="docs-autofit">Numerical computing in Julia</span></div><form action="../../search/" class="docs-search"><input class="docs-search-query" id="documenter-search-query" name="q" placeholder="Search docs" type="text"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why_julia/">Why Julia?</a></li><li><a class="tocitem" href="../../howto/">How to...</a></li><li><input checked="" class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../variables/">Variables</a></li><li><a class="tocitem" href="../operators/">Mathematical operations and Elementary functions</a></li><li><a class="tocitem" href="../arrays/">Arrays</a></li><li><a class="tocitem" href="../data_structures/">Data structures</a></li><li class="is-active"><a class="tocitem" href="">Strings</a><ul class="internal"><li><a class="tocitem" href="#Splitting-and-joining-strings"><span>Splitting and joining strings</span></a></li><li><a class="tocitem" href="#String-interpolation"><span>String interpolation</span></a></li><li><a class="tocitem" href="#Find-and-replace"><span>Find and replace</span></a></li></ul></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/control_flow/">Iteration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Functions and multiple-dispatch</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_03/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">4: Composite types and constructors</span></li><li><span class="tocitem">5: Modules and enviroments</span></li><li><span class="tocitem">6: Useful packages</span></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/theory/">Theory of optimization</a></li><li><a class="tocitem" href="../../lecture_07/gradients/">Visualization of gradients</a></li><li><a class="tocitem" href="../../lecture_07/numerical_methods/">Numerical methods</a></li><li><a class="tocitem" href="../../lecture_07/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Theory of regression and classification</a></li><li><a class="tocitem" href="../../lecture_08/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_08/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><span class="tocitem">9: Neural networks I.</span></li><li><span class="tocitem">10: Neural networks II.</span></li><li><span class="tocitem">11: Ordinary differential equations</span></li><li><span class="tocitem">12: Statistics I.</span></li><li><span class="tocitem">13: Statistics II.</span></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">1: Variables and basic operators</a></li><li class="is-active"><a href="">Strings</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href="">Strings</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/VaclavMacha/JuliaCourse/blob/master/docs/src/lecture_01/strings.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" href="#" id="documenter-settings-button" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" href="#" id="documenter-sidebar-button"></a></div></header><article class="content" id="documenter-page"><h1 id="Strings"><a class="docs-heading-anchor" href="#Strings">Strings</a><a id="Strings-1"></a><a class="docs-heading-anchor-permalink" href="#Strings" title="Permalink"></a></h1><p>In Julia as in other programming languages, a string a sequence of one or more characters. Strings can be created using quotes</p><pre><code class="language-julia-repl">julia&gt; str = "Hello, world."
+"Hello, world."</code></pre><p>The strings are immutable and therefore cannot be changed after creation. However, it is very easy to create a new string from parts of existing strings. Individual characters of a string can be accessed via square brackets and indices (the same syntax as for <a href="../arrays/#Vectors">arrays</a>)</p><pre><code class="language-julia-repl">julia&gt; str[1] # returns the first character
+'H': ASCII/Unicode U+0048 (category Lu: Letter, uppercase)</code></pre><p>The return type, in this case, is a <code>Char</code></p><pre><code class="language-julia-repl">julia&gt; typeof(str[1])
+Char</code></pre><p>A <code>Char</code> value represents a single character. It is just a 32-bit primitive type with a special literal representation and appropriate arithmetic behaviors. Chars can be created using apostrophe</p><pre><code class="language-julia-repl">julia&gt; 'x'
+'x': ASCII/Unicode U+0078 (category Ll: Letter, lowercase)</code></pre><p>Characters can be converted to a numeric value representing a Unicode code point and vice versa</p><pre><code class="language-julia-repl">julia&gt; Int('x')
 120
 
 julia&gt; Char(120)
-&#39;x&#39;: ASCII/Unicode U+0078 (category Ll: Letter, lowercase)</code></pre><p>It is also possible to extract a substring from an existing string. It is done using square brackets and multiple indexes</p><pre><code class="language-julia-repl">julia&gt; str[1:5] # returns the first five characters
-&quot;Hello&quot;
+'x': ASCII/Unicode U+0078 (category Ll: Letter, lowercase)</code></pre><p>It is also possible to extract a substring from an existing string. It is done using square brackets and multiple indexes</p><pre><code class="language-julia-repl">julia&gt; str[1:5] # returns the first five characters
+"Hello"
 
 julia&gt; str[[1,2,5,6]]
-&quot;Heo,&quot;</code></pre><p>Notice that the expressions <code>str[k]</code> and <code>str[k:k]</code> do not give the same result:</p><pre><code class="language-julia-repl">julia&gt; str[1] # returns the first character as Char
-&#39;H&#39;: ASCII/Unicode U+0048 (category Lu: Letter, uppercase)
+"Heo,"</code></pre><p>Notice that the expressions <code>str[k]</code> and <code>str[k:k]</code> do not give the same result:</p><pre><code class="language-julia-repl">julia&gt; str[1] # returns the first character as Char
+'H': ASCII/Unicode U+0048 (category Lu: Letter, uppercase)
 
 julia&gt; str[1:1] # returns the first character as String
-&quot;H&quot;</code></pre><p>When using strings, we have to pay attention to some special characters, specifically to the following three characters: <code>\</code>, <code>&quot;</code> and <code>$</code>. If we want to use any of these three characters, we have to use a backslash before them. The reason is that these characters have a special meaning. For example, if we use quote inside a string, then the rest of the string will be interpreted as a Julia code and not a string.</p><pre><code class="language-julia-repl">julia&gt; str1 = &quot;This is how a string is created: \&quot;string\&quot;.&quot;
-&quot;This is how a string is created: \&quot;string\&quot;.&quot;</code></pre><p>Similarly, the dollar sign is reserved for string interpolation and if we want to use it as a character we have to use a backslash too</p><pre><code class="language-julia-repl">julia&gt; str2 = &quot;\$\$\$ dollars everywhere \$\$\$&quot;
-&quot;\$\$\$ dollars everywhere \$\$\$&quot;</code></pre><p>If we want to see how the string will be printed, we can use <code>print</code> or <code>println</code> function</p><pre><code class="language-julia-repl">julia&gt; println(str1)
-This is how a string is created: &quot;string&quot;.
+"H"</code></pre><p>When using strings, we have to pay attention to some special characters, specifically to the following three characters: <code>\</code>, <code>"</code> and <code>$</code>. If we want to use any of these three characters, we have to use a backslash before them. The reason is that these characters have a special meaning. For example, if we use quote inside a string, then the rest of the string will be interpreted as a Julia code and not a string.</p><pre><code class="language-julia-repl">julia&gt; str1 = "This is how a string is created: \"string\"."
+"This is how a string is created: \"string\"."</code></pre><p>Similarly, the dollar sign is reserved for string interpolation and if we want to use it as a character we have to use a backslash too</p><pre><code class="language-julia-repl">julia&gt; str2 = "\$\$\$ dollars everywhere \$\$\$"
+"\$\$\$ dollars everywhere \$\$\$"</code></pre><p>If we want to see how the string will be printed, we can use <code>print</code> or <code>println</code> function</p><pre><code class="language-julia-repl">julia&gt; println(str1)
+This is how a string is created: "string".
 
 julia&gt; println(str2)
-$$$ dollars everywhere $$$</code></pre><p>There is one exception to using quotes inside a string: quotes without a backslashes can be used in multiline strings. Multiline strings are created using triple quotes syntax</p><pre><code class="language-julia-repl">julia&gt; mstr = &quot;&quot;&quot;
-       This is how a string is created: &quot;string&quot;.
-       &quot;&quot;&quot;
-&quot;This is how a string is created: \&quot;string\&quot;.\n&quot;
+$$$ dollars everywhere $$$</code></pre><p>There is one exception to using quotes inside a string: quotes without a backslashes can be used in multiline strings. Multiline strings are created using triple quotes syntax</p><pre><code class="language-julia-repl">julia&gt; mstr = """
+       This is how a string is created: "string".
+       """
+"This is how a string is created: \"string\".\n"
 
 julia&gt; print(mstr)
-This is how a string is created: &quot;string&quot;.</code></pre><p>This syntax is usually used for docstring for functions. It is possible to write a string in the same way as it will appear after printing in REPL</p><pre><code class="language-julia-repl">julia&gt; str = &quot;&quot;&quot;
+This is how a string is created: "string".</code></pre><p>This syntax is usually used for docstring for functions. It is possible to write a string in the same way as it will appear after printing in REPL</p><pre><code class="language-julia-repl">julia&gt; str = """
              Hello,
              world.
-           &quot;&quot;&quot;
-&quot;  Hello,\n  world.\n&quot;
+           """
+"  Hello,\n  world.\n"
 
 julia&gt; print(str)
   Hello,
-  world.</code></pre><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p></p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p></p></details><h2 id="Splitting-and-joining-strings"><a class="docs-heading-anchor" href="#Splitting-and-joining-strings">Splitting and joining strings</a><a id="Splitting-and-joining-strings-1"></a><a class="docs-heading-anchor-permalink" href="#Splitting-and-joining-strings" title="Permalink"></a></h2><p>One of the most common operations on strings is their concatenation. It can be done using <code>string</code> function that accepts any number of input arguments and returns a string.</p><pre><code class="language-julia-repl">julia&gt; string(&quot;Hello,&quot;, &quot; world&quot;)
-&quot;Hello, world&quot;</code></pre><p>Note, that it is possible to concatenate strings with numbers and other types, that can be converted to a string</p><pre><code class="language-julia-repl">julia&gt; a = 1.123
+  world.</code></pre><div class="exercise-body"><header class="exercise-header">Exercise:</header><p></p></div><details class="solution-body"><summary class="solution-header">Solution:</summary><p></p></details><h2 id="Splitting-and-joining-strings"><a class="docs-heading-anchor" href="#Splitting-and-joining-strings">Splitting and joining strings</a><a id="Splitting-and-joining-strings-1"></a><a class="docs-heading-anchor-permalink" href="#Splitting-and-joining-strings" title="Permalink"></a></h2><p>One of the most common operations on strings is their concatenation. It can be done using <code>string</code> function that accepts any number of input arguments and returns a string.</p><pre><code class="language-julia-repl">julia&gt; string("Hello,", " world")
+"Hello, world"</code></pre><p>Note, that it is possible to concatenate strings with numbers and other types, that can be converted to a string</p><pre><code class="language-julia-repl">julia&gt; a = 1.123
 1.123
 
-julia&gt; string(&quot;The variable a is of type &quot;, typeof(a), &quot; and its value is &quot;, a)
-&quot;The variable a is of type Float64 and its value is 1.123&quot;</code></pre><p>In general, it is not possible to perform mathematical operations on strings, even if the strings look like numbers. But there are two exceptions. The <code>*</code> operator performs string concatenation</p><pre><code class="language-julia-repl">julia&gt; &quot;Hello,&quot;*&quot; world&quot;
-&quot;Hello, world&quot;</code></pre><p>This approach is applicable only to string as opposed to <code>string</code> function that also works for other types. The second exeption is <code>^</code> operator, which performs repetition</p><pre><code class="language-julia-repl">julia&gt; &quot;Hello&quot;^3
-&quot;HelloHelloHello&quot;</code></pre><p>This is equivalent to calling <code>repeat</code> function</p><pre><code class="language-julia-repl">julia&gt; repeat(&quot;Hello&quot;, 3)
-&quot;HelloHelloHello&quot;</code></pre><p>Another very useful function is the <code>join</code> function. This function also performs string concatenation, however, it supports defining custom separator and also it supports different separator for the last element</p><pre><code class="language-julia-repl">julia&gt; join([&quot;apples&quot;, &quot;bananas&quot;, &quot;pineapples&quot;], &quot;, &quot;, &quot; and &quot;)
-&quot;apples, bananas and pineapples&quot;</code></pre><p>Similarly as <code>string</code> function,  the <code>join</code> function can be used also for other types than strings</p><pre><code class="language-julia-repl">julia&gt; join([1,2,3,4,5], &quot;, &quot;, &quot; or &quot;)
-&quot;1, 2, 3, 4 or 5&quot;</code></pre><p>To split a string, the function <code>split</code> function can be used</p><pre><code class="language-julia-repl">julia&gt; str = &quot;JuliaLang is a pretty cool language!&quot;
-&quot;JuliaLang is a pretty cool language!&quot;
+julia&gt; string("The variable a is of type ", typeof(a), " and its value is ", a)
+"The variable a is of type Float64 and its value is 1.123"</code></pre><p>In general, it is not possible to perform mathematical operations on strings, even if the strings look like numbers. But there are two exceptions. The <code>*</code> operator performs string concatenation</p><pre><code class="language-julia-repl">julia&gt; "Hello,"*" world"
+"Hello, world"</code></pre><p>This approach is applicable only to string as opposed to <code>string</code> function that also works for other types. The second exeption is <code>^</code> operator, which performs repetition</p><pre><code class="language-julia-repl">julia&gt; "Hello"^3
+"HelloHelloHello"</code></pre><p>This is equivalent to calling <code>repeat</code> function</p><pre><code class="language-julia-repl">julia&gt; repeat("Hello", 3)
+"HelloHelloHello"</code></pre><p>Another very useful function is the <code>join</code> function. This function also performs string concatenation, however, it supports defining custom separator and also it supports different separator for the last element</p><pre><code class="language-julia-repl">julia&gt; join(["apples", "bananas", "pineapples"], ", ", " and ")
+"apples, bananas and pineapples"</code></pre><p>Similarly as <code>string</code> function,  the <code>join</code> function can be used also for other types than strings</p><pre><code class="language-julia-repl">julia&gt; join([1,2,3,4,5], ", ", " or ")
+"1, 2, 3, 4 or 5"</code></pre><p>To split a string, the function <code>split</code> function can be used</p><pre><code class="language-julia-repl">julia&gt; str = "JuliaLang is a pretty cool language!"
+"JuliaLang is a pretty cool language!"
 
 julia&gt; split(str)
 6-element Array{SubString{String},1}:
- &quot;JuliaLang&quot;
- &quot;is&quot;
- &quot;a&quot;
- &quot;pretty&quot;
- &quot;cool&quot;
- &quot;language!&quot;</code></pre><p>By default, the <code>split</code> function splits the given string based on spaces. But it can be changed by defining custom delimiter</p><pre><code class="language-julia-repl">julia&gt; split(str, &quot; a &quot;)
+ "JuliaLang"
+ "is"
+ "a"
+ "pretty"
+ "cool"
+ "language!"</code></pre><p>By default, the <code>split</code> function splits the given string based on spaces. But it can be changed by defining custom delimiter</p><pre><code class="language-julia-repl">julia&gt; split(str, " a ")
 2-element Array{SubString{String},1}:
- &quot;JuliaLang is&quot;
- &quot;pretty cool language!&quot;</code></pre><p>If you want to split a string into separate single-character strings, use the empty string (&quot;&quot;) which splits the string between the characters</p><pre><code class="language-julia-repl">julia&gt; split(str, &quot;&quot;)
+ "JuliaLang is"
+ "pretty cool language!"</code></pre><p>If you want to split a string into separate single-character strings, use the empty string ("") which splits the string between the characters</p><pre><code class="language-julia-repl">julia&gt; split(str, "")
 36-element Array{SubString{String},1}:
- &quot;J&quot;
- &quot;u&quot;
- &quot;l&quot;
- &quot;i&quot;
- &quot;a&quot;
- &quot;L&quot;
- &quot;a&quot;
- &quot;n&quot;
- &quot;g&quot;
- &quot; &quot;
+ "J"
+ "u"
+ "l"
+ "i"
+ "a"
+ "L"
+ "a"
+ "n"
+ "g"
+ " "
  ⋮
- &quot;l&quot;
- &quot;a&quot;
- &quot;n&quot;
- &quot;g&quot;
- &quot;u&quot;
- &quot;a&quot;
- &quot;g&quot;
- &quot;e&quot;
- &quot;!&quot;</code></pre><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p></p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p></p></details><h2 id="String-interpolation"><a class="docs-heading-anchor" href="#String-interpolation">String interpolation</a><a id="String-interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#String-interpolation" title="Permalink"></a></h2><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p></p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p></p></details><h2 id="Find-and-replace"><a class="docs-heading-anchor" href="#Find-and-replace">Find and replace</a><a id="Find-and-replace-1"></a><a class="docs-heading-anchor-permalink" href="#Find-and-replace" title="Permalink"></a></h2><p>There are multiple functions that can be used to find specific characters or substring in the given string. To check if the string contains a specific substring or character, the functions <code>contains</code> or <code>occursin</code> can be used</p><pre><code class="language-julia-repl">julia&gt; contains(&quot;JuliaLang is pretty cool!&quot;, &quot;Julia&quot;)
+ "l"
+ "a"
+ "n"
+ "g"
+ "u"
+ "a"
+ "g"
+ "e"
+ "!"</code></pre><div class="exercise-body"><header class="exercise-header">Exercise:</header><p></p></div><details class="solution-body"><summary class="solution-header">Solution:</summary><p></p></details><h2 id="String-interpolation"><a class="docs-heading-anchor" href="#String-interpolation">String interpolation</a><a id="String-interpolation-1"></a><a class="docs-heading-anchor-permalink" href="#String-interpolation" title="Permalink"></a></h2><div class="exercise-body"><header class="exercise-header">Exercise:</header><p></p></div><details class="solution-body"><summary class="solution-header">Solution:</summary><p></p></details><h2 id="Find-and-replace"><a class="docs-heading-anchor" href="#Find-and-replace">Find and replace</a><a id="Find-and-replace-1"></a><a class="docs-heading-anchor-permalink" href="#Find-and-replace" title="Permalink"></a></h2><p>There are multiple functions that can be used to find specific characters or substring in the given string. To check if the string contains a specific substring or character, the functions <code>contains</code> or <code>occursin</code> can be used</p><pre><code class="language-julia-repl">julia&gt; contains("JuliaLang is pretty cool!", "Julia")
 true
 
-julia&gt; contains(&quot;Julia&quot;, &quot;JuliaLang is pretty cool!&quot;)
-false</code></pre><p>These two function differ only in the order of arguments. A very useful function is the <code>endswith</code> function, which cheks if the given string ends with the given substring or character. It can be used for example to check, that the file has a proper suffix</p><pre><code class="language-julia-repl">julia&gt; endswith(&quot;figure.png&quot;, &quot;png&quot;)
-true</code></pre><p>Index of a specific character in a string can be found using find functions</p><pre><code class="language-julia-repl">julia&gt; str = &quot;JuliaLang is a pretty cool language!&quot;
-&quot;JuliaLang is a pretty cool language!&quot;
+julia&gt; contains("Julia", "JuliaLang is pretty cool!")
+false</code></pre><p>These two function differ only in the order of arguments. A very useful function is the <code>endswith</code> function, which cheks if the given string ends with the given substring or character. It can be used for example to check, that the file has a proper suffix</p><pre><code class="language-julia-repl">julia&gt; endswith("figure.png", "png")
+true</code></pre><p>Index of a specific character in a string can be found using find functions</p><pre><code class="language-julia-repl">julia&gt; str = "JuliaLang is a pretty cool language!"
+"JuliaLang is a pretty cool language!"
 
-julia&gt; findall(isequal(&#39;a&#39;), str)
+julia&gt; findall(isequal('a'), str)
 5-element Array{Int64,1}:
   5
   7
@@ -104,13 +136,10 @@ julia&gt; findall(isequal(&#39;a&#39;), str)
  29
  33
 
-julia&gt; findfirst(isequal(&#39;a&#39;), str)
+julia&gt; findfirst(isequal('a'), str)
 5
 
-julia&gt; findlast(isequal(&#39;a&#39;), str)
-33</code></pre><p>As we said before, strings are immutable and cannot be changed. However, we can easily create new strings. The <code>replace</code> function returns a new string with a substring of characters replaced with something else</p><pre><code class="language-julia-repl">julia&gt; replace(&quot;Sherlock Holmes&quot;, &quot;e&quot; =&gt; &quot;ee&quot;)
-&quot;Sheerlock Holmees&quot;</code></pre><p>It is also possible to apply a function to a specific substring using <code>replace</code> function. The following example shows how to change all <code>e</code>  in the given string to uppercase</p><pre><code class="language-julia-repl">julia&gt; replace(&quot;Sherlock Holmes&quot;, &quot;e&quot; =&gt; uppercase)
-&quot;ShErlock HolmEs&quot;</code></pre><div class = "exercise-body">
-<header class = "exercise-header">Exercise:</header><p></p></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../data_structures/">« Data structures</a><a class="docs-footer-nextpage" href="../exercises/">Exercises »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 28 December 2020 16:58">Monday 28 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+julia&gt; findlast(isequal('a'), str)
+33</code></pre><p>As we said before, strings are immutable and cannot be changed. However, we can easily create new strings. The <code>replace</code> function returns a new string with a substring of characters replaced with something else</p><pre><code class="language-julia-repl">julia&gt; replace("Sherlock Holmes", "e" =&gt; "ee")
+"Sheerlock Holmees"</code></pre><p>It is also possible to apply a function to a specific substring using <code>replace</code> function. The following example shows how to change all <code>e</code>  in the given string to uppercase</p><pre><code class="language-julia-repl">julia&gt; replace("Sherlock Holmes", "e" =&gt; uppercase)
+"ShErlock HolmEs"</code></pre><div class="exercise-body"><header class="exercise-header">Exercise:</header><p></p></div><details class="solution-body"><summary class="solution-header">Solution:</summary><p></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../data_structures/">« Data structures</a><a class="docs-footer-nextpage" href="../exercises/">Exercises »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label></p><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div><p></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 28 December 2020 16:58">Monday 28 December 2020</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></HTML>
