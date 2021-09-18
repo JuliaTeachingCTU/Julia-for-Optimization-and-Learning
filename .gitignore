@@ -4,6 +4,7 @@
 
 Manifest.toml
 
+.vscode
 /_documents/
 /_tmp/
 /_tikz/
