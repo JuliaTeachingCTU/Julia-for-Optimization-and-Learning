@@ -258,7 +258,7 @@ To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctl
 ```@example gpuu
 using DataFrames
 
-df = DataFrame(errors)
+df = DataFrame(errors, :auto)
 
 rename!(df, [Symbol("miss$(i)") for i in 0:9])
 insertcols!(df, 1, :label => string.(0:9))
