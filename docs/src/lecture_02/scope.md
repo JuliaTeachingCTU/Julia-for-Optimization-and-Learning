@@ -86,7 +86,7 @@ s
 """
 
 # output
-"s = 0\nfor i = 1:10\n    t = 1 + i # new local variable t\n    local s = t # assigning a new value to the global variable\nend\ns\n"
+"s = 0\nfor i = 1:10\n    t = 1 + i # new local variable t\n    local s = t # assigning a new value to the local variable\nend\ns\n"
 ```
 
 Another option is to specify that the variable `s` is `global`.
