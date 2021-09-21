@@ -11,7 +11,7 @@ gr()
 ```
 
 Welcome to our course *Julia for Optimization and Learning*. This course consists of two parts:
-- *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 25 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of February 2021).
+- *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 22 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of September 2021).
 - *Applications*: The second part of the course will be dedicated to applications. The main emphasis will given to machine learning, but we will also go through statistics and differential equations.
 Since there are no course requirements, all students who want to learn to program efficiently or machine learning techniques are welcome to join.
 
@@ -21,8 +21,8 @@ The course's main requirement is to finish a small project of your choice. This 
 ## Information about the course
 
 - Teachers: Lukáš Adam, Václav Mácha
-- Credits: 3
-- FJFI code: [01SUJ](http://bilakniha.cvut.cz/cs/predmet6606806.html)
+- Credits: 4
+- FEL code: [B0B36JUL](http://bilakniha.cvut.cz/en/predmet6985806.html)
 - Requirements for the course:
     - Finish three [homework](@ref homeworks). Each homework is a short task.
     - Finish one final [project](@ref project). Project is a more complex task, where you can choose the topic.
