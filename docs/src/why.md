@@ -164,17 +164,16 @@ julia> n = 10000000
 10000000
 
 julia> @benchmark estimate_pi(n)
-BenchmarkTools.Trial:
-  memory estimate:  16 bytes
-  allocs estimate:  1
-  --------------
-  minimum time:     86.532 ms (0.00% GC)
-  median time:      93.298 ms (0.00% GC)
-  mean time:        95.266 ms (0.00% GC)
-  maximum time:     112.988 ms (0.00% GC)
-  --------------
-  samples:          53
-  evals/sample:     1
+BenchmarkTools.Trial: 56 samples with 1 evaluation.
+ Range (min … max):  86.735 ms … 94.346 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     89.119 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   89.358 ms ±  1.659 ms  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+                 ▁   ▃   █                                     
+  ▄▁▄▇▁▇▇▁▁▄▄▄▄▄▄█▄▄▁█▄▄▁█▇▇▄▁▁▁▄▄▁▁▇▇▁▇▁▇▄▁▄▁▁▁▁▄▄▁▇▁▁▁▁▄▄▁▄ ▁
+  86.7 ms         Histogram: frequency by time        92.7 ms <
+
+ Memory estimate: 16 bytes, allocs estimate: 1.
 ```
 
-We see that the average computation time is **95** milliseconds. Without any modifications, the Julia code is slightly faster than the Python implementation with Numba. Even though the performance gap is not large, the Numba package will only work on a small Python and NumPy functionalities subset. Of course, other packages such as Cython can be used to increase performance. But all these packages have the same problem as Numba and will not support all Python functionalities. Python was not designed to be compiled, which results in many limitations that can not be easily solved. On the other hand, Julia was designed to be fast and provide high-performance without taking any additional steps. Moreover, Julia performance is not restricted to a subset of the language as in the case of Numba and other similar packages.
+We see that the average computation time is **89** milliseconds. Without any modifications, the Julia code is slightly faster than the Python implementation with Numba. Even though the performance gap is not large, the Numba package will only work on a small Python and NumPy functionalities subset. Of course, other packages such as Cython can be used to increase performance. But all these packages have the same problem as Numba and will not support all Python functionalities. Python was not designed to be compiled, which results in many limitations that can not be easily solved. On the other hand, Julia was designed to be fast and provide high-performance without taking any additional steps. Moreover, Julia performance is not restricted to a subset of the language as in the case of Numba and other similar packages.
