@@ -8,4 +8,4 @@
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/dev/)
 
-This repository is supplementary material to the course **Julia for Optimization and Learning**, which is taught at the Czech Technical University in Prague. More information can be found on the [official course website](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/) or in the [course syllabus](http://bilakniha.cvut.cz/en/predmet6606806.html)
+This repository is supplementary material to the course **Julia for Optimization and Learning**, which is taught at the Czech Technical University in Prague. More information can be found on the [official course website](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/) or in the [course syllabus](http://bilakniha.cvut.cz/en/predmet6985806.html)
