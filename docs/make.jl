@@ -43,7 +43,8 @@ lecture_01 = [
 
 lecture_02 = [
     "Arrays" => "./lecture_02/arrays.md",
-    "Data structures" => "./lecture_02/data_structures.md",
+    "Tuples and named tuples" => "./lecture_02/tuples.md",
+    "Dictionaries" => "./lecture_02/dictionaries.md",
 ]
 
 lecture_03 = [
@@ -90,6 +91,7 @@ lecture_08 = joinpath.("./lecture_08/", [
     "unconstrained.md",
     "constrained.md",
     "exercises.md",
+    "homework.md",
 ])
 
 lecture_09 = joinpath.("./lecture_09/", [
@@ -97,12 +99,14 @@ lecture_09 = joinpath.("./lecture_09/", [
     "linear.md",
     "logistic.md",
     "exercises.md",
+    "homework.md",
 ])
 
 lecture_10 = joinpath.("./lecture_10/", [
     "theory.md",
     "nn.md",
     "exercises.md",
+    "homework.md",
 ])
 
 lecture_11 = joinpath.("./lecture_11/", [
