@@ -81,17 +81,11 @@ lecture_07 = [
     "Package development" => "./lecture_07/develop.md",
 ]
 
-finalproject = joinpath.("./final_project/", [
-    "homeworks.md",
-    "project.md",
-])
-
 lecture_08 = joinpath.("./lecture_08/", [
     "theory.md",
     "unconstrained.md",
     "constrained.md",
     "exercises.md",
-    "homework.md",
 ])
 
 lecture_09 = joinpath.("./lecture_09/", [
@@ -99,14 +93,12 @@ lecture_09 = joinpath.("./lecture_09/", [
     "linear.md",
     "logistic.md",
     "exercises.md",
-    "homework.md",
 ])
 
 lecture_10 = joinpath.("./lecture_10/", [
     "theory.md",
     "nn.md",
     "exercises.md",
-    "homework.md",
 ])
 
 lecture_11 = joinpath.("./lecture_11/", [
@@ -149,7 +141,6 @@ makedocs(;
         "5: Packages" => lecture_05,
         "6: Type system and generic programming" => lecture_06,
         "7: Code organization" => lecture_07,
-        "Course requirements" => finalproject,
         "8: Optimization" => lecture_08,
         "9: Regression and classification" => lecture_09,
         "10: Neural networks I." => lecture_10,
