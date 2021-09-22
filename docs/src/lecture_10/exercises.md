@@ -1,66 +1,151 @@
-```@setup gpuu
-using BSON
-using Flux
-using MLDatasets
-using DataFrames
+```@setup nn
+using RDatasets
 using Plots
-using Flux: onehotbatch, onecold, flatten
+using Random
+using Statistics
+using LinearAlgebra
 
-Core.eval(Main, :(using Flux)) # hide
-ENV["DATADEPS_ALWAYS_ACCEPT"] = true
-MNIST.traindata()
+function split(X, y::AbstractVector; dims=1, ratio_train=0.8, kwargs...)
+    n = length(y)
+    size(X, dims) == n || throw(DimensionMismatch("..."))
 
-function reshape_data(X::AbstractArray{<:Real, 3})
-    s = size(X)
-    return reshape(X, s[1], s[2], 1, s[3])
+    n_train = round(Int, ratio_train*n)
+    i_rand = randperm(n)
+    i_train = i_rand[1:n_train]
+    i_test = i_rand[n_train+1:end]
+
+    return selectdim(X, dims, i_train), y[i_train], selectdim(X, dims, i_test), y[i_test]
 end
 
-function train_or_load!(file_name, m, args...; force=false, kwargs...)
+function normalize(X_train, X_test; dims=1, kwargs...)
+    col_means = mean(X_train; dims)
+    col_std = std(X_train; dims)
 
-    !isdir(dirname(file_name)) && mkpath(dirname(file_name))
+    return (X_train .- col_means) ./ col_std, (X_test .- col_means) ./ col_std
+end
 
-    if force || !isfile(file_name)
-        train_model!(m, args...; file_name=file_name, kwargs...)
-    else
-        m_weights = BSON.load(file_name)[:m]
-        Flux.loadparams!(m, params(m_weights))
+function onehot(y, classes)
+    y_onehot = falses(length(classes), length(y))
+    for (i, class) in enumerate(classes)
+        y_onehot[i, y .== class] .= 1
     end
+    return y_onehot
 end
 
-function load_data(dataset; T=Float32, onehot=false, classes=0:9)
-    X_train, y_train = dataset.traindata(T)
-    X_test, y_test = dataset.testdata(T)
+onecold(y, classes) = [classes[argmax(y_col)] for y_col in eachcol(y)]
 
-    X_train = reshape_data(X_train)
-    X_test = reshape_data(X_test)
+function prepare_data(X, y; do_normal=true, do_onehot=true, kwargs...)
+    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
 
-    if onehot
-        y_train = onehotbatch(y_train, classes)
-        y_test = onehotbatch(y_test, classes)
+    if do_normal
+        X_train, X_test = normalize(X_train, X_test; kwargs...)
     end
 
-    return X_train, y_train, X_test, y_test
+    classes = unique(y)
+
+    if do_onehot
+        y_train = onehot(y_train, classes)
+        y_test = onehot(y_test, classes)
+    end
+
+    return X_train, y_train, X_test, y_test, classes
 end
 
-T = Float32
-X_train, y_train, X_test, y_test = load_data(MLDatasets.MNIST; T=T, onehot=true)
+# SimpleNet
+
+struct SimpleNet{T<:Real}
+    W1::Matrix{T}
+    b1::Vector{T}
+    W2::Matrix{T}
+    b2::Vector{T}
+end
+
+SimpleNet(n1, n2, n3) = SimpleNet(randn(n2, n1), randn(n2), randn(n3, n2), randn(n3))
+
+function (m::SimpleNet)(x)
+    z1 = m.W1*x .+ m.b1
+    a1 = max.(z1, 0)
+    z2 = m.W2*a1 .+ m.b2
+    return exp.(z2) ./ sum(exp.(z2), dims=1)
+end
+
+function grad(m::SimpleNet, x::AbstractVector, y; ϵ=1e-10)
+    z1 = m.W1*x .+ m.b1
+    a1 = max.(z1, 0)
+    z2 = m.W2*a1 .+ m.b2
+    a2 = exp.(z2) ./ sum(exp.(z2), dims=1)
+    l = -sum(y .* log.(a2 .+ ϵ))
+
+    e_z2 = exp.(z2)
+    l_part = (- e_z2 * e_z2' + Diagonal(e_z2 .* sum(e_z2))) / sum(e_z2)^2
+
+    l_a2 = - y ./ (a2 .+ ϵ)
+    l_z2 = l_part * l_a2
+    l_a1 = m.W2' * l_z2
+    l_z1 = l_a1 .* (a1 .> 0)
+    l_x = m.W1' * l_z1
+
+    l_W2 = l_z2 * a1'
+    l_b2 = l_z2
+    l_W1 = l_z1 * x'
+    l_b1 = l_z1
+
+    return l, l_W1, l_b1, l_W2, l_b2
+end
+
+mean_tuple(d::AbstractArray{<:Tuple}) = Tuple([mean([d[k][i] for k in 1:length(d)]) for i in 1:length(d[1])])
+
+predict(X) = m(X)
+accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
 ```
 
-# Exercises
+```@setup nn
+iris = dataset("datasets", "iris")
 
-The first two exercises handle training neural networks on GPUs instead of CPUs. Even though this is extremely important for reducing the training time, we postponed it to the exercises because some course participants may not have a compatible GPU for training. If anyone is not able to do these two exercises, we apologize.
+X = Matrix(iris[:, 1:4])
+y = iris.Species
+```
+
+# [Exercises](@id l9-exercises)
+
+!!! homework "Homework: Optimal setting"
+    Perform an analysis of hyperparameters of the neural network from this lecture. Examples may include network architecture, learning rate (stepsize), activation functions or normalization.
+
+    Write a short summary (in LaTeX) of your suggestions.
 
 ```@raw html
 <div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 1: Operations on GPUs</header>
+<header class="admonition-header">Exercise 1: Keyword arguments</header>
 <div class="admonition-body">
 ```
 
-While most computer operations are performed on CPUs (central processing unit), neural networks are trained on other hardware such as GPUs (graphics processing unit) or specialized hardware such as TPUs.
+Keyword arguments (often denoted as `kwargs` but any name may be used) specify additional arguments which do not need to be used when the function is called. We recall the `prepare_data` function written earlier.
 
-To use GPUs, include packages Flux and CUDA. Then generate a random matrix ``A\in \mathbb{R}^{100\times 100}`` and a random vector ``b\in \mathbb{R}^{100}``. They will be stored in the memory (RAM), and the computation will be performed on CPU. To move them to the GPU memory and allow computations on GPU, use ```gpu(A)``` or the more commonly used ```A |> gpu```.
+```@example nn
+function prepare_data(X, y; do_normal=true, do_onehot=true, kwargs...)
+    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
 
-Investigate how long it takes to perform multiplication ``Ab`` if both objects are on CPU, GPU or if they are saved differently. Check that both multiplications resulted in the same vector.
+    if do_normal
+        X_train, X_test = normalize(X_train, X_test; kwargs...)
+    end
+
+    classes = unique(y)
+
+    if do_onehot
+        y_train = onehot(y_train, classes)
+        y_test = onehot(y_test, classes)
+    end
+
+    return X_train, y_train, X_test, y_test, classes
+end
+nothing # hide
+```
+
+All keyword arguments `kwargs` will be passed to the `split` and `normalize` functions. The benefit is that we do not need to specify the keyword arguments for `split` in `prepare_data`.
+
+Recall that `split` takes `ratio_split` as an optional argument. Write a one-line function ```ratio_train``` which gets the training and testing sets and computes the ratio of samples in the training set. Then call the `prepare_data` with:
+- no normalization and the default split ratio;
+- normalization and the split ratio of 50/50;
 
 ```@raw html
 </div></div>
@@ -68,221 +153,49 @@ Investigate how long it takes to perform multiplication ``Ab`` if both objects a
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The beginning is simple
+The ```ratio_train``` function reads:
 
-```julia
-using Flux
-using CUDA
-
-A = randn(100,100)
-b = randn(100)
-A_g = A |> gpu
-b_g = b |> gpu
+```@example nn
+ratio_train(X_train, X_test) = size(X_train, 2) / (size(X_train,2) + size(X_test,2))
+nothing # hide
 ```
 
-To test the time, we measure the time for multiplication
+The first case uses the default ratio; hence we do not pass `ratio_split`. Since we do not want to use normalization, we need to pass `do_normal=false`.
 
-```julia
-julia> @time A*b;
-0.069785 seconds (294.76 k allocations: 15.585 MiB, 14.75% gc time)
-
-julia> @time A_g*b_g;
-0.806913 seconds (419.70 k allocations: 22.046 MiB)
-
-julia> @time A_g*b;
-0.709140 seconds (720.01 k allocations: 34.860 MiB, 1.53% gc time)
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X', y; dims=2, do_normal=false)
+println("Ratio train/test = ", ratio_train(X_train, X_test))
 ```
 
-We see that all three times are different. Can we infer anything from it? No! The problem is that during the first call to a function, some compilation usually takes place. We should always compare only the second time.
+The second case behaves the other way round. We use the default normalization; thus, we do not need to specify `do_normal=true` (even though it may be a good idea). We need to pass `ratio_train=0.5`.
 
-```julia
-julia> @time A*b;
-0.000083 seconds (1 allocation: 896 bytes)
-
-julia> @time A_g*b_g;
-0.000154 seconds (11 allocations: 272 bytes)
-
-julia> @time A_g*b;
-0.475280 seconds (10.20 k allocations: 957.125 KiB)
+```@example nn
+X_train, y_train, X_test, y_test, classes = prepare_data(X', y; dims=2, ratio_train=0.5)
+println("Ratio train/test = ", ratio_train(X_train, X_test))
 ```
-
-We conclude that while the computation on CPU and GPU takes approximately the same time, it takes much longer when using the mixed types.
-
-To compare the results, the first idea would be to run
-
-```julia
-norm(A*b - A_g*b_g)
-```
-
-which would result in an error. We cannot use any operations on arrays stored both on CPU and GPU. The correct way is to move the GPU array to CPU and only then to compute the norm
-
-```julia
-julia> using LinearAlgebra
-
-julia> norm(A*b - cpu(A_g*b_g))
-1.2004562847861718e-5
-```
-The norm is surprisingly large. Checking the types
-
-```julia
-julia> (typeof(A), typeof(A_g))
-(Matrix{Float64}, CUDA.CuMatrix{Float32})
-```
-
-we realize that one of the arrays is stored in ```Float64``` while the second one in ```Float32```. Due to the different number of saved digits, the multiplication results in this error.
 
 ```@raw html
 </p></details>
 ```
 
-The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The following exercise shows the time difference when applied to a larger problem.
+The goal of the following exercise is to show the prediction function graphically. For this reason, we will consider only two features. All the following exercises use the data with the fixed seed for reproducibility.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
-
-Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU.
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-We load the data, model and convert everything to GPU
-
-```julia
-using CUDA
-
-m = Chain(
-    Conv((2,2), 1=>16, relu),
-    MaxPool((2,2)),
-    Conv((2,2), 16=>8, relu),
-    MaxPool((2,2)),
-    flatten,
-    Dense(288, size(y_train,1)),
-    softmax,
-)
-
-file_name = joinpath("data", "mnist.bson")
-train_or_load!(file_name, m)
-
-m_g = m |> gpu
-X_test_g = X_test |> gpu
-```
-
-Now we can measure the evaluation time. Remember that we need to compile all the functions by evaluating at least one sample before doing so.
-
-```julia
-m(X_test[:,:,:,1:1])
-m_g(X_test_g[:,:,:,1:1])
-```
-
-```julia
-julia> @time m(X_test);
-1.190033 seconds (40.24 k allocations: 1.069 GiB, 21.73% gc time)
-
-julia> @time m_g(X_test_g);
-0.071805 seconds (789 allocations: 27.641 KiB)
-```
-Using GPU speeded the computation by more than ten times.
-
-```@raw html
-</p></details>
-```
-
-!!! info "Computation on GPU:"
-    Using GPUs speeds up the training of neural networks in orders of magnitude. However, one needs to be aware of some pitfalls.
-
-    Make sure that all computation is performed either on CPU or GPU. Do not mix them. When computing on GPU, make sure that all computations are fast. One important example is
-
-    ```julia
-    accuracy(x, y) = mean(onecold(cpu(m(x))) .== onecold(cpu(y)))
-    ```
-
-    Because ```onecold``` accesses individual elements of an array, it is extremely slow on GPU. For this reason, we need to move the arrays on CPU first.
-
-    Another thing to remember is to always convert all objects to CPU before saving them.
-
-Exercises which do not require GPUs start here.
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 3:</header>
-<div class="admonition-body">
-```
-
-Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``. This matrix is called the [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
-
-Convert the confusion matrix into a dataframe and add labels.
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-First, we load the data as many times before
-
-```@example gpuu
-m = Chain(
-    Conv((2,2), 1=>16, relu),
-    MaxPool((2,2)),
-    Conv((2,2), 16=>8, relu),
-    MaxPool((2,2)),
-    flatten,
-    Dense(288, size(y_train,1)),
-    softmax,
-)
-
-file_name = joinpath("data", "mnist.bson")
-train_or_load!(file_name, m)
-```
-
-When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts.
-
-```@example gpuu
-y_hat = onecold(m(X_test))
-y = onecold(y_test)
-
-errors = zeros(Int, 10, 10)
-for i in findall(y_hat .!= y)
-    errors[y[i], y_hat[i]] += 1
-end
-```
-
-To create the dataframe, we use ```df = DataFrame(errors)```. It prints correctly integers and not strings. We change labels x1 to miss0, ... Similarly, we add the labels as the first column.
-
-```@example gpuu
-using DataFrames
-
-df = DataFrame(errors, :auto)
-
-rename!(df, [Symbol("miss$(i)") for i in 0:9])
-insertcols!(df, 1, :label => string.(0:9))
+```@example nn
+Random.seed!(666)
+X_train, y_train, X_test, y_test, classes = prepare_data(X[:,3:4]', y; dims = 2)
 
 nothing # hide
 ```
 
 ```@raw html
-</p></details>
-```
-
-```@example gpuu
-df # hide
-```
-
-Surprisingly, the largest number of misclassifications is 9 into 7. One would expect 8 to 0, 5 to 6 or 8 to 9. We investigate this in the next exercise.
-
-```@raw html
 <div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 4:</header>
+<header class="admonition-header">Exercise 2: Showing the contours</header>
 <div class="admonition-body">
 ```
 
-Plot all images which are ``9`` but were classified as ``7``.
+Use the same training procedure for 1000 iterations to train the classifier with the new data. Then plot a graph depicting which classes are predicted at subregions of ``[-2,2]\times [-2,2]``. Moreover, depict the testing data in this graph.
+
+**Hint**: use the `heatmap` function.
 
 ```@raw html
 </div></div>
@@ -290,118 +203,243 @@ Plot all images which are ``9`` but were classified as ``7``.
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-To plot all these misclassified images, we find their indices and use the function `imageplot`. Since `y` are stored in the 1:10 format, we need to specify `classes`.
+The procedure for training the network is the same as during the lecture.
 
-```julia
-using ImageInspector
+```@example nn
+m = SimpleNet(size(X_train,1), 5, size(y_train,1))
 
-classes = 0:9
+α = 1e-1
+max_iter = 1000
+for iter in 1:max_iter
+    grad_all = [grad(m, X_train[:,k], y_train[:,k]) for k in 1:size(X_train,2)]
+    grad_mean = mean_tuple(grad_all)
 
-targets = onecold(y_test, classes)
-predicts = onecold(m(X_test), classes)
+    m.W1 .-= α*grad_mean[2]
+    m.b1 .-= α*grad_mean[3]
+    m.W2 .-= α*grad_mean[4]
+    m.b2 .-= α*grad_mean[5] 
+end
 
-imageplot(1 .- X_test, findall((targets .== 9) .& (predicts .== 7)); nrows=3)
-savefig("miss.svg") # hide
+nothing # hide
 ```
 
-```@raw html
-</p></details>
-```
+The prediction function is `m([x;y])`. Since this creates a one-hot representation, we need to convert it into a one-cold representation. However, it is not possible to use `onecold(m([x; y]), classes)`, which would result in one of the three string labels. We need to use `onecold(m([x; y]), 1:3)` to convert it to a real number. Then we call the `heatmap` function. Since we will later use plotting in a loop, we assign the graph to `plt`.
 
-![](miss.svg)
+```@example nn
+colours = [:blue, :red, :green]
 
-We see that some of the nines could be recognized as a seven even by humans.
-
-The following exercise depicts how images propagate through the network.
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 5: Visualization of neural networks 1</header>
-<div class="admonition-body">
-```
-
-We know that the output of the convolutional layers has the same number of dimensions as the inputs. If the activation function is the sigmoid, the output values stay within ``[0,1]`` and can also be interpreted as images. Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson``` (you can check that the model accuracy is 0.9831).
-
-For all digits, select the first five samples from the training set of this digit. Then create ``5\times 5`` graph (there will be 10 of them for each digit), where each column corresponds to one sample. The rows should be:
-- The original image.
-- The first channel of the layer after the first pooling layer.
-- The last channel of the layer after the first pooling layer.
-- The first channel of the layer after the second pooling layer.
-- The last channel of the layer after the second pooling layer.
-Discuss the images.
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-To create the network and to load the data, we use
-
-```@example gpuu
-m = Chain(
-    Conv((2,2), 1=>16, sigmoid),
-    MaxPool((2,2)),
-    Conv((2,2), 16=>8, sigmoid),
-    MaxPool((2,2)),
-    flatten,
-    Dense(288, size(y_train,1)),
-    softmax,
+xs = -2:0.01:2
+plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
+    color = colours,
+    opacity = 0.2,
+    axis = false,
+    ticks = false,
+    cbar = false,
+    legend = :topleft,
 )
 
-file_name = joinpath("data", "mnist_sigmoid.bson")
-train_or_load!(file_name, m)
+nothing # hide
 ```
 
-Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Then we need to access to desired channels and plot then via the `ImageInspector` package.
+To add the predictions of the testing set, we find the indices `inds` of samples from each class. Then we add them via the `scatter!` plot. We keep `colours` from the previous part to have the same colours. Since we plotted in a loop, we need to `display` the plot.
 
-```julia
-using ImageInspector
-
-classes = 0:9
-plts = []
-for i in classes
-    jj = 1:5
-    ii = findall(onecold(y_train, classes) .== i)[jj]
-
-    z1 = X_train[:,:,:,ii]
-    z2 = m[1:2](X_train[:,:,:,ii])
-    z3 = m[1:4](X_train[:,:,:,ii])
-
-    kwargs = (nrows = 1, size = (600, 140))
-    plot(
-        imageplot(1 .- z1[:, :, 1, :], jj; kwargs...),
-        imageplot(1 .- z2[:, :, 1, :], jj; kwargs...),
-        imageplot(1 .- z2[:, :, end, :], jj; kwargs...),
-        imageplot(1 .- z3[:, :, 1, :], jj; kwargs...),
-        imageplot(1 .- z3[:, :, end, :], jj; kwargs...);
-        layout = (5,1),
-        size=(700,800)
+```@example nn
+for (i, class) in enumerate(classes)
+    inds = findall(onecold(y_test, classes) .== class)
+    scatter!(plt, X_test[1, inds], X_test[2, inds];
+        label = class,
+        marker=(8, 0.8, colours[i]),
     )
-    savefig("Layers_$(i).svg")
+end
+display(plt)
+
+savefig("Separation.svg") # hide
+```
+
+```@raw html
+</p></details>
+```
+
+![](Separation.svg)
+
+```@raw html
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 3: Overfitting</header>
+<div class="admonition-body">
+```
+
+This exercise shows the well-known effect of overfitting. Since the model sees only the training set, it may fit it too perfectly (overfit it) and generalize poorly to the testing set of unseen examples.
+
+Consider the same data as in the previous exercise but train a network with 25 hidden neurons for 25000 iterations. Plot the loss function values on the training and testing sets. Then plot the same prediction visualization as in the previous exercise for both testing and training sets. Describe what went wrong.
+
+```@raw html
+</div></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+We first specify the loss function.
+
+```@example nn
+loss(X, y; ϵ = 1e-10) = mean(-sum(y .* log.(m(X) .+ ϵ); dims = 1))
+nothing # hide
+```
+
+Then we train the network as before. The only change is that we need to save the training and testing objective.
+
+```@example nn
+m = SimpleNet(size(X_train,1), 25, size(y_train,1))
+
+α = 1e-1
+max_iter = 25000
+L_train = zeros(max_iter)
+L_test = zeros(max_iter)
+for iter in 1:max_iter
+    grad_all = [grad(m, X_train[:,k], y_train[:,k]) for k in 1:size(X_train,2)]
+    grad_mean = mean_tuple(grad_all)
+    
+    m.W1 .-= α*grad_mean[2]
+    m.b1 .-= α*grad_mean[3]
+    m.W2 .-= α*grad_mean[4]
+    m.b2 .-= α*grad_mean[5] 
+
+    L_train[iter] = loss(X_train, y_train)
+    L_test[iter] = loss(X_test, y_test)
 end
 ```
 
-We plot and comment on three selected digits below.
+Then we plot it. We ignore the first nine iterations, where the loss is large there. We see the classical procedure of overfitting. While the loss function on the training set decreases steadily, on the testing set, it decreases first, and after approximately 100 iterations, it starts increasing. This behaviour may be prevented by several techniques, which we discuss in the following lecture.
+
+```@example nn
+plot(L_train[10:end], xlabel="Iteration", label="Training loss", legend=:topleft)
+plot!(L_test[10:end], label="Testing loss")
+
+savefig("Train_test.svg") # hide
+```
+
+![](Train_test.svg)
+
+We create the contour plot in the same way as in the previous exercise.
+
+```@example nn
+plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
+    color = colours,
+    opacity = 0.2,
+    axis = false,
+    ticks = false,
+    cbar = false,
+    legend = :topleft,
+)
+
+for (i, class) in enumerate(classes)
+    inds = findall(onecold(y_test, classes) .== class)
+    scatter!(plt, X_test[1, inds], X_test[2, inds];
+        label = class,
+        marker=(8, 0.8, colours[i]),
+    )
+end
+display(plt)
+
+savefig("Separation2.svg") # hide
+```
+
+![](Separation2.svg)
+
+```@example nn
+plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
+    color = colours,
+    opacity = 0.2,
+    axis = false,
+    ticks = false,
+    cbar = false,
+    legend = :topleft,
+)
+
+for (i, class) in enumerate(classes)
+    inds = findall(onecold(y_train, classes) .== class)
+    scatter!(plt, X_train[1, inds], X_train[2, inds];
+        label = class,
+        marker=(8, 0.8, colours[i]),
+    )
+end
+display(plt)
+
+savefig("Separation3.svg") # hide
+```
+
+![](Separation3.svg)
+
+The separation on the testing set is quite good, but it could be better for the two bottommost green circles (iris virginica). The model predicted (in the background) the red colour (iris versicolor) there. This is wrong. The reason is clear from the picture depicting the training set. The classifier tried to perfectly fit the boundary between the green and red points, making an outward-pointing tip. This is precisely overfitting and the reason for the misclassification on the testing set.
 
 ```@raw html
 </p></details>
 ```
 
-Digit 0
+![](Separation2.svg)
+![](Separation3.svg)
 
-![](Layers_0.svg)
+```@raw html
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 4: Generalization</header>
+<div class="admonition-body">
+```
 
-Digit 1
+The contour plots from Exercises 2 and 3 are strikingly different, especially in the top-left and bottom-right corners. Why is that?
 
-![](Layers_1.svg)
+```@raw html
+</div></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
 
-Digit 9
+Since the dataset does not contain any data in the top-left or bottom-right corners, it does not know what to predict. From its perspective, both separations are very good.
 
-![](Layers_9.svg)
+!!! info "Generalization:"
+    If a classifier does not have any data in some region, it may predict anything there, including predictions with no sense.
 
-We may observe several things:
-- The functions inside the neural network do the same operations on all samples. The second row is always a black digit on a grey background.
-- The size of the image decreases when propagated deeper into the network. The second and third rows (after the second layer) contain more pixels than the fourth and fifth rows (after the fourth layer).
-- The channels of the same layer produce different outputs. While the second row (first channel after the second layer) depicts black digits on a grey background, the third row (last channel after the second layer) depicts white digits on black background.
-- Each digit produce different images. This is important for separation and correct predictions.
+```@raw html
+</p></details>
+```
+
+```@raw html
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 5: Universal approximation of neural networks (theory)</header>
+<div class="admonition-body">
+```
+
+Proof the theorem about universal approximation of neural networks.
+
+```@raw html
+</div></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
+
+```math
+d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
+```
+
+then ``h`` has the form
+
+```math
+h(x) = y_i + d_i(x-x_i) \qquad\text{ for }x\in [x_i,x_{i+1}].
+```
+
+It is not difficult to show that
+
+```math
+h(x) = y_1 + \sum_{i=1}^n(d_i-d_{i-1})\operatorname{max}\{x-x_i,0\},
+```
+
+where we defined ``d_0=0``.
+
+Then ``h`` can be represented as the following network with two layers:
+- Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
+- Dense layer with ``1`` output neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is ``y_1``.
+This finishes the proof.
+
+```@raw html
+</p></details>
+```

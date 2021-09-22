@@ -1,233 +1,94 @@
-# Theory of neural networks
+# Introduction to regression and classification
 
-Neural networks appeared for the first time decades ago but were almost forgotten after a few years. Their resurgence in the last one or two decades is mainly due to available computational power. Their impressive list of applications include:
-- One of the first applications was reading postal codes to automatize the sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks were used.
-- A similar type of neural (convolutional) networks is used in autonomous vehicles to provide information about cars, pedestrians or traffic signs. These networks may also use bounding boxes to specify the position of the desired object.
-- While the previous techniques used the 2D structure of the input (image), recurrent neural networks are used for series-type data (text, sound). The major application is automatic translators.
-- Another application includes generating new content. While practical applications such as artistic composition exist, these networks are often used to generate fake content (news, images).
-
-
-## Neural networks
-
-The first three bullets from the previous paragraph are all used for classification. The idea is the same as for linear networks. For an input ``x`` with a label ``y``, the classifier minimizes the loss between the prediction ``\operatorname{predict}(w;x)`` and the label ``y``. The ``\operatorname{predict}`` function has two parameters: ``w`` is to be trained (weights) while ``x`` is input (data). Having ``n`` samples (data points), the minimization problem reads
+Regression and classification are a part of machine learning which predicts certain variables based on labelled data. Both regression and classification operate on several premises:
+- We differentiate between datapoints ``x`` and labels ``y``. While data points are relatively simple to obtain, labels ``y`` are relatively hard to obtain.
+- We consider some parameterized function ``\operatorname{predict}(w;x)`` and try to find an unknown variable ``w`` to correctly predict the labels from samples (data points)
 
 ```math
-\operatorname{minimize}_w\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)).
-```
+\operatorname{predict}(w;x) \approx y.
+``` 
 
-The previous lecture used the linear classifier ``\operatorname{predict}(w;x)=w^\top x`` and the cross-entropy loss for classification and the mean squared error for regression.
+- We have a labelled datasets with ``n`` samples ``x_1,\dots,x_n`` and labels ``y_1,\dots,y_n``.
+- We use the labelled dataset to train the weights ``w``.
+- When an unlabelled sample arrives, we use the prediction function to predict its label.
 
-Neural networks use more complex function than linear for better prediction power. At the same time, this function must satisfy: 
-- It has good approximative quality.
-- It does not contain many parameters to learn (train).
-- The computation of derivatives (training) is simple.
+The [MNIST](https://en.wikipedia.org/wiki/MNIST_database) dataset contains ``n=50000`` images of grayscale digits. Each image ``x_i`` from the dataset has the size ``28\times 28`` and was manually labelled by ``y_i\in\{0,\dots,9\}``. When the weights ``w`` of a prediction function ``\operatorname{predict}(w;x)`` are trained on this dataset, the prediction function can predict which digit appears on images it has- never seen before. This is an example where the images ``x`` are relatively simple to obtain, but the labels ``y`` are hard to obtain due to the need to do it manually.
 
-## Layers
+## Regression and classification
 
-The previous bullets are elegantly achieved by representing the neural network via layers. The input ``x`` enters the first layers, the output of the first layer goes into the second layer and so on. Mathematically speaking, a network with ``M`` layers has the structure
+The difference between regression and classification is simple:
+- Regression predicts a continuous variable ``y`` (such as height based on weight).
+- Classification predict a variable ``y`` with a finite number of states (such as cat/dog/none from images).
 
-```math
-\hat y = \operatorname{predict}(w;x) = (f_M \circ \dots \circ f_1)(x),
-```
-
-where ``f_1,\dots,f_M`` are individual layers. Most of these layers depend on the weights ``w``, but we omit this dependence for simplicity. On the other hand, only the first layer ``f_1`` depends directly on the input ``x``. Since two layers that are not next to each other (such as the first and the third layer) are not directly connected, this allows for the simple propagation of function values and derivatives.
-
-![](nn.png)
-
-#### Dense layer
-
-The dense layer is the simplest layer which has the form
+The body-mass index is used to measure fitness. It has a simple formula
 
 ```math
-f_m(a) = l_m(W_ma + b_m),
+\operatorname{BMI} = \frac{w}{h^2},
 ```
 
-where ``W_m`` is a matrix of appropriate dimensions, ``b_m`` is the bias (shift) and ``l_m`` is an activation function. The weights of the neural network, which need to be trained, would be ``w=(W_m,b_m)_m`` in this case.
+where ``w`` is the weight and ``h`` is the height. If we do not know the formula, we may estimate it from data. We denote ``x=(w,h)`` the samples and ``y=\operatorname{BMI}`` the labels. Then *regression* considers the following data.
 
-The activation function is usually written as ``l_m:\mathbb{R}\to\mathbb{R}`` and its operation on the vector ``W_mz + b_m`` is understood componentwise. Examples of activation functions include:
+| ``x^1`` | ``x^2`` | ``y`` |
+| :--     | :--     | :--   |
+| 94      | 1.8     | 29.0  |
+| 50      | 1.59    | 19.8  |
+| 70      | 1.7     | 24.2  |
+| 110     | 1.7     | 38.1  |
+
+The upper index denotes components while the lower index denotes samples. Sometimes it is not necessary to determine the exact BMI value but only whether a person is healthy, which is defined as any BMI value in the interval ``[18.5, 25]``. When we assign label ``0`` to underweight people, label ``1`` to normal people and label ``2`` to overweight people, then *classification* considers the following data.
+
+| ``x^1`` | ``x^2`` | ``y`` |
+| :--     | :--     | :--   |
+| 94      | 1.8     | 2     |
+| 50      | 1.59    | 1     |
+| 70      | 1.7     | 1     |
+| 110     | 1.7     | 2     |
+
+## Mathematical formulation
+
+Recall that the samples are denoted ``x_i`` while the labels ``y_i``. Having ``n`` datapoints in the dataset, the training procedure finds weights ``w`` by solving
 
 ```math
-\begin{aligned}
-&\text{Sigmoid:}&l(z) &= \frac{1}{1+e^{-z}} ,\\
-&\text{ReLU:}&l(z) &= \operatorname{max}\{0,z\}, \\
-&\text{Softplus:}&l(z) &= \log(1+e^z), \\
-&\text{Swish:}&l(z) &= \frac{z}{1+e^{-z}} ,\\
-\end{aligned}
+\operatorname{minimize}_w\qquad \frac 1n \sum_{i=1}^n\operatorname{loss}\big(y_i, \operatorname{predict}(w;x_i)\big).
 ```
 
-```@setup nn
-using Plots
-
-sigmoid(x) = 1 / (1 + exp(-x))
-ReLU(x) = max(0, x)
-softplus(x) = log(1 + exp(x))
-swish(x) = x / (1 + exp(-x))
-
-x = -4:0.01:4
-
-plot(
-    plot(x, sigmoid; title = "Sigmoid"),
-    plot(x, ReLU; title = "ReLU"),
-    plot(x, softplus; title = "Softplus"),
-    plot(x, swish; title = "Swish");
-    linewidth = 2,
-    ylims = (-1, 4),
-    legend = false,
-)
-
-savefig("Activation.svg")
-```
-
-![](Activation.svg)
-
-
-#### Softmax layer
-
-The cross-entropy loss function (see below) requires that its input is a probability distribution. To achieve this, the softmax layer is applied directly before the loss function. Its formulation is
+This minimizes the average discrepancy between labels and predictions. We need to specify the prediction function ``\operatorname{predict}`` and the loss function ``\operatorname{loss}``. This lecture considers linear predictions
 
 ```math
-\operatorname{softmax}(a_1,\dots,a_K) = \frac{1}{\sum_{k=1}^K e^{a_k}}(e^{a_1}, \dots, e^{a_K}).
+\operatorname{predict}(w;x) = w^\top x,
 ```
 
-The exponential ensures that all outputs are positive. The normalization ensures that the sum of the outputs is one. Therefore, it is a probability distribution. When a dense layer precedes the softmax layer, it is used without any activation function (as, for example, ReLU would result in many probabilities being the same).
+while non-linear predictions are considered in the following lecture.
 
-#### One-hot and one-cold representation
+!!! info "Linear classifiers:"
+    We realize that
 
-One-hot and one-cold representations are directly connected with the softmax layer. The one-hot representation is "the normal one", while the one-cold representation is its probability distribution. For example, for the iris dataset, we encode virginica as ``(1,0,0)``, versicolor as ``(0,1,0)`` and setosa as ``(0,0,1)``.
-
-#### Other layers
-
-There are many other layers (convolutional, recurrent, pooling), which we will go through in the next lesson.
-
-## Loss functions
-
-The most commonly used loss functions are:
-- (Mean) squared error
-  ```math
-  \operatorname{loss}(y,\hat y) = (y-\hat y)^2.
-  ```
-- Cross-entropy
-  ```math
-  \operatorname{loss}(y,\hat y) = - \sum_{k=1}^K y_k\log \hat y_k.
-  ```
-- Binary cross-entropy
-  ```math
-  \operatorname{loss}(y,\hat y) = - y\log \hat y - (1-y)\log(1- \hat y).
-  ```
-
-Mean square error is usually used for regression problems while both cross-entropies for classification problem. The former for multi-class (``K>2``) and the latter for binary (``K=2``) problems.
-
-## Making predictions
-
-For classification with ``K`` classes, the classifier predicts a probability distribution of ``K`` classes. The hard prediction is the label with the highest probability. Using the above terminology, the classifier output has the one-hot form, while the actual prediction has the one-cold form.
-
-The most common metric for evaluating classifiers is the accuracy defined by
-
-```math
-\operatorname{accuracy} = \frac 1n\sum_{i=1}^n I(y_i = \hat y_i),
-```
-
-where ``I`` is the characteristic (0/1) function which counts how often the argument is satisfied. With abuse of notation, we use both the label ``y_i`` and the prediction ``\hat y_i`` in the one-cold representation. Therefore, accuracy measures the fraction of samples with correct predictions.
-
-
-## Overfitting and regularization
-
-While large neural networks may fit arbitrarily precisely, this is usually not preferred as overfitting may occur. This is especially true for large networks with more parameters than samples.
-
-```@setup overfit
-using Plots
-using Random
-
-Random.seed!(666)
-
-n = 10
-x = rand(n)
-y = x.^2 .+ 0.01*randn(n)
-
-scatter(x,y)
-
-X = zeros(n, n)
-for i in 1:n
-    X[:,i] = x.^(i-1)
-end
-
-w = X \ y
-
-f(x) = sum([w[i]*x^(i-1) for i in 1:n])
-
-x_plot = 0:0.001:1
-
-scatter(x, y, label="Data", ylim=(-0.01,1.01), legend=:topleft)
-plot!(x_plot, f.(x_plot), label="Prediction")
-plot!(x_plot, x_plot.^2, label="True dependence")
-
-savefig("Overfit.svg")
-```
-
-![](Overfit.svg)
-
-This figure shows data with quadratic dependence and a small added error. While the complex classifier (a polynomial of order 9) fits the data perfectly, the correct classifier (a polynomial of order 2) fits the data slightly worse, but it is much better at predicting unseen samples. The more complicated classifier overfits the data. 
-
-#### Preventing overfitting
-
-Multiple techniques were developed to prevent overfitting.
-- *Early stopping* stops the algorithm before it finds an optimum. This goes against the spirit of optimization as the loss function is actually not optimized.
-- *Regularization* adds a term to the objective funtion, usually the squared ``l_2`` norm of weights
-  ```math
-  \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)) + \frac{\lambda}{2}\|w\|^2.
-  ```
-  The more complicated classifier from the figure above contains (among others) the term ``20222x^9``. Since the coefficient is huge, its ``l_2`` norm would be huge as well. Regularization prevents such classifiers. Another possibility is the (non-differentiable) ``l_1`` norm, which induces sparsity (many weights should be zero).
-- *Simple networks* cannot approximate overly complicated functions, and they can also prevent overfitting.
-
-#### Train-test split
-
-How should the classifier be evaluated? The figure above suggests that it is a bad idea to evaluate it on the same data where it was trained. The dataset is usually split into training and testing sets. The classifier is trained on the training and evaluated on the testing set. The classifier is not allowed to see the testing set during training. When the classifier contains many hyperparameters, which need to be tuned, the dataset is split into training, validation and testing sets. Then multiple classifiers are trained on the training set, the best values of hyperparameters are selected on the validation set, and the classifier performance is evaluated on the testing set.
-
-## Additional topics
-
-The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
-
-!!! bonus "BONUS: Universal approximation of neural networks"
-    Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
-    - Dense layer with the ReLU activation function.
-    - Dense layer with the identity activation function.
-
-A prerequisite for training neural networks is the efficient computation of derivatives. We derive this computation in the next box. Even though it looks complicated, it is just a simple application of the chain rule. It consists of forward and backward passes. The forward pass starts with the input, computes the values at each neuron and finishes with evaluating the loss function. The backward pass starts with the loss function, computes the partial derivatives in a backward way and chains them together to obtain the composite derivative.
-
-This computation is highly efficient because the forward pass (computing function value) and the backward pass (computing derivatives) have the same complexity. This is in sharp contrast with the finite difference method, where the computation of derivatives is much more expensive.
-
-!!! bonus "BONUS: Computation of gradients"
-    For simplicity, we denote ``f = \operatorname{predict}`` and consider
     ```math
-    L(w) := \sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).
+    w^\top x + b = (w, b)^\top \begin{pmatrix}x \\ 1\end{pmatrix}.
     ```
-    If the classifier has only a single output (as in regression or binary classification), then the chain rule yields
-    ```math
-    \nabla L(w) = \sum_{i=1}^n \operatorname{loss}'(y_i, f(w;x_i))\nabla_w f(w;x_i).
-    ```
-    The most difficult term to compute is ``\nabla_w f(w;x_i)``. All neural networks presented in this course have a layered structure. For an input ``x``, the evalutation of ``f(w;x)`` is initialized by ``a_0=x`` and then the iterative update
-    ```math
-    \begin{aligned}
-    z_m &= W_ma_{m-1} + b_m, \\
-    a_m &= l_m(z_m)
-    \end{aligned}
-    ```
-    for ``m=1,\dots,M`` is performed. The first equation ``z_m = W_ma_{m-1} + b_m`` performs a linear mapping, while ``a_m = l_m(z_m)`` applies the activation function ``l_m`` to each component of ``z_m``. The parameters of the network are ``(W_m,b_m)_m``. Since ``a_M=f(w;x)``, the chain rule implies
-    ```math
-    \begin{aligned}
-    \nabla_{W_m} f &= \nabla_{W_m}a_M = \nabla_{z_M}a_M\nabla_{z_{M-1}}a_M\nabla_{a_{M-1}}z_{M-1}\dots \nabla_{z_m}a_m\nabla_{W_m}z_m, \\
-    \nabla_{b_m} f &= \nabla_{b_m}a_M = \nabla_{z_M}a_M\nabla_{z_{M-1}}a_M\nabla_{a_{M-1}}z_{M-1}\dots \nabla_{z_m}a_m\nabla_{b_m}z_m.
-    \end{aligned}
-    ```
-    Care needs to be taken with this expression; for example ``\nabla_{W_m}z_m`` differentiates a vector with respect to a matrix. The computation of ``\nabla_{W_m} f`` and ``\nabla_{b_m} f`` is almost the same and only the last term differs.
 
-    Now we need to compute the individual derivatives
-    ```math
-    \begin{aligned}
-    \nabla_{a_{m-1}} z_m &= W_m, \\
-    \nabla_{z_m} a_m &= \operatorname{diag}(l_m'(z_m)).
-    \end{aligned}
-    ```
-    The derivative in ``l_m'(z_m)`` is understood componentwise, and ``\operatorname{diag}`` makes a diagonal matrix from the vector.
+    That means that if we add ``1`` to each sample ``x_i``, it is sufficient to consider the classifier in the form ``w^\top x`` without the bias (shift, intercept) ``b``. This allows for simpler implementation.
 
-    Combining all these relations allow computing the derivative of the whole network.
+!!! bonus "BONUS: Data transformation"
+    Linear models have many advantages, such as simplicity or guaranteed convergence for optimization methods. Sometimes it is possible to transform non-linear dependences into linear ones. For example, the body-mass index
+
+    ```math
+    \operatorname{BMI} = \frac{w}{h^2}
+    ```
+
+    is equivalent to the linear dependence
+
+    ```math
+    \log \operatorname{BMI} = \log w - 2\log h
+    ```
+
+    in logarithmic variables. We show the same table as for regression but with logarithmic variable values.
+
+    | ``\log x^1`` | ``\log x^2`` | ``\log y`` |
+    | :--          | :--          | :--        |
+    | 4.54         | 0.59         | 3.37       |
+    | 3.91         | 0.46         | 2.99       |
+    | 4.25         | 0.53         | 3.19       |
+    | 4.25         | 0.53         | 3.64       |
+
+    It is not difficult to see the simple linear relation with coefficients ``1`` and ``-2``, namely ``\log y = \log x^1 - 2\log x^2.``

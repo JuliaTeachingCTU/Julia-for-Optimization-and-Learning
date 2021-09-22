@@ -1,128 +1,233 @@
 # Theory of neural networks
 
-In the previous lecture, we presented an introduction to neural networks. We also showed how to train neural networks using gradient descent. This lecture is going to show more layers and a more sophisticated way of training.
+Neural networks appeared for the first time decades ago but were almost forgotten after a few years. Their resurgence in the last one or two decades is mainly due to available computational power. Their impressive list of applications include:
+- One of the first applications was reading postal codes to automatize the sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks were used.
+- A similar type of neural (convolutional) networks is used in autonomous vehicles to provide information about cars, pedestrians or traffic signs. These networks may also use bounding boxes to specify the position of the desired object.
+- While the previous techniques used the 2D structure of the input (image), recurrent neural networks are used for series-type data (text, sound). The major application is automatic translators.
+- Another application includes generating new content. While practical applications such as artistic composition exist, these networks are often used to generate fake content (news, images).
 
-## Convolutional layers
 
-The last lecture concentrated on the dense layer. Even though it is widely used due to its simplicity, it suffers from several disadvantages, especially in visual recognition. These disadvantages include:
-- *Large number of parameters*. For an image with ``500\times 500\times 3`` pixels and the output layer of only ``1000`` neurons, the dense layer would contain ``750`` million parameters. This is too much to optimize.
-- *No structural information*. Dense layers assign a weight to every pixel and then add the weighted values. This means that information from the top-leftmost and bottom-rightmost pixels of the image will be combined. Since a combination of these two pixels should carry no meaningful information, redundant computation is performed.
-Convolutional layers were designed to alleviate these issues.
+## Neural networks
 
-#### Motivation
-
-To understand the convolutional layers, we need to go back to the definition of convolution. Having a function ``f`` and  a kernel ``g``, their convolution is defined by
+The first three bullets from the previous paragraph are all used for classification. The idea is the same as for linear networks. For an input ``x`` with a label ``y``, the classifier minimizes the loss between the prediction ``\operatorname{predict}(w;x)`` and the label ``y``. The ``\operatorname{predict}`` function has two parameters: ``w`` is to be trained (weights) while ``x`` is input (data). Having ``n`` samples (data points), the minimization problem reads
 
 ```math
-(f\ast g)(x) = \int_{-\infty}^{\infty} f(x - t)g(t) dt.
+\operatorname{minimize}_w\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)).
 ```
 
-Let us consider the simplest case when
+The previous lecture used the linear classifier ``\operatorname{predict}(w;x)=w^\top x`` and the cross-entropy loss for classification and the mean squared error for regression.
+
+Neural networks use more complex function than linear for better prediction power. At the same time, this function must satisfy: 
+- It has good approximative quality.
+- It does not contain many parameters to learn (train).
+- The computation of derivatives (training) is simple.
+
+## Layers
+
+The previous bullets are elegantly achieved by representing the neural network via layers. The input ``x`` enters the first layers, the output of the first layer goes into the second layer and so on. Mathematically speaking, a network with ``M`` layers has the structure
 
 ```math
-g(t) = \begin{cases} \frac{1}{2\varepsilon} &\text{if }t\in[-\varepsilon,\varepsilon], \\ 0 &\text{otherwise.} \end{cases}
+\hat y = \operatorname{predict}(w;x) = (f_M \circ \dots \circ f_1)(x),
 ```
 
-Then 
-
-```math
-(f\ast g)(x) = \int_{-\infty}^{\infty} f(x - t)g(t) dt = \frac{1}{2\varepsilon}\int_{-\varepsilon}^{\varepsilon}f(x - t)dt.
-```
-
-Then ``(f\ast g)(x)`` does not take the value of ``f`` at ``x`` but integrates ``f`` over a small neighbourhood of ``x``. Applying this kernel results in a smoothening of ``f``.  
-
-In image processing, the image ``f`` is not represented by a function but by a collection of pixels. The kernel ``g`` is represented by a small matrix. For the commonly used ``3\times 3`` kernel matrix, the convolution has the form
-
-```math
-(f\ast g)(x,y) = \sum_{i=-1}^1\sum_{j=1}^1 f(x+i,y+j)g(i,j).
-``` 
-
-The following kernels
-
-```math
-K_1 = \begin{pmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{pmatrix}, \qquad
-K_2 = \frac 19\begin{pmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{pmatrix}, \qquad
-K_3 = \begin{pmatrix} -1 & -1 & -1 \\ -1 & 8 & -1 \\ -1 & -1 & -1 \end{pmatrix}
-```
-
-perform identity, image smoothening and edge detection, respectively.
-
-![](turtles.png)
-
-#### Formulas
-
-Traditional techniques for image processing use multiple fixed kernels and combine their results. The idea of convolutional layers is to remove all human-made assumptions about which kernels to choose and learn the kernels' parameters based purely on data. Even though it gives superb results, it also removes any insight or interpretation humans may make. 
+where ``f_1,\dots,f_M`` are individual layers. Most of these layers depend on the weights ``w``, but we omit this dependence for simplicity. On the other hand, only the first layer ``f_1`` depends directly on the input ``x``. Since two layers that are not next to each other (such as the first and the third layer) are not directly connected, this allows for the simple propagation of function values and derivatives.
 
 ![](nn.png)
 
-The input of a convolutional layer has dimension ``I_1\times J_1\times C_1``, where ``I_1\times J_1`` is the size of the image and ``C_1`` is the number of channels (1 for grayscale, 3 for coloured, anything for hidden layers). Its input is also the kernel ``K``. The output of the convolutional layer has dimension ``I_2\times J_2\times C_2`` and its value at some ``(i_0,j_0,c_0)`` equals to
+#### Dense layer
+
+The dense layer is the simplest layer which has the form
 
 ```math
-\text{output}(i_0,j_0,c_0) = l\left(\sum_{c=1}^C\sum_{i=-a}^{a}\sum_{j=-b}^b \Big( K_{c_0}(i,j,c) \text{input}(i_0+i,j_0+j,c) + b(c)\Big)\right).
+f_m(a) = l_m(W_ma + b_m),
 ```
 
-After the linear operation inside, an activation function ``l`` is applied. Without it, the whole network would a product of linear function and, therefore, linear function (written in a complicated form).
+where ``W_m`` is a matrix of appropriate dimensions, ``b_m`` is the bias (shift) and ``l_m`` is an activation function. The weights of the neural network, which need to be trained, would be ``w=(W_m,b_m)_m`` in this case.
 
-The natural question is the interpretation of the linear operator and the number of parameters:
-- The kernel matrix ``K`` contains ``(2a+1)(2b+1)C_1C_2`` parameters. What does it mean? First, there is a separate kernel for each output channels. Second, the kernel also averages (more precisely, computes a linear combination) over all input channels. However, the coefficients of this linear combination do not depend on the position ``(i_0,j_0)``. 
-- The bias ``b`` has dimension ``C_2``. Again, it does not depend on the position ``(i_0,j_0)``.
-The important thing to realize is that the number of parameters does not depend on the size of the image or the hidden layers. For example, even for an input image ``500\times 500\times 3``, the convolutional layer contains only 448 parameters for ``3\times 3`` kernel and ``16`` output channels (do the computations).
+The activation function is usually written as ``l_m:\mathbb{R}\to\mathbb{R}`` and its operation on the vector ``W_mz + b_m`` is understood componentwise. Examples of activation functions include:
 
-This results in fixing the two issues mentioned above.
-- The number of parameters of convolutional layers stays relatively small.
-- Using kernels means that only local information from neighbouring pixels is propagated to subsequent layers.
+```math
+\begin{aligned}
+&\text{Sigmoid:}&l(z) &= \frac{1}{1+e^{-z}} ,\\
+&\text{ReLU:}&l(z) &= \operatorname{max}\{0,z\}, \\
+&\text{Softplus:}&l(z) &= \log(1+e^z), \\
+&\text{Swish:}&l(z) &= \frac{z}{1+e^{-z}} ,\\
+\end{aligned}
+```
 
-## Network structure
+```@setup nn
+using Plots
 
-When an input is an image, the usual structure of the neural network is the following:
-- Convolutional layer followed by a pooling layer.
-- This is repeated many times.
-- Flatten layer (it reshapes the three-dimensional tensor into a vector).
-- Dense (fully connected) layer.
-- Softmax layer.
-- Cross-entropy loss function.
+sigmoid(x) = 1 / (1 + exp(-x))
+ReLU(x) = max(0, x)
+softplus(x) = log(1 + exp(x))
+swish(x) = x / (1 + exp(-x))
 
-!!! bonus "BONUS: Additional layers"
-    Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
+x = -4:0.01:4
 
-    #### Recurrent layer
+plot(
+    plot(x, sigmoid; title = "Sigmoid"),
+    plot(x, ReLU; title = "ReLU"),
+    plot(x, softplus; title = "Softplus"),
+    plot(x, swish; title = "Swish");
+    linewidth = 2,
+    ylims = (-1, 4),
+    legend = false,
+)
 
-    Recurrent layers are designed to handle one-dimensional data. They are similar to convolutional layers with ``J_1=J_2=C_1=C_2=1``. Unlike convolutional layers, they store additional hidden variables. The most-known representative is the long short-term memory (LSTM) cell.
+savefig("Activation.svg")
+```
 
-    #### Pooling layer
+![](Activation.svg)
 
-    The goal of pooling layers is to reduce the size of the network. They take a small (such as ``2\times 2``) window and perform a simple operation on this window (such as maximum or mean). Since the pooled windows do not overlap, this reduces the size of each dimension in half. Pooling layers do not have any trainable parameters. 
 
-    #### Skip connections
+#### Softmax layer
 
-    From the previous lecture, we know that the gradient is computed via the chain rule
+The cross-entropy loss function (see below) requires that its input is a probability distribution. To achieve this, the softmax layer is applied directly before the loss function. Its formulation is
+
+```math
+\operatorname{softmax}(a_1,\dots,a_K) = \frac{1}{\sum_{k=1}^K e^{a_k}}(e^{a_1}, \dots, e^{a_K}).
+```
+
+The exponential ensures that all outputs are positive. The normalization ensures that the sum of the outputs is one. Therefore, it is a probability distribution. When a dense layer precedes the softmax layer, it is used without any activation function (as, for example, ReLU would result in many probabilities being the same).
+
+#### One-hot and one-cold representation
+
+One-hot and one-cold representations are directly connected with the softmax layer. The one-hot representation is "the normal one", while the one-cold representation is its probability distribution. For example, for the iris dataset, we encode virginica as ``(1,0,0)``, versicolor as ``(0,1,0)`` and setosa as ``(0,0,1)``.
+
+#### Other layers
+
+There are many other layers (convolutional, recurrent, pooling), which we will go through in the next lesson.
+
+## Loss functions
+
+The most commonly used loss functions are:
+- (Mean) squared error
+  ```math
+  \operatorname{loss}(y,\hat y) = (y-\hat y)^2.
+  ```
+- Cross-entropy
+  ```math
+  \operatorname{loss}(y,\hat y) = - \sum_{k=1}^K y_k\log \hat y_k.
+  ```
+- Binary cross-entropy
+  ```math
+  \operatorname{loss}(y,\hat y) = - y\log \hat y - (1-y)\log(1- \hat y).
+  ```
+
+Mean square error is usually used for regression problems while both cross-entropies for classification problem. The former for multi-class (``K>2``) and the latter for binary (``K=2``) problems.
+
+## Making predictions
+
+For classification with ``K`` classes, the classifier predicts a probability distribution of ``K`` classes. The hard prediction is the label with the highest probability. Using the above terminology, the classifier output has the one-hot form, while the actual prediction has the one-cold form.
+
+The most common metric for evaluating classifiers is the accuracy defined by
+
+```math
+\operatorname{accuracy} = \frac 1n\sum_{i=1}^n I(y_i = \hat y_i),
+```
+
+where ``I`` is the characteristic (0/1) function which counts how often the argument is satisfied. With abuse of notation, we use both the label ``y_i`` and the prediction ``\hat y_i`` in the one-cold representation. Therefore, accuracy measures the fraction of samples with correct predictions.
+
+
+## Overfitting and regularization
+
+While large neural networks may fit arbitrarily precisely, this is usually not preferred as overfitting may occur. This is especially true for large networks with more parameters than samples.
+
+```@setup overfit
+using Plots
+using Random
+
+Random.seed!(666)
+
+n = 10
+x = rand(n)
+y = x.^2 .+ 0.01*randn(n)
+
+scatter(x,y)
+
+X = zeros(n, n)
+for i in 1:n
+    X[:,i] = x.^(i-1)
+end
+
+w = X \ y
+
+f(x) = sum([w[i]*x^(i-1) for i in 1:n])
+
+x_plot = 0:0.001:1
+
+scatter(x, y, label="Data", ylim=(-0.01,1.01), legend=:topleft)
+plot!(x_plot, f.(x_plot), label="Prediction")
+plot!(x_plot, x_plot.^2, label="True dependence")
+
+savefig("Overfit.svg")
+```
+
+![](Overfit.svg)
+
+This figure shows data with quadratic dependence and a small added error. While the complex classifier (a polynomial of order 9) fits the data perfectly, the correct classifier (a polynomial of order 2) fits the data slightly worse, but it is much better at predicting unseen samples. The more complicated classifier overfits the data. 
+
+#### Preventing overfitting
+
+Multiple techniques were developed to prevent overfitting.
+- *Early stopping* stops the algorithm before it finds an optimum. This goes against the spirit of optimization as the loss function is actually not optimized.
+- *Regularization* adds a term to the objective funtion, usually the squared ``l_2`` norm of weights
+  ```math
+  \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)) + \frac{\lambda}{2}\|w\|^2.
+  ```
+  The more complicated classifier from the figure above contains (among others) the term ``20222x^9``. Since the coefficient is huge, its ``l_2`` norm would be huge as well. Regularization prevents such classifiers. Another possibility is the (non-differentiable) ``l_1`` norm, which induces sparsity (many weights should be zero).
+- *Simple networks* cannot approximate overly complicated functions, and they can also prevent overfitting.
+
+#### Train-test split
+
+How should the classifier be evaluated? The figure above suggests that it is a bad idea to evaluate it on the same data where it was trained. The dataset is usually split into training and testing sets. The classifier is trained on the training and evaluated on the testing set. The classifier is not allowed to see the testing set during training. When the classifier contains many hyperparameters, which need to be tuned, the dataset is split into training, validation and testing sets. Then multiple classifiers are trained on the training set, the best values of hyperparameters are selected on the validation set, and the classifier performance is evaluated on the testing set.
+
+## Additional topics
+
+The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
+
+!!! bonus "BONUS: Universal approximation of neural networks"
+    Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
+    - Dense layer with the ReLU activation function.
+    - Dense layer with the identity activation function.
+
+A prerequisite for training neural networks is the efficient computation of derivatives. We derive this computation in the next box. Even though it looks complicated, it is just a simple application of the chain rule. It consists of forward and backward passes. The forward pass starts with the input, computes the values at each neuron and finishes with evaluating the loss function. The backward pass starts with the loss function, computes the partial derivatives in a backward way and chains them together to obtain the composite derivative.
+
+This computation is highly efficient because the forward pass (computing function value) and the backward pass (computing derivatives) have the same complexity. This is in sharp contrast with the finite difference method, where the computation of derivatives is much more expensive.
+
+!!! bonus "BONUS: Computation of gradients"
+    For simplicity, we denote ``f = \operatorname{predict}`` and consider
     ```math
-    \nabla f = \nabla f_M\nabla f_{M-1}\dots\nabla f_1.
+    L(w) := \sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).
     ```
-    Since the formula contains multiplication, if any of the gradients is too small, then the whole gradient will be too small. Specifically, the deeper the network, the higher the chance that the initial point will be in a point with a small gradient and the training will progress slowly. This phenomenon is called vanishing gradients.
+    If the classifier has only a single output (as in regression or binary classification), then the chain rule yields
+    ```math
+    \nabla L(w) = \sum_{i=1}^n \operatorname{loss}'(y_i, f(w;x_i))\nabla_w f(w;x_i).
+    ```
+    The most difficult term to compute is ``\nabla_w f(w;x_i)``. All neural networks presented in this course have a layered structure. For an input ``x``, the evalutation of ``f(w;x)`` is initialized by ``a_0=x`` and then the iterative update
+    ```math
+    \begin{aligned}
+    z_m &= W_ma_{m-1} + b_m, \\
+    a_m &= l_m(z_m)
+    \end{aligned}
+    ```
+    for ``m=1,\dots,M`` is performed. The first equation ``z_m = W_ma_{m-1} + b_m`` performs a linear mapping, while ``a_m = l_m(z_m)`` applies the activation function ``l_m`` to each component of ``z_m``. The parameters of the network are ``(W_m,b_m)_m``. Since ``a_M=f(w;x)``, the chain rule implies
+    ```math
+    \begin{aligned}
+    \nabla_{W_m} f &= \nabla_{W_m}a_M = \nabla_{z_M}a_M\nabla_{z_{M-1}}a_M\nabla_{a_{M-1}}z_{M-1}\dots \nabla_{z_m}a_m\nabla_{W_m}z_m, \\
+    \nabla_{b_m} f &= \nabla_{b_m}a_M = \nabla_{z_M}a_M\nabla_{z_{M-1}}a_M\nabla_{a_{M-1}}z_{M-1}\dots \nabla_{z_m}a_m\nabla_{b_m}z_m.
+    \end{aligned}
+    ```
+    Care needs to be taken with this expression; for example ``\nabla_{W_m}z_m`` differentiates a vector with respect to a matrix. The computation of ``\nabla_{W_m} f`` and ``\nabla_{b_m} f`` is almost the same and only the last term differs.
 
-    To solve the issue with vanishing gradients, skip connections are sometimes added. Even though it is not a layer, we include it here. They do precisely what their name suggests: They skip one or more layers. This makes the network more flexible: Due to its deep structure, it can approximate complicated functions, and due to its shallow structure (because of skip connections), the initial training can be fast.
+    Now we need to compute the individual derivatives
+    ```math
+    \begin{aligned}
+    \nabla_{a_{m-1}} z_m &= W_m, \\
+    \nabla_{z_m} a_m &= \operatorname{diag}(l_m'(z_m)).
+    \end{aligned}
+    ```
+    The derivative in ``l_m'(z_m)`` is understood componentwise, and ``\operatorname{diag}`` makes a diagonal matrix from the vector.
 
-## Stochastic gradient descent
-
-We recall that machine learning problems minimize the loss function
-
-```math
-L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, f(w; x_i)).
-```
-
-Its gradient equals to
-
-```math
-\nabla L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}'(y_i, f(w; x_i))\nabla_w f(w; x_i).
-```
-
-If the dataset contains many samples (``n`` is large), then it takes long time to compute the gradient. Therefore, the full gradient is replaced by its stochastic (random) approximation
-
-```math
-\frac1{|I|}\sum_{i\in I} \operatorname{loss}'(y_i, f(w; x_i))\nabla_w f(w; x_i).
-```
-
-Here, the minibatch``I`` is a small (``32, 64, \dots``) subset of all samples ``\{1,\dots,n\}``. Sometimes the gradient descent is replaced by other options such as ADAM or RMSprop, which in some way consider the history of gradients.
-
-This technique is called stochastic gradient descent. During one epoch (the time when the optimizer evaluates each sample once), it performs many gradient updates (unlike the standard gradient descent, which performs only one update). Even though these updates are imprecise, numerical experiments show that stochastic gradient descent is much faster than standard gradient descent. The probable reason is that the entire dataset contains lots of duplicate information, and the full gradient performs unnecessary computation, which slows it down.  
+    Combining all these relations allow computing the derivative of the whole network.

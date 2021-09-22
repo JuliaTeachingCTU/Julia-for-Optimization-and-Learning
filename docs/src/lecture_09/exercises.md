@@ -1,151 +1,64 @@
-```@setup nn
-using RDatasets
+```@setup ex_log
 using Plots
-using Random
+using StatsPlots
+using RDatasets
 using Statistics
 using LinearAlgebra
+using Query
 
-function split(X, y::AbstractVector; dims=1, ratio_train=0.8, kwargs...)
-    n = length(y)
-    size(X, dims) == n || throw(DimensionMismatch("..."))
-
-    n_train = round(Int, ratio_train*n)
-    i_rand = randperm(n)
-    i_train = i_rand[1:n_train]
-    i_test = i_rand[n_train+1:end]
-
-    return selectdim(X, dims, i_train), y[i_train], selectdim(X, dims, i_test), y[i_test]
-end
-
-function normalize(X_train, X_test; dims=1, kwargs...)
-    col_means = mean(X_train; dims)
-    col_std = std(X_train; dims)
-
-    return (X_train .- col_means) ./ col_std, (X_test .- col_means) ./ col_std
-end
-
-function onehot(y, classes)
-    y_onehot = falses(length(classes), length(y))
-    for (i, class) in enumerate(classes)
-        y_onehot[i, y .== class] .= 1
+function log_reg(X, y, w; max_iter=100)
+    X_mult = [row*row' for row in eachrow(X)]
+    for i in 1:max_iter
+        y_hat = 1 ./(1 .+exp.(-X*w))
+        grad = X'*(y_hat.-y) / size(X,1)
+        hess = y_hat.*(1 .-y_hat).*X_mult |> mean
+        w -= hess \ grad
     end
-    return y_onehot
+    return w
 end
 
-onecold(y, classes) = [classes[argmax(y_col)] for y_col in eachcol(y)]
-
-function prepare_data(X, y; do_normal=true, do_onehot=true, kwargs...)
-    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
-
-    if do_normal
-        X_train, X_test = normalize(X_train, X_test; kwargs...)
-    end
-
-    classes = unique(y)
-
-    if do_onehot
-        y_train = onehot(y_train, classes)
-        y_test = onehot(y_test, classes)
-    end
-
-    return X_train, y_train, X_test, y_test, classes
-end
-
-# SimpleNet
-
-struct SimpleNet{T<:Real}
-    W1::Matrix{T}
-    b1::Vector{T}
-    W2::Matrix{T}
-    b2::Vector{T}
-end
-
-SimpleNet(n1, n2, n3) = SimpleNet(randn(n2, n1), randn(n2), randn(n3, n2), randn(n3))
-
-function (m::SimpleNet)(x)
-    z1 = m.W1*x .+ m.b1
-    a1 = max.(z1, 0)
-    z2 = m.W2*a1 .+ m.b2
-    return exp.(z2) ./ sum(exp.(z2), dims=1)
-end
-
-function grad(m::SimpleNet, x::AbstractVector, y; ϵ=1e-10)
-    z1 = m.W1*x .+ m.b1
-    a1 = max.(z1, 0)
-    z2 = m.W2*a1 .+ m.b2
-    a2 = exp.(z2) ./ sum(exp.(z2), dims=1)
-    l = -sum(y .* log.(a2 .+ ϵ))
-
-    e_z2 = exp.(z2)
-    l_part = (- e_z2 * e_z2' + Diagonal(e_z2 .* sum(e_z2))) / sum(e_z2)^2
-
-    l_a2 = - y ./ (a2 .+ ϵ)
-    l_z2 = l_part * l_a2
-    l_a1 = m.W2' * l_z2
-    l_z1 = l_a1 .* (a1 .> 0)
-    l_x = m.W1' * l_z1
-
-    l_W2 = l_z2 * a1'
-    l_b2 = l_z2
-    l_W1 = l_z1 * x'
-    l_b1 = l_z1
-
-    return l, l_W1, l_b1, l_W2, l_b2
-end
-
-mean_tuple(d::AbstractArray{<:Tuple}) = Tuple([mean([d[k][i] for k in 1:length(d)]) for i in 1:length(d[1])])
-
-predict(X) = m(X)
-accuracy(X, y) = mean(onecold(predict(X), classes) .== onecold(y, classes))
-```
-
-```@setup nn
 iris = dataset("datasets", "iris")
+iris_reduced = @from i in iris begin
+    @where i.Species != "setosa"
+    @select {
+        i.PetalLength,
+        i.PetalWidth,
+        intercept = 1,
+        i.Species,
+        label = i.Species == "virginica",
+    }
+    @collect DataFrame
+end
 
-X = Matrix(iris[:, 1:4])
-y = iris.Species
+X = Matrix(iris_reduced[:, 1:3])
+y = iris_reduced.label
+
+w = log_reg(X, y, zeros(size(X,2)))
+
+σ(z) = 1/(1+exp(-z))
 ```
 
-# [Exercises](@id l9-exercises)
+# [Exercises](@id l8-exercises)
 
-!!! homework "Homework: Optimal setting"
-    Perform an analysis of hyperparameters of the neural network from this lecture. Examples may include network architecture, learning rate (stepsize), activation functions or normalization.
+!!! homework "Homework: Data normalization"
+    Data are often normalized. Each feature subtracts its mean and then divides the result by its standard deviation. The normalized features have zero mean and unit standard deviation. This may help in several cases:
+    - When each feature has a different order of magnitude (such as millimetres and kilometres). Then the gradient would ignore the feature with the smaller values.
+    - When problems such as vanishing gradients are present (we will elaborate on this in Exercise 4).
 
-    Write a short summary (in LaTeX) of your suggestions.
+    Write function ```normalize``` which takes as an input a dataset and normalizes it. Then train the same classifier as we did for [logistic regression](@ref log-reg). Use the original and normalized dataset. Which differences did you observe when
+    - the logistic regression is optimized via gradient descent?
+    - the logistic regression is optimized via Newton's method?
+    Do you have any intuition as to why?
+
+    Write a short report (in LaTeX) summarizing your findings.
 
 ```@raw html
 <div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 1: Keyword arguments</header>
+<header class="admonition-header">Exercise 1:</header>
 <div class="admonition-body">
 ```
 
-Keyword arguments (often denoted as `kwargs` but any name may be used) specify additional arguments which do not need to be used when the function is called. We recall the `prepare_data` function written earlier.
-
-```@example nn
-function prepare_data(X, y; do_normal=true, do_onehot=true, kwargs...)
-    X_train, y_train, X_test, y_test = split(X, y; kwargs...)
-
-    if do_normal
-        X_train, X_test = normalize(X_train, X_test; kwargs...)
-    end
-
-    classes = unique(y)
-
-    if do_onehot
-        y_train = onehot(y_train, classes)
-        y_test = onehot(y_test, classes)
-    end
-
-    return X_train, y_train, X_test, y_test, classes
-end
-nothing # hide
-```
-
-All keyword arguments `kwargs` will be passed to the `split` and `normalize` functions. The benefit is that we do not need to specify the keyword arguments for `split` in `prepare_data`.
-
-Recall that `split` takes `ratio_split` as an optional argument. Write a one-line function ```ratio_train``` which gets the training and testing sets and computes the ratio of samples in the training set. Then call the `prepare_data` with:
-- no normalization and the default split ratio;
-- normalization and the split ratio of 50/50;
+The logistic regression on the iris dataset failed in 6 out of 100 samples. But the visualization shows the failure only in 5 cases. How is it possible?
 
 ```@raw html
 </div></div>
@@ -153,249 +66,28 @@ Recall that `split` takes `ratio_split` as an optional argument. Write a one-lin
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-The ```ratio_train``` function reads:
+We use the `iris_reduced` dataframe and add the column `prediction` to it.
 
-```@example nn
-ratio_train(X_train, X_test) = size(X_train, 2) / (size(X_train,2) + size(X_test,2))
-nothing # hide
-```
-
-The first case uses the default ratio; hence we do not pass `ratio_split`. Since we do not want to use normalization, we need to pass `do_normal=false`.
-
-```@example nn
-X_train, y_train, X_test, y_test, classes = prepare_data(X', y; dims=2, do_normal=false)
-println("Ratio train/test = ", ratio_train(X_train, X_test))
-```
-
-The second case behaves the other way round. We use the default normalization; thus, we do not need to specify `do_normal=true` (even though it may be a good idea). We need to pass `ratio_train=0.5`.
-
-```@example nn
-X_train, y_train, X_test, y_test, classes = prepare_data(X', y; dims=2, ratio_train=0.5)
-println("Ratio train/test = ", ratio_train(X_train, X_test))
-```
-
-```@raw html
-</p></details>
-```
-
-The goal of the following exercise is to show the prediction function graphically. For this reason, we will consider only two features. All the following exercises use the data with the fixed seed for reproducibility.
-
-```@example nn
-Random.seed!(666)
-X_train, y_train, X_test, y_test, classes = prepare_data(X[:,3:4]', y; dims = 2)
+```@example ex_log
+df = iris_reduced
+df.prediction = σ.(X*w) .>= 0.5
 
 nothing # hide
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 2: Showing the contours</header>
-<div class="admonition-body">
+Now we show all misclassified samples.
+
+```@example ex_log
+sort(df[df.label .!= df.prediction, :], [:PetalLength, :PetalWidth])
 ```
 
-Use the same training procedure for 1000 iterations to train the classifier with the new data. Then plot a graph depicting which classes are predicted at subregions of ``[-2,2]\times [-2,2]``. Moreover, depict the testing data in this graph.
+A quick look at the image shows that the point ``(4.8,1.8)`` is misclassified, but the image shows it correctly. Let us show all such points.
 
-**Hint**: use the `heatmap` function.
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+```@example ex_log
+df[(df.PetalLength .== 4.8) .& (df.PetalWidth .== 1.8), :]
 ```
 
-The procedure for training the network is the same as during the lecture.
-
-```@example nn
-m = SimpleNet(size(X_train,1), 5, size(y_train,1))
-
-α = 1e-1
-max_iter = 1000
-for iter in 1:max_iter
-    grad_all = [grad(m, X_train[:,k], y_train[:,k]) for k in 1:size(X_train,2)]
-    grad_mean = mean_tuple(grad_all)
-
-    m.W1 .-= α*grad_mean[2]
-    m.b1 .-= α*grad_mean[3]
-    m.W2 .-= α*grad_mean[4]
-    m.b2 .-= α*grad_mean[5] 
-end
-
-nothing # hide
-```
-
-The prediction function is `m([x;y])`. Since this creates a one-hot representation, we need to convert it into a one-cold representation. However, it is not possible to use `onecold(m([x; y]), classes)`, which would result in one of the three string labels. We need to use `onecold(m([x; y]), 1:3)` to convert it to a real number. Then we call the `heatmap` function. Since we will later use plotting in a loop, we assign the graph to `plt`.
-
-```@example nn
-colours = [:blue, :red, :green]
-
-xs = -2:0.01:2
-plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
-    color = colours,
-    opacity = 0.2,
-    axis = false,
-    ticks = false,
-    cbar = false,
-    legend = :topleft,
-)
-
-nothing # hide
-```
-
-To add the predictions of the testing set, we find the indices `inds` of samples from each class. Then we add them via the `scatter!` plot. We keep `colours` from the previous part to have the same colours. Since we plotted in a loop, we need to `display` the plot.
-
-```@example nn
-for (i, class) in enumerate(classes)
-    inds = findall(onecold(y_test, classes) .== class)
-    scatter!(plt, X_test[1, inds], X_test[2, inds];
-        label = class,
-        marker=(8, 0.8, colours[i]),
-    )
-end
-display(plt)
-
-savefig("Separation.svg") # hide
-```
-
-```@raw html
-</p></details>
-```
-
-![](Separation.svg)
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 3: Overfitting</header>
-<div class="admonition-body">
-```
-
-This exercise shows the well-known effect of overfitting. Since the model sees only the training set, it may fit it too perfectly (overfit it) and generalize poorly to the testing set of unseen examples.
-
-Consider the same data as in the previous exercise but train a network with 25 hidden neurons for 25000 iterations. Plot the loss function values on the training and testing sets. Then plot the same prediction visualization as in the previous exercise for both testing and training sets. Describe what went wrong.
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-We first specify the loss function.
-
-```@example nn
-loss(X, y; ϵ = 1e-10) = mean(-sum(y .* log.(m(X) .+ ϵ); dims = 1))
-nothing # hide
-```
-
-Then we train the network as before. The only change is that we need to save the training and testing objective.
-
-```@example nn
-m = SimpleNet(size(X_train,1), 25, size(y_train,1))
-
-α = 1e-1
-max_iter = 25000
-L_train = zeros(max_iter)
-L_test = zeros(max_iter)
-for iter in 1:max_iter
-    grad_all = [grad(m, X_train[:,k], y_train[:,k]) for k in 1:size(X_train,2)]
-    grad_mean = mean_tuple(grad_all)
-    
-    m.W1 .-= α*grad_mean[2]
-    m.b1 .-= α*grad_mean[3]
-    m.W2 .-= α*grad_mean[4]
-    m.b2 .-= α*grad_mean[5] 
-
-    L_train[iter] = loss(X_train, y_train)
-    L_test[iter] = loss(X_test, y_test)
-end
-```
-
-Then we plot it. We ignore the first nine iterations, where the loss is large there. We see the classical procedure of overfitting. While the loss function on the training set decreases steadily, on the testing set, it decreases first, and after approximately 100 iterations, it starts increasing. This behaviour may be prevented by several techniques, which we discuss in the following lecture.
-
-```@example nn
-plot(L_train[10:end], xlabel="Iteration", label="Training loss", legend=:topleft)
-plot!(L_test[10:end], label="Testing loss")
-
-savefig("Train_test.svg") # hide
-```
-
-![](Train_test.svg)
-
-We create the contour plot in the same way as in the previous exercise.
-
-```@example nn
-plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
-    color = colours,
-    opacity = 0.2,
-    axis = false,
-    ticks = false,
-    cbar = false,
-    legend = :topleft,
-)
-
-for (i, class) in enumerate(classes)
-    inds = findall(onecold(y_test, classes) .== class)
-    scatter!(plt, X_test[1, inds], X_test[2, inds];
-        label = class,
-        marker=(8, 0.8, colours[i]),
-    )
-end
-display(plt)
-
-savefig("Separation2.svg") # hide
-```
-
-![](Separation2.svg)
-
-```@example nn
-plt = heatmap(xs, xs, (x, y) -> onecold(m([x; y]), 1:3)[1];
-    color = colours,
-    opacity = 0.2,
-    axis = false,
-    ticks = false,
-    cbar = false,
-    legend = :topleft,
-)
-
-for (i, class) in enumerate(classes)
-    inds = findall(onecold(y_train, classes) .== class)
-    scatter!(plt, X_train[1, inds], X_train[2, inds];
-        label = class,
-        marker=(8, 0.8, colours[i]),
-    )
-end
-display(plt)
-
-savefig("Separation3.svg") # hide
-```
-
-![](Separation3.svg)
-
-The separation on the testing set is quite good, but it could be better for the two bottommost green circles (iris virginica). The model predicted (in the background) the red colour (iris versicolor) there. This is wrong. The reason is clear from the picture depicting the training set. The classifier tried to perfectly fit the boundary between the green and red points, making an outward-pointing tip. This is precisely overfitting and the reason for the misclassification on the testing set.
-
-```@raw html
-</p></details>
-```
-
-![](Separation2.svg)
-![](Separation3.svg)
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 4: Generalization</header>
-<div class="admonition-body">
-```
-
-The contour plots from Exercises 2 and 3 are strikingly different, especially in the top-left and bottom-right corners. Why is that?
-
-```@raw html
-</div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
-```
-
-Since the dataset does not contain any data in the top-left or bottom-right corners, it does not know what to predict. From its perspective, both separations are very good.
-
-!!! info "Generalization:"
-    If a classifier does not have any data in some region, it may predict anything there, including predictions with no sense.
+As we can see, there are three samples with the same data. Two of them have label 1 and one label 0. Since the incorrectly classified sample was redrawn, it was not possible to see it.
 
 ```@raw html
 </p></details>
@@ -403,11 +95,11 @@ Since the dataset does not contain any data in the top-left or bottom-right corn
 
 ```@raw html
 <div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 5: Universal approximation of neural networks (theory)</header>
+<header class="admonition-header">Exercise 2: Disadvantages of the sigmoid function</header>
 <div class="admonition-body">
 ```
 
-Proof the theorem about universal approximation of neural networks.
+Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?
 
 ```@raw html
 </div></div>
@@ -415,30 +107,125 @@ Proof the theorem about universal approximation of neural networks.
 <summary class = "solution-header">Solution:</summary><p>
 ```
 
-Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
+First, we run the logistic regression as before, only with a different starting point
+
+```@example ex_log
+log_reg(X, y, [1;2;3])
+```
+
+This resulted in NaNs. When something fails, it may be a good idea to run a step-by-step analysis. In this case, we will run the first iteration of Newton's method
+
+```@repl ex_log
+w = [1;2;3];
+X_mult = [row*row' for row in eachrow(X)];
+y_hat = 1 ./(1 .+exp.(-X*w))
+grad = X'*(y_hat.-y) / size(X,1)
+hess = y_hat.*(1 .-y_hat).*X_mult |> mean
+w -= hess \ grad
+```
+
+Starting from the bottom, we can see that even though we started with relatively small ``w``, the next iteration is four degrees of magnitude larger. This happened because the Hessian ```hess``` is much smaller than the gradient ```grad```. This indicates that there is some kind of numerical instability. The prediction ```y_hat``` should lie in the interval ``[0,1]`` but it seems that it is almost always close to 1. Let us verify this by showing the extrema of ```y_hat```
+
+```@example ex_log
+extrema(y_hat)
+```
+
+They are indeed too large.
+
+Now we explain the reason. We know that the prediction equals to
 
 ```math
-d_i = \frac{y_{i+1}-y_i}{x_{i+1}-x_i},
+\hat y_i = \sigma(w^\top x_i),
 ```
 
-then ``h`` has the form
+where ``\sigma`` is the sigmoid function. Since the mimimum from ``w^\top x_i``
+
+```@example ex_log
+minimum(X*[1;2;3])
+```
+
+is large, all ``w^\top x_i`` are large. But plotting the sigmoid funtion
+
+```@example ex_log
+xs = -10:0.01:10
+plot(xs, σ, label="", ylabel="Sigmoid function")
+
+savefig("sigmoid.svg") # hide
+```
+
+![](sigmoid.svg)
+
+it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. This means that the derivative is almost zero, and the Hessian is "even smaller" zero. Then the ratio of the gradient and Hessian is huge.
+
+The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a huge number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
+
+```@raw html
+</p></details>
+```
+
+```@raw html
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 3 (theory):</header>
+<div class="admonition-body">
+```
+
+Show the details for the derivation of the loss function of the logistic regression.
+
+```@raw html
+</div></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+Since ``\hat y`` equals the probability of predicting ``1``, we have
 
 ```math
-h(x) = y_i + d_i(x-x_i) \qquad\text{ for }x\in [x_i,x_{i+1}].
-```
+\hat y = \frac{1}{1+e^{-w^\top x}}
+``` 
 
-It is not difficult to show that
+Then the cross-entropy loss reduces to
 
 ```math
-h(x) = y_1 + \sum_{i=1}^n(d_i-d_{i-1})\operatorname{max}\{x-x_i,0\},
+\begin{aligned}
+\operatorname{loss}(y,\hat y) &= - y\log \hat y - (1-y)\log(1-\hat y) \\
+&= y\log(1+e^{-w^\top x}) - (1-y)\log(e^{-w^\top x}) + (1-y)\log(1+e^{-w^\top x}) \\
+&= \log(1+e^{-w^\top x}) + (1-y)w^\top x.
+\end{aligned}
 ```
 
-where we defined ``d_0=0``.
+Then it remains to sum this term over all samples.
 
-Then ``h`` can be represented as the following network with two layers:
-- Dense layer with ``n`` hidden neurons and ReLU activation function. Neuron ``i`` has weight ``1`` and bias ``-x_i``.
-- Dense layer with ``1`` output neurons and identity activation function. Connection ``i`` has weight ``d_i-d_{i-1}`` and the joint bias is ``y_1``.
-This finishes the proof.
+```@raw html
+</p></details>
+```
+
+```@raw html
+<div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise 4 (theory):</header>
+<div class="admonition-body">
+```
+
+Show that if the Newton's method converged for the logistic regression, then it found a point globally minimizing the logistic loss.
+
+```@raw html
+</div></div>
+<details class = "solution-body">
+<summary class = "solution-header">Solution:</summary><p>
+```
+
+We derived that the Hessian of the objective function for logistic regression is
+
+```math
+\nabla^2 L(w) = \frac 1n \sum_{i=1}^n\hat y_i(1-\hat y_i)x_i x_i^\top.
+```
+
+For any vector ``a``, we have
+
+```math
+a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
+```
+
+which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.
 
 ```@raw html
 </p></details>

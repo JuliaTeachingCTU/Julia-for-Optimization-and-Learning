@@ -1,141 +1,148 @@
-# Scope of variables
+# Soft local scope
 
-The scope of a variable is the region of a code where the variable is visible. There are two main scopes in Julia: **global** and **local**. The global scope can contain multiple local scope blocks. Local scope blocks can be nested. There is also a distinction in Julia between constructs which introduce a *hard scope* and those which only introduce a *soft scope*. This affects whether shadowing a global variable by the same name is allowed.
+The scope of a variable is the region of a code where the variable is visible. There are two main types of scopes in Julia: **global** and **local**, and we will discuss it [later](@ref Scope-of-variables). In this section, we will only focus on loops.
 
-The following table shows constructs that introduce scope blocks.
-
-| Construct                                          | Scope type   | Allowed within local|
-| :--                                                | :--          | :-:                 |
-| `module`, `baremodule`                             | global       | ✗                   |
-| `struct`                                           | local (soft) | ✗                   |
-| `macro`                                            | local (hard) | ✗                   |
-| `for`, `while`, `try`                              | local (soft) | ✔                   |
-| `let`, `functions`, `comprehensions`, `generators` | local (hard) | ✔                   |
-
-This table contains several constructs which we have not introduced yet. Modules and structures will be discussed later in the course. The rest is described in the official [documentation](https://docs.julialang.org/).
-
-## Local scope
-
-A function declaration introduces a new (hard) local scope. It means that all variables defined inside a function body can be accessed and modified inside the function body. Moreover, it is impossible to access these variables from outside the function.
-
-```jldoctest local
-julia> function f()
-           z = 42
-           return
-       end
-f (generic function with 1 method)
-
-julia> f()
-
-julia> z
-ERROR: UndefVarError: z not defined
-```
-
-Thanks to this property, we can use the names most suitable for our variables (i, x, y, etc.) without the risk of clashing with declarations elsewhere. It is possible to specify a global variable inside a function by the `global` keyword.
+Every variable created inside a loop is local, i.e., it is possible to use it only inside the loop.
 
 ```jldoctest
-julia> function f()
-           global z = 42
-           return
+julia> for i in 1:2
+           t = 1 + i
+           @show t
        end
-f (generic function with 1 method)
+t = 2
+t = 3
 
-julia> f()
-
-julia> z
-42
+julia> t
+ERROR: UndefVarError: t not defined
 ```
 
-However, this is not recommended.  If we need a variable defined inside a function, we should probably return that variable as an output of the function
+The variable `i` in the example above is also local. A similar behaviour happens in nested loops:
 
 ```jldoctest
-julia> function f()
-           z = 42
-           return z
+julia> for j in 1:5
+           for i in 1:2
+               @show i + j
+           end
+           i
        end
-f (generic function with 1 method)
-
-julia> z = f()
-42
-
-julia> z
-42
+i + j = 2
+i + j = 3
+ERROR: UndefVarError: i not defined
 ```
 
-In the example above, the `z` variable in the function is local, and the `z` variable outside of the function is global. These two variables are not the same.
+Variable `j` is a local variable defined in the outer loop.  This means that it is visible inside the inner loop and can be used there. On the other hand, variable `i` is a local variable from the inner loop and cannot be accessed in the outer loop.
 
-## Global scope
-
-Each module introduces a new global scope, separate from the global scope of all other modules. The interactive prompt (aka REPL) is in the global scope of the module `Main`.
-
-```jldoctest global
-julia> module A
-           a = 1 # a global in A's scope
-           b = 2 # b global in A's scope
-       end
-A
-
-julia> a # errors as Main's global scope is separate from A's
-ERROR: UndefVarError: a not defined
-```
-
-Modules can introduce variables of other modules into their scope through the `using` (or `import`)  keyword. Variables can be accessed by the dot-notation.
-
-```jldoctest global
-julia> using .A: b # make variable b from module A available
-
-julia> A.a
-1
-
-julia> b
-2
-```
-
-While variables can be read externally, they can only be changed within the module they belong to.
-
-```jldoctest global
-julia> b = 4
-ERROR: cannot assign a value to variable A.b from module Main
-```
-
-Global scope variables can be accessed anywhere inside the global scope, even in the local scopes defined in that global scope. In the following example, we define a variable `c` in the `Main` global scope, and then we define a function `foo` (that introduces a new local scope inside the `Main` global scope), and inside this function, we use the variable `c`,
+What happens if use variables from the global scope inside loops? In this case, it depends whether the loop is created in *interactive* (REPL, Jupyter notebook) or *non-interactive* context (file, eval). In the interactive case (in the REPL in our case), global variables can be accessed and modified in local scopes without any restrictions.
 
 ```jldoctest
-julia> c = 10
-10
+julia> s = 0
+0
 
-julia> foo(x) = x + c
-foo (generic function with 1 method)
+julia> for i = 1:10
+           t = 1 + i # new local variable t
+           s = t # assign a new value to the global variable
+       end
 
-julia> foo(1)
+julia> s
 11
 ```
 
-However, it is not recommended to use global variables in this way. The reason is that global variables can change their type and value at any time, and therefore they cannot be properly optimized by the compiler. We can see the performance drop in a simple test.
+In this case, if we want to assign a value to a variable, there are two possibilities:
+- Variable `t`: there is no global variable with the same name. A new local variable is created.
+- Variable `s`: there is a global variable with the same name. A new value is assigned to the global variable.
 
-```@repl global_test
-x = rand(10);
-y = rand(10);
-f_global() = x .+ y
-f_local(x, y) = x .+ y
+However, in the non-interactive case, the variables behave differently. In the following example, we create a Julia code as a string and then evaluate it using the `include_string` function.
 
-hcat(f_global(), f_local(x, y))
+```jldoctest
+julia> code = """
+       s = 0
+       for i = 1:10
+           t = 1 + i # new local variable t
+           s = t # new local variable s and warning
+       end
+       s
+       """;
+
+julia> include_string(Main, code)
+┌ Warning: Assignment to `s` in soft scope is ambiguous because a global variable by the same name exists: `s` will be treated as a new local. Disambiguate by using `local s` to suppress this warning or `global s` to assign to the existing global variable.
+└ @ string:4
+0
 ```
 
-In the example above, we defined two functions that do the same thing. The first function has no arguments and returns a sum of two global variables, `x` and `y`. The second function also returns a sum of variables `x` and `y`. However, in this case, these variables are local since they are introduced as the inputs to the function. If we use the `@time` macro, we can measure the time needed to call these two functions.
+In this case, if we want to assign a value to a variable inside a loop, there are two possibilities:
+- Variable `t`: there is no global variable with the same name. A new local variable is created.
+- Variable `s`: there is a global variable with the same name. The assignment in the soft scope is ambiguous, and a new local variable is created.
 
-```@repl global_test
-@time f_global();
-@time f_local(x, y);
+In our example, the variable `s` is defined before the loop as global. In the loop, we get a warning that the assignment to `s` in soft scope is ambiguous, and a new local variable `s` is created instead. The behaviour described above can be changed by specifying that variable `s` is `local`.
+
+```jldoctest softscope; output = false
+code_local = """
+s = 0
+for i = 1:10
+    t = 1 + i # new local variable t
+    local s = t # assigning a new value to the local variable
+end
+s
+"""
+
+# output
+"s = 0\nfor i = 1:10\n    t = 1 + i # new local variable t\n    local s = t # assigning a new value to the local variable\nend\ns\n"
 ```
 
-The second function is faster and also needs fewer allocations. The reason is that when we call the `f_local` function for the first time, the function is optimized for the given arguments. Each time a function is called for the first time with new types of arguments, it is compiled. This can be seen in the following example: the first call is slower due to the compilation.
+Another option is to specify that the variable `s` is `global`.
 
-```@repl global_test
-a, b = 1:10, 11:20;
+```jldoctest softscope; output = false
+code_global = """
+s = 0
+for i = 1:10
+    t = 1 + i # new local variable t
+    global s = t # assigning a new value to the global variable
+end
+s
+"""
 
-@time f_local(a, b);
-@time f_local(a, b);
+# output
+"s = 0\nfor i = 1:10\n    t = 1 + i # new local variable t\n    global s = t # assigning a new value to the global variable\nend\ns\n"
 ```
 
-On the other hand, the `f_global` function cannot be optimized because it contains two global variables, and these two variables can change at any time.
+When we evaluate the strings, no warning is produced.
+
+```jldoctest softscope
+julia> include_string(Main, code_global)
+11
+
+julia> include_string(Main, code_local)
+0
+```
+
+There are two obvious questions:
+1. Why does it not work like the REPL everywhere?
+2. Why does it not work like in files everywhere? Why is the warning not skipped?
+
+Since the behaviour from REPL approximates the behaviour inside a function body, it has the advantage of being intuitive and convenient. In particular, it makes it easy to move code back and forth between a function body and the REPL when trying to debug a function. However, it may easily lead to confusion and errors, especially if the code is long or split into multiple files. The intent of the following code is obvious: we want to modify the existing global variable `s` inside the loop.
+
+```julia
+s = 0
+for i = 1:10
+    s += i
+end
+```
+
+However, real code is usually more complicated. Consider the following example:
+
+```julia
+x = 200
+
+# much later, maybe in a different file
+
+for i = 1:10
+    x = 1000
+    println(x)
+end
+
+# much later, maybe in yet another file
+
+y = x + 234
+```
+
+It is not clear what should happen here. Should the variable `x` inside the loop be considered local or global? If it is local inside the loop, then the variable `y` will be `434`. On the other hand, if it is global inside the loop, then we assign a new value to it, and the variable `y` will be `1234`. We can accidentally change a variable value and get incorrect results because we use the same variable name multiple times in different scopes.  In this case, it is complicated to find why the results are wrong since there is no error in the code. Julia prints the warning about the ambiguity in such cases to help users. For more information, see the official [documentation](https://docs.julialang.org/en/v1/manual/variables-and-scoping/).
