@@ -6,7 +6,7 @@ Manifest.toml
 
 .vscode
 /_documents/
-/_tmp/
+/tmp/
 /_tikz/
 docs/build
 docs/data
