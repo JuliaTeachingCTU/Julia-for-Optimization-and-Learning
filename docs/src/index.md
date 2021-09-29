@@ -14,7 +14,7 @@ Welcome to our course *Julia for Optimization and Learning*. This course consist
 - *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 22 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of September 2021).
 - *Applications*: The second part of the course will be dedicated to applications. The main emphasis will given to machine learning, but we will also go through statistics and differential equations.
 
-Since there are no course requirements, all students who want to learn to program efficiently or machine learning techniques are welcome to join.
+More information about the course can be found on the [CourseWare Wiki](https://cw.fel.cvut.cz/wiki/courses/b0b36jul/start).
 
 ## What will we emphasize?
 
