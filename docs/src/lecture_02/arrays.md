@@ -245,7 +245,7 @@ Create a vector of positive integers that contains all odd numbers smaller than 
 
 Such a vector can be either created manually by
 
-```jldoctest matrices
+```jldoctest vectors_ex
 julia> v = [1,3,5,7,9]
 5-element Vector{Int64}:
  1
@@ -257,7 +257,7 @@ julia> v = [1,3,5,7,9]
 
 or we can use the `range` function to create a range with given properties and then use the `collect` function to create a vector. Another possibility is to use the `Vector` type to convert the range into a vector.
 
-```jldoctest matrices
+```jldoctest vectors_ex
 julia> collect(1:2:9)
 5-element Vector{Int64}:
  1
@@ -277,7 +277,7 @@ julia> Vector(1:2:9)
 
 The values stored in the vector can be changed using the `.=` sign and proper indices. Do not forget to add the dot before the `=` sign to perform the element-wise operation.
 
-```jldoctest matrices
+```jldoctest vectors_ex
 julia> v[1] = 4
 4
 
@@ -304,7 +304,7 @@ julia> v
 A matrix is a special case of an array with precisely two dimensions. In Julia, we can construct a matrix by the square brackets similarly to vectors. Matrices are built row by row. Elements in rows are separated by spaces, and rows are separated by semicolons.
 
 ```jldoctest matrices
-julia> m = [1  2  3  4; 5  6  7  8]
+julia> M = [1  2  3  4; 5  6  7  8]
 2×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
@@ -313,69 +313,69 @@ julia> m = [1  2  3  4; 5  6  7  8]
 The same functions can obtain the basic information about matrices as for vectors.
 
 ```jldoctest matrices
-julia> typeof(m)
+julia> typeof(M)
 Matrix{Int64} (alias for Array{Int64, 2})
 
-julia> eltype(m)
+julia> eltype(M)
 Int64
 
-julia> ndims(m)
+julia> ndims(M)
 2
 
-julia> size(m)
+julia> size(M)
 (2, 4)
 
-julia> length(m)
+julia> length(M)
 8
 ```
 
 Accessing matrix elements can be also done in the same way as for vectors.
 
 ```jldoctest matrices
-julia> m[1] # the first element, equivalent to m[begin]
+julia> M[1] # the first element, equivalent to m[begin]
 1
 
-julia> m[2] # the second element
+julia> M[2] # the the second element element
 5
 
-julia> m[end-1] # the last element
+julia> M[end-1] # the second to last element
 4
 ```
 
 Note that the second element is `5`. The reason is that Julia is column-oriented. Element at a specific position in a matrix can be accessed by the following syntax `matrix[row_index, column_index]`. The following code returns the second element in the first row.
 
 ```jldoctest matrices
-julia> m[1, 2]
+julia> M[1, 2]
 2
 ```
 
 It is also possible to access multiple elements at once
 
 ```jldoctest matrices
-julia> m[1, [2, 3]] # the second and third element in the first row
+julia> M[1, [2, 3]] # the second and third element in the first row
 2-element Vector{Int64}:
  2
  3
 
-julia> m[1:3] # the first three elements according to linear indexing
+julia> M[1:3] # the first three elements according to linear indexing
 3-element Vector{Int64}:
  1
  5
  2
 
-julia> m[:, 1:3] # the first three columns
+julia> M[:, 1:3] # the first three columns
 2×3 Matrix{Int64}:
  1  2  3
  5  6  7
 
-julia> m[1, :] # the first row
+julia> M[1, :] # the first row
 4-element Vector{Int64}:
  1
  2
  3
  4
 
-julia> m[:] # all elements
+julia> M[:] # all elements
 8-element Vector{Int64}:
  1
  5
@@ -390,7 +390,7 @@ julia> m[:] # all elements
 It is impossible to append new elements into arrays directly, except for vectors. However, arrays with matching sizes along a dimension can be concatenated in this dimension. For example, we can horizontally concatenate the matrix `m` using the `hcat` function.
 
 ```jldoctest matrices
-julia> hcat(m, m)
+julia> hcat(M, M)
 2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
  5  6  7  8  5  6  7  8
@@ -399,7 +399,7 @@ julia> hcat(m, m)
 For concatenating vertically, we use the `vcat` function.
 
 ```jldoctest matrices
-julia> vcat(m, m)
+julia> vcat(M, M)
 4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
@@ -410,12 +410,12 @@ julia> vcat(m, m)
 The general function `cat` concatenates arrays along the dimension specified by the `dims` keyword argument.
 
 ```jldoctest matrices
-julia> cat(m, m; dims = 2) # equivalent to hcat(m, m)
+julia> cat(M, M; dims = 2) # equivalent to hcat(m, m)
 2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
  5  6  7  8  5  6  7  8
 
-julia> cat(m, m; dims = 1) # equivalent to vcat(m, m)
+julia> cat(M, M; dims = 1) # equivalent to vcat(m, m)
 4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
@@ -431,7 +431,12 @@ julia> v = [11, 12]
  11
  12
 
-julia> vcat(m, v)
+julia> hcat(M, v)
+2×5 Matrix{Int64}:
+ 1  2  3  4  11
+ 5  6  7  8  12
+
+julia> vcat(M, v)
 ERROR: ArgumentError: number of columns of each array must match (got (4, 1))
 [...]
 ```
@@ -473,7 +478,7 @@ julia> v2 = collect(2:2:10)
 Then we use the `hcat` function to concatenate these two vectors horizontally.
 
 ```jldoctest matrices_ex
-julia> m = hcat(v1, v2)
+julia> M = hcat(v1, v2)
 5×2 Matrix{Int64}:
  1   2
  3   4
@@ -485,12 +490,12 @@ julia> m = hcat(v1, v2)
 Finally, we select all elements in the third row and assign the new value to them.
 
 ```jldoctest matrices_ex
-julia> m[3,:] .= 4
+julia> M[3,:] .= 4
 2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
  4
  4
 
-julia> m
+julia> M
 5×2 Matrix{Int64}:
  1   2
  3   4
@@ -506,6 +511,31 @@ julia> m
 ## `N`-dimensional arrays
 
 In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in `3`-dimensional arrays. In Julia, there is no straightforward way to create `N`-dimensional arrays. The typical way to make such an array is to create an empty array of appropriate size and then fill it manually or using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on [loops](@ref for-and-while-loops) will explain this topic in more details.
+
+!!! compat "New features in Julia 1.7"
+    Starting with Julia 1.7, it is possible to create multidimensional arrays in a similar way to matrices and vectors. Repeated semicolons can be used inside array concatenation expressions to separate dimensions of an array, with the number of semicolons specifying the dimension.
+    ```julia
+    julia> [1; 2; 3]
+    3-element Vector{Int64}:
+    1
+    2
+    3
+
+    julia> [1;; 2;; 3]
+    1×3 Matrix{Int64}:
+    1  2  3
+
+    julia> [1;;; 2;;; 3]
+    1×1×3 Array{Int64, 3}:
+    [:, :, 1] =
+    1
+
+    [:, :, 2] =
+    2
+
+    [:, :, 3] =
+    3
+    ```
 
 There are several ways to initialize an array. The simplest and most common is using the `zeros` function. By default, this function creates an array of given size filled with zeros of type `Float64`.
 
@@ -601,10 +631,11 @@ julia> ones(Float32, 2, 3, 1)
 Function `fill` creates an array of given size filled with the given value.
 
 ```jldoctest
-julia> fill(1.234, 2, 2)
-2×2 Matrix{Float64}:
- 1.234  1.234
- 1.234  1.234
+julia> fill(1.234, 2, 3, 1)
+2×3×1 Array{Float64, 3}:
+[:, :, 1] =
+ 1.234  1.234  1.234
+ 1.234  1.234  1.234
 ```
 
 ```@raw html
