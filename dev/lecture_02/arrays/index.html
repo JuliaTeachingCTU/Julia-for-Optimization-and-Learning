@@ -168,54 +168,54 @@ julia&gt; v
  3
  5
  1
- 1</code></pre></p></details><h2 id="Matrices"><a class="docs-heading-anchor" href="#Matrices">Matrices</a><a id="Matrices-1"></a><a class="docs-heading-anchor-permalink" href="#Matrices" title="Permalink"></a></h2><p>A matrix is a special case of an array with precisely two dimensions. In Julia, we can construct a matrix by the square brackets similarly to vectors. Matrices are built row by row. Elements in rows are separated by spaces, and rows are separated by semicolons.</p><pre><code class="language-julia-repl hljs">julia&gt; m = [1  2  3  4; 5  6  7  8]
+ 1</code></pre></p></details><h2 id="Matrices"><a class="docs-heading-anchor" href="#Matrices">Matrices</a><a id="Matrices-1"></a><a class="docs-heading-anchor-permalink" href="#Matrices" title="Permalink"></a></h2><p>A matrix is a special case of an array with precisely two dimensions. In Julia, we can construct a matrix by the square brackets similarly to vectors. Matrices are built row by row. Elements in rows are separated by spaces, and rows are separated by semicolons.</p><pre><code class="language-julia-repl hljs">julia&gt; M = [1  2  3  4; 5  6  7  8]
 2×4 Matrix{Int64}:
  1  2  3  4
- 5  6  7  8</code></pre><p>The same functions can obtain the basic information about matrices as for vectors.</p><pre><code class="language-julia-repl hljs">julia&gt; typeof(m)
+ 5  6  7  8</code></pre><p>The same functions can obtain the basic information about matrices as for vectors.</p><pre><code class="language-julia-repl hljs">julia&gt; typeof(M)
 Matrix{Int64} (alias for Array{Int64, 2})
 
-julia&gt; eltype(m)
+julia&gt; eltype(M)
 Int64
 
-julia&gt; ndims(m)
+julia&gt; ndims(M)
 2
 
-julia&gt; size(m)
+julia&gt; size(M)
 (2, 4)
 
-julia&gt; length(m)
-8</code></pre><p>Accessing matrix elements can be also done in the same way as for vectors.</p><pre><code class="language-julia-repl hljs">julia&gt; m[1] # the first element, equivalent to m[begin]
+julia&gt; length(M)
+8</code></pre><p>Accessing matrix elements can be also done in the same way as for vectors.</p><pre><code class="language-julia-repl hljs">julia&gt; M[1] # the first element, equivalent to m[begin]
 1
 
-julia&gt; m[2] # the second element
+julia&gt; M[2] # the the second element element
 5
 
-julia&gt; m[end-1] # the last element
-4</code></pre><p>Note that the second element is <code>5</code>. The reason is that Julia is column-oriented. Element at a specific position in a matrix can be accessed by the following syntax <code>matrix[row_index, column_index]</code>. The following code returns the second element in the first row.</p><pre><code class="language-julia-repl hljs">julia&gt; m[1, 2]
-2</code></pre><p>It is also possible to access multiple elements at once</p><pre><code class="language-julia-repl hljs">julia&gt; m[1, [2, 3]] # the second and third element in the first row
+julia&gt; M[end-1] # the second to last element
+4</code></pre><p>Note that the second element is <code>5</code>. The reason is that Julia is column-oriented. Element at a specific position in a matrix can be accessed by the following syntax <code>matrix[row_index, column_index]</code>. The following code returns the second element in the first row.</p><pre><code class="language-julia-repl hljs">julia&gt; M[1, 2]
+2</code></pre><p>It is also possible to access multiple elements at once</p><pre><code class="language-julia-repl hljs">julia&gt; M[1, [2, 3]] # the second and third element in the first row
 2-element Vector{Int64}:
  2
  3
 
-julia&gt; m[1:3] # the first three elements according to linear indexing
+julia&gt; M[1:3] # the first three elements according to linear indexing
 3-element Vector{Int64}:
  1
  5
  2
 
-julia&gt; m[:, 1:3] # the first three columns
+julia&gt; M[:, 1:3] # the first three columns
 2×3 Matrix{Int64}:
  1  2  3
  5  6  7
 
-julia&gt; m[1, :] # the first row
+julia&gt; M[1, :] # the first row
 4-element Vector{Int64}:
  1
  2
  3
  4
 
-julia&gt; m[:] # all elements
+julia&gt; M[:] # all elements
 8-element Vector{Int64}:
  1
  5
@@ -224,20 +224,20 @@ julia&gt; m[:] # all elements
  3
  7
  4
- 8</code></pre><p>It is impossible to append new elements into arrays directly, except for vectors. However, arrays with matching sizes along a dimension can be concatenated in this dimension. For example, we can horizontally concatenate the matrix <code>m</code> using the <code>hcat</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; hcat(m, m)
+ 8</code></pre><p>It is impossible to append new elements into arrays directly, except for vectors. However, arrays with matching sizes along a dimension can be concatenated in this dimension. For example, we can horizontally concatenate the matrix <code>m</code> using the <code>hcat</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; hcat(M, M)
 2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
- 5  6  7  8  5  6  7  8</code></pre><p>For concatenating vertically, we use the <code>vcat</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; vcat(m, m)
+ 5  6  7  8  5  6  7  8</code></pre><p>For concatenating vertically, we use the <code>vcat</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; vcat(M, M)
 4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
  1  2  3  4
- 5  6  7  8</code></pre><p>The general function <code>cat</code> concatenates arrays along the dimension specified by the <code>dims</code> keyword argument.</p><pre><code class="language-julia-repl hljs">julia&gt; cat(m, m; dims = 2) # equivalent to hcat(m, m)
+ 5  6  7  8</code></pre><p>The general function <code>cat</code> concatenates arrays along the dimension specified by the <code>dims</code> keyword argument.</p><pre><code class="language-julia-repl hljs">julia&gt; cat(M, M; dims = 2) # equivalent to hcat(m, m)
 2×8 Matrix{Int64}:
  1  2  3  4  1  2  3  4
  5  6  7  8  5  6  7  8
 
-julia&gt; cat(m, m; dims = 1) # equivalent to vcat(m, m)
+julia&gt; cat(M, M; dims = 1) # equivalent to vcat(m, m)
 4×4 Matrix{Int64}:
  1  2  3  4
  5  6  7  8
@@ -247,7 +247,12 @@ julia&gt; cat(m, m; dims = 1) # equivalent to vcat(m, m)
  11
  12
 
-julia&gt; vcat(m, v)
+julia&gt; hcat(M, v)
+2×5 Matrix{Int64}:
+ 1  2  3  4  11
+ 5  6  7  8  12
+
+julia&gt; vcat(M, v)
 ERROR: ArgumentError: number of columns of each array must match (got (4, 1))
 [...]</code></pre><div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
@@ -267,24 +272,43 @@ julia&gt; v2 = collect(2:2:10)
   4
   6
   8
- 10</code></pre><p>Then we use the <code>hcat</code> function to concatenate these two vectors horizontally.</p><pre><code class="language-julia-repl hljs">julia&gt; m = hcat(v1, v2)
+ 10</code></pre><p>Then we use the <code>hcat</code> function to concatenate these two vectors horizontally.</p><pre><code class="language-julia-repl hljs">julia&gt; M = hcat(v1, v2)
 5×2 Matrix{Int64}:
  1   2
  3   4
  5   6
  7   8
- 9  10</code></pre><p>Finally, we select all elements in the third row and assign the new value to them.</p><pre><code class="language-julia-repl hljs">julia&gt; m[3,:] .= 4
+ 9  10</code></pre><p>Finally, we select all elements in the third row and assign the new value to them.</p><pre><code class="language-julia-repl hljs">julia&gt; M[3,:] .= 4
 2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
  4
  4
 
-julia&gt; m
+julia&gt; M
 5×2 Matrix{Int64}:
  1   2
  3   4
  4   4
  7   8
- 9  10</code></pre></p></details><h2 id="N-dimensional-arrays"><a class="docs-heading-anchor" href="#N-dimensional-arrays"><code>N</code>-dimensional arrays</a><a id="N-dimensional-arrays-1"></a><a class="docs-heading-anchor-permalink" href="#N-dimensional-arrays" title="Permalink"></a></h2><p>In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in <code>3</code>-dimensional arrays. In Julia, there is no straightforward way to create <code>N</code>-dimensional arrays. The typical way to make such an array is to create an empty array of appropriate size and then fill it manually or using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on <a href="../../lecture_03/loops/#for-and-while-loops">loops</a> will explain this topic in more details.</p><p>There are several ways to initialize an array. The simplest and most common is using the <code>zeros</code> function. By default, this function creates an array of given size filled with zeros of type <code>Float64</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; A = zeros(3, 5, 2) # equivalent to A = zeros((3, 5, 2))
+ 9  10</code></pre></p></details><h2 id="N-dimensional-arrays"><a class="docs-heading-anchor" href="#N-dimensional-arrays"><code>N</code>-dimensional arrays</a><a id="N-dimensional-arrays-1"></a><a class="docs-heading-anchor-permalink" href="#N-dimensional-arrays" title="Permalink"></a></h2><p>In many cases, it is useful to use arrays with more dimensions to store data. As an example, we can mention RGB images, which are typically stored in <code>3</code>-dimensional arrays. In Julia, there is no straightforward way to create <code>N</code>-dimensional arrays. The typical way to make such an array is to create an empty array of appropriate size and then fill it manually or using a loop. In this lecture, we will focus only on the basics of creating arrays. The lecture focused on <a href="../../lecture_03/loops/#for-and-while-loops">loops</a> will explain this topic in more details.</p><div class="admonition is-compat"><header class="admonition-header">New features in Julia 1.7</header><div class="admonition-body"><p>Starting with Julia 1.7, it is possible to create multidimensional arrays in a similar way to matrices and vectors. Repeated semicolons can be used inside array concatenation expressions to separate dimensions of an array, with the number of semicolons specifying the dimension.</p><pre><code class="language-julia hljs">julia&gt; [1; 2; 3]
+3-element Vector{Int64}:
+1
+2
+3
+
+julia&gt; [1;; 2;; 3]
+1×3 Matrix{Int64}:
+1  2  3
+
+julia&gt; [1;;; 2;;; 3]
+1×1×3 Array{Int64, 3}:
+[:, :, 1] =
+1
+
+[:, :, 2] =
+2
+
+[:, :, 3] =
+3</code></pre></div></div><p>There are several ways to initialize an array. The simplest and most common is using the <code>zeros</code> function. By default, this function creates an array of given size filled with zeros of type <code>Float64</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; A = zeros(3, 5, 2) # equivalent to A = zeros((3, 5, 2))
 3×5×2 Array{Float64, 3}:
 [:, :, 1] =
  0.0  0.0  0.0  0.0  0.0
@@ -345,10 +369,11 @@ julia&gt; B
 2×3×1 Array{Float32, 3}:
 [:, :, 1] =
  1.0  1.0  1.0
- 1.0  1.0  1.0</code></pre><p>Function <code>fill</code> creates an array of given size filled with the given value.</p><pre><code class="language-julia-repl hljs">julia&gt; fill(1.234, 2, 2)
-2×2 Matrix{Float64}:
- 1.234  1.234
- 1.234  1.234</code></pre><div class="admonition is-category-exercise">
+ 1.0  1.0  1.0</code></pre><p>Function <code>fill</code> creates an array of given size filled with the given value.</p><pre><code class="language-julia-repl hljs">julia&gt; fill(1.234, 2, 3, 1)
+2×3×1 Array{Float64, 3}:
+[:, :, 1] =
+ 1.234  1.234  1.234
+ 1.234  1.234  1.234</code></pre><div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body"><p>Create three matrices with the following properties:</p><ul><li>Matrix <code>A</code> is of size <code>2x3</code>, and all its elements equal 0.</li><li>Matrix <code>B</code> is of size <code>2x3x1</code>, and all its elements equal 1.</li><li>Matrix <code>C</code> is of size <code>2x3</code>, and all its elements equal 2.</li></ul><p>Concatenate these three matrices along the third dimension.</p><p><strong>Hint:</strong> use the <code>cat</code> function and the keyword <code>dims</code>.</p></div></div>
 <details class = "solution-body">
@@ -508,4 +533,4 @@ julia&gt; minimum(A_view; dims = 1)
 
 julia&gt; sum(exp.(sqrt.(abs.(@view(A[1, :]) .- @view(A[2, :]))))./2)
 8.478350511051136</code></pre><p>However, the resulting expression is long and difficult to read. To simplify this task, Julia provides the <code>@views</code> macro that converts every array-slicing operation in the given expression to return a view.</p><pre><code class="language-julia-repl hljs">julia&gt; @views sum(exp.(sqrt.(abs.(A[1, :] .- A[2, :])))./2)
-8.478350511051136</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_01/strings/">« Strings</a><a class="docs-footer-nextpage" href="../tuples/">Tuples and named tuples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.7 on <span class="colophon-date" title="Wednesday 29 September 2021 16:08">Wednesday 29 September 2021</span>. Using Julia version 1.6.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+8.478350511051136</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_01/strings/">« Strings</a><a class="docs-footer-nextpage" href="../tuples/">Tuples and named tuples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.7 on <span class="colophon-date" title="Wednesday 6 October 2021 11:10">Wednesday 6 October 2021</span>. Using Julia version 1.6.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
