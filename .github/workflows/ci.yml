@@ -65,7 +65,7 @@ jobs:
             using Documenter: doctest
             using JuliaCourseFNSPE
             doctest(JuliaCourseFNSPE)'
-      - run: julia --project=docs docs/make.jl
+      - run: julia --project=docs --color=yes docs/make.jl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}

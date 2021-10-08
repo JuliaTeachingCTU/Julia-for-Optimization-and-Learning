@@ -129,6 +129,7 @@ makedocs(;
         prettyurls = get(ENV, "CI", "false") == "true",
         collapselevel = 1,
         assets = ["assets/favicon.ico"],
+        ansicolor = true,
     ),
     pages = [
         "Home" => "index.md",
