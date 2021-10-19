@@ -753,7 +753,7 @@ x = -1, y = -2
  -3
 ```
 
-However, it is usually better to create an actual anonymous function beforehand.
+However, it is usually better to create an actual function beforehand.
 
 ```jldoctest anonym; output = false
 function f(x, y)

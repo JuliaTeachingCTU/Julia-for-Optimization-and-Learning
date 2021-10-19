@@ -133,7 +133,7 @@ end
 compare (generic function with 1 method)
 ```
 
-In the example above, the variable `z` equals `y` if the expression` x <y` evaluates as `true`. Otherwise, the variable `z` equals` x`.
+In the example above, the variable `z` equals `y` if the expression` x < y` evaluates as `true`. Otherwise, the variable `z` equals` x`.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
