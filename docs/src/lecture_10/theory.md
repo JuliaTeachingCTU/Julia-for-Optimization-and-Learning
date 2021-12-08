@@ -93,7 +93,7 @@ The exponential ensures that all outputs are positive. The normalization ensures
 
 #### One-hot and one-cold representation
 
-One-hot and one-cold representations are directly connected with the softmax layer. The one-hot representation is "the normal one", while the one-cold representation is its probability distribution. For example, for the iris dataset, we encode virginica as ``(1,0,0)``, versicolor as ``(0,1,0)`` and setosa as ``(0,0,1)``.
+One-hot and one-cold representations are directly connected with the softmax layer. The one-cold representation is "the normal one", while the one-hot representation is its probability distribution. For example, for the iris dataset, we encode virginica as ``(1,0,0)``, versicolor as ``(0,1,0)`` and setosa as ``(0,0,1)``.
 
 #### Other layers
 
