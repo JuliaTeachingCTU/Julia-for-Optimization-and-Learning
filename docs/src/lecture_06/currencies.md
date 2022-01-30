@@ -56,7 +56,7 @@ julia> b = BankAccount("Paul", Euro)
 BankAccount{Euro}("Paul", Currency[Euro(0.0)])
 ```
 
-First, we observe that we use the `Euro` type (and not its instance) to instantiate the `BankAccount` type. The reason is the definition of the inner constructor for `BankAccount`, where the type annotation is `::Type{<:Currency}`. This is in contrast with `::Currency`. The former requires that the argument is a type, while the former needs an instance.
+First, we observe that we use the `Euro` type (and not its instance) to instantiate the `BankAccount` type. The reason is the definition of the inner constructor for `BankAccount`, where the type annotation is `::Type{<:Currency}`. This is in contrast with `::Currency`. The former requires that the argument is a type, while the latter needs an instance.
 
 Second, `BankAccount` is a parametric type, as can be seen from `BankAccount{Euro}`. In our example, this parameter plays the role of the primary account currency.
 
