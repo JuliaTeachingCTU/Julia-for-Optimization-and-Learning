@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="900" height="300" viewBox="0 0 3600 1200">
 <defs>
-  <clipPath id="clip710">
+  <clipPath id="clip100">
     <rect x="0" y="0" width="3600" height="1200"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip710)" d="
+<path clip-path="url(#clip100)" d="
 M0 1200 L3600 1200 L3600 0 L0 0  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip711">
+  <clipPath id="clip101">
     <rect x="720" y="0" width="2521" height="1200"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip710)" d="
+<path clip-path="url(#clip100)" d="
 M47.2441 1152.76 L1152.76 1152.76 L1152.76 47.2441 L47.2441 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip712">
+  <clipPath id="clip102">
     <rect x="47" y="47" width="1107" height="1107"/>
   </clipPath>
 </defs>
-<g clip-path="url(#clip712)">
+<g clip-path="url(#clip102)">
 <image width="1106" height="1106" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAABFIAAARSCAYAAACDutQKAAAgAElEQVR4nOzau6tehZuGYXfceCBE
 o13UXrDxQCBg4RG0UluxEFKlENNEQUhhZ2Mlmk5tBG2UFAoiQUQQGwtFCZjCIFaxCYmihUTWFFMM
@@ -174,15 +174,15 @@ AAAAgEhIAQAAAIiEFAAAAIBISAEAAACIhBQAAACASEgBAAAAiIQUAAAAgEhIAQAAAIiEFAAAAIBI
 SAEAAACIhBQAAACASEgBAAAAiD4B17MKUHjARlQAAAAASUVORK5CYII=
 " transform="translate(47, 47)"/>
 </g>
-<path clip-path="url(#clip710)" d="
+<path clip-path="url(#clip100)" d="
 M1247.24 1152.76 L2352.76 1152.76 L2352.76 47.2441 L1247.24 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip713">
+  <clipPath id="clip103">
     <rect x="1247" y="47" width="1107" height="1107"/>
   </clipPath>
 </defs>
-<g clip-path="url(#clip713)">
+<g clip-path="url(#clip103)">
 <image width="1106" height="1106" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAABFIAAARSCAYAAACDutQKAAAgAElEQVR4nOzaMYudhbqGYUcHBUkU
 iQoB8TdotLEamEZEiYWIAUVBBEHQJmphJZpCCAoB8QdEJFgEFDSlaKUoCaN22kkKmxQJYoig6xSn
@@ -337,15 +337,15 @@ QgoAAABAJKQAAAAAREIKAAAAQCSkAAAAAERCCgAAAEAkpAAAAABEQgoAAABAJKQAAAAAREIKAAAA
 QCSkAAAAAEQ/VMsp5YcXDa4AAAAASUVORK5CYII=
 " transform="translate(1247, 47)"/>
 </g>
-<path clip-path="url(#clip710)" d="
+<path clip-path="url(#clip100)" d="
 M2447.24 1152.76 L3552.76 1152.76 L3552.76 47.2441 L2447.24 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip714">
+  <clipPath id="clip104">
     <rect x="2447" y="47" width="1107" height="1107"/>
   </clipPath>
 </defs>
-<g clip-path="url(#clip714)">
+<g clip-path="url(#clip104)">
 <image width="1106" height="1106" xlink:href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAABFIAAARSCAYAAACDutQKAAAgAElEQVR4nOzav4td9dqH4ZnDFGmE
 aBFRhEAMCjaCQkAQ0ikoYiEWgmChlWBnLVhoaSUoFqJVDIoINiqIPzpBQUEsNBYWKdInEYfIeotT
