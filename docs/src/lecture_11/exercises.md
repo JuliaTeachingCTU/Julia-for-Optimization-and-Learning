@@ -4,11 +4,11 @@ using Flux
 using MLDatasets
 using DataFrames
 using Plots
-using Flux: onehotbatch, onecold, flatten
+using Flux: onehotbatch, onecold, flatten, params
 
 Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
-MNIST.traindata()
+MNIST(Float32, :train)
 
 function reshape_data(X::AbstractArray{<:Real, 3})
     s = size(X)
@@ -28,8 +28,8 @@ function train_or_load!(file_name, m, args...; force=false, kwargs...)
 end
 
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
-    X_train, y_train = dataset.traindata(T)
-    X_test, y_test = dataset.testdata(T)
+    X_train, y_train = dataset(T, :train)[:]
+    X_test, y_test = dataset(T, :test)[:]
 
     X_train = reshape_data(X_train)
     X_test = reshape_data(X_test)

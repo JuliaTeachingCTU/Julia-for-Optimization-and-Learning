@@ -5,7 +5,7 @@ using MLDatasets
 
 Core.eval(Main, :(using Flux)) # hide
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
-X_train = MNIST.traindata()[1]
+X_train = MNIST(Float32, :train)[:][1]
 
 # imageplot(1 .- X_train, 1:15; nrows = 3, size=(800,480))
 
@@ -37,8 +37,8 @@ We use the package [MLDatasets](https://juliaml.github.io/MLDatasets.jl/stable/)
 using MLDatasets
 
 T = Float32
-X_train, y_train = MLDatasets.MNIST.traindata(T)
-X_test, y_test = MLDatasets.MNIST.testdata(T)
+X_train, y_train = MLDatasets.MNIST(T, :train)[:]
+X_test, y_test = MLDatasets.MNIST(T, :test)[:]
 
 nothing # hide
 ```
@@ -89,7 +89,6 @@ using Plots
 using ImageInspector
 
 imageplot(1 .- X_train, inds; nrows=3, size=(800,480))
-
 savefig("mnist_intro2.svg") # hide
 ```
 
@@ -161,8 +160,8 @@ using Flux
 using Flux: onehotbatch, onecold
 
 function load_data(dataset; T=Float32, onehot=false, classes=0:9)
-    X_train, y_train = dataset.traindata(T)
-    X_test, y_test = dataset.testdata(T)
+    X_train, y_train = dataset(T, :train)[:]
+    X_test, y_test = dataset(T, :test)[:]
 
     X_train = reshape_data(X_train)
     X_test = reshape_data(X_test)
@@ -363,6 +362,7 @@ To build the objective ``L``, we first specify the prediction function ``\operat
 
 ```@example nn
 using Random
+using Flux: flatten
 
 Random.seed!(666)
 m = Chain(
@@ -392,6 +392,7 @@ We now write the function `train_model!` to train the neural network `m`. Since 
 
 ```@example nn
 using BSON
+using Flux: params
 
 function train_model!(m, L, X, y;
         opt = Descent(0.1),

@@ -62,6 +62,8 @@ Because there are ``3`` classes and ``120`` samples in the training set, it retu
 We access the neural network parameters by using `params(m)`. We can select the second layer of `m` by `m[2]`. Since the second layer has ``5 `` input and ``3`` output neurons, its parameters are a matrix of size ``3\times 5`` and a vector of length ``3``. The parameters `params(m[2])` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly, and we do not need to take care of it. We can easily modify any parameters.
 
 ```@example iris
+using Flux: params
+
 params(m[2])[2] .= [-1;0;1]
 
 nothing # hide
