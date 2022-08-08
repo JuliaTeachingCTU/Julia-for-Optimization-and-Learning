@@ -187,7 +187,7 @@ Composite types declared with `struct` keyword are immutable and cannot be modif
 
 ```jldoctest structs
 julia> r.bottomleft = [2;2]
-ERROR: setfield! immutable struct of type Rectangle cannot be changed
+ERROR: setfield!: immutable struct of type Rectangle cannot be changed
 ```
 
 However, immutability is not recursive. If an immutable object contains a mutable object, such as an array, elements of this mutable object can be modified. Even though `Rectangle` is an immutable type, its `bottomleft` field is a mutable array and can be changed.
@@ -585,7 +585,7 @@ The `methods` function shows that Julia created three constructors.  The `@kwdef
 ```jldoctest structs
 julia> methods(MyType)
 # 3 methods for type constructor:
-[1] MyType(; a, b, c) in Main at util.jl:450
+[1] MyType(; a, b, c) in Main at util.jl:478
 [2] MyType(a::Int64, b::Float64, c::String) in Main at none:2
 [3] MyType(a, b, c) in Main at none:2
 ```
