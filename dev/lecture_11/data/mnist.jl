@@ -11,7 +11,7 @@ function reshape_data(X::AbstractArray{T, 3}, y::AbstractVector) where T
 end
 
 function train_or_load!(file_name, m, X, y; force=false, kwargs...)
-    
+
     !isdir(dirname(file_name)) && mkpath(dirname(file_name))
 
     if force || !isfile(file_name)
@@ -24,8 +24,8 @@ end
 
 function load_data(dataset; onehot=false, T=Float32)
     classes = 0:9
-    X_train, y_train = reshape_data(dataset.traindata(T)...)
-    X_test, y_test = reshape_data(dataset.testdata(T)...)
+    X_train, y_train = reshape_data(dataset(T, :train)[:]...)
+    X_test, y_test = reshape_data(dataset(T, :test)[:]...)
     y_train = T.(y_train)
     y_test = T.(y_test)
 
