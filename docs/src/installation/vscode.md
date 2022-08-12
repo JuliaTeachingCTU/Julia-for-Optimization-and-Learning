@@ -1,6 +1,12 @@
-# Visual Studio Code
+## Julia
 
-The previous section installed the Julia programming language. It is possible to write Julia codes in any text editor, and run them directly from the terminal. However, it is usually better to use an IDE that provides additional features such as syntax highlighting, or code suggestions. We recommend using [Visual Studio Code](https://code.visualstudio.com/), a free source-code editor made by Microsoft. It supports many programming languages (Julia, Python, LaTex, ...) via extensions. The editor is available at the official [download page](https://code.visualstudio.com/download).
+Julia can be installed from the official [download page](https://julialang.org/downloads/). The appropriate version is the **64-bits** version for the Windows operating system in most cases. In case of difficulties, we refer to [platform-specific instructions](https://julialang.org/downloads/platform/).
+
+
+
+## Visual Studio Code
+
+It is possible to write Julia codes in any text editor, and run them directly from the terminal. However, it is usually better to use an IDE that provides additional features such as syntax highlighting, or code suggestions. We recommend using [Visual Studio Code](https://code.visualstudio.com/), a free source-code editor made by Microsoft. It supports many programming languages (Julia, Python, LaTex, ...) via extensions. The editor is available at the official [download page](https://code.visualstudio.com/download).
 
 ![](vscodeinstall_1.png)
 

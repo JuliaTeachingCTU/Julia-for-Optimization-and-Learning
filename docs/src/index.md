@@ -14,7 +14,8 @@ Welcome to our course *Julia for Optimization and Learning*. This course consist
 - *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 22 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of September 2021).
 - *Applications*: The second part of the course will be dedicated to applications. The main emphasis will given to machine learning, but we will also go through statistics and differential equations.
 
-More information about the course can be found on the [CourseWare Wiki](https://cw.fel.cvut.cz/wiki/courses/b0b36jul/start).
+This course is taught at the [Czech Technical University](https://www.cvut.cz/en/) in Prague. It is part of the [prg.ai minor](https://prg.ai/minor/), a study programme combining top courses from four faculties of two Prague universities.
+
 
 ## What will we emphasize?
 
@@ -41,15 +42,16 @@ Selected examples of what you will be able to write at the end of the course inc
   ![](data/Video.gif)
 
 
-## Recommended courses
+## Technical details
 
-We recommend the following courses at FJFI:
-- [Matematické problémy nematematiků](http://bilakniha.cvut.cz/cs/predmet5677506.html) invites people from companies to talk about how scientific methods are used in real applications.
+Scripts for each lecture is available at its own [Github repository](https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning-Scripts). For Czech students, we list the [requirements for passing the course](https://cw.fel.cvut.cz/b221/courses/b0b36jul/start) (in Czech only).
 
 
-## References
+## Useful materials
 
 - [Official documentation](https://docs.julialang.org/en/v1/)
+- [Cheatsheet for differences between Julia and Matlab and Python](https://cheatsheets.quantecon.org/)
+- [Cheatsheet of basic functions](https://cheatsheets.quantecon.org/julia-cheatsheet.html)
+- [Cheatsheet of advanced functions](https://juliadocs.github.io/Julia-Cheat-Sheet/)
 - [Think Julia: How to Think Like a Computer Scientist](https://benlauwens.github.io/ThinkJulia.jl/latest/book.html#chap01)
 - [From Zero to Julia!](https://techytok.com/from-zero-to-julia/)
-- [WikiBooks](https://en.wikibooks.org/wiki/Introducing_Julia)

@@ -29,8 +29,7 @@ end
 
 # outline
 installation = [
-    "Julia" => "./installation/julia.md",
-    "Visual Studio Code" => "./installation/vscode.md",
+    "Julia + Visual Studio Code" => "./installation/vscode.md",
     "Git" => "./installation/git.md",
     "Quickstart guide" => "./installation/tutorial.md",
 ]
