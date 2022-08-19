@@ -582,7 +582,7 @@ MyType
 
 The `methods` function shows that Julia created three constructors.  The `@kwdef` macro creates the first constructor; the other two constructors are the default constructors.
 
-```jldoctest structs
+```julia
 julia> methods(MyType)
 # 3 methods for type constructor:
 [1] MyType(; a, b, c) in Main at util.jl:478

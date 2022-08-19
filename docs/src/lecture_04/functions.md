@@ -132,10 +132,10 @@ julia> power(2, 5)
 julia> power(2, -2)
 0.25
 
-julia> power(2, 5) == 2^5
+julia> power(2, 5) ≈ 2^5
 true
 
-julia> power(5, -3) == 5^(-3)
+julia> power(5, -3) ≈ 5^(-3)
 true
 ```
 
