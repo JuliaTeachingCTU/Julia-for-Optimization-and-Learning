@@ -93,16 +93,16 @@ for i in 1:100
     x -= step[1:n]
     μ -= step[n+1]
 end</code></pre><p>The need to differentiate global and local variables in scripts is one reason why functions should be used as much as possible.</p><p>To validate, we need to verify the optimality and the feasibility; both need to equal zero. These are the same as the <code>b</code> variable. However, we cannot call <code>b</code> directly, as it is inside the for loop and therefore local only.</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; f_grad(x) + μ*h_grad(x)</code><code class="nohighlight hljs ansi" style="display:block;">10-element Vector{Float64}:
- 3.469446951953614e-18
- 3.469446951953614e-18
- 0.0
- 0.0
- 0.0
- 6.938893903907228e-18
- 3.469446951953614e-18
- 3.469446951953614e-18
- 0.0
- 3.469446951953614e-18</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; h(x)</code><code class="nohighlight hljs ansi" style="display:block;">0.0</code></pre></p></details><p>The correct solution is</p><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[0.1608, 0.1276, 0.1115, 0.1013, 0.094, 0.0885, 0.084, 0.0804, 0.0773, 0.0746]</code></pre><div class="admonition is-category-exercise">
+  0.0
+  0.0
+  3.469446951953614e-18
+  6.938893903907228e-18
+ -3.469446951953614e-18
+  3.469446951953614e-18
+  0.0
+  0.0
+ -3.469446951953614e-18
+  0.0</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; h(x)</code><code class="nohighlight hljs ansi" style="display:block;">0.0</code></pre></p></details><p>The correct solution is</p><pre class="documenter-example-output"><code class="nohighlight hljs ansi">[0.1608, 0.1276, 0.1115, 0.1013, 0.094, 0.0885, 0.084, 0.0804, 0.0773, 0.0746]</code></pre><div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise 5 (theory):</header>
 <div class="admonition-body"><p>Show that the primal formulation for a problem with no inequalities is equivalent to the min-max formulation.</p></div></div>
 <details class = "solution-body">
@@ -121,4 +121,4 @@ end</code></pre><p>The need to differentiate global and local variables in scrip
 \text{maximize}\qquad &amp;b^\top \mu \\
 \text{subject to}\qquad &amp;c - \lambda - A^\top\mu = 0, \\
 &amp;\lambda\ge 0.
-\end{aligned}\]</p><p>From this formulation, we may remove <span>$\lambda$</span> and obtain <span>$A^\top \mu\le c$</span>. This is the desired dual formulation.</p></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../constrained/">« Constrained optimization</a><a class="docs-footer-nextpage" href="../../lecture_09/theory/">Introduction to regression and classification »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.22 on <span class="colophon-date" title="Monday 15 August 2022 07:17">Monday 15 August 2022</span>. Using Julia version 1.6.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+\end{aligned}\]</p><p>From this formulation, we may remove <span>$\lambda$</span> and obtain <span>$A^\top \mu\le c$</span>. This is the desired dual formulation.</p></p></details></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../constrained/">« Constrained optimization</a><a class="docs-footer-nextpage" href="../../lecture_09/theory/">Introduction to regression and classification »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.22 on <span class="colophon-date" title="Tuesday 23 August 2022 09:17">Tuesday 23 August 2022</span>. Using Julia version 1.8.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
