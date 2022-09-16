@@ -858,7 +858,7 @@ plot(imagegrid(X, 1:10; nrows = 2, sep = 2); axis = nothing, border = :none)
     Now we can start a new Julia session and test if the loading works properly. If we do not load `Plots`, the `imageplot` function will not be available, as can be seen below.
 
     ```julia
-    julia> x = CIFAR10.traintensor(1:10);
+    julia> x = MLDatasets.CIFAR10(Float64, :train)[1:10][1]
 
     julia> imageplot(x, 1:10; nrows = 2, sep = 2)
     ERROR: UndefVarError: imageplot not defined
