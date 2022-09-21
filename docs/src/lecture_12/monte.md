@@ -46,8 +46,9 @@ Use the [formula](https://en.wikipedia.org/wiki/Volume_of_an_n-ball) to compute 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The formula can be easily transferred to a function.
@@ -72,7 +73,7 @@ savefig("dimension1.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](dimension1.svg)
@@ -93,8 +94,9 @@ Write the function `volume_monte_carlo`, which estimates the volume of the ``m``
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To transform the random variable from ``[0,1]`` to ``[-1,1]``, we need to multiply it by two and subtract one. Then we compute the norm of each sampled point. The estimated volume is computed as the fraction of the points whose norm is smaller than one multiplied by the hypercube volume. The latter equals to ``2^m``.
@@ -113,7 +115,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The next figure shows the estimated volume from ``n\in \{10, 1000, 100000\}`` samples for the unit ball in dimension ``m=1,\dots,15``.
@@ -234,8 +236,9 @@ Implement the `rejection_sampling` function. It should generate ``n`` trial poin
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 While it is possible to generate the random points one by one, we prefer to generate them all at once and discard the rejected samples. The function follows precisely the steps summarized before this exercise.
@@ -251,7 +254,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 We will now use the rejection sampling technique to generate the random samples from the three distributions from above. Since the density ``f`` of the normal distribution achieves its maximum at the mean, we specify `f_max = f(d.μ)`.
@@ -382,8 +385,9 @@ Sample ``n=1000`` in the ``m=9``-dimensional space. What is the minimum distance
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first sample the points.
@@ -412,7 +416,7 @@ nothing # hide
 This approach has the disadvantage that it allocates an ``n\times n`` matrix.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The minimum of these distances is roughly ``0.2``, while the maximum is ``2.2``. The minimum is surprisingly high and shows that sampling even ``1000`` points in ``\mathbb R^9`` forms a very sparse structure. The maximum distance is far away from the distance of two corners of the hypercube, which equals ``\sqrt{m}=3``.

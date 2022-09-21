@@ -12,14 +12,15 @@ Text...
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Solution...
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Homework

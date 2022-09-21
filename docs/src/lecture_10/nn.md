@@ -36,8 +36,9 @@ Write the `split` function, which randomly splits the dataset and the labels int
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The function `split` has two required arguments and two optional arguments. The first optional argument is the dimension `dims` along which the split is done. The second optional argument is the fraction of the training set. We first check whether the inputs have the same sizes along the correct dimension. Then we determine the number of samples `n_train` in the training set, create a random permutation `i_rand` and select the correct number of indices. Finally, we return the data and labels in the training and testing sets.
@@ -69,7 +70,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The following exercise normalizes the data. In the previous lecture, we have already normalized the training set. We compute the normalizing constants (mean and standard deviation) for each feature and then apply them to the data. Since the normalization needs to be done before training, and since the testing set is not available during training, the normalizing constants can be computed only from the training set. This also means that the features on the training set have zero mean and unit variance, but features on the testing set may have different mean and variance.
@@ -86,8 +87,9 @@ Write the `normalize` functions as described above. It should have two inputs an
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To compute the mean of `X` along dimension `dims`, we can check the help for the `mean` function to realize that the correct command is `mean(X; dims)`. This is equivalent to `mean(X; dims=dims)`. We do the same for the standard deviation. To normalize, we need to subtract the mean and divide by the standard deviation. Since `col_means` has the same number of dimensions as `X_train`, we can use `X_train .- col_mean` to broadcast `col_mean` along the dimension mean was computed. We need to use the same normalizing constant for the training and testing sets due to the reasons mentioned above.
@@ -114,7 +116,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The following exercise modifies the labels into a standard form for machine learning.
@@ -135,8 +137,9 @@ Write a check that both functions work correctly.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `onehot` function first creates an array `y_onehot`, where the first dimension is the number of classes, and the second dimension the number of samples. Since all but one entries of each column will be zeros, we initialize it by zeros. Then we run a for loop to fill one into each column. We perform the for loop over all classes, but it is also possible to perform it over all columns.
@@ -169,7 +172,7 @@ isequal(onecold(onehot(y, classes), classes), y)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Preparing the data is spread over many lines. It is better to combine them into the function `prepare_data`.
@@ -254,8 +257,9 @@ Write an outer constructor for `SimpleNet`. Its inputs should be three integers 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since a dense layer computes ``Wx+b``, the size of ``W`` should be the layer output size times the layer input size. The bias ``b`` should be of the size of the layer output.
@@ -267,7 +271,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Out neural network will have five hidden neurons. Therefore, we need to initialize it with the following code.
@@ -294,8 +298,9 @@ Write a functor `function (m::SimpleNet)(x)` which computes the prediction (forw
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The dense layer is a linear function `z1 = W1*x .+ b1` followed by an activation function. If we assume that `x` is a vector, then `+` would work the same as `.+` because both `W1*x` and `b` are of the same dimension. However, if we want `x` to be a matrix (each column corresponds to one sample), we need to write `.+` because `W1*x` is a matrix and the vector `b` needs to be broadcasted to be of the same size. The activation function is the ReLU function which needs to be applied componentwise. The procedure for the second layer is the same, but we need to finish it with the softmax function. If `x` is a matrix, then `z2` is a matrix, and we specify that we want to normalize along the first dimension. If we assume only vector inputs, then specifying the dimension is not necessary.
@@ -312,7 +317,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 It is simple now to evaluate the first two samples one the training set.
@@ -409,8 +414,9 @@ Train the network with a gradient descent with stepsize ``\alpha=0.1`` for ``200
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Now the process is simple. We compute the gradient `grad_all`, then its mean `grad_mean` via the already written function `mean_tuple`. The first value of the tuple `grad_mean` is the objective; the remaining are the gradients. Thus, we save the first value to an array and use the remaining one to update the weights.
@@ -435,7 +441,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@example nn
@@ -461,8 +467,9 @@ Write a function which predict the labels for samples. Show the accuracy on both
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The predicted probabilities are obtained by using the model `m`. The prediction (highest predicted probability) is obtained by converting the one-hot into the one-cold representation. Finally, the accuracy computes in how many cases the prediction equals to the label.
@@ -478,7 +485,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct answer is

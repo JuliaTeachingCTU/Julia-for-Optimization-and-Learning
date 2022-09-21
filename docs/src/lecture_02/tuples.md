@@ -58,8 +58,9 @@ Create a tuple that contains the first four letters of the alphabet (these lette
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Such a tuple can be created easily using the standard syntax:
@@ -77,7 +78,7 @@ julia> a, b, c, d = t
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Named tuples

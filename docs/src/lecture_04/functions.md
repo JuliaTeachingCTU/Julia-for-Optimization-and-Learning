@@ -97,8 +97,9 @@ Write function `power(x::Real, p::Integer)` that for a number ``x`` and a (possi
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To use recursion, we have to split the computation into three parts:
@@ -150,7 +151,7 @@ ERROR: MethodError: no method matching power(::Int64, ::Float64)
 We will discuss type annotation later in the section about [methods](@ref Methods).
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## One-line functions
@@ -219,8 +220,9 @@ Write a one-line function that returns `true` if the input argument is an even n
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 From the section about the ternary operator, we know that the syntax
@@ -249,7 +251,7 @@ true
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Optional arguments
@@ -339,8 +341,9 @@ What is the function value at point ``(4, 2)`` for default parameters? What is t
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The quadratic form can be implemented as follows:
@@ -367,7 +370,7 @@ julia> q(4, 2, 1, 2, 3)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Keyword arguments
@@ -445,8 +448,9 @@ where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to obta
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The probability density function for the Gaussian distribution equals to
@@ -513,7 +517,7 @@ savefig("gauss.svg") # hide
 ![](gauss.svg)
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Variable number of arguments
@@ -615,8 +619,9 @@ Write a function `wrapper`, that accepts a number and applies one of `round`, `c
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The one way to define this function is the `if-elseif-else` statement.
@@ -699,7 +704,7 @@ julia> wrapper_new(x; sigdigits = 3)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Anonymous functions

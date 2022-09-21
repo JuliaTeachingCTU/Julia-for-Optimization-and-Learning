@@ -77,8 +77,9 @@ Use the ``t``-test to verify whether the samples were generated from a distribut
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We compute the statistic ``t``, then define the Student's distribution with ``n-1`` degrees of freedom, evaluate the distribution function at ``t`` and finally compute the ``p``-value.
@@ -95,7 +96,7 @@ p = 2*min(prob, 1-prob)
 The ``p``-value is significantly larger than ``5\%``. Therefore, we cannot reject the zero hypothesis, which is fortunate because the data were generated from the normal distribution with zero mean.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Even though the computation of the ``p``-value is simple, we can use the [HypothesisTests](https://juliastats.org/HypothesisTests.jl/stable/) package. When we run the test, it gives us the same results as we computed.
@@ -221,8 +222,9 @@ Then remove the feature with the highest ``p``-value and observe whether there w
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since the parameters for both approaches are almost the same, the approaches give the same result. 
@@ -246,7 +248,7 @@ Now we show the performances of both models.
 Since we observe only a small performance drop, we could omit this feature without changing the model prediction capability.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The core assumption of this approach is that ``y`` follows the normal distribution. We use the `predict` function for predictions and then use the `plot_histogram` function written earlier to plot the histogram and a density of the normal distribution. For the normal distribution, we need to specify the correct mean and variance.
@@ -293,8 +295,9 @@ Create the scatter plot of predictions and labels. Do not use the `predict` func
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Due to the construction of the generalized linear model, the prediction equals ``g^{-1}(w^\top x)``. We save it into ``\hat y``.
@@ -320,7 +323,7 @@ savefig("glm_predict.svg")
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](glm_predict.svg)

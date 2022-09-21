@@ -173,8 +173,9 @@ Define a new method for the `symbol` function for `Dollar`.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 When adding a new method to the `symbol` function, we have to remember that we used the currency type for dispatch, i.e., we have to use `::Type{Dollar}` instead of `::Dollar` in the type annotation.
@@ -198,7 +199,7 @@ julia> Dollar(1.5)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Conversion
@@ -397,8 +398,9 @@ The printing style is not ideal because we are usually not interested in more th
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Any real number can be rounded to 2 digits after the decimal point by the `round` function with the keyword argument `digits = 2`. Then we can use an almost identical definition of the method as before.
@@ -429,7 +431,7 @@ julia> dlr = convert(Dollar, pnd)
 We realize that the rounding is done only for printing, while the original value remains unchanged.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Promotion
@@ -488,8 +490,9 @@ Define a new currency `CzechCrown` representing Czech crowns. The exchange rate 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We define first the new type `CzechCrown`.
@@ -541,7 +544,7 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2), CzechCrown(2.8))
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Basic arithmetic operations
@@ -648,8 +651,9 @@ In the section above, we defined the addition for all subtypes of `Currency`. We
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `-` operation can be defined exactly as the addition.
@@ -735,7 +739,7 @@ julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Currency comparison

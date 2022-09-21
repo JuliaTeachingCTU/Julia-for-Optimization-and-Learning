@@ -50,8 +50,9 @@ The logistic regression on the iris dataset failed in 6 out of 100 samples. But 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We use the `iris_reduced` dataframe and add the column `prediction` to it.
@@ -78,7 +79,7 @@ df[(df.PetalLength .== 4.8) .& (df.PetalWidth .== 1.8), :]
 As we can see, there are three samples with the same data. Two of them have label 1 and one label 0. Since the incorrectly classified sample was redrawn, it was not possible to see it.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -91,8 +92,9 @@ Show that Newton's method fails when started from the vector ``(1,2,3)``. Can yo
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we run the logistic regression as before, only with a different starting point
@@ -148,7 +150,7 @@ it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. T
 The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a huge number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -161,8 +163,9 @@ Show the details for the derivation of the loss function of the logistic regress
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since ``\hat y`` equals the probability of predicting ``1``, we have
@@ -184,7 +187,7 @@ Then the cross-entropy loss reduces to
 Then it remains to sum this term over all samples.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -197,8 +200,9 @@ Show that if the Newton's method converged for the logistic regression, then it 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We derived that the Hessian of the objective function for logistic regression is
@@ -216,5 +220,5 @@ a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
 which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.
 
 ```@raw html
-</p></details>
+</div></details>
 ```

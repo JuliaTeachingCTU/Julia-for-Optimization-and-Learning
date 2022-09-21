@@ -50,18 +50,19 @@ Use this code given below to plot the heatmap of the matrix ``A``.
 ```julia
 using Plots
 heatmap(A;
-    c = :viridis,
-    clims = (0, 0.15),
-    cbar = :none,
-    axis = :none,
-    ticks = :none
+    c=:viridis,
+    clims=(0, 0.15),
+    cbar=:none,
+    axis=:none,
+    ticks=:none
 )
 ```
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Firstly, we have to define all input parameters.
@@ -116,7 +117,7 @@ heatmap(A;
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](juliaset.svg)
@@ -143,8 +144,9 @@ where ``z, c \in \mathbb{C}``, ``R \in \mathbb{R}`` and ``N \in \mathbb{N}``. Us
 **Hint:** recall that the function should return `0` if `n > N` and `n/N` otherwise.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 As suggested in the exercise description, we will use the `while` loop. Using the `while` loop, we have to define a stopping condition. In this case, we have two conditions:
@@ -195,7 +197,7 @@ heatmap(A1;
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](juliaset_ex2.svg)

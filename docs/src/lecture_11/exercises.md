@@ -64,8 +64,9 @@ Investigate how long it takes to perform multiplication ``Ab`` if both objects a
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The beginning is simple
@@ -132,7 +133,7 @@ julia> (typeof(A), typeof(A_g))
 we realize that one of the arrays is stored in ```Float64``` while the second one in ```Float32```. Due to the different number of saved digits, the multiplication results in this error.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The following exercise shows the time difference when applied to a larger problem.
@@ -147,8 +148,9 @@ Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We load the data, model and convert everything to GPU
@@ -190,7 +192,7 @@ julia> @time m_g(X_test_g);
 Using GPU speeded the computation by more than ten times.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 !!! info "Computation on GPU:"
@@ -220,8 +222,9 @@ Convert the confusion matrix into a dataframe and add labels.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we load the data as many times before
@@ -267,7 +270,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@example gpuu
@@ -286,8 +289,9 @@ Plot all images which are ``9`` but were classified as ``7``.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To plot all these misclassified images, we find their indices and use the function `imageplot`. Since `y` are stored in the 1:10 format, we need to specify `classes`.
@@ -305,7 +309,7 @@ savefig("miss.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](miss.svg)
@@ -332,8 +336,9 @@ Discuss the images.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To create the network and to load the data, we use
@@ -385,7 +390,7 @@ end
 We plot and comment on three selected digits below.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Digit 0

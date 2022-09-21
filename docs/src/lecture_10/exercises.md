@@ -144,8 +144,9 @@ Recall that `split` takes `ratio_split` as an optional argument. Write a one-lin
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The ```ratio_train``` function reads:
@@ -170,7 +171,7 @@ println("Ratio train/test = ", ratio_train(X_train, X_test))
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The goal of the following exercise is to show the prediction function graphically. For this reason, we will consider only two features. All the following exercises use the data with the fixed seed for reproducibility.
@@ -194,8 +195,9 @@ Use the same training procedure for 1000 iterations to train the classifier with
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The procedure for training the network is the same as during the lecture.
@@ -252,7 +254,7 @@ savefig("Separation.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](Separation.svg)
@@ -269,8 +271,9 @@ Consider the same data as in the previous exercise but train a network with 25 h
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first specify the loss function.
@@ -367,7 +370,7 @@ savefig("Separation3.svg") # hide
 The separation on the testing set is quite good, but it could be better for the two bottommost green circles (iris virginica). The model predicted (in the background) the red colour (iris versicolor) there. This is wrong. The reason is clear from the picture depicting the training set. The classifier tried to perfectly fit the boundary between the green and red points, making an outward-pointing tip. This is precisely overfitting and the reason for the misclassification on the testing set.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](Separation2.svg)
@@ -383,8 +386,9 @@ The contour plots from Exercises 2 and 3 are strikingly different, especially in
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since the dataset does not contain any data in the top-left or bottom-right corners, it does not know what to predict. From its perspective, both separations are very good.
@@ -393,7 +397,7 @@ Since the dataset does not contain any data in the top-left or bottom-right corn
     If a classifier does not have any data in some region, it may predict anything there, including predictions with no sense.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -406,8 +410,9 @@ Proof the theorem about universal approximation of neural networks.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining
@@ -436,5 +441,5 @@ Then ``h`` can be represented as the following network with two layers:
 This finishes the proof.
 
 ```@raw html
-</p></details>
+</div></details>
 ```

@@ -239,8 +239,9 @@ Create a vector of positive integers that contains all odd numbers smaller than 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Such a vector can be either created manually by
@@ -296,7 +297,7 @@ julia> v
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Matrices
@@ -451,8 +452,9 @@ Create two vectors: vector of all odd positive integers smaller than `10` and ve
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we have to create the two vectors. We can do it manually, or we can use ranges and the `collect` function as in the exercise in the previous section.
@@ -505,7 +507,7 @@ julia> M
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## `N`-dimensional arrays
@@ -654,8 +656,9 @@ Concatenate these three matrices along the third dimension.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Matrix `A` can be created using the `zeros` function, and similarly, matrix `B` using the `ones` function. To create a matrix `C`, we can use the `fill` function.
@@ -697,7 +700,7 @@ julia> cat(A, B, C; dims = 3)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Broadcasting
@@ -827,8 +830,9 @@ B = [
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Each element of the matrix `A` depends on only one element of the matrix `B`. In other words, matrix `A` can be created in an element-wise manner from matrix `B`, i.e. we can use broadcasting.
@@ -865,7 +869,7 @@ julia> A
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Views

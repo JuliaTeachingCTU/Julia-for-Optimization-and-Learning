@@ -32,8 +32,9 @@ mod1(5, 4)
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 One way to define the `neighbours` function is to check all neighbours manually.
@@ -72,7 +73,7 @@ end
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 
@@ -86,8 +87,9 @@ Add a new method to the `neighbours` function that for the `world` matrix return
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is:
@@ -102,7 +104,7 @@ end
 This is an example of multiple dispatch. The function `neighbours` can have both one and three input arguments.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -115,8 +117,9 @@ Write a function `willsurvive` that returns `true` if the cell will survive base
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `cell == 1`.
@@ -140,7 +143,7 @@ willsurvive(cell, k) = k == 3 || k == 2 && cell
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 
@@ -154,8 +157,9 @@ Combine these functions to write a function `evolve!` that evolves the given `wo
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first compute the matrix with the numbers of living neighbours. Then we iterate over all elements of the `world` matrix and compute new states of all elements with the `willsurvive` function. Since we computed the number of living neighbours before iterating, we can rewrite the `world` matrix.
@@ -171,7 +175,7 @@ end
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 In the four exercises above, we defined functions sufficient to animate the Game of Life. Use the following code to initialize the `world`.

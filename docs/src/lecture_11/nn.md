@@ -64,8 +64,9 @@ Plot the first 15 images of the digit 0 from the training set.
 **Hint**: To find the correct indices, use the function `findall`.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The unique elements in `y_train` show that it represents the digits.
@@ -93,7 +94,7 @@ savefig("mnist_intro2.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](mnist_intro2.svg)
@@ -116,8 +117,9 @@ Write function `reshape_data`, which reshapes `X_train` and `X_test` into the co
 **Hint**: The function should work only on inputs with the correct size. This can be achieved by specifying the correct input type `X::AbstractArray{<:Real, 3}`.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 As we have never worked with MLDatasets, we do not know in which format the loading function returns the data.
@@ -146,7 +148,7 @@ nothing # hide
 We specify that the input array has three dimensions via `X::AbstractArray{T, 3}`. This may prevent surprises when called with different input size.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 
@@ -204,8 +206,9 @@ Try to load the CIFAR10 dataset via the `load_data` function and fix the error i
 **Hint**: Use ` dataset = MLDatasets.CIFAR10`.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first load the data in the same way as before.
@@ -240,7 +243,7 @@ Tuple{Array{Float32,4},Flux.OneHotMatrix{Array{Flux.OneHotVector,1}},Array{Float
 We see that it correctly returned a tuple of four items.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 
@@ -280,8 +283,9 @@ Use the help of the function `DataLoader` to split the dataset into minibatches.
 **Hint**: It needs to be imported from Flux via `using Flux.Data: DataLoader`.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first load the function `DataLoader`.
@@ -309,7 +313,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 
@@ -435,8 +439,9 @@ The function `train_model!` first splits the datasets into minibatches `batches`
 Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set.
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To train the model, it suffices to call the previously written function.
@@ -463,7 +468,7 @@ nothing # hide
 We defined ```accuracy``` in a different way than before. Can you spot the difference and explain why they are equivalent?
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@example nn
@@ -487,8 +492,9 @@ Use this function to load the model from `data/mnist.bson` and evaluate the perf
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The optional arguments should contain `kwargs...`, which will be passed to `train_model!`. Besides that, we include `force` which enforces that the model is trained even if it already exists.
@@ -523,7 +529,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@example nn

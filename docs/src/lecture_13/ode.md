@@ -55,8 +55,9 @@ Consider equidistant discretizations with stepsizes ``\Delta t`` and ``\Delta x`
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The wave equation needs to satisfy the boundary conditions
@@ -92,7 +93,7 @@ y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The most challenging part is done: We have finished the discretization scheme. Now we need to code it. We will employ a structure storing the wave equation parameters. 
@@ -119,8 +120,9 @@ Write the function `solve_wave(T, L, wave::Wave; n_t=100, n_x=100)` that solves 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first discretize both time and space by the `range` function. Then we initialize the matrix `y`. We decide that the first dimension corresponds to time and the second one to space. We set the boundary conditions and fill `y[:,1]` with `wave.f(0)` and `y[:,end]` with `wave.f(L)`. Since the wave at the initial moment equals to ``f``, we set `y[1,2:end-1] = wave.f.(xs[2:end-1])`. Since the condition at ``t=\Delta t`` amount to
@@ -166,7 +168,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The best visualization of the wave equation is via animation. Each frame will be a plot of a row of `y`. We use the keyword arguments `kwargs`, where we store additional arguments for plotting. We run the for loop over all rows, create the animation via the `@animate` macro and save it into `anim`. To save the animation to the hard drive, we use the `gif` function.
@@ -215,8 +217,9 @@ Use time discretization with stepsize ``\Delta t=1`` and the space discretizatio
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we assign the parameters
@@ -247,7 +250,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](wave1.gif)

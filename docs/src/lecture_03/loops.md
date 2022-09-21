@@ -111,8 +111,9 @@ Use `for` or `while` loop to print all integers between `1` and `100` which can 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we need to check if a given integer is divisible by both `3` and `7`. This can be performed using the `mod` function in combination with the `if-else` statement as follows:
@@ -167,7 +168,7 @@ i = 84
 The `for` loop should be used here because the range is known before-hand and unlike the `while` loop, it does not require to initialize `i`.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ### `break` and `continue`
@@ -210,8 +211,9 @@ Rewrite the code from the exercise above. Use a combination of the `while` loop 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `true` value creates an infinite loop, i.e., it is necessary to end the loop with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
@@ -234,7 +236,7 @@ i = 84
 We used the short-circuit evaluation to break the loop. To check that the integer is divisible, we use the same condition as before. However, we must use `||` instead of `&&` because we want to use the `continue` keyword.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ### Nested loops
@@ -314,8 +316,9 @@ where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we have to define vectors `x` and `y`, and an empty array of the proper size and element type to use in nested loops.
@@ -365,7 +368,7 @@ We use the `@ .` macro to perform all operations elementwise. Since `x` is a col
 The third way to create this matrix is to use list comprehension. Due to its importance, we dedicate a whole section to it.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## List comprehension
@@ -423,8 +426,9 @@ Use the list comprehension to create a vector of all integers from `1` to `100` 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We can use list comprehension with the same condition that we used in the exercise in the first section.
@@ -446,7 +450,7 @@ julia> sum(v)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Generator expressions
@@ -517,8 +521,9 @@ Use a generator to sum the square of all integers from `1` to `100`, which are d
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 There are two ways how to solve this exercise. The first one creates a generator and then uses the `sum` function.
@@ -541,7 +546,7 @@ julia> sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Iterators
@@ -628,8 +633,9 @@ where `i` represents row's number and `i_sum` the sum of all elements in this ro
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we have to generate the matrix `A`. It can be done using list comprehension as follows:
@@ -670,5 +676,5 @@ Sum of all elements in a column 4 is 0.026443054989612996
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```

@@ -148,8 +148,9 @@ Implement the methods for the `ridge_reg` function. Verify that the result in th
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The simple implementation for the solution is the same as in the case of linear regression. We only need to add `μ*I`.
@@ -189,7 +190,7 @@ norm(w1 - w2)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 To test the speed, we use the `BenchmarkTools` package. The second option is significantly faster. The price to pay is the need to pre-compute the matrix decomposition.

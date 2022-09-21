@@ -128,8 +128,9 @@ and print it into the REPL. The printed string should look the same as the text 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 There are two basic ways to get the right result. The first is to use a multi-line string and write the message in the correct form.
@@ -159,7 +160,7 @@ julia> println(str)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## String concatenation and interpolation
@@ -276,8 +277,9 @@ b = [:a, :b, :c, :d]
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
@@ -303,7 +305,7 @@ julia> println(str)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Useful functions
@@ -415,8 +417,9 @@ into a vector of single-character strings.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
@@ -432,5 +435,5 @@ julia> split("Julia!", "")
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```

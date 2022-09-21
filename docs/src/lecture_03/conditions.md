@@ -166,8 +166,9 @@ Make sure that the input argument is a non-negative integer. For negative input 
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We split the solution into three cases:
@@ -207,7 +208,7 @@ ERROR: argument must be non-negative integer
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Ternary operator
@@ -342,8 +343,9 @@ Rewrite the factorial function from the exercises above. Use the short-circuit e
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately by the short-circuit evaluation.
@@ -385,5 +387,5 @@ ERROR: argument must be non-negative integer
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```

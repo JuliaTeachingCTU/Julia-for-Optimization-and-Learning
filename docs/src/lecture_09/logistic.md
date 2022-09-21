@@ -116,8 +116,9 @@ For the features, consider only petal length and petal width.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The modification of the dataframe can be by the `Query` package.
@@ -159,7 +160,7 @@ isequal(iris_reduced, iris_reduced2)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Now we extract the data ```X``` and labels ```y```. Since ```iris_reduced``` is a DataFrame, we need to convert it first into a ```Matrix```. The matrix `X` is formed by the petal length, width and the intercept. 
@@ -183,8 +184,9 @@ Since ```X``` has two features (columns), it is simple to visualize. Use scatter
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We make use of the ```iris_reduced``` variable. To plot the points in different colours, we use the keyword ```group = :Species```.
@@ -205,7 +207,7 @@ savefig("iris1.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](iris1.svg)
@@ -226,8 +228,9 @@ It would be possible to use the code ```optim(f, g, x, s::Step)``` from the prev
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To write the desired function, we need to implement the gradient and Hessian from derived in the theoretical lecture. First, we define the sigmoid function in `σ`. Then we need to create ``\hat y``. We may use for loop notation ```[σ(w'*x) for x in eachrow(X)]```. However, in this case, it is simpler to use matrix operations ```σ.(X*w)``` to get the same result. The gradient can be written in the same way. Again, we use matrix notation. For the Hessian, we first create ```X_mult = [row*row' for row in eachrow(X)]``` which computes all products ``x_ix_i^\top``. This creates an array of length ``100``; each element of this array is a ``2\times 2`` matrix. Since it is an array, we may multiply it by ```y_hat.*(1 .-y_hat)```. As ```mean``` from the ```Statistics``` package operates on any array, we can call it (or similarly ```sum```). We may use ```mean(???)``` but we find the alternative  ```??? |> mean``` more readable in this case. We use ```hess \ grad```, as explained in the previous lecture for Newton's method, to update the weights.
@@ -262,7 +265,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is
@@ -336,8 +339,9 @@ Compute how many samples were correctly and incorrectly classified.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since ``\hat y_i`` is the probability that a sample is of the positive class, we will predict that it is positive if this probability is greater than ``\frac 12``. Then it suffices to compare the predictions ```pred``` with the correct labels ```y```.
@@ -353,7 +357,7 @@ nothing # hide
 There is an alternative (but equivalent way). Since the separating hyperplane has form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write arguments on why these two approaches are equivalent.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct answer is

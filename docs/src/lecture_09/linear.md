@@ -88,8 +88,9 @@ Make a graph of the dependence of petal width on petal length.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Since the petal length and width are the third and fourth columns, we assign them to ```X``` and ```y```, respectively. We can use ```iris[:, 4]``` or ```iris[:, :PetalWidth]``` instead of ```iris.PetalWidth```, but the first possibility is vulnerable to errors. We need to concatenate ```X``` it with a vector of ones to add the bias.
@@ -118,7 +119,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](iris_lin1.svg)
@@ -138,8 +139,9 @@ Use the closed-form formula to get the coefficients ``w`` for the linear regress
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The closed-form expression is ``(X^\top X)^{-1}X^\top y``. In the [exercises](@ref l7-exercises) to the previous lecture, we explained that writing ```(X'*X) \ (X'*y)``` is better than `inv(X'*X)*X'*y` because the former does not compute the matrix inverse. As a side-note, can you guess the difference between `inv(X'*X)*X'*y` and `inv(X'*X)*(X'*y)`?
@@ -170,7 +172,7 @@ norm(w-w2)
 which is acceptable.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is
@@ -191,8 +193,9 @@ Write the dependence on the petal width on the petal length. Plot it in the prev
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The desired dependence is
@@ -229,7 +232,7 @@ savefig("iris_lin2.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](iris_lin2.svg)

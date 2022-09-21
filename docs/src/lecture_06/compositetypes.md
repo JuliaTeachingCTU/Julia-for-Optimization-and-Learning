@@ -407,8 +407,9 @@ Define a structure that represents 3D-points. Do not forget to define it as a su
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 There are several possibilities for defining the structure. We define it as a structure with three fields. Another option is to use a tuple to store the point coordinates.
@@ -438,7 +439,7 @@ julia> Point3D{Float32}(1, 2, 3)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Constructors
@@ -518,8 +519,9 @@ true
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 In this case, we can use an inner constructor with the optional number of input arguments. In the definition below, we use type annotation to set these arguments to be real numbers. Since we use the `new` function and our type is parametric, we have to specify `N` and type `T`.
@@ -561,7 +563,7 @@ julia> dim(p)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Default field values
@@ -665,8 +667,9 @@ Verify that the probability density function is defined correctly, i.e., its int
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.
@@ -725,7 +728,7 @@ julia> sum(Gauss(0.1, 2.3), x) * step
 We use `sum` with a function as the first input argument and apply it to each value of the second argument. This is possible because we defined a functor for `Gauss`. The result is the same as `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html

@@ -141,8 +141,9 @@ Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.o
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We first define vector `t` by the `range` function with a predefined length.
@@ -210,7 +211,7 @@ savefig("plot_exercise1.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](plot_exercise1.svg)
@@ -260,8 +261,9 @@ where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Use additional plot at
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 This exercise is straightforward. We first define the functions described by the set of equations.
@@ -287,7 +289,7 @@ savefig("plot_exercise2.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](plot_exercise2.svg)
@@ -332,8 +334,9 @@ Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 As usual, we first define the function and the values, where it will be evaluated.
@@ -382,7 +385,7 @@ surface(x, x, fz; camera = (25, 65), kwargs...)
 ![](plots_srs_ex3.svg)
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Subplots

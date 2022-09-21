@@ -62,8 +62,9 @@ where `x = 4` and `p = 5`.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we define variables `x` and `p`
@@ -111,7 +112,7 @@ Int64
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Promotion system
@@ -195,8 +196,9 @@ w = Int32(1)
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To get the correct promotion type, we can use a combination of the `promote` and `typeof` functions
@@ -217,7 +219,7 @@ Float32
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Updating operators
@@ -257,8 +259,9 @@ where `x = 5` and `p = 3`. Then multiply the result by `8`, add `3`, divide by `
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we calculate the value of `y`
@@ -289,7 +292,7 @@ julia> y -= 1
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Numeric comparison
@@ -477,8 +480,9 @@ Use rounding functions to solve the following tasks:
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `ceil` function rounds numbers to the nearest larger value, and since we want the result to be of type `Int64`, we have to pass this type as a first argument
@@ -513,7 +517,7 @@ julia> round(x; sigdigits = 3)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Numerical conversions
@@ -569,8 +573,9 @@ y = 0.5
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Firstly, we can try just to sum the given numbers
@@ -588,5 +593,5 @@ julia> x + Rational(y)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```

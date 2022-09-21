@@ -70,8 +70,9 @@ When calling the `solve` function, we can specify the interpolation way. Solve t
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To compute the additional solutions, we add the arguments as specified above.
@@ -96,7 +97,7 @@ plot!(ts, t->sol3(t), label="Runge-Kutta")
 savefig("Comparison.svg") # hide
 ```
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](Comparison.svg)
@@ -194,8 +195,9 @@ Use the `nextfloat` function to perturb the first parameter of `p` by the smalle
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We start with the smallest possible perturbation of the initial value.
@@ -218,7 +220,7 @@ savefig("lorenz4.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](lorenz4.svg)
@@ -241,8 +243,9 @@ Can we trust the solutions? Why?
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Unfortunately, we cannot. Numerical methods always introduce some errors by
@@ -251,7 +254,7 @@ Unfortunately, we cannot. Numerical methods always introduce some errors by
 However, if the system itself is unstable and an extremely small perturbation results in big differences in solutions, the numerical method even enhances these errors. The solution could be trusted on some small interval but not after it.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The following section shows a situation where we try to mitigate this possible effect by using mathematical formulas to compute the exact solution as long as possible. This aproach delays the necessary discretization and may bring better stability.

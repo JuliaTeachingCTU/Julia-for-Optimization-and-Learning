@@ -73,8 +73,9 @@ Write a function ```g(x)``` which computes the derivative of ``f`` at a point  `
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Function ```f(x)``` takes as an input a vector of two dimensions and returns a scalar. Therefore, the gradient is a two-dimensional vector, which we create by ```[?; ?]```. Its components are computed from the chain rule.
@@ -116,7 +117,7 @@ savefig("grad1.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](grad1.svg)
@@ -145,8 +146,9 @@ Write a function ```finite_difference``` which computes the approximation of ``f
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 It is sufficient to rewrite the formula above. Since the argument ```h``` is optional, it should be after ```;```. Its good default value is anything between ``10^{-10}`` and ``10^{-5}``. We specify ```x::Real``` as a sanity check for the case when a function of more variables is passed as input.
@@ -157,7 +159,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 This way of computing the gradient has two disadvantages:
@@ -176,8 +178,9 @@ Plot the dependence of this approximation on ``h``. Add the true derivative comp
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. We create an autonomous function ```y -> f(-2, y)``` and another function ```fin_diff``` which for an input ```h``` computes the finite difference.
@@ -221,7 +224,7 @@ savefig("grad2.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](grad2.svg)
@@ -255,8 +258,9 @@ Plot the contours of ``f`` and its gradient at ``(-2,-1)``.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We use the same functions as before. Since we want to add a line, we use ```plot!``` instead of ```plot```. We specify its parameters in an optional argument ```line = (:arrow, 4, :black)```. These parameters add the pointed arrow, the thickness and the colour of the line. Since we do not want any legend, we use ```label = ""```.
@@ -276,7 +280,7 @@ savefig("grad3.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](grad3.svg)
@@ -316,8 +320,9 @@ This example is rather artificial because usually only the last iteration is ret
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First we need to create an empty array into which we store the data. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``.
@@ -411,8 +416,9 @@ Use one line of code to evaluate the function values for all iterations ```xs```
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We call ```optim``` from the previous exercise and then create the animation.
@@ -438,7 +444,7 @@ savefig("obj.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](anim1.gif)
@@ -544,8 +550,9 @@ Then run the optimization with the Armijo stepsize selection and plot the animat
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We define the class in the same way as for ```GD```:
@@ -588,7 +595,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](anim5.gif)

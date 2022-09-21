@@ -57,8 +57,9 @@ What are the types of these three variables?
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 All three variables can be declared simply by assigning the value to the given variable name
@@ -88,7 +89,7 @@ ComplexF64 (alias for Complex{Float64})
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Primitive numeric types

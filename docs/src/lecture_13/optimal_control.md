@@ -129,8 +129,9 @@ Verify that the matrix exponential is computed correctly and that it is differen
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 A simple way to verify is to fix some ``t`` and evaluate the expressions above.
@@ -158,7 +159,7 @@ nothing # hide
 Since the computation resulted in no error (note the opposite sign for ```exp0```), our computation seems to be correct.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Now we can finally plot the trajectories of the electric motor.
@@ -175,8 +176,9 @@ Plot both trajectories on time interval ``[0,10]`` with time discretization step
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Both functions create an empty structure for the solution and then iterate over time. Since finite differences compute the solution at the next time, the loop is one iteration shorter. We compute the iteration based on the formulas derived above. The exact method does not need values at the previous point, which implies that numerical errors do not accumulate due to discretization errors.
@@ -221,7 +223,7 @@ savefig("Comparison1.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](Comparison1.svg)
@@ -343,8 +345,9 @@ Solve the optimal time for ``x_{\rm tar}= (0.25, -0.5)`` with the maximum voltag
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 To solve the equation above, we need to find a zero point of 
@@ -367,7 +370,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 To compute the optimal control and optimal trajectory, we rewrite one of the formulas derived above.
@@ -431,5 +434,5 @@ savefig("Trajectories.svg") # hide
 ![](Trajectories.svg)
 
 ```@raw html
-</p></details>
+</div></details>
 ```

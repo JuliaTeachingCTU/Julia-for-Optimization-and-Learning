@@ -49,8 +49,9 @@ This example is rather artificial because usually only the last iteration is ret
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First we need to create an empty array into which we store the iterates. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``. 
@@ -96,8 +97,9 @@ Use one line of code to evaluate the function values for all iterations ```xs```
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We call ```optim``` written in the previous exercise. Then we plot the contours as before. Since ```x_gd[1,:]``` stores the ``x`` coordinate of all iterations and similarly ```x_gd[2,:]```, we plot them. We need to use ```plot!``` instead of ```plot``` to add the line to the contour plot.
@@ -123,7 +125,7 @@ savefig("numer2.svg") # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ![](numer1.svg)
@@ -225,8 +227,9 @@ Then run the optimization with the Armijo selection of the stepsize.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 We define the class in the same way as for ```GD```:
@@ -266,7 +269,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is

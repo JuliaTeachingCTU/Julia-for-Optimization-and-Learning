@@ -15,8 +15,9 @@ Use the package `BenchmarkTools` to benchmark both possibilities.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 We first create a random matrix `A` and a random vector `b`.
 
@@ -54,7 +55,7 @@ julia> @btime ($A) \ ($b)
 The second possibility is faster and has lower memory requirements.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -69,8 +70,9 @@ Implement the bisection method and use it to minimize ``f(x) = x^2 - x`` on ``[-
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 First, we write the bisection method. We initialize it with arguments ``f`` and the initial interval ``[a,b]``. We also specify the optional tolerance. First, we save the function value ```fa = f(a)``` to not need to recompute it every time. The syntax ```fa == 0 && return a``` is a bit complex. Since ```&&``` is the "and" operator, this first checks whether ```fa == 0``` is satisfied, and if so, it evaluates the second part. However, the second part exits the function and returns ```a```. Since we need to have ``f(a)f(b)<0``, we check this condition, and if it is not satisfied, we return an error message. Finally, we run the while loop, where every iteration halves the interval. The condition on opposite signs is enforced in the if condition inside the loop.
@@ -111,7 +113,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is
@@ -139,8 +141,9 @@ The library to perform optimization is called ```JuMP```. Install it, go briefly
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The best start is the official documentation of the [JuMP package](https://jump.dev/JuMP.jl/stable/quickstart/). Since ```JuMP``` is only an interface for solvers, we need to include an actual solver as well. For linear programs, we can use ```using GLPK```, for non-linear ones, we would need to use ```using Ipopt```. We specify the constraints in a matrix form. It is possible to write them directly via ```@constraint(model, x[1] + x[2] == 2)```. This second way is more pleasant for complex constraints. Since ```x``` is a vector, we need to use ```value.(x)``` instead of the wrong ```value(x)```.
@@ -167,7 +170,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is
@@ -206,8 +209,9 @@ Verify that the numerically obtained solution is correct.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The Lagrangian reads
@@ -271,7 +275,7 @@ h(x)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 The correct solution is
@@ -290,8 +294,9 @@ Show that the primal formulation for a problem with no inequalities is equivalen
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The primal problem with no inequalities reads
@@ -318,7 +323,7 @@ Now consider the min-max formulation
 If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maximization problem has the optimal value ``+\infty``. However, since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. That is precisely the primal formulation.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ```@raw html
@@ -331,8 +336,9 @@ Derive the dual formulation for the linear programming.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The linear program
@@ -370,5 +376,5 @@ Since the minimization with respect to ``x`` is unconstrained, the same argument
 From this formulation, we may remove ``\lambda`` and obtain ``A^\top \mu\le c``. This is the desired dual formulation.
 
 ```@raw html
-</p></details>
+</div></details>
 ```

@@ -109,8 +109,9 @@ The optional argument `level` sets the printing indentation level.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `supertypes_tree` function can be defined by:
@@ -130,7 +131,7 @@ supertypes_tree (generic function with 2 methods)
 The first line checks if the given input type is `Any`. If yes, then the function returns nothing. Otherwise, the function prints the type with a proper indentation provided by `repeat("   ", level)`, i.e., four white-spaces repeated `level`-times. The third line calls the `supertypes_tree` function recursively for the supertype of the input type `T` and the level of indentation `level + 1`.
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Now we can use the `supertypes_tree` function to get the whole supertype hierarchy for `Float64`.
@@ -191,8 +192,9 @@ The optional argument `level` sets the printing indentation level.
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The `subtypes_tree` function is similar to `supertypes_tree`. The only differences are that we do not need to check for the top level of `Any`, and that we need to call the vectorized version `subtypes_tree.` because `subtypes(T)` returns an array.
@@ -209,7 +211,7 @@ subtypes_tree (generic function with 2 methods)
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 Now we can use the `subtypes_tree` function to get the whole subtypes hierarchy for the `Number` type.
@@ -419,8 +421,9 @@ Write the `salary_yearly` function which computes the yearly salary for both stu
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_monthly` function.
@@ -450,7 +453,7 @@ nothing # hide
 ```
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## Method ambiguities

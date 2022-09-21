@@ -70,8 +70,9 @@ Create a figure that shows the gamma distributions with the following parameters
 
 ```@raw html
 </div></div>
-<details class = "solution-body">
-<summary class = "solution-header">Solution:</summary><p>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body">
 ```
 
 The easiest way to create multiple distributions is to use the broadcasting system.
@@ -137,7 +138,7 @@ savefig("Gamma_cdf.svg") # hide
 ![](Gamma_cdf.svg)
 
 ```@raw html
-</p></details>
+</div></details>
 ```
 
 ## BSON.jl
