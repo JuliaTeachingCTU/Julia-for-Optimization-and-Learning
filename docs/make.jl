@@ -1,31 +1,14 @@
 using Documenter
-
 using Downloads: download
-using Documenter.Writers: HTMLWriter
-using DocumenterTools.Themes
 
 # download and compile theme
 assetsdir(args...) = joinpath(@__DIR__, "src", "assets", args...)
 site = "https://github.com/JuliaTeachingCTU/JuliaCTUGraphics/raw/main/"
 force = true
 
-mkpath(assetsdir("themes"))
 mv(download("$(site)logo/CTU-logo-dark.svg"), assetsdir("logo-dark.svg"); force)
 mv(download("$(site)logo/CTU-logo.svg"), assetsdir("logo.svg"); force)
 mv(download("$(site)icons/favicon.ico"), assetsdir("favicon.ico"); force)
-
-for theme in ["light", "dark"]
-    mktemp(@__DIR__) do path, io
-        write(io, join([
-            read(joinpath(HTMLWriter.ASSETS_THEMES, "documenter-$(theme).css"), String),
-            read(download("$(site)assets/lectures-$(theme).css"), String)
-        ], "\n"))
-        Themes.compile(
-            path,
-            joinpath(@__DIR__, assetsdir("themes", "documenter-$(theme).css"))
-        )
-    end
-end
 
 # outline
 installation = [
@@ -122,15 +105,18 @@ lecture_13 = joinpath.("./lecture_13/", [
 
 # make docs options
 makedocs(;
-    authors = "Václav Mácha",
-    sitename = "Julia for Optimization and Learning",
-    format = Documenter.HTML(;
-        prettyurls = get(ENV, "CI", "false") == "true",
-        collapselevel = 1,
-        assets = ["assets/favicon.ico"],
-        ansicolor = true,
+    authors="JuliaTeachingCTU",
+    sitename="Julia for Optimization and Learning",
+    format=Documenter.HTML(;
+        prettyurls=get(ENV, "CI", "false") == "true",
+        collapselevel=1,
+        assets=[
+            "assets/favicon.ico",
+            "assets/ctustyle.css",
+        ],
+        ansicolor=true
     ),
-    pages = [
+    pages=[
         "Home" => "index.md",
         "Why Julia?" => "why.md",
         "Installation" => installation,
@@ -147,7 +133,7 @@ makedocs(;
         "11: Neural networks II." => lecture_11,
         "12: Statistics" => lecture_12,
         "13: Ordinary differential equations" => lecture_13,
-    ],
+    ]
 )
 
 deploydocs(;
