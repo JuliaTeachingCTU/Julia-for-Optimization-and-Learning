@@ -36,7 +36,17 @@ The panel with the terminal and new Julia session should open.
 
 ![](vscodeext_3.png)
 
+!!! info "Configuring the Julia extension:"
+    If you installed Julia into a standard location on Mac or Windows, or if the Julia binary is on your PATH, the Julia VS Code extension automatically finds your Julia installation. If the VS Code extension does not find your Julia installation automatically, or you want to use a different Julia installation than the default one, you need to configure the extension using the following steps: 
+
+    1. Open VS Code settings
+    ![](juliapath_1.png)
+
+    2. Find `Julia: Executable Path` by typing `julia executablePath` into the search bar.
+
+    3. Set the `julia.executablePath` to the full path of Julia executable that the extension should use. The format of the path should follow your platform specific conventions.
+    ![](juliapath_2.png)
+
 There are other useful extensions. We recommend installing the `Project Manager` extension that provides additional features to manage projects.
 
 ![](vscodeext_4.png)
-
