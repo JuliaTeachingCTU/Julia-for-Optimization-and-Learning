@@ -23,7 +23,7 @@ After setting the editor used by Git, finish the installation with default setti
 
 Before using Git, we need to make the necessary settings. Type `cmd` into the search bar and open the `Command Prompt`.
 
-![](juliapath_7.png)
+![](gitsettings_1.png)
 
 In the `Command Prompt` type the following two commands
 
@@ -33,6 +33,6 @@ In the `Command Prompt` type the following two commands
 
 and press `Enter`. Do not forget to change `USERNAME` and `USEREMAIL` to the ones registered at GitHub.
 
-![](gitsettings_1.png)
+![](gitsettings_2.png)
 
 The commands above set the user name and email for Git. Because Git is designed for collaboration between multiple people, this information is used to track who made which changes.
