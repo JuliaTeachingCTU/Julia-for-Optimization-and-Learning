@@ -42,9 +42,9 @@ The panel with the terminal and new Julia session should open.
     1. Open VS Code settings.
     ![](juliapath_1.png)
 
-    2. Find `Julia: Executable Path` by typing `julia executablePath` into the search bar.
+    2. Type `Julia: Executable Path` in the search box.
 
-    3. Set the `julia.executablePath` to the full path of Julia executable that the extension should use. The format of the path should follow your platform specific conventions.
+    3. Set the `Julia: Executable Path` to the full path of Julia executable that the extension should use. The format of the path should follow your platform specific conventions.
     ![](juliapath_2.png)
 
 There are other useful extensions. We recommend installing the `Project Manager` extension that provides additional features to manage projects.
