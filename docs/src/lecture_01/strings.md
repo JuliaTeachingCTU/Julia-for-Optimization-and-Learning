@@ -77,7 +77,7 @@ julia> "The $ will be fine."
 ERROR: syntax: invalid interpolation syntax: "$ "
 ```
 
-No, they won't. If used incorrectly, Julia with throw an error.
+No, they won't. If used incorrectly, Julia will throw an error.
 Printing of strings can be done by the `print` function or the `println` function that also add a new line at the end of the string.
 
 ```jldoctest strings
@@ -273,7 +273,7 @@ a = [1,2,3]
 b = [:a, :b, :c, :d]
 ```
 
-**Hint:** use the `length` and` eltype` functions.
+**Hint:** use the `length` and `eltype` functions.
 
 ```@raw html
 </div></div>
