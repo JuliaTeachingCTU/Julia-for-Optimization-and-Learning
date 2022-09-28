@@ -40,6 +40,3 @@ There are other useful extensions. We recommend installing the `Project Manager`
 
 ![](vscodeext_4.png)
 
-We also recommend installing the `Bracket Pair Colorizer 2` extension. This extension allows matching brackets to be identified with colours.
-
-![](vscodeext_5.png)
