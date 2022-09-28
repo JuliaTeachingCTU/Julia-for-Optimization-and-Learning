@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Generic programming · Julia for Optimization and Learning</title><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.045/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.24/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/><link href="../../assets/ctustyle.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Julia for Optimization and Learning logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Julia for Optimization and Learning logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Julia for Optimization and Learning</a></span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why/">Why Julia?</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Installation</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../installation/vscode/">Julia + Visual Studio Code</a></li><li><a class="tocitem" href="../../installation/git/">Git</a></li><li><a class="tocitem" href="../../installation/tutorial/">Quickstart guide</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Variables and basic operators</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Data structures</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_02/tuples/">Tuples and named tuples</a></li><li><a class="tocitem" href="../../lecture_02/dictionaries/">Dictionaries</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Control flow</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/conditions/">Conditional evaluations</a></li><li><a class="tocitem" href="../../lecture_03/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_03/scope/">Soft local scope</a></li><li><a class="tocitem" href="../../lecture_03/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_04/functions/">Functions</a></li><li><a class="tocitem" href="../../lecture_04/methods/">Methods</a></li><li><a class="tocitem" href="../../lecture_04/scope/">Scope of variables</a></li><li><a class="tocitem" href="../../lecture_04/exceptions/">Exception handling</a></li><li><a class="tocitem" href="../../lecture_04/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">5: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_05/standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../../lecture_05/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_05/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_05/otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../../lecture_05/interaction/">Interaction with other languages</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox" checked/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Type system and generic programming</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../compositetypes/">Abstract and composite types</a></li><li class="is-active"><a class="tocitem" href>Generic programming</a><ul class="internal"><li><a class="tocitem" href="#Custom-print"><span>Custom print</span></a></li><li><a class="tocitem" href="#Conversion"><span>Conversion</span></a></li><li><a class="tocitem" href="#Promotion"><span>Promotion</span></a></li><li><a class="tocitem" href="#Basic-arithmetic-operations"><span>Basic arithmetic operations</span></a></li><li><a class="tocitem" href="#Currency-comparison"><span>Currency comparison</span></a></li><li><a class="tocitem" href="#Back-to-the-bank-account"><span>Back to the bank account</span></a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Code organization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/modules/">Files and modules</a></li><li><a class="tocitem" href="../../lecture_07/pkg/">Package manager</a></li><li><a class="tocitem" href="../../lecture_07/develop/">Package development</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Introduction to continuous optimization</a></li><li><a class="tocitem" href="../../lecture_08/unconstrained/">Unconstrained optimization</a></li><li><a class="tocitem" href="../../lecture_08/constrained/">Constrained optimization</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">9: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Introduction to regression and classification</a></li><li><a class="tocitem" href="../../lecture_09/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_09/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">10: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">11: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_11/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_11/iris/">Introduction to Flux</a></li><li><a class="tocitem" href="../../lecture_11/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_11/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">12: Statistics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_12/sparse/">Linear regression with sparse constraints</a></li><li><a class="tocitem" href="../../lecture_12/monte/">Monte Carlo sampling</a></li><li><a class="tocitem" href="../../lecture_12/glm/">Linear regression revisited</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-16" type="checkbox"/><label class="tocitem" for="menuitem-16"><span class="docs-label">13: Ordinary differential equations</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_13/theory/">Differential equations</a></li><li><a class="tocitem" href="../../lecture_13/ode/">Wave equation</a></li><li><a class="tocitem" href="../../lecture_13/diff_eq/">Julia package</a></li><li><a class="tocitem" href="../../lecture_13/optimal_control/">Optimal control</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">6: Type system and generic programming</a></li><li class="is-active"><a href>Generic programming</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Generic programming</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning/blob/master/docs/src/lecture_06/currencies.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Bank-account"><a class="docs-heading-anchor" href="#Bank-account">Bank account</a><a id="Bank-account-1"></a><a class="docs-heading-anchor-permalink" href="#Bank-account" title="Permalink"></a></h1><p>This section aims to show the real power of the Julia type system in combination with multiple-dispatch. We will present it through an example, where the goal is to create a structure that represents a bank account with the following properties:</p><ul><li>The structure has two fields: <code>owner</code> and <code>transaction</code>.</li><li>It is possible to make transactions in different currencies.</li><li>All transactions are stored in the currency in which they were made.</li></ul><p>Before creating such a structure, we first define an abstract type <code>Currency</code> and its two concrete subtypes.</p><pre><code class="language-julia hljs">abstract type Currency end
+
+struct Euro &lt;: Currency
+    value::Float64
+end
+
+struct Dollar &lt;: Currency
+    value::Float64
+end</code></pre><p>Since <code>Euro</code> and <code>Dollar</code> are concrete types, we can create their instances and use <code>isa</code> to check that these instances are subtypes of <code>Currency</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; Euro(1)
+Euro(1.0)
+
+julia&gt; isa(Dollar(2), Currency) # equivalent to typeof(Dollar(2)) &lt;: Currency
+true</code></pre><p>As <code>Currency</code> is an abstract type, we cannot create its instance. However, abstract types allow us to define generic functions that work for all their subtypes. We do so and define the <code>BankAccount</code> composite type.</p><pre><code class="language-julia hljs">struct BankAccount{C&lt;:Currency}
+    owner::String
+    transaction::Vector{Currency}
+
+    function BankAccount(owner::String, C::Type{&lt;:Currency})
+        return new{C}(owner, Currency[C(0)])
+    end
+end</code></pre><p>We will explain this type after creating its instance with the euro currency.</p><pre><code class="language-julia-repl hljs">julia&gt; b = BankAccount(&quot;Paul&quot;, Euro)
+BankAccount{Euro}(&quot;Paul&quot;, Currency[Euro(0.0)])</code></pre><p>First, we observe that we use the <code>Euro</code> type (and not its instance) to instantiate the <code>BankAccount</code> type. The reason is the definition of the inner constructor for <code>BankAccount</code>, where the type annotation is <code>::Type{&lt;:Currency}</code>. This is in contrast with <code>::Currency</code>. The former requires that the argument is a type, while the latter needs an instance.</p><p>Second, <code>BankAccount</code> is a parametric type, as can be seen from <code>BankAccount{Euro}</code>. In our example, this parameter plays the role of the primary account currency.</p><p>Third, due to the line <code>Currency[C(0)]</code> in the inner constructor, transactions are stored in a vector of type <code>Vector{Currency}</code>. The expression <code>C(0)</code> creates an instance of the currency <code>C</code> with zero value. The <code>Currency</code> type combined with the square brackets creates a vector that may contain instances of any subtypes of <code>Currency</code>. It is, therefore, possible to push a new transaction in a different currency to the <code>transaction</code> field.</p><pre><code class="language-julia-repl hljs">julia&gt; push!(b.transaction, Dollar(2))
+2-element Vector{Currency}:
+ Euro(0.0)
+ Dollar(2.0)
+
+julia&gt; b
+BankAccount{Euro}(&quot;Paul&quot;, Currency[Euro(0.0), Dollar(2.0)])</code></pre><p>It is crucial to use <code>Currency</code> in <code>Currency[C(0)]</code>. Without it, we would create an array of type <code>C</code> only. We would not be able to add transactions in different currencies to this array as Julia could not convert the different currencies to <code>C</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; w = [Euro(0)]
+1-element Vector{Euro}:
+ Euro(0.0)
+
+julia&gt; push!(w, Dollar(2))
+ERROR: MethodError: Cannot `convert` an object of type Dollar to an object of type Euro
+[...]</code></pre><p>We used only the abstract type <code>Currency</code> to define the <code>BankAccount</code> type. This allows us to write a generic code that not constrained to one concrete type. We created an instance of <code>BankAccount</code> and added a new transaction. However, we cannot calculate an account balance (the sum of all transactions), and we cannot convert money from one currency to another. In the rest of the lecture, we will fix this, and we will also define basic arithmetic operations such as <code>+</code> or <code>-</code>.</p><div class="admonition is-info">
+<header class="admonition-header">Avoid containers with abstract type parameters:</header>
+<div class="admonition-body"><p>It is generally not good to use <a href="https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container">containers with abstract element type</a> as we did for storing transactions. We used it in the example above because we do not want to convert all transactions to a common currency. When we create an array from different types, the promotion system converts these types to their smallest supertype for efficient memory storage.</p><pre><code class="language-julia-repl hljs">julia&gt; [Int32(123), 1, 1.5, 1.234f0]
+4-element Vector{Float64}:
+ 123.0
+   1.0
+   1.5
+   1.2339999675750732</code></pre><p>The smallest supertype is <code>Float64</code>, and the result is <code>Array{Float64, 1}</code>. When we do not want to convert the variables, we must manually specify the resulting array supertype.</p><pre><code class="language-julia-repl hljs">julia&gt; Real[Int32(123), 1, 1.5, 1.234f0]
+4-element Vector{Real}:
+ 123
+   1
+   1.5
+   1.234f0</code></pre><p>In this case, the types of all elements are preserved.</p></div></div><h2 id="Custom-print"><a class="docs-heading-anchor" href="#Custom-print">Custom print</a><a id="Custom-print-1"></a><a class="docs-heading-anchor-permalink" href="#Custom-print" title="Permalink"></a></h2><p>Each currency has its symbol, such as € for the euro. We will redefine the <code>show</code> function to print the currency in a prettier way. First, we define a new function <code>symbol</code> that returns the used currency symbol.</p><pre><code class="language-julia hljs">symbol(T::Type{&lt;:Currency}) = string(nameof(T))
+symbol(::Type{Euro}) = &quot;€&quot;</code></pre><p>We defined one method for all subtypes of <code>Currency</code> and one method for the <code>Euro</code> type. With the <code>symbol</code> function, we can define nicer printing by adding a new method to the <code>show</code> function from <code>Base</code>. It is possible to define a custom show function for different output formats. For example, it is possible to define different formating for HTML output. The example below shows only basic usage; for more information, see the <a href="https://docs.julialang.org/en/v1/manual/types/#man-custom-pretty-printing">official documentation</a>.</p><pre><code class="language-julia hljs">Base.show(io::IO, c::C) where {C &lt;: Currency} = print(io, c.value, &quot; &quot;, symbol(C))</code></pre><p>The <code>show</code> function has two input arguments. The first one is of type <code>IO</code> that specifies where the output will be printed (for example, in the REPL). The second argument is an instance of some currency. We used the <code>where</code> keyword in the function definition to get the currency type <code>C</code>, which we pass to the <code>symbol</code> function. Alternatively, we can use the <code>typeof</code> function.</p><pre><code class="language-julia hljs">Base.show(io::IO, c::Currency) = print(io, c.value, &quot; &quot;, symbol(typeof(c)))</code></pre><p>We can check that the printing of currencies is prettier than before.</p><pre><code class="language-julia-repl hljs">julia&gt; Euro(1)
+1.0 €
+
+julia&gt; Euro(1.5)
+1.5 €</code></pre><p>There is one big difference with Python, where we can create a class and define methods inside the class. If we wanted to add a new method, we have to would modify the class. In Julia, we can add or alter methods any time without the necessity to change the class.</p><div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>Define a new method for the <code>symbol</code> function for <code>Dollar</code>.</p><p><strong>Hint:</strong> the dollar symbol <code>$</code> has a special meaning in Julia. Do not forget to use the <code>\</code> symbol when using the dollar symbol in a string.</p></div></div>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body"><p>When adding a new method to the <code>symbol</code> function, we have to remember that we used the currency type for dispatch, i.e., we have to use <code>::Type{Dollar}</code> instead of <code>::Dollar</code> in the type annotation.</p><pre><code class="language-julia hljs">symbol(::Type{Dollar}) = &quot;\$&quot;</code></pre><p>Now we can check that everything works well.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1)
+1.0 $
+
+julia&gt; Dollar(1.5)
+1.5 $</code></pre></div></details><h2 id="Conversion"><a class="docs-heading-anchor" href="#Conversion">Conversion</a><a id="Conversion-1"></a><a class="docs-heading-anchor-permalink" href="#Conversion" title="Permalink"></a></h2><p>In the previous section, we have defined two currencies. A natural question is how to convert one currency to the other.  In the real world, the exchange operation between currencies is not transitive. However, we assume that the <strong>exchange rate is transitive</strong> and there are no exchange costs.</p><p>The simplest way to define conversions between the currencies is to define the conversion function for each pair of currencies. This can be done efficiently only for two currencies.</p><pre><code class="language-julia hljs">dollar2euro(c::Dollar) = Euro(0.83 * c.value)
+euro2dollar(c::Euro) = Dollar(c.value / 0.83)</code></pre><p>We can check that the result is correct.</p><pre><code class="language-julia-repl hljs">julia&gt; eur = dollar2euro(Dollar(1.3))
+1.079 €
+
+julia&gt; euro2dollar(eur)
+1.3 $</code></pre><p>Even though this is a way to write code, there is a more general way. We start with a conversion rate between two types.</p><pre><code class="language-julia hljs">rate(::Type{Euro}, ::Type{Dollar}) = 0.83</code></pre><p>Transitivity implies that if one exchange rate is <span>$r_{1 \rightarrow 2}$</span>, the opposite exchange rate equals <span>$r_{2 \rightarrow 1} = r_{1 \rightarrow 2}^{-1}$</span>. We create a generic function to define the exchange rate in the opposite direction.</p><pre><code class="language-julia hljs">rate(T::Type{&lt;:Currency}, ::Type{Euro}) = 1 / rate(Euro, T)</code></pre><p>If we use only the two methods above, it computes the exchange rate between <code>Dollar</code> and <code>Euro</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Euro, Dollar)
+0.83
+
+julia&gt; rate(Dollar, Euro)
+1.2048192771084338</code></pre><p>However, the definition is not complete because the <code>rate</code> function does not work if we use the same currencies.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Euro, Euro)
+ERROR: StackOverflowError:
+[...]
+
+julia&gt; rate(Dollar, Dollar)
+ERROR: MethodError: no method matching rate(::Type{Dollar}, ::Type{Dollar})
+[...]</code></pre><p>To solve this issue, we have to add two new methods. The first one defines that the exchange rate between the same currency is <code>1</code>.</p><pre><code class="language-julia hljs">rate(::Type{T}, ::Type{T}) where {T&lt;:Currency} = 1</code></pre><p>This method solves the issue for the <code>Dollar</code> to <code>Dollar</code> conversion.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Dollar, Dollar)
+1</code></pre><p>However, it does not solve the problem with <code>Euro</code> to <code>Euro</code> conversion.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Euro, Euro)
+ERROR: StackOverflowError:
+[...]</code></pre><p>The reason is that methods are selected based on the input arguments. There is a simple rule:  the most specific method definition matching the number and types of the arguments will be executed. We use the <code>methods</code> function to list all methods defined for the <code>rate</code> function.</p><pre><code class="language-julia hljs">julia&gt; methods(rate)
+# 3 methods for generic function &quot;rate&quot;:
+[1] rate(::Type{Euro}, ::Type{Dollar}) in Main at none:1
+[2] rate(T::Type{var&quot;#s37&quot;} where var&quot;#s37&quot;&lt;:Currency, ::Type{Euro}) in Main at none:1
+[3] rate(::Type{T}, ::Type{T}) where T&lt;:Currency in Main at none:1</code></pre><p>There are three methods. Since two of them can be selected when converting from euro to euro, we need to specify one more method.</p><pre><code class="language-julia hljs">rate(::Type{Euro}, ::Type{Euro}) = 1</code></pre><p>This method solves the issue, as can be seen in the example below.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Euro, Euro)
+1</code></pre><p>The transitivity also implies that instead of converting the <code>C1</code> currency directly to the <code>C2</code> currency, we can convert it to some <code>C</code> and then convert <code>C</code> to <code>C2</code>. In our case, we use the <code>Euro</code> as the intermediate currency. When adding a new currency, it suffices to specify its exchange rate only to the euro.</p><pre><code class="language-julia hljs">rate(T::Type{&lt;:Currency}, C::Type{&lt;:Currency}) = rate(Euro, C) * rate(T, Euro)</code></pre><p>To test the <code>rate</code> function, we add a new currency.</p><pre><code class="language-julia hljs">struct Pound &lt;: Currency
+    value::Float64
+end
+
+symbol(::Type{Pound}) = &quot;£&quot;
+rate(::Type{Euro}, ::Type{Pound}) = 1.13</code></pre><p>We can quickly test that the <code>rate</code> function works in all possible cases correctly in the following way.</p><pre><code class="language-julia-repl hljs">julia&gt; rate(Pound, Pound) # 1
+1
+
+julia&gt; rate(Euro, Pound) # 1.13
+1.13
+
+julia&gt; rate(Pound, Euro) # 1/1.13 = 0.8849557522123894
+0.8849557522123894
+
+julia&gt; rate(Dollar, Pound) # 1.13 * 1/0.83 = 1.36144578313253
+1.3614457831325302
+
+julia&gt; rate(Pound, Dollar) # 0.83 * 1/1.13 = 0.7345132743362832
+0.7345132743362832</code></pre><p>We have defined the <code>rate</code> function with all necessary methods. To convert currency types, we need to extend the <code>convert</code> function from <code>Base</code> by the following two methods:</p><pre><code class="language-julia hljs">Base.convert(::Type{T}, c::T) where {T&lt;:Currency} = c
+Base.convert(::Type{T}, c::C) where {T&lt;:Currency, C&lt;:Currency} = T(c.value * rate(T, C))</code></pre><p>The first method is unnecessary because the <code>rate</code> function returns <code>1</code>, and the second method could be used instead.  However, when converting to the same type, the result is usually the same object and not a new instance. We, therefore, defined the first method to follow this convention. Finally, we test that the <code>conversion</code> function indeed converts its input to a different type.</p><pre><code class="language-julia-repl hljs">julia&gt; eur = convert(Euro, Dollar(1.3))
+1.079 €
+
+julia&gt; pnd = convert(Pound, eur)
+0.9548672566371682 £
+
+julia&gt; dlr = convert(Dollar, pnd)
+1.3 $</code></pre><div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>The printing style is not ideal because we are usually not interested in more than the first two digits after the decimal point. Redefine the method in the <code>show</code> function to print currencies so that the result is rounded to 2 digits after the decimal point.</p></div></div>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body"><p>Any real number can be rounded to 2 digits after the decimal point by the <code>round</code> function with the keyword argument <code>digits = 2</code>. Then we can use an almost identical definition of the method as before.</p><pre><code class="language-julia hljs">function Base.show(io::IO, c::T) where {T &lt;: Currency}
+    val = round(c.value; digits = 2)
+    return print(io, val, &quot; &quot;, symbol(T))
+end</code></pre><p>The same code as before this example gives the following results.</p><pre><code class="language-julia-repl hljs">julia&gt; eur = convert(Euro, Dollar(1.3))
+1.08 €
+
+julia&gt; pnd = convert(Pound, eur)
+0.95 £
+
+julia&gt; dlr = convert(Dollar, pnd)
+1.3 $</code></pre><p>We realize that the rounding is done only for printing, while the original value remains unchanged.</p></div></details><h2 id="Promotion"><a class="docs-heading-anchor" href="#Promotion">Promotion</a><a id="Promotion-1"></a><a class="docs-heading-anchor-permalink" href="#Promotion" title="Permalink"></a></h2><p>Before defining basic arithmetic operations for currencies, we have to decide how to work with money in different currencies. Imagine that we want to add <code>1€</code> and <code>1$</code>. Should the result be euro or dollar? For such a situation, Julia provides a promotion system that allows defining simple rules for promoting custom types. The promotion system can be modified by defining custom methods for the <code>promote_rule</code> function. For example, the following definition means that the euro has precedence against all other currencies.</p><pre><code class="language-julia hljs">Base.promote_rule(::Type{Euro}, ::Type{&lt;:Currency}) = Euro</code></pre><p>One does not need to define both methods. The symmetry is implied by the way <code>promote_rule</code> is used in the promotion process. Since we have three different currencies, we also define the promotion type for the pair <code>Dollar</code> and <code>Pound</code>.</p><pre><code class="language-julia hljs">Base.promote_rule(::Type{Dollar}, ::Type{Pound}) = Dollar</code></pre><p>The <code>promote_rule</code> function is used as a building block for the <code>promote_type</code> function, which returns the promoted type of inputs.</p><pre><code class="language-julia-repl hljs">julia&gt; promote_type(Euro, Dollar)
+Euro
+
+julia&gt; promote_type(Pound, Dollar)
+Dollar
+
+julia&gt; promote_type(Pound, Dollar, Euro)
+Euro</code></pre><p>When we have instances instead of types, we can use the <code>promote</code> function to convert them to their representation in the promoted type.</p><pre><code class="language-julia-repl hljs">julia&gt; promote(Euro(2), Dollar(2.4))
+(2.0 €, 1.99 €)
+
+julia&gt; promote(Pound(1.3), Euro(2))
+(1.47 €, 2.0 €)
+
+julia&gt; promote(Pound(1.3), Dollar(2.4), Euro(2))
+(1.47 €, 1.99 €, 2.0 €)</code></pre><div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>Define a new currency <code>CzechCrown</code> representing Czech crowns. The exchange rate to euro is <code>0.038</code>, and all other currencies should take precedence over the Czech crown.</p></div></div>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body"><p>We define first the new type <code>CzechCrown</code>.</p><pre><code class="language-julia hljs">struct CzechCrown &lt;: Currency
+    value::Float64
+end</code></pre><p>We must add new methods for the <code>symbol</code> and <code>rate</code> functions.</p><pre><code class="language-julia hljs">symbol(::Type{CzechCrown}) = &quot;Kč&quot;
+rate(::Type{Euro}, ::Type{CzechCrown}) = 0.038</code></pre><p>We also must add promotion rules for the dollar and pound.</p><pre><code class="language-julia hljs">Base.promote_rule(::Type{CzechCrown}, ::Type{Dollar}) = Dollar
+Base.promote_rule(::Type{CzechCrown}, ::Type{Pound}) = Pound</code></pre><p>Finally, we can test the functionality.</p><pre><code class="language-julia-repl hljs">julia&gt; CzechCrown(2.8)
+2.8 Kč
+
+julia&gt; dl = convert(Dollar, CzechCrown(64))
+2.93 $
+
+julia&gt; convert(CzechCrown, dl)
+64.0 Kč
+
+julia&gt; promote(Pound(1.3), Dollar(2.4), Euro(2), CzechCrown(2.8))
+(1.47 €, 1.99 €, 2.0 €, 0.11 €)</code></pre></div></details><h2 id="Basic-arithmetic-operations"><a class="docs-heading-anchor" href="#Basic-arithmetic-operations">Basic arithmetic operations</a><a id="Basic-arithmetic-operations-1"></a><a class="docs-heading-anchor-permalink" href="#Basic-arithmetic-operations" title="Permalink"></a></h2><p>Now we are ready to define basic arithmetic operations. As usual, we can do this by adding a new method to standard functions. We start with the addition, where there are two cases to consider. The first one is the summation of two different currencies. In this case, we use the <code>promote</code> function to convert these two currencies to their promote type.</p><pre><code class="language-julia hljs">Base.:+(x::Currency, y::Currency) = +(promote(x, y)...)</code></pre><p>The second one is the summation of the same currency. In this case, we know the resulting currency, and we can sum the <code>value</code> fields.</p><pre><code class="language-julia hljs">Base.:+(x::T, y::T) where {T &lt;: Currency} = T(x.value + y.value)</code></pre><p>Note that the first function calls the second one. We have finished with addition, and now we can sum money in different currencies.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1.3) + CzechCrown(4.5)
+1.51 $
+
+julia&gt; CzechCrown(4.5) + Euro(3.2) + Pound(3.6) + Dollar(12)
+17.4 €</code></pre><p>Moreover, we can use, for example, the <code>sum</code> function without any additional changes.</p><pre><code class="language-julia-repl hljs">julia&gt; sum([CzechCrown(4.5), Euro(3.2), Pound(3.6), Dollar(12)])
+17.4 €</code></pre><p>Also, the broadcasting works natively for arrays of currencies.</p><pre><code class="language-julia-repl hljs">julia&gt; CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Pound.([1.2, 2.6, 0.6, 1.8])
+4-element Vector{Pound}:
+ 1.35 £
+ 2.68 £
+ 1.16 £
+ 2.42 £</code></pre><p>However, there is a problem if we want to sum a vector of currencies with one currency. In such a case, an error will occur.</p><pre><code class="language-julia hljs">julia&gt; CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
+ERROR: MethodError: no method matching length(::Main.Dollar)
+[...]</code></pre><p>The reason is that Julia assumes that custom structures are iterable. But in our case, all subtypes of the <code>Currency</code> type represent scalar values. This situation can be easily fixed by defining a new method to the <code>broadcastable</code> function from <code>Base</code>.</p><pre><code class="language-julia hljs">Base.broadcastable(c::Currency) = Ref(c)</code></pre><p>This function should return either an object or some representation of an object that supports the <code>axes</code>, <code>ndims</code>, and <code>indexing</code> functions. To create such a representation of all subtypes of the <code>Currency</code> type, we use the <code>Ref</code> function, which creates an object referring to the given currency instance and supports all necessary operations.</p><pre><code class="language-julia-repl hljs">julia&gt; c_ref = Ref(Euro(1))
+Base.RefValue{Euro}(1.0 €)
+
+julia&gt; axes(c_ref)
+()
+
+julia&gt; ndims(c_ref)
+0
+
+julia&gt; c_ref[]
+1.0 €</code></pre><p>Now we can test if the broadcasting works as expected.</p><pre><code class="language-julia-repl hljs">julia&gt; CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
+4-element Vector{Dollar}:
+ 12.21 $
+ 12.11 $
+ 12.76 $
+ 12.84 $</code></pre><div class="admonition is-category-exercise">
+<header class="admonition-header">Exercise:</header>
+<div class="admonition-body"><p>In the section above, we defined the addition for all subtypes of <code>Currency</code>. We also told the broadcasting system in Julia to treat all subtypes of the <code>Currency</code> as scalars. Follow the same pattern and define the following operations: <code>-</code>, <code>*</code>, <code>/</code>.</p><p><strong>Hint:</strong> Define only operations that make sense. For example, it makes sense to multiply <code>1 €</code> by 2 to get <code>2 €</code>. But it does not make sense to multiply <code>1 €</code> by <code>2 €</code>.</p></div></div>
+<details class = "admonition is-category-solution">
+<summary class = "admonition-header">Solution:</summary>
+<div class = "admonition-body"><p>The <code>-</code> operation can be defined exactly as the addition.</p><pre><code class="language-julia hljs">Base.:-(x::Currency, y::Currency) = -(promote(x, y)...)
+Base.:-(x::T, y::T) where {T &lt;: Currency} = T(x.value - y.value)</code></pre><p>In the example below, we can see that everything works as intended.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1.3) - CzechCrown(4.5)
+1.09 $
+
+julia&gt; CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
+4-element Vector{Dollar}:
+ -11.79 $
+ -11.89 $
+ -11.24 $
+ -11.16 $</code></pre><p>The situation with the multiplication is different as it makes sense to multiply <code>1 €</code> by 2 but not by <code>2 €</code>. We have to define a method for multiplying any <code>Currency</code> subtype by a real number. We have to define the multiplication both from the right and the left.</p><pre><code class="language-julia hljs">Base.:*(a::Real, x::T) where {T &lt;: Currency} = T(a * x.value)
+Base.:*(x::T, a::Real) where {T &lt;: Currency} = T(a * x.value)</code></pre><p>As in the previous cases, everything works as expected, and broadcasting is supported without any additional steps.</p><pre><code class="language-julia-repl hljs">julia&gt; 2 * Dollar(1.3) * 0.5
+1.3 $
+
+julia&gt; 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
+4-element Vector{CzechCrown}:
+ 4.5 Kč
+ 2.4 Kč
+ 16.7 Kč
+ 18.3 Kč</code></pre><p>Finally, we can define division. In this case, it makes sense to divide a currency by a real number.</p><pre><code class="language-julia hljs">Base.:/(x::T, a::Real) where {T &lt;: Currency} = T(x.value / a)</code></pre><p>But it also makes sense to define the division of one amount of money by another amount of money in different currencies. In this case, a result is a real number representing their ratio.</p><pre><code class="language-julia hljs">Base.:/(x::Currency, y::Currency) = /(promote(x, y)...)
+Base.:/(x::T, y::T) where {T &lt;: Currency} = x.value / y.value</code></pre><p>The result is as follows.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1.3) / 2
+0.65 $
+
+julia&gt; 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
+4-element Vector{Float64}:
+ 2.0
+ 4.0
+ 6.0
+ 8.0</code></pre></div></details><h2 id="Currency-comparison"><a class="docs-heading-anchor" href="#Currency-comparison">Currency comparison</a><a id="Currency-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Currency-comparison" title="Permalink"></a></h2><p>The last thing we should define is comparison operators. To provide full functionality, we have to add new methods to two functions. The first one is the value equality operator <code>==</code>. By default, it uses the following definition <code>==(x, y) = x === y</code>. The <code>===</code> operator determines whether <code>x</code> and <code>y</code> are identical, in the sense that no program could distinguish them.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1) == Euro(0.83)
+false
+
+julia&gt; Dollar(1) != Euro(0.83)
+true</code></pre><p>The result does not match the expected behaviour since <code>0.83 €</code> is equal to <code>1 $</code> with the given exchange rate. The reason is that we want to compare values stored in the structures and not the structures themselves. To allow this kind of comparison, we can define new methods to the <code>==</code> function as follows:</p><pre><code class="language-julia hljs">Base.:(==)(x::Currency, y::Currency) = ==(promote(x, y)...)
+Base.:(==)(x::T, y::T) where {T &lt;: Currency} = ==(x.value, y.value)</code></pre><p>Again, the first function (for different currencies) calls the second function (for the same currencies). With these two methods defined, the comparison works as expected.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1) == Euro(0.83)
+true
+
+julia&gt; Dollar(1) != Euro(0.83)
+false</code></pre><p>The second function to extend is the <code>isless</code> function. In this case, the logic is the same as before: We want to compare values stored in the structure.</p><pre><code class="language-julia hljs">Base.isless(x::Currency, y::Currency) = isless(promote(x, y)...)
+Base.isless(x::T, y::T) where {T &lt;: Currency} = isless(x.value, y.value)</code></pre><p>As can be seen below, all operations work as intended.</p><pre><code class="language-julia-repl hljs">julia&gt; Dollar(1) &lt; Euro(0.83)
+false
+
+julia&gt; Dollar(1) &gt; Euro(0.83)
+false
+
+julia&gt; Dollar(1) &lt;= Euro(0.83)
+true
+
+julia&gt; Dollar(1) &gt;= Euro(0.83)
+true</code></pre><p>Other functions based only on comparison will work for all subtypes of <code>Currency</code> without any additional changes. Examples include <code>extrema</code>, <code>argmin</code> or <code>sort</code> functions.</p><pre><code class="language-julia-repl hljs">julia&gt; vals = Currency[CzechCrown(100), Euro(0.83),  Pound(3.6), Dollar(1.2)]
+4-element Vector{Currency}:
+ 100.0 Kč
+ 0.83 €
+ 3.6 £
+ 1.2 $
+
+julia&gt; extrema(vals)
+(0.83 €, 3.6 £)
+
+julia&gt; argmin(vals)
+2
+
+julia&gt; sort(vals)
+4-element Vector{Currency}:
+ 0.83 €
+ 1.2 $
+ 100.0 Kč
+ 3.6 £</code></pre><h2 id="Back-to-the-bank-account"><a class="docs-heading-anchor" href="#Back-to-the-bank-account">Back to the bank account</a><a id="Back-to-the-bank-account-1"></a><a class="docs-heading-anchor-permalink" href="#Back-to-the-bank-account" title="Permalink"></a></h2><p>In the previous sections, we defined all the functions and types needed for the <code>BankAccount</code> type and performed basic arithmetic and other operations on currencies.  For a bank account, we are primarily interested in its balance. Since we store all transactions in a vector, the account balance can be computed as a sum of the <code>transaction</code> field.</p><pre><code class="language-julia hljs">balance(b::BankAccount{C}) where {C} = convert(C, sum(b.transaction))</code></pre><p>We convert the balance to the primary currency of the account.</p><pre><code class="language-julia-repl hljs">julia&gt; b = BankAccount(&quot;Paul&quot;, CzechCrown)
+BankAccount{CzechCrown}(&quot;Paul&quot;, Currency[0.0 Kč])
+
+julia&gt; balance(b)
+0.0 Kč</code></pre><p>Another thing that we can define is custom pretty-printing.</p><pre><code class="language-julia hljs">function Base.show(io::IO, b::BankAccount{C}) where {C&lt;:Currency}
+    println(io, &quot;Bank Account:&quot;)
+    println(io, &quot;  - Owner: &quot;, b.owner)
+    println(io, &quot;  - Primary currency: &quot;, nameof(C))
+    println(io, &quot;  - Balance: &quot;, balance(b))
+    print(io,   &quot;  - Number of transactions: &quot;, length(b.transaction))
+end</code></pre><p>The previous method definition results in the following output.</p><pre><code class="language-julia-repl hljs">julia&gt; b
+Bank Account:
+  - Owner: Paul
+  - Primary currency: CzechCrown
+  - Balance: 0.0 Kč
+  - Number of transactions: 1</code></pre><p>The last function that we define is the function that adds a new transaction into the given bank account. Even though it can be defined like any other function, we decided to use a special syntax. Since methods are associated with types, making any arbitrary Julia object &quot;callable&quot; is possible by adding methods to its type. Such &quot;callable&quot; objects are sometimes called &quot;functors&quot;.</p><pre><code class="language-julia hljs">function (b::BankAccount{T})(c::Currency) where {T}
+    balance(b) + c &gt;= T(0) || throw(ArgumentError(&quot;insufficient bank account balance.&quot;))
+    push!(b.transaction, c)
+    return
+end</code></pre><p>The first thing in the function above is the check whether there is a sufficient account balance. If not, the function will throw an error. Otherwise, the function will push a new element to the <code>transaction</code> field.</p><pre><code class="language-julia-repl hljs">julia&gt; b(Dollar(10))
+
+julia&gt; b(-2*balance(b))
+ERROR: ArgumentError: insufficient bank account balance.
+
+julia&gt; b(Pound(10))
+
+julia&gt; b(Euro(23.6))
+
+julia&gt; b(CzechCrown(152))
+
+julia&gt; b
+Bank Account:
+  - Owner: Paul
+  - Primary currency: CzechCrown
+  - Balance: 1288.84 Kč
+  - Number of transactions: 5</code></pre><p>Note that all transactions are stored in their original currency, as can be seen if we print the <code>transaction</code> field.</p><pre><code class="language-julia-repl hljs">julia&gt; b.transaction
+5-element Vector{Currency}:
+ 0.0 Kč
+ 10.0 $
+ 10.0 £
+ 23.6 €
+ 152.0 Kč</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../compositetypes/">« Abstract and composite types</a><a class="docs-footer-nextpage" href="../../lecture_07/modules/">Files and modules »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.23 on <span class="colophon-date" title="Wednesday 28 September 2022 18:34">Wednesday 28 September 2022</span>. Using Julia version 1.8.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
