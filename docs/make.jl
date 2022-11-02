@@ -63,12 +63,13 @@ lecture_07 = [
     "Package development" => "./lecture_07/develop.md",
 ]
 
-lecture_08 = joinpath.("./lecture_08/", [
-    "theory.md",
-    "unconstrained.md",
-    "constrained.md",
-    "exercises.md",
-])
+lecture_08 = [
+    "Introduction to continuos optimization" => "./lecture_08/theory.md",
+    "Gradients" => "./lecture_08/gradients.md",
+    "Unconstrained optimization" => "./lecture_08/unconstrained.md",
+    "Constrained optimization" => "./lecture_08/constrained.md",
+    "Exercises" => "./lecture_08/exercises.md",
+]
 
 lecture_09 = joinpath.("./lecture_09/", [
     "theory.md",
