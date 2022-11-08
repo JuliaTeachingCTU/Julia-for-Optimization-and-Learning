@@ -52,7 +52,7 @@ on domain ``[-3,1]\times [-2,1]``.
 
 Write a function ```g(x)``` which computes the derivative of ``f`` at a point  ``x``. Plot the contours of ``f`` on the domain. 
 
-**Hint**: Use the optional argument ```color = :jet``` for better visualization.
+**Hint**: Use the keyword argument ```color = :jet``` for better visualization.
 
 ```@raw html
 </div></div>
@@ -166,7 +166,7 @@ Plot the dependence of this approximation on ``h``. Add the true derivative comp
 <div class = "admonition-body">
 ```
 
-To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. We create an autonomous function ```y -> f(-2, y)``` and another function ```fin_diff``` which for an input ```h``` computes the finite difference.
+To compute the partial derivative with respect to the second argument, we need to fix the first argument and vary only the second one. We create an anonymous function ```y -> f(-2, y)``` and another function ```fin_diff``` which for an input ```h``` computes the finite difference.
 
 ```@example optim
 x = [-2; -1]

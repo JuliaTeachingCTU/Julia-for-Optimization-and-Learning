@@ -37,4 +37,4 @@ is equivalent to
     -\text{minimize}\qquad -f(x).
 ```
 
-This trick has a neat consequence: All numerical and theoretical results are derived only for minimization problems. If we deal with a maximization problem, we convert it first to an optimization problem and then use the known results.
+This trick has a neat consequence: All numerical and theoretical results are derived only for minimization problems. If we deal with a maximization problem, we convert it first to a minimization problem and then use known results.

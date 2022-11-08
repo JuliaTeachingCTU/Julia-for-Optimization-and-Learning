@@ -103,7 +103,7 @@ Even though the primal and dual formulations are not generally equivalent, they 
     1. Primal and dual problems switch minimization and maximization.
     2. Primal and dual problems switch variables and constraints.
 
-For the unconstrained optimization, we showed that each local minimum satisfies the optimality condition ``\nabla f(x)=0``. This condition does not have to hold for unconstrained optimization, where the optimality conditions are of a more complex form.
+For the unconstrained optimization, we showed that each local minimum satisfies the optimality condition ``\nabla f(x)=0``. This condition does not have to hold for constrained optimization, where the optimality conditions are of a more complex form.
 
 !!! theorem "Theorem: Karush-Kuhn-Tucker conditions"
     Let ``f``, ``g_i`` and ``h_j`` be differentiable function and let a constraint qualification hold. If ``x`` is a local minimum of the primal problem (P), then there are $\lambda\ge 0$ and $\mu$ such that

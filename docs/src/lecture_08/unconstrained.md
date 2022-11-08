@@ -33,7 +33,7 @@ Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algor
 !!! info "Take care:"
     This theorem does not hold if ``X`` is not the whole space. A simple counterexmple is minimization of ``f(x)=x`` on ``X=[0,1]``.
 
-Since the gradient is the direction of the steepest descent, the straightforward idea is to move in the opposite direction. This gives rise to the gradient (or steepest) descent algorithm
+Since the gradient is the direction of the steepest ascent, the straightforward idea is to move in the opposite direction. This gives rise to the gradient (or steepest) descent algorithm
 ```math
 x^{k+1} = x^k - \alpha^k\nabla f(x^k),
 ```
@@ -232,13 +232,13 @@ For a large stepsize, the algorithm gets close to the solution and then starts j
 ## Adaptive stepsize
 
 
-The implementation of ```optim(f, g, x, α; max_iter=100)``` does not allow modifying the step selection. The simplest fix would be to include `if` conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. A more elegant solution is to create an abstract class.
+The implementation of ```optim(f, g, x, α; max_iter=100)``` does not allow modifying the step selection. The simplest fix would be to include `if` conditions inside the function. However, this would result in a long function, which may be difficult to debug and modify. A more elegant solution is to create an abstract type.
 
 ```@example optim
 abstract type Step end
 ```
 
-For each possible step selection technique, we implement an ```optim_step``` method selecting the step. First, we create the gradient descent class ```GD``` as a subclass of ```Step``` by
+For each possible step selection technique, we implement an ```optim_step``` method selecting the step. First, we create the gradient descent type ```GD``` as a subtype of ```Step``` by
 
 ```@example optim
 struct GD <: Step
@@ -268,7 +268,7 @@ end
 nothing # hide
 ```
 
-The specification of the input ```s::Step``` allows for any subclass of the abstract class ```Step```. Using this implentation results in
+The specification of the input ```s::Step``` allows for any subtype of the abstract type ```Step```. Using this implentation results in
 
 ```@example optim
 gd = GD(0.1)
@@ -281,7 +281,7 @@ nothing # hide
 
 ![](anim4.gif)
 
-The result is the same as in the previous case. This is not surprising as the code does the same things; it is only written differently. The following exercise shows the power of defining the ```Step``` class.
+The result is the same as in the previous case. This is not surprising as the code does the same things; it is only written differently. The following exercise shows the power of defining the ```Step``` type.
 
 ```@raw html
 <div class="admonition is-category-exercise">
@@ -289,7 +289,7 @@ The result is the same as in the previous case. This is not surprising as the co
 <div class="admonition-body">
 ```
 
-Implement the ```Armijo``` subclass of the ```Step``` class. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
+Implement the ```Armijo``` subtype of the ```Step``` type. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
 
 Then run the optimization with the Armijo stepsize selection and plot the animation.
 
@@ -300,7 +300,7 @@ Then run the optimization with the Armijo stepsize selection and plot the animat
 <div class = "admonition-body">
 ```
 
-We define the class in the same way as for ```GD```:
+We define the type in the same way as for ```GD```:
 
 ```@example optim
 struct Armijo <: Step
