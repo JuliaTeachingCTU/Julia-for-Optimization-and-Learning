@@ -99,11 +99,14 @@ Show that Newton's method fails when started from the vector ``(1,2,3)``. Can yo
 
 First, we run the logistic regression as before, only with a different starting point
 
-```@example ex_log
+```julia
 log_reg(X, y, [1;2;3])
 ```
+```julia
+ERROR: SingularException(1)
+```
 
-This resulted in NaNs. When something fails, it may be a good idea to run a step-by-step analysis. In this case, we will run the first iteration of Newton's method
+This resulted in an error (or possibly in NaNs for older versions of Julia). When something fails, it may be a good idea to run a step-by-step analysis. In this case, we will run the first iteration of Newton's method
 
 ```@repl ex_log
 w = [1;2;3];

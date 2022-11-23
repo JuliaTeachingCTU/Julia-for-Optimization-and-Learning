@@ -64,19 +64,19 @@ lecture_07 = [
 ]
 
 lecture_08 = [
-    "Introduction to continuos optimization" => "./lecture_08/theory.md",
+    "Introduction to continuous optimization" => "./lecture_08/theory.md",
     "Gradients" => "./lecture_08/gradients.md",
     "Unconstrained optimization" => "./lecture_08/unconstrained.md",
     "Constrained optimization" => "./lecture_08/constrained.md",
     "Exercises" => "./lecture_08/exercises.md",
 ]
 
-lecture_09 = joinpath.("./lecture_09/", [
-    "theory.md",
-    "linear.md",
-    "logistic.md",
-    "exercises.md",
-])
+lecture_09 = [
+    "Introduction to regression and classification" => "./lecture_09/theory.md",
+    "Linear regression" => "./lecture_09/linear.md",
+    "Logistic regression" => "./lecture_09/logistic.md",
+    "Exercises" => "./lecture_09/exercises.md",
+]
 
 lecture_10 = joinpath.("./lecture_10/", [
     "theory.md",

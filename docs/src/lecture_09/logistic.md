@@ -58,7 +58,11 @@ the prediction function is again linear.
 
 #### Numerical method
 
-The logistic regression can be optimized by Newton's method. Denoting the loss function ``L(w)``, its partial derivative with respect to one component equals to
+The logistic regression can be optimized by Newton's method. Denoting the loss function ``L(w)``, the Newton's method performs updates
+```math
+w^{k+1} = w^k - \nabla^2 L(w^k)^{-1}\nabla L(w^k).
+```
+The partial derivative of ``L`` with respect to one component equals to
 
 ```math
 \begin{aligned}

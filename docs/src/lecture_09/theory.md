@@ -12,7 +12,7 @@ Regression and classification are a part of machine learning which predicts cert
 - We use the labelled dataset to train the weights ``w``.
 - When an unlabelled sample arrives, we use the prediction function to predict its label.
 
-The [MNIST](https://en.wikipedia.org/wiki/MNIST_database) dataset contains ``n=50000`` images of grayscale digits. Each image ``x_i`` from the dataset has the size ``28\times 28`` and was manually labelled by ``y_i\in\{0,\dots,9\}``. When the weights ``w`` of a prediction function ``\operatorname{predict}(w;x)`` are trained on this dataset, the prediction function can predict which digit appears on images it has- never seen before. This is an example where the images ``x`` are relatively simple to obtain, but the labels ``y`` are hard to obtain due to the need to do it manually.
+The [MNIST](https://en.wikipedia.org/wiki/MNIST_database) dataset contains ``n=50000`` images of grayscale digits. Each image ``x_i`` from the dataset has the size ``28\times 28`` and was manually labelled by ``y_i\in\{0,\dots,9\}``. When the weights ``w`` of a prediction function ``\operatorname{predict}(w;x)`` are trained on this dataset, the prediction function can predict which digit appears on images it has never seen before. This is an example where the images ``x`` are relatively simple to obtain, but the labels ``y`` are hard to obtain due to the need to do it manually.
 
 ## Regression and classification
 
