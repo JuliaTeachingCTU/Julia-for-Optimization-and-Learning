@@ -90,7 +90,6 @@ using Plots
 using ImageInspector
 
 imageplot(1 .- X_train, inds; nrows=3, size=(800,480))
-savefig("mnist_intro2.svg") # hide
 ```
 
 ```@raw html
