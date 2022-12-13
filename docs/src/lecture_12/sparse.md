@@ -198,11 +198,11 @@ To test the speed, we use the `BenchmarkTools` package. The second option is sig
 ```julia
 julia> using BenchmarkTools
 
-julia> @time ridge_reg(X, y, 10);
-  0.204391 seconds (9 allocations: 22.912 MiB)
+julia> @btime ridge_reg(X, y, 10);
+  114.182 ms (9 allocations: 22.91 MiB)
 
 julia> @btime ridge_reg(X, y, 10, Q, Q_inv, λ);
-  6.251 ms (5 allocations: 39.69 KiB)
+  6.194 ms (5 allocations: 39.69 KiB)
 ```
 
 Now we create multiple values of ``\mu`` and compute the ridge regression for all of them. Since the broadcasting would broadcast all matrices, we need to fix all but one by the `Ref` command.

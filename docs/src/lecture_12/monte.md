@@ -381,7 +381,7 @@ Previous sections showed that we need many samples to obtain a good approximatio
 <div class="admonition-body">
 ```
 
-Sample ``n=1000`` in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
+Sample ``n=1000`` points in the unit cube in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
 
 ```@raw html
 </div></div>

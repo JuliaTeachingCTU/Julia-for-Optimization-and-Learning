@@ -319,7 +319,7 @@ scatter(y, y_hat;
     ylabel="Prediction",
 )
 
-savefig("glm_predict.svg")
+savefig("glm_predict.svg") # hide
 ```
 
 ```@raw html
