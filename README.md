@@ -4,7 +4,7 @@
 
 ---
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/VaclavMacha/JuliaCourse/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning/blob/master/LICENSE)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/stable/)
 [![](https://img.shields.io/badge/docs-dev-blue.svg)](https://juliateachingctu.github.io/Julia-for-Optimization-and-Learning/dev/)
 
