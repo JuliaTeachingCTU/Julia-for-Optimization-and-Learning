@@ -5,14 +5,17 @@ product (generic function with 1 method)</code></pre><p>In the REPL, we can see 
 
 julia&gt; product(2.4, 3.1)
 7.4399999999999995</code></pre><p>The <code>methods</code> function lists all methods for a function.</p><pre><code class="language-julia-repl hljs">julia&gt; methods(product)
-# 1 method for generic function &quot;product&quot;:
-[1] product(x, y) in Main at none:1</code></pre><p>Because we did not specify types of input arguments, the <code>product</code> function accepts arguments of all types. For some inputs, such as symbols, the <code>*</code> operator will not work.</p><pre><code class="language-julia-repl hljs">julia&gt; product(:a, :b)
+# 1 method for generic function &quot;product&quot; from Main:
+ [1] product(x, y)
+     @ none:1</code></pre><p>Because we did not specify types of input arguments, the <code>product</code> function accepts arguments of all types. For some inputs, such as symbols, the <code>*</code> operator will not work.</p><pre><code class="language-julia-repl hljs">julia&gt; product(:a, :b)
 ERROR: MethodError: no method matching *(::Symbol, ::Symbol)
 [...]</code></pre><p>We can avoid such errors by specifying types of input arguments. Since we want to create a function that computes the product of two numbers, it makes sense to allow input arguments to be only numbers.</p><pre><code class="language-julia hljs">product(x::Number, y::Number) = x * y
 product(x, y) = throw(ArgumentError(&quot;product is defined for numbers only.&quot;))</code></pre><p>The second line redefined the original definition of the <code>product</code> function. It now throws an error if <code>product</code> is called with non-numeric inputs.</p><pre><code class="language-julia-repl hljs">julia&gt; methods(product)
-# 2 methods for generic function &quot;product&quot;:
-[1] product(x::Number, y::Number) in Main at none:1
-[2] product(x, y) in Main at none:1</code></pre><p>Now, we have a function with two methods, that returns a product if the input arguments are numbers, and throws an error otherwise.</p><pre><code class="language-julia-repl hljs">julia&gt; product(1, 4.5)
+# 2 methods for generic function &quot;product&quot; from Main:
+ [1] product(x::Number, y::Number)
+     @ none:1
+ [2] product(x, y)
+     @ none:1</code></pre><p>Now, we have a function with two methods, that returns a product if the input arguments are numbers, and throws an error otherwise.</p><pre><code class="language-julia-repl hljs">julia&gt; product(1, 4.5)
 4.5
 
 julia&gt; product(:a, :b)
@@ -94,13 +97,16 @@ julia&gt; product(:a, :b)
 ERROR: ArgumentError: product is defined for numbers and strings only.</code></pre><p>Sometimes, it may be complicated to guess which method is used for concrete inputs. In such a case, there is a useful macro <code>@which</code> that returns the method that is called for given arguments.</p><pre><code class="language-julia-repl hljs">julia&gt; using InteractiveUtils: @which
 
 julia&gt; @which product(1, 4.5)
-product(x::Number, y::Number) in Main at none:1
+product(x::Number, y::Number)
+     @ Main none:1
 
 julia&gt; @which product(&quot;a&quot;, :a)
-product(x, y) in Main at none:1
+product(x, y)
+     @ Main none:1
 
 julia&gt; @which product(&quot;a&quot;, &quot;b&quot;)
-product(x::AbstractString, y::AbstractString) in Main at none:1</code></pre><p>The previous example with the <code>product</code> function shows how methods in Julia works. However, it is a good practice to use type annotation only if we want to have a specialized function or if we want to define a function, which does different things for different types of input arguments.</p><pre><code class="language-julia hljs">g(x::Real) = x + 1
+product(x::AbstractString, y::AbstractString)
+     @ Main none:1</code></pre><p>The previous example with the <code>product</code> function shows how methods in Julia works. However, it is a good practice to use type annotation only if we want to have a specialized function or if we want to define a function, which does different things for different types of input arguments.</p><pre><code class="language-julia hljs">g(x::Real) = x + 1
 g(x::String) = repeat(x, 4)</code></pre><p>For example, the <code>g</code> function returns <code>x + 1</code> if the input <code>x</code> is a real number or repeats four times the input argument if it is a string. Otherwise, it will throw a method error.</p><pre><code class="language-julia-repl hljs">julia&gt; g(1.2)
 2.2
 
@@ -109,9 +115,13 @@ julia&gt; g(&quot;a&quot;)
 
 julia&gt; g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
+
 Closest candidates are:
-  g(!Matched::Real) at none:1
-  g(!Matched::String) at none:1</code></pre><div class="admonition is-info">
+  g(!Matched::Real)
+   @ Main none:1
+  g(!Matched::String)
+   @ Main none:1
+[...]</code></pre><div class="admonition is-info">
 <header class="admonition-header">Do not overuse type annotation:</header>
 <div class="admonition-body"><p>The <code>product</code> function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function <code>product_new</code> by:</p><pre><code class="language-julia hljs">product_new(x, y) = x * y</code></pre><p>Then we can apply this function to the same inputs as the original <code>product</code> function, and we will get the same results</p><pre><code class="language-julia-repl hljs">julia&gt; product(1, 4.5)
 4.5
@@ -156,10 +166,16 @@ f(x, y::Float64) = x + y</code></pre><p>Here, <code>f</code> has two methods. Th
 
 julia&gt; f(2, 3.0)
 5.0</code></pre><p>Both methods can be used if both arguments are of type <code>Float64</code>. The problem is that neither method is more specific than the other. This results in <code>MethodError</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; f(2.0, 3.0)
-ERROR: MethodError: f(::Float64, ::Float64) is ambiguous. Candidates:
-  f(x::Float64, y) in Main at none:1
-  f(x, y::Float64) in Main at none:1
+ERROR: MethodError: f(::Float64, ::Float64) is ambiguous.
+
+Candidates:
+  f(x::Float64, y)
+    @ Main none:1
+  f(x, y::Float64)
+    @ Main none:1
+
 Possible fix, define
-  f(::Float64, ::Float64)</code></pre><p>We can avoid method ambiguities by specifying an appropriate method for the intersection case.</p><pre><code class="language-julia-repl hljs">julia&gt; f(x::Float64, y::Float64) = x - y
+  f(::Float64, ::Float64)
+[...]</code></pre><p>We can avoid method ambiguities by specifying an appropriate method for the intersection case.</p><pre><code class="language-julia-repl hljs">julia&gt; f(x::Float64, y::Float64) = x - y
 f (generic function with 3 methods)</code></pre><p>Now <code>f</code> has three methods.</p><pre><code class="language-julia-repl hljs">julia&gt; f(2.0, 3.0)
--1.0</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><a class="docs-footer-nextpage" href="../scope/">Scope of variables »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Wednesday 15 February 2023 09:03">Wednesday 15 February 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+-1.0</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../functions/">« Functions</a><a class="docs-footer-nextpage" href="../scope/">Scope of variables »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.25 on <span class="colophon-date" title="Wednesday 6 September 2023 13:38">Wednesday 6 September 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

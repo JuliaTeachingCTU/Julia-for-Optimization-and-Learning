@@ -39,8 +39,10 @@ Rectangle([1.0, 2.0], 3, 4)
 julia&gt; isa(r, Rectangle)
 true</code></pre><p>A constructor is calling a type as a function. Two constructors are automatically generated when a type is created. One accepts any arguments and converts them to the field types, and the other accepts arguments that match the field types exactly. If all fields are <code>Any</code>, only one constructor is generated. Julia creates these two constructors to make it easier to add new definitions without replacing the default constructor. We can list all constructors by the <code>methods</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; methods(Rectangle)
 # 2 methods for type constructor:
-[1] Rectangle(bottomleft::Vector{Float64}, width, height) in Main at none:2
-[2] Rectangle(bottomleft, width, height) in Main at none:2</code></pre><p>The fields of composite types can be accessed via the dot notation similarly to named tuples or via the <code>getproperty</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; r.width
+ [1] Rectangle(bottomleft::Vector{Float64}, width, height)
+     @ none:2
+ [2] Rectangle(bottomleft, width, height)
+     @ none:2</code></pre><p>The fields of composite types can be accessed via the dot notation similarly to named tuples or via the <code>getproperty</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; r.width
 3
 
 julia&gt; getproperty(r, :width)
@@ -176,8 +178,11 @@ julia&gt; Point(0.2, 1.3)
 julia&gt; Point{Float32}(1, 2)
 (1.0f0, 2.0f0)</code></pre><p>The first way works only if the arguments have the same type.</p><pre><code class="language-julia-repl hljs">julia&gt; Point(1, 2.0)
 ERROR: MethodError: no method matching Point(::Int64, ::Float64)
+
 Closest candidates are:
-  Point(::T, !Matched::T) where T&lt;:Real at none:3</code></pre><p>This situation can be handled by defining custom constructors, as we will discuss in the next section.</p><div class="admonition is-category-exercise">
+  Point(::T, !Matched::T) where T&lt;:Real
+   @ Main none:3
+[...]</code></pre><p>This situation can be handled by defining custom constructors, as we will discuss in the next section.</p><div class="admonition is-category-exercise">
 <header class="admonition-header">Exercise:</header>
 <div class="admonition-body"><p>Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the <code>coordinates</code> function.</p></div></div>
 <details class = "admonition is-category-solution">
@@ -311,4 +316,4 @@ plot(x, d.(x);
 
 plot(Gauss())
 plot!(Gauss(4, 2); linewidth = 4, color = :red)
-plot!(Gauss(-3, 2); label = &quot;new label&quot;, linestyle = :dash)</code></pre><p><img src="../gauss.svg" alt/></p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_05/interaction/">« Interaction with other languages</a><a class="docs-footer-nextpage" href="../currencies/">Generic programming »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.24 on <span class="colophon-date" title="Wednesday 15 February 2023 09:03">Wednesday 15 February 2023</span>. Using Julia version 1.8.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plot!(Gauss(-3, 2); label = &quot;new label&quot;, linestyle = :dash)</code></pre><p><img src="../gauss.svg" alt/></p></div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_05/interaction/">« Interaction with other languages</a><a class="docs-footer-nextpage" href="../currencies/">Generic programming »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.25 on <span class="colophon-date" title="Wednesday 6 September 2023 13:38">Wednesday 6 September 2023</span>. Using Julia version 1.9.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
