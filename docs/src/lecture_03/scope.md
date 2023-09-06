@@ -13,7 +13,7 @@ t = 2
 t = 3
 
 julia> t
-ERROR: UndefVarError: t not defined
+ERROR: UndefVarError: `t` not defined
 ```
 
 The variable `i` in the example above is also local. A similar behaviour happens in nested loops:
@@ -27,7 +27,8 @@ julia> for j in 1:5
        end
 i + j = 2
 i + j = 3
-ERROR: UndefVarError: i not defined
+ERROR: UndefVarError: `i` not defined
+[...]
 ```
 
 Variable `j` is a local variable defined in the outer loop.  This means that it is visible inside the inner loop and can be used there. On the other hand, variable `i` is a local variable from the inner loop and cannot be accessed in the outer loop.

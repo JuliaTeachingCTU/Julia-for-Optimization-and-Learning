@@ -28,7 +28,7 @@ f (generic function with 1 method)
 julia> f()
 
 julia> z
-ERROR: UndefVarError: z not defined
+ERROR: UndefVarError: `z` not defined
 ```
 
 Thanks to this property, we can use the names most suitable for our variables (i, x, y, etc.) without the risk of clashing with declarations elsewhere. It is possible to specify a global variable inside a function by the `global` keyword.
@@ -76,7 +76,7 @@ julia> module A
 A
 
 julia> a # errors as Main's global scope is separate from A's
-ERROR: UndefVarError: a not defined
+ERROR: UndefVarError: `a` not defined
 ```
 
 Modules can introduce variables of other modules into their scope through the `using` (or `import`)  keyword. Variables can be accessed by the dot-notation.
@@ -95,7 +95,8 @@ While variables can be read externally, they can only be changed within the modu
 
 ```jldoctest global
 julia> b = 4
-ERROR: cannot assign a value to variable A.b from module Main
+ERROR: cannot assign a value to imported variable A.b from module Main
+[...]
 ```
 
 Global scope variables can be accessed anywhere inside the global scope, even in the local scopes defined in that global scope. In the following example, we define a variable `c` in the `Main` global scope, and then we define a function `foo` (that introduces a new local scope inside the `Main` global scope), and inside this function, we use the variable `c`,

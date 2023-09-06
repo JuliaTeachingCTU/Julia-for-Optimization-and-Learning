@@ -114,7 +114,8 @@ julia> compare(4.7, 2.3)
 4.7
 
 julia> compare(2.3, 2.3)
-ERROR: UndefVarError: z not defined
+ERROR: UndefVarError: `z` not defined
+[...]
 ```
 
 The `if` blocks always return a value equal to the last expression evaluated in the `if` block. In other words, it is possible to assign the value returned by the `if` block to a new variable.

@@ -315,7 +315,7 @@ julia> f()
 (1, 1)
 
 julia> g()
-ERROR: UndefVarError: y not defined
+ERROR: UndefVarError: `y` not defined
 [...]
 ```
 

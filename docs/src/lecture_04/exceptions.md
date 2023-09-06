@@ -87,8 +87,9 @@ The `MethodError` provides two important pieces of information. First, it states
 
 ```jldoctest expections
 julia> methods(fact_new)
-# 1 method for generic function "fact_new":
-[1] fact_new(n::Real) in Main at none:1
+# 1 method for generic function "fact_new" from Main:
+ [1] fact_new(n::Real)
+     @ none:1
 ```
 
 A more precise description and a list of all predefined exception types can be found in the official [documentation](https://docs.julialang.org/en/v1/manual/control-flow/#Exception-Handling).

@@ -95,8 +95,10 @@ A constructor is calling a type as a function. Two constructors are automaticall
 ```jldoctest structs
 julia> methods(Rectangle)
 # 2 methods for type constructor:
-[1] Rectangle(bottomleft::Vector{Float64}, width, height) in Main at none:2
-[2] Rectangle(bottomleft, width, height) in Main at none:2
+ [1] Rectangle(bottomleft::Vector{Float64}, width, height)
+     @ none:2
+ [2] Rectangle(bottomleft, width, height)
+     @ none:2
 ```
 
 The fields of composite types can be accessed via the dot notation similarly to named tuples or via the `getproperty` function.
@@ -391,8 +393,11 @@ The first way works only if the arguments have the same type.
 ```jldoctest structs
 julia> Point(1, 2.0)
 ERROR: MethodError: no method matching Point(::Int64, ::Float64)
+
 Closest candidates are:
-  Point(::T, !Matched::T) where T<:Real at none:3
+  Point(::T, !Matched::T) where T<:Real
+   @ Main none:3
+[...]
 ```
 
 This situation can be handled by defining custom constructors, as we will discuss in the next section.

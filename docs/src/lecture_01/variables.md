@@ -150,7 +150,7 @@ julia> ℯ
 ℯ = 2.7182818284590...
 
 julia> ℯ = 2
-ERROR: cannot assign a value to variable MathConstants.ℯ from module Main
+ERROR: cannot assign a value to imported variable MathConstants.ℯ from module Main
 [...]
 ```
 

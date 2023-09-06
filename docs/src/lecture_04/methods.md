@@ -30,8 +30,9 @@ The `methods` function lists all methods for a function.
 
 ```jldoctest methods
 julia> methods(product)
-# 1 method for generic function "product":
-[1] product(x, y) in Main at none:1
+# 1 method for generic function "product" from Main:
+ [1] product(x, y)
+     @ none:1
 ```
 
 Because we did not specify types of input arguments, the `product` function accepts arguments of all types. For some inputs, such as symbols, the `*` operator will not work.
@@ -56,9 +57,11 @@ The second line redefined the original definition of the `product` function. It 
 
 ```jldoctest methods
 julia> methods(product)
-# 2 methods for generic function "product":
-[1] product(x::Number, y::Number) in Main at none:1
-[2] product(x, y) in Main at none:1
+# 2 methods for generic function "product" from Main:
+ [1] product(x::Number, y::Number)
+     @ none:1
+ [2] product(x, y)
+     @ none:1
 ```
 
 Now, we have a function with two methods, that returns a product if the input arguments are numbers, and throws an error otherwise.
@@ -288,13 +291,16 @@ Sometimes, it may be complicated to guess which method is used for concrete inpu
 julia> using InteractiveUtils: @which
 
 julia> @which product(1, 4.5)
-product(x::Number, y::Number) in Main at none:1
+product(x::Number, y::Number)
+     @ Main none:1
 
 julia> @which product("a", :a)
-product(x, y) in Main at none:1
+product(x, y)
+     @ Main none:1
 
 julia> @which product("a", "b")
-product(x::AbstractString, y::AbstractString) in Main at none:1
+product(x::AbstractString, y::AbstractString)
+     @ Main none:1
 ```
 
 The previous example with the `product` function shows how methods in Julia works. However, it is a good practice to use type annotation only if we want to have a specialized function or if we want to define a function, which does different things for different types of input arguments.
@@ -318,9 +324,13 @@ julia> g("a")
 
 julia> g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
+
 Closest candidates are:
-  g(!Matched::Real) at none:1
-  g(!Matched::String) at none:1
+  g(!Matched::Real)
+   @ Main none:1
+  g(!Matched::String)
+   @ Main none:1
+[...]
 ```
 
 
@@ -482,11 +492,17 @@ Both methods can be used if both arguments are of type `Float64`. The problem is
 
 ```jldoctest methods_amb
 julia> f(2.0, 3.0)
-ERROR: MethodError: f(::Float64, ::Float64) is ambiguous. Candidates:
-  f(x::Float64, y) in Main at none:1
-  f(x, y::Float64) in Main at none:1
+ERROR: MethodError: f(::Float64, ::Float64) is ambiguous.
+
+Candidates:
+  f(x::Float64, y)
+    @ Main none:1
+  f(x, y::Float64)
+    @ Main none:1
+
 Possible fix, define
   f(::Float64, ::Float64)
+[...]
 ```
 
 We can avoid method ambiguities by specifying an appropriate method for the intersection case.
