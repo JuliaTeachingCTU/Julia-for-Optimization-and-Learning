@@ -44,7 +44,7 @@ Selected examples of what you will be able to write at the end of the course inc
 
 ## Technical details
 
-Scripts for each lecture is available at its own [Github repository](https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning-Scripts). For Czech students, we list the [requirements for passing the course](https://cw.fel.cvut.cz/b221/courses/b0b36jul/start) (in Czech only).
+Scripts for each lecture is available at its own [Github repository](https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning-Scripts). For students attending the course at CTU, we list the requirements for completing the course in [Czech](https://cw.fel.cvut.cz/b231/courses/b0b36jul/start) and [English](https://cw.fel.cvut.cz/b231/courses/b0b36jul/en/start).
 
 
 ## Useful materials
