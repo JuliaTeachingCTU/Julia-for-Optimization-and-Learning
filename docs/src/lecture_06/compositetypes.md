@@ -176,12 +176,8 @@ julia> fieldnames(typeof(r))
     Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
     ```
 
-    The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is that Python defines the functions inside of the class while Julia defines them outside. The Julia approach has several advantages:
-    1. Julia has more options to logically split the code. This may increase readability.
-    2. When working with a class defined in an external package, Julia can simply define additional functions to this class. Python needs to use inheritance to modify the class. When a multiple people use inheritance to the same class, it is not clear how to merge the inherited classes together. Therefore, Julia makes it simpler to create packages which combine and modify multiple existing packages.
-    3. When working with multiple classes, it does not need to be clear to which a function should belong. Python sometimes needs to create an additional class which unites these two classes. Julia does not have this problem as functions are defined externally.
-
-    In Julia functions are defined outside of the declaration of the structure. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
+    The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is, that in Python methods are bounded to the class, while Julia defines functions outside of the composite types. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
+    
 
 ## Mutable composite types
 
