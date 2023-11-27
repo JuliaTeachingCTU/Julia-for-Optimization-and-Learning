@@ -448,7 +448,7 @@ ERROR: ArgumentError: number of columns of each array must match (got (4, 1))
 <div class="admonition-body">
 ```
 
-Create two vectors: vector of all odd positive integers smaller than `10` and vector of all even positive integers smaller than `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
+Create two vectors: vector of all odd positive integers smaller than `10` and vector of all even positive integers smaller than or equal to `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
 
 ```@raw html
 </div></div>
