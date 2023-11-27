@@ -21,7 +21,7 @@ This lecture shows how to train more complex networks using stochastic gradient 
 
 ## Preparing data
 
-During the last lecture, we implemented everything from scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) which automizes most of the things needed for neural networks.
+During the last lecture, we implemented everything from scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) (and [Optimisers](https://fluxml.ai/Optimisers.jl/stable/)) which automizes most of the things needed for neural networks.
 - It creates many layers, including convolutional layers.
 - It creates the model by chaining layers together.
 - It efficiently represents model parameters.
@@ -381,21 +381,24 @@ m = Chain(
 nothing # hide
 ```
 
-The objective function ``L`` then applies the cross-entropy loss to the predictions and labels.
+The objective function ``L`` then applies the cross-entropy loss to the predictions and labels. For us to be able to use `Flux.Optimise.train!` function to easily train a neural network, we will define the loss $\operatorname{L}$ as
 
 ```@example nn
 using Flux: crossentropy
 
-L(X, y) = crossentropy(m(X), y)
+L(model, X, y) = crossentropy(model(X), y)
 
 nothing # hide
 ```
 
 We now write the function `train_model!` to train the neural network `m`. Since this function modifies the input model `m`, its name should contain the exclamation mark. Besides the loss function `L`, data `X` and labels `y`, it also contains as keyword arguments optimizer the optimizer `opt`, the minibatch size `batchsize`, the number of epochs `n_epochs`, and the file name `file_name` to which the model should be saved.
 
+!!! info "Optimiser and optimiser state:"
+    Note that we have to initialize the optimiser state `opt_state`. For a simple gradient descent `Descent(learning_rate)`, there is no internal state of the optimiser and internal parameters. However, when using different parametrized optimisers such as Adam, the internal state of `opt_state` is updated in each iteration, just as the parameters of the model. Therefore, if we want to save a model and continue its training later on, we need to save both the model (or its parameters) and the optimiser state.
+
+
 ```@example nn
 using BSON
-using Flux: params
 
 function train_model!(m, L, X, y;
         opt = Descent(0.1),
@@ -403,13 +406,14 @@ function train_model!(m, L, X, y;
         n_epochs = 10,
         file_name = "")
 
+    opt_state = Flux.setup(opt, m)
     batches = DataLoader((X, y); batchsize, shuffle = true)
 
     for _ in 1:n_epochs
-        Flux.train!(L, params(m), batches, opt)
+        Flux.train!(L, m, batches, opt_state)
     end
 
-    !isempty(file_name) && BSON.bson(file_name, m=m)
+    !isempty(file_name) && BSON.bson(file_name, m=m, opt_state=opt_state)
 
     return
 end
@@ -498,7 +502,7 @@ Use this function to load the model from `data/mnist.bson` and evaluate the perf
 
 The optional arguments should contain `kwargs...`, which will be passed to `train_model!`. Besides that, we include `force` which enforces that the model is trained even if it already exists.
 
-First, we should check whether the directory exists ```!isdir(dirname(file_name))``` and if not, we create it ```mkpath(dirname(file_name))```. Then we check whether the file exists (or whether we want to enforce the training). If yes, we train the model, which already modifies ```m```. If not, we ```BSON.load``` the model and copy the loaded parameters into ```m``` by ```Flux.loadparams!(m, params(m_loaded))```. We cannot load directly into ```m``` instead of ```m_loaded``` because that would create a local copy of ```m``` and the function would not modify the external ```m```.
+First, we should check whether the directory exists ```!isdir(dirname(file_name))``` and if not, we create it ```mkpath(dirname(file_name))```. Then we check whether the file exists (or whether we want to enforce the training). If yes, we train the model, which already modifies ```m```. If not, we ```BSON.load``` the model and copy the loaded parameters into ```m``` by ```Flux.loadparams!(m, Flux.params(m_loaded))```. We cannot load directly into ```m``` instead of ```m_loaded``` because that would create a local copy of ```m``` and the function would not modify the external ```m```.
 
 ```@example nn
 function train_or_load!(file_name, m, args...; force=false, kwargs...)
@@ -509,7 +513,7 @@ function train_or_load!(file_name, m, args...; force=false, kwargs...)
         train_model!(m, args...; file_name=file_name, kwargs...)
     else
         m_weights = BSON.load(file_name)[:m]
-        Flux.loadparams!(m, params(m_weights))
+        Flux.loadparams!(m, Flux.params(m_weights))
     end
 end
 
