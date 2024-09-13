@@ -113,7 +113,6 @@ makedocs(;
         collapselevel=1,
         assets=[
             "assets/favicon.ico",
-            "assets/ctustyle.css",
         ],
         ansicolor=true
     ),
@@ -134,7 +133,7 @@ makedocs(;
         "11: Neural networks II." => lecture_11,
         "12: Statistics" => lecture_12,
         "13: Ordinary differential equations" => lecture_13,
-    ]
+    ],
 )
 
 deploydocs(;
