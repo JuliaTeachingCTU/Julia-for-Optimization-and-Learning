@@ -166,6 +166,7 @@ julia> append!(v, 3.0)
 
 julia> append!(v, 3.1415)
 ERROR: InexactError: Int64(3.1415)
+[...]
 ```
 
 In the first case, it is possible to append a floating-point number since it can be represented as an integer. We can use the `isinteger` function to test whether the number is numerically equal to some integer.
@@ -438,7 +439,7 @@ julia> hcat(M, v)
  5  6  7  8  12
 
 julia> vcat(M, v)
-ERROR: ArgumentError: number of columns of each array must match (got (4, 1))
+ERROR: DimensionMismatch: number of columns of each array must match (got (4, 1))
 [...]
 ```
 

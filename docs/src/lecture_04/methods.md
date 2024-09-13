@@ -72,9 +72,11 @@ julia> product(1, 4.5)
 
 julia> product(:a, :b)
 ERROR: ArgumentError: product is defined for numbers only.
+[...]
 
 julia> product("a", "b")
 ERROR: ArgumentError: product is defined for numbers only.
+[...]
 ```
 
 ## Type hierarchy
@@ -283,6 +285,7 @@ julia> product("a", "b")
 
 julia> product(:a, :b)
 ERROR: ArgumentError: product is defined for numbers and strings only.
+[...]
 ```
 
 Sometimes, it may be complicated to guess which method is used for concrete inputs. In such a case, there is a useful macro `@which` that returns the method that is called for given arguments.
@@ -326,9 +329,9 @@ julia> g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
 
 Closest candidates are:
-  g(!Matched::Real)
-   @ Main none:1
   g(!Matched::String)
+   @ Main none:1
+  g(!Matched::Real)
    @ Main none:1
 [...]
 ```
@@ -371,6 +374,7 @@ with only one exception
 ```jldoctest methods
 julia> product("a", :a)
 ERROR: ArgumentError: product is defined for numbers and strings only.
+[...]
 
 julia> product_new("a", :a)
 ERROR: MethodError: no method matching *(::String, ::Symbol)
@@ -495,9 +499,9 @@ julia> f(2.0, 3.0)
 ERROR: MethodError: f(::Float64, ::Float64) is ambiguous.
 
 Candidates:
-  f(x::Float64, y)
-    @ Main none:1
   f(x, y::Float64)
+    @ Main none:1
+  f(x::Float64, y)
     @ Main none:1
 
 Possible fix, define

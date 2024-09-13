@@ -150,7 +150,7 @@ julia> ℯ
 ℯ = 2.7182818284590...
 
 julia> ℯ = 2
-ERROR: cannot assign a value to imported variable MathConstants.ℯ from module Main
+ERROR: cannot assign a value to imported variable Base.ℯ from module Main
 [...]
 ```
 
@@ -166,7 +166,10 @@ The only explicitly disallowed names for variables are the names of built-in res
 
 ```jldoctest
 julia> struct = 3
-ERROR: syntax: unexpected "="
+ERROR: ParseError:
+# Error @ none:1:8
+struct = 3
+#      ╙ ── unexpected `=`
 [...]
 ```
 

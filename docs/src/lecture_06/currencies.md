@@ -892,6 +892,7 @@ julia> b(Dollar(10))
 
 julia> b(-2*balance(b))
 ERROR: ArgumentError: insufficient bank account balance.
+[...]
 
 julia> b(Pound(10))
 

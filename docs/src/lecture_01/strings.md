@@ -74,7 +74,11 @@ julia> str2 = "\$\$\$ dollars everywhere \$\$\$"
 
 ```jldoctest strings
 julia> "The $ will be fine."
-ERROR: syntax: invalid interpolation syntax: "$ "
+ERROR: ParseError:
+# Error @ none:1:7
+"The $ will be fine."
+#     └ ── identifier or parenthesized expression expected after $ in string
+[...]
 ```
 
 No, they won't. If used incorrectly, Julia will throw an error.

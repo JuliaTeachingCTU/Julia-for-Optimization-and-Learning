@@ -186,6 +186,7 @@ Composite types declared with `struct` keyword are immutable and cannot be modif
 ```jldoctest structs
 julia> r.bottomleft = [2;2]
 ERROR: setfield!: immutable struct of type Rectangle cannot be changed
+[...]
 ```
 
 However, immutability is not recursive. If an immutable object contains a mutable object, such as an array, elements of this mutable object can be modified. Even though `Rectangle` is an immutable type, its `bottomleft` field is a mutable array and can be changed.
@@ -392,7 +393,6 @@ ERROR: MethodError: no method matching Point(::Int64, ::Float64)
 
 Closest candidates are:
   Point(::T, !Matched::T) where T<:Real
-   @ Main none:3
 [...]
 ```
 

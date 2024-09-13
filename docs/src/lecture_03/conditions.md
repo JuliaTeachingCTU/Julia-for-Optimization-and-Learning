@@ -70,6 +70,7 @@ julia> if 1
            println("Hello")
        end
 ERROR: TypeError: non-boolean (Int64) used in boolean context
+[...]
 ```
 
 The `if` blocks do not introduce a [local scope](https://docs.julialang.org/en/v1/manual/variables-and-scoping/), i.e., it is possible to introduce a new variable inside the `if` block and use this variable outside the block.
@@ -203,9 +204,11 @@ julia> fact(0)
 
 julia> fact(-5)
 ERROR: argument must be non-negative integer
+[...]
 
 julia> fact(1.4)
 ERROR: argument must be non-negative integer
+[...]
 ```
 
 ```@raw html
@@ -382,9 +385,11 @@ julia> fact(0)
 
 julia> fact(-5)
 ERROR: argument must be non-negative integer
+[...]
 
 julia> fact(1.4)
 ERROR: argument must be non-negative integer
+[...]
 ```
 
 ```@raw html

@@ -33,6 +33,7 @@ If the key does not exist in the dictionary, an error will occur if we try to ac
 ```jldoctest dicts
 julia> d[:c]
 ERROR: KeyError: key :c not found
+[...]
 
 julia> haskey(d, :c)
 false

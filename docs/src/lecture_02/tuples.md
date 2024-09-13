@@ -113,7 +113,7 @@ julia> t[end] # the last element
 "3"
 
 julia> t[1:2] # error
-ERROR: MethodError: no method matching getindex(::NamedTuple{(:a, :b, :c), Tuple{Int64, Float64, String}}, ::UnitRange{Int64})
+ERROR: MethodError: no method matching getindex(::@NamedTuple{a::Int64, b::Float64, c::String}, ::UnitRange{Int64})
 [...]
 ```
 
