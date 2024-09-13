@@ -51,8 +51,8 @@ i = 5
 
     ```jldoctest
     julia> for i = 1:5
-            @show i
-        end
+              @show i
+           end
     i = 1
     i = 2
     i = 3
@@ -103,8 +103,8 @@ Hi, my name is Bob and I am 23 old.
     21
 
     julia> if mod(i, 3) == 0 && mod(i, 7) == 0
-            println("$(i) is divisible by 3 and 7")
-        end
+              println("$(i) is divisible by 3 and 7")
+           end
     21 is divisible by 3 and 7
     ```
 
@@ -122,8 +122,8 @@ Hi, my name is Bob and I am 23 old.
 
     ```jldoctest
     julia> for i in 1:100
-            mod(i, 3) == mod(i, 7) == 0 && @show i
-        end
+               mod(i, 3) == mod(i, 7) == 0 && @show i
+           end
     i = 21
     i = 42
     i = 63
@@ -136,9 +136,9 @@ Hi, my name is Bob and I am 23 old.
     julia> i = 0;
 
     julia> while i <= 100
-            i += 1
-            mod(i, 3) == mod(i, 7) == 0 && @show i
-        end
+               i += 1
+               mod(i, 3) == mod(i, 7) == 0 && @show i
+           end
     i = 21
     i = 42
     i = 63
@@ -187,11 +187,11 @@ The code after the `continue` keyword is not evaluated.
     julia> i = 0;
 
     julia> while true
-            i += 1
-            i > 100 && break
-            mod(i, 3) == mod(i, 7) == 0 || continue
-            @show i
-        end
+               i += 1
+               i > 100 && break
+               mod(i, 3) == mod(i, 7) == 0 || continue
+               @show i
+           end
     i = 21
     i = 42
     i = 63
@@ -280,23 +280,23 @@ There are other limitations of the shorter syntax, such as the impossibility to 
 
     # output
     3×4 Matrix{Float64}:
-    0.0  0.0  0.0  0.0
-    0.0  0.0  0.0  0.0
-    0.0  0.0  0.0  0.0
+     0.0  0.0  0.0  0.0
+     0.0  0.0  0.0  0.0
+     0.0  0.0  0.0  0.0
     ```
 
     The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:length(x)` for `x` and `1:length(y)` for `y`.
 
     ```jldoctest nestedloops_ex
     julia> for i in 1:length(x), j in 1:length(y)
-            A[i, j] = exp((x[i]^2 - y[j]^2)/2)/2
-        end
+               A[i, j] = exp((x[i]^2 - y[j]^2)/2)/2
+           end
 
     julia> A
     3×4 Matrix{Float64}:
         0.203285    0.00443536     0.030405  7.27867e-7
         2.64284     0.0576626      0.395285  9.46275e-6
-    7382.39      161.072       1104.17      0.0264329
+     7382.39      161.072       1104.17      0.0264329
     ```
 
     There are more efficient ways to create this array. The one way is to use broadcasting.
@@ -304,13 +304,13 @@ There are other limitations of the shorter syntax, such as the impossibility to 
     ```jldoctest nestedloops_ex
     julia> y_row = y'
     1×4 adjoint(::Vector{Float64}) with eltype Float64:
-    1.4  -3.1  2.4  5.2
+     1.4  -3.1  2.4  5.2
 
     julia> A = @. exp((x^2 - y_row^2)/2)/2
     3×4 Matrix{Float64}:
         0.203285    0.00443536     0.030405  7.27867e-7
         2.64284     0.0576626      0.395285  9.46275e-6
-    7382.39      161.072       1104.17      0.0264329
+     7382.39      161.072       1104.17      0.0264329
     ```
 
     We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
@@ -371,10 +371,10 @@ julia> [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y < 5]
     ```jldoctest compheresions_ex
     julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
     4-element Vector{Int64}:
-    21
-    42
-    63
-    84
+     21
+     42
+     63
+     84
     ```
 
     Then we can use the `sum` function to get their sum.
@@ -554,15 +554,15 @@ julia> for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
     3×4 Matrix{Float64}:
         0.203285    0.00443536     0.030405  7.27867e-7
         2.64284     0.0576626      0.395285  9.46275e-6
-    7382.39      161.072       1104.17      0.0264329
+     7382.39      161.072       1104.17      0.0264329
     ```
 
     To compute the sum of each row and print the appropriate message, we use the combination of `enumerate` and `eachrow` functions.
 
     ```jldoctest iterators_ex
     julia> for (i, row) in enumerate(eachrow(A))
-            println("Sum of all elements in a row $(i) is $(sum(row))")
-        end
+               println("Sum of all elements in a row $(i) is $(sum(row))")
+           end
     Sum of all elements in a row 1 is 0.2381259460051036
     Sum of all elements in a row 2 is 3.0957940729669864
     Sum of all elements in a row 3 is 8647.66342895583
@@ -572,8 +572,8 @@ julia> for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
 
     ```jldoctest iterators_ex
     julia> for (i, row) in enumerate(eachcol(A))
-            println("Sum of all elements in a column $(i) is $(sum(row))")
-        end
+               println("Sum of all elements in a column $(i) is $(sum(row))")
+           end
     Sum of all elements in a column 1 is 7385.236904243371
     Sum of all elements in a column 2 is 161.13431527671185
     Sum of all elements in a column 3 is 1104.5996863997295

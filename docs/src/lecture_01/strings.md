@@ -119,38 +119,38 @@ julia> print(str)
 ```
 
 !!! warning "Exercise:"
-  Create a string with the following text
-  > Quotation is the repetition or copy of someone else's statement or thoughts. \
-  > Quotation marks are punctuation marks used in text to indicate a quotation. \
-  > Both of these words are sometimes abbreviated as "quote(s)".
-  and print it into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Use an indent of length 4 for each sentence.
+    Create a string with the following text
+    > Quotation is the repetition or copy of someone else's statement or thoughts. \
+    > Quotation marks are punctuation marks used in text to indicate a quotation. \
+    > Both of these words are sometimes abbreviated as "quote(s)".
+    and print it into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Use an indent of length 4 for each sentence.
 
 !!! details "Solution:"
-  There are two basic ways to get the right result. The first is to use a multi-line string and write the message in the correct form.
+    There are two basic ways to get the right result. The first is to use a multi-line string and write the message in the correct form.
 
-  ```jldoctest
-  julia> str = """
-            Quotation is the repetition or copy of someone else's statement or thoughts.
-            Quotation marks are punctuation marks used in text to indicate a quotation.
-            Both of these words are sometimes abbreviated as "quote(s)".
-        """;
+    ```jldoctest
+    julia> str = """
+               Quotation is the repetition or copy of someone else's statement or thoughts.
+               Quotation marks are punctuation marks used in text to indicate a quotation.
+               Both of these words are sometimes abbreviated as "quote(s)".
+           """;
 
-  julia> println(str)
-      Quotation is the repetition or copy of someone else's statement or thoughts.
-      Quotation marks are punctuation marks used in text to indicate a quotation.
-      Both of these words are sometimes abbreviated as "quote(s)".
-  ```
+    julia> println(str)
+        Quotation is the repetition or copy of someone else's statement or thoughts.
+        Quotation marks are punctuation marks used in text to indicate a quotation.
+        Both of these words are sometimes abbreviated as "quote(s)".
+    ```
 
-  We do not have to add backslashes to escape quotation marks in the text. The second way is to use a regular string and the new line symbol `\n`. In this case, it is necessary to use backslashes to escape quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation.
+    We do not have to add backslashes to escape quotation marks in the text. The second way is to use a regular string and the new line symbol `\n`. In this case, it is necessary to use backslashes to escape quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation.
 
-  ```jldoctest
-  julia> str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\".";
+    ```jldoctest
+    julia> str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\".";
 
-  julia> println(str)
-      Quotation is the repetition or copy of someone else's statement or thoughts.
-      Quotation marks are punctuation marks used in text to indicate a quotation.
-      Both of these words are sometimes abbreviated as "quote(s)".
-  ```
+    julia> println(str)
+        Quotation is the repetition or copy of someone else's statement or thoughts.
+        Quotation marks are punctuation marks used in text to indicate a quotation.
+        Both of these words are sometimes abbreviated as "quote(s)".
+    ```
 
 ## String concatenation and interpolation
 

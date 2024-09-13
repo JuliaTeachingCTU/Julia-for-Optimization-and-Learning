@@ -239,11 +239,11 @@ julia> v
     ```jldoctest vectors_ex
     julia> v = [1,3,5,7,9]
     5-element Vector{Int64}:
-    1
-    3
-    5
-    7
-    9
+     1
+     3
+     5
+     7
+     9
     ```
 
     or we can use the `range` function to create a range with given properties and then use the `collect` function to create a vector. Another possibility is to use the `Vector` type to convert the range into a vector.
@@ -251,19 +251,19 @@ julia> v
     ```jldoctest vectors_ex
     julia> collect(1:2:9)
     5-element Vector{Int64}:
-    1
-    3
-    5
-    7
-    9
+     1
+     3
+     5
+     7
+     9
 
     julia> Vector(1:2:9)
     5-element Vector{Int64}:
-    1
-    3
-    5
-    7
-    9
+     1
+     3
+     5
+     7
+     9
     ```
 
     The values stored in the vector can be changed using the `.=` sign and proper indices. Do not forget to add the dot before the `=` sign to perform the element-wise operation.
@@ -274,16 +274,16 @@ julia> v
 
     julia> v[end-1:end] .= 1
     2-element view(::Vector{Int64}, 4:5) with eltype Int64:
-    1
-    1
+     1
+     1
 
     julia> v
     5-element Vector{Int64}:
-    4
-    3
-    5
-    1
-    1
+     4
+     3
+     5
+     1
+     1
     ```
 
 ## Matrices
@@ -437,19 +437,19 @@ ERROR: DimensionMismatch: number of columns of each array must match (got (4, 1)
     ```jldoctest matrices_ex
     julia> v1 = collect(1:2:9)
     5-element Vector{Int64}:
-    1
-    3
-    5
-    7
-    9
+     1
+     3
+     5
+     7
+     9
 
     julia> v2 = collect(2:2:10)
     5-element Vector{Int64}:
-        2
-        4
-        6
-        8
-    10
+      2
+      4
+      6
+      8
+     10
     ```
 
     Then we use the `hcat` function to concatenate these two vectors horizontally.
@@ -457,11 +457,11 @@ ERROR: DimensionMismatch: number of columns of each array must match (got (4, 1)
     ```jldoctest matrices_ex
     julia> M = hcat(v1, v2)
     5×2 Matrix{Int64}:
-    1   2
-    3   4
-    5   6
-    7   8
-    9  10
+     1   2
+     3   4
+     5   6
+     7   8
+     9  10
     ```
 
     Finally, we select all elements in the third row and assign the new value to them.
@@ -469,16 +469,16 @@ ERROR: DimensionMismatch: number of columns of each array must match (got (4, 1)
     ```jldoctest matrices_ex
     julia> M[3,:] .= 4
     2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
-    4
-    4
+     4
+     4
 
     julia> M
     5×2 Matrix{Int64}:
-    1   2
-    3   4
-    4   4
-    7   8
-    9  10
+     1   2
+     3   4
+     4   4
+     7   8
+     9  10
     ```
 
 ## `N`-dimensional arrays
@@ -626,19 +626,19 @@ julia> fill(1.234, 2, 3, 1)
     ```jldoctest arrays_ex
     julia> A = zeros(2, 3)
     2×3 Matrix{Float64}:
-    0.0  0.0  0.0
-    0.0  0.0  0.0
+     0.0  0.0  0.0
+     0.0  0.0  0.0
 
     julia> B = ones(2, 3, 1)
     2×3×1 Array{Float64, 3}:
     [:, :, 1] =
-    1.0  1.0  1.0
-    1.0  1.0  1.0
+     1.0  1.0  1.0
+     1.0  1.0  1.0
 
     julia> C = fill(2, 2, 3)
     2×3 Matrix{Int64}:
-    2  2  2
-    2  2  2
+     2  2  2
+     2  2  2
     ```
 
     Now we can use the `cat` function with `dims = 3` to concatenate the matrices along the third dimension.
@@ -647,16 +647,16 @@ julia> fill(1.234, 2, 3, 1)
     julia> cat(A, B, C; dims = 3)
     2×3×3 Array{Float64, 3}:
     [:, :, 1] =
-    0.0  0.0  0.0
-    0.0  0.0  0.0
+     0.0  0.0  0.0
+     0.0  0.0  0.0
 
     [:, :, 2] =
-    1.0  1.0  1.0
-    1.0  1.0  1.0
+     1.0  1.0  1.0
+     1.0  1.0  1.0
 
     [:, :, 3] =
-    2.0  2.0  2.0
-    2.0  2.0  2.0
+     2.0  2.0  2.0
+     2.0  2.0  2.0
     ```
 
 ## Broadcasting
@@ -775,8 +775,8 @@ julia> a .* b
 
     # output
     2×3 Matrix{Int64}:
-    -1   0  2
-        2  -3  1
+     -1   0  2
+      2  -3  1
     ```
 
 !!! details "Solution:"
@@ -786,7 +786,7 @@ julia> a .* b
     julia> A = exp.((B .+ 1) .^ 2) ./ 2
     2×3 Matrix{Float64}:
         0.5    1.35914  4051.54
-    4051.54  27.2991     27.2991
+     4051.54  27.2991     27.2991
     ```
 
     We use a dot before each operation since we want to perform all operations element-wise. In this case, we can use the `@.` macro, which automatically adds a dot before each operator and each function.
@@ -795,7 +795,7 @@ julia> a .* b
     julia> A = @. exp((B + 1) ^ 2) / 2
     2×3 Matrix{Float64}:
         0.5    1.35914  4051.54
-    4051.54  27.2991     27.2991
+     4051.54  27.2991     27.2991
     ```
 
     Just for the comparison, the same matrix can be created as follows using [`for` loop](@ref for-and-while-loops).
@@ -804,13 +804,13 @@ julia> a .* b
     julia> A = zeros(2, 3);
 
     julia> for i in 1:length(A)
-            A[i] = exp((B[i] + 1)^2)/2
-        end
+               A[i] = exp((B[i] + 1)^2)/2
+           end
 
     julia> A
     2×3 Matrix{Float64}:
         0.5    1.35914  4051.54
-    4051.54  27.2991     27.2991
+     4051.54  27.2991     27.2991
     ```
 
 ## Views

@@ -92,10 +92,10 @@ We used only the abstract type `Currency` to define the `BankAccount` type. This
     ```jldoctest
     julia> [Int32(123), 1, 1.5, 1.234f0]
     4-element Vector{Float64}:
-    123.0
-    1.0
-    1.5
-    1.2339999675750732
+     123.0
+       1.0
+       1.5
+       1.2339999675750732
     ```
 
     The smallest supertype is `Float64`, and the result is `Array{Float64, 1}`. When we do not want to convert the variables, we must manually specify the resulting array supertype.
@@ -103,10 +103,10 @@ We used only the abstract type `Currency` to define the `BankAccount` type. This
     ```jldoctest
     julia> Real[Int32(123), 1, 1.5, 1.234f0]
     4-element Vector{Real}:
-    123
-    1
-    1.5
-    1.234f0
+     123
+       1
+       1.5
+       1.234f0
     ```
 
     In this case, the types of all elements are preserved.
@@ -608,10 +608,10 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 
     julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
     4-element Vector{Dollar}:
-    -11.79 $
-    -11.89 $
-    -11.24 $
-    -11.16 $
+     -11.79 $
+     -11.89 $
+     -11.24 $
+     -11.16 $
     ```
 
     The situation with the multiplication is different as it makes sense to multiply `1 €` by 2 but not by `2 €`. We have to define a method for multiplying any `Currency` subtype by a real number. We have to define the multiplication both from the right and the left.
@@ -632,10 +632,10 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 
     julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
     4-element Vector{CzechCrown}:
-    4.5 Kč
-    2.4 Kč
-    16.7 Kč
-    18.3 Kč
+     4.5 Kč
+     2.4 Kč
+     16.7 Kč
+     18.3 Kč
     ```
 
     Finally, we can define division. In this case, it makes sense to divide a currency by a real number.
@@ -666,10 +666,10 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
 
     julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
     4-element Vector{Float64}:
-    2.0
-    4.0
-    6.0
-    8.0
+     2.0
+     4.0
+     6.0
+     8.0
     ```
 
 ## Currency comparison
