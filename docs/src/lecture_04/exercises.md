@@ -12,171 +12,109 @@ The first generation must be initialized. Every new generation is created by app
 
 The following few exercises will implement the Game of Life. We will consider finite universe with periodic boundary conditions.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a function `neighbours` that return the number of live neighbours of a cell. The function should accept the `world` matrix of boolean values representing the state of all cells (`true` if the cell is alive and `false` otherwise) and index of the row and column of the cell.
 
-Write a function `neighbours` that return the number of live neighbours of a cell. The function should accept the `world` matrix of boolean values representing the state of all cells (`true` if the cell is alive and `false` otherwise) and index of the row and column of the cell.
+    **Hint:** use the following properties of the `mod1` function to implement periodic boundaries.
 
-**Hint:** use the following properties of the `mod1` function to implement periodic boundaries.
+    ```@repl
+    mod1(1, 4)
+    mod1(4, 4)
+    mod1(5, 4)
+    ```
 
-```@repl
-mod1(1, 4)
-mod1(4, 4)
-mod1(5, 4)
-```
+    **Bonus:** implement a more general function which computes the number of alive cells in a neighbourhood of given size.
 
-**Bonus:** implement a more general function which computes the number of alive cells in a neighbourhood of given size.
+!!! details "Solution:"
+    One way to define the `neighbours` function is to check all neighbours manually.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```julia
+    function neighbours(world, row, col)
+        n, m = size(world)
 
-One way to define the `neighbours` function is to check all neighbours manually.
+        # this implements periodic boundaries
+        down  = mod1(row + 1, n)
+        up    = mod1(row - 1, n)
+        left  = mod1(col - 1, m)
+        right = mod1(col + 1, m)
 
-```julia
-function neighbours(world, row, col)
-    n, m = size(world)
+        return ( world[up,   left] + world[up,  col]  + world[up,   right]
+            + world[row,  left] +                  + world[row,  right]
+            + world[down, left] + world[down, col] + world[down, right])
+    end
+    ```
 
-    # this implements periodic boundaries
-    down  = mod1(row + 1, n)
-    up    = mod1(row - 1, n)
-    left  = mod1(col - 1, m)
-    right = mod1(col + 1, m)
+    The approach above can not define a general version of the `neighbours` function. In this case, we can use nested loops. First, we compute proper row indices by `range` combined with the `mod1` function.
 
-    return ( world[up,   left] + world[up,  col]  + world[up,   right]
-           + world[row,  left] +                  + world[row,  right]
-           + world[down, left] + world[down, col] + world[down, right])
-end
-```
-
-The approach above can not define a general version of the `neighbours` function. In this case, we can use nested loops. First, we compute proper row indices by `range` combined with the `mod1` function.
-
-```julia
-rows = mod1.(row .+ (-r:r), size(world, 1))
-```
-
-Column indexes can be computed similarly. Then we use nested loops to iterate through both rows and columns. Since the iteration includes the middle cell, we need to subtract its state.
-
-```julia
-function neighbours(world, row, col; r = 1)
+    ```julia
     rows = mod1.(row .+ (-r:r), size(world, 1))
-    cols = mod1.(col .+ (-r:r), size(world, 2))
+    ```
 
-    return sum(world[i, j] for i in rows, j in cols) - world[row, col]
-end
-```
+    Column indexes can be computed similarly. Then we use nested loops to iterate through both rows and columns. Since the iteration includes the middle cell, we need to subtract its state.
 
-```@raw html
-</div></details>
-```
+    ```julia
+    function neighbours(world, row, col; r = 1)
+        rows = mod1.(row .+ (-r:r), size(world, 1))
+        cols = mod1.(col .+ (-r:r), size(world, 2))
 
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
-
-Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is:
-
-```julia
-function neighbours(world)
-    n, m = size(world)
-    return [neighbours(world, row, col) for row in 1:n, col in 1:m]
-end
-```
-
-This is an example of multiple dispatch. The function `neighbours` can have both one and three input arguments.
-
-```@raw html
-</div></details>
-```
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
-
-Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described at the beginning of the section and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `cell == 1`.
-
-```julia
-function willsurvive(cell, k)
-    if k == 3
-        return true
-    elseif k == 2 && cell
-        return true
-    else
-        return false
+        return sum(world[i, j] for i in rows, j in cols) - world[row, col]
     end
-end
-```
+    ```
 
-We can write this function in a simpler form. We first realize that the short-circuit evaluation can merge the first two conditions. Since the function returns only `true` or `false`, we can write the function on one line.
+!!! warning "Exercise:"
+    Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
 
-```julia
-willsurvive(cell, k) = k == 3 || k == 2 && cell
-```
+!!! details "Solution:"
+    We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is:
 
-```@raw html
-</div></details>
-```
-
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
-
-Combine these functions to write a function `evolve!` that evolves the given `world` matrix into a new generation.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-We first compute the matrix with the numbers of living neighbours. Then we iterate over all elements of the `world` matrix and compute new states of all elements with the `willsurvive` function. Since we computed the number of living neighbours before iterating, we can rewrite the `world` matrix.
-
-```julia
-function evolve!(world)
-    ks = neighbours(world)
-    for i in eachindex(world)
-        world[i] = willsurvive(world[i], ks[i])
+    ```julia
+    function neighbours(world)
+        n, m = size(world)
+        return [neighbours(world, row, col) for row in 1:n, col in 1:m]
     end
-    return
-end
-```
+    ```
 
-```@raw html
-</div></details>
-```
+    This is an example of multiple dispatch. The function `neighbours` can have both one and three input arguments.
+
+!!! warning "Exercise:"
+    Write a function `willsurvive` that returns `true` if the cell will survive based on the conditions described at the beginning of the section and `false` otherwise. This function should accept two arguments: state of the cell (`true`/`false`) and the number of living neighbours.
+
+!!! details "Solution:"
+    This function can be written using the `if-elseif-else` statement. Since `cell` is a boolean value, we do not need to compare with one as in `cell == 1`.
+
+    ```julia
+    function willsurvive(cell, k)
+        if k == 3
+            return true
+        elseif k == 2 && cell
+            return true
+        else
+            return false
+        end
+    end
+    ```
+
+    We can write this function in a simpler form. We first realize that the short-circuit evaluation can merge the first two conditions. Since the function returns only `true` or `false`, we can write the function on one line.
+
+    ```julia
+    willsurvive(cell, k) = k == 3 || k == 2 && cell
+    ```
+
+!!! warning "Exercise:"
+    Combine these functions to write a function `evolve!` that evolves the given `world` matrix into a new generation.
+
+!!! details "Solution:"
+    We first compute the matrix with the numbers of living neighbours. Then we iterate over all elements of the `world` matrix and compute new states of all elements with the `willsurvive` function. Since we computed the number of living neighbours before iterating, we can rewrite the `world` matrix.
+
+    ```julia
+    function evolve!(world)
+        ks = neighbours(world)
+        for i in eachindex(world)
+            world[i] = willsurvive(world[i], ks[i])
+        end
+        return
+    end
+    ```
 
 In the four exercises above, we defined functions sufficient to animate the Game of Life. Use the following code to initialize the `world`.
 

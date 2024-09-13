@@ -82,7 +82,7 @@ When an input is an image, the usual structure of the neural network is the foll
 - Softmax layer.
 - Cross-entropy loss function.
 
-!!! bonus "BONUS: Additional layers"
+!!! compat "BONUS: Additional layers"
     Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
 
     #### Recurrent layer

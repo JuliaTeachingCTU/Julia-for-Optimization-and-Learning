@@ -58,88 +58,73 @@ histogram(x; normalize = :pdf, legend = false, opacity = 0.5)
 plot!(D; linewidth = 2, xlabel = "x", ylabel = "pdf(x)")
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create a figure that shows the gamma distributions with the following parameters: `(2, 2)`, `(9, 0.5)`, `(7.5, 1)` and `(0.5, 1)`.
 
-Create a figure that shows the gamma distributions with the following parameters: `(2, 2)`, `(9, 0.5)`, `(7.5, 1)` and `(0.5, 1)`.
+    **Hint:** to plot cumulative probability functions, use the Plots ability to plot functions.
 
-**Hint:** to plot cumulative probability functions, use the Plots ability to plot functions.
+!!! details "Solution:"
+    The easiest way to create multiple distributions is to use the broadcasting system.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example distr
+    Ds = Gamma.([2, 9, 7.5, 0.5], [2, 0.5, 1, 1])
+    nothing #hide
+    ```
 
-The easiest way to create multiple distributions is to use the broadcasting system.
+    Similarly, we use broadcasting to create a vector of labels.
 
-```@example distr
-Ds = Gamma.([2, 9, 7.5, 0.5], [2, 0.5, 1, 1])
-nothing #hide
-```
+    ```@example distr
+    labels = reshape(string.("Gamma", params.(Ds)), 1, :)
+    nothing #hide
+    ```
 
-Similarly, we use broadcasting to create a vector of labels.
+    We need to reshape the labels to become a row vector. The reason is that we want to plot multiple distributions, and the Plot package expects that labels will be a row vector. Now, we call the `plot` function to plot all distributions.
 
-```@example distr
-labels = reshape(string.("Gamma", params.(Ds)), 1, :)
-nothing #hide
-```
+    ```@example distr
+    plot(Ds;
+        xaxis = ("x", (0, 20)),
+        yaxis = ("pdf(x)", (0, 0.5)),
+        labels = labels,
+        linewidth = 2,
+        legend = :topright,
+    )
+    ```
 
-We need to reshape the labels to become a row vector. The reason is that we want to plot multiple distributions, and the Plot package expects that labels will be a row vector. Now, we call the `plot` function to plot all distributions.
+    A plot of the cumulative probability functions cannot be done in the same way. However, StatsPlots provides the `func` keyword argument that allows specifying which function should be plotted.
 
-```@example distr
-plot(Ds;
-    xaxis = ("x", (0, 20)),
-    yaxis = ("pdf(x)", (0, 0.5)),
-    labels = labels,
-    linewidth = 2,
-    legend = :topright,
-)
-```
+    ```@example distr
+    plot(Ds;
+        func = cdf,
+        xaxis = ("x", (0, 20)),
+        yaxis = ("cdf(x)", (0, 1.05)),
+        labels = labels,
+        linewidth = 2,
+        legend = :bottomright,
+    )
+    ```
 
-A plot of the cumulative probability functions cannot be done in the same way. However, StatsPlots provides the `func` keyword argument that allows specifying which function should be plotted.
+    Another possibility is to use the Plots package directly. To do so, we need to define a function with one argument, which at a given point returns the value of the cumulative probability function. Such functions for all our distributions can be easily defined as anonymous functions.
 
-```@example distr
-plot(Ds;
-    func = cdf,
-    xaxis = ("x", (0, 20)),
-    yaxis = ("cdf(x)", (0, 1.05)),
-    labels = labels,
-    linewidth = 2,
-    legend = :bottomright,
-)
-```
+    ```@example distr
+    cdfs = [x -> cdf(D, x) for D in Ds]
+    nothing # hide
+    ```
 
-Another possibility is to use the Plots package directly. To do so, we need to define a function with one argument, which at a given point returns the value of the cumulative probability function. Such functions for all our distributions can be easily defined as anonymous functions.
+    The previous expression returns a vector of functions. Now we can use the `plot` function to create a curve for each element of the vector of cumulative probability functions. The example below creates these curves for ``x`` from ``0`` to ``20``.
 
-```@example distr
-cdfs = [x -> cdf(D, x) for D in Ds]
-nothing # hide
-```
+    ```@example distr
+    plot(cdfs, 0, 20;
+        xaxis = ("x", (0, 20)),
+        yaxis = ("cdf(x)", (0, 1.05)),
+        labels = labels,
+        linewidth = 2,
+        legend = :bottomright,
+    )
 
-The previous expression returns a vector of functions. Now we can use the `plot` function to create a curve for each element of the vector of cumulative probability functions. The example below creates these curves for ``x`` from ``0`` to ``20``.
+    savefig("Gamma_cdf.svg") # hide
+    ```
 
-```@example distr
-plot(cdfs, 0, 20;
-    xaxis = ("x", (0, 20)),
-    yaxis = ("cdf(x)", (0, 1.05)),
-    labels = labels,
-    linewidth = 2,
-    legend = :bottomright,
-)
-
-savefig("Gamma_cdf.svg") # hide
-```
-
-![](Gamma_cdf.svg)
-
-```@raw html
-</div></details>
-```
+    ![](Gamma_cdf.svg)
 
 ## BSON.jl
 

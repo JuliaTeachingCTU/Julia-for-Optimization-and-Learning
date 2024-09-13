@@ -43,58 +43,43 @@ A similar formula for the second derivatives reads
 
 The following exercise derives the mathematical formulas needed for solving the wave equation.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Consider equidistant discretizations with stepsizes ``\Delta t`` and ``\Delta x``. Derive mathematical formulas for solving the one-dimensional wave equation on ``[0,T]\times [0,L]`` by applying finite differences in time and space. Do not write any code.
 
-Consider equidistant discretizations with stepsizes ``\Delta t`` and ``\Delta x``. Derive mathematical formulas for solving the one-dimensional wave equation on ``[0,T]\times [0,L]`` by applying finite differences in time and space. Do not write any code.
+    **Hint**: Start with the initial time and compute the solution after each time step. Use the condition on ``f`` at the first time step, the condition on ``g`` at the second time step and the wave equation at further steps.
 
-**Hint**: Start with the initial time and compute the solution after each time step. Use the condition on ``f`` at the first time step, the condition on ``g`` at the second time step and the wave equation at further steps.
+!!! details "Solution:"
+    The wave equation needs to satisfy the boundary conditions
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```math
+    y(t,0) = f(0),\qquad y(t,L) = f(L) \qquad\text{ for all }t\in\{0,\Delta t,2\Delta t,\dots,T\}
+    ```
 
-The wave equation needs to satisfy the boundary conditions
+    and the initial conditions
 
-```math
-y(t,0) = f(0),\qquad y(t,L) = f(L) \qquad\text{ for all }t\in\{0,\Delta t,2\Delta t,\dots,T\}
-```
+    ```math
+    y(0,x) = f(x)  \qquad\text{ for all }x\in\{\Delta x,2\Delta x,\dots,L-\Delta x\}.
+    ```
 
-and the initial conditions
+    We exclude ``x\in \{0,L\}`` from the last equation because the boundary conditions already prescribe these values.
 
-```math
-y(0,x) = f(x)  \qquad\text{ for all }x\in\{\Delta x,2\Delta x,\dots,L-\Delta x\}.
-```
+    Now we start increasing time. For the values at ``\Delta t``, we approximate the initial condition for the derivative by the finite difference and get 
 
-We exclude ``x\in \{0,L\}`` from the last equation because the boundary conditions already prescribe these values.
+    ```math
+    y(\Delta t, x) = y(0, x) + \Delta t g(x).
+    ```
 
-Now we start increasing time. For the values at ``\Delta t``, we approximate the initial condition for the derivative by the finite difference and get 
+    At further times, we use the finite difference approximation of the second derivative to arrive at
 
-```math
-y(\Delta t, x) = y(0, x) + \Delta t g(x).
-```
+    ```math
+    \frac{y(t+\Delta t,x) - 2y(t,x) + y(t-\Delta t,x)}{\Delta t^2} = c^2 \frac{y(t,x+\Delta x) - 2y(t,x) + y(t,x-\Delta x)}{\Delta x^2}.
+    ```
 
-At further times, we use the finite difference approximation of the second derivative to arrive at
+    Since we already know the values at ``t`` and ``t - \Delta t``, we rearrange the previous formula to obtain the values at the next time. This yields the final formula:
 
-```math
-\frac{y(t+\Delta t,x) - 2y(t,x) + y(t-\Delta t,x)}{\Delta t^2} = c^2 \frac{y(t,x+\Delta x) - 2y(t,x) + y(t,x-\Delta x)}{\Delta x^2}.
-```
-
-Since we already know the values at ``t`` and ``t - \Delta t``, we rearrange the previous formula to obtain the values at the next time. This yields the final formula:
-
-```math
-y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2y(t,x) + y(t,x - \Delta x)\Big) + 2y(t,x) - y(t - \Delta t,x).
-```
-
-```@raw html
-</div></details>
-```
+    ```math
+    y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2y(t,x) + y(t,x - \Delta x)\Big) + 2y(t,x) - y(t - \Delta t,x).
+    ```
 
 The most challenging part is done: We have finished the discretization scheme. Now we need to code it. We will employ a structure storing the wave equation parameters. 
 
@@ -108,68 +93,53 @@ end
 
 The first exercise solves the wave equation.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write the function `solve_wave(T, L, wave::Wave; n_t=100, n_x=100)` that solves the wave equation.
 
-Write the function `solve_wave(T, L, wave::Wave; n_t=100, n_x=100)` that solves the wave equation.
+    **Hint**: Follow the procedure from the previous exercise. Discretize time and space, initialize the solution, add the boundary conditions, add the initial conditions and finally, iterate over time.
 
-**Hint**: Follow the procedure from the previous exercise. Discretize time and space, initialize the solution, add the boundary conditions, add the initial conditions and finally, iterate over time.
+!!! details "Solution:"
+    We first discretize both time and space by the `range` function. Then we initialize the matrix `y`. We decide that the first dimension corresponds to time and the second one to space. We set the boundary conditions and fill `y[:,1]` with `wave.f(0)` and `y[:,end]` with `wave.f(L)`. Since the wave at the initial moment equals to ``f``, we set `y[1,2:end-1] = wave.f.(xs[2:end-1])`. Since the condition at ``t=\Delta t`` amount to
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```math
+    y(\Delta t, x) = y(0, x) + \Delta t g(x),
+    ```
 
-We first discretize both time and space by the `range` function. Then we initialize the matrix `y`. We decide that the first dimension corresponds to time and the second one to space. We set the boundary conditions and fill `y[:,1]` with `wave.f(0)` and `y[:,end]` with `wave.f(L)`. Since the wave at the initial moment equals to ``f``, we set `y[1,2:end-1] = wave.f.(xs[2:end-1])`. Since the condition at ``t=\Delta t`` amount to
+    we write `y[2,2:end-1] = y[1,2:end-1] + Δt*wave.g.(xs[2:end-1])`. We must not forget to exclude the boundary points because the string position is attached there. For the remaining times, we use the formula
 
-```math
-y(\Delta t, x) = y(0, x) + \Delta t g(x),
-```
+    ```math
+    y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2y(t,x) + y(t,x - \Delta x)\Big) + 2y(t,x) - y(t - \Delta t,x).
+    ```
 
-we write `y[2,2:end-1] = y[1,2:end-1] + Δt*wave.g.(xs[2:end-1])`. We must not forget to exclude the boundary points because the string position is attached there. For the remaining times, we use the formula
+    This gives rise to the following function.
 
-```math
-y(t + \Delta t,x) = \frac{c^2\Delta t^2}{\Delta x^2}  \Big(y(t,x + \Delta x) - 2y(t,x) + y(t,x - \Delta x)\Big) + 2y(t,x) - y(t - \Delta t,x).
-```
+    ```@example wave
+    function solve_wave(T, L, wave::Wave; n_t=100, n_x=100)
+        ts = range(0, T; length=n_t)
+        xs = range(0, L; length=n_x)
+        Δt = ts[2] - ts[1]
+        Δx = xs[2] - xs[1]
+        y = zeros(n_t, n_x)
+        
+        # boundary conditions
+        y[:,1] .= wave.f(0)
+        y[:,end] .= wave.f(L)
 
-This gives rise to the following function.
+        # initial conditions
+        y[1,2:end-1] = wave.f.(xs[2:end-1])
+        y[2,2:end-1] = y[1,2:end-1] + Δt*wave.g.(xs[2:end-1])
 
-```@example wave
-function solve_wave(T, L, wave::Wave; n_t=100, n_x=100)
-    ts = range(0, T; length=n_t)
-    xs = range(0, L; length=n_x)
-    Δt = ts[2] - ts[1]
-    Δx = xs[2] - xs[1]
-    y = zeros(n_t, n_x)
-    
-    # boundary conditions
-    y[:,1] .= wave.f(0)
-    y[:,end] .= wave.f(L)
+        # solution for t = 2Δt, 3Δt, ..., T
+        for t in 2:n_t-1, x in 2:n_x-1
+            ∂y_xx = (y[t, x+1] - 2*y[t, x] + y[t, x-1])/Δx^2
+            y[t+1, x] = c^2 * Δt^2 * ∂y_xx  + 2*y[t, x] - y[t-1, x]
+        end
 
-    # initial conditions
-    y[1,2:end-1] = wave.f.(xs[2:end-1])
-    y[2,2:end-1] = y[1,2:end-1] + Δt*wave.g.(xs[2:end-1])
-
-    # solution for t = 2Δt, 3Δt, ..., T
-    for t in 2:n_t-1, x in 2:n_x-1
-        ∂y_xx = (y[t, x+1] - 2*y[t, x] + y[t, x-1])/Δx^2
-        y[t+1, x] = c^2 * Δt^2 * ∂y_xx  + 2*y[t, x] - y[t-1, x]
+        return y
     end
 
-    return y
-end
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 The best visualization of the wave equation is via animation. Each frame will be a plot of a row of `y`. We use the keyword arguments `kwargs`, where we store additional arguments for plotting. We run the for loop over all rows, create the animation via the `@animate` macro and save it into `anim`. To save the animation to the hard drive, we use the `gif` function.
 
@@ -198,60 +168,45 @@ nothing # hide
 
 Now we can finally plot the solution.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Solve the wave equation for ``L=\frac32\pi``, ``T=240``, ``c=0.02`` and the initial conditions
 
-Solve the wave equation for ``L=\frac32\pi``, ``T=240``, ``c=0.02`` and the initial conditions
+    ```math
+    \begin{aligned}
+    f(x) &= 2e^{-(x-\frac L2)^2} + \frac{x}{L}, \\
+    g(x) &= 0.
+    \end{aligned}
+    ```
 
-```math
-\begin{aligned}
-f(x) &= 2e^{-(x-\frac L2)^2} + \frac{x}{L}, \\
-g(x) &= 0.
-\end{aligned}
-```
+    Use time discretization with stepsize ``\Delta t=1`` and the space discretization with number of points ``n_x=101`` and ``n_x=7`` steps. Plot two graphs.
 
-Use time discretization with stepsize ``\Delta t=1`` and the space discretization with number of points ``n_x=101`` and ``n_x=7`` steps. Plot two graphs.
+!!! details "Solution:"
+    First, we assign the parameters
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example wave
+    f(x,L) = 2*exp(-(x-L/2)^2) + x/L
+    g(x) = 0
 
-First, we assign the parameters
+    L = 1.5*pi
+    T = 240
+    c = 0.02
 
-```@example wave
-f(x,L) = 2*exp(-(x-L/2)^2) + x/L
-g(x) = 0
+    nothing # hide
+    ```
 
-L = 1.5*pi
-T = 240
-c = 0.02
+    Now we create the `wave` structure, compute the solution and plot it for with different values of ``n_x``.
 
-nothing # hide
-```
+    ```@example wave
+    wave = Wave(x -> f(x,L), g, c)
 
-Now we create the `wave` structure, compute the solution and plot it for with different values of ``n_x``.
+    y1 = solve_wave(T, L, wave; n_t=241, n_x=101)
+    plot_wave(y1, "wave1.gif"; ylims=(-2,3), label="")
 
-```@example wave
-wave = Wave(x -> f(x,L), g, c)
+    y2 = solve_wave(T, L, wave; n_t=241, n_x=7)
+    plot_wave(y2, "wave2.gif"; ylims=(-2,3), label="")
 
-y1 = solve_wave(T, L, wave; n_t=241, n_x=101)
-plot_wave(y1, "wave1.gif"; ylims=(-2,3), label="")
-
-y2 = solve_wave(T, L, wave; n_t=241, n_x=7)
-plot_wave(y2, "wave2.gif"; ylims=(-2,3), label="")
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 ![](wave1.gif)
 

@@ -85,74 +85,59 @@ julia> x3
 8
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write function `power(x::Real, p::Integer)` that for a number ``x`` and a (possibly negative) integer ``p`` computes ``x^p`` without using the `^` operator. Use only basic arithmetic operators `+`, `-`, `*`, `/` and the `if` condition. The annotation `p::Integer` ensures that the input `p` is always an integer.
 
-Write function `power(x::Real, p::Integer)` that for a number ``x`` and a (possibly negative) integer ``p`` computes ``x^p`` without using the `^` operator. Use only basic arithmetic operators `+`, `-`, `*`, `/` and the `if` condition. The annotation `p::Integer` ensures that the input `p` is always an integer.
+    **Hint:** use recursion.
 
-**Hint:** use recursion.
+!!! details "Solution:"
+    To use recursion, we have to split the computation into three parts:
+    - `p = 0`: the function should return `1`.
+    - `p > 0`: the function should be called recursively with arguments `x`, `p - 1` and the result should be multiplied by `x`.
+    - `p < 0`: then it is equivalent to call the power function with arguments `1/x`, `-p`.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    These three cases can be defined using the `if-elseif` as follows:
 
-To use recursion, we have to split the computation into three parts:
-- `p = 0`: the function should return `1`.
-- `p > 0`: the function should be called recursively with arguments `x`, `p - 1` and the result should be multiplied by `x`.
-- `p < 0`: then it is equivalent to call the power function with arguments `1/x`, `-p`.
-
-These three cases can be defined using the `if-elseif` as follows:
-
-```jldoctest functions_ex; output = false
-function power(x::Real, p::Integer)
-    if p == 0
-        return 1
-    elseif p > 0
-        return x * power(x, p - 1)
-    else
-        return power(1/x, -p)
+    ```jldoctest functions_ex; output = false
+    function power(x::Real, p::Integer)
+        if p == 0
+            return 1
+        elseif p > 0
+            return x * power(x, p - 1)
+        else
+            return power(1/x, -p)
+        end
     end
-end
 
-# output
-power (generic function with 1 method)
-```
+    # output
+    power (generic function with 1 method)
+    ```
 
-We use type annotation for function arguments to ensure that the input arguments are always of the proper type. In the example above, the first argument must be a real number, and the second argument must be an integer.
+    We use type annotation for function arguments to ensure that the input arguments are always of the proper type. In the example above, the first argument must be a real number, and the second argument must be an integer.
 
-```jldoctest functions_ex
-julia> power(2, 5)
-32
+    ```jldoctest functions_ex
+    julia> power(2, 5)
+    32
 
-julia> power(2, -2)
-0.25
+    julia> power(2, -2)
+    0.25
 
-julia> power(2, 5) ≈ 2^5
-true
+    julia> power(2, 5) ≈ 2^5
+    true
 
-julia> power(5, -3) ≈ 5^(-3)
-true
-```
+    julia> power(5, -3) ≈ 5^(-3)
+    true
+    ```
 
-If we call the function with arguments of wrong types, an error will occur.
+    If we call the function with arguments of wrong types, an error will occur.
 
-```jldoctest functions_ex
-julia> power(2, 2.5)
-ERROR: MethodError: no method matching power(::Int64, ::Float64)
-[...]
-```
+    ```jldoctest functions_ex
+    julia> power(2, 2.5)
+    ERROR: MethodError: no method matching power(::Int64, ::Float64)
+    [...]
+    ```
 
-We will discuss type annotation later in the section about [methods](@ref Methods).
-
-```@raw html
-</div></details>
-```
+    We will discuss type annotation later in the section about [methods](@ref Methods).
 
 ## One-line functions
 
@@ -208,51 +193,36 @@ julia> g(3)
 
 However, for better code readability, the traditional multiline syntax is preferred for more complex functions.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a one-line function that returns `true` if the input argument is an even number and `false` otherwise.
 
-Write a one-line function that returns `true` if the input argument is an even number and `false` otherwise.
+    **Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?`.
 
-**Hint:** use modulo function and [ternary operator](@ref Ternary-operator) `?`.
+!!! details "Solution:"
+    From the section about the ternary operator, we know that the syntax
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```julia
+    a ? b : c
+    ```
 
-From the section about the ternary operator, we know that the syntax
+    means: *if `a` is true, evaluate `b`; otherwise, evaluate `c`*. Since even numbers are divisible by 2, we can check it by the modulo function `mod(x, 2) == 0`. This results in the following function.
 
-```julia
-a ? b : c
-```
+    ```jldoctest functions; output = false
+    even(x::Integer) = mod(x, 2) == 0 ? true : false
 
-means: *if `a` is true, evaluate `b`; otherwise, evaluate `c`*. Since even numbers are divisible by 2, we can check it by the modulo function `mod(x, 2) == 0`. This results in the following function.
+    # output
+    even (generic function with 1 method)
+    ```
 
-```jldoctest functions; output = false
-even(x::Integer) = mod(x, 2) == 0 ? true : false
+    We again used type annotation to ensure that the argument is an integer.
 
-# output
-even (generic function with 1 method)
-```
+    ```jldoctest functions
+    julia> even(11)
+    false
 
-We again used type annotation to ensure that the argument is an integer.
-
-```jldoctest functions
-julia> even(11)
-false
-
-julia> even(14)
-true
-```
-
-```@raw html
-</div></details>
-```
+    julia> even(14)
+    true
+    ```
 
 ## Optional arguments
 
@@ -319,59 +289,44 @@ ERROR: UndefVarError: `y` not defined
 [...]
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a function which computes the value of the following quadratic form
 
-Write a function which computes the value of the following quadratic form
+    ```math
+    q_{a,b,c}(x,y) = ax^2 + bxy + cy^2,
+    ```
 
-```math
-q_{a,b,c}(x,y) = ax^2 + bxy + cy^2,
-```
+    where ``a, b, c, x \in \mathbb{R}``. Use optional arguments to set default values for parameters
 
-where ``a, b, c, x \in \mathbb{R}``. Use optional arguments to set default values for parameters
+    ```math
+    a = 1, \quad b = 2a, \quad c = 3(a + b).
+    ```
 
-```math
-a = 1, \quad b = 2a, \quad c = 3(a + b).
-```
+    What is the function value at point ``(4, 2)`` for default parameters? What is the function value at the same point if we use ``c = 3``?
 
-What is the function value at point ``(4, 2)`` for default parameters? What is the function value at the same point if we use ``c = 3``?
+!!! details "Solution:"
+    The quadratic form can be implemented as follows:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest opt_args_ex; output = false
+    q(x, y, a = 1, b = 2*a, c = 3*(a + b)) = a*x^2 + b*x*y + c*y^2
 
-The quadratic form can be implemented as follows:
+    # output
+    q (generic function with 4 methods)
+    ```
 
-```jldoctest opt_args_ex; output = false
-q(x, y, a = 1, b = 2*a, c = 3*(a + b)) = a*x^2 + b*x*y + c*y^2
+    Since we want to evaluate ``q`` at ``(4, 2)`` with default parameters, we can use only the first two arguments.
 
-# output
-q (generic function with 4 methods)
-```
+    ```jldoctest opt_args_ex
+    julia> q(4, 2)
+    68
+    ```
 
-Since we want to evaluate ``q`` at ``(4, 2)`` with default parameters, we can use only the first two arguments.
+    In the second case, we want to evaluate the function at the same point with ``c = 3``. However, it is not possible to set only the last optional argument. We have to set all previous optional arguments too. For the first two optional arguments, we use the default values, i.e., `a = 1` and `b = 2*a = 2`.
 
-```jldoctest opt_args_ex
-julia> q(4, 2)
-68
-```
-
-In the second case, we want to evaluate the function at the same point with ``c = 3``. However, it is not possible to set only the last optional argument. We have to set all previous optional arguments too. For the first two optional arguments, we use the default values, i.e., `a = 1` and `b = 2*a = 2`.
-
-```jldoctest opt_args_ex
-julia> q(4, 2, 1, 2, 3)
-44
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest opt_args_ex
+    julia> q(4, 2, 1, 2, 3)
+    44
+    ```
 
 ## Keyword arguments
 
@@ -430,95 +385,80 @@ julia> linear(2; a, b)
 8
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a probability density function for the [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution)
 
-Write a probability density function for the [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution)
+    ```math
+    f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
+    ```
 
-```math
-f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
-```
-
-where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to obtain the standardized normal distribution (``\mu = 0`` and ``\sigma = 1``). Check that the inputs are correct.
+    where ``\mu \in \mathbb{R}`` and ``\sigma^2 > 0``. Use keyword arguments to obtain the standardized normal distribution (``\mu = 0`` and ``\sigma = 1``). Check that the inputs are correct.
 
 **Bonus:** verify that this function is a probability density function, i.e., its integral equals 1.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+!!! details "Solution:"
+    The probability density function for the Gaussian distribution equals to
 
-The probability density function for the Gaussian distribution equals to
+    ```jldoctest key_args_ex; output = false
+    function gauss(x::Real; μ::Real = 0, σ::Real = 1)
+        σ^2 > 0 || error("the variance `σ^2` must be positive")
+        return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
+    end
 
-```jldoctest key_args_ex; output = false
-function gauss(x::Real; μ::Real = 0, σ::Real = 1)
-    σ^2 > 0 || error("the variance `σ^2` must be positive")
-    return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
-end
+    # output
+    gauss (generic function with 1 method)
+    ```
 
-# output
-gauss (generic function with 1 method)
-```
+    We used type annotation to ensure that all input arguments are real numbers. We also checked whether the standard deviation ``\sigma`` is positive.
 
-We used type annotation to ensure that all input arguments are real numbers. We also checked whether the standard deviation ``\sigma`` is positive.
+    ```jldoctest key_args_ex
+    julia> gauss(0)
+    0.3989422804014327
 
-```jldoctest key_args_ex
-julia> gauss(0)
-0.3989422804014327
+    julia> gauss(0.1; μ = 1, σ = 1)
+    0.2660852498987548
+    ```
 
-julia> gauss(0.1; μ = 1, σ = 1)
-0.2660852498987548
-```
+    The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.
 
-The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.
+    ```jldoctest key_args_ex
+    julia> step = 0.01
+    0.01
 
-```jldoctest key_args_ex
-julia> step = 0.01
-0.01
+    julia> x = -100:step:100;
 
-julia> x = -100:step:100;
+    julia> sum(gauss, x) * step
+    1.0000000000000002
 
-julia> sum(gauss, x) * step
-1.0000000000000002
+    julia> g(x) = gauss(x; μ = -1, σ = 1.4);
 
-julia> g(x) = gauss(x; μ = -1, σ = 1.4);
+    julia> sum(g, x) * step
+    1.0000000000000007
+    ```
 
-julia> sum(g, x) * step
-1.0000000000000007
-```
+    We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. The result is the same as `sum(gauss.(x))`. The difference is that the former, similarly to generators, does not allocate an array. The summation is then multiplied by the stepsize `0.01` to approximate the continuous interval `[-100, 100]`.
 
-We use the `sum` function, which can accept a function as the first argument and apply it to each value before summation. The result is the same as `sum(gauss.(x))`. The difference is that the former, similarly to generators, does not allocate an array. The summation is then multiplied by the stepsize `0.01` to approximate the continuous interval `[-100, 100]`.
+    We can also visualize the probability density functions with the [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package.
 
-We can also visualize the probability density functions with the [Plots.jl](https://github.com/JuliaPlots/Plots.jl) package.
+    ```@setup plots
+    using Plots
+    function gauss(x::Real; μ::Real = 0, σ::Real = 1)
+        σ^2 > 0 || error("the variance `σ^2` must be positive")
+        return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
+    end
+    ```
 
-```@setup plots
-using Plots
-function gauss(x::Real; μ::Real = 0, σ::Real = 1)
-    σ^2 > 0 || error("the variance `σ^2` must be positive")
-    return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
-end
-```
+    ```@example plots
+    using Plots
+    x = -15:0.1:15
 
-```@example plots
-using Plots
-x = -15:0.1:15
+    plot(x, gauss.(x); label = "μ = 0, σ = 1", linewidth = 2, xlabel = "x", ylabel = "f(x)");
+    plot!(x, gauss.(x; μ = 4, σ = 2); label = "μ = 4, σ = 2", linewidth = 2);
+    plot!(x, gauss.(x; μ = -3, σ = 2); label = "μ = -3, σ = 2", linewidth = 2);
+    savefig("gauss.svg") # hide
+    ```
 
-plot(x, gauss.(x); label = "μ = 0, σ = 1", linewidth = 2, xlabel = "x", ylabel = "f(x)");
-plot!(x, gauss.(x; μ = 4, σ = 2); label = "μ = 4, σ = 2", linewidth = 2);
-plot!(x, gauss.(x; μ = -3, σ = 2); label = "μ = -3, σ = 2", linewidth = 2);
-savefig("gauss.svg") # hide
-```
-
-![](gauss.svg)
-
-```@raw html
-</div></details>
-```
+    ![](gauss.svg)
 
 ## Variable number of arguments
 
@@ -605,107 +545,92 @@ julia> roundmod(12.529, 5; sigdigits = 2)
 
 This construction is beneficial whenever there are multiple chained functions, and only the deepest ones need keyword arguments.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a function `wrapper`, that accepts a number and applies one of `round`, `ceil` or `floor` functions based on the keyword argument `type`. Use the function to solve the following tasks:
+    - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
+    - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
+    - Round `1252.1518` to `2` digits after the decimal point.
+    - Round `1252.1518` to `3` significant digits.
 
-Write a function `wrapper`, that accepts a number and applies one of `round`, `ceil` or `floor` functions based on the keyword argument `type`. Use the function to solve the following tasks:
-- Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
-- Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
-- Round `1252.1518` to `2` digits after the decimal point.
-- Round `1252.1518` to `3` significant digits.
+!!! details "Solution:"
+    The one way to define this function is the `if-elseif-else` statement.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-The one way to define this function is the `if-elseif-else` statement.
-
-```jldoctest varargs_ex; output = false
-function wrapper(x...; type = :round, kwargs...)
-    if type == :ceil
-        return ceil(x...; kwargs...)
-    elseif type == :floor
-        return floor(x...; kwargs...)
-    else
-        return round(x...; kwargs...)
+    ```jldoctest varargs_ex; output = false
+    function wrapper(x...; type = :round, kwargs...)
+        if type == :ceil
+            return ceil(x...; kwargs...)
+        elseif type == :floor
+            return floor(x...; kwargs...)
+        else
+            return round(x...; kwargs...)
+        end
     end
-end
 
-# output
-wrapper (generic function with 1 method)
-```
+    # output
+    wrapper (generic function with 1 method)
+    ```
 
-The `type` keyword argument is used to determine which function should be used. We use an optional number of arguments as well as an optional number of keyword arguments.
+    The `type` keyword argument is used to determine which function should be used. We use an optional number of arguments as well as an optional number of keyword arguments.
 
-```jldoctest varargs_ex
-julia> x = 1252.1518
-1252.1518
+    ```jldoctest varargs_ex
+    julia> x = 1252.1518
+    1252.1518
 
-julia> wrapper(Int64, x; type = :ceil)
-1253
+    julia> wrapper(Int64, x; type = :ceil)
+    1253
 
-julia> wrapper(Int16, x; type = :floor)
-1252
+    julia> wrapper(Int16, x; type = :floor)
+    1252
 
-julia> wrapper(x; digits = 2)
-1252.15
+    julia> wrapper(x; digits = 2)
+    1252.15
 
-julia> wrapper(x; sigdigits = 3)
-1250.0
-```
+    julia> wrapper(x; sigdigits = 3)
+    1250.0
+    ```
 
-The second way to solve this exercise is to use the fact that it is possible to pass functions as arguments. We can omit the `if` conditions and directly pass the appropriate function.
+    The second way to solve this exercise is to use the fact that it is possible to pass functions as arguments. We can omit the `if` conditions and directly pass the appropriate function.
 
-```jldoctest varargs_ex; output = false
-wrapper_new(x...; type = round, kwargs...) = type(x...; kwargs...)
+    ```jldoctest varargs_ex; output = false
+    wrapper_new(x...; type = round, kwargs...) = type(x...; kwargs...)
 
-# output
-wrapper_new (generic function with 1 method)
-```
+    # output
+    wrapper_new (generic function with 1 method)
+    ```
 
-In the function definition, we use the `type` keyword argument as a function and not as a symbol.
+    In the function definition, we use the `type` keyword argument as a function and not as a symbol.
 
-```jldoctest varargs_ex
-julia> wrapper_new(1.123; type = ceil)
-2.0
-```
+    ```jldoctest varargs_ex
+    julia> wrapper_new(1.123; type = ceil)
+    2.0
+    ```
 
-If we use, for example, a `Symbol` instead of a function, an error will occur.
+    If we use, for example, a `Symbol` instead of a function, an error will occur.
 
-```jldoctest varargs_ex
-julia> wrapper_new(1.123; type = :ceil)
-ERROR: MethodError: objects of type Symbol are not callable
-[...]
-```
+    ```jldoctest varargs_ex
+    julia> wrapper_new(1.123; type = :ceil)
+    ERROR: MethodError: objects of type Symbol are not callable
+    [...]
+    ```
 
-Finally, we can test the `wrapper_new` function with the same arguments as for the `wrapper` function.
+    Finally, we can test the `wrapper_new` function with the same arguments as for the `wrapper` function.
 
-```jldoctest varargs_ex
-julia> x = 1252.1518
-1252.1518
+    ```jldoctest varargs_ex
+    julia> x = 1252.1518
+    1252.1518
 
-julia> wrapper_new(Int64, x; type = ceil)
-1253
+    julia> wrapper_new(Int64, x; type = ceil)
+    1253
 
-julia> wrapper_new(Int16, x; type = floor)
-1252
+    julia> wrapper_new(Int16, x; type = floor)
+    1252
 
-julia> wrapper_new(x; digits = 2)
-1252.15
+    julia> wrapper_new(x; digits = 2)
+    1252.15
 
-julia> wrapper_new(x; sigdigits = 3)
-1250.0
-```
-
-```@raw html
-</div></details>
-```
+    julia> wrapper_new(x; sigdigits = 3)
+    1250.0
+    ```
 
 ## Anonymous functions
 

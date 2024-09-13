@@ -121,7 +121,7 @@ Like the help for functions, we can use `?` in the Pkg REPL to list all its avai
 [...]
 ```
 
-!!! bonus "Non-interactive package manager:"
+!!! compat "Non-interactive package manager:"
     We can also use the package manager in a non-interactive way from the Julia REPL by the `Pkg` package.
 
     ```julia
@@ -130,7 +130,7 @@ Like the help for functions, we can use `?` in the Pkg REPL to list all its avai
     Pkg.add(url = "https://github.com/JuliaLang/Example.jl")
     ```
 
-!!! bonus "JuliaHub:"
+!!! compat "JuliaHub:"
     [JuliaHub](https://juliahub.com) is a web service provided by [Julia Computing](https://juliacomputing.com/) that allows to explore the Julia ecosystem, build packages, and run code in the cloud. It allows for exploring packages, documentation, repositories and code written by other users.
 
 ## Environments

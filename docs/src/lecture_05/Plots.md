@@ -115,104 +115,89 @@ Descriptions for these attributes can be found using the attribute name without 
 plotattr("guide")
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Consider the following set of equations
 
-Consider the following set of equations
+    ```math
+    \begin{aligned}
+    x(t) & = \cos(3t), \\
+    y(t) & = \sin(2t),\\
+    \end{aligned}
+    ```
 
-```math
-\begin{aligned}
-x(t) & = \cos(3t), \\
-y(t) & = \sin(2t),\\
-\end{aligned}
-```
+    where ``t \in [0, 2\pi]``. Create a plot of the curve described by the equations above. Use plot attributes to set the following properties
+    1. The line width should start at `1`, increase to `50` and then decrease back to `1`.
+    2. The line color should change with the changing line width.
+    Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.org/latest/generated/colorschemes/) supported by the Plots package. Use additional plot attributes to get a nice looking graph.
 
-where ``t \in [0, 2\pi]``. Create a plot of the curve described by the equations above. Use plot attributes to set the following properties
-1. The line width should start at `1`, increase to `50` and then decrease back to `1`.
-2. The line color should change with the changing line width.
-Use `:viridis` color scheme or any other [color scheme](http://docs.juliaplots.org/latest/generated/colorschemes/) supported by the Plots package. Use additional plot attributes to get a nice looking graph.
+    **Hints:**
+    - use the `palette` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
+    - remove all decorators by using: `axis = nothing`, `border = :none`.
 
-**Hints:**
-- use the `palette` function combined with the `collect` function to generate a vector of colors from the `:viridis` color scheme.
-- remove all decorators by using: `axis = nothing`, `border = :none`.
+!!! details "Solution:"
+    We first define vector `t` by the `range` function with a predefined length.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example plots
+    n = 1000
+    t = range(0, 2π; length = n)
+    nothing # hide
+    ```
 
-We first define vector `t` by the `range` function with a predefined length.
+    Then we define functions described by the set of equations in the exercise description.
 
-```@example plots
-n = 1000
-t = range(0, 2π; length = n)
-nothing # hide
-```
+    ```@example plots
+    fx(t) = cos(3t)
+    fy(t) = sin(2t)
+    nothing # hide
+    ```
 
-Then we define functions described by the set of equations in the exercise description.
+    Since we want to use different plot attributes for each point, the attributes will have length `n`. Since the linewidth should first increase and then decrease, we use twice `range` and then `vcat` them into one column vector.
 
-```@example plots
-fx(t) = cos(3t)
-fy(t) = sin(2t)
-nothing # hide
-```
+    ```@example plots
+    linewidth = vcat(
+        range(1, 50; length = n ÷ 2),
+        range(50, 1; length = n - n ÷ 2)
+    )
+    nothing # hide
+    ```
 
-Since we want to use different plot attributes for each point, the attributes will have length `n`. Since the linewidth should first increase and then decrease, we use twice `range` and then `vcat` them into one column vector.
+    We used integer division to set the length in the `range` function. In the same way, we can create a vector of colors. The Plots package provides the `palette` function that allows generating equidistantly spaced colors from a color scheme.
 
-```@example plots
-linewidth = vcat(
-    range(1, 50; length = n ÷ 2),
-    range(50, 1; length = n - n ÷ 2)
-)
-nothing # hide
-```
+    ```@repl plots
+    c = palette(:viridis, 2);
+    typeof(c)
+    ```
 
-We used integer division to set the length in the `range` function. In the same way, we can create a vector of colors. The Plots package provides the `palette` function that allows generating equidistantly spaced colors from a color scheme.
+    The `palette` function returns the `ColorPalette` type. Since we want to concatenate two vectors of colors together, we have to use the `collect` function to extract the vector of colors from the `ColorPalette` type.
 
-```@repl plots
-c = palette(:viridis, 2);
-typeof(c)
-```
+    ```@repl plots
+    c = collect(palette(:viridis, 2))
+    ```
 
-The `palette` function returns the `ColorPalette` type. Since we want to concatenate two vectors of colors together, we have to use the `collect` function to extract the vector of colors from the `ColorPalette` type.
+    Now we can use a similar code as before in combination with the `rev` keyword to change the order.
 
-```@repl plots
-c = collect(palette(:viridis, 2))
-```
+    ```@example plots
+    color = vcat(
+        collect(palette(:viridis, n ÷ 2)),
+        collect(palette(:viridis, n - n ÷ 2; rev = true))
+    )
+    nothing # hide
+    ```
 
-Now we can use a similar code as before in combination with the `rev` keyword to change the order.
+    Finally, we can call the `plot` function with input arguments and attributes defined above. We use `axis = nothing` and `border = :none` to remove all decorators such as ticks or axis frame.
 
-```@example plots
-color = vcat(
-    collect(palette(:viridis, n ÷ 2)),
-    collect(palette(:viridis, n - n ÷ 2; rev = true))
-)
-nothing # hide
-```
+    ```@example plots
+    plot(fx.(t), fy.(t);
+        linewidth,
+        color,
+        lims = (-1.2, 1.2),
+        legend = false,
+        axis = nothing,
+        border = :none,
+    )
 
-Finally, we can call the `plot` function with input arguments and attributes defined above. We use `axis = nothing` and `border = :none` to remove all decorators such as ticks or axis frame.
-
-```@example plots
-plot(fx.(t), fy.(t);
-    linewidth,
-    color,
-    lims = (-1.2, 1.2),
-    legend = false,
-    axis = nothing,
-    border = :none,
-)
-
-savefig("plot_exercise1.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("plot_exercise1.svg") # hide
+    ```
 
 ![](plot_exercise1.svg)
 
@@ -242,55 +227,40 @@ Instead of a vector of values, we can also use a similar syntax as for ranges wi
 plot(sin, x -> sin(2x), 0, 2π, 100; linewidth = 2, label = "")
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create a plot given by the following set of equations:
 
-Create a plot given by the following set of equations:
+    ```math
+    \begin{aligned}
+    x(t) & = (a + b)\cos(t) - b \cdot \cos \left( \left(\frac{a}{b} + 1 \right)t \right), \\
+    y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \right), \\
+    \end{aligned}
+    ```
 
-```math
-\begin{aligned}
-x(t) & = (a + b)\cos(t) - b \cdot \cos \left( \left(\frac{a}{b} + 1 \right)t \right), \\
-y(t) & = (a + b)\sin(t) - b \cdot \sin \left( \left(\frac{a}{b} + 1 \right)t \right), \\
-\end{aligned}
-```
+    where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Use additional plot attributes to get a nicely looking graph.
 
-where ``a = 4.23``, ``b = 2.35`` and ``t \in [-15, 20]``. Use additional plot attributes to get a nicely looking graph.
+!!! details "Solution:"
+    This exercise is straightforward. We first define the functions described by the set of equations.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example plots_fce
+    fx(t; a = 4.23, b = 2.35) = (a + b)*cos(t) - b*cos((a/b + 1)*t)
+    fy(t; a = 4.23, b = 2.35) = (a + b)*sin(t) - b*sin((a/b + 1)*t)
 
-This exercise is straightforward. We first define the functions described by the set of equations.
+    nothing # hide
+    ```
 
-```@example plots_fce
-fx(t; a = 4.23, b = 2.35) = (a + b)*cos(t) - b*cos((a/b + 1)*t)
-fy(t; a = 4.23, b = 2.35) = (a + b)*sin(t) - b*sin((a/b + 1)*t)
+    Now we plot these functions.
 
-nothing # hide
-```
+    ```@example plots_fce
+    plot(fx, fy, -15, 20, 500;
+        linewidth = 2,
+        legend = false,
+        axis = nothing,
+        border = :none,
+    )
 
-Now we plot these functions.
-
-```@example plots_fce
-plot(fx, fy, -15, 20, 500;
-    linewidth = 2,
-    legend = false,
-    axis = nothing,
-    border = :none,
-)
-
-savefig("plot_exercise2.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("plot_exercise2.svg") # hide
+    ```
 
 ![](plot_exercise2.svg)
 
@@ -315,78 +285,63 @@ The second way is to use a specialized function provided for each series type. T
 scatter(x, y)
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Consider the following function:
 
-Consider the following function:
+    ```math
+    f(x, y) = \frac{x^2 \cdot y^2}{x^4 + y^4}.
+    ```
 
-```math
-f(x, y) = \frac{x^2 \cdot y^2}{x^4 + y^4}.
-```
+    Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series `contourf`, `heatmap`, and `surface` with the following settings:
+    - `:viridis` color scheme,
+    - camera angle `(25, 65)`,
+    - no legend, color bar, or decorators (`axis`, `frame` and `ticks`).
 
-Draw this function for ``x, y \in [-5, 5]``. Use the following three plot series `contourf`, `heatmap`, and `surface` with the following settings:
-- `:viridis` color scheme,
-- camera angle `(25, 65)`,
-- no legend, color bar, or decorators (`axis`, `frame` and `ticks`).
+!!! details "Solution:"
+    As usual, we first define the function and the values, where it will be evaluated.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example plots_srs
+    x = range(-5, 5; length = 200)
+    fz(x, y) = x^2*y^2/(x^4 + y^4)
+    nothing # hide
+    ```
 
-As usual, we first define the function and the values, where it will be evaluated.
+    Since we want to create three different plots with the same attributes, we create a named tuple to store the attribute values. This allows us to reuse them.
 
-```@example plots_srs
-x = range(-5, 5; length = 200)
-fz(x, y) = x^2*y^2/(x^4 + y^4)
-nothing # hide
-```
+    ```@example plots_srs
+    kwargs = (
+        color = :viridis,
+        legend = false,
+        cbar = false,
+        axis = nothing,
+        border = :none,
+    )
+    nothing # hide
+    ```
 
-Since we want to create three different plots with the same attributes, we create a named tuple to store the attribute values. This allows us to reuse them.
+    We can use the `plot` function with the `seriestype = :contourf` keyword to draw a filled contour plot. The simpler option is to use the `contourf` function.
 
-```@example plots_srs
-kwargs = (
-    color = :viridis,
-    legend = false,
-    cbar = false,
-    axis = nothing,
-    border = :none,
-)
-nothing # hide
-```
+    ```julia
+    contourf(x, x, fz; kwargs...) # or plot(x, x, fz; seriestype = :contourf, kwargs...)
+    ```
 
-We can use the `plot` function with the `seriestype = :contourf` keyword to draw a filled contour plot. The simpler option is to use the `contourf` function.
+    ![](plots_srs_ex1.svg)
 
-```julia
-contourf(x, x, fz; kwargs...) # or plot(x, x, fz; seriestype = :contourf, kwargs...)
-```
+    We used the triple-dot syntax to unpack keyword arguments. Recall that in this case, the semi-colon is mandatory. Similarly, we can draw the `heatmap` plot.
 
-![](plots_srs_ex1.svg)
+    ```julia
+    heatmap(x, x, fz; kwargs...)
+    ```
 
-We used the triple-dot syntax to unpack keyword arguments. Recall that in this case, the semi-colon is mandatory. Similarly, we can draw the `heatmap` plot.
+    ![](plots_srs_ex2.svg)
 
-```julia
-heatmap(x, x, fz; kwargs...)
-```
+    For the `surface` plot, we can change the camera angle by setting the `camera` attribute.
 
-![](plots_srs_ex2.svg)
+    ```julia
+    surface(x, x, fz; camera = (25, 65), kwargs...)
+    ```
 
-For the `surface` plot, we can change the camera angle by setting the `camera` attribute.
-
-```julia
-surface(x, x, fz; camera = (25, 65), kwargs...)
-```
-
-![](plots_srs_ex3.svg)
-
-```@raw html
-</div></details>
-```
+    ![](plots_srs_ex3.svg)
 
 ## Subplots
 

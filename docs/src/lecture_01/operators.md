@@ -46,74 +46,59 @@ julia> 2(3 + 4) # equivalent to 2*(3 + 4)
 14
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Determine the value and type of `y` given by the following expression
 
-Determine the value and type of `y` given by the following expression
+    ```math
+    y = \frac{(x + 2)^2 - 4}{(x - 2)^{p - 2}},
+    ```
 
-```math
-y = \frac{(x + 2)^2 - 4}{(x - 2)^{p - 2}},
-```
+    where `x = 4` and `p = 5`.
 
-where `x = 4` and `p = 5`.
+!!! details "Solution:"
+    First, we define variables `x` and `p`
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest ex1
+    julia> x = 4
+    4
 
-First, we define variables `x` and `p`
+    julia> p = 5
+    5
+    ```
 
-```jldoctest ex1
-julia> x = 4
-4
+    then we can use the combination of basic arithmetic operators to compute the value of `y`
 
-julia> p = 5
-5
-```
+    ```jldoctest ex1
+    julia> y = ((x + 2)^2 - 4)/(x - 2)^(p - 2)
+    4.0
+    ```
 
-then we can use the combination of basic arithmetic operators to compute the value of `y`
+    The type of `y` can be determined using the `typeof` function
 
-```jldoctest ex1
-julia> y = ((x + 2)^2 - 4)/(x - 2)^(p - 2)
-4.0
-```
+    ```jldoctest ex1
+    julia> typeof(y)
+    Float64
+    ```
 
-The type of `y` can be determined using the `typeof` function
+    Note that the resulting type of `y` is `Float64` even though the result can be represented as an integer. The reason is that we divide two integers
 
-```jldoctest ex1
-julia> typeof(y)
-Float64
-```
+    ```jldoctest ex1
+    julia> typeof((x + 2)^2 - 4)
+    Int64
 
-Note that the resulting type of `y` is `Float64` even though the result can be represented as an integer. The reason is that we divide two integers
+    julia> typeof((x - 2)^(p - 2))
+    Int64
+    ```
 
-```jldoctest ex1
-julia> typeof((x + 2)^2 - 4)
-Int64
+    Because this operation generally does not result in an integer, dividing two integers always returns a floating-point number. If we want to get an integer, we can use the integer division operator `÷` (can be typed as `\div<tab>`)
 
-julia> typeof((x - 2)^(p - 2))
-Int64
-```
+    ```jldoctest ex1
+    julia> y_int = ((x + 2)^2 - 4)÷(x - 2)^(p - 2)
+    4
 
-Because this operation generally does not result in an integer, dividing two integers always returns a floating-point number. If we want to get an integer, we can use the integer division operator `÷` (can be typed as `\div<tab>`)
-
-```jldoctest ex1
-julia> y_int = ((x + 2)^2 - 4)÷(x - 2)^(p - 2)
-4
-
-julia> typeof(y_int)
-Int64
-```
-
-```@raw html
-</div></details>
-```
+    julia> typeof(y_int)
+    Int64
+    ```
 
 ## Promotion system
 
@@ -176,51 +161,36 @@ julia> typeof(z)
 Float32
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    All of these values represent number ``1``. Determine the smallest type which can represent them.
 
-All of these values represent number ``1``. Determine the smallest type which can represent them.
+    ```jldoctest promotion3; output = false
+    x = 1
+    y = 1f0
+    z = true
+    w = Int32(1)
 
-```jldoctest promotion3; output = false
-x = 1
-y = 1f0
-z = true
-w = Int32(1)
+    # output
+    1
+    ```
 
-# output
-1
-```
+!!! details "Solution:"
+    To get the correct promotion type, we can use a combination of the `promote` and `typeof` functions
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest promotion3
+    julia> xp, yp, zp, wp = promote(x, y, z, w)
+    (1.0f0, 1.0f0, 1.0f0, 1.0f0)
 
-To get the correct promotion type, we can use a combination of the `promote` and `typeof` functions
+    julia> typeof(xp)
+    Float32
+    ```
 
-```jldoctest promotion3
-julia> xp, yp, zp, wp = promote(x, y, z, w)
-(1.0f0, 1.0f0, 1.0f0, 1.0f0)
+    or the `promote_type` and `typeof` functions
 
-julia> typeof(xp)
-Float32
-```
-
-or the `promote_type` and `typeof` functions
-
-```jldoctest promotion3
-julia> promote_type(typeof(x), typeof(y), typeof(z), typeof(w))
-Float32
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest promotion3
+    julia> promote_type(typeof(x), typeof(y), typeof(z), typeof(w))
+    Float32
+    ```
 
 ## Updating operators
 
@@ -243,57 +213,42 @@ julia> x \= 16 # x = x \ 16 = 16 / x
 2.0
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Compute the value of `y` given by the following expression
 
-Compute the value of `y` given by the following expression
+    ```math
+    y = \frac{(x + 4)^{\frac{3}{2}}}{(x + 1)^{p - 1}},
+    ```
 
-```math
-y = \frac{(x + 4)^{\frac{3}{2}}}{(x + 1)^{p - 1}},
-```
+    where `x = 5` and `p = 3`. Then multiply the result by `8`, add `3`, divide by `3`, and subtract `1`. What are all the intermediate results and the final result?
 
-where `x = 5` and `p = 3`. Then multiply the result by `8`, add `3`, divide by `3`, and subtract `1`. What are all the intermediate results and the final result?
+!!! details "Solution:"
+    First, we calculate the value of `y`
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest ex2
+    julia> x = 5;
 
-First, we calculate the value of `y`
+    julia> p = 3;
 
-```jldoctest ex2
-julia> x = 5;
+    julia> y = (x + 4)^(3/2)/(x + 1)^(p - 1)
+    0.75
+    ```
 
-julia> p = 3;
+    Then we can use the update operators to get all the intermediate results as well as the final result
 
-julia> y = (x + 4)^(3/2)/(x + 1)^(p - 1)
-0.75
-```
+    ```jldoctest ex2
+    julia> y *= 8
+    6.0
 
-Then we can use the update operators to get all the intermediate results as well as the final result
+    julia> y += 3
+    9.0
 
-```jldoctest ex2
-julia> y *= 8
-6.0
+    julia> y /= 3
+    3.0
 
-julia> y += 3
-9.0
-
-julia> y /= 3
-3.0
-
-julia> y -= 1
-2.0
-```
-
-```@raw html
-</div></details>
-```
+    julia> y -= 1
+    2.0
+    ```
 
 ## Numeric comparison
 
@@ -466,59 +421,44 @@ julia> round(x; sigdigits = 3)
 3140.0
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use rounding functions to solve the following tasks:
+    - Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
+    - Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
+    - Round `1252.1518` to `2` digits after the decimal point.
+    - Round `1252.1518` to `3` significant digits.
 
-Use rounding functions to solve the following tasks:
-- Round `1252.1518` to the nearest larger integer and convert the resulting value to `Int64`.
-- Round `1252.1518` to the nearest smaller integer and convert the resulting value to `Int16`.
-- Round `1252.1518` to `2` digits after the decimal point.
-- Round `1252.1518` to `3` significant digits.
+!!! details "Solution:"
+    The `ceil` function rounds numbers to the nearest larger value, and since we want the result to be of type `Int64`, we have to pass this type as a first argument
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest rounding_ex
+    julia> x = 1252.1518
+    1252.1518
 
-The `ceil` function rounds numbers to the nearest larger value, and since we want the result to be of type `Int64`, we have to pass this type as a first argument
+    julia> ceil(Int64, x)
+    1253
+    ```
 
-```jldoctest rounding_ex
-julia> x = 1252.1518
-1252.1518
+    Similarly, the floor function rounds numbers to the nearest smaller value
 
-julia> ceil(Int64, x)
-1253
-```
+    ```jldoctest rounding_ex
+    julia> floor(Int16, x)
+    1252
+    ```
 
-Similarly, the floor function rounds numbers to the nearest smaller value
+    The number of digits after the decimal point can be controlled using the `digits` keyword
 
-```jldoctest rounding_ex
-julia> floor(Int16, x)
-1252
-```
+    ```jldoctest rounding_ex
+    julia> round(x; digits = 2)
+    1252.15
+    ```
 
-The number of digits after the decimal point can be controlled using the `digits` keyword
+    and the number of significant digits using the `sigdigits` keyword
 
-```jldoctest rounding_ex
-julia> round(x; digits = 2)
-1252.15
-```
-
-and the number of significant digits using the `sigdigits` keyword
-
-```jldoctest rounding_ex
-julia> round(x; sigdigits = 3)
-1250.0
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest rounding_ex
+    julia> round(x; sigdigits = 3)
+    1250.0
+    ```
 
 ## Numerical conversions
 
@@ -553,45 +493,30 @@ ERROR: InexactError: Int64(1.234)
 
 Conversion to other types works in a similar way.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the proper numeric conversion to get the correct result (not approximate) of summing the following two numbers
 
-Use the proper numeric conversion to get the correct result (not approximate) of summing the following two numbers
+    ```jldoctest conversion_ex; output = false
+    x = 1//3
+    y = 0.5
 
-```jldoctest conversion_ex; output = false
-x = 1//3
-y = 0.5
+    # output
+    0.5
+    ```
 
-# output
-0.5
-```
+    **Hint:** rational numbers can be summed without approximation.
 
-**Hint:** rational numbers can be summed without approximation.
+!!! details "Solution:"
+    Firstly, we can try just to sum the given numbers
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest conversion_ex
+    julia> x + y
+    0.8333333333333333
+    ```
 
-Firstly, we can try just to sum the given numbers
+    The result of this operation is a floating-point number. However, in this specific case, we have a rational number and a floating-point number that can also be represented as a rational number. The exact result can be obtained by converting the variable `y` to a rational number
 
-```jldoctest conversion_ex
-julia> x + y
-0.8333333333333333
-```
-
-The result of this operation is a floating-point number. However, in this specific case, we have a rational number and a floating-point number that can also be represented as a rational number. The exact result can be obtained by converting the variable `y` to a rational number
-
-```jldoctest conversion_ex
-julia> x + Rational(y)
-5//6
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest conversion_ex
+    julia> x + Rational(y)
+    5//6
+    ```

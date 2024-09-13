@@ -118,54 +118,39 @@ julia> print(str)
   world.
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+  Create a string with the following text
+  > Quotation is the repetition or copy of someone else's statement or thoughts. \
+  > Quotation marks are punctuation marks used in text to indicate a quotation. \
+  > Both of these words are sometimes abbreviated as "quote(s)".
+  and print it into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Use an indent of length 4 for each sentence.
 
-Create a string with the following text
-> Quotation is the repetition or copy of someone else's statement or thoughts. \
-> Quotation marks are punctuation marks used in text to indicate a quotation. \
-> Both of these words are sometimes abbreviated as "quote(s)".
-and print it into the REPL. The printed string should look the same as the text above, i.e., each sentence should be on a separate line. Use an indent of length 4 for each sentence.
+!!! details "Solution:"
+  There are two basic ways to get the right result. The first is to use a multi-line string and write the message in the correct form.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+  ```jldoctest
+  julia> str = """
+            Quotation is the repetition or copy of someone else's statement or thoughts.
+            Quotation marks are punctuation marks used in text to indicate a quotation.
+            Both of these words are sometimes abbreviated as "quote(s)".
+        """;
 
-There are two basic ways to get the right result. The first is to use a multi-line string and write the message in the correct form.
+  julia> println(str)
+      Quotation is the repetition or copy of someone else's statement or thoughts.
+      Quotation marks are punctuation marks used in text to indicate a quotation.
+      Both of these words are sometimes abbreviated as "quote(s)".
+  ```
 
-```jldoctest
-julia> str = """
-           Quotation is the repetition or copy of someone else's statement or thoughts.
-           Quotation marks are punctuation marks used in text to indicate a quotation.
-           Both of these words are sometimes abbreviated as "quote(s)".
-       """;
+  We do not have to add backslashes to escape quotation marks in the text. The second way is to use a regular string and the new line symbol `\n`. In this case, it is necessary to use backslashes to escape quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation.
 
-julia> println(str)
-    Quotation is the repetition or copy of someone else's statement or thoughts.
-    Quotation marks are punctuation marks used in text to indicate a quotation.
-    Both of these words are sometimes abbreviated as "quote(s)".
-```
+  ```jldoctest
+  julia> str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\".";
 
-We do not have to add backslashes to escape quotation marks in the text. The second way is to use a regular string and the new line symbol `\n`. In this case, it is necessary to use backslashes to escape quotation marks. Also, we have to add four spaces before each sentence to get a proper indentation.
-
-```jldoctest
-julia> str = "    Quotation is the repetition or copy of someone else's statement or thoughts.\n    Quotation marks are punctuation marks used in text to indicate a quotation.\n    Both of these words are sometimes abbreviated as \"quote(s)\".";
-
-julia> println(str)
-    Quotation is the repetition or copy of someone else's statement or thoughts.
-    Quotation marks are punctuation marks used in text to indicate a quotation.
-    Both of these words are sometimes abbreviated as "quote(s)".
-```
-
-```@raw html
-</div></details>
-```
+  julia> println(str)
+      Quotation is the repetition or copy of someone else's statement or thoughts.
+      Quotation marks are punctuation marks used in text to indicate a quotation.
+      Both of these words are sometimes abbreviated as "quote(s)".
+  ```
 
 ## String concatenation and interpolation
 
@@ -262,55 +247,40 @@ julia> "tuple: $(t)"
 "tuple: (1, 2, 3)"
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+  Print the following message for a given vector
+  > "<vec> is a vector of length <len> with elements of type <type>"
+  where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector, and `<type>` is the type of its elements. Use the following two vectors.
 
-Print the following message for a given vector
-> "<vec> is a vector of length <len> with elements of type <type>"
-where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector, and `<type>` is the type of its elements. Use the following two vectors.
+  ```julia
+  a = [1,2,3]
+  b = [:a, :b, :c, :d]
+  ```
 
-```julia
-a = [1,2,3]
-b = [:a, :b, :c, :d]
-```
+  **Hint:** use the `length` and `eltype` functions.
 
-**Hint:** use the `length` and `eltype` functions.
+!!! details "Solution:"
+  We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+  ```jldoctest
+  julia> a = [1,2,3];
 
-We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
+  julia> str = string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a));
 
-```jldoctest
-julia> a = [1,2,3];
+  julia> println(str)
+  [1, 2, 3] is a vector of length 3 with elements of type Int64
+  ```
 
-julia> str = string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a));
+  The second way is to use string interpolation.
 
-julia> println(str)
-[1, 2, 3] is a vector of length 3 with elements of type Int64
-```
+  ```jldoctest
+  julia> b = [:a, :b, :c, :d];
 
-The second way is to use string interpolation.
+  julia> str = "$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))";
 
-```jldoctest
-julia> b = [:a, :b, :c, :d];
-
-julia> str = "$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))";
-
-julia> println(str)
-[:a, :b, :c, :d] is a vector of length 4 with elements of type Symbol
-```
-
-```@raw html
-</div></details>
-```
+  julia> println(str)
+  [:a, :b, :c, :d] is a vector of length 4 with elements of type Symbol
+  ```
 
 ## Useful functions
 
@@ -407,37 +377,22 @@ julia> replace("Sherlock Holmes", "Holmes" => "Homeless")
 "Sherlock Homeless"
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+  Use the `split` function to split the following string
+  > "Julia!"
+  into a vector of single-character strings.
 
-Use the `split` function to split the following string
-> "Julia!"
-into a vector of single-character strings.
+  **Hint:** we can say that an empty string `""` separates the characters in the string.
 
-**Hint:** we can say that an empty string `""` separates the characters in the string.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
-```jldoctest
-julia> split("Julia!", "")
-6-element Vector{SubString{String}}:
- "J"
- "u"
- "l"
- "i"
- "a"
- "!"
-```
-
-```@raw html
-</div></details>
-```
+!!! details "Solution:"
+  To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
+  ```jldoctest
+  julia> split("Julia!", "")
+  6-element Vector{SubString{String}}:
+  "J"
+  "u"
+  "l"
+  "i"
+  "a"
+  "!"
+  ```

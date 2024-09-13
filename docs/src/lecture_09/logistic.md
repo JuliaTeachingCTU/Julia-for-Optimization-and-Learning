@@ -103,69 +103,54 @@ nothing # hide
 
 The data contain three classes. However, we considered only binary problems with two classes. We therefore cheat.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create the `iris_reduced` dataframe in the following way:
+    - Label "setosa" will be deleted.
+    - Label "versicolor" will be the negative class.
+    - Label "virginica" will be the positive class.
+    - Add the `intercept` column with ones as entries.
+    For the features, consider only petal length and petal width.
 
-Create the `iris_reduced` dataframe in the following way:
-- Label "setosa" will be deleted.
-- Label "versicolor" will be the negative class.
-- Label "virginica" will be the positive class.
-- Add the `intercept` column with ones as entries.
-For the features, consider only petal length and petal width.
+    **Hint**: Use the `Query` package or do it manually via the `!insertcols` function.
 
-**Hint**: Use the `Query` package or do it manually via the `!insertcols` function.
+!!! details "Solution:"
+    The modification of the dataframe can be by the `Query` package.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example logistic
+    using Query
 
-The modification of the dataframe can be by the `Query` package.
+    iris_reduced = @from i in iris begin
+        @where i.Species != "setosa"
+        @select {
+            i.PetalLength,
+            i.PetalWidth,
+            intercept = 1,
+            i.Species,
+            label = i.Species == "virginica",
+        }
+        @collect DataFrame
+    end
 
-```@example logistic
-using Query
+    nothing # hide
+    ```
 
-iris_reduced = @from i in iris begin
-    @where i.Species != "setosa"
-    @select {
-        i.PetalLength,
-        i.PetalWidth,
-        intercept = 1,
-        i.Species,
-        label = i.Species == "virginica",
-    }
-    @collect DataFrame
- end
+    We can also perform this procedure manually.
 
-nothing # hide
-```
+    ```@example logistic
+    iris_reduced2 = iris[iris.Species .!= "setosa", :]
+    iris_reduced2 = iris_reduced2[:,[3;4;5]]
 
-We can also perform this procedure manually.
+    insertcols!(iris_reduced2, 3, :intercept => 1)
+    insertcols!(iris_reduced2, 5, :label => iris_reduced2.Species .== "virginica")
 
-```@example logistic
-iris_reduced2 = iris[iris.Species .!= "setosa", :]
-iris_reduced2 = iris_reduced2[:,[3;4;5]]
+    nothing # hide
+    ```
 
-insertcols!(iris_reduced2, 3, :intercept => 1)
-insertcols!(iris_reduced2, 5, :label => iris_reduced2.Species .== "virginica")
+    We can check that both approaches give the same result.
 
-nothing # hide
-```
-
-We can check that both approaches give the same result.
-
-```@repl logistic
-isequal(iris_reduced, iris_reduced2)
-```
-
-```@raw html
-</div></details>
-```
+    ```@repl logistic
+    isequal(iris_reduced, iris_reduced2)
+    ```
 
 Now we extract the data ```X``` and labels ```y```. Since ```iris_reduced``` is a DataFrame, we need to convert it first into a ```Matrix```. The matrix `X` is formed by the petal length, width and the intercept. 
  
@@ -178,41 +163,26 @@ nothing # hide
 
 We again plot the data. Since we are interested in a different prediction than last time, we will plot them differently.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Since ```X``` has two features (columns), it is simple to visualize. Use scatter plot to show the data. Use different colours for different classes. Try to produce a nice graph by including names of classes and axis labels (petal length and petal width).
 
-Since ```X``` has two features (columns), it is simple to visualize. Use scatter plot to show the data. Use different colours for different classes. Try to produce a nice graph by including names of classes and axis labels (petal length and petal width).
+!!! details "Solution:"
+    We make use of the ```iris_reduced``` variable. To plot the points in different colours, we use the keyword ```group = :Species```.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example logistic
+    using Plots
 
-We make use of the ```iris_reduced``` variable. To plot the points in different colours, we use the keyword ```group = :Species```.
+    @df iris_reduced scatter(
+        :PetalLength,
+        :PetalWidth;
+        group = :Species,
+        xlabel = "Petal length",
+        ylabel = "Petal width",
+        legend = :topleft,
+    )
 
-```@example logistic
-using Plots
-
-@df iris_reduced scatter(
-    :PetalLength,
-    :PetalWidth;
-    group = :Species,
-    xlabel = "Petal length",
-    ylabel = "Petal width",
-    legend = :topleft,
-)
-
-savefig("iris1.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("iris1.svg") # hide
+    ```
 
 ![](iris1.svg)
 
@@ -220,57 +190,42 @@ We see that the classes are almost perfectly separable. It would not be difficul
 
 ## Training the classifier
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write a function ```log_reg``` which takes as an input the dataset, the labels and the initial point. It should use Newton's method to find the optimal weights ``w``. Print the results when started from zero.
 
-Write a function ```log_reg``` which takes as an input the dataset, the labels and the initial point. It should use Newton's method to find the optimal weights ``w``. Print the results when started from zero.
+    It would be possible to use the code ```optim(f, g, x, s::Step)``` from the previous lecture and define only the step function ```s``` for the Newton's method. However, sometimes it may be better to write simple functions separately instead of using more complex machinery.
 
-It would be possible to use the code ```optim(f, g, x, s::Step)``` from the previous lecture and define only the step function ```s``` for the Newton's method. However, sometimes it may be better to write simple functions separately instead of using more complex machinery.
+!!! details "Solution:"
+    To write the desired function, we need to implement the gradient and Hessian from derived in the theoretical lecture. First, we define the sigmoid function in `σ`. Then we need to create ``\hat y``. We may use for loop notation ```[σ(w'*x) for x in eachrow(X)]```. However, in this case, it is simpler to use matrix operations ```σ.(X*w)``` to get the same result. The gradient can be written in the same way. Again, we use matrix notation. For the Hessian, we first create ```X_mult = [row*row' for row in eachrow(X)]``` which computes all products ``x_ix_i^\top``. This creates an array of length ``100``; each element of this array is a ``2\times 2`` matrix. Since it is an array, we may multiply it by ```y_hat.*(1 .-y_hat)```. As ```mean``` from the ```Statistics``` package operates on any array, we can call it (or similarly ```sum```). We may use ```mean(???)``` but we find the alternative  ```??? |> mean``` more readable in this case. We use ```hess \ grad```, as explained in the previous lecture for Newton's method, to update the weights.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example logistic
+    using Statistics
 
-To write the desired function, we need to implement the gradient and Hessian from derived in the theoretical lecture. First, we define the sigmoid function in `σ`. Then we need to create ``\hat y``. We may use for loop notation ```[σ(w'*x) for x in eachrow(X)]```. However, in this case, it is simpler to use matrix operations ```σ.(X*w)``` to get the same result. The gradient can be written in the same way. Again, we use matrix notation. For the Hessian, we first create ```X_mult = [row*row' for row in eachrow(X)]``` which computes all products ``x_ix_i^\top``. This creates an array of length ``100``; each element of this array is a ``2\times 2`` matrix. Since it is an array, we may multiply it by ```y_hat.*(1 .-y_hat)```. As ```mean``` from the ```Statistics``` package operates on any array, we can call it (or similarly ```sum```). We may use ```mean(???)``` but we find the alternative  ```??? |> mean``` more readable in this case. We use ```hess \ grad```, as explained in the previous lecture for Newton's method, to update the weights.
+    σ(z) = 1/(1+exp(-z))
 
-```@example logistic
-using Statistics
-
-σ(z) = 1/(1+exp(-z))
-
-function log_reg(X, y, w; max_iter=100, tol=1e-6)
-    X_mult = [row*row' for row in eachrow(X)]
-    for i in 1:max_iter
-        y_hat = σ.(X*w)
-        grad = X'*(y_hat.-y) / size(X,1)
-        hess = y_hat.*(1 .-y_hat).*X_mult |> mean
-        w -= hess \ grad
+    function log_reg(X, y, w; max_iter=100, tol=1e-6)
+        X_mult = [row*row' for row in eachrow(X)]
+        for i in 1:max_iter
+            y_hat = σ.(X*w)
+            grad = X'*(y_hat.-y) / size(X,1)
+            hess = y_hat.*(1 .-y_hat).*X_mult |> mean
+            w -= hess \ grad
+        end
+        return w
     end
-    return w
-end
 
-nothing # hide
-```
+    nothing # hide
+    ```
 
-The definition of ```X_mult``` should be outside the for loop, as it needs to be computed only once. 
+    The definition of ```X_mult``` should be outside the for loop, as it needs to be computed only once. 
 
-After the tough work, it remains to call it.
+    After the tough work, it remains to call it.
 
-```@example logistic
-w = log_reg(X, y, zeros(size(X,2)))
+    ```@example logistic
+    w = log_reg(X, y, zeros(size(X,2)))
 
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 The correct solution is
 ```@example logistic
@@ -333,36 +288,21 @@ equals to zero, we found a stationary point. It can be shown that logistic regre
 
 The picture shows that there are misclassified samples. The next exercise analyses them.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Compute how many samples were correctly and incorrectly classified.
 
-Compute how many samples were correctly and incorrectly classified.
+!!! details "Solution:"
+    Since ``\hat y_i`` is the probability that a sample is of the positive class, we will predict that it is positive if this probability is greater than ``\frac 12``. Then it suffices to compare the predictions ```pred``` with the correct labels ```y```.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example logistic
+    pred = y_hat .>= 0.5
+    "Correct number of predictions: " * string(sum(pred .== y))
+    "Wrong   number of predictions: " * string(sum(pred .!= y))
 
-Since ``\hat y_i`` is the probability that a sample is of the positive class, we will predict that it is positive if this probability is greater than ``\frac 12``. Then it suffices to compare the predictions ```pred``` with the correct labels ```y```.
+    nothing # hide
+    ```
 
-```@example logistic
-pred = y_hat .>= 0.5
-"Correct number of predictions: " * string(sum(pred .== y))
-"Wrong   number of predictions: " * string(sum(pred .!= y))
-
-nothing # hide
-```
-
-There is an alternative (but equivalent way). Since the separating hyperplane has form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write arguments on why these two approaches are equivalent.
-
-```@raw html
-</div></details>
-```
+    There is an alternative (but equivalent way). Since the separating hyperplane has form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write arguments on why these two approaches are equivalent.
 
 The correct answer is
 

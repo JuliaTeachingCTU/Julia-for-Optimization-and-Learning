@@ -63,41 +63,26 @@ nothing # hide
 
 The following exercise performs the ``t``-test to check whether the data come from a distribution with zero mean.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the ``t``-test to verify whether the samples were generated from a distribution with zero mean.
 
-Use the ``t``-test to verify whether the samples were generated from a distribution with zero mean.
+    **Hints:**
+    - The Student's distribution is invoked by `TDist()`.
+    - The probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
 
-**Hints:**
-- The Student's distribution is invoked by `TDist()`.
-- The probability ``\mathbb P(T\le t)`` equals to the [distribution function](https://en.wikipedia.org/wiki/Cumulative_distribution_function) ``F(t)``, which can be called by `cdf`.
+!!! details "Solution:"
+    We compute the statistic ``t``, then define the Student's distribution with ``n-1`` degrees of freedom, evaluate the distribution function at ``t`` and finally compute the ``p``-value.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example glm
+    using Distributions
 
-We compute the statistic ``t``, then define the Student's distribution with ``n-1`` degrees of freedom, evaluate the distribution function at ``t`` and finally compute the ``p``-value.
+    t = mean(xs) / std(xs) * sqrt(n)
 
-```@example glm
-using Distributions
+    prob = cdf(TDist(n-1), t)
+    p = 2*min(prob, 1-prob)
+    ```
 
-t = mean(xs) / std(xs) * sqrt(n)
-
-prob = cdf(TDist(n-1), t)
-p = 2*min(prob, 1-prob)
-```
-
-The ``p``-value is significantly larger than ``5\%``. Therefore, we cannot reject the zero hypothesis, which is fortunate because the data were generated from the normal distribution with zero mean.
-
-```@raw html
-</div></details>
-```
+    The ``p``-value is significantly larger than ``5\%``. Therefore, we cannot reject the zero hypothesis, which is fortunate because the data were generated from the normal distribution with zero mean.
 
 Even though the computation of the ``p``-value is simple, we can use the [HypothesisTests](https://juliastats.org/HypothesisTests.jl/stable/) package. When we run the test, it gives us the same results as we computed.
 
@@ -208,48 +193,33 @@ model = lm(@formula(W ~ 1 + N + Y + I + K + F), wages)
 
 The table shows the parameter values and their confidence intervals. Besides that, it also tests the null hypothesis ``H_0: w_j = 0`` whether some of the regression coefficients can be omitted. The ``t`` statistics is in column `t`, while its ``p``-value in column `Pr(>|t|)`. The next exercise checks whether we can achieve the same results with fewer features.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Check that the solution computed by hand and by `lm` are the same.
 
-Check that the solution computed by hand and by `lm` are the same.
+    Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coeffient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
 
-Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coeffient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
+    **Hint**: Use functions `coef` and `r2`.
 
-**Hint**: Use functions `coef` and `r2`.
+!!! details "Solution:"
+    Since the parameters for both approaches are almost the same, the approaches give the same result. 
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example glm
+    norm(coef(model) - w0)
+    ```
 
-Since the parameters for both approaches are almost the same, the approaches give the same result. 
+    The table before this exercise shows that the ``p``-value for feature ``K`` is ``3.3\%``. We define the reduced model without this feature.
 
-```@example glm
-norm(coef(model) - w0)
-```
+    ```@example glm
+    model_red = lm(@formula(W ~ 1 + N + Y + I + F), wages)
+    ```
 
-The table before this exercise shows that the ``p``-value for feature ``K`` is ``3.3\%``. We define the reduced model without this feature.
+    Now we show the performances of both models.
 
-```@example glm
-model_red = lm(@formula(W ~ 1 + N + Y + I + F), wages)
-```
+    ```@example glm
+    (r2(model), r2(model_red))
+    ```
 
-Now we show the performances of both models.
-
-```@example glm
-(r2(model), r2(model_red))
-```
-
-Since we observe only a small performance drop, we could omit this feature without changing the model prediction capability.
-
-```@raw html
-</div></details>
-```
+    Since we observe only a small performance drop, we could omit this feature without changing the model prediction capability.
 
 The core assumption of this approach is that ``y`` follows the normal distribution. We use the `predict` function for predictions and then use the `plot_histogram` function written earlier to plot the histogram and a density of the normal distribution. For the normal distribution, we need to specify the correct mean and variance.
 
@@ -285,45 +255,30 @@ model = glm(@formula(W ~ 1 + N + Y + I + K + F), wages, InverseGaussian(), SqrtL
 
 The following exercise plots the predictions for the generalized linear model.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create the scatter plot of predictions and labels. Do not use the `predict` function.
 
-Create the scatter plot of predictions and labels. Do not use the `predict` function.
+!!! details "Solution:"
+    Due to the construction of the generalized linear model, the prediction equals ``g^{-1}(w^\top x)``. We save it into ``\hat y``.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example glm
+    g_inv(z) = z^2
 
-Due to the construction of the generalized linear model, the prediction equals ``g^{-1}(w^\top x)``. We save it into ``\hat y``.
+    y_hat = g_inv.(X*coef(model))
 
-```@example glm
-g_inv(z) = z^2
+    nothing # hide
+    ```
 
-y_hat = g_inv.(X*coef(model))
+    The scatter plot is now simple.
 
-nothing # hide
-```
+    ```@example glm
+    scatter(y, y_hat;
+        label="",
+        xlabel="Label",
+        ylabel="Prediction",
+    )
 
-The scatter plot is now simple.
-
-```@example glm
-scatter(y, y_hat;
-    label="",
-    xlabel="Label",
-    ylabel="Prediction",
-)
-
-savefig("glm_predict.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("glm_predict.svg") # hide
+    ```
 
 ![](glm_predict.svg)

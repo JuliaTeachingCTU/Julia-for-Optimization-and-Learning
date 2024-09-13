@@ -187,7 +187,7 @@ How should the classifier be evaluated? The figure above suggests that it is a b
 
 The following result shows that even shallow neural networks (not many layers) can approximate any continuous function well. As the proof suggests (Exercise 5), the price to pay is that the network needs to be extremely wide (lots of hidden neurons).
 
-!!! bonus "BONUS: Universal approximation of neural networks"
+!!! compat "BONUS: Universal approximation of neural networks"
     Let ``g:[a,b]\to \mathbb{R}`` be a continuous function defined on an interval. Then for every ``\varepsilon>0``, there is a neural network ``f`` such that ``\|f-g\|_{\infty}\le \varepsilon``. Moreover, this network can be chosen as a chain of the following two layers:
     - Dense layer with the ReLU activation function.
     - Dense layer with the identity activation function.
@@ -196,7 +196,7 @@ A prerequisite for training neural networks is the efficient computation of deri
 
 This computation is highly efficient because the forward pass (computing function value) and the backward pass (computing derivatives) have the same complexity. This is in sharp contrast with the finite difference method, where the computation of derivatives is much more expensive.
 
-!!! bonus "BONUS: Computation of gradients"
+!!! compat "BONUS: Computation of gradients"
     For simplicity, we denote ``f = \operatorname{predict}`` and consider
     ```math
     L(w) := \sum_{i=1}^n \operatorname{loss}(y_i, f(w;x_i)).

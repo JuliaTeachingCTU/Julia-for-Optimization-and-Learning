@@ -48,38 +48,23 @@ The values stored in the tuple are: 1, 2.0 and 3
 
 Arrays can be unpacked similarly. However, tuples are usually used for storing a small number of values, while arrays are typically large. Recall that while tuples are immutable, arrays are mutable.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create a tuple that contains the first four letters of the alphabet (these letters should be of type `String`). Then unpack this tuple into four variables `a`, `b`, `c` and `d`.
 
-Create a tuple that contains the first four letters of the alphabet (these letters should be of type `String`). Then unpack this tuple into four variables `a`, `b`, `c` and `d`.
+!!! details "Solution:"
+    Such a tuple can be created easily using the standard syntax:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest tuples_ex
+    julia> t = ("a", "b", "c", "d")
+    ("a", "b", "c", "d")
+    ```
 
-Such a tuple can be created easily using the standard syntax:
+    We can use the four variables and the `=` sign to unpack the tuple.
 
-```jldoctest tuples_ex
-julia> t = ("a", "b", "c", "d")
-("a", "b", "c", "d")
-```
-
-We can use the four variables and the `=` sign to unpack the tuple.
-
-```jldoctest tuples_ex
-julia> a, b, c, d = t
-("a", "b", "c", "d")
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest tuples_ex
+    julia> a, b, c, d = t
+    ("a", "b", "c", "d")
+    ```
 
 ## Named tuples
 

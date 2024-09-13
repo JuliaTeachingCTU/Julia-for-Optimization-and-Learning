@@ -76,51 +76,36 @@ Printing the first five entries of the data shows that they are saved in DataFra
 
 When designing a classification method, a good practice is to perform at least a basic analysis of the data. That may include checking for NaNs, infinite values, obvious errors, standard deviations of features or others. Here, we only plot the data. 
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    We will simplify the goal and estimate the dependence of petal width on petal length. Create the data ``X`` (do not forget to add the bias) and the labels ``y``.
 
-We will simplify the goal and estimate the dependence of petal width on petal length. Create the data ``X`` (do not forget to add the bias) and the labels ``y``.
+    Make a graph of the dependence of petal width on petal length.
 
-Make a graph of the dependence of petal width on petal length.
+!!! details "Solution:"
+    Since the petal length and width are the third and fourth columns, we assign them to ```X``` and ```y```, respectively. We can use ```iris[:, 4]``` or ```iris[:, :PetalWidth]``` instead of ```iris.PetalWidth```, but the first possibility is vulnerable to errors. We need to concatenate ```X``` it with a vector of ones to add the bias.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example linear
+    y = iris.PetalWidth
+    X = hcat(iris.PetalLength, ones(length(y)))
 
-Since the petal length and width are the third and fourth columns, we assign them to ```X``` and ```y```, respectively. We can use ```iris[:, 4]``` or ```iris[:, :PetalWidth]``` instead of ```iris.PetalWidth```, but the first possibility is vulnerable to errors. We need to concatenate ```X``` it with a vector of ones to add the bias.
+    nothing # hide
+    ```
 
-```@example linear
-y = iris.PetalWidth
-X = hcat(iris.PetalLength, ones(length(y)))
+    The best visualization is by the scatter plot. We use the version from the `StatsPlots` package but the one from the `Plots` package would be naturally sufficient.
 
-nothing # hide
-```
+    ```@example linear
+    @df iris scatter(
+        :PetalLength,
+        :PetalWidth;
+        label="",
+        xlabel = "Petal length",
+        ylabel = "Petal width"
+    )    
 
-The best visualization is by the scatter plot. We use the version from the `StatsPlots` package but the one from the `Plots` package would be naturally sufficient.
+    savefig("iris_lin1.svg") # hide
 
-```@example linear
-@df iris scatter(
-    :PetalLength,
-    :PetalWidth;
-    label="",
-    xlabel = "Petal length",
-    ylabel = "Petal width"
-)    
-
-savefig("iris_lin1.svg") # hide
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 ![](iris_lin1.svg)
 
@@ -129,51 +114,36 @@ The figure shows a positive correlation between length and width. This is natura
 
 ## Training the classifier
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the closed-form formula to get the coefficients ``w`` for the linear regression. Then use the ```optim``` method derived in the previous lecture to solve the optimization problem via gradient descent. The results should be identical.
 
-Use the closed-form formula to get the coefficients ``w`` for the linear regression. Then use the ```optim``` method derived in the previous lecture to solve the optimization problem via gradient descent. The results should be identical.
+!!! details "Solution:"
+    The closed-form expression is ``(X^\top X)^{-1}X^\top y``. In the [exercises](@ref l7-exercises) to the previous lecture, we explained that writing ```(X'*X) \ (X'*y)``` is better than `inv(X'*X)*X'*y` because the former does not compute the matrix inverse. As a side-note, can you guess the difference between `inv(X'*X)*X'*y` and `inv(X'*X)*(X'*y)`?
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example linear
+    w = (X'*X) \ (X'*y)
 
-The closed-form expression is ``(X^\top X)^{-1}X^\top y``. In the [exercises](@ref l7-exercises) to the previous lecture, we explained that writing ```(X'*X) \ (X'*y)``` is better than `inv(X'*X)*X'*y` because the former does not compute the matrix inverse. As a side-note, can you guess the difference between `inv(X'*X)*X'*y` and `inv(X'*X)*(X'*y)`?
+    nothing # hide
+    ```
 
-```@example linear
-w = (X'*X) \ (X'*y)
+    For the gradient descent, we first realize that the formula for the derivate is ``X^\top (Xw-y)``. Defining the derivative function in ```g```, we call the ```optim``` method in the same way as in the last lecture. Since we use the sum and not mean in the objective, we need to use a much smaller stepsize.
 
-nothing # hide
-```
+    ```@example linear
+    g(w) = X'*(X*w-y)
+    w2 = optim([], g, zeros(size(X,2)), GD(1e-4); max_iter=10000)
 
-For the gradient descent, we first realize that the formula for the derivate is ``X^\top (Xw-y)``. Defining the derivative function in ```g```, we call the ```optim``` method in the same way as in the last lecture. Since we use the sum and not mean in the objective, we need to use a much smaller stepsize.
+    nothing # hide
+    ```
 
-```@example linear
-g(w) = X'*(X*w-y)
-w2 = optim([], g, zeros(size(X,2)), GD(1e-4); max_iter=10000)
+    The difference between the solutions is
 
-nothing # hide
-```
+    ```@example linear
+    using LinearAlgebra
 
-The difference between the solutions is
+    norm(w-w2)
+    ```
 
-```@example linear
-using LinearAlgebra
-
-norm(w-w2)
-```
-
-which is acceptable.
-
-```@raw html
-</div></details>
-```
+    which is acceptable.
 
 The correct solution is
 
@@ -183,56 +153,41 @@ w # hide
 
 Now we can estimate the petal width if only petal length is known.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write the dependence on the petal width on the petal length. Plot it in the previous graph.
 
-Write the dependence on the petal width on the petal length. Plot it in the previous graph.
+!!! details "Solution:"
+    The desired dependence is
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```math
+    \text{width} \approx -0.36 + 0.42*\text{length}.
+    ```
 
-The desired dependence is
+    Before plotting the prediction, we save it into ```f_pred```.
 
-```math
-\text{width} \approx -0.36 + 0.42*\text{length}.
-```
+    ```@example linear
+    f_pred(x::Real, w) = w[1]*x + w[2]
 
-Before plotting the prediction, we save it into ```f_pred```.
+    nothing # hide
+    ```
 
-```@example linear
-f_pred(x::Real, w) = w[1]*x + w[2]
+    Then we create the limits ```x_lim``` and finally plot the prediction function.
 
-nothing # hide
-```
+    ```@example linear
+    x_lims = extrema(iris.PetalLength) .+ [-0.1, 0.1]
 
-Then we create the limits ```x_lim``` and finally plot the prediction function.
+    @df iris scatter(
+        :PetalLength,
+        :PetalWidth;
+        xlabel = "Petal length",
+        ylabel = "Petal width",
+        label = "",
+        legend = :topleft,
+    )
 
-```@example linear
-x_lims = extrema(iris.PetalLength) .+ [-0.1, 0.1]
+    plot!(x_lims, x -> f_pred(x,w); label = "Prediction", line = (:black,3))
 
-@df iris scatter(
-    :PetalLength,
-    :PetalWidth;
-    xlabel = "Petal length",
-    ylabel = "Petal width",
-    label = "",
-    legend = :topleft,
-)
-
-plot!(x_lims, x -> f_pred(x,w); label = "Prediction", line = (:black,3))
-
-savefig("iris_lin2.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("iris_lin2.svg") # hide
+    ```
 
 ![](iris_lin2.svg)

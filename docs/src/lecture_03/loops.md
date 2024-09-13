@@ -46,30 +46,21 @@ i = 4
 i = 5
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">An alternative notation for <code>for</code> loops:</header>
-<div class="admonition-body">
-```
+!!! info "An alternative notation for <code>for</code> loops:"
+    There are two alternative notations for the `for` loop. It is possible to use the `=` or `∈` symbol instead of the `in` keyword.
 
-There are two alternative notations for the `for` loop. It is possible to use the `=` or `∈` symbol instead of the `in` keyword.
+    ```jldoctest
+    julia> for i = 1:5
+            @show i
+        end
+    i = 1
+    i = 2
+    i = 3
+    i = 4
+    i = 5
+    ```
 
-```jldoctest
-julia> for i = 1:5
-           @show i
-       end
-i = 1
-i = 2
-i = 3
-i = 4
-i = 5
-```
-
-However, it is better to use the `in` keyword to improve code readability. Regardless of which notation is used, it is essential to be consistent and use the same notation in all `for` loops.
-
-```@raw html
-</div></div>
-```
+    However, it is better to use the `in` keyword to improve code readability. Regardless of which notation is used, it is essential to be consistent and use the same notation in all `for` loops.
 
 In Julia (similarly to Python), it is possible to loop not only over ranges but over any iterable object such as arrays or tuples. This is advantageous because it allows getting elements of iterable objects directly without using indices.
 
@@ -99,77 +90,62 @@ Hi, my name is Daniel and I am 34 old.
 Hi, my name is Bob and I am 23 old.
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both `3` and `7`.
 
-Use `for` or `while` loop to print all integers between `1` and `100` which can be divided by both `3` and `7`.
+    **Hint:** use the `mod` function.
 
-**Hint:** use the `mod` function.
+!!! details "Solution:"
+    First, we need to check if a given integer is divisible by both `3` and `7`. This can be performed using the `mod` function in combination with the `if-else` statement as follows:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest
+    julia> i = 21
+    21
 
-First, we need to check if a given integer is divisible by both `3` and `7`. This can be performed using the `mod` function in combination with the `if-else` statement as follows:
+    julia> if mod(i, 3) == 0 && mod(i, 7) == 0
+            println("$(i) is divisible by 3 and 7")
+        end
+    21 is divisible by 3 and 7
+    ```
 
-```jldoctest
-julia> i = 21
-21
+    or using the short-circuit evaluation
 
-julia> if mod(i, 3) == 0 && mod(i, 7) == 0
-           println("$(i) is divisible by 3 and 7")
-       end
-21 is divisible by 3 and 7
-```
+    ```jldoctest
+    julia> i = 21
+    21
 
-or using the short-circuit evaluation
+    julia> mod(i, 3) == mod(i, 7) == 0 && println("$(i) is divisible by 3 and 7")
+    21 is divisible by 3 and 7
+    ```
 
-```jldoctest
-julia> i = 21
-21
+    When we know how to check the conditions, it is easy to write a `for` loop to iterate over integers from `1` to `100`.
 
-julia> mod(i, 3) == mod(i, 7) == 0 && println("$(i) is divisible by 3 and 7")
-21 is divisible by 3 and 7
-```
+    ```jldoctest
+    julia> for i in 1:100
+            mod(i, 3) == mod(i, 7) == 0 && @show i
+        end
+    i = 21
+    i = 42
+    i = 63
+    i = 84
+    ```
 
-When we know how to check the conditions, it is easy to write a `for` loop to iterate over integers from `1` to `100`.
+    A `while` loop can be created in a similar way
 
-```jldoctest
-julia> for i in 1:100
-           mod(i, 3) == mod(i, 7) == 0 && @show i
-       end
-i = 21
-i = 42
-i = 63
-i = 84
-```
+    ```jldoctest
+    julia> i = 0;
 
-A `while` loop can be created in a similar way
+    julia> while i <= 100
+            i += 1
+            mod(i, 3) == mod(i, 7) == 0 && @show i
+        end
+    i = 21
+    i = 42
+    i = 63
+    i = 84
+    ```
 
-```jldoctest
-julia> i = 0;
-
-julia> while i <= 100
-           i += 1
-           mod(i, 3) == mod(i, 7) == 0 && @show i
-       end
-i = 21
-i = 42
-i = 63
-i = 84
-```
-
-The `for` loop should be used here because the range is known before-hand and unlike the `while` loop, it does not require to initialize `i`.
-
-```@raw html
-</div></details>
-```
+    The `for` loop should be used here because the range is known before-hand and unlike the `while` loop, it does not require to initialize `i`.
 
 ### `break` and `continue`
 
@@ -201,43 +177,28 @@ i = 10
 
 The code after the `continue` keyword is not evaluated.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Rewrite the code from the exercise above. Use a combination of the `while` loop and the keyword `continue` to print all integers between `1` and `100` divisible by both `3` and `7`. In the declaration of the `while` loop use the `true` value instead of a condition. Use the `break` keyword and a proper condition to terminate the loop.
 
-Rewrite the code from the exercise above. Use a combination of the `while` loop and the keyword `continue` to print all integers between `1` and `100` divisible by both `3` and `7`. In the declaration of the `while` loop use the `true` value instead of a condition. Use the `break` keyword and a proper condition to terminate the loop.
+!!! details "Solution:"
+    The `true` value creates an infinite loop, i.e., it is necessary to end the loop with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest
+    julia> i = 0;
 
-The `true` value creates an infinite loop, i.e., it is necessary to end the loop with the `break` keyword. Because the variable `i` represents an integer and we want to iterate over integers between 1 and 100, the correct termination condition is `i > 100`.
+    julia> while true
+            i += 1
+            i > 100 && break
+            mod(i, 3) == mod(i, 7) == 0 || continue
+            @show i
+        end
+    i = 21
+    i = 42
+    i = 63
+    i = 84
+    ```
 
-```jldoctest
-julia> i = 0;
-
-julia> while true
-           i += 1
-           i > 100 && break
-           mod(i, 3) == mod(i, 7) == 0 || continue
-           @show i
-       end
-i = 21
-i = 42
-i = 63
-i = 84
-```
-
-We used the short-circuit evaluation to break the loop. To check that the integer is divisible, we use the same condition as before. However, we must use `||` instead of `&&` because we want to use the `continue` keyword.
-
-```@raw html
-</div></details>
-```
+    We used the short-circuit evaluation to break the loop. To check that the integer is divisible, we use the same condition as before. However, we must use `||` instead of `&&` because we want to use the `continue` keyword.
 
 ### Nested loops
 
@@ -298,78 +259,63 @@ julia> for i in 1:3, j in i:10
 
 There are other limitations of the shorter syntax, such as the impossibility to perform any operation outside the inner loop. Nevertheless, it is a useful syntax in many cases.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use nested loops to create a matrix with elements given by the formula
 
-Use nested loops to create a matrix with elements given by the formula
+    ```math
+    A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \quad j \in  \{1, 2, 3, 4\},
+    ```
 
-```math
-A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \quad j \in  \{1, 2, 3, 4\},
-```
+    where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
 
-where ``x \in \{0.4, 2.3, 4.6\}`` and ``y \in \{1.4, -3.1, 2.4, 5.2\}``.
+    **Bonus:** try to create the same matrix in a more effective way.
 
-**Bonus:** try to create the same matrix in a more effective way.
+!!! details "Solution:"
+    First, we have to define vectors `x` and `y`, and an empty array of the proper size and element type to use in nested loops.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest nestedloops_ex; output = false
+    x = [0.4, 2.3, 4.6]
+    y = [1.4, -3.1, 2.4, 5.2]
+    A = zeros(Float64, length(x), length(y))
 
-First, we have to define vectors `x` and `y`, and an empty array of the proper size and element type to use in nested loops.
+    # output
+    3×4 Matrix{Float64}:
+    0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0
+    0.0  0.0  0.0  0.0
+    ```
 
-```jldoctest nestedloops_ex; output = false
-x = [0.4, 2.3, 4.6]
-y = [1.4, -3.1, 2.4, 5.2]
-A = zeros(Float64, length(x), length(y))
+    The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:length(x)` for `x` and `1:length(y)` for `y`.
 
-# output
-3×4 Matrix{Float64}:
- 0.0  0.0  0.0  0.0
- 0.0  0.0  0.0  0.0
- 0.0  0.0  0.0  0.0
-```
+    ```jldoctest nestedloops_ex
+    julia> for i in 1:length(x), j in 1:length(y)
+            A[i, j] = exp((x[i]^2 - y[j]^2)/2)/2
+        end
 
-The element type specification can be omitted since the default value type is `Float64`. Now we have to use proper indices to fill `A`. In this case, we use the indices `1:length(x)` for `x` and `1:length(y)` for `y`.
+    julia> A
+    3×4 Matrix{Float64}:
+        0.203285    0.00443536     0.030405  7.27867e-7
+        2.64284     0.0576626      0.395285  9.46275e-6
+    7382.39      161.072       1104.17      0.0264329
+    ```
 
-```jldoctest nestedloops_ex
-julia> for i in 1:length(x), j in 1:length(y)
-           A[i, j] = exp((x[i]^2 - y[j]^2)/2)/2
-       end
+    There are more efficient ways to create this array. The one way is to use broadcasting.
 
-julia> A
-3×4 Matrix{Float64}:
-    0.203285    0.00443536     0.030405  7.27867e-7
-    2.64284     0.0576626      0.395285  9.46275e-6
- 7382.39      161.072       1104.17      0.0264329
-```
+    ```jldoctest nestedloops_ex
+    julia> y_row = y'
+    1×4 adjoint(::Vector{Float64}) with eltype Float64:
+    1.4  -3.1  2.4  5.2
 
-There are more efficient ways to create this array. The one way is to use broadcasting.
+    julia> A = @. exp((x^2 - y_row^2)/2)/2
+    3×4 Matrix{Float64}:
+        0.203285    0.00443536     0.030405  7.27867e-7
+        2.64284     0.0576626      0.395285  9.46275e-6
+    7382.39      161.072       1104.17      0.0264329
+    ```
 
-```jldoctest nestedloops_ex
-julia> y_row = y'
-1×4 adjoint(::Vector{Float64}) with eltype Float64:
- 1.4  -3.1  2.4  5.2
+    We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
 
-julia> A = @. exp((x^2 - y_row^2)/2)/2
-3×4 Matrix{Float64}:
-    0.203285    0.00443536     0.030405  7.27867e-7
-    2.64284     0.0576626      0.395285  9.46275e-6
- 7382.39      161.072       1104.17      0.0264329
-```
-
-We use the `@ .` macro to perform all operations elementwise. Since `x` is a column vector and `y_row` is a row vector, `x - y_row` uses broadcasting to create a matrix.
-
-The third way to create this matrix is to use list comprehension. Due to its importance, we dedicate a whole section to it.
-
-```@raw html
-</div></details>
-```
+    The third way to create this matrix is to use list comprehension. Due to its importance, we dedicate a whole section to it.
 
 ## List comprehension
 
@@ -416,42 +362,27 @@ julia> [(x, y, x + y)  for x in 1:10, y in 1:10 if x + y < 5]
  (1, 3, 4)
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the list comprehension to create a vector of all integers from `1` to `100` divisible by `3` and `7` simultaneously. What is the sum of all these integers?
 
-Use the list comprehension to create a vector of all integers from `1` to `100` divisible by `3` and `7` simultaneously. What is the sum of all these integers?
+!!! details "Solution:"
+    We can use list comprehension with the same condition that we used in the exercise in the first section.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest compheresions_ex
+    julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
+    4-element Vector{Int64}:
+    21
+    42
+    63
+    84
+    ```
 
-We can use list comprehension with the same condition that we used in the exercise in the first section.
+    Then we can use the `sum` function to get their sum.
 
-```jldoctest compheresions_ex
-julia> v = [i for i in 1:100 if mod(i, 3) == mod(i, 7) == 0]
-4-element Vector{Int64}:
- 21
- 42
- 63
- 84
-```
-
-Then we can use the `sum` function to get their sum.
-
-```jldoctest compheresions_ex
-julia> sum(v)
-210
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest compheresions_ex
+    julia> sum(v)
+    210
+    ```
 
 ## Generator expressions
 
@@ -511,43 +442,28 @@ julia> collect(gen)
  (3, 1)
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use a generator to sum the square of all integers from `1` to `100`, which are divisible by `3` and `7` simultaneously.
 
-Use a generator to sum the square of all integers from `1` to `100`, which are divisible by `3` and `7` simultaneously.
+!!! details "Solution:"
+    There are two ways how to solve this exercise. The first one creates a generator and then uses the `sum` function.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```julia
+    julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0);
 
-There are two ways how to solve this exercise. The first one creates a generator and then uses the `sum` function.
+    julia> typeof(gen)
+    Base.Generator{Base.Iterators.Filter{var"#2#4",UnitRange{Int64}},var"#1#3"}
 
-```julia
-julia> gen = (i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0);
+    julia> sum(gen)
+    13230
+    ```
 
-julia> typeof(gen)
-Base.Generator{Base.Iterators.Filter{var"#2#4",UnitRange{Int64}},var"#1#3"}
+    It is worth noting that `gen` is a `Generator` object and not an array. The second way uses the shorter syntax that allows us to write a generator inside the `sum` function.
 
-julia> sum(gen)
-13230
-```
-
-It is worth noting that `gen` is a `Generator` object and not an array. The second way uses the shorter syntax that allows us to write a generator inside the `sum` function.
-
-```jldoctest compheresions_ex
-julia> sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
-13230
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest compheresions_ex
+    julia> sum(i^2 for i in 1:100 if mod(i, 3) == mod(i, 7) == 0)
+    13230
+    ```
 
 ## Iterators
 
@@ -612,69 +528,54 @@ julia> for (i, vals) in enumerate(zip([1, 4, 2, 5], 2:12, (:a, :b, :c)))
 (i, vals) = (3, (2, 4, :c))
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create a matrix with elements given by the following formula
 
-Create a matrix with elements given by the following formula
+    ```math
+    A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\}
+    ```
 
-```math
-A_{i, j} = \frac{1}{2}\exp\left\{\frac{1}{2} (x_{i}^2 - y_{j}^2) \right\} \quad i \in \{1, 2, 3\}, \; j \in  \{1, 2, 3, 4\}
-```
+    where ``x \in \{0.4, 2.3, 4.6\}``, ``y \in \{1.4, -3.1, 2.4, 5.2\}``. Compute the sum of all elements in each row and print the following message:
+    > *Sum of all elements in a row `i` is `i_sum`*
+    where `i` represents row's number and `i_sum` the sum of all elements in this row. Do the same for each column and print the following message:
+    > *Sum of all elements in a column `i` is `i_sum`*
 
-where ``x \in \{0.4, 2.3, 4.6\}``, ``y \in \{1.4, -3.1, 2.4, 5.2\}``. Compute the sum of all elements in each row and print the following message:
-> *Sum of all elements in a row `i` is `i_sum`*
-where `i` represents row's number and `i_sum` the sum of all elements in this row. Do the same for each column and print the following message:
-> *Sum of all elements in a column `i` is `i_sum`*
+    **Hint:** use iterators `eachcol` and `eachrow`.
 
-**Hint:** use iterators `eachcol` and `eachrow`.
+!!! details "Solution:"
+    First, we have to generate the matrix `A`. It can be done using list comprehension as follows:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest iterators_ex; output = false
+    X = [0.4, 2.3, 4.6]
+    Y = [1.4, -3.1, 2.4, 5.2]
+    A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
 
-First, we have to generate the matrix `A`. It can be done using list comprehension as follows:
+    # output
+    3×4 Matrix{Float64}:
+        0.203285    0.00443536     0.030405  7.27867e-7
+        2.64284     0.0576626      0.395285  9.46275e-6
+    7382.39      161.072       1104.17      0.0264329
+    ```
 
-```jldoctest iterators_ex; output = false
-X = [0.4, 2.3, 4.6]
-Y = [1.4, -3.1, 2.4, 5.2]
-A = [exp((x^2 - y^2)/2)/2 for x in X, y in Y]
+    To compute the sum of each row and print the appropriate message, we use the combination of `enumerate` and `eachrow` functions.
 
-# output
-3×4 Matrix{Float64}:
-    0.203285    0.00443536     0.030405  7.27867e-7
-    2.64284     0.0576626      0.395285  9.46275e-6
- 7382.39      161.072       1104.17      0.0264329
-```
+    ```jldoctest iterators_ex
+    julia> for (i, row) in enumerate(eachrow(A))
+            println("Sum of all elements in a row $(i) is $(sum(row))")
+        end
+    Sum of all elements in a row 1 is 0.2381259460051036
+    Sum of all elements in a row 2 is 3.0957940729669864
+    Sum of all elements in a row 3 is 8647.66342895583
+    ```
 
-To compute the sum of each row and print the appropriate message, we use the combination of `enumerate` and `eachrow` functions.
+    Similarly, to compute the sum of each column and print the appropriate message, we use the combination of `enumerate` and `eachcol` functions.
 
-```jldoctest iterators_ex
-julia> for (i, row) in enumerate(eachrow(A))
-           println("Sum of all elements in a row $(i) is $(sum(row))")
-       end
-Sum of all elements in a row 1 is 0.2381259460051036
-Sum of all elements in a row 2 is 3.0957940729669864
-Sum of all elements in a row 3 is 8647.66342895583
-```
-
-Similarly, to compute the sum of each column and print the appropriate message, we use the combination of `enumerate` and `eachcol` functions.
-
-```jldoctest iterators_ex
-julia> for (i, row) in enumerate(eachcol(A))
-           println("Sum of all elements in a column $(i) is $(sum(row))")
-       end
-Sum of all elements in a column 1 is 7385.236904243371
-Sum of all elements in a column 2 is 161.13431527671185
-Sum of all elements in a column 3 is 1104.5996863997295
-Sum of all elements in a column 4 is 0.026443054989612996
-```
-
-```@raw html
-</div></details>
-```
+    ```jldoctest iterators_ex
+    julia> for (i, row) in enumerate(eachcol(A))
+            println("Sum of all elements in a column $(i) is $(sum(row))")
+        end
+    Sum of all elements in a column 1 is 7385.236904243371
+    Sum of all elements in a column 2 is 161.13431527671185
+    Sum of all elements in a column 3 is 1104.5996863997295
+    Sum of all elements in a column 4 is 0.026443054989612996
+    ```

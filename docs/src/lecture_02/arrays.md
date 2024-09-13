@@ -230,76 +230,61 @@ julia> v
  11
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create a vector of positive integers that contains all odd numbers smaller than `10`. Then change the first element to `4` and the last two elements to `1`.
 
-Create a vector of positive integers that contains all odd numbers smaller than `10`. Then change the first element to `4` and the last two elements to `1`.
+!!! details "Solution:"
+    Such a vector can be either created manually by
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest vectors_ex
+    julia> v = [1,3,5,7,9]
+    5-element Vector{Int64}:
+    1
+    3
+    5
+    7
+    9
+    ```
 
-Such a vector can be either created manually by
+    or we can use the `range` function to create a range with given properties and then use the `collect` function to create a vector. Another possibility is to use the `Vector` type to convert the range into a vector.
 
-```jldoctest vectors_ex
-julia> v = [1,3,5,7,9]
-5-element Vector{Int64}:
- 1
- 3
- 5
- 7
- 9
-```
+    ```jldoctest vectors_ex
+    julia> collect(1:2:9)
+    5-element Vector{Int64}:
+    1
+    3
+    5
+    7
+    9
 
-or we can use the `range` function to create a range with given properties and then use the `collect` function to create a vector. Another possibility is to use the `Vector` type to convert the range into a vector.
+    julia> Vector(1:2:9)
+    5-element Vector{Int64}:
+    1
+    3
+    5
+    7
+    9
+    ```
 
-```jldoctest vectors_ex
-julia> collect(1:2:9)
-5-element Vector{Int64}:
- 1
- 3
- 5
- 7
- 9
+    The values stored in the vector can be changed using the `.=` sign and proper indices. Do not forget to add the dot before the `=` sign to perform the element-wise operation.
 
-julia> Vector(1:2:9)
-5-element Vector{Int64}:
- 1
- 3
- 5
- 7
- 9
-```
+    ```jldoctest vectors_ex
+    julia> v[1] = 4
+    4
 
-The values stored in the vector can be changed using the `.=` sign and proper indices. Do not forget to add the dot before the `=` sign to perform the element-wise operation.
+    julia> v[end-1:end] .= 1
+    2-element view(::Vector{Int64}, 4:5) with eltype Int64:
+    1
+    1
 
-```jldoctest vectors_ex
-julia> v[1] = 4
-4
-
-julia> v[end-1:end] .= 1
-2-element view(::Vector{Int64}, 4:5) with eltype Int64:
- 1
- 1
-
-julia> v
-5-element Vector{Int64}:
- 4
- 3
- 5
- 1
- 1
-```
-
-```@raw html
-</div></details>
-```
+    julia> v
+    5-element Vector{Int64}:
+    4
+    3
+    5
+    1
+    1
+    ```
 
 ## Matrices
 
@@ -443,73 +428,58 @@ ERROR: DimensionMismatch: number of columns of each array must match (got (4, 1)
 [...]
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create two vectors: vector of all odd positive integers smaller than `10` and vector of all even positive integers smaller than or equal to `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
 
-Create two vectors: vector of all odd positive integers smaller than `10` and vector of all even positive integers smaller than or equal to `10`. Then concatenate these two vectors horizontally and fill the third row with `4`.
+!!! details "Solution:"
+    First, we have to create the two vectors. We can do it manually, or we can use ranges and the `collect` function as in the exercise in the previous section.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest matrices_ex
+    julia> v1 = collect(1:2:9)
+    5-element Vector{Int64}:
+    1
+    3
+    5
+    7
+    9
 
-First, we have to create the two vectors. We can do it manually, or we can use ranges and the `collect` function as in the exercise in the previous section.
+    julia> v2 = collect(2:2:10)
+    5-element Vector{Int64}:
+        2
+        4
+        6
+        8
+    10
+    ```
 
-```jldoctest matrices_ex
-julia> v1 = collect(1:2:9)
-5-element Vector{Int64}:
- 1
- 3
- 5
- 7
- 9
+    Then we use the `hcat` function to concatenate these two vectors horizontally.
 
-julia> v2 = collect(2:2:10)
-5-element Vector{Int64}:
-  2
-  4
-  6
-  8
- 10
-```
+    ```jldoctest matrices_ex
+    julia> M = hcat(v1, v2)
+    5×2 Matrix{Int64}:
+    1   2
+    3   4
+    5   6
+    7   8
+    9  10
+    ```
 
-Then we use the `hcat` function to concatenate these two vectors horizontally.
+    Finally, we select all elements in the third row and assign the new value to them.
 
-```jldoctest matrices_ex
-julia> M = hcat(v1, v2)
-5×2 Matrix{Int64}:
- 1   2
- 3   4
- 5   6
- 7   8
- 9  10
-```
+    ```jldoctest matrices_ex
+    julia> M[3,:] .= 4
+    2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
+    4
+    4
 
-Finally, we select all elements in the third row and assign the new value to them.
-
-```jldoctest matrices_ex
-julia> M[3,:] .= 4
-2-element view(::Matrix{Int64}, 3, :) with eltype Int64:
- 4
- 4
-
-julia> M
-5×2 Matrix{Int64}:
- 1   2
- 3   4
- 4   4
- 7   8
- 9  10
-```
-
-```@raw html
-</div></details>
-```
+    julia> M
+    5×2 Matrix{Int64}:
+    1   2
+    3   4
+    4   4
+    7   8
+    9  10
+    ```
 
 ## `N`-dimensional arrays
 
@@ -641,68 +611,53 @@ julia> fill(1.234, 2, 3, 1)
  1.234  1.234  1.234
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create three matrices with the following properties:
+    - Matrix `A` is of size `2x3`, and all its elements equal 0.
+    - Matrix `B` is of size `2x3x1`, and all its elements equal 1.
+    - Matrix `C` is of size `2x3`, and all its elements equal 2.
+    Concatenate these three matrices along the third dimension.
 
-Create three matrices with the following properties:
-- Matrix `A` is of size `2x3`, and all its elements equal 0.
-- Matrix `B` is of size `2x3x1`, and all its elements equal 1.
-- Matrix `C` is of size `2x3`, and all its elements equal 2.
-Concatenate these three matrices along the third dimension.
+    **Hint:** use the `cat` function and the keyword `dims`.
 
-**Hint:** use the `cat` function and the keyword `dims`.
+!!! details "Solution:"
+    Matrix `A` can be created using the `zeros` function, and similarly, matrix `B` using the `ones` function. To create a matrix `C`, we can use the `fill` function.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest arrays_ex
+    julia> A = zeros(2, 3)
+    2×3 Matrix{Float64}:
+    0.0  0.0  0.0
+    0.0  0.0  0.0
 
-Matrix `A` can be created using the `zeros` function, and similarly, matrix `B` using the `ones` function. To create a matrix `C`, we can use the `fill` function.
+    julia> B = ones(2, 3, 1)
+    2×3×1 Array{Float64, 3}:
+    [:, :, 1] =
+    1.0  1.0  1.0
+    1.0  1.0  1.0
 
-```jldoctest arrays_ex
-julia> A = zeros(2, 3)
-2×3 Matrix{Float64}:
- 0.0  0.0  0.0
- 0.0  0.0  0.0
+    julia> C = fill(2, 2, 3)
+    2×3 Matrix{Int64}:
+    2  2  2
+    2  2  2
+    ```
 
-julia> B = ones(2, 3, 1)
-2×3×1 Array{Float64, 3}:
-[:, :, 1] =
- 1.0  1.0  1.0
- 1.0  1.0  1.0
+    Now we can use the `cat` function with `dims = 3` to concatenate the matrices along the third dimension.
 
-julia> C = fill(2, 2, 3)
-2×3 Matrix{Int64}:
- 2  2  2
- 2  2  2
-```
+    ```jldoctest arrays_ex
+    julia> cat(A, B, C; dims = 3)
+    2×3×3 Array{Float64, 3}:
+    [:, :, 1] =
+    0.0  0.0  0.0
+    0.0  0.0  0.0
 
-Now we can use the `cat` function with `dims = 3` to concatenate the matrices along the third dimension.
+    [:, :, 2] =
+    1.0  1.0  1.0
+    1.0  1.0  1.0
 
-```jldoctest arrays_ex
-julia> cat(A, B, C; dims = 3)
-2×3×3 Array{Float64, 3}:
-[:, :, 1] =
- 0.0  0.0  0.0
- 0.0  0.0  0.0
-
-[:, :, 2] =
- 1.0  1.0  1.0
- 1.0  1.0  1.0
-
-[:, :, 3] =
- 2.0  2.0  2.0
- 2.0  2.0  2.0
-```
-
-```@raw html
-</div></details>
-```
+    [:, :, 3] =
+    2.0  2.0  2.0
+    2.0  2.0  2.0
+    ```
 
 ## Broadcasting
 
@@ -803,75 +758,60 @@ julia> a .* b
  18
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Construct a matrix whose elements are given by the following formula
 
-Construct a matrix whose elements are given by the following formula
+    ```math
+    A_{i, j} = \frac{1}{2}\exp\{(B_{i, j} + 1)^2\}, \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
+    ```
 
-```math
-A_{i, j} = \frac{1}{2}\exp\{(B_{i, j} + 1)^2\}, \quad i \in \{1, 2\}, \; j \in  \{1, 2, 3\}
-```
+    where the matrix `B` is defined by
 
-where the matrix `B` is defined by
+    ```jldoctest broadcasting_ex; output=false
+    B = [
+        -1  0  2;
+        2  -3  1;
+    ]
 
-```jldoctest broadcasting_ex; output=false
-B = [
-    -1  0  2;
-    2  -3  1;
-]
+    # output
+    2×3 Matrix{Int64}:
+    -1   0  2
+        2  -3  1
+    ```
 
-# output
-2×3 Matrix{Int64}:
- -1   0  2
-  2  -3  1
-```
+!!! details "Solution:"
+    Each element of the matrix `A` depends on only one element of the matrix `B`. In other words, matrix `A` can be created in an element-wise manner from matrix `B`, i.e. we can use broadcasting.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest broadcasting_ex
+    julia> A = exp.((B .+ 1) .^ 2) ./ 2
+    2×3 Matrix{Float64}:
+        0.5    1.35914  4051.54
+    4051.54  27.2991     27.2991
+    ```
 
-Each element of the matrix `A` depends on only one element of the matrix `B`. In other words, matrix `A` can be created in an element-wise manner from matrix `B`, i.e. we can use broadcasting.
+    We use a dot before each operation since we want to perform all operations element-wise. In this case, we can use the `@.` macro, which automatically adds a dot before each operator and each function.
 
-```jldoctest broadcasting_ex
-julia> A = exp.((B .+ 1) .^ 2) ./ 2
-2×3 Matrix{Float64}:
-    0.5    1.35914  4051.54
- 4051.54  27.2991     27.2991
-```
+    ```jldoctest broadcasting_ex
+    julia> A = @. exp((B + 1) ^ 2) / 2
+    2×3 Matrix{Float64}:
+        0.5    1.35914  4051.54
+    4051.54  27.2991     27.2991
+    ```
 
-We use a dot before each operation since we want to perform all operations element-wise. In this case, we can use the `@.` macro, which automatically adds a dot before each operator and each function.
+    Just for the comparison, the same matrix can be created as follows using [`for` loop](@ref for-and-while-loops).
 
-```jldoctest broadcasting_ex
-julia> A = @. exp((B + 1) ^ 2) / 2
-2×3 Matrix{Float64}:
-    0.5    1.35914  4051.54
- 4051.54  27.2991     27.2991
-```
+    ```jldoctest broadcasting_ex
+    julia> A = zeros(2, 3);
 
-Just for the comparison, the same matrix can be created as follows using [`for` loop](@ref for-and-while-loops).
+    julia> for i in 1:length(A)
+            A[i] = exp((B[i] + 1)^2)/2
+        end
 
-```jldoctest broadcasting_ex
-julia> A = zeros(2, 3);
-
-julia> for i in 1:length(A)
-           A[i] = exp((B[i] + 1)^2)/2
-       end
-
-julia> A
-2×3 Matrix{Float64}:
-    0.5    1.35914  4051.54
- 4051.54  27.2991     27.2991
-```
-
-```@raw html
-</div></details>
-```
+    julia> A
+    2×3 Matrix{Float64}:
+        0.5    1.35914  4051.54
+    4051.54  27.2991     27.2991
+    ```
 
 ## Views
 

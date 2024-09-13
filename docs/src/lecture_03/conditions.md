@@ -148,72 +148,57 @@ julia> compare(2.3, 2.3)
 2.3
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write the `fact(n)` function that computes the factorial of `n`. Use the following function declaration:
 
-Write the `fact(n)` function that computes the factorial of `n`. Use the following function declaration:
-
-```julia
-function fact(n)
-    # some code
-end
-```
-
-Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.
-
-**Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written by `|`.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-We split the solution into three cases:
-1. If `n` is smaller than zero or not an integer, we throw an error.
-2. If `n` is equal to zero, the function returns `1`.
-3. If `n` is a positive integer, we use recursion.
-
-```jldoctest conditions_ex; output = false
-function fact(n)
-    return if n < 0 | !isinteger(n)
-        error("argument must be non-negative integer")
-    elseif n == 0
-        1
-    else
-        n * fact(n - 1)
+    ```julia
+    function fact(n)
+        # some code
     end
-end
+    ```
 
-# output
-fact (generic function with 1 method)
-```
+    Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.
 
-Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the function output. However, it is also possible to omit the `return` keyword since functions return the last evaluated expression if the `return` keyword is not used.
+    **Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written by `|`.
 
-```jldoctest conditions_ex
-julia> fact(4)
-24
+!!! details "Solution:"
+    We split the solution into three cases:
+    1. If `n` is smaller than zero or not an integer, we throw an error.
+    2. If `n` is equal to zero, the function returns `1`.
+    3. If `n` is a positive integer, we use recursion.
 
-julia> fact(0)
-1
+    ```jldoctest conditions_ex; output = false
+    function fact(n)
+        return if n < 0 | !isinteger(n)
+            error("argument must be non-negative integer")
+        elseif n == 0
+            1
+        else
+            n * fact(n - 1)
+        end
+    end
 
-julia> fact(-5)
-ERROR: argument must be non-negative integer
-[...]
+    # output
+    fact (generic function with 1 method)
+    ```
 
-julia> fact(1.4)
-ERROR: argument must be non-negative integer
-[...]
-```
+    Since the `if` block returns a value from the latest evaluated expression, it is possible to use it after the `return` keyword to define the function output. However, it is also possible to omit the `return` keyword since functions return the last evaluated expression if the `return` keyword is not used.
 
-```@raw html
-</div></details>
-```
+    ```jldoctest conditions_ex
+    julia> fact(4)
+    24
+
+    julia> fact(0)
+    1
+
+    julia> fact(-5)
+    ERROR: argument must be non-negative integer
+    [...]
+
+    julia> fact(1.4)
+    ERROR: argument must be non-negative integer
+    [...]
+    ```
 
 ## Ternary operator
 
@@ -273,29 +258,19 @@ julia> f(1) || println(2) # both expressions are evaluated
 2
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Short-circuit evaluation vs. bitwise boolean operators:</header>
-<div class="admonition-body">
-```
+!!! info "Short-circuit evaluation vs. bitwise boolean operators:"
+    Boolean operations without short-circuit evaluation can be done with the bitwise boolean operators `&` and `|` introduced in [previous lecture](@ref Numeric-comparison). These are normal functions, which happen to support infix operator syntax, but always evaluate their arguments.
 
-Boolean operations without short-circuit evaluation can be done with the bitwise boolean operators `&` and `|` introduced in [previous lecture](@ref Numeric-comparison). These are normal functions, which happen to support infix operator syntax, but always evaluate their arguments.
+    ```jldoctest shortcirc
+    julia> f(1) & t(2)
+    1
+    2
+    false
 
-```jldoctest shortcirc
-julia> f(1) & t(2)
-1
-2
-false
-
-julia> f(1) && t(2)
-1
-false
-```
-
-```@raw html
-</div></div>
-```
-
+    julia> f(1) && t(2)
+    1
+    false
+    ```
 
 When multiple `&&` and `||` are chained together, `&&` has a higher precedence than `||`. For example, `a || b && c && d || e` is equivalent to `a || (b && c && d) || e`.
 
@@ -337,61 +312,46 @@ julia> t(1) || f(2) && println(3) # the first expression is evaluated
 true
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Rewrite the factorial function from the exercises above. Use the short-circuit evaluation to check if the given number is a non-negative integer and the ternary operator for recursion.
 
-Rewrite the factorial function from the exercises above. Use the short-circuit evaluation to check if the given number is a non-negative integer and the ternary operator for recursion.
+!!! details "Solution:"
+    Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately by the short-circuit evaluation.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```julia
+    function fact(n)
+        isinteger(n) || error("argument must be non-negative integer")
+        n >= 0 || error("argument must be non-negative integer")
+        return n == 0 ? 1 : n * fact(n - 1)
+    end
+    ```
 
-Since we want to check if the input number is a non-negative integer, we need to check two conditions. It can be done separately by the short-circuit evaluation.
+    This can be further simplified by combining the `&&` and `||` operators.
 
-```julia
-function fact(n)
-    isinteger(n) || error("argument must be non-negative integer")
-    n >= 0 || error("argument must be non-negative integer")
-    return n == 0 ? 1 : n * fact(n - 1)
-end
-```
+    ```jldoctest shortcirc_ex; output = false
+    function fact(n)
+        isinteger(n) && n >= 0 || error("argument must be non-negative integer")
+        return n == 0 ? 1 : n * fact(n - 1)
+    end
 
-This can be further simplified by combining the `&&` and `||` operators.
+    # output
+    fact (generic function with 1 method)
+    ```
 
-```jldoctest shortcirc_ex; output = false
-function fact(n)
-    isinteger(n) && n >= 0 || error("argument must be non-negative integer")
-    return n == 0 ? 1 : n * fact(n - 1)
-end
+    Since `&&` has higher precedence than `||`, the error function is evaluated only if `isinteger(n) && n >= 0` is violated. We can then check that this function works the same as the `fact` function from above.
 
-# output
-fact (generic function with 1 method)
-```
+    ```jldoctest shortcirc_ex
+    julia> fact(4)
+    24
 
-Since `&&` has higher precedence than `||`, the error function is evaluated only if `isinteger(n) && n >= 0` is violated. We can then check that this function works the same as the `fact` function from above.
+    julia> fact(0)
+    1
 
-```jldoctest shortcirc_ex
-julia> fact(4)
-24
+    julia> fact(-5)
+    ERROR: argument must be non-negative integer
+    [...]
 
-julia> fact(0)
-1
-
-julia> fact(-5)
-ERROR: argument must be non-negative integer
-[...]
-
-julia> fact(1.4)
-ERROR: argument must be non-negative integer
-[...]
-```
-
-```@raw html
-</div></details>
-```
+    julia> fact(1.4)
+    ERROR: argument must be non-negative integer
+    [...]
+    ```

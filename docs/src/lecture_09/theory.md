@@ -69,7 +69,7 @@ while non-linear predictions are considered in the following lecture.
 
     That means that if we add ``1`` to each sample ``x_i``, it is sufficient to consider the classifier in the form ``w^\top x`` without the bias (shift, intercept) ``b``. This allows for simpler implementation.
 
-!!! bonus "BONUS: Data transformation"
+!!! compat "BONUS: Data transformation"
     Linear models have many advantages, such as simplicity or guaranteed convergence for optimization methods. Sometimes it is possible to transform non-linear dependences into linear ones. For example, the body-mass index
 
     ```math
