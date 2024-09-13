@@ -109,7 +109,7 @@ distance(p, q)
 
 Besides the `using` keyword, Julia also provides the `import` keyword to import modules and packages. Its behaviour is slightly different; for more information, see the [official documentation](https://docs.julialang.org/en/v1/manual/modules/#Summary-of-module-usage).
 
-!!! bonus "Relative and absolute module paths:"
+!!! compat "Relative and absolute module paths:"
     In the previous section, we added a dot before the module name in the `using` keyword. The reason is that if we import a module, the system consults an internal table of top-level modules to find the given module name. If the module does not exist, the system attempts to `require(:ModuleName)`, which typically results in loading code from an installed package.
     However, if we evaluate code in the REPL, the code is evaluated in the `Main` module. Then `Points` are not in a top-level module but in a submodule of `Main`.
 
@@ -130,7 +130,7 @@ Besides the `using` keyword, Julia also provides the `import` keyword to import 
 
     Adding one more leading dot moves the path one additional level up in the module hierarchy. For example, `using ..Points` would look for `Points` in the enclosing module for `Main` rather than `Main` itself.
 
-!!! bonus "Modules and files:"
+!!! compat "Modules and files:"
     Since modules are associated only with module expressions, files are largely unrelated to modules. One can have multiple files in a module.
 
     ```julia

@@ -19,9 +19,11 @@ We use the `error` function, which throws the `ErrorException` if the input argu
 ```jldoctest expections
 julia> fact(1.4)
 ERROR: argument must be non-negative integer
+[...]
 
 julia> fact(-5)
 ERROR: argument must be non-negative integer
+[...]
 ```
 
 However, it is better to use error messages as descriptive as possible. In the case above, the error message can also include the argument value. Julia provides several predefined types of exceptions that can be used to create more descriptive error messages. In our example, we want to check whether the argument is a non-negative integer. The more specific `DomainError` can do this.
@@ -42,10 +44,12 @@ We must use the `throw` function because the `DomainError(x, msg)` function only
 julia> fact(1.4)
 ERROR: DomainError with 1.4:
 argument must be non-negative integer
+[...]
 
 julia> fact(-5)
 ERROR: DomainError with -5:
 argument must be non-negative integer
+[...]
 ```
 
 The error message now contains a short description, the input value, and the type of exception. Now imagine that due to an error, the `fact` function is used to calculate the factorial from a string.

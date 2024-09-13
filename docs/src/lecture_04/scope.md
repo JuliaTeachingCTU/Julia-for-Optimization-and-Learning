@@ -95,7 +95,7 @@ While variables can be read externally, they can only be changed within the modu
 
 ```jldoctest global
 julia> b = 4
-ERROR: cannot assign a value to imported variable A.b from module Main
+ERROR: cannot assign a value to imported variable b
 [...]
 ```
 

@@ -186,6 +186,7 @@ Composite types declared with `struct` keyword are immutable and cannot be modif
 ```jldoctest structs
 julia> r.bottomleft = [2;2]
 ERROR: setfield!: immutable struct of type Rectangle cannot be changed
+[...]
 ```
 
 However, immutability is not recursive. If an immutable object contains a mutable object, such as an array, elements of this mutable object can be modified. Even though `Rectangle` is an immutable type, its `bottomleft` field is a mutable array and can be changed.
@@ -246,41 +247,32 @@ julia> mr
 MutableRectangle([1.0, 2.0], 1.5, 2.5)
 ```
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Type unions:</header>
-<div class="admonition-body">
-```
+!!! info "Type unions:"
+    The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
 
-The `area` function defined earlier will only work for `Rectangle` but not for `MutableRectangle` types. To define it for both types, we need type unions. The `Union` keyword creates a supertype of its inputs.
+    ```jldoctest structs
+    julia> const AbstractRectangle = Union{Rectangle, MutableRectangle}
+    Union{MutableRectangle, Rectangle}
 
-```jldoctest structs
-julia> const AbstractRectangle = Union{Rectangle, MutableRectangle}
-Union{MutableRectangle, Rectangle}
+    julia> Rectangle <: AbstractRectangle
+    true
 
-julia> Rectangle <: AbstractRectangle
-true
+    julia> MutableRectangle <: AbstractRectangle
+    true
+    ```
 
-julia> MutableRectangle <: AbstractRectangle
-true
-```
+    We now create the `perimeter(r::AbstractRectangle)` function. Since we specify that its input is an `AbstractRectangle`, it will work for both mutable `MutableRectangle` and immutable `Rectangle` types.
 
-We now create the `perimeter(r::AbstractRectangle)` function. Since we specify that its input is an `AbstractRectangle`, it will work for both mutable `MutableRectangle` and immutable `Rectangle` types.
+    ```jldoctest structs
+    julia> perimeter(r::AbstractRectangle) = 2*(r.width + r.height)
+    perimeter (generic function with 1 method)
 
-```jldoctest structs
-julia> perimeter(r::AbstractRectangle) = 2*(r.width + r.height)
-perimeter (generic function with 1 method)
+    julia> perimeter(r)
+    14
 
-julia> perimeter(r)
-14
-
-julia> perimeter(mr)
-8.0
-```
-
-```@raw html
-</div></div>
-```
+    julia> perimeter(mr)
+    8.0
+    ```
 
 ## Parametric types
 
@@ -392,56 +384,40 @@ ERROR: MethodError: no method matching Point(::Int64, ::Float64)
 
 Closest candidates are:
   Point(::T, !Matched::T) where T<:Real
-   @ Main none:3
 [...]
 ```
 
 This situation can be handled by defining custom constructors, as we will discuss in the next section.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the `coordinates` function.
 
-Define a structure that represents 3D-points. Do not forget to define it as a subtype of the AbstractPoint type. Then add a new method to the `coordinates` function.
+!!! details "Solution:"
+    There are several possibilities for defining the structure. We define it as a structure with three fields. Another option is to use a tuple to store the point coordinates.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest structs; output = false
+    struct Point3D{T <: Real} <: AbstractPoint{T}
+        x::T
+        y::T
+        z::T
+    end
 
-There are several possibilities for defining the structure. We define it as a structure with three fields. Another option is to use a tuple to store the point coordinates.
+    coordinates(p::Point3D) = (p.x, p.y, p.z)
 
-```jldoctest structs; output = false
-struct Point3D{T <: Real} <: AbstractPoint{T}
-    x::T
-    y::T
-    z::T
-end
+    # output
 
-coordinates(p::Point3D) = (p.x, p.y, p.z)
+    coordinates (generic function with 2 methods)
+    ```
 
-# output
+    Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is applied to `Point3D` without the need for further changes.
 
-coordinates (generic function with 2 methods)
-```
+    ```jldoctest structs
+    julia> Point3D(1, 2, 3)
+    (1, 2, 3)
 
-Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom print is applied to `Point3D` without the need for further changes.
-
-```jldoctest structs
-julia> Point3D(1, 2, 3)
-(1, 2, 3)
-
-julia> Point3D{Float32}(1, 2, 3)
-(1.0f0, 2.0f0, 3.0f0)
-```
-
-```@raw html
-</div></details>
-```
+    julia> Point3D{Float32}(1, 2, 3)
+    (1.0f0, 2.0f0, 3.0f0)
+    ```
 
 ## Constructors
 
@@ -501,71 +477,57 @@ ERROR: the first argument must be less than or equal to the second one
 
 Inner constructors have an additional advantage. Since outer constructors create the object by calling an appropriate inner constructor, even if we define any number of outer constructors, the resulting instances of the `OrderedPair` type will always satisfy `x <= y`.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Define a structure that represents ND-points and stores their coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Redefine the default inner constructor to create an instance of `PointND` from different types. Then add a new method to the `coordinates` function, and define function `dim` that returns the dimension of the point.
 
-Define a structure that represents ND-points and stores their coordinates as `Tuple`. Do not forget to define it as a subtype of the `AbstractPoint` type. Redefine the default inner constructor to create an instance of `PointND` from different types. Then add a new method to the `coordinates` function, and define function `dim` that returns the dimension of the point.
+    **Hints:** use the `new` function in the definition of the new inner constructor.
 
-**Hints:** use the `new` function in the definition of the new inner constructor.
+    **Bonus:** Tuples with elements of the same type can be described by the special type `NTuple{N, T}`, where `N` is the number of elements and `T` their type.
 
-**Bonus:** Tuples with elements of the same type can be described by the special type `NTuple{N, T}`, where `N` is the number of elements and `T` their type.
+    ```jldoctest
+    julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
+    true
+    ```
 
-```jldoctest
-julia> NTuple{2, Int64} <: Tuple{Int64, Int64}
-true
-```
+!!! details "Solution:"
+    In this case, we can use an inner constructor with the optional number of input arguments. In the definition below, we use type annotation to set these arguments to be real numbers. Since we use the `new` function and our type is parametric, we have to specify `N` and type `T`.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest structs; output = false
+    struct PointND{N, T <: Real} <: AbstractPoint{T}
+        x::NTuple{N, T}
 
-In this case, we can use an inner constructor with the optional number of input arguments. In the definition below, we use type annotation to set these arguments to be real numbers. Since we use the `new` function and our type is parametric, we have to specify `N` and type `T`.
-
-```jldoctest structs; output = false
-struct PointND{N, T <: Real} <: AbstractPoint{T}
-    x::NTuple{N, T}
-
-    function PointND(args::Real...)
-        vals = promote(args...)
-        return new{length(args), eltype(vals)}(vals)
+        function PointND(args::Real...)
+            vals = promote(args...)
+            return new{length(args), eltype(vals)}(vals)
+        end
     end
-end
 
-coordinates(p::PointND) = p.x
-dim(p::PointND{N}) where N = N
+    coordinates(p::PointND) = p.x
+    dim(p::PointND{N}) where N = N
 
-# output
+    # output
 
-dim (generic function with 1 method)
-```
+    dim (generic function with 1 method)
+    ```
 
-Note that we use the parameter `N` in the definition of the `dim` function.
+    Note that we use the parameter `N` in the definition of the `dim` function.
 
-Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom printing function is immediately applied to the new type. Since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
+    Since the `show` function was defined for the abstract type `AbstractPoint` and uses the `coordinates` function, the custom printing function is immediately applied to the new type. Since we redefined the default constructors, we can create an instance of the `PointND` type from inputs of mixed types.
 
-```jldoctest structs
-julia> p = PointND(1, 2)
-(1, 2)
+    ```jldoctest structs
+    julia> p = PointND(1, 2)
+    (1, 2)
 
-julia> dim(p)
-2
+    julia> dim(p)
+    2
 
-julia> p = PointND(1, 2.2, 3, 4.5)
-(1.0, 2.2, 3.0, 4.5)
+    julia> p = PointND(1, 2.2, 3, 4.5)
+    (1.0, 2.2, 3.0, 4.5)
 
-julia> dim(p)
-4
-```
+    julia> dim(p)
+    4
+    ```
 
-```@raw html
-</div></details>
-```
 
 ## Default field values
 
@@ -609,184 +571,151 @@ MyType(3, 2.3, "hello")
 julia> MyType(; a = 5, b = 4.5)
 MyType(5, 4.5, "hello")
 ```
+!!! info "Function-like objects (functors):"
+    Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called **functors**. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Function-like objects (functors):</header>
-<div class="admonition-body">
-```
+    ```jldoctest structs
+    julia> (m::MyType)() = (m.a, m.b, m.c)
 
-Methods are associated with types; therefore, it is possible to make an arbitrary Julia object "callable" by adding methods to its type. Such "callable" objects are sometimes called **functors**. Using this technique to the `MyType` defined above, we can define a method that returns values of all its fields.
+    julia> m = MyType(; a = 5, b = 4.5)
+    MyType(5, 4.5, "hello")
 
-```jldoctest structs
-julia> (m::MyType)() = (m.a, m.b, m.c)
+    julia> m()
+    (5, 4.5, "hello")
+    ```
 
-julia> m = MyType(; a = 5, b = 4.5)
-MyType(5, 4.5, "hello")
+    Moreover, we can use multiple-dispatch for functors. We show an example, where the functor has a different behaviour when it is called with a number and a string.
 
-julia> m()
-(5, 4.5, "hello")
-```
+    ```jldoctest structs; output = false
+    (m::MyType)(x::Real) = m.a*x + m.b
+    (m::MyType)(x::String) = "$(m.c), $(x)"
 
-Moreover, we can use multiple-dispatch for functors. We show an example, where the functor has a different behaviour when it is called with a number and a string.
+    # output
 
-```jldoctest structs; output = false
-(m::MyType)(x::Real) = m.a*x + m.b
-(m::MyType)(x::String) = "$(m.c), $(x)"
+    ```
 
-# output
+    These two methods give different results.
 
-```
+    ```jldoctest structs
+    julia> m(1)
+    9.5
 
-These two methods give different results.
+    julia> m("world")
+    "hello, world"
+    ```
 
-```jldoctest structs
-julia> m(1)
-9.5
+!!! warning "Exercise:"
+    [Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution) is uniquely represented by its mean ``\mu`` and variance ``\sigma^2>0``. Write a structure `Gauss` with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function at a given point defined by
 
-julia> m("world")
-"hello, world"
-```
+    ```math
+    f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
+    ```
 
-```@raw html
-</div></div>
-```
+    Verify that the probability density function is defined correctly, i.e., its integral equals 1.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! details "Solution:"
+    One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.
 
-[Gaussian distribution](https://en.wikipedia.org/wiki/Normal_distribution) is uniquely represented by its mean ``\mu`` and variance ``\sigma^2>0``. Write a structure `Gauss` with the proper fields and an inner constructor that checks if the input parameters are correct. Initialization without arguments `Gauss()` should return the standardized normal distribution (`` \mu = 0`` and `` \sigma = 1``).  Define a functor that computes the probability density function at a given point defined by
+    ```jldoctest structs_gauss; output = false
+    Base.@kwdef struct Gauss{T<:Real}
+        μ::T = 0
+        σ::T = 1
 
-```math
-f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},
-```
-
-Verify that the probability density function is defined correctly, i.e., its integral equals 1.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.
-
-```jldoctest structs_gauss; output = false
-Base.@kwdef struct Gauss{T<:Real}
-    μ::T = 0
-    σ::T = 1
-
-    function Gauss(μ::Real, σ::Real)
-        σ^2 > 0 || error("the variance `σ^2` must be positive")
-        pars = promote(μ, σ)
-        return new{eltype(pars)}(pars...)
+        function Gauss(μ::Real, σ::Real)
+            σ^2 > 0 || error("the variance `σ^2` must be positive")
+            pars = promote(μ, σ)
+            return new{eltype(pars)}(pars...)
+        end
     end
-end
 
-# output
+    # output
 
-```
+    ```
 
-We specified the parameter `T` by `eltype(pars)` in the call of the `new` function. The probability density function can be defined as a functor in the following way:
+    We specified the parameter `T` by `eltype(pars)` in the call of the `new` function. The probability density function can be defined as a functor in the following way:
 
 
-```jldoctest structs_gauss; output = false
-(d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))
+    ```jldoctest structs_gauss; output = false
+    (d::Gauss)(x::Real) = exp(-1/2 * ((x - d.μ)/d.σ)^2)/(d.σ * sqrt(2*π))
 
-# output
+    # output
 
-```
+    ```
 
-We use type annotation to ensure that all input arguments are real numbers.
+    We use type annotation to ensure that all input arguments are real numbers.
 
-```jldoctest structs_gauss
-julia> gauss = Gauss()
-Gauss{Int64}(0, 1)
+    ```jldoctest structs_gauss
+    julia> gauss = Gauss()
+    Gauss{Int64}(0, 1)
 
-julia> gauss(0)
-0.3989422804014327
-```
+    julia> gauss(0)
+    0.3989422804014327
+    ```
 
-The integral of the probability density function over the real line should equal one. We check it numerically by discretizing the integral into a finite sum.
+    The integral of the probability density function over the real line should equal one. We check it numerically by discretizing the integral into a finite sum.
 
-```jldoctest structs_gauss
-julia> step = 0.01
-0.01
+    ```jldoctest structs_gauss
+    julia> step = 0.01
+    0.01
 
-julia> x = -100:step:100;
+    julia> x = -100:step:100;
 
-julia> sum(Gauss(), x) * step
-1.0000000000000002
+    julia> sum(Gauss(), x) * step
+    1.0000000000000002
 
-julia> sum(Gauss(0.1, 2.3), x) * step
-1.0
-```
+    julia> sum(Gauss(0.1, 2.3), x) * step
+    1.0
+    ```
 
-We use `sum` with a function as the first input argument and apply it to each value of the second argument. This is possible because we defined a functor for `Gauss`. The result is the same as `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
+    We use `sum` with a function as the first input argument and apply it to each value of the second argument. This is possible because we defined a functor for `Gauss`. The result is the same as `sum(Gauss().(x))`. The difference is that the former, similarly to generators, does not allocate an array.
 
-```@raw html
-</div></details>
-```
+!!! compat "Plot recipes:"
+    The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package. Unfortunately, it is not possible to use [Function plotting](@ref Function-plotting), i.e., the following will not work even though the `Gauss` type is callable.
 
-```@raw html
-<div class="admonition is-category-bonus">
-<header class="admonition-header">Plot recipes:</header>
-<div class="admonition-body">
-```
+    ```julia
+    plot(x, Gauss())
+    ```
 
-The previous exercise defined a new type representing the Gaussian distribution. We also defined a functor that computes the probability density function of this distribution. It makes sense to visualize the probability density function using the [Plots](@ref Plots.jl) package. Unfortunately, it is not possible to use [Function plotting](@ref Function-plotting), i.e., the following will not work even though the `Gauss` type is callable.
+    Using the system of Julia types, it is possible to obtain special behaviour for a certain type only by defining a new method for this type. For example, if we use the `plot` function, all input data and plot attributes are preprocessed to some standard format and then the final graph is created. Due to the Julia type system, we can easily change how this preprocessing happens and define special behaviour for custom types.
 
-```julia
-plot(x, Gauss())
-```
+    For plotting, this is done by the `@recipe` macro from the [RecipesBase](https://github.com/JuliaPlots/RecipesBase.jl) package. The RecipesBase package provides the functionality related to creating custom plots and the Plots package uses this functionality. Moreover, since the RecipesBase package is much smaller, its first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and input `x`. In the function body, we define plot attributes in the same way as if we pass them into the `plot` function. Finally, we define the output of the function.
 
-Using the system of Julia types, it is possible to obtain special behaviour for a certain type only by defining a new method for this type. For example, if we use the `plot` function, all input data and plot attributes are preprocessed to some standard format and then the final graph is created. Due to the Julia type system, we can easily change how this preprocessing happens and define special behaviour for custom types.
+    ```julia
+    using RecipesBase
 
-For plotting, this is done by the `@recipe` macro from the [RecipesBase](https://github.com/JuliaPlots/RecipesBase.jl) package. The RecipesBase package provides the functionality related to creating custom plots and the Plots package uses this functionality. Moreover, since the RecipesBase package is much smaller, its first run is faster. The syntax is straightforward. In the function head, we define two inputs: our type and input `x`. In the function body, we define plot attributes in the same way as if we pass them into the `plot` function. Finally, we define the output of the function.
+    @recipe function f(d::Gauss, x = (d.μ - 4d.σ):0.1:(d.μ + 4d.σ))
+        seriestype  :=  :path
+        label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
+        xguide --> "x"
+        yguide --> "f(x)"
+        linewidth --> 2
+        return x, d.(x)
+    end
+    ```
 
-```julia
-using RecipesBase
+    The operators `:=` and `-->` are specific for this package. Both set default values for plotting attributes. The difference is that the default values can be changed for `-->` but cannot be changed for `:=`.
 
-@recipe function f(d::Gauss, x = (d.μ - 4d.σ):0.1:(d.μ + 4d.σ))
-    seriestype  :=  :path
-    label --> "Gauss(μ = $(d.μ), σ = $(d.σ))"
-    xguide --> "x"
-    yguide --> "f(x)"
-    linewidth --> 2
-    return x, d.(x)
-end
-```
+    The recipe above is equivalent to calling the `plot` function.
 
-The operators `:=` and `-->` are specific for this package. Both set default values for plotting attributes. The difference is that the default values can be changed for `-->` but cannot be changed for `:=`.
+    ```julia
+    d = Gauss()
+    plot(x, d.(x);
+        seriestype := :path,
+        label = "Gauss(μ = $(d.μ), σ = $(d.σ))",
+        xguide = "x",
+        yguide = "f(x)",
+        linewidth = 2
+    )
+    ```
 
-The recipe above is equivalent to calling the `plot` function.
+    With the new plot recipe, we can plot the probability density function of the Gaussian distribution with different parameters.
 
-```julia
-d = Gauss()
-plot(x, d.(x);
-    seriestype := :path,
-    label = "Gauss(μ = $(d.μ), σ = $(d.σ))",
-    xguide = "x",
-    yguide = "f(x)",
-    linewidth = 2
-)
-```
+    ```julia
+    using Plots
 
-With the new plot recipe, we can plot the probability density function of the Gaussian distribution with different parameters.
+    plot(Gauss())
+    plot!(Gauss(4, 2); linewidth = 4, color = :red)
+    plot!(Gauss(-3, 2); label = "new label", linestyle = :dash)
+    ```
 
-```julia
-using Plots
-
-plot(Gauss())
-plot!(Gauss(4, 2); linewidth = 4, color = :red)
-plot!(Gauss(-3, 2); label = "new label", linestyle = :dash)
-```
-
-![](gauss.svg)
-```@raw html
-</div></div>
-```
+    ![](gauss.svg)

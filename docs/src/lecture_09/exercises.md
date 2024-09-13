@@ -40,188 +40,128 @@ w = log_reg(X, y, zeros(size(X,2)))
 
 # [Exercises](@id l8-exercises)
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 1:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise 1:"
+    The logistic regression on the iris dataset failed in 6 out of 100 samples. But the visualization shows the failure only in 5 cases. How is it possible?
 
-The logistic regression on the iris dataset failed in 6 out of 100 samples. But the visualization shows the failure only in 5 cases. How is it possible?
+!!! details "Solution:"
+    We use the `iris_reduced` dataframe and add the column `prediction` to it.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example ex_log
+    df = iris_reduced
+    df.prediction = σ.(X*w) .>= 0.5
 
-We use the `iris_reduced` dataframe and add the column `prediction` to it.
+    nothing # hide
+    ```
 
-```@example ex_log
-df = iris_reduced
-df.prediction = σ.(X*w) .>= 0.5
+    Now we show all misclassified samples.
 
-nothing # hide
-```
+    ```@example ex_log
+    sort(df[df.label .!= df.prediction, :], [:PetalLength, :PetalWidth])
+    ```
 
-Now we show all misclassified samples.
+    A quick look at the image shows that the point ``(4.8,1.8)`` is misclassified, but the image shows it correctly. Let us show all such points.
 
-```@example ex_log
-sort(df[df.label .!= df.prediction, :], [:PetalLength, :PetalWidth])
-```
+    ```@example ex_log
+    df[(df.PetalLength .== 4.8) .& (df.PetalWidth .== 1.8), :]
+    ```
 
-A quick look at the image shows that the point ``(4.8,1.8)`` is misclassified, but the image shows it correctly. Let us show all such points.
+    As we can see, there are three samples with the same data. Two of them have label 1 and one label 0. Since the incorrectly classified sample was redrawn, it was not possible to see it.
 
-```@example ex_log
-df[(df.PetalLength .== 4.8) .& (df.PetalWidth .== 1.8), :]
-```
+!!! warning "Exercise 2: Disadvantages of the sigmoid function"
+    Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?
 
-As we can see, there are three samples with the same data. Two of them have label 1 and one label 0. Since the incorrectly classified sample was redrawn, it was not possible to see it.
+!!! details "Solution:"
+    First, we run the logistic regression as before, only with a different starting point
 
-```@raw html
-</div></details>
-```
+    ```julia
+    log_reg(X, y, [1;2;3])
+    ```
+    ```julia
+    ERROR: SingularException(1)
+    ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 2: Disadvantages of the sigmoid function</header>
-<div class="admonition-body">
-```
+    This resulted in an error (or possibly in NaNs for older versions of Julia). When something fails, it may be a good idea to run a step-by-step analysis. In this case, we will run the first iteration of Newton's method
 
-Show that Newton's method fails when started from the vector ``(1,2,3)``. Can you guess why it happened? What are the consequences for optimization? Is gradient descent going to suffer from the same problems?
+    ```@repl ex_log
+    w = [1;2;3];
+    X_mult = [row*row' for row in eachrow(X)];
+    y_hat = 1 ./(1 .+exp.(-X*w))
+    grad = X'*(y_hat.-y) / size(X,1)
+    hess = y_hat.*(1 .-y_hat).*X_mult |> mean
+    w -= hess \ grad
+    ```
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    Starting from the bottom, we can see that even though we started with relatively small ``w``, the next iteration is four degrees of magnitude larger. This happened because the Hessian ```hess``` is much smaller than the gradient ```grad```. This indicates that there is some kind of numerical instability. The prediction ```y_hat``` should lie in the interval ``[0,1]`` but it seems that it is almost always close to 1. Let us verify this by showing the extrema of ```y_hat```
 
-First, we run the logistic regression as before, only with a different starting point
+    ```@example ex_log
+    extrema(y_hat)
+    ```
 
-```julia
-log_reg(X, y, [1;2;3])
-```
-```julia
-ERROR: SingularException(1)
-```
+    They are indeed too large.
 
-This resulted in an error (or possibly in NaNs for older versions of Julia). When something fails, it may be a good idea to run a step-by-step analysis. In this case, we will run the first iteration of Newton's method
+    Now we explain the reason. We know that the prediction equals to
 
-```@repl ex_log
-w = [1;2;3];
-X_mult = [row*row' for row in eachrow(X)];
-y_hat = 1 ./(1 .+exp.(-X*w))
-grad = X'*(y_hat.-y) / size(X,1)
-hess = y_hat.*(1 .-y_hat).*X_mult |> mean
-w -= hess \ grad
-```
+    ```math
+    \hat y_i = \sigma(w^\top x_i),
+    ```
 
-Starting from the bottom, we can see that even though we started with relatively small ``w``, the next iteration is four degrees of magnitude larger. This happened because the Hessian ```hess``` is much smaller than the gradient ```grad```. This indicates that there is some kind of numerical instability. The prediction ```y_hat``` should lie in the interval ``[0,1]`` but it seems that it is almost always close to 1. Let us verify this by showing the extrema of ```y_hat```
+    where ``\sigma`` is the sigmoid function. Since the mimimum from ``w^\top x_i``
 
-```@example ex_log
-extrema(y_hat)
-```
+    ```@example ex_log
+    minimum(X*[1;2;3])
+    ```
 
-They are indeed too large.
+    is large, all ``w^\top x_i`` are large. But plotting the sigmoid funtion
 
-Now we explain the reason. We know that the prediction equals to
+    ```@example ex_log
+    xs = -10:0.01:10
+    plot(xs, σ, label="", ylabel="Sigmoid function")
 
-```math
-\hat y_i = \sigma(w^\top x_i),
-```
+    savefig("sigmoid.svg") # hide
+    ```
 
-where ``\sigma`` is the sigmoid function. Since the mimimum from ``w^\top x_i``
+    ![](sigmoid.svg)
 
-```@example ex_log
-minimum(X*[1;2;3])
-```
+    it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. This means that the derivative is almost zero, and the Hessian is "even smaller" zero. Then the ratio of the gradient and Hessian is huge.
 
-is large, all ``w^\top x_i`` are large. But plotting the sigmoid funtion
+    The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a huge number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
 
-```@example ex_log
-xs = -10:0.01:10
-plot(xs, σ, label="", ylabel="Sigmoid function")
+!!! warning "Exercise 3 (theory)"
+    Show the details for the derivation of the loss function of the logistic regression.
 
-savefig("sigmoid.svg") # hide
-```
+!!! details "Solution:"
+    Since ``\hat y`` equals the probability of predicting ``1``, we have
 
-![](sigmoid.svg)
+    ```math
+    \hat y = \frac{1}{1+e^{-w^\top x}}
+    ``` 
 
-it is clear that all ``w^\top x_i`` hit the part of the sigmoid which is flat. This means that the derivative is almost zero, and the Hessian is "even smaller" zero. Then the ratio of the gradient and Hessian is huge.
+    Then the cross-entropy loss reduces to
 
-The gradient descent will probably run into the same difficulty. Since the gradient will be too small, it will take a huge number of iterations to escape the flat region of the sigmoid. This is a known problem of the sigmoid function. It is also the reason why it was replaced in neural networks by other activation functions.
+    ```math
+    \begin{aligned}
+    \operatorname{loss}(y,\hat y) &= - y\log \hat y - (1-y)\log(1-\hat y) \\
+    &= y\log(1+e^{-w^\top x}) - (1-y)\log(e^{-w^\top x}) + (1-y)\log(1+e^{-w^\top x}) \\
+    &= \log(1+e^{-w^\top x}) + (1-y)w^\top x.
+    \end{aligned}
+    ```
 
-```@raw html
-</div></details>
-```
+    Then it remains to sum this term over all samples.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 3 (theory):</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise 4 (theory)"
+    Show that if the Newton's method converged for the logistic regression, then it found a point globally minimizing the logistic loss.
 
-Show the details for the derivation of the loss function of the logistic regression.
+!!! details "Solution:"
+    We derived that the Hessian of the objective function for logistic regression is
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```math
+    \nabla^2 L(w) = \frac 1n \sum_{i=1}^n\hat y_i(1-\hat y_i)x_i x_i^\top.
+    ```
 
-Since ``\hat y`` equals the probability of predicting ``1``, we have
+    For any vector ``a``, we have
 
-```math
-\hat y = \frac{1}{1+e^{-w^\top x}}
-``` 
+    ```math
+    a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
+    ```
 
-Then the cross-entropy loss reduces to
-
-```math
-\begin{aligned}
-\operatorname{loss}(y,\hat y) &= - y\log \hat y - (1-y)\log(1-\hat y) \\
-&= y\log(1+e^{-w^\top x}) - (1-y)\log(e^{-w^\top x}) + (1-y)\log(1+e^{-w^\top x}) \\
-&= \log(1+e^{-w^\top x}) + (1-y)w^\top x.
-\end{aligned}
-```
-
-Then it remains to sum this term over all samples.
-
-```@raw html
-</div></details>
-```
-
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise 4 (theory):</header>
-<div class="admonition-body">
-```
-
-Show that if the Newton's method converged for the logistic regression, then it found a point globally minimizing the logistic loss.
-
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-We derived that the Hessian of the objective function for logistic regression is
-
-```math
-\nabla^2 L(w) = \frac 1n \sum_{i=1}^n\hat y_i(1-\hat y_i)x_i x_i^\top.
-```
-
-For any vector ``a``, we have
-
-```math
-a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
-```
-
-which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.
-
-```@raw html
-</div></details>
-```
+    which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.

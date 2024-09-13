@@ -86,40 +86,30 @@ ERROR: MethodError: Cannot `convert` an object of type Dollar to an object of ty
 
 We used only the abstract type `Currency` to define the `BankAccount` type. This allows us to write a generic code that not constrained to one concrete type. We created an instance of `BankAccount` and added a new transaction. However, we cannot calculate an account balance (the sum of all transactions), and we cannot convert money from one currency to another. In the rest of the lecture, we will fix this, and we will also define basic arithmetic operations such as `+` or `-`.
 
+!!! info "Avoid containers with abstract type parameters:"
+    It is generally not good to use [containers with abstract element type](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container) as we did for storing transactions. We used it in the example above because we do not want to convert all transactions to a common currency. When we create an array from different types, the promotion system converts these types to their smallest supertype for efficient memory storage.
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Avoid containers with abstract type parameters:</header>
-<div class="admonition-body">
-```
+    ```jldoctest
+    julia> [Int32(123), 1, 1.5, 1.234f0]
+    4-element Vector{Float64}:
+     123.0
+       1.0
+       1.5
+       1.2339999675750732
+    ```
 
-It is generally not good to use [containers with abstract element type](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container) as we did for storing transactions. We used it in the example above because we do not want to convert all transactions to a common currency. When we create an array from different types, the promotion system converts these types to their smallest supertype for efficient memory storage.
+    The smallest supertype is `Float64`, and the result is `Array{Float64, 1}`. When we do not want to convert the variables, we must manually specify the resulting array supertype.
 
-```jldoctest
-julia> [Int32(123), 1, 1.5, 1.234f0]
-4-element Vector{Float64}:
- 123.0
-   1.0
-   1.5
-   1.2339999675750732
-```
+    ```jldoctest
+    julia> Real[Int32(123), 1, 1.5, 1.234f0]
+    4-element Vector{Real}:
+     123
+       1
+       1.5
+       1.234f0
+    ```
 
-The smallest supertype is `Float64`, and the result is `Array{Float64, 1}`. When we do not want to convert the variables, we must manually specify the resulting array supertype.
-
-```jldoctest
-julia> Real[Int32(123), 1, 1.5, 1.234f0]
-4-element Vector{Real}:
- 123
-   1
-   1.5
-   1.234f0
-```
-
-In this case, the types of all elements are preserved.
-
-```@raw html
-</div></div>
-```
+    In this case, the types of all elements are preserved.
 
 ## Custom print
 
@@ -161,46 +151,31 @@ julia> Euro(1.5)
 
 There is one big difference with Python, where we can create a class and define methods inside the class. If we wanted to add a new method, we have to would modify the class. In Julia, we can add or alter methods any time without the necessity to change the class.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Define a new method for the `symbol` function for `Dollar`.
 
-Define a new method for the `symbol` function for `Dollar`.
+    **Hint:** the dollar symbol `$` has a special meaning in Julia. Do not forget to use the `\` symbol when using the dollar symbol in a string.
 
-**Hint:** the dollar symbol `$` has a special meaning in Julia. Do not forget to use the `\` symbol when using the dollar symbol in a string.
+!!! details "Solution:"
+    When adding a new method to the `symbol` function, we have to remember that we used the currency type for dispatch, i.e., we have to use `::Type{Dollar}` instead of `::Dollar` in the type annotation.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest currency; output=false
+    symbol(::Type{Dollar}) = "\$"
 
-When adding a new method to the `symbol` function, we have to remember that we used the currency type for dispatch, i.e., we have to use `::Type{Dollar}` instead of `::Dollar` in the type annotation.
+    # output
 
-```jldoctest currency; output=false
-symbol(::Type{Dollar}) = "\$"
+    symbol (generic function with 3 methods)
+    ```
 
-# output
+    Now we can check that everything works well.
 
-symbol (generic function with 3 methods)
-```
+    ```jldoctest currency
+    julia> Dollar(1)
+    1.0 $
 
-Now we can check that everything works well.
-
-```jldoctest currency
-julia> Dollar(1)
-1.0 $
-
-julia> Dollar(1.5)
-1.5 $
-```
-
-```@raw html
-</div></details>
-```
+    julia> Dollar(1.5)
+    1.5 $
+    ```
 
 ## Conversion
 
@@ -388,51 +363,36 @@ julia> dlr = convert(Dollar, pnd)
 1.3 $
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    The printing style is not ideal because we are usually not interested in more than the first two digits after the decimal point. Redefine the method in the `show` function to print currencies so that the result is rounded to 2 digits after the decimal point.
 
-The printing style is not ideal because we are usually not interested in more than the first two digits after the decimal point. Redefine the method in the `show` function to print currencies so that the result is rounded to 2 digits after the decimal point.
+!!! details "Solution:"
+    Any real number can be rounded to 2 digits after the decimal point by the `round` function with the keyword argument `digits = 2`. Then we can use an almost identical definition of the method as before.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest currency; output=false
+    function Base.show(io::IO, c::T) where {T <: Currency}
+        val = round(c.value; digits = 2)
+        return print(io, val, " ", symbol(T))
+    end
 
-Any real number can be rounded to 2 digits after the decimal point by the `round` function with the keyword argument `digits = 2`. Then we can use an almost identical definition of the method as before.
+    # output
 
-```jldoctest currency; output=false
-function Base.show(io::IO, c::T) where {T <: Currency}
-    val = round(c.value; digits = 2)
-    return print(io, val, " ", symbol(T))
-end
+    ```
 
-# output
+    The same code as before this example gives the following results.
 
-```
+    ```jldoctest currency
+    julia> eur = convert(Euro, Dollar(1.3))
+    1.08 €
 
-The same code as before this example gives the following results.
+    julia> pnd = convert(Pound, eur)
+    0.95 £
 
-```jldoctest currency
-julia> eur = convert(Euro, Dollar(1.3))
-1.08 €
+    julia> dlr = convert(Dollar, pnd)
+    1.3 $
+    ```
 
-julia> pnd = convert(Pound, eur)
-0.95 £
-
-julia> dlr = convert(Dollar, pnd)
-1.3 $
-```
-
-We realize that the rounding is done only for printing, while the original value remains unchanged.
-
-```@raw html
-</div></details>
-```
+    We realize that the rounding is done only for printing, while the original value remains unchanged.
 
 ## Promotion
 
@@ -480,72 +440,57 @@ julia> promote(Pound(1.3), Dollar(2.4), Euro(2))
 (1.47 €, 1.99 €, 2.0 €)
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Define a new currency `CzechCrown` representing Czech crowns. The exchange rate to euro is `0.038`, and all other currencies should take precedence over the Czech crown.
 
-Define a new currency `CzechCrown` representing Czech crowns. The exchange rate to euro is `0.038`, and all other currencies should take precedence over the Czech crown.
+!!! details "Solution:"
+    We define first the new type `CzechCrown`.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest currency; output=false
+    struct CzechCrown <: Currency
+        value::Float64
+    end
 
-We define first the new type `CzechCrown`.
+    # output
 
-```jldoctest currency; output=false
-struct CzechCrown <: Currency
-    value::Float64
-end
+    ```
 
-# output
+    We must add new methods for the `symbol` and `rate` functions.
 
-```
+    ```jldoctest currency; output=false
+    symbol(::Type{CzechCrown}) = "Kč"
+    rate(::Type{Euro}, ::Type{CzechCrown}) = 0.038
 
-We must add new methods for the `symbol` and `rate` functions.
+    # output
 
-```jldoctest currency; output=false
-symbol(::Type{CzechCrown}) = "Kč"
-rate(::Type{Euro}, ::Type{CzechCrown}) = 0.038
+    rate (generic function with 7 methods)
+    ```
 
-# output
+    We also must add promotion rules for the dollar and pound.
 
-rate (generic function with 7 methods)
-```
+    ```jldoctest currency; output=false
+    Base.promote_rule(::Type{CzechCrown}, ::Type{Dollar}) = Dollar
+    Base.promote_rule(::Type{CzechCrown}, ::Type{Pound}) = Pound
 
-We also must add promotion rules for the dollar and pound.
+    # output
 
-```jldoctest currency; output=false
-Base.promote_rule(::Type{CzechCrown}, ::Type{Dollar}) = Dollar
-Base.promote_rule(::Type{CzechCrown}, ::Type{Pound}) = Pound
+    ```
 
-# output
+    Finally, we can test the functionality.
 
-```
+    ```jldoctest currency
+    julia> CzechCrown(2.8)
+    2.8 Kč
 
-Finally, we can test the functionality.
+    julia> dl = convert(Dollar, CzechCrown(64))
+    2.93 $
 
-```jldoctest currency
-julia> CzechCrown(2.8)
-2.8 Kč
+    julia> convert(CzechCrown, dl)
+    64.0 Kč
 
-julia> dl = convert(Dollar, CzechCrown(64))
-2.93 $
-
-julia> convert(CzechCrown, dl)
-64.0 Kč
-
-julia> promote(Pound(1.3), Dollar(2.4), Euro(2), CzechCrown(2.8))
-(1.47 €, 1.99 €, 2.0 €, 0.11 €)
-```
-
-```@raw html
-</div></details>
-```
+    julia> promote(Pound(1.3), Dollar(2.4), Euro(2), CzechCrown(2.8))
+    (1.47 €, 1.99 €, 2.0 €, 0.11 €)
+    ```
 
 ## Basic arithmetic operations
 
@@ -639,108 +584,93 @@ julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .+ Dollar(12)
  12.84 $
 ```
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    In the section above, we defined the addition for all subtypes of `Currency`. We also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define the following operations: `-`, `*`, `/`.
 
-In the section above, we defined the addition for all subtypes of `Currency`. We also told the broadcasting system in Julia to treat all subtypes of the `Currency` as scalars. Follow the same pattern and define the following operations: `-`, `*`, `/`.
+    **Hint:** Define only operations that make sense. For example, it makes sense to multiply `1 €` by 2 to get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
 
-**Hint:** Define only operations that make sense. For example, it makes sense to multiply `1 €` by 2 to get `2 €`. But it does not make sense to multiply `1 €` by `2 €`.
+!!! details "Solution:"
+    The `-` operation can be defined exactly as the addition.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest currency; output=false
+    Base.:-(x::Currency, y::Currency) = -(promote(x, y)...)
+    Base.:-(x::T, y::T) where {T <: Currency} = T(x.value - y.value)
 
-The `-` operation can be defined exactly as the addition.
+    # output
 
-```jldoctest currency; output=false
-Base.:-(x::Currency, y::Currency) = -(promote(x, y)...)
-Base.:-(x::T, y::T) where {T <: Currency} = T(x.value - y.value)
+    ```
 
-# output
+    In the example below, we can see that everything works as intended.
 
-```
+    ```jldoctest currency
+    julia> Dollar(1.3) - CzechCrown(4.5)
+    1.09 $
 
-In the example below, we can see that everything works as intended.
+    julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
+    4-element Vector{Dollar}:
+     -11.79 $
+     -11.89 $
+     -11.24 $
+     -11.16 $
+    ```
 
-```jldoctest currency
-julia> Dollar(1.3) - CzechCrown(4.5)
-1.09 $
+    The situation with the multiplication is different as it makes sense to multiply `1 €` by 2 but not by `2 €`. We have to define a method for multiplying any `Currency` subtype by a real number. We have to define the multiplication both from the right and the left.
 
-julia> CzechCrown.([4.5, 2.4, 16.7, 18.3]) .- Dollar(12)
-4-element Vector{Dollar}:
- -11.79 $
- -11.89 $
- -11.24 $
- -11.16 $
-```
+    ```jldoctest currency; output=false
+    Base.:*(a::Real, x::T) where {T <: Currency} = T(a * x.value)
+    Base.:*(x::T, a::Real) where {T <: Currency} = T(a * x.value)
 
-The situation with the multiplication is different as it makes sense to multiply `1 €` by 2 but not by `2 €`. We have to define a method for multiplying any `Currency` subtype by a real number. We have to define the multiplication both from the right and the left.
+    # output
 
-```jldoctest currency; output=false
-Base.:*(a::Real, x::T) where {T <: Currency} = T(a * x.value)
-Base.:*(x::T, a::Real) where {T <: Currency} = T(a * x.value)
+    ```
 
-# output
+    As in the previous cases, everything works as expected, and broadcasting is supported without any additional steps.
 
-```
+    ```jldoctest currency
+    julia> 2 * Dollar(1.3) * 0.5
+    1.3 $
 
-As in the previous cases, everything works as expected, and broadcasting is supported without any additional steps.
+    julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
+    4-element Vector{CzechCrown}:
+     4.5 Kč
+     2.4 Kč
+     16.7 Kč
+     18.3 Kč
+    ```
 
-```jldoctest currency
-julia> 2 * Dollar(1.3) * 0.5
-1.3 $
+    Finally, we can define division. In this case, it makes sense to divide a currency by a real number.
 
-julia> 2 .* CzechCrown.([4.5, 2.4, 16.7, 18.3]) .* 0.5
-4-element Vector{CzechCrown}:
- 4.5 Kč
- 2.4 Kč
- 16.7 Kč
- 18.3 Kč
-```
+    ```jldoctest currency; output=false
+    Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
 
-Finally, we can define division. In this case, it makes sense to divide a currency by a real number.
+    # output
 
-```jldoctest currency; output=false
-Base.:/(x::T, a::Real) where {T <: Currency} = T(x.value / a)
+    ```
 
-# output
+    But it also makes sense to define the division of one amount of money by another amount of money in different currencies. In this case, a result is a real number representing their ratio.
 
-```
+    ```jldoctest currency; output=false
+    Base.:/(x::Currency, y::Currency) = /(promote(x, y)...)
+    Base.:/(x::T, y::T) where {T <: Currency} = x.value / y.value
 
-But it also makes sense to define the division of one amount of money by another amount of money in different currencies. In this case, a result is a real number representing their ratio.
+    # output
 
-```jldoctest currency; output=false
-Base.:/(x::Currency, y::Currency) = /(promote(x, y)...)
-Base.:/(x::T, y::T) where {T <: Currency} = x.value / y.value
+    ```
 
-# output
-
-```
-
-The result is as follows.
+    The result is as follows.
 
 
-```jldoctest currency
-julia> Dollar(1.3) / 2
-0.65 $
+    ```jldoctest currency
+    julia> Dollar(1.3) / 2
+    0.65 $
 
-julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
-4-element Vector{Float64}:
- 2.0
- 4.0
- 6.0
- 8.0
-```
-
-```@raw html
-</div></details>
-```
+    julia> 2 .* CzechCrown.([1, 2, 3, 4]) ./ CzechCrown(1)
+    4-element Vector{Float64}:
+     2.0
+     4.0
+     6.0
+     8.0
+    ```
 
 ## Currency comparison
 
@@ -892,6 +822,7 @@ julia> b(Dollar(10))
 
 julia> b(-2*balance(b))
 ERROR: ArgumentError: insufficient bank account balance.
+[...]
 
 julia> b(Pound(10))
 

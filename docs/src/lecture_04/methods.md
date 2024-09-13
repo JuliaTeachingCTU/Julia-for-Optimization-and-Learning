@@ -72,9 +72,11 @@ julia> product(1, 4.5)
 
 julia> product(:a, :b)
 ERROR: ArgumentError: product is defined for numbers only.
+[...]
 
 julia> product("a", "b")
 ERROR: ArgumentError: product is defined for numbers only.
+[...]
 ```
 
 ## Type hierarchy
@@ -90,52 +92,37 @@ AbstractFloat
 
 The problem with the `supertype` function is that it does not return the whole supertype hierarchy, but only the closest *larger* supertype. For `Float64` the closest larger supertype is `AbstractFloat`. However, as in the example above, we do not want to use this supertype, since then the function will only work for floating point numbers.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+   Create a function `supertypes_tree` which prints the whole tree of all supertypes. If the input type `T` satisfies the following condition `T === Any`, then the function should do nothing. Use the following function declaration:
 
-Create a function `supertypes_tree` which prints the whole tree of all supertypes. If the input type `T` satisfies the following condition `T === Any`, then the function should do nothing. Use the following function declaration:
+   ```julia
+   function supertypes_tree(T::Type, level::Int = 0)
+      # code
+   end
+   ```
 
-```julia
-function supertypes_tree(T::Type, level::Int = 0)
-    # code
-end
-```
+   The optional argument `level` sets the printing indentation level.
 
-The optional argument `level` sets the printing indentation level.
+   **Hints:**
+   - Use the `supertype` function in combination with recursion.
+   - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
 
-**Hints:**
-- Use the `supertype` function in combination with recursion.
-- Use the `repeat` function and string with white space `"    "` to create a proper indentation.
+!!! details "Solution:"
+   The `supertypes_tree` function can be defined by:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+   ```jldoctest methods; output = false
+   function supertypes_tree(T::Type, level::Int = 0)
+      isequal(T, Any) && return
+      println(repeat("   ", level), T)
+      supertypes_tree(supertype(T), level + 1)
+      return
+   end
 
-The `supertypes_tree` function can be defined by:
+   # output
+   supertypes_tree (generic function with 2 methods)
+   ```
 
-```jldoctest methods; output = false
-function supertypes_tree(T::Type, level::Int = 0)
-    isequal(T, Any) && return
-    println(repeat("   ", level), T)
-    supertypes_tree(supertype(T), level + 1)
-    return
-end
-
-# output
-supertypes_tree (generic function with 2 methods)
-```
-
-The first line checks if the given input type is `Any`. If yes, then the function returns nothing. Otherwise, the function prints the type with a proper indentation provided by `repeat("   ", level)`, i.e., four white-spaces repeated `level`-times. The third line calls the `supertypes_tree` function recursively for the supertype of the input type `T` and the level of indentation `level + 1`.
-
-```@raw html
-</div></details>
-```
+   The first line checks if the given input type is `Any`. If yes, then the function returns nothing. Otherwise, the function prints the type with a proper indentation provided by `repeat("   ", level)`, i.e., four white-spaces repeated `level`-times. The third line calls the `supertypes_tree` function recursively for the supertype of the input type `T` and the level of indentation `level + 1`.
 
 Now we can use the `supertypes_tree` function to get the whole supertype hierarchy for `Float64`.
 
@@ -167,55 +154,40 @@ julia> subtypes(Number)
 
 This function suffers from a similar disadvantage as the `supertype` function: It is impossible to get the whole hierarchy of all subtypes using only this function.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+   Create a function `subtypes_tree` which prints the whole tree of all subtypes for the given type. Use the following function declaration:
 
-Create a function `subtypes_tree` which prints the whole tree of all subtypes for the given type. Use the following function declaration:
+   ```@meta
+   DocTestSetup = quote
+      using InteractiveUtils: subtypes
+   end
+   ```
 
-```@meta
-DocTestSetup = quote
-   using InteractiveUtils: subtypes
-end
-```
+   ```julia
+   function subtypes_tree(T::Type, level::Int = 0)
+      # code
+   end
+   ```
 
-```julia
-function subtypes_tree(T::Type, level::Int = 0)
-    # code
-end
-```
+   The optional argument `level` sets the printing indentation level.
 
-The optional argument `level` sets the printing indentation level.
+   **Hints:**
+   - Use the `subtypes` function in combination with recursion.
+   - Use the `repeat` function and string with white space `"    "` to create a proper indentation.
 
-**Hints:**
-- Use the `subtypes` function in combination with recursion.
-- Use the `repeat` function and string with white space `"    "` to create a proper indentation.
+!!! details "Solution:"
+   The `subtypes_tree` function is similar to `supertypes_tree`. The only differences are that we do not need to check for the top level of `Any`, and that we need to call the vectorized version `subtypes_tree.` because `subtypes(T)` returns an array.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+   ```jldoctest methods; output = false
+   function subtypes_tree(T::Type, level::Int = 0)
+      println(repeat("   ", level), T)
+      subtypes_tree.(subtypes(T), level + 1)
+      return
+   end
 
-The `subtypes_tree` function is similar to `supertypes_tree`. The only differences are that we do not need to check for the top level of `Any`, and that we need to call the vectorized version `subtypes_tree.` because `subtypes(T)` returns an array.
-
-```jldoctest methods; output = false
-function subtypes_tree(T::Type, level::Int = 0)
-    println(repeat("   ", level), T)
-    subtypes_tree.(subtypes(T), level + 1)
-    return
-end
-
-# output
-subtypes_tree (generic function with 2 methods)
-```
-
-```@raw html
-</div></details>
-```
+   # output
+   subtypes_tree (generic function with 2 methods)
+   ```
 
 Now we can use the `subtypes_tree` function to get the whole subtypes hierarchy for the `Number` type.
 
@@ -283,6 +255,7 @@ julia> product("a", "b")
 
 julia> product(:a, :b)
 ERROR: ArgumentError: product is defined for numbers and strings only.
+[...]
 ```
 
 Sometimes, it may be complicated to guess which method is used for concrete inputs. In such a case, there is a useful macro `@which` that returns the method that is called for given arguments.
@@ -326,145 +299,120 @@ julia> g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
 
 Closest candidates are:
-  g(!Matched::Real)
-   @ Main none:1
   g(!Matched::String)
    @ Main none:1
+  g(!Matched::Real)
+   @ Main none:1
 [...]
 ```
 
+!!! info "Do not overuse type annotation:"
+   The `product` function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function `product_new` by:
 
+   ```jldoctest methods; output = false
+   product_new(x, y) = x * y
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Do not overuse type annotation:</header>
-<div class="admonition-body">
-```
+   # output
+   product_new (generic function with 1 method)
+   ```
 
-The `product` function should be defined without the type annotation. It is a good practice not to restrict input argument types unless necessary. The reason is that, in this case, there is no benefit of using the type annotation. It is better to define the function `product_new` by:
+   Then we can apply this function to the same inputs as the original `product` function, and we will get the same results
 
-```jldoctest methods; output = false
-product_new(x, y) = x * y
+   ```jldoctest methods
+   julia> product(1, 4.5)
+   4.5
 
-# output
-product_new (generic function with 1 method)
-```
+   julia> product_new(1, 4.5)
+   4.5
 
-Then we can apply this function to the same inputs as the original `product` function, and we will get the same results
+   julia> product("a", "b")
+   "ab"
 
-```jldoctest methods
-julia> product(1, 4.5)
-4.5
+   julia> product_new("a", "b")
+   "ab"
+   ```
 
-julia> product_new(1, 4.5)
-4.5
+   with only one exception
 
-julia> product("a", "b")
-"ab"
+   ```jldoctest methods
+   julia> product("a", :a)
+   ERROR: ArgumentError: product is defined for numbers and strings only.
+   [...]
 
-julia> product_new("a", "b")
-"ab"
-```
+   julia> product_new("a", :a)
+   ERROR: MethodError: no method matching *(::String, ::Symbol)
+   [...]
+   ```
 
-with only one exception
-
-```jldoctest methods
-julia> product("a", :a)
-ERROR: ArgumentError: product is defined for numbers and strings only.
-
-julia> product_new("a", :a)
-ERROR: MethodError: no method matching *(::String, ::Symbol)
-[...]
-```
-
-Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
-
-```@raw html
-</div></div>
-```
+   Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
 
 We show a simple example when the multiple dispatch is useful.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+   We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
 
-We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
+   ```@example methods
+   abstract type Student end
 
-```@example methods
-abstract type Student end
+   struct Master <: Student
+      salary
+   end
 
-struct Master <: Student
-    salary
-end
+   struct Doctoral <: Student
+      salary
+      exam_mid::Bool
+      exam_english::Bool
+   end
 
-struct Doctoral <: Student
-    salary
-    exam_mid::Bool
-    exam_english::Bool
-end
+   nothing # hide
+   ```
 
-nothing # hide
-```
+   We can check that the `subtypes_tree` works correctly on any type, including the type `Student` which we defined.
 
-We can check that the `subtypes_tree` works correctly on any type, including the type `Student` which we defined.
+   ```julia
+   julia> subtypes_tree(Student)
+   Student
+      Doctoral
+      Master
+   ```
 
-```julia
-julia> subtypes_tree(Student)
-Student
-   Doctoral
-   Master
-```
+   We create instances of two students by providing values for the struct fields.
 
-We create instances of two students by providing values for the struct fields.
+   ```@example methods
+   s1 = Master(5000)
+   s2 = Doctoral(30000, 1, 0)
 
-```@example methods
-s1 = Master(5000)
-s2 = Doctoral(30000, 1, 0)
+   nothing # hide
+   ```
 
-nothing # hide
-```
+   Write the `salary_yearly` function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via `s1.salary`). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.
 
-Write the `salary_yearly` function which computes the yearly salary for both student types. The monthly salary is computed from the base salary (which can be accessed via `s1.salary`). Monthly bonus for doctoral students is 2000 for the mid exam and 1000 for the English exam.
+!!! details "Solution:"
+   Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_monthly` function.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+   ```@example methods
+   salary_yearly(s::Student) = 12*salary_monthly(s)
 
-Julia prefers to write many simple functions. We write `salary_yearly` based on the not-yet-defined `salary_monthly` function.
+   nothing # hide
+   ```
 
-```@example methods
-salary_yearly(s::Student) = 12*salary_monthly(s)
+   We specified that the input to `salary_yearly` is any `Student`. Since `Student` is an abstract type, we can call `salary_yearly` with both `Master` and `Doctoral` student. Now we need to define the `salary_monthly` function. Since the salary is computed in different ways for both students, we write two methods.
 
-nothing # hide
-```
+   ```@example methods
+   salary_monthly(s::Master) = s.salary
+   salary_monthly(s::Doctoral) = s.salary + s.exam_mid*2000 + s.exam_english*1000
 
-We specified that the input to `salary_yearly` is any `Student`. Since `Student` is an abstract type, we can call `salary_yearly` with both `Master` and `Doctoral` student. Now we need to define the `salary_monthly` function. Since the salary is computed in different ways for both students, we write two methods.
+   nothing # hide
+   ```
 
-```@example methods
-salary_monthly(s::Master) = s.salary
-salary_monthly(s::Doctoral) = s.salary + s.exam_mid*2000 + s.exam_english*1000
+   Both methods have the same name (they are the same function) but have different inputs. While the first one is used for `Master` students, the second one for `Doctoral` students. Now we print the salary.
 
-nothing # hide
-```
+   ```@example methods
+   println("The yearly salary is $(salary_yearly(s1)).")
+   println("The yearly salary is $(salary_yearly(s2)).")
 
-Both methods have the same name (they are the same function) but have different inputs. While the first one is used for `Master` students, the second one for `Doctoral` students. Now we print the salary.
-
-```@example methods
-println("The yearly salary is $(salary_yearly(s1)).")
-println("The yearly salary is $(salary_yearly(s2)).")
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+   nothing # hide
+   ```
 
 ## Method ambiguities
 
@@ -495,9 +443,9 @@ julia> f(2.0, 3.0)
 ERROR: MethodError: f(::Float64, ::Float64) is ambiguous.
 
 Candidates:
-  f(x::Float64, y)
-    @ Main none:1
   f(x, y::Float64)
+    @ Main none:1
+  f(x::Float64, y)
     @ Main none:1
 
 Possible fix, define

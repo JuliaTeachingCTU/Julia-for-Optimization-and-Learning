@@ -60,45 +60,31 @@ sol(0.8)
 
 The following exercise shows how to specify the interpolation technique and compares the results.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    When calling the `solve` function, we can specify the interpolation way. Solve the ODE with linear interpolation (`dense=false`) and the Runge-Kutta method of the fourth order (`RK4()`). Plot the results and compare them with the default and original solutions.
 
-When calling the `solve` function, we can specify the interpolation way. Solve the ODE with linear interpolation (`dense=false`) and the Runge-Kutta method of the fourth order (`RK4()`). Plot the results and compare them with the default and original solutions.
+!!! details "Solution:"
+    To compute the additional solutions, we add the arguments as specified above.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example intro
+    sol2 = solve(prob, dense=false)
+    sol3 = solve(prob, RK4())
 
-To compute the additional solutions, we add the arguments as specified above.
+    nothing # hide
+    ```
 
-```@example intro
-sol2 = solve(prob, dense=false)
-sol3 = solve(prob, RK4())
+    We create a discretization ```ts``` of the time interval and then plot the four functions.
 
-nothing # hide
-```
+    ```@example intro
+    ts = range(tspan...; length = 100)
 
-We create a discretization ```ts``` of the time interval and then plot the four functions.
+    plot(ts, t->exp(0.98*t), label="True solution", legend=:topleft)
+    plot!(ts, t->sol(t), label="Default")
+    plot!(ts, t->sol2(t), label="Linear")
+    plot!(ts, t->sol3(t), label="Runge-Kutta")
 
-```@example intro
-ts = range(tspan...; length = 100)
-
-plot(ts, t->exp(0.98*t), label="True solution", legend=:topleft)
-plot!(ts, t->sol(t), label="Default")
-plot!(ts, t->sol2(t), label="Linear")
-plot!(ts, t->sol3(t), label="Runge-Kutta")
-
-savefig("Comparison.svg") # hide
-```
-```@raw html
-</div></details>
-```
+    savefig("Comparison.svg") # hide
+    ```
 
 ![](Comparison.svg)
 
@@ -185,43 +171,28 @@ plot(traj[1,:], traj[2,:], traj[3,:]; label="")
 
 In the introduction, we mentioned chaos theory. We will elaborate on this in the following exercise.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the `nextfloat` function to perturb the first parameter of `p` by the smallest possible value. Then solve the Lorenz system again and compare the results by plotting the two trajectories next to each other.
 
-Use the `nextfloat` function to perturb the first parameter of `p` by the smallest possible value. Then solve the Lorenz system again and compare the results by plotting the two trajectories next to each other.
+!!! details "Solution:"
+    We start with the smallest possible perturbation of the initial value.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example intro
+    p0 = (nextfloat(p[1]), p[2:end]...) 
+    ```
 
-We start with the smallest possible perturbation of the initial value.
+    Then we plot the graphs as before
 
-```@example intro
-p0 = (nextfloat(p[1]), p[2:end]...) 
-```
+    ```@example intro
+    prob0 = ODEProblem(lorenz, u0, tspan, p0)
+    sol0 = solve(prob0)
 
-Then we plot the graphs as before
+    plt0 = plot(sol0, vars=(1,2,3), label="")
 
-```@example intro
-prob0 = ODEProblem(lorenz, u0, tspan, p0)
-sol0 = solve(prob0)
+    plot(plt1, plt0; layout=(1,2))
 
-plt0 = plot(sol0, vars=(1,2,3), label="")
-
-plot(plt1, plt0; layout=(1,2))
-
-savefig("lorenz4.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("lorenz4.svg") # hide
+    ```
 
 ![](lorenz4.svg)
 
@@ -233,28 +204,14 @@ hcat(sol(tspan[2]), sol0(tspan[2]))
 
 shows that they are different by a large margin. This raises a natural question.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Can we trust the solutions? Why?
 
-Can we trust the solutions? Why?
+!!! details "Solution:"
+    Unfortunately, we cannot. Numerical methods always introduce some errors by
+    - *Rounding errors* due to representing real numbers in machine precision.
+    - *Discretization errors* for continuous systems when the finite difference method approximates the derivative.
+    However, if the system itself is unstable and an extremely small perturbation results in big differences in solutions, the numerical method even enhances these errors. The solution could be trusted on some small interval but not after it.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-Unfortunately, we cannot. Numerical methods always introduce some errors by
-- *Rounding errors* due to representing real numbers in machine precision.
-- *Discretization errors* for continuous systems when the finite difference method approximates the derivative.
-However, if the system itself is unstable and an extremely small perturbation results in big differences in solutions, the numerical method even enhances these errors. The solution could be trusted on some small interval but not after it.
-
-```@raw html
-</div></details>
-```
 
 The following section shows a situation where we try to mitigate this possible effect by using mathematical formulas to compute the exact solution as long as possible. This aproach delays the necessary discretization and may bring better stability.

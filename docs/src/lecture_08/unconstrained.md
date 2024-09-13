@@ -23,7 +23,7 @@ f(x) \le f(y) \text{ for all }y\in X.
 
 This point is often challenging to find. Sometimes we can find a local minimum, which is a global minimum on some small neighbourhood of ``x``. However, as the following theorem suggests, we often need to lower our requirements even lower.
 
-!!! theorem "Theorem: Connection between optimization problems and gradients"
+!!! todo "Theorem: Connection between optimization problems and gradients"
     Consider a differentiable function ``f`` over ``X=\mathbb{R}^n``. If ``x`` is its local minimum, then ``\nabla f(x)=0``. Conversely, if ``f`` is convex, then every point ``x`` with ``\nabla f(x)=0`` is a global minimum of ``f``.
 
 Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algorithms often try to find local minima or stationary points, hoping to minimize the function ``f``. The reason is the following: To optimize ``f``, we can evaluate it only at a limited number of points. Since evaluating ``f`` at a point conveys only information about the function value at this point or its small neighbourhood, we collect only local information about ``f``. Therefore, unless ``f`` has a special structure, it is possible to obtain global results from only local evaluations. 
@@ -60,42 +60,26 @@ Here  ``c\in(0,1)`` is a small constant, usually ``c=10^{-4}``. Since the left-h
 
 In this section, we will implement the gradient descent method.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise: Gradient descent</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise: Gradient descent:"
+    Implement function `optim`, which takes as inputs function ``f``, its gradient, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. Its output should be the first 100 iterations.
 
-Implement function `optim`, which takes as inputs function ``f``, its gradient, starting point ``x^0`` and fixed stepsize ``\alpha`` and runs the gradient descent. Its output should be the first 100 iterations.
+    This example is rather artificial because usually only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations. We want to get all iterations to make visualizations.
 
-This example is rather artificial because usually only the last iteration is returned and some stopping criterion is employed instead of the fixed number of iterations. We want to get all iterations to make visualizations.
+!!! details "Solution:"
+    First we need to create an empty array into which we store the data. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-First we need to create an empty array into which we store the data. Then at every iteration we compute the gradient ```g(x)```, perform the update and save the new value of ``x``.
-
-```@example optim
-function optim(f, g, x, α; max_iter=100)
-    xs = zeros(length(x), max_iter+1)
-    xs[:,1] = x
-    for i in 1:max_iter
-        x -= α*g(x)
-        xs[:,i+1] = x
+    ```@example optim
+    function optim(f, g, x, α; max_iter=100)
+        xs = zeros(length(x), max_iter+1)
+        xs[:,1] = x
+        for i in 1:max_iter
+            x -= α*g(x)
+            xs[:,i+1] = x
+        end
+        return xs
     end
-    return xs
-end
-nothing # hide
-```
-
-```@raw html
-</p>
-</details>
-```
+    nothing # hide
+    ```
 
 The implementation does not use the values of ``f`` but only its gradient ``\nabla f``. If the algorithm converges ``x^k \to \bar x``, then passing to the limit in the gradient update results in ``\nabla f(\bar x)=0``. Therefore, as with most optimization methods, gradient descent looks for stationary points.
 
@@ -147,57 +131,42 @@ nothing # hide
 
 We now plot how gradient descent behaves.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise: Gradient descent</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise: Gradient descent"
+    Use the implementation of the gradient descent to minimize the function
 
-Use the implementation of the gradient descent to minimize the function
+    ```math
+    f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
+    ```
+    from the starting point ``x^0=(0,-1)``. Use the constant stepsize ``\alpha=0.1``. Store all iterations into matrix ```xs```.
 
-```math
-f(x) = \sin(x_1 + x_2) + \cos(x_1)^2
-```
-from the starting point ``x^0=(0,-1)``. Use the constant stepsize ``\alpha=0.1``. Store all iterations into matrix ```xs```.
+    Use the `create_anim` function to plot the iteration into a gif file.
 
-Use the `create_anim` function to plot the iteration into a gif file.
+    Use one line of code to evaluate the function values for all iterations ```xs``` and plot these function values.
 
-Use one line of code to evaluate the function values for all iterations ```xs``` and plot these function values.
+    **Hint**: to evaluate all ``xs`` in one line, use iterate either via ```eachcol(xs)``` or ```eachrow(xs)```.
 
-**Hint**: to evaluate all ``xs`` in one line, use iterate either via ```eachcol(xs)``` or ```eachrow(xs)```.
+!!! details "Solution:"
+    We call ```optim``` from the previous exercise and then create the animation.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example optim
+    x_gd = optim([], g, [0; -1], 0.1)
 
-We call ```optim``` from the previous exercise and then create the animation.
+    xlims = (-3, 1)
+    ylims = (-2, 1)
+    create_anim(f, x_gd, xlims, ylims, "anim1.gif")
 
-```@example optim
-x_gd = optim([], g, [0; -1], 0.1)
+    nothing # hide
+    ```
 
-xlims = (-3, 1)
-ylims = (-2, 1)
-create_anim(f, x_gd, xlims, ylims, "anim1.gif")
+    To plot the function values, we need to iterate over all columns. We use ```[? for x in eachcol(x_gd)]``` and apply ```f(x)``` instead of ```?```. Another (more complicated) way is to iterate over indices instead of vectors and write ```[f(x_gs[:,i]) for i in 1:size(x_gd,2)]```.
 
-nothing # hide
-```
+    ```@example optim
+    f_gd = [f(x) for x in eachcol(x_gd)]
 
-To plot the function values, we need to iterate over all columns. We use ```[? for x in eachcol(x_gd)]``` and apply ```f(x)``` instead of ```?```. Another (more complicated) way is to iterate over indices instead of vectors and write ```[f(x_gs[:,i]) for i in 1:size(x_gd,2)]```.
+    plot(f_gd, label="", xlabel="Iteration", ylabel="Function value")
 
-```@example optim
-f_gd = [f(x) for x in eachcol(x_gd)]
-
-plot(f_gd, label="", xlabel="Iteration", ylabel="Function value")
-
-savefig("obj.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("obj.svg") # hide
+    ```
 
 ![](anim1.gif)
 ![](obj.svg)
@@ -283,65 +252,50 @@ nothing # hide
 
 The result is the same as in the previous case. This is not surprising as the code does the same things; it is only written differently. The following exercise shows the power of defining the ```Step``` type.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise: Armijo condition</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise: Armijo condition"
+    Implement the ```Armijo``` subtype of the ```Step``` type. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
 
-Implement the ```Armijo``` subtype of the ```Step``` type. It should have two parameters ```c``` from the definition and ```α_max``` which will be the initial value of ``\alpha``. The value ``\alpha`` should be divided by two until the Armijo condition is satisfied.
+    Then run the optimization with the Armijo stepsize selection and plot the animation.
 
-Then run the optimization with the Armijo stepsize selection and plot the animation.
+!!! details "Solution:"
+    We define the type in the same way as for ```GD```:
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
-
-We define the type in the same way as for ```GD```:
-
-```@example optim
-struct Armijo <: Step
-    c::Float64
-    α_max::Float64
-end
-```
-
-For the search for the stepsize, we first save the values for the function value ``f(x)`` and the gradient ``\nabla f(x)``. If we do not do this, it will be recomputed at every step. Then we initialize the value of ``\alpha`` and run the while loop until the Armijo condition is satisfied. We add a termination condition ```α <= 1e-6``` to prevent the loop from continuing indefinitely.
-
-```@example optim
-function optim_step(s::Armijo, f, g, x)
-    fun = f(x)
-    grad = g(x)
-    α = s.α_max
-    while f(x .- α*grad) > fun - s.c*α*(grad'*grad)
-        α /= 2
-        if α <= 1e-6
-            warning("Armijo line search failed.")
-            break
-        end
+    ```@example optim
+    struct Armijo <: Step
+        c::Float64
+        α_max::Float64
     end
-    return -α*grad
-end
-nothing # hide
-```
+    ```
 
-Then we create the ```Armijo``` struct and run the optimization.
+    For the search for the stepsize, we first save the values for the function value ``f(x)`` and the gradient ``\nabla f(x)``. If we do not do this, it will be recomputed at every step. Then we initialize the value of ``\alpha`` and run the while loop until the Armijo condition is satisfied. We add a termination condition ```α <= 1e-6``` to prevent the loop from continuing indefinitely.
 
-```@example optim
-gd = Armijo(1e-4, 1)
-x_opt = optim(f, g, [0;-1], gd)
+    ```@example optim
+    function optim_step(s::Armijo, f, g, x)
+        fun = f(x)
+        grad = g(x)
+        α = s.α_max
+        while f(x .- α*grad) > fun - s.c*α*(grad'*grad)
+            α /= 2
+            if α <= 1e-6
+                warning("Armijo line search failed.")
+                break
+            end
+        end
+        return -α*grad
+    end
+    nothing # hide
+    ```
 
-create_anim(f, x_opt, xlims, ylims, "anim5.gif")
+    Then we create the ```Armijo``` struct and run the optimization.
 
-nothing # hide
-```
+    ```@example optim
+    gd = Armijo(1e-4, 1)
+    x_opt = optim(f, g, [0;-1], gd)
 
-```@raw html
-</div></details>
-```
+    create_anim(f, x_opt, xlims, ylims, "anim5.gif")
+
+    nothing # hide
+    ```
 
 ![](anim5.gif)
 

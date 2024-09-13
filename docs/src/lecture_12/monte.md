@@ -36,45 +36,30 @@ plot(0:0.1:10, gamma;
 
 Machine learning datasets contain many features. Even simple datasets such as MNIST live in ``28\times 28=784`` dimensions. However, we humans are unable to think in more than three dimensions. Working with more-dimensional spaces can bring many surprises. This section computes the volume of ``m``-dimensional balls. Before we start, try to guess the volume of the unit balls in ``\mathbb R^{10}`` and ``\mathbb R^{100}``. 
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Use the [formula](https://en.wikipedia.org/wiki/Volume_of_an_n-ball) to compute the volume of a ``m``-dimensional ball. Plot the dependence of the volume on the dimension ``m=1,\dots,100``.
 
-Use the [formula](https://en.wikipedia.org/wiki/Volume_of_an_n-ball) to compute the volume of a ``m``-dimensional ball. Plot the dependence of the volume on the dimension ``m=1,\dots,100``.
+!!! details "Solution:"
+    The formula can be easily transferred to a function.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example monte
+    volume_true(m, R) = π^(m/2) *R^2 / gamma(m/2 + 1)
 
-The formula can be easily transferred to a function.
+    nothing # hide
+    ```
 
-```@example monte
-volume_true(m, R) = π^(m/2) *R^2 / gamma(m/2 + 1)
+    Then we create the plot. We use the log-scaling of the ``y``-axis.
 
-nothing # hide
-```
+    ```@example monte
+    plot(1:100, m -> volume_true.(m, 1);
+        xlabel="dimension",
+        ylabel="unit ball volume: log scale",
+        label="",
+        yscale=:log10,
+    )
 
-Then we create the plot. We use the log-scaling of the ``y``-axis.
-
-```@example monte
-plot(1:100, m -> volume_true.(m, 1);
-    xlabel="dimension",
-    ylabel="unit ball volume: log scale",
-    label="",
-    yscale=:log10,
-)
-
-savefig("dimension1.svg") # hide
-```
-
-```@raw html
-</div></details>
-```
+    savefig("dimension1.svg") # hide
+    ```
 
 ![](dimension1.svg)
 
@@ -82,41 +67,26 @@ This result may be surprising. While the volume of the ``10``-dimensional ball i
 
 The following exercise uses the Monte Carlo sampling to estimate this volume. We will sample points in the hypercube ``[-1,1]^m`` and then compute the unit ball volume by realizing that the volume of the ball divided by the volume of the box equals the fraction of sampled points inside the ball.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Write the function `volume_monte_carlo`, which estimates the volume of the ``m``-dimensional ball based on ``n`` randomly sampled points.
 
-Write the function `volume_monte_carlo`, which estimates the volume of the ``m``-dimensional ball based on ``n`` randomly sampled points.
+    **Hint**: function `rand(m,n)` creates a ``m\times n`` matrix, which can be understood as ``n`` randomly sampled points in ``[0,1]^m``. Transform them to ``[-1,1]^m``.
 
-**Hint**: function `rand(m,n)` creates a ``m\times n`` matrix, which can be understood as ``n`` randomly sampled points in ``[0,1]^m``. Transform them to ``[-1,1]^m``.
+!!! details "Solution:"
+    To transform the random variable from ``[0,1]`` to ``[-1,1]``, we need to multiply it by two and subtract one. Then we compute the norm of each sampled point. The estimated volume is computed as the fraction of the points whose norm is smaller than one multiplied by the hypercube volume. The latter equals to ``2^m``.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example monte
+    using Random
+    using Statistics
 
-To transform the random variable from ``[0,1]`` to ``[-1,1]``, we need to multiply it by two and subtract one. Then we compute the norm of each sampled point. The estimated volume is computed as the fraction of the points whose norm is smaller than one multiplied by the hypercube volume. The latter equals to ``2^m``.
+    function volume_monte_carlo(m::Int; n::Int=10000)
+        X = 2*rand(m, n).-1
+        X_norm_sq = sum(X.^2; dims=1)
+        return 2^m*mean(X_norm_sq .<= 1)
+    end
 
-```@example monte
-using Random
-using Statistics
-
-function volume_monte_carlo(m::Int; n::Int=10000)
-    X = 2*rand(m, n).-1
-    X_norm_sq = sum(X.^2; dims=1)
-    return 2^m*mean(X_norm_sq .<= 1)
-end
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 The next figure shows the estimated volume from ``n\in \{10, 1000, 100000\}`` samples for the unit ball in dimension ``m=1,\dots,15``.
 
@@ -147,24 +117,17 @@ savefig("dimension2.svg") # hide
 
 It is not surprising that with increasing dimension, we need a much larger number of samples to obtain good estimates. This number grows exponentially with the dimension. This phenomenon explains why machine learning models with large feature spaces need lots of data. Moreover, the number of samples should increase with the complexity of the input and the network. 
 
-```@raw html
-<div class="admonition is-info">
-<header class="admonition-header">Generating from the uniform distribution:</header>
-<div class="admonition-body">
-```
-While we wrote our function for generating from the uniform distribution, we can also use the Distributions package.
+!!! info "Generating from the uniform distribution:"
+    While we wrote our function for generating from the uniform distribution, we can also use the Distributions package.
 
-```@example
-using Distributions
+    ```@example
+    using Distributions
 
-rand(Uniform(-1, 1), 10, 5)
-nothing # hide
-```
+    rand(Uniform(-1, 1), 10, 5)
+    nothing # hide
+    ```
 
-We will discuss this topic more in the following section.
-```@raw html
-</div></div>
-```
+    We will discuss this topic more in the following section.
 
 ## Sampling from distributions
 
@@ -226,36 +189,21 @@ We may work with a distribution ``d`` for which we know the density ``f``, but t
 - the upper bound  ``f_{\rm max}`` for the density ``f``.
 The rejection sampling technique first randomly samples a trial point ``x\in [x_{\rm min}, x_{\rm max}]`` and a scalar ``p\in [0,f_{\rm max}]``. It accepts ``x`` if ``p \le f(x)`` and rejects it otherwise. This technique ensures that a point is accepted with a probability proportional to its density function value.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Implement the `rejection_sampling` function. It should generate ``n`` trial points and return all accepted points.
 
-Implement the `rejection_sampling` function. It should generate ``n`` trial points and return all accepted points.
+!!! details "Solution:"
+    While it is possible to generate the random points one by one, we prefer to generate them all at once and discard the rejected samples. The function follows precisely the steps summarized before this exercise.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example monte
+    function rejection_sampling(f, f_max, x_min, x_max; n=1000000)
+        xs = x_min .+ (x_max - x_min)*rand(n)
+        ps = f_max*rand(n)
+        return xs[f.(xs) .>= ps]
+    end
 
-While it is possible to generate the random points one by one, we prefer to generate them all at once and discard the rejected samples. The function follows precisely the steps summarized before this exercise.
-
-```@example monte
-function rejection_sampling(f, f_max, x_min, x_max; n=1000000)
-    xs = x_min .+ (x_max - x_min)*rand(n)
-    ps = f_max*rand(n)
-    return xs[f.(xs) .>= ps]
-end
-
-nothing # hide
-```
-
-```@raw html
-</div></details>
-```
+    nothing # hide
+    ```
 
 We will now use the rejection sampling technique to generate the random samples from the three distributions from above. Since the density ``f`` of the normal distribution achieves its maximum at the mean, we specify `f_max = f(d.μ)`.
 
@@ -282,142 +230,118 @@ nothing # hide
 
 While the rejection sampling provides a good approximation for the first two distributions, it performs subpar for the last distribution. The reason is that the rejection sampling is sensitive to the choice of the interval ``[x_{\rm min}, x_{\rm max}]``. Because we chose the interval ``[-10,10]`` and ``f_3`` has negligible values outside of the interval ``[-0.1,0.1]``,  most trial points got rejected. It is not difficult to verify that from the ``1000000`` trial points, only approximately ``1200`` got accepted. The small number of accepted points makes for the poor approximation. If we generated from a narrower interval, the results would be much better.
 
-```@raw html
-<div class="admonition is-category-bonus">
-<header class="admonition-header">BONUS: Using rejection sampling to compute expected value</header>
-<div class="admonition-body">
-```
+!!! compat "BONUS: Using rejection sampling to compute expected value"
+    This exercise computes the expected value
 
-This exercise computes the expected value
+    ```math
+    \mathbb E_3 \cos(100X) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
+    ```
 
-```math
-\mathbb E_3 \cos(100X) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
-```
+    where we consider the expectation ``\mathbb E`` with respect to ``d_3\sim  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
 
-where we consider the expectation ``\mathbb E`` with respect to ``d_3\sim  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
+    ```@example monte 
+    h(x) = cos(100*x)
 
-```@example monte 
-h(x) = cos(100*x)
+    Δx = 0.001
+    xs = range(xlims...; step=Δx)
+    e0 = Δx * sum(f3.(xs) .* h.(xs))
 
-Δx = 0.001
-xs = range(xlims...; step=Δx)
-e0 = Δx * sum(f3.(xs) .* h.(xs))
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    The second possibility is to approximate the integral by
 
-The second possibility is to approximate the integral by
+    ```math
+    \mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
+    ```
 
-```math
-\mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
-```
+    where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
 
-where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
+    ```@example monte
+    expectation1(h, d; n = 1000000) = mean(h, rand(d, n))
 
-```@example monte
-expectation1(h, d; n = 1000000) = mean(h, rand(d, n))
+    function expectation2(h, f, f_max, xlims; n=1000000)
+        return mean(h, rejection_sampling(f, f_max, xlims...; n))
+    end
 
-function expectation2(h, f, f_max, xlims; n=1000000)
-    return mean(h, rejection_sampling(f, f_max, xlims...; n))
-end
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    If it is difficult to sample from ``d_3``, we can use a trick to sample from some other distribution. This is based on the following formula:
 
-If it is difficult to sample from ``d_3``, we can use a trick to sample from some other distribution. This is based on the following formula:
+    ```math
+    \mathbb E_3 h(x) = \int_{-\infty}^\infty h(x) f_3(x) dx = \int_{-\infty}^\infty h(x) \frac{f_3(x)}{f_1(x)}f_1(x) dx = \mathbb E_1 \frac{h(x)f_3(x)}{f_1(x)}.
+    ```
 
-```math
-\mathbb E_3 h(x) = \int_{-\infty}^\infty h(x) f_3(x) dx = \int_{-\infty}^\infty h(x) \frac{f_3(x)}{f_1(x)}f_1(x) dx = \mathbb E_1 \frac{h(x)f_3(x)}{f_1(x)}.
-```
+    This gives rise to another implementation of the same thing.
 
-This gives rise to another implementation of the same thing.
+    ```@example monte
+    function expectation3(h, f, d_gen; n=1000000)
+        g(x) = h(x)*f(x)/pdf(d_gen, x)
+        return mean(g, rand(d_gen, n))
+    end
 
-```@example monte
-function expectation3(h, f, d_gen; n=1000000)
-    g(x) = h(x)*f(x)/pdf(d_gen, x)
-    return mean(g, rand(d_gen, n))
-end
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    We run these three approaches for ``20`` repetitions.
 
-We run these three approaches for ``20`` repetitions.
+    ```@example monte
+    n = 100000
+    n_rep = 20
 
-```@example monte
-n = 100000
-n_rep = 20
+    Random.seed!(666)
+    e1 = [expectation1(h, d3; n=n) for _ in 1:n_rep]
+    e2 = [expectation2(h, f3, f3(d3.μ), xlims; n=n) for _ in 1:n_rep]
+    e3 = [expectation3(h, f3, d1; n=n) for _ in 1:n_rep]
 
-Random.seed!(666)
-e1 = [expectation1(h, d3; n=n) for _ in 1:n_rep]
-e2 = [expectation2(h, f3, f3(d3.μ), xlims; n=n) for _ in 1:n_rep]
-e3 = [expectation3(h, f3, d1; n=n) for _ in 1:n_rep]
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    Finally, we plot the results. Sampling from the package gives the best results because it generates the full amount of points, while the rejection sampling rejects many points. 
 
-Finally, we plot the results. Sampling from the package gives the best results because it generates the full amount of points, while the rejection sampling rejects many points. 
+    ```@example monte
+    scatter([1], [e0]; label="Integral discretization", legend=:topleft)
+    scatter!(2*ones(n_rep), e1; label="Generating from Distributions.jl")
+    scatter!(3*ones(n_rep), e2; label="Generating from rejection sampling")
+    scatter!(4*ones(n_rep), e3; label="Generating from other distribution")
+    ```
 
-```@example monte
-scatter([1], [e0]; label="Integral discretization", legend=:topleft)
-scatter!(2*ones(n_rep), e1; label="Generating from Distributions.jl")
-scatter!(3*ones(n_rep), e2; label="Generating from rejection sampling")
-scatter!(4*ones(n_rep), e3; label="Generating from other distribution")
-```
-
-This exercise considered the computation of a one-dimensional integral. It is important to realize that even for such a simple case, it is necessary to sample a sufficiently large number of points. Even when we sampled ``100000`` points, there is still some variance in the results, as the last three columns show.
-
-```@raw html
-</div></div>
-```
+    This exercise considered the computation of a one-dimensional integral. It is important to realize that even for such a simple case, it is necessary to sample a sufficiently large number of points. Even when we sampled ``100000`` points, there is still some variance in the results, as the last three columns show.
 
 # How many samples do we need?
 
 Previous sections showed that we need many samples to obtain a good approximation of a desired quantity. The natural question is, how exactly many samples do we need? Even though many results estimate such errors, unfortunately, the answer depends on the application. This section will present two examples. The first one shows the distance of sampled points in a more-dimensional space, while the second one computes quantiles.
 
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Sample ``n=1000`` points in the unit cube in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
 
-Sample ``n=1000`` points in the unit cube in the ``m=9``-dimensional space. What is the minimum distance of these points? Before implementing the exercise, try to guess the answer.
+!!! details "Solution:"
+    We first sample the points.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example monte
+    n = 1000
+    m = 9
 
-We first sample the points.
+    Random.seed!(666)
+    xs = rand(m, n)
 
-```@example monte
-n = 1000
-m = 9
+    nothing # hide
+    ```
 
-Random.seed!(666)
-xs = rand(m, n)
+    Then we save the pairwise of points in `dist1`. Since this variable contains zeros on the diagonal, and since lower and upper diagonal are the same, we select only the upper part of the matrix and save it into `dist2`.
 
-nothing # hide
-```
+    ```@example monte
+    using LinearAlgebra
 
-Then we save the pairwise of points in `dist1`. Since this variable contains zeros on the diagonal, and since lower and upper diagonal are the same, we select only the upper part of the matrix and save it into `dist2`.
+    dist1 = [norm(x-y) for x in eachcol(xs), y in eachcol(xs)]
+    dist2 = [dist1[i,j] for i in 1:n for j in i+1:n]
 
-```@example monte
-using LinearAlgebra
+    nothing # hide
+    ```
 
-dist1 = [norm(x-y) for x in eachcol(xs), y in eachcol(xs)]
-dist2 = [dist1[i,j] for i in 1:n for j in i+1:n]
-
-nothing # hide
-```
-
-This approach has the disadvantage that it allocates an ``n\times n`` matrix.
-
-```@raw html
-</div></details>
-```
+    This approach has the disadvantage that it allocates an ``n\times n`` matrix.
 
 The minimum of these distances is roughly ``0.2``, while the maximum is ``2.2``. The minimum is surprisingly high and shows that sampling even ``1000`` points in ``\mathbb R^9`` forms a very sparse structure. The maximum distance is far away from the distance of two corners of the hypercube, which equals ``\sqrt{m}=3``.
 
@@ -425,105 +349,96 @@ The minimum of these distances is roughly ``0.2``, while the maximum is ``2.2``.
 extrema(dist2)
 ```
 
-```@raw html
-<div class="admonition is-category-bonus">
-<header class="admonition-header">BONUS: Approximating the quantiles</header>
-<div class="admonition-body">
-```
+!!! compat "BONUS: Approximating the quantiles"
+    Quantiles form an important concept in statistics. Its definition is slightly complicated; we will consider only absolutely continuous random variables: one-dimensional variables ``X`` with continuous density ``f``. Then the quantile at a level ``\alpha\in[0,1]`` is the unique point ``x`` such that 
 
-Quantiles form an important concept in statistics. Its definition is slightly complicated; we will consider only absolutely continuous random variables: one-dimensional variables ``X`` with continuous density ``f``. Then the quantile at a level ``\alpha\in[0,1]`` is the unique point ``x`` such that 
+    ```math
+    \mathbb P(X\le x) = \int_{-\infty}^x f(x)dx = \alpha. 
+    ```
 
-```math
-\mathbb P(X\le x) = \int_{-\infty}^x f(x)dx = \alpha. 
-```
+    The quantile at level ``\alpha=0.5`` is the mean. Quantiles play an important role in estimates, where they form upper and lower bounds for confidence intervals. They are also used in hypothesis testing.
 
-The quantile at level ``\alpha=0.5`` is the mean. Quantiles play an important role in estimates, where they form upper and lower bounds for confidence intervals. They are also used in hypothesis testing.
+    This part will investigate how quantiles on a finite sample differ from the true quantile. We will consider two ways of computing the quantile. Both of them sample ``n`` points from some distribution ``d``. The first one follows the statistical definition and selects the index of the ``n\alpha`` smallest observation by the `partialsort` function. The second one uses the function `quantile`, which performs some interpolation.
 
-This part will investigate how quantiles on a finite sample differ from the true quantile. We will consider two ways of computing the quantile. Both of them sample ``n`` points from some distribution ``d``. The first one follows the statistical definition and selects the index of the ``n\alpha`` smallest observation by the `partialsort` function. The second one uses the function `quantile`, which performs some interpolation.
+    ```@example monte
+    quantile_sampled1(d, n::Int, α) = partialsort(rand(d, n), floor(Int, α*n))
+    quantile_sampled2(d, n::Int, α) = quantile(rand(d, n), α)
 
-```@example monte
-quantile_sampled1(d, n::Int, α) = partialsort(rand(d, n), floor(Int, α*n))
-quantile_sampled2(d, n::Int, α) = quantile(rand(d, n), α)
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    We defined the vectorized version. This is not efficient because for every ``n``, the samples will be randomly generated again.
 
-We defined the vectorized version. This is not efficient because for every ``n``, the samples will be randomly generated again.
+    ```@example monte
+    quantile_sampled1(d, ns::AbstractVector, α) = quantile_sampled1.(d, ns, α)
+    quantile_sampled2(d, ns::AbstractVector, α) = quantile_sampled2.(d, ns, α)
 
-```@example monte
-quantile_sampled1(d, ns::AbstractVector, α) = quantile_sampled1.(d, ns, α)
-quantile_sampled2(d, ns::AbstractVector, α) = quantile_sampled2.(d, ns, α)
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    We generate the quantile for ``\alpha = 0.99`` and repeat it 20 times.
 
-We generate the quantile for ``\alpha = 0.99`` and repeat it 20 times.
+    ```@example monte
+    α = 0.99
+    n_rep = 20
+    ns = round.(Int, 10 .^ (1:0.05:5))
 
-```@example monte
-α = 0.99
-n_rep = 20
-ns = round.(Int, 10 .^ (1:0.05:5))
+    Random.seed!(666)
+    qs1 = hcat([quantile_sampled1(d1, ns, α) for _ in 1:n_rep]...)
+    Random.seed!(666)
+    qs2 = hcat([quantile_sampled2(d1, ns, α) for _ in 1:n_rep]...)
 
-Random.seed!(666)
-qs1 = hcat([quantile_sampled1(d1, ns, α) for _ in 1:n_rep]...)
-Random.seed!(666)
-qs2 = hcat([quantile_sampled2(d1, ns, α) for _ in 1:n_rep]...)
+    nothing # hide
+    ```
 
-nothing # hide
-```
+    We initialize the plot with the line for the true quantile. Since this will be part of both plots, we create just one and use `deepcopy` to create the other one. 
 
-We initialize the plot with the line for the true quantile. Since this will be part of both plots, we create just one and use `deepcopy` to create the other one. 
-
-```@example monte
-plt1 = plot([0.9*minimum(ns); 1.1*maximum(ns)], quantile(d1, α)*ones(2);
-    xlabel="n: log scale",
-    ylabel="sampled quantile",
-    xscale=:log10,
-    label="True quantile",
-    line=(4,:black),
-    ylims=(0,3.5),
-)
-plt2 = deepcopy(plt1)
-
-nothing # hide
-```
-
-Now we add the sampled quantiles and the mean over all repetitions. Since we work with two plots, we specify into which plot we want to add the new data. It would be better to create a function for plotting and call it for `qs1` and `qs2`, but we wanted to show how to work two plots simultaneously.
-
-```@example monte
-for i in 1:size(qs1,1)
-    scatter!(plt1, ns[i]*ones(size(qs1,2)), qs1[i,:];
-        label="",
-        color=:blue,
-        markersize = 2,
+    ```@example monte
+    plt1 = plot([0.9*minimum(ns); 1.1*maximum(ns)], quantile(d1, α)*ones(2);
+        xlabel="n: log scale",
+        ylabel="sampled quantile",
+        xscale=:log10,
+        label="True quantile",
+        line=(4,:black),
+        ylims=(0,3.5),
     )
-    scatter!(plt2, ns[i]*ones(size(qs2,2)), qs2[i,:];
-        label="",
-        color=:blue,
-        markersize = 2,
+    plt2 = deepcopy(plt1)
+
+    nothing # hide
+    ```
+
+    Now we add the sampled quantiles and the mean over all repetitions. Since we work with two plots, we specify into which plot we want to add the new data. It would be better to create a function for plotting and call it for `qs1` and `qs2`, but we wanted to show how to work two plots simultaneously.
+
+    ```@example monte
+    for i in 1:size(qs1,1)
+        scatter!(plt1, ns[i]*ones(size(qs1,2)), qs1[i,:];
+            label="",
+            color=:blue,
+            markersize = 2,
+        )
+        scatter!(plt2, ns[i]*ones(size(qs2,2)), qs2[i,:];
+            label="",
+            color=:blue,
+            markersize = 2,
+        )
+    end
+
+    plot!(plt1, ns, mean(qs1; dims=2);
+        label="Sampled mean",
+        line=(4,:red),
     )
-end
+    plot!(plt2, ns, mean(qs2; dims=2);
+        label="Sampled mean",
+        line=(4,:red),
+    )
 
-plot!(plt1, ns, mean(qs1; dims=2);
-    label="Sampled mean",
-    line=(4,:red),
-)
-plot!(plt2, ns, mean(qs2; dims=2);
-    label="Sampled mean",
-    line=(4,:red),
-)
+    display(plt1)
+    display(plt2)
+    savefig(plt1, "quantile1.svg") # hide
+    savefig(plt2, "quantile2.svg") # hide
+    ```
 
-display(plt1)
-display(plt2)
-savefig(plt1, "quantile1.svg") # hide
-savefig(plt2, "quantile2.svg") # hide
-```
+    ![](quantile1.svg)
+    ![](quantile2.svg)
 
-![](quantile1.svg)
-![](quantile2.svg)
-
-Both sampled estimates give a lower estimate than the true quantile. In statistical methodology, these estimates are biased. We observe that the interpolated estimate is closer to the true value and that computing the quantile even on ``10000`` points gives an uncertainty interval of approximately ``0.25``.
-
-```@raw html
-</div></div>
-```
+    Both sampled estimates give a lower estimate than the true quantile. In statistical methodology, these estimates are biased. We observe that the interpolated estimate is closer to the true value and that computing the quantile even on ``10000`` points gives an uncertainty interval of approximately ``0.25``.

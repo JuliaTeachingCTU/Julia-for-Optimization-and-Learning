@@ -21,17 +21,8 @@ Ordinary differential equations take the form
 
 on some interval ``t\in [0,T]``. To obtain a correct definition, the initial value ``y(0)=y_0`` needs to be provided. A solution is a (sufficiently smooth) function ``y(t)`` such that the above formula is satisfied (almost) everywhere on ``[0,T]``. Mild conditions ensure its existence and uniqueness.
 
-```@raw html
-<div class="admonition is-category-theorem">
-<header class="admonition-header">Picard–Lindelöf theorem</header>
-<div class="admonition-body">
-```
-
-Suppose ``f`` is uniformly Lipschitz continuous in ``y`` (the Lipschitz constant is independent of ``t``) and continuous in ``t``. Then for some value ``\varepsilon > 0``, there exists a unique solution ``y(t)`` to the initial value problem on the interval ``[t_0-\varepsilon, t_0+\varepsilon]``.
-
-```@raw html
-</div></div>
-```
+!!! todo "Picard–Lindelöf theorem"
+    Suppose ``f`` is uniformly Lipschitz continuous in ``y`` (the Lipschitz constant is independent of ``t``) and continuous in ``t``. Then for some value ``\varepsilon > 0``, there exists a unique solution ``y(t)`` to the initial value problem on the interval ``[t_0-\varepsilon, t_0+\varepsilon]``.
 
 However, it may happen that even simple equations do not have a unique solution.
 

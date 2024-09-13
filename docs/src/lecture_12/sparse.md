@@ -134,64 +134,49 @@ nothing # hide
 
 The first exercise compares both approaches to solving the ridge regression.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
 
-Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
+    **Hints:**
+    - The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
+    - The identity matrix is implemented by `I` in the `LinearAlgebra` package.
 
-**Hints:**
-- The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
-- The identity matrix is implemented by `I` in the `LinearAlgebra` package.
+!!! details "Solution:"
+    The simple implementation for the solution is the same as in the case of linear regression. We only need to add `μ*I`.
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```@example sparse
+    ridge_reg(X, y, μ) = (X'*X + μ*I) \ (X'*y)
 
-The simple implementation for the solution is the same as in the case of linear regression. We only need to add `μ*I`.
+    nothing # hide
+    ```
 
-```@example sparse
-ridge_reg(X, y, μ) = (X'*X + μ*I) \ (X'*y)
+    We first compute the eigendecomposition and save it into `eigen_dec`. Then we extract the eigenvector and eigenvalues. We also transpose the matrix ``Q`` and save it into `Q_inv` so that we do not have to compute it repeatedly.
 
-nothing # hide
-```
+    ```@example sparse
+    eigen_dec = eigen(X'*X)
+    Q = eigen_dec.vectors
+    Q_inv = Matrix(Q')
+    λ = eigen_dec.values
 
-We first compute the eigendecomposition and save it into `eigen_dec`. Then we extract the eigenvector and eigenvalues. We also transpose the matrix ``Q`` and save it into `Q_inv` so that we do not have to compute it repeatedly.
+    nothing # hide
+    ```
 
-```@example sparse
-eigen_dec = eigen(X'*X)
-Q = eigen_dec.vectors
-Q_inv = Matrix(Q')
-λ = eigen_dec.values
+    The more sophisticated way of solving the ridge regression contains only matrix-vector multiplication and the inversion of the diagonal matrix ``(\Lambda + \mu I)^{-1}``. We need to properly add paranthesis, to start multiplication from the right and evade matrix-matrix multiplication, which would occur if we started from the left. Since the matrix ``\Lambda + \mu I`` is diagonal, its inverse is the digonal matrix formed from the inverted diagonal.
 
-nothing # hide
-```
+    ```@example sparse
+    ridge_reg(X, y, μ, Q, Q_inv, λ) = Q * ((Diagonal(1 ./ (λ .+ μ)) * ( Q_inv * (X'*y))))
 
-The more sophisticated way of solving the ridge regression contains only matrix-vector multiplication and the inversion of the diagonal matrix ``(\Lambda + \mu I)^{-1}``. We need to properly add paranthesis, to start multiplication from the right and evade matrix-matrix multiplication, which would occur if we started from the left. Since the matrix ``\Lambda + \mu I`` is diagonal, its inverse is the digonal matrix formed from the inverted diagonal.
+    nothing # hide
+    ```
 
-```@example sparse
-ridge_reg(X, y, μ, Q, Q_inv, λ) = Q * ((Diagonal(1 ./ (λ .+ μ)) * ( Q_inv * (X'*y))))
+    When we compare both solution, we see that they are the same.
 
-nothing # hide
-```
+    ```@example sparse
+    w1 = ridge_reg(X, y, 10)
+    w2 = ridge_reg(X, y, 10, Q, Q_inv, λ)
 
-When we compare both solution, we see that they are the same.
-
-```@example sparse
-w1 = ridge_reg(X, y, 10)
-w2 = ridge_reg(X, y, 10, Q, Q_inv, λ)
-
-norm(w1 - w2)
-```
-
-```@raw html
-</div></details>
-```
+    norm(w1 - w2)
+    ```
 
 To test the speed, we use the `BenchmarkTools` package. The second option is significantly faster. The price to pay is the need to pre-compute the matrix decomposition.
 

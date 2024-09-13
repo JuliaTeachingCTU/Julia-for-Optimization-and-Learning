@@ -43,54 +43,39 @@ Float64
 
 In this case, the variable `x` is of type `Float64`, which is a type that represents floating-point numbers.
 
-```@raw html
-<div class="admonition is-category-exercise">
-<header class="admonition-header">Exercise:</header>
-<div class="admonition-body">
-```
+!!! warning "Exercise:"
+    Create the following three variables:
+    1. Variable `x` with value `1.234`.
+    2. Variable `y` with value `1//2`.
+    3. Variable `z` with value `x + y*im`.
+    What are the types of these three variables?
 
-Create the following three variables:
-1. Variable `x` with value `1.234`.
-2. Variable `y` with value `1//2`.
-3. Variable `z` with value `x + y*im`.
-What are the types of these three variables?
+!!! details "Solution:"
+    All three variables can be declared simply by assigning the value to the given variable name
 
-```@raw html
-</div></div>
-<details class = "admonition is-category-solution">
-<summary class = "admonition-header">Solution:</summary>
-<div class = "admonition-body">
-```
+    ```jldoctest var_types
+    julia> x = 1.234
+    1.234
 
-All three variables can be declared simply by assigning the value to the given variable name
+    julia> y = 1//2
+    1//2
 
-```jldoctest var_types
-julia> x = 1.234
-1.234
+    julia> z = x + y*im
+    1.234 + 0.5im
+    ```
 
-julia> y = 1//2
-1//2
+    and types can be checked using the `typeof` function
 
-julia> z = x + y*im
-1.234 + 0.5im
-```
+    ```jldoctest var_types
+    julia> typeof(x)
+    Float64
 
-and types can be checked using the `typeof` function
+    julia> typeof(y)
+    Rational{Int64}
 
-```jldoctest var_types
-julia> typeof(x)
-Float64
-
-julia> typeof(y)
-Rational{Int64}
-
-julia> typeof(z)
-ComplexF64 (alias for Complex{Float64})
-```
-
-```@raw html
-</div></details>
-```
+    julia> typeof(z)
+    ComplexF64 (alias for Complex{Float64})
+    ```
 
 ## Primitive numeric types
 
@@ -150,7 +135,7 @@ julia> ℯ
 ℯ = 2.7182818284590...
 
 julia> ℯ = 2
-ERROR: cannot assign a value to imported variable MathConstants.ℯ from module Main
+ERROR: cannot assign a value to imported variable Base.ℯ from module Main
 [...]
 ```
 
@@ -166,7 +151,10 @@ The only explicitly disallowed names for variables are the names of built-in res
 
 ```jldoctest
 julia> struct = 3
-ERROR: syntax: unexpected "="
+ERROR: ParseError:
+# Error @ none:1:8
+struct = 3
+#      ╙ ── unexpected `=`
 [...]
 ```
 
