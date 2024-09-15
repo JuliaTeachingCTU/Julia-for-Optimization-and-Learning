@@ -11,7 +11,7 @@ gr()
 ```
 
 Welcome to our course *Julia for Optimization and Learning*. This course consists of two parts:
-- *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 22 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of September 2021).
+- *Basics of Julia*: [Julia](https://julialang.org/) is a fast programming language for scientific computing. Designed and developed at MIT, it quickly keeps gaining popularity and scored rank 25 among programming languages in the [PYPL rating](https://pypl.github.io/PYPL.html) (as of September 2024).
 - *Applications*: The second part of the course will be dedicated to applications. The main emphasis will given to machine learning, but we will also go through statistics and differential equations.
 
 This course is taught at the [Czech Technical University](https://www.cvut.cz/en/) in Prague. It is part of the [prg.ai minor](https://prg.ai/minor/), a study programme combining top courses from four faculties of two Prague universities.

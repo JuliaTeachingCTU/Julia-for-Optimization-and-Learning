@@ -12,8 +12,7 @@ mv(download("$(site)icons/favicon.ico"), assetsdir("favicon.ico"); force)
 
 # outline
 installation = [
-    "Julia + Visual Studio Code" => "./installation/vscode.md",
-    "Git" => "./installation/git.md",
+    "Installation" => "./installation/installation.md",
     "Quickstart guide" => "./installation/tutorial.md",
 ]
 
