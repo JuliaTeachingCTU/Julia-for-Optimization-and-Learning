@@ -1,21 +1,5 @@
 # Useful packages
 
-Julia provides a large package library. To add a package, we enter the package REPL by pressing `]` and install a package by the keyword `add`.
-
-```julia
-(@v1.6) pkg> add Plots
-```
-
-Another option is to use the `Pkg` package to add it directly from the standard REPL.
-
-```julia
-julia> using Pkg
-
-julia> Pkg.add("Plots")
-```
-
-We return from the package REPL `(@v1.6) pkg>` to the standard REPL `julia>` by pressing escape.
-
 Multiple standard packages are shipped together with Julia. These packages do not need to be installed. They include `Pkg` and all packages introduced on this page. However, we still need to load them to use them.
 
 ```julia

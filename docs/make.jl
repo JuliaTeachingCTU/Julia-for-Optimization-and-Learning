@@ -25,6 +25,12 @@ lecture_01 = [
 ]
 
 lecture_02 = [
+    "Standard library" => "./lecture_02/standardlibrary.md",
+    "Package Manager" => "./lecture_02/package_manager.md",
+    "Plots.jl" => "./lecture_02/Plots.md",
+    "DataFrames.jl" => "./lecture_02/DataFrames.md",
+    "Other useful packages" => "./lecture_02/otherpackages.md",
+    "Interaction with other languages" => "./lecture_02/interaction.md",
 ]
 
 lecture_03 = [
@@ -43,11 +49,6 @@ lecture_04 = [
 ]
 
 lecture_05 = [
-    "Standard library" => "./lecture_05/standardlibrary.md",
-    "Plots.jl" => "./lecture_05/Plots.md",
-    "DataFrames.jl" => "./lecture_05/DataFrames.md",
-    "Other useful packages" => "./lecture_05/otherpackages.md",
-    "Interaction with other languages" => "./lecture_05/interaction.md",
 ]
 
 lecture_06 = [
@@ -119,10 +120,10 @@ makedocs(;
         "Why Julia?" => "why.md",
         "Installation" => installation,
         "1: Basics" => lecture_01,
-        "2: ???" => lecture_02,
+        "2: Packages" => lecture_02,
         "3: Control flow" => lecture_03,
         "4: Functions and methods" => lecture_04,
-        "5: Packages" => lecture_05,
+        "5: ???" => lecture_05,
         "6: Type system and generic programming" => lecture_06,
         "7: Code organization" => lecture_07,
         "8: Optimization" => lecture_08,
