@@ -20,12 +20,11 @@ lecture_01 = [
     "Variables" => "./lecture_01/variables.md",
     "Elementary functions" => "./lecture_01/operators.md",
     "Strings" => "./lecture_01/strings.md",
+    "Arrays" => "./lecture_01/arrays.md",
+    "Data Structures" => "./lecture_01/data_structures.md",
 ]
 
 lecture_02 = [
-    "Arrays" => "./lecture_02/arrays.md",
-    "Tuples and named tuples" => "./lecture_02/tuples.md",
-    "Dictionaries" => "./lecture_02/dictionaries.md",
 ]
 
 lecture_03 = [
@@ -119,8 +118,8 @@ makedocs(;
         "Home" => "index.md",
         "Why Julia?" => "why.md",
         "Installation" => installation,
-        "1: Variables and basic operators" => lecture_01,
-        "2: Data structures" => lecture_02,
+        "1: Basics" => lecture_01,
+        "2: ???" => lecture_02,
         "3: Control flow" => lecture_03,
         "4: Functions and methods" => lecture_04,
         "5: Packages" => lecture_05,
