@@ -3,7 +3,7 @@
 So far, we used only the standard library shipped with Julia. However, the standard library provides only basic functionality. If we want to get additional functions, we have to use extra packages. There is a [Plots](https://github.com/JuliaPlots/Plots.jl) package for creating plots. Packages can be installed via Pkg REPL. To enter the Pkg REPL from the Julia REPL, press `]` and install the package by
 
 ```julia
-(@v1.6) pkg> add Plots
+(@v1.10) pkg> add Plots
 ```
 
 We need to use the `using` keyword to load the package. For example, we can use the Plots package to visualize the `sin` and `cos` functions.
