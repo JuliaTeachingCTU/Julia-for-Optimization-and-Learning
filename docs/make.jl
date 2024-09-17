@@ -131,7 +131,6 @@ makedocs(;
         "10: Neural networks I." => lecture_10,
         "11: Neural networks II." => lecture_11,
         "12: Statistics" => lecture_12,
-        "13: Ordinary differential equations" => lecture_13,
     ],
 )
 
