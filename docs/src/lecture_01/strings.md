@@ -248,39 +248,40 @@ julia> "tuple: $(t)"
 ```
 
 !!! warning "Exercise:"
-  Print the following message for a given vector
-  > "<vec> is a vector of length <len> with elements of type <type>"
-  where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector, and `<type>` is the type of its elements. Use the following two vectors.
+    Print the following message for a given vector
+    > "<vec> is a vector of length <len> with elements of type <type>"
+    where `<vec>` is the string representation of the given vector, `<len>` is the actual length of the given vector, and `<type>` is the type of its elements. Use the following two vectors.
 
-  ```julia
-  a = [1,2,3]
-  b = [:a, :b, :c, :d]
-  ```
+    ```julia
+    a = [1,2,3]
+    b = [:a, :b, :c, :d]
+    ```
 
-  **Hint:** use the `length` and `eltype` functions.
+    **Hint:** use the `length` and `eltype` functions.
+
 
 !!! details "Solution:"
-  We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
+    We will show two ways how to solve this exercise. The first way is to use the `string` function in combination with the `length` function to get the length of the vector, and the `eltype` function to get the type of its elements.
 
-  ```jldoctest
-  julia> a = [1,2,3];
+    ```jldoctest
+    julia> a = [1,2,3];
 
-  julia> str = string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a));
+    julia> str = string(a, " is a vector of length ",  length(a), " with elements of type ", eltype(a));
 
-  julia> println(str)
-  [1, 2, 3] is a vector of length 3 with elements of type Int64
-  ```
+    julia> println(str)
+    [1, 2, 3] is a vector of length 3 with elements of type Int64
+    ```
 
-  The second way is to use string interpolation.
+    The second way is to use string interpolation.
 
-  ```jldoctest
-  julia> b = [:a, :b, :c, :d];
+    ```jldoctest
+    julia> b = [:a, :b, :c, :d];
 
-  julia> str = "$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))";
+    julia> str = "$(b) is a vector of length $(length(b)) with elements of type $(eltype(b))";
 
-  julia> println(str)
-  [:a, :b, :c, :d] is a vector of length 4 with elements of type Symbol
-  ```
+    julia> println(str)
+    [:a, :b, :c, :d] is a vector of length 4 with elements of type Symbol
+    ```
 
 ## Useful functions
 
@@ -378,21 +379,22 @@ julia> replace("Sherlock Holmes", "Holmes" => "Homeless")
 ```
 
 !!! warning "Exercise:"
-  Use the `split` function to split the following string
-  > "Julia!"
-  into a vector of single-character strings.
+    Use the `split` function to split the following string
+    > "Julia!"
+    into a vector of single-character strings.
 
-  **Hint:** we can say that an empty string `""` separates the characters in the string.
+    **Hint:** we can say that an empty string `""` separates the characters in the string.
 
 !!! details "Solution:"
-  To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
-  ```jldoctest
-  julia> split("Julia!", "")
-  6-element Vector{SubString{String}}:
-  "J"
-  "u"
-  "l"
-  "i"
-  "a"
-  "!"
-  ```
+    To separate a string into separate single-character strings, we can use the `split` function and an empty string (`""`) as a delimiter.
+
+    ```jldoctest
+    julia> split("Julia!", "")
+    6-element Vector{SubString{String}}:
+     "J"
+     "u"
+     "l"
+     "i"
+     "a"
+     "!"
+    ```

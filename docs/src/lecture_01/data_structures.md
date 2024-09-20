@@ -138,7 +138,29 @@ Dict{Symbol, Any} with 2 entries:
   :b => 1
 ```
 
-It is possible to use almost any type as a key in a dictionary. Dictionary's elements can be accessed via square brackets and a key.
+!!! info "Symbol vs String:"
+    The use of `Symbol` type might be preferable in certain cases, since its core representation is different. The string `"foo"` is a string literal and evaluates to the string "foo". On the other hand, `Symbol` is a construct used internally to represent a variable in [metaprogramming](https://docs.julialang.org/en/v1/manual/metaprogramming/). Thanks to its internal representation, some operations (like comparison `==`) can be faster on Symbols than on Strings.
+
+It is possible to use almost any type as a key in a dictionary. Note the element types in the dictionary, when Julia tries to infer the best type to represent keys and values.
+
+```jldoctest dicts
+julia> d_test = Dict(1 => "a", 2.0 => "b", 3.0f0 => "c")
+Dict{Real, String} with 3 entries:
+  2.0 => "b"
+  3.0 => "c"
+  1   => "a"
+```
+
+!!! info "Ambiguous key values:"
+    Be aware of using correct keys. In this definition, since both key values are essentially the same, the resulting dictionary has only one key with the last value.
+
+    ```jldoctest dicts
+    julia> d_test = Dict(1 => "a", 1.0 => "b", 1.0f0 => "c")
+    Dict{Real, String} with 1 entry:
+      1.0 => "c"
+    ```
+
+Dictionary's elements can be accessed via square brackets and a key.
 
 ```jldoctest dicts
 julia> d[:a]
@@ -153,7 +175,6 @@ If the key does not exist in the dictionary, an error will occur if we try to ac
 ```jldoctest dicts
 julia> d[:c]
 ERROR: KeyError: key :c not found
-[...]
 
 julia> haskey(d, :c)
 false
