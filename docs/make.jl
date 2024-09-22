@@ -12,8 +12,7 @@ mv(download("$(site)icons/favicon.ico"), assetsdir("favicon.ico"); force)
 
 # outline
 installation = [
-    "Julia + Visual Studio Code" => "./installation/vscode.md",
-    "Git" => "./installation/git.md",
+    "Installation" => "./installation/installation.md",
     "Quickstart guide" => "./installation/tutorial.md",
 ]
 
@@ -21,19 +20,25 @@ lecture_01 = [
     "Variables" => "./lecture_01/variables.md",
     "Elementary functions" => "./lecture_01/operators.md",
     "Strings" => "./lecture_01/strings.md",
+    "Arrays" => "./lecture_01/arrays.md",
+    "Data structures" => "./lecture_01/data_structures.md",
 ]
 
 lecture_02 = [
-    "Arrays" => "./lecture_02/arrays.md",
-    "Tuples and named tuples" => "./lecture_02/tuples.md",
-    "Dictionaries" => "./lecture_02/dictionaries.md",
+    "Funcion basics" => "./lecture_02/functions.md",
+    "Conditional evaluations" => "./lecture_02/conditions.md",
+    "Loops and iterators" => "./lecture_02/loops.md",
+    "Soft local scope" => "./lecture_02/scope.md",
+    "Exercises" => "./lecture_02/exercises.md",
 ]
 
 lecture_03 = [
-    "Conditional evaluations" => "./lecture_03/conditions.md",
-    "Loops and iterators" => "./lecture_03/loops.md",
-    "Soft local scope" => "./lecture_03/scope.md",
-    "Exercises" => "./lecture_03/exercises.md",
+    "Standard library" => "./lecture_03/standardlibrary.md",
+    "Package manager" => "./lecture_03/pkg.md",
+    "Plots.jl" => "./lecture_03/Plots.md",
+    "DataFrames.jl" => "./lecture_03/DataFrames.md",
+    "Other useful packages" => "./lecture_03/otherpackages.md",
+    "Interaction with other languages" => "./lecture_03/interaction.md",
 ]
 
 lecture_04 = [
@@ -45,23 +50,18 @@ lecture_04 = [
 ]
 
 lecture_05 = [
-    "Standard library" => "./lecture_05/standardlibrary.md",
-    "Plots.jl" => "./lecture_05/Plots.md",
-    "DataFrames.jl" => "./lecture_05/DataFrames.md",
-    "Other useful packages" => "./lecture_05/otherpackages.md",
-    "Interaction with other languages" => "./lecture_05/interaction.md",
+    "Abstract and composite types" => "./lecture_05/compositetypes.md",
+    "Generic programming" => "./lecture_05/currencies.md",
 ]
 
 lecture_06 = [
-    "Abstract and composite types" => "./lecture_06/compositetypes.md",
-    "Generic programming" => "./lecture_06/currencies.md",
+    "Files and modules" => "./lecture_06_07/modules.md",
+    "Package development" => "./lecture_06_07/develop.md",
 ]
 
 lecture_07 = [
-    "Files and modules" => "./lecture_07/modules.md",
-    "Package manager" => "./lecture_07/pkg.md",
-    "Package development" => "./lecture_07/develop.md",
 ]
+
 
 lecture_08 = [
     "Introduction to continuous optimization" => "./lecture_08/theory.md",
@@ -120,19 +120,18 @@ makedocs(;
         "Home" => "index.md",
         "Why Julia?" => "why.md",
         "Installation" => installation,
-        "1: Variables and basic operators" => lecture_01,
-        "2: Data structures" => lecture_02,
-        "3: Control flow" => lecture_03,
+        "1: Basics I" => lecture_01,
+        "2: Basics II" => lecture_02,
+        "3: Packages" => lecture_03,
         "4: Functions and methods" => lecture_04,
-        "5: Packages" => lecture_05,
-        "6: Type system and generic programming" => lecture_06,
-        "7: Code organization" => lecture_07,
+        "5: Type system and generic programming" => lecture_05,
+        "6: Code organization I" => lecture_06,
+        "7: Code organization II" => lecture_07,
         "8: Optimization" => lecture_08,
         "9: Regression and classification" => lecture_09,
         "10: Neural networks I." => lecture_10,
         "11: Neural networks II." => lecture_11,
         "12: Statistics" => lecture_12,
-        "13: Ordinary differential equations" => lecture_13,
     ],
 )
 
