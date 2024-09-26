@@ -2,7 +2,7 @@
 
 There are many established programming languages like Python, Matlab, R, or C. When a new language is introduced, the natural question is why I should learn this new language. What are the advantages and disadvantages of this language? This section introduces significant advantages and disadvantages of Julia and compares it to Python, Matlab, R, and C.
 
-!!! danger "Advantages:"
+!!! tip "Advantages:"
     - **Intuitive and flexible syntax:** Julia was designed to be easy to use and powerful at the same time. Julia provides a very intuitive syntax and supports many useful concepts from other languages such as generators from Python. More details and examples are provided in the separate section below.
     - **Performance:** Since Julia is a compiled language, code in Julia is generally faster than code written in pure Python or Matlab. More details and examples are provided in the separate section below.
     - **Type system:** Like Matlab or Python, it is not necessary to use type annotations for variable or function input arguments. However, since everything in Julia has its own type, it is possible to use type annotation. This allows the compiler to optimize the code, and it can also prevent mistakes.
@@ -10,7 +10,7 @@ There are many established programming languages like Python, Matlab, R, or C. W
 
 To be as objective as possible, we provide a list of Julia disadvantages.
 
-!!! tip "Disadvantages:"
+!!! danger "Disadvantages:"
     - **A limited number of packages:** Even though Julia grows rapidly and there are many packages, it can not compete with the number of available packages in Python or R. However, Julia provides a simple way of interacting with other languages. If there is no adequate package in Julia, it is possible to use packages from other languages.
     - **Slow first run:** Since Julia uses just-in-time compilation, the first call of every function is slower due to compilation. This slowdown can be significant if multiple functions are called for the first time. This includes creating a plot in a new Julia session because packages for plotting are large and use many functions. It results in a long time to the first plot (~20 s with [Plots.jl](https://github.com/JuliaPlots/Plots.jl)).
     - **Limited number of job opportunities:** Because Julia is a relatively new language, there is a limited number of job opportunities, especially compared to Python. On the other hand, there is a list of Julia users and Julia Computing customers on the official webpage of [Julia Computing](https://juliacomputing.com/) including Amazon, Google, IBM, Intel and many others.
