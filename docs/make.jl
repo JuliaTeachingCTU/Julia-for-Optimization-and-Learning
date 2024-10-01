@@ -25,7 +25,7 @@ lecture_01 = [
 ]
 
 lecture_02 = [
-    "Funcion basics" => "./lecture_02/functions.md",
+    "Function basics" => "./lecture_02/functions.md",
     "Conditional evaluations" => "./lecture_02/conditions.md",
     "Loops and iterators" => "./lecture_02/loops.md",
     "Soft local scope" => "./lecture_02/scope.md",

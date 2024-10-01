@@ -187,3 +187,24 @@ The `Project.toml` file describes the project on a high level. It contains the p
 ```
 
 Different users may use different package versions. Since updated packages provide different functionality for some functions, instantiating is extremely useful for reproducing code across multiple computers.
+
+## Scripts environments
+
+The [scripts repository](https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning-Scripts) contains scripts for each lecture. For every lecture, a `Project.toml` file with necessary packages is provided.
+
+VS Code + Julia extension activate a parent folder default environment automatically when you start the Julia REPL with Cmd + Shift + P and choose `Julia: Start REPL` or use the Shift + Enter keyboard shortcut to run a line of a specific script. Since the parent environment is `Julia-for-Optimization-and-Learning`, this environment is activated.
+
+You can either use
+
+```julia
+using Pkg
+Pkg.activate(pwd() * "/lecture_03")
+```
+
+and change the corresponding lecture number, or go to the REPL package manager and activate the environment with
+
+```julia
+(Julia-for-Optimization-and-...) pkg> activate lecture_03
+```
+
+Don't forget to check all packages are installed with `Pkg.status()` or `pkg> st` and `instantiate` if some packages are missing.
