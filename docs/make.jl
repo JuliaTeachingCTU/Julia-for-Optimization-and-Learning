@@ -55,13 +55,17 @@ lecture_05 = [
 ]
 
 lecture_06 = [
-    "Files and modules" => "./lecture_06_07/modules.md",
-    "Package development" => "./lecture_06_07/develop.md",
+    "Files and modules" => "./lecture_06/modules.md",
+    "Package structure" => "./lecture_06/structure.md",
+    "Development workflow" => "./lecture_06/workflow.md",
+    "Compatibility" => "./lecture_06/compatibility.md",
 ]
 
 lecture_07 = [
+    "Unit tests" => "./lecture_07/tests.md",
+    "Documentation" => "./lecture_07/documentation.md",
+    "Extensions" => "./lecture_07/extensions.md",
 ]
-
 
 lecture_08 = [
     "Introduction to continuous optimization" => "./lecture_08/theory.md",
