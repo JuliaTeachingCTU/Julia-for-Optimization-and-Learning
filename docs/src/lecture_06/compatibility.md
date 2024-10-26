@@ -1,31 +1,24 @@
+# Package dependencies
+ 
+In this section, we focus on package dependencies. So far, we showed how to add a specific package into enviroment. However, we have never take into account the compatibility of different versions of the same package. As stated in the official [Julia package manager documentation](https://pkgdocs.julialang.org/v1/compatibility/): Compatibility refers to the ability to restrict the versions of the dependencies that your project is compatible with. If the compatibility for a dependency is not given, the project is assumed to be compatible with all versions of that dependency.
 
-## Adding content 1
+## Compatibility
 
-This section adds content to the package.
+Compatibility for a dependency can be entered in the Project.toml file manually, or using the package manager REPL. For example, we can set compatibility for Julia itself.
+
+```julia
+(ImageInspector) pkg> compat julia 1.9
+```
+
+In the example above, we are using semantic versioning. In this case, we set, that the package is compatible with all the following versions of Julia `[1.9.0 - 2.0.0)`. The behavior of version specification is slightly different for versions with leading zeros. For example, if we specify compatibility to `0.2.1`, it means, that we support only versions `[0.2.1 - 0.3.0)`. See the official [documentation](https://pkgdocs.julialang.org/v1/compatibility/) for more details.
 
 !!! warning "Exercise:"
-    This exercise defines the `image` function that converts a matrix of real numbers to a matrix of Gray points. Real numbers can be converted to Gray points by the `Gray` constructor from the Colors package. Use the following code to test the function.
+    This exercise defines the `image` function that converts a matrix of real numbers to a matrix of Gray points. Real numbers can be converted to Gray points by the `Gray` constructor from the Colors package.
 
-    ```julia
-    # /examples/example.jl
-    using Revise # this must come before `using ImageInspector`
-    using ImageInspector, MLDatasets, Plots
+    Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forgot to add which versions of `Colors`  package are supported. Fo the sake of the following excersises, allow versions `0.12.*` and `0.13.*`
 
-    X = MLDatasets.FashionMNIST(Float64, :train)[:][1];
-    x = selectdim(X, ndims(X), 1)
-
-    plot(image(x); axis = nothing, border = :none)
-    ```
-
-    **Hint:** Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add `MLDatasets` and `Plots` to the `examples` environment.
 
 !!! details "Solution:"
-    First, we need to install all necessary packages. Since we set the `examples` environment as the default one for this project, we first install `MLDatasets` and `Plots`.
-
-    ```julia
-    (examples) pkg> add MLDatasets Plots
-    ```
-
     Since we want to add the `image` function to the ImageInspector package, we have to install the Colors package. However, we do not want to add it to `examples` but to `ImageInspector`. Printing the working directory by `pwd()`, we realize that we are in the correct folder and activate the working environment by `activate .` The dot represents the current working directory.
 
     ```julia
@@ -42,12 +35,30 @@ This section adds content to the package.
     (ImageInspector) pkg> add Colors
     ```
 
-    Since we want to work in `examples`, we change the environment back.
+    Now we can check which version of Colors package was installed using the `status` command in the package manager REPL
 
     ```julia
-    (ImageInspector) pkg> activate ./examples
+    Project ImageInspector v0.1.0
+    Status `.../ImageInspector.jl/Project.toml`
+    ⌃ [5ae59095] Colors v0.12.11
+    Info Packages marked with ⌃ have new versions available and may be upgradable.
+    ```
 
-    (examples)
+    In this particular case, we have Colors package in versions `0.12.11`. To add compatibility for a dependency, we can use `compat` command in the package manager REPL. To allow versions `0.12.*` and `0.13.*`, we can use the following command
+
+    ```julia
+    (ImageInspector) pkg> compat Colors "0.12, 0.13"
+        Compat entry set:
+    Colors = "0.12, 0.13"
+        Resolve checking for compliance with the new compat rules...
+    ```
+
+    We can check the `compat` section in the Project.toml
+
+    ```toml
+    [compat]
+    Colors = "0.12, 0.13"
+    julia = "1.9"
     ```
 
     With the Colors package installed, we have to add `using Colors` into the ImageInspector module. Then we can define the `image` function and `export` it.
@@ -65,7 +76,53 @@ This section adds content to the package.
     end
     ```
 
+In the previous excersise, we added the first function into our package. In the following excersise, we will test the function in our `example` enviroment.
+
+!!! warning "Exercise:"
+    Use the following code to test the function.
+
+    ```julia
+    # /examples/example.jl
+    using ImageInspector, MLDatasets, Plots
+
+    X = MLDatasets.FashionMNIST(Float64, :train)[:][1];
+    x = selectdim(X, ndims(X), 1)
+
+    plot(image(x); axis = nothing, border = :none)
+    ```
+
+    **Hint:** Do not forget to add `MLDatasets` and `Plots` to the `examples` environment.
+
+!!! details "Solution:"
+    First, we need to install all necessary packages. Since we want to add the packages to the `examples` environment, we have to change the enviroment again
+
+    ```julia
+    (ImageInspector) pkg> activate ./examples
+
+    (examples) pkg>
+    ```
+
+    Now, we can install `MLDatasets` and `Plots`
+
+    ```julia
+    (examples) pkg> add MLDatasets Plots
+    ```
+
+    Now with all packages installed, we can test the `image` function
+
+        ```julia
+    # /examples/example.jl
+    using ImageInspector, MLDatasets, Plots
+
+    X = MLDatasets.FashionMNIST(Float64, :train)[:][1];
+    x = selectdim(X, ndims(X), 1)
+
+    plot(image(x); axis = nothing, border = :none)
+    ```
+
 ![](image_1.svg)
+
+## Adding content
 
 The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function.
 
