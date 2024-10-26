@@ -1,137 +1,179 @@
-# Adding content 2
+# Extensions
 
-We will add more functions to the `ImageInspector` package. To plot multiple images at once, we will define two functions. The first one computes an optimal grid size for a given number of images.
+## Extension for Plots
+
+We used the same settings for the `plot` function in all previous examples. Therefore, it makes sense to write an auxiliary function setting attributes for the `plot` function. However, this function will depend on the `Plots` package, and if we add `Plots` to `ImageInspector`, it will significantly slow the loading time. 
+
+To define an extension, we need firstly modify the `Project.toml`. We have to add two new sections. The first new section `weakdeps` specifies all the dependencies we need for our extension. In our case, we only need `Plots`, so we add the following in the `Project.toml`
+
+```toml
+[weakdeps]
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+```
+
+The second new section is `extensions` and in this section, we have to specify the extension name and the dependencies that the extension uses. In our case, the name is `PlotsExt` and we only need `Plots` (more dependencies can be specified as a list of their names)
+
+```toml
+[extensions]
+PlotsExt = "Plots"
+```
+
+We can also specify which versions of `Plots` package our extension supports. It can be done by adding a new record in the `compat` section
+
+```toml
+[compat]
+Aqua = "0.8"
+Colors = "0.12, 0.13"
+Plots = "1"
+Test = "1.9"
+julia = "1.9"
+```
+
+Now, we define an empty function `imageplot` inside of the ImageInstructor, i. e., we add the foollowing code to the `src/ImageInstructor.jl`
 
 ```julia
-# /src/ImageInspector.jl
-function gridsize(n::Int; nrows::Int = -1, ncols::Int = - 1)
-    if nrows < 1
-        if ncols < 1
-            nrows = round(Int, sqrt(n))
-            ncols = ceil(Int, n / nrows)
-        else
-            nrows = ceil(Int, n / ncols)
-        end
-    else
-        ncols = ceil(Int, n / nrows)
-    end
-    return nrows, ncols
+# src/ImageInstructor.jl
+function imageplot end
+```
+
+This step is needed, since we will add methods to this function inside our extention. 
+
+The last step is to create the extension itself. The code for extension must be stored in `ext` folder in the root dir of the package. The code for the extension is them must be defined in the file with the same name, i. e., we have to create a new file `ext/PlotsExt.jl` and add the code into it
+
+```julia
+# ext/PlotsExt.jl
+module PlotsExt
+
+import Plots
+using ImageInspector
+using ImageInspector.Colors
+
+function ImageInspector.imageplot(x, ind; flip=true, nrows=-1, ncols=-1, sep=1, kwargs...)
+    img = imagegrid(x, ind; flip, nrows, ncols, sep)
+    return imageplot(img; kwargs...)
+end
+
+function ImageInspector.imageplot(x; flip=true, kwargs...)
+    img = image(x; flip)
+    return imageplot(img; kwargs...)
+end
+
+function ImageInspector.imageplot(
+    x::AbstractMatrix{<:Color};
+    legend=false,
+    axis=nothing,
+    border=:none,
+    kwargs...
+)
+    return Plots.plot(x; legend, axis, border, kwargs...)
+end
+
 end
 ```
 
-The second function consists of two methods and converts an array of real numbers to one big image of the appropriate colour type.
+Note, that we defined a new module, that has the same name as our extension. And that's all. Now we can test, whether the extension works. We have to start a new Julia session and activate `examples` enviroment. Now, if we do not load `Plots`, the `imageplot` function will have no methods, as can be seen below
 
 ```julia
-# /src/ImageInspector.jl
-imagegrid(x, ind::Int; flip = true, kwargs...) = image(x, ind; flip)
+julia> using ImageInspector, MLDatasets
 
-function imagegrid(x, inds; flip = true, sep = 1, kwargs...)
-    imgs = image(x, inds; flip)
-    n = length(imgs)
-    nrows, ncols = gridsize(n; kwargs...)
+julia> x = CIFAR10(split=:train).features;
 
-    h, w = size(imgs[1])
-    A = fill(
-        eltype(imgs[1])(1), # white color in proper color type
-        nrows*h + (nrows + 1)*sep, # height of the reculting image
-        ncols*w + (ncols + 1)*sep, # width of the reculting image
-    )
+julia> imageplot(x, 1:10; nrows = 2, sep = 1)
+ERROR: MethodError: no method matching imageplot(::Array{Float32, 4}, ::UnitRange{Int64}; nrows::Int64, sep::Int64)
+[...]
+```
 
-    for i in 1:nrows, j in 1:ncols
-        k = j + (i - 1) * ncols
-        k > n && break
+After loading the `Plots` package, the `imageplot` function will start working.
 
-        rows = (1:h) .+ (i - 1)*h .+ i*sep
-        cols = (1:w) .+ (j - 1)*w .+ j*sep
-        A[rows, cols] = imgs[k]
-    end
-    return A
+```julia
+julia> using Plots
+
+julia> imageplot(x, 1:10; nrows = 2, sep = 1)
+```
+
+![](image_6.svg)
+
+
+## Extension for Makie
+
+We can create multiple extensions for one package. For example, we can also create an extension for `Makie.jl`, which is an alternative package for generating plots. To do so, we have to follow the same steps as in the case of extension for `Plots`. 
+
+The first step is to modify the `Project.toml` file in the following way
+
+```toml
+[weakdeps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+
+[extensions]
+MakieExt = "CairoMakie"
+PlotsExt = "Plots"
+
+[compat]
+Aqua = "0.8"
+CairoMakie = "0.12"
+Colors = "0.12, 0.13"
+Plots = "1"
+Test = "1.9"
+julia = "1.9"
+```
+
+In other words, our extension for `Makie` has name `MakieExt` and depends on `CairoMakie`. Now we can create the extension itself by creating file `ext/MakieExt.jl` and adding the following code into it
+
+```julia
+module MakieExt
+
+import CairoMakie
+using ImageInspector
+using ImageInspector.Colors
+
+function ImageInspector.imageplot(x, ind; flip=true, nrows=-1, ncols=-1, sep=1, kwargs...)
+    img = imagegrid(x, ind; flip, nrows, ncols, sep)
+    return imageplot(img; kwargs...)
+end
+
+function ImageInspector.imageplot(x; flip=true, kwargs...)
+    img = image(x; flip)
+    return imageplot(img; kwargs...)
+end
+
+function ImageInspector.imageplot(x::AbstractMatrix{<:Color}; kwargs...)
+
+    f, ax = CairoMakie.image(reverse(x'; dims=2); kwargs...)
+    CairoMakie.hidedecorations!(ax)
+    CairoMakie.hidespines!(ax)
+    return f
+end
+
 end
 ```
 
-We use the `sep` keyword argument to specify the separator width between images. With all functions defined, we can test them.
+Now it's time to test the extension. To do so, we first have to install `CairoMakie` into `examples` enviroment
 
 ```julia
-# /examples/example.jl
-X = MLDatasets.FashionMNIST(Float64, :train)[:][1];
+(ImageInspector) pkg> activate ./examples
 
-plot(imagegrid(X, 1:10; nrows = 2, sep = 2); axis = nothing, border = :none)
+(examples) pkg> add CairoMakie
 ```
 
-![](image_5.svg)
+We have to start a new Julia session and activate `examples` enviroment. Now, if we do not load `CairoMakie`, the `imageplot` function will have no methods, as can be seen below
 
-!!! compat "Optional dependencies:"
-    We used the same settings for the `plot` function in all previous examples. Therefore, it makes sense to write an auxiliary function setting attributes for the `plot` function. However, this function will depend on the `Plots` package, and if we add `Plots` to `ImageInspector`, it will significantly slow the loading time. The `Requires` package prevents explicit dependencies (and long load times) by allowing conditional code loading. In our case, we first add `Requires` to the `ImageInspector`.
+```julia
+julia> using ImageInspector, MLDatasets
 
-    ```julia
-    julia> pwd()
-    ".../ImageInspector"
+julia> x = CIFAR10(split=:train).features;
 
-    (examples) pkg> activate .
-    Activating environment at `/path/ImageInspector/Project.toml`
+julia> imageplot(x, 1:10; nrows = 2, sep = 1)
+ERROR: MethodError: no method matching imageplot(::Array{Float32, 4}, ::UnitRange{Int64}; nrows::Int64, sep::Int64)
+[...]
+```
 
-    (ImageInspector) pkg> add Requires
-    [...]
+After loading the `CairoMakie` package, the `imageplot` function will start working.
 
-    (ImageInspector) pkg> activate
+```julia
+julia> using CairoMakie
 
-    (examples)
-    ```
+julia> imageplot(x, 1:10; nrows = 2, sep = 1)
+```
 
-    Then we create a new file `/src/imageplot.jl` with the following content:
-
-    ```julia
-    # /src/imageplot.jl
-    using .Plots
-
-    export imageplot
-
-    imageplot(x; flip = true, kwargs...) =  imageplot(image(x; flip); kwargs...)
-
-    function imageplot(x, ind; flip = true, nrows = -1, ncols = -1, sep = 1, kwargs...)
-        img = imagegrid(x, ind; flip, nrows, ncols, sep)
-        return imageplot(img; kwargs...)
-    end
-
-    function imageplot(
-        x::AbstractMatrix{<:Color};
-        legend = false,
-        axis = nothing,
-        border = :none,
-        kwargs...
-    )
-        return plot(x; legend, axis, border, kwargs...)
-    end
-    ```
-
-    We only defined a wrapper function for the `plot` function and exported this function. We use a relative path to the `Plots` package. Then we specify on which package the code depends by defining the `__init__()` function in the `/src/ImageInspector.jl` file.
-
-    ```julia
-    # /src/ImageInspector.jl
-    using Requires
-
-    function __init__()
-        @require Plots="91a5bcdd-55d7-5caf-9e0b-520d859cae80" include("imageplot.jl")
-    end
-    ```
-
-    The `__init__` function has to contain the `@require` macro followed by the package name and its unique UUID (can be found in the [JuliaRegistries](https://github.com/JuliaRegistries/General) for public packages) and the code that should be included.
-
-    Now we can start a new Julia session and test if the loading works properly. If we do not load `Plots`, the `imageplot` function will not be available, as can be seen below.
-
-    ```julia
-    julia> x = MLDatasets.CIFAR10(Float64, :train)[1:10][1]
-
-    julia> imageplot(x, 1:10; nrows = 2, sep = 2)
-    ERROR: UndefVarError: imageplot not defined
-    ```
-
-    After loading the `Plots` package, the `imageplot` function will start working.
-
-    ```julia
-    julia> using Plots
-
-    julia> imageplot(x, 1:10; nrows = 2, sep = 1)
-    ```
-
-    ![](image_6.svg)
+![](image_8.svg)

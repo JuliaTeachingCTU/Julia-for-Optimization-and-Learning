@@ -4,10 +4,17 @@ In this section, we focus on package dependencies. So far, we showed how to add 
 
 ## Compatibility
 
-Compatibility for a dependency can be entered in the Project.toml file manually, or using the package manager REPL. For example, we can set compatibility for Julia itself.
+Compatibility for a dependency can be entered in the Project.toml file manually, or using the Pkg REPL. For example, we can set compatibility for Julia itself.
 
 ```julia
 (ImageInspector) pkg> compat julia 1.9
+```
+
+It will add the following section into the Project.toml
+
+```toml
+[compat]
+julia = "1.9"
 ```
 
 In the example above, we are using semantic versioning. In this case, we set, that the package is compatible with all the following versions of Julia `[1.9.0 - 2.0.0)`. The behavior of version specification is slightly different for versions with leading zeros. For example, if we specify compatibility to `0.2.1`, it means, that we support only versions `[0.2.1 - 0.3.0)`. See the official [documentation](https://pkgdocs.julialang.org/v1/compatibility/) for more details.
@@ -35,7 +42,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
     (ImageInspector) pkg> add Colors
     ```
 
-    Now we can check which version of Colors package was installed using the `status` command in the package manager REPL
+    Now we can check which version of Colors package was installed using the `status` command in the Pkg REPL
 
     ```julia
     Project ImageInspector v0.1.0
@@ -44,7 +51,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
     Info Packages marked with ⌃ have new versions available and may be upgradable.
     ```
 
-    In this particular case, we have Colors package in versions `0.12.11`. To add compatibility for a dependency, we can use `compat` command in the package manager REPL. To allow versions `0.12.*` and `0.13.*`, we can use the following command
+    In this particular case, we have Colors package in versions `0.12.11`. To add compatibility for a dependency, we can use `compat` command in the Pkg REPL. To allow versions `0.12.*` and `0.13.*`, we can use the following command
 
     ```julia
     (ImageInspector) pkg> compat Colors "0.12, 0.13"

@@ -54,17 +54,17 @@ The built-in `generate` function provides only basic functionality for generatin
     using PkgTemplates
 
     template = Template(;
-        user = "GithubUserName", # github user name
-        authors = ["Author1", "Author2"], # list of authors
-        dir = "/Path/To/Dir/", # dir in which the package will be created
+        user="GithubUserName", # github user name
+        authors=["Author1", "Author2"], # list of authors
+        dir="/Path/To/Dir/", # dir in which the package will be created
         host="github.com", # URL to the code hosting service where packages will reside
-        julia = v"1.10", # compat version of Julia
-        plugins = [
-            ProjectFile(; version=v"0.1.0") # Add version
-            Readme(; inline_badges = true), # add readme file with badges
-            Tests(; project = false, aqua = true), # add unit test deps and Aquq
-            Git(; manifest = false), # add manifest.toml to .gitignore
-            License(; name = "MIT"), # add MIT licence
+        julia=v"1.10", # compat version of Julia
+        plugins=[
+            ProjectFile(; version=v"0.1.0"), # Add version
+            Readme(; inline_badges=true), # add readme file with badges
+            Tests(; project=false, aqua=true), # add unit test deps and Aquq
+            Git(; manifest=false), # add manifest.toml to .gitignore
+            License(; name="MIT"), # add MIT licence
             # disable other plugins
             !GitHubActions,
             !CompatHelper,
