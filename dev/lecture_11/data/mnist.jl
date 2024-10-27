@@ -2,7 +2,7 @@ using Flux
 using Flux: onecold
 using MLDatasets
 
-include(joinpath(dirname(@__FILE__), "utilities.jl"))
+include(joinpath(dirname(@__FILE__), ("utilities.jl")))
 
 T = Float32
 dataset = MLDatasets.MNIST
@@ -19,7 +19,7 @@ model = Chain(
     softmax,
 )
 
-file_name = joinpath("data", "mnist_sigmoid.jld2")
+file_name = evaldir("mnist_sigmoid.jld2")
 train_or_load!(file_name, model, X_train, y_train)
 
 ii1 = findall(onecold(y_train, 0:9) .== 1)[1:5]

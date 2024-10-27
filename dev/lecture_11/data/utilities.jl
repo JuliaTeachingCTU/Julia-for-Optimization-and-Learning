@@ -14,6 +14,8 @@ else
     gpu(x) = x
 end
 
+evaldir(args...) = joinpath(dirname(@__FILE__), args...)
+
 accuracy(model, x, y) = mean(onecold(cpu(model(x))) .== onecold(cpu(y)))
 
 function reshape_data(X::AbstractArray{T,3}, y::AbstractVector) where {T}
