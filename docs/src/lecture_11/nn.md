@@ -363,7 +363,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 
 !!! warning "Exercise:"
     Write a function `train_or_load!(file_name, m, args...; ???)` checking whether the file `file_name` exists.
-    - If it exists, it loads it and then copies its parameters into `m` using the function `Flux.loadparams!`.
+    - If it exists, it loads it and then copies model state into `m` using the function `Flux.loadmodel!`.
     - If it does not exist, it trains it using `train_model!`.
     In both cases, the model `m` should be modified inside the `train_or_load!` function. Pay special attention to the optional arguments `???`.
 
@@ -372,7 +372,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 !!! details "Solution:"
     The optional arguments should contain `kwargs...`, which will be passed to `train_model!`. Besides that, we include `force` which enforces that the model is trained even if it already exists.
 
-    First, we should check whether the directory exists ```!isdir(dirname(file_name))``` and if not, we create it ```mkpath(dirname(file_name))```. Then we check whether the file exists (or whether we want to enforce the training). If yes, we train the model, which already modifies ```m```. If not, we ```BSON.load``` the model and copy the loaded parameters into ```m``` by ```Flux.loadparams!(m, Flux.params(m_loaded))```. We cannot load directly into ```m``` instead of ```m_loaded``` because that would create a local copy of ```m``` and the function would not modify the external ```m```.
+    First, we should check whether the directory exists ```!isdir(dirname(file_name))``` and if not, we create it ```mkpath(dirname(file_name))```. Then we check whether the file exists (or whether we want to enforce the training). If yes, we train the model, which already modifies ```m```. If not, we load model state using ```JLD2.load(file_name, "model_state")``` and copy the loaded state into ```m``` by ```Flux.loadmodel!(m, model_state)```.
 
     ```@example nn
     function train_or_load!(file_name, m, args...; force=false, kwargs...)
