@@ -1,5 +1,5 @@
 ```@setup gpuu
-using BSON
+using JLD2
 using Flux
 using MLDatasets
 using DataFrames
@@ -22,8 +22,8 @@ function train_or_load!(file_name, m, args...; force=false, kwargs...)
     if force || !isfile(file_name)
         train_model!(m, args...; file_name=file_name, kwargs...)
     else
-        m_weights = BSON.load(file_name)[:m]
-        Flux.loadparams!(m, params(m_weights))
+        model_state = JLD2.load(file_name, "model_state");
+        Flux.loadmodel!(m, model_state)
     end
 end
 
@@ -124,7 +124,7 @@ The first two exercises handle training neural networks on GPUs instead of CPUs.
 The previous exercise did not show any differences when performing a matrix-vector multiplication. The probable reason was that the running times were too short. The following exercise shows the time difference when applied to a larger problem.
 
 !!! warning "Exercise 2:"
-    Load the MNIST dataset and the model saved in ```data/mnist.bson```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU.
+    Load the MNIST dataset and the model saved in ```data/mnist.jld2```. Compare the evaluation of all samples from the testing set when done on CPU and GPU. For the latter, you need to convert the model to GPU.
 
 !!! details "Solution:"
     We load the data, model and convert everything to GPU
@@ -142,7 +142,7 @@ The previous exercise did not show any differences when performing a matrix-vect
         softmax,
     )
 
-    file_name = joinpath("data", "mnist.bson")
+    file_name = joinpath("data", "mnist.jld2")
     train_or_load!(file_name, m)
 
     m_g = m |> gpu
@@ -181,7 +181,7 @@ The previous exercise did not show any differences when performing a matrix-vect
 Exercises which do not require GPUs start here.
 
 !!! warning "Exercise 3:"
-    Load the network from ```data/mnist.bson```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``. This matrix is called the [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
+    Load the network from ```data/mnist.jld2```. Then create a ``10\times 10`` table, where the ``(i+1,j+1)`` entry is the number of samples, where digit ``i`` was misclassified as digit ``j``. This matrix is called the [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
 
     Convert the confusion matrix into a dataframe and add labels.
 
@@ -199,8 +199,10 @@ Exercises which do not require GPUs start here.
         softmax,
     )
 
-    file_name = joinpath("data", "mnist.bson")
-    train_or_load!(file_name, m)
+    L(model, X, y) = crossentropy(model(X), y)
+
+    file_name = joinpath("data", "mnist.jld2")
+    train_or_load!(file_name, m, L, X_train, y_train)
     ```
 
     When creating a table, we specify that its entries are ```Int```. We save the predictions ```y_hat``` and labels ```y```. Since we do not use the second argument to ```onecold```, the entries of ```y_hat``` and ```y``` are between 1 and 10. Then we run a for loop over all misclassified samples and add to the error counts.
@@ -259,7 +261,7 @@ We see that some of the nines could be recognized as a seven even by humans.
 The following exercise depicts how images propagate through the network.
 
 !!! warning "Exercise 5: Visualization of neural networks 1"
-    We know that the output of the convolutional layers has the same number of dimensions as the inputs. If the activation function is the sigmoid, the output values stay within ``[0,1]`` and can also be interpreted as images. Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.bson``` (you can check that the model accuracy is 0.9831).
+    We know that the output of the convolutional layers has the same number of dimensions as the inputs. If the activation function is the sigmoid, the output values stay within ``[0,1]`` and can also be interpreted as images. Use the same network as before but replace ReLU by sigmoid activation functions. Load the model from ```data/mnist_sigmoid.jld2``` (you can check that the model accuracy is 0.9831).
 
     For all digits, select the first five samples from the training set of this digit. Then create ``5\times 5`` graph (there will be 10 of them for each digit), where each column corresponds to one sample. The rows should be:
     - The original image.
@@ -283,8 +285,8 @@ The following exercise depicts how images propagate through the network.
         softmax,
     )
 
-    file_name = joinpath("data", "mnist_sigmoid.bson")
-    train_or_load!(file_name, m)
+    file_name = joinpath("data", "mnist_sigmoid.jld2")
+    train_or_load!(file_name, m, L, X_train, y_train)
     ```
 
     Before plotting, we perform a for loop over the digits. Then ```onecold(y_train, classes) .== i``` creates a ```BitArray``` with ones if the condition is satisfied, and zeros if the condition is not satisfied. Then ```findall(???)``` selects all ones, and ```???[1:5]``` finds the first five indices. Since we need to plot the original image, and the images after the second and fourth layer (there is always a convolutional layer before the pooling layer), we save these values into ```z1```, ```z2``` and ```z3```. Then we need to access to desired channels and plot then via the `ImageInspector` package.

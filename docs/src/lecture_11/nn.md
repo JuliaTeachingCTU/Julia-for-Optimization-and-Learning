@@ -203,13 +203,13 @@ The following exercise splits the dataset into minibatches. While we can do it m
 !!! warning "Exercise:"
     Use the help of the function `DataLoader` to split the dataset into minibatches.
 
-    **Hint**: It needs to be imported from Flux via `using Flux.Data: DataLoader`.
+    **Hint**: It needs to be imported from MLUtils package via `using MLUtils: DataLoader`. Do not forget to install the package first.
 
 !!! details "Solution:"
     We first load the function `DataLoader`.
 
     ```@example nn
-    using Flux.Data: DataLoader
+    using MLUtils: DataLoader
     ```
 
     The in-built help shows us how to call this function. It also includes multiple examples.
@@ -218,7 +218,17 @@ The following exercise splits the dataset into minibatches. While we can do it m
     help?> DataLoader
     search:
 
-    DataLoader(data; batchsize=1, shuffle=false, partial=true)
+        DataLoader(data; [batchsize, buffer, collate, parallel, partial, rng, shuffle])
+
+    An object that iterates over mini-batches of data, each mini-batch containing batchsize observations (except possibly
+    the last one).
+
+    Takes as input a single data array, a tuple (or a named tuple) of arrays, or in general any data object that
+    implements the numobs and getobs methods.
+
+    The last dimension in each array is the observation dimension, i.e. the one divided into mini-batches.
+
+    The original data is preserved in the data field of the DataLoader.
     ```
 
     We use the following code to split the dataset into minibatches. We need to include both `X_train` and `y_train` to perform the partition for the data and the labels.
@@ -292,7 +302,7 @@ We now write the function `train_model!` to train the neural network `m`. Since 
 
 
 ```@example nn
-using BSON
+using JLD2
 
 function train_model!(m, L, X, y;
         opt = Descent(0.1),
@@ -303,11 +313,12 @@ function train_model!(m, L, X, y;
     opt_state = Flux.setup(opt, m)
     batches = DataLoader((X, y); batchsize, shuffle = true)
 
-    for _ in 1:n_epochs
+    for epoch in 1:n_epochs
+        @show epoch
         Flux.train!(L, m, batches, opt_state)
     end
 
-    !isempty(file_name) && BSON.bson(file_name, m=m, opt_state=opt_state)
+    !isempty(file_name) && jldsave(file_name; model_state=Flux.state(m) |> cpu)
 
     return
 end
@@ -318,13 +329,13 @@ nothing # hide
 The function `train_model!` first splits the datasets into minibatches `batches` and then uses the optimizer for `n_epochs` epochs. In one epoch, the model `m` evaluates all samples exactly once. Therefore, the optimizer performs the same number of gradient updates as the number of minibatches during one epoch. On the other hand, the standard gradient descent makes only one gradient update during one epoch. The default optimizer is the stochastic gradient descent with stepsize ``0.1``. Since we do not need an index in the loop, we use `_`. Finally, if `file_name` is non-empty, the function saves the trained model `m`.
 
 !!! warning "Exercise:"
-    Train the model for one epoch and save it to `MNIST_simple.bson`. Print the accuracy on the testing set.
+    Train the model for one epoch and save it to `MNIST_simple.jld2`. Print the accuracy on the testing set.
 
 !!! details "Solution:"
     To train the model, it suffices to call the previously written function.
 
     ```@example nn
-    file_name = "mnist_simple.bson"
+    file_name = "mnist_simple.jld2"
     train_model!(m, L, X_train, y_train; n_epochs=1, file_name=file_name)
 
     nothing # hide
@@ -371,8 +382,8 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
         if force || !isfile(file_name)
             train_model!(m, args...; file_name=file_name, kwargs...)
         else
-            m_weights = BSON.load(file_name)[:m]
-            Flux.loadparams!(m, Flux.params(m_weights))
+            model_state = JLD2.load(file_name, "model_state")
+            Flux.loadmodel!(m, model_state)
         end
     end
 
@@ -382,7 +393,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
     To load the model, we should use `joinpath` to be compatible with all operating systems. The accuracy is evaluated as before.
 
     ```@example nn
-    file_name = joinpath("data", "mnist.bson")
+    file_name = joinpath("data", "mnist.jld2")
     train_or_load!(file_name, m, L, X_train, y_train)
 
     "Test accuracy = " * string(accuracy(X_test, y_test))
