@@ -18,7 +18,7 @@ Random.seed!(666)
 
 iris = dataset("datasets", "iris")
 
-X = Matrix(iris[:, 1:4])
+X = Matrix{Float32}(iris[:, 1:4])
 y = iris.Species
 
 X_train, y_train, X_test, y_test, classes = prepare_data(X', y; dims=2)
