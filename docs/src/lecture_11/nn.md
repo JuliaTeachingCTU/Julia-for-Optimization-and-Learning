@@ -405,7 +405,7 @@ The accuracy is over 93%, which is not bad for training for one epoch only. Let 
 println("Test accuracy = " * string(accuracy(X_test, y_test))) # hide
 ```
 
-The externally trained model has an accuracy of more than 98% (it has the same architecture as the one defined above, but it was trained for 50 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
+The externally trained model has an accuracy of almost 98% (it has the same architecture as the one defined above, but it was trained for 100 epochs.). Even though there are perfect models (with accuracy 100%) on MNIST, we are happy with this result. We will perform further analysis of the network in the exercises.
 
 ```@setup nn
 using Plots
