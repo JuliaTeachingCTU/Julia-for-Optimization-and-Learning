@@ -21,13 +21,13 @@ We start with linear regression, where the labels are continuous variables.
 
 ## Theory of linear regression
 
-Linear regression uses the linear prediction function ``\operatorname{predict}(w;x) = w^\top x`` and the mean square error ``\operatorname{loss}(y, \hat y) = (y - \hat y)^2`` as the loss function. When we have a dataset with ``n`` data points (samples) ``x_i`` and labels ``y_i``, linear regression may be written as the following optimization problem. 
+Linear regression uses the linear prediction function ``\operatorname{predict}(w;x) = w^\top x`` and the d error ``\operatorname{loss}(y, \hat y) = (y - \hat y)^2`` as the loss function. When we have a dataset with ``n`` data points (samples) ``x_i`` and labels ``y_i``, linear regression may be written as the following optimization problem. 
 
 ```math
 \operatorname{minimize}_w\qquad \frac 1n\sum_{i=1}^n (w^\top x_i - y_i)^2.
 ```
 
-The objective function is minimal if the predictions ``w^\top x_i`` equal to the labels ``y_i`` for all samples ``i=1,\dots,n``.
+The objective function is minimal if the predictions ``w^\top x_i`` are equal to the labels ``y_i`` for all samples ``i=1,\dots,n``.
 
 Some algorithms use the sum instead of the mean in the objective function. These approaches are equivalent. For the former case, it is simpler to work in the matrix notation, where we form a matrix ``X`` whose rows are the samples ``x_i``. It is not difficult to show that the previous problem is equivalent to
 
@@ -126,7 +126,7 @@ The figure shows a positive correlation between length and width. This is natura
     nothing # hide
     ```
 
-    For the gradient descent, we first realize that the formula for the derivate is ``X^\top (Xw-y)``. Defining the derivative function in ```g```, we call the ```optim``` method in the same way as in the last lecture. Since we use the sum and not mean in the objective, we need to use a much smaller stepsize.
+    For the gradient descent, we first realize that the formula for the derivative is ``X^\top (Xw-y)``. Defining the derivative function in ```g```, we call the ```optim``` method in the same way as in the last lecture. Since we use the sum and not mean in the objective, we need to use a much smaller step size.
 
     ```@example linear
     g(w) = X'*(X*w-y)
@@ -154,7 +154,7 @@ w # hide
 Now we can estimate the petal width if only petal length is known.
 
 !!! warning "Exercise:"
-    Write the dependence on the petal width on the petal length. Plot it in the previous graph.
+    Write the dependence of the petal width on the petal length. Plot it in the previous graph.
 
 !!! details "Solution:"
     The desired dependence is

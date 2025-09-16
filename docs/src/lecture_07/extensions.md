@@ -29,16 +29,16 @@ Test = "1.9"
 julia = "1.9"
 ```
 
-Now, we define an empty function `imageplot` inside of the ImageInstructor, i. e., we add the foollowing code to the `src/ImageInstructor.jl`
+Now, we define an empty function `imageplot` inside of the ImageInstructor, i. e., we add the following code to the `src/ImageInstructor.jl`
 
 ```julia
 # src/ImageInstructor.jl
 function imageplot end
 ```
 
-This step is needed, since we will add methods to this function inside our extention. 
+This step is needed, since we will add methods to this function inside our extension. 
 
-The last step is to create the extension itself. The code for extension must be stored in `ext` folder in the root dir of the package. The code for the extension is them must be defined in the file with the same name, i. e., we have to create a new file `ext/PlotsExt.jl` and add the code into it
+The last step is to create the extension itself. The code for extension must be stored in `ext` folder in the root dir of the package. The code for the extension must be defined in the file with the same name, i. e., we have to create a new file `ext/PlotsExt.jl` and add the code into it
 
 ```julia
 # ext/PlotsExt.jl
@@ -71,7 +71,7 @@ end
 end
 ```
 
-Note, that we defined a new module, that has the same name as our extension. And that's all. Now we can test, whether the extension works. We have to start a new Julia session and activate `examples` enviroment. Now, if we do not load `Plots`, the `imageplot` function will have no methods, as can be seen below
+Note, that we defined a new module, that has the same name as our extension. And that's all. Now we can test, whether the extension works. We have to start a new Julia session and activate `examples` environment. Now, if we do not load `Plots`, the `imageplot` function will have no methods, as can be seen below
 
 ```julia
 julia> using ImageInspector, MLDatasets
@@ -148,7 +148,7 @@ end
 end
 ```
 
-Now it's time to test the extension. To do so, we first have to install `CairoMakie` into `examples` enviroment
+Now it's time to test the extension. To do so, we first have to install `CairoMakie` into `examples` environment
 
 ```julia
 (ImageInspector) pkg> activate ./examples
@@ -156,7 +156,7 @@ Now it's time to test the extension. To do so, we first have to install `CairoMa
 (examples) pkg> add CairoMakie
 ```
 
-We have to start a new Julia session and activate `examples` enviroment. Now, if we do not load `CairoMakie`, the `imageplot` function will have no methods, as can be seen below
+We have to start a new Julia session and activate `examples` environment. Now, if we do not load `CairoMakie`, the `imageplot` function will have no methods, as can be seen below
 
 ```julia
 julia> using ImageInspector, MLDatasets

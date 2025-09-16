@@ -76,9 +76,9 @@
     nothing # hide
     ```
 
-    This implementation is efficient in the way that only one function evaluation is needed per iteration. The price to pay are additional variables ```fa```, ```fb``` and ```fc```.
+    This implementation is efficient in the way that only one function evaluation is needed per iteration. The price to pay is additional variables ```fa```, ```fb``` and ```fc```.
 
-    To use the bisection method to minimize a function ``f(x)``, we use it find the solution of the optimality condition ``f'(x)=0``.
+    To use the bisection method to minimize a function ``f(x)``, we use it to find the solution of the optimality condition ``f'(x)=0``.
 
     ```@example bisec
     f(x) = x^2 - x
@@ -253,7 +253,7 @@ println(round.(x, digits=4)) # hide
     If ``h_j(x)\neq 0``, then it is simple to choose ``\mu_j``so that the inner maximization problem has the optimal value ``+\infty``. However, since the outer problem minimizes the objective, the value of ``+\infty`` is irrelevant. Therefore, we can ignore all points with ``h_j(x)\neq 0`` and prescribe ``h_j(x)=0`` as a hard constraint. That is precisely the primal formulation.
 
 !!! warning "Exercise 6 (theory)"
-    Derive the dual formulation for the linear programming.
+    Derive the dual formulation for linear programming.
 
 !!! details "Solution:"
     The linear program

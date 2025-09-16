@@ -1,6 +1,6 @@
 # Introduction to regression and classification
 
-Regression and classification are a part of machine learning which predicts certain variables based on labelled data. Both regression and classification operate on several premises:
+Regression and classification are a part of machine learning which predicts certain variables based on labeled data. Both regression and classification operate on several premises:
 - We differentiate between datapoints ``x`` and labels ``y``. While data points are relatively simple to obtain, labels ``y`` are relatively hard to obtain.
 - We consider some parameterized function ``\operatorname{predict}(w;x)`` and try to find an unknown variable ``w`` to correctly predict the labels from samples (data points)
 
@@ -8,17 +8,17 @@ Regression and classification are a part of machine learning which predicts cert
 \operatorname{predict}(w;x) \approx y.
 ``` 
 
-- We have a labelled datasets with ``n`` samples ``x_1,\dots,x_n`` and labels ``y_1,\dots,y_n``.
-- We use the labelled dataset to train the weights ``w``.
-- When an unlabelled sample arrives, we use the prediction function to predict its label.
+- We have a labeled dataset with ``n`` samples ``x_1,\dots,x_n`` and labels ``y_1,\dots,y_n``.
+- We use the labeled dataset to train the weights ``w``.
+- When an unlabeled sample arrives, we use the prediction function to predict its label.
 
-The [MNIST](https://en.wikipedia.org/wiki/MNIST_database) dataset contains ``n=50000`` images of grayscale digits. Each image ``x_i`` from the dataset has the size ``28\times 28`` and was manually labelled by ``y_i\in\{0,\dots,9\}``. When the weights ``w`` of a prediction function ``\operatorname{predict}(w;x)`` are trained on this dataset, the prediction function can predict which digit appears on images it has never seen before. This is an example where the images ``x`` are relatively simple to obtain, but the labels ``y`` are hard to obtain due to the need to do it manually.
+The [MNIST](https://en.wikipedia.org/wiki/MNIST_database) dataset contains ``n=50000`` images of grayscale digits. Each image ``x_i`` from the dataset has the size ``28\times 28`` and was manually labeled by ``y_i\in\{0,\dots,9\}``. When the weights ``w`` of a prediction function ``\operatorname{predict}(w;x)`` are trained on this dataset, the prediction function can predict which digit appears on images it has never seen before. This is an example where the images ``x`` are relatively simple to obtain, but the labels ``y`` are hard to obtain due to the need to do it manually.
 
 ## Regression and classification
 
 The difference between regression and classification is simple:
 - Regression predicts a continuous variable ``y`` (such as height based on weight).
-- Classification predict a variable ``y`` with a finite number of states (such as cat/dog/none from images).
+- Classification predicts a variable ``y`` with a finite number of states (such as cat/dog/none from images).
 
 The body-mass index is used to measure fitness. It has a simple formula
 
@@ -70,7 +70,7 @@ while non-linear predictions are considered in the following lecture.
     That means that if we add ``1`` to each sample ``x_i``, it is sufficient to consider the classifier in the form ``w^\top x`` without the bias (shift, intercept) ``b``. This allows for simpler implementation.
 
 !!! compat "BONUS: Data transformation"
-    Linear models have many advantages, such as simplicity or guaranteed convergence for optimization methods. Sometimes it is possible to transform non-linear dependences into linear ones. For example, the body-mass index
+    Linear models have many advantages, such as simplicity or guaranteed convergence for optimization methods. Sometimes it is possible to transform non-linear dependencies into linear ones. For example, the body-mass index
 
     ```math
     \operatorname{BMI} = \frac{w}{h^2}

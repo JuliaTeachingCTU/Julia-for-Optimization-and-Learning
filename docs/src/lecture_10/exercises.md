@@ -341,7 +341,7 @@ nothing # hide
         If a classifier does not have any data in some region, it may predict anything there, including predictions with no sense.
 
 !!! warning "Exercise 5: Universal approximation of neural networks"
-    Proof the theorem about universal approximation of neural networks.
+    Prove the theorem about universal approximation of neural networks.
 
 !!! details "Solution:"
     Since piecewise linear functions are dense in the set of continuous functions, there is a piecewise linear function ``h`` such that ``\|h-g\|_{\infty}\le \varepsilon``. Assume that ``h`` has kinks at ``x_1<\dots<x_n`` with function values ``h(x_i)=y_i`` for ``i=1,\dots,n``. Defining

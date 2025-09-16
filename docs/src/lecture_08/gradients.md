@@ -25,7 +25,7 @@ Functions are usually complicated, and this definition cannot be used to compute
     \nabla h(x) = \nabla f(g(x))\nabla g(x).
     ```
 
-The derivative is the direction of the steepest ascent. The following figure shows the vector field of derivatives, where each arrow shows the direction and size of derivatives at the points in the domain. Since a function has the same function values along its contour lines and since derivate is the direction of the steepest ascent, derivatives are perpendicular to contour lines. The figure also shows that local minima and local maxima have zero derivatives.
+The derivative is the direction of the steepest ascent. The following figure shows the vector field of derivatives, where each arrow shows the direction and size of derivatives at the points in the domain. Since a function has the same function values along its contour lines and since derivative is the direction of the steepest ascent, derivatives are perpendicular to contour lines. The figure also shows that local minima and local maxima have zero derivatives.
 
 
 ![](grad3.svg)
@@ -75,7 +75,7 @@ on domain ``[-3,1]\times [-2,1]``.
     println(f(0, 0)) # hide
     ```
 
-    We use the ```Plots``` package for plotting. We create the discretization ```xs``` and ```ys``` of both axis and then call the ```contourf``` function.
+    We use the ```Plots``` package for plotting. We create the discretization ```xs``` and ```ys``` of both axes and then call the ```contourf``` function.
 
     ```@example optim
     using Plots
@@ -167,7 +167,7 @@ This way of computing the gradient has two disadvantages:
 
 ![](grad2.svg)
 
-The approximation is good if ``h`` is not too small or too large. It cannot be too large because the definition of the gradient considers the limit to zero. It cannot be too small because the numerical errors kick in. This is connected with machine precision, which is most vulnerable to subtracting two numbers of almost the same value. A simple example shows
+The approximation is good if ``h`` is not too small or too large. It cannot be a large number because the definition of the gradient considers the limit to zero. It cannot be too small of a number, because the numerical errors kick in. This is connected with machine precision, which is most vulnerable to subtracting two numbers of almost the same value. A simple example shows
 
 ```math
 (x + h)^2 - x^2 = 2xh + h^2
@@ -182,7 +182,7 @@ h = 1e-13;
 2*x*h + h^2
 ```
 
-gives an error already at the fourth valid digit. It is important to realize how numbers are stored. Julia uses the [IEEE 754 standard](https://en.wikipedia.org/wiki/IEEE_754). For example, `Float64` uses 64 bits to store the number, from which 1 bit represents the sign, 11 bits the exponent and 52 bits the significand precision. As ``2^{52}\approx 10^{16}``, numbers are stored with a 16-digit precision. Since the exponent is stored separately, it is possible to represent numbers smaller than the machine precision, such as ``10^{-25}``. To prevent numerical errors, all computations are done in higher precision, and the resulting variable is rounded to the type precision.
+returns an incorrect number at the fourth valid digit already. It is important to realize how numbers are stored. Julia uses the [IEEE 754 standard](https://en.wikipedia.org/wiki/IEEE_754). For example, `Float64` uses 64 bits to store the number, from which 1 bit represents the sign, 11 bits the exponent and 52 bits the significand precision. As ``2^{52}\approx 10^{16}``, numbers are stored with a 16-digit precision. Since the exponent is stored separately, it is possible to represent numbers smaller than the machine precision, such as ``10^{-25}``. To prevent numerical errors, all computations are done in higher precision, and the resulting variable is rounded to the type precision.
 
 Finally, we show how the gradients look like.
 

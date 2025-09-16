@@ -29,7 +29,7 @@ Then
 (f\ast g)(x) = \int_{-\infty}^{\infty} f(x - t)g(t) dt = \frac{1}{2\varepsilon}\int_{-\varepsilon}^{\varepsilon}f(x - t)dt.
 ```
 
-Then ``(f\ast g)(x)`` does not take the value of ``f`` at ``x`` but integrates ``f`` over a small neighbourhood of ``x``. Applying this kernel results in a smoothening of ``f``.  
+Then ``(f\ast g)(x)`` does not take the value of ``f`` at ``x`` but integrates ``f`` over a small neighbourhood of ``x``. Applying this kernel results in a smoothing of ``f``.  
 
 In image processing, the image ``f`` is not represented by a function but by a collection of pixels. The kernel ``g`` is represented by a small matrix. For the commonly used ``3\times 3`` kernel matrix, the convolution has the form
 
@@ -45,7 +45,7 @@ K_2 = \frac 19\begin{pmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{pmatrix},
 K_3 = \begin{pmatrix} -1 & -1 & -1 \\ -1 & 8 & -1 \\ -1 & -1 & -1 \end{pmatrix}
 ```
 
-perform identity, image smoothening and edge detection, respectively.
+perform identity, image smoothing and edge detection, respectively.
 
 ![](turtles.png)
 
@@ -83,7 +83,7 @@ When an input is an image, the usual structure of the neural network is the foll
 - Cross-entropy loss function.
 
 !!! compat "BONUS: Additional layers"
-    Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). This goes, however, beyond the lecture.
+    Practical convolutional layers involve additional complexities such as layers with even size (we showed only even sizes), padding (should zeros be added or should the output image be smaller) or stride (should there be any distance between convolutions). However, this goes beyond the scope of the lecture.
 
     #### Recurrent layer
 

@@ -38,7 +38,7 @@ function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
 end
 ````
 
-We first wrote a function header, and then we used one tab as an indentation. Then we wrote a short description of the function. Finally, we wrote usage examples. To get a well-looking format of the docstring, we use [markdown](https://en.wikipedia.org/wiki/Markdown) `# Example` to represents a title. We use the `julia-repl` block to write code. Now we type the function name into the Julia help.
+We first wrote a function header, and then we used one tab as an indentation. Then we wrote a short description of the function. Finally, we wrote usage examples. To get a well-looking format of the docstring, we use [markdown](https://en.wikipedia.org/wiki/Markdown) `# Example` to represent a title. We use the `julia-repl` block to write code. Now we type the function name into the Julia help.
 
 
 ```julia
@@ -96,14 +96,14 @@ img1 = [x^2 + y^2 > 1 for x in xs, y in xs];
 plot(image(img1); axis=nothing, border=:none)
 ```
 
-The Markdown syntax starts with `#`. Among others, it allows to use:
+The Markdown syntax starts with `#`. Among others, it allows you to use:
 - Links such as `[Literate](https://fredrikekre.github.io/Literate.jl/v2)`.
 - Variables or latex syntax such as `$[-1,1]$`.
 
 Exporting the script into a notebook is simple.
 
 ```julia
-julia> Import Literate
+julia> import Literate
 
 julia> Literate.notebook("report.jl"; execute=true)
 ```
@@ -145,8 +145,8 @@ function imagegrid(x, inds; flip = true, sep = 1, kwargs...)
     h, w = size(imgs[1])
     A = fill(
         eltype(imgs[1])(1), # white color in proper color type
-        nrows*h + (nrows + 1)*sep, # height of the reculting image
-        ncols*w + (ncols + 1)*sep, # width of the reculting image
+        nrows*h + (nrows + 1)*sep, # height of the resulting image
+        ncols*w + (ncols + 1)*sep, # width of the resulting image
     )
 
     for i in 1:nrows, j in 1:ncols
@@ -173,4 +173,4 @@ plot(imagegrid(X, 1:10; nrows = 2, sep = 2); axis = nothing, border = :none)
 ![](image_5.svg)
 
 !!! warning "Exercise:"
-    Add doc strings for all functions in the ImageInspector package.
+    Add docstrings for all functions in the ImageInspector package.

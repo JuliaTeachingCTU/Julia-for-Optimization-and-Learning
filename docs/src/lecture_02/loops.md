@@ -1,6 +1,6 @@
 # Loops
 
-While `if` conditions are evaluated only once, loops are assessed multiple times.
+While `if` conditions are evaluated only once, loops are executed multiple times.
 
 
 ## `for` and `while` loops
@@ -145,7 +145,7 @@ Hi, my name is Bob and I am 23 old.
     i = 84
     ```
 
-    The `for` loop should be used here because the range is known before-hand and unlike the `while` loop, it does not require to initialize `i`.
+    The `for` loop should be used here because the range is known beforehand and unlike the `while` loop, it does not require to initialize `i`.
 
 ### `break` and `continue`
 

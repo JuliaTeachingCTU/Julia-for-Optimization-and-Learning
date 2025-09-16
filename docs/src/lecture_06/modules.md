@@ -15,7 +15,7 @@ include("/absolute/path/to/the/file/filename.jl")
 include("../relative/path/to/the/file/filename.jl")
 ```
 
-The  `include` function evaluates the source file content in the global scope of the module, where the `include` call occurs. If a file is included multiple times, it is also evaluated multiple times.
+The `include` function evaluates the source file content in the global scope of the module, where the `include` call occurs. If a file is included multiple times, it is also evaluated multiple times.
 
 Even though using separate files to organize code can be very useful, this approach also has several disadvantages. For example, since all files are evaluated in the same global scope, we have to avoid clashes of variable/function names from different files.  This problem can be solved by using modules as described in the following section.
 
@@ -84,7 +84,7 @@ Points.coordinates(p)
 Points.coordinates(q)
 ```
 
-When writing a module, we have to decide which functions and types we want to export. The rule of thumb is that we export only the data end-users should use.
+When writing a module, we have to decide which functions and types we want to export. The rule of thumb is to export only the data end-users should use.
 
 To redefine or extend an imported function, we need to specify the module. We can use the following way to redefine the `distance` function:
 

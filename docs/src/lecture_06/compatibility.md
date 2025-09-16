@@ -1,6 +1,6 @@
 # Package dependencies
  
-In this section, we focus on package dependencies. So far, we showed how to add a specific package into enviroment. However, we have never take into account the compatibility of different versions of the same package. As stated in the official [Julia package manager documentation](https://pkgdocs.julialang.org/v1/compatibility/): Compatibility refers to the ability to restrict the versions of the dependencies that your project is compatible with. If the compatibility for a dependency is not given, the project is assumed to be compatible with all versions of that dependency.
+In this section, we focus on package dependencies. So far, we showed how to add a specific package into environment. However, we have never taken into account the compatibility of different versions of the same package. As stated in the official [Julia package manager documentation](https://pkgdocs.julialang.org/v1/compatibility/): Compatibility refers to the ability to restrict the versions of the dependencies that your project is compatible with. If the compatibility for a dependency is not given, the project is assumed to be compatible with all versions of that dependency.
 
 ## Compatibility
 
@@ -22,7 +22,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
 !!! warning "Exercise:"
     This exercise defines the `image` function that converts a matrix of real numbers to a matrix of Gray points. Real numbers can be converted to Gray points by the `Gray` constructor from the Colors package.
 
-    Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forgot to add which versions of `Colors`  package are supported. Fo the sake of the following excersises, allow versions `0.12.*` and `0.13.*`
+    Each Julia package contains its environment for tracking package dependencies. Use proper commands in the Pkg REPL to add `Colors` as a dependency of the ImageInspector package. Do not forget to add which versions of `Colors`  package are supported. For the sake of the following exercises, allow versions `0.12.*` and `0.13.*`
 
 
 !!! details "Solution:"
@@ -51,7 +51,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
     Info Packages marked with ⌃ have new versions available and may be upgradable.
     ```
 
-    In this particular case, we have Colors package in versions `0.12.11`. To add compatibility for a dependency, we can use `compat` command in the Pkg REPL. To allow versions `0.12.*` and `0.13.*`, we can use the following command
+    In this particular case, we have Colors package in version `0.12.11`. To add compatibility for a dependency, we can use `compat` command in the Pkg REPL. To allow versions `0.12.*` and `0.13.*`, we can use the following command
 
     ```julia
     (ImageInspector) pkg> compat Colors "0.12, 0.13"
@@ -83,7 +83,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
     end
     ```
 
-In the previous excersise, we added the first function into our package. In the following excersise, we will test the function in our `example` enviroment.
+In the previous exercise, we added the first function into our package. In the following exercise, we will test the function in our `example` environment.
 
 !!! warning "Exercise:"
     Use the following code to test the function.
@@ -101,7 +101,7 @@ In the previous excersise, we added the first function into our package. In the 
     **Hint:** Do not forget to add `MLDatasets` and `Plots` to the `examples` environment.
 
 !!! details "Solution:"
-    First, we need to install all necessary packages. Since we want to add the packages to the `examples` environment, we have to change the enviroment again
+    First, we need to install all necessary packages. Since we want to add the packages to the `examples` environment, we have to change the environment again
 
     ```julia
     (ImageInspector) pkg> activate ./examples
@@ -115,7 +115,7 @@ In the previous excersise, we added the first function into our package. In the 
     (examples) pkg> add MLDatasets Plots
     ```
 
-    Now with all packages installed, we can test the `image` function
+    Now, with all packages installed, we can test the `image` function
 
         ```julia
     # /examples/example.jl
@@ -131,7 +131,7 @@ In the previous excersise, we added the first function into our package. In the 
 
 ## Adding content
 
-The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function.
+The previous exercise used the MLDatasets package that provides many well-known datasets used in machine learning. One of them is the `FashionMNIST` dataset of gray images of clothes. However, the resulting image is rotated 90 degrees. The reason is that images in the FashionMNIST dataset are stored in the **width x height** format, but the Plots package assumes the **height x width** format. We solve this issue by redefining the `image` function as follows
 
 ```julia
 function image(x::AbstractMatrix{T}; flip = true) where {T <: Real}
@@ -187,7 +187,7 @@ We will now extend the `image` function to three-dimensional inputs. The third d
     )
     ```
 
-    **Hint:** use the `eachslice` function to split the array along the third dimension and the `dropdims` function to drop a dimension slice.
+    **Hint:** use the `eachslice` function to split the array along the third dimension and the `dropdims` function to drop a dimension.
 
 !!! details "Solution:"
     The functionality depends on the size of the third dimension.
@@ -217,13 +217,13 @@ We will now extend the `image` function to three-dimensional inputs. The third d
 Multiple images are usually stored in multi-dimensional arrays. For example, grayscale images are stored as 3D or 4D arrays, where the last dimension represents individual images. Similarly, colour images are stored as a 4D array.
 
 !!! warning "Exercise:"
-    Add new methods for the `image` function with the following properties:
+    Add new methods to the `image` function with the following properties:
 
     - New methods should accept two arguments:
         - `x`: 3D or 4D array of real numbers that represents images,
         - `inds`: one or more image indices to extract and convert to Gray/RGB representation.
     - If only one index is provided, the method should return a single image in its representation.
-    - If more indices are provided, the method should return an array of images.
+    - If multiple indices are provided, the method should return an array of images.
 
     Use the following code to test the `image` function.
 

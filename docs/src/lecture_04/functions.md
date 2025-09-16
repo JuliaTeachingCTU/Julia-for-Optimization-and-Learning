@@ -543,7 +543,7 @@ julia> roundmod(12.529, 5; sigdigits = 2)
 2.5
 ```
 
-This construction is beneficial whenever there are multiple chained functions, and only the deepest ones need keyword arguments.
+This construction is usefull whenever there are multiple chained functions, and only the innermost ones need keyword arguments.
 
 !!! warning "Exercise:"
     Write a function `wrapper`, that accepts a number and applies one of `round`, `ceil` or `floor` functions based on the keyword argument `type`. Use the function to solve the following tasks:
@@ -738,7 +738,7 @@ julia> A
  0.7071067811865476
 ```
 
-Or by a list compherension.
+Or by a list comprehension.
 
 ```jldoctest dot
 julia> A = [sin(xi) for xi in x]

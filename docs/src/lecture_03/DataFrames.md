@@ -14,7 +14,7 @@ using DataFrames
 df = DataFrame(A = 1:4, B = ["M", "F", "F", "M"], C = rand(4))
 ```
 
-Since each column is stored in a `DataFrame` as a separate vector, it is possible to combine columns of different element types. Columns can be accessed directly without copying.
+Since each column is stored in a `DataFrame` as a separate vector, it is possible to combine columns of different element types. Columns can be accessed directly, without copying.
 
 ```@repl dfbasics
 df.A
@@ -33,7 +33,7 @@ df.A[1] = 5
 df
 ```
 
-On the other hand, the `:` creates a copy, which will not change the original `DataFrame`.
+On the other hand, the `:` creates a copy, therefore changes will not affect the original `DataFrame`.
 
 ```@example dfbasics
 col = df[:, :A]
@@ -56,7 +56,7 @@ See the package [documentation](https://csv.juliadata.org/stable/) for more info
 
 ## Adding columns and rows
 
-It is common for tables to be created column by column or row by row. `DataFrame`s provides an easy way to extend existing tables. To can add new columns to a `DataFrame` in a direct way.
+It is common for tables to be created column by column or row by row. `DataFrame`s provides an easy way to extend existing tables. You can add new columns to a `DataFrame` in a direct way.
 
 ```@example dfbasics
 df.D = [:a, :b, :c, :d]
@@ -100,7 +100,7 @@ df_empty
 
 ## Renaming
 
-Two functions can be used to rename columns. The `names` function returns column names as a vector of strings, while the `propertynames` function returns a vector of symbols.
+There are two functions that can be used to rename columns. The `names` function returns column names as a vector of strings, while the `propertynames` function returns a vector of symbols.
 
 ```@repl dfbasics
 names(df)
@@ -114,7 +114,7 @@ rename!(df, [:a, :b, :c, :d, :e, :f])
 df
 ```
 
-Another option is to rename only some of the columns specified by their names.
+Another option is to rename only some columns, specified by their names.
 
 ```@example dfbasics
 rename!(df, :a => :A, :f => :F)

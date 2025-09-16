@@ -84,7 +84,7 @@ ERROR: MethodError: Cannot `convert` an object of type Dollar to an object of ty
 [...]
 ```
 
-We used only the abstract type `Currency` to define the `BankAccount` type. This allows us to write a generic code that not constrained to one concrete type. We created an instance of `BankAccount` and added a new transaction. However, we cannot calculate an account balance (the sum of all transactions), and we cannot convert money from one currency to another. In the rest of the lecture, we will fix this, and we will also define basic arithmetic operations such as `+` or `-`.
+We used only the abstract type `Currency` to define the `BankAccount` type. This allows us to write generic code that is not constrained to one concrete type. We created an instance of `BankAccount` and added a new transaction. However, we cannot calculate an account balance (the sum of all transactions), and we cannot convert money from one currency to another. In the rest of the lecture, we will fix this, and we will also define basic arithmetic operations such as `+` or `-`.
 
 !!! info "Avoid containers with abstract type parameters:"
     It is generally not good to use [containers with abstract element type](https://docs.julialang.org/en/v1/manual/performance-tips/#man-performance-abstract-container) as we did for storing transactions. We used it in the example above because we do not want to convert all transactions to a common currency. When we create an array from different types, the promotion system converts these types to their smallest supertype for efficient memory storage.
@@ -149,7 +149,7 @@ julia> Euro(1.5)
 1.5 €
 ```
 
-There is one big difference with Python, where we can create a class and define methods inside the class. If we wanted to add a new method, we have to would modify the class. In Julia, we can add or alter methods any time without the necessity to change the class.
+There is one big difference compared to Python, where we can create a class and define methods inside the class. If we wanted to add a new method, we would have to modify the class. In Julia, we can add or alter methods any time without the necessity to change the class.
 
 !!! warning "Exercise:"
     Define a new method for the `symbol` function for `Dollar`.
@@ -392,7 +392,7 @@ julia> dlr = convert(Dollar, pnd)
     1.3 $
     ```
 
-    We realize that the rounding is done only for printing, while the original value remains unchanged.
+    Note that the rounding is done only for printing, while the original value remains unchanged.
 
 ## Promotion
 
@@ -548,7 +548,7 @@ ERROR: MethodError: no method matching length(::Main.Dollar)
 [...]
 ```
 
-The reason is that Julia assumes that custom structures are iterable. But in our case, all subtypes of the `Currency` type represent scalar values. This situation can be easily fixed by defining a new method to the `broadcastable` function from `Base`.
+The reason is that Julia assumes custom structures are iterable., but in our case, all subtypes of the `Currency` type represent scalar values. This situation can be easily fixed by defining a new method to the `broadcastable` function from `Base`.
 
 ```jldoctest currency; output=false
 Base.broadcastable(c::Currency) = Ref(c)
@@ -802,7 +802,7 @@ Bank Account:
   - Number of transactions: 1
 ```
 
-The last function that we define is the function that adds a new transaction into the given bank account. Even though it can be defined like any other function, we decided to use a special syntax. Since methods are associated with types, making any arbitrary Julia object "callable" is possible by adding methods to its type. Such "callable" objects are sometimes called "functors".
+The last function we define is the function that adds a new transaction to the given bank account. Even though it can be defined like any other function, we decided to use a special syntax. Since methods are associated with types, making any arbitrary Julia object "callable" is possible by adding methods to its type. Such "callable" objects are sometimes called "functors".
 
 ```jldoctest currency; output=false
 function (b::BankAccount{T})(c::Currency) where {T}
