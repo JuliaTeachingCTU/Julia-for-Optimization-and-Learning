@@ -5,7 +5,7 @@ In this section, we discuss how to test functions defined in the package as well
 
 ## Test dependencies
 
-When testing the package, it is often usefull to have some additional dependencies that we do not directly use in the package, but are useful for testing. The prototypical example is the `Test` standard library, that contains utilities for testing. Since we use `PkgTemplates` to generate the package structure, we already have some test specific dependencies defined. We can check it in the `Project.toml`, where we have two section we didn';t talk about yet. The first one is `extras` section that cane be used to optional dependencies. In our case, the `extras` section contains two packages  
+When testing the package, it is often useful to have some additional dependencies that we do not directly use in the package, but are useful for testing. The prototypical example is the `Test` standard library, that contains utilities for testing. Since we use `PkgTemplates` to generate the package structure, we already have some test specific dependencies defined. We can check it in the `Project.toml`, where we have two section we didn't talk about yet. The first one is `extras` section that can be used for optional dependencies. In our case, the `extras` section contains two packages  
 
 ```toml
 [extras]
@@ -13,14 +13,14 @@ Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 ```
 
-The second section we didnt talked about yet, is the `targets` section. This section allows us to define which dependencies are used for testing. In our case, the section has the following content
+The second section we haven't talked about yet, is the `targets` section. This section allows us to define which dependencies are used for testing. In our case, the section has the following content
 
 ```toml
 [targets]
 test = ["Aqua", "Test"]
 ```
 
-It is a good practice to specify compatibility even for th packages that are used for testing. Unfortunatelly, the package manager curently do not support adding compatibility for extras. However, we can add the compatibility manually by modifying `compat` section in the `Project.toml` as follows
+It is a good practice to specify compatibility even for the packages that are used for testing. Unfortunately, the package manager currently do not support adding compatibility for extras. However, we can add the compatibility manually by modifying `compat` section in the `Project.toml` as follows
 
 ```julia
 [compat]
@@ -50,7 +50,7 @@ using Aqua
 end
 ```
 
-Now we can easily run the tests using the `test` command in the Pkg REPL. Note, that we mst have activated the correct envroment
+Now we can easily run the tests using the `test` command in the Pkg REPL. Note, that we must have activated the correct envroment
 
 ```julia
 (ImageInspector) pkg> test
@@ -63,7 +63,7 @@ ImageInspector.jl |   11     11  7.6s
 
 ## Unit tests
 
-The previous lecture added the `image` function with multiple methods. We also manually tested if these methods work correctly. Even though this practice works for small projects, it is not optimal for code testing and should be automized by [unit testing](https://en.wikipedia.org/wiki/Unit_testing). The `Test` package from the standard library provides utility functions to simplify writing unit tests. Its core is the `@test` macro that tests if an expression evaluates as `true`.
+The previous lecture added the `image` function with multiple methods. We also manually tested if these methods work correctly. Even though this practice works for small projects, it is not optimal for code testing and should be automated by [unit testing](https://en.wikipedia.org/wiki/Unit_testing). The `Test` package from the standard library provides utility functions to simplify writing unit tests. Its core is the `@test` macro that tests if an expression evaluates as `true`.
 
 ```@repl tests
 using Test
@@ -78,7 +78,7 @@ It is possible to pass additional arguments to the `@test` macro.
 @test π ≈ 3.14 atol=0.01
 ```
 
-If we go back to our package, we can start writing tests for the methods of the `image` function. All tests should be located in the ` /test` foldert. First, we have to import all necessary packages: `Test`, `ImageInspector` and `Colors`.
+If we go back to our package, we can start writing tests for the methods of the `image` function. All tests should be located in the ` /test` folder. First, we have to import all necessary packages: `Test`, `ImageInspector` and `Colors`.
 
 ```julia
 julia> using ImageInspector,  ImageInspector.Colors
@@ -215,7 +215,7 @@ Test Passed
     end
     ```
 
-    We can again run all tests directly from the ImageInspector enviroment in the Pkg REPL using the `test` command. 
+    We can again run all tests directly from the ImageInspector environment in the Pkg REPL using the `test` command. 
 
     ```julia
     (ImageInspector) pkg> test
@@ -226,7 +226,7 @@ Test Passed
         Testing ImageInspector tests passed 
     ```
 
-    We can also run tests for some specific package by specifying the name of the package after the `test` command. For example, we can run all testst for the ImageInspector from the `example` enviroment in the following way
+    We can also run tests for some specific package by specifying the name of the package after the `test` command. For example, we can run all tests for the ImageInspector from the `example` environment in the following way
 
     ```julia
     (ImageInspector) pkg> activate ./examples

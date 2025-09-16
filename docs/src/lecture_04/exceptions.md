@@ -1,6 +1,6 @@
 # Exception handling
 
-Unexpected behaviour may often occur during running code, which may lead to the situation that some function cannot return a reasonable value. Such behaviour should be handled by either terminating the program with a proper diagnostic error message or allowing that code to take appropriate action.
+Unexpected behaviour may often occur during running code, which may lead to a situation where some function cannot return a reasonable value. Such behaviour should be handled by either terminating the program with a proper diagnostic error message or allowing that code to take appropriate action.
 
 In the following example, we define a factorial function in the same way as we did in the [Short-circuit evaluation](@ref Short-circuit-evaluation) section.
 
@@ -26,7 +26,7 @@ ERROR: argument must be non-negative integer
 [...]
 ```
 
-However, it is better to use error messages as descriptive as possible. In the case above, the error message can also include the argument value. Julia provides several predefined types of exceptions that can be used to create more descriptive error messages. In our example, we want to check whether the argument is a non-negative integer. The more specific `DomainError` can do this.
+However, it is better to use error messages that are as descriptive as possible. In the case above, the error message can also include the argument value. Julia provides several predefined types of exceptions that can be used to create more descriptive error messages. In our example, we want to check whether the argument is a non-negative integer. The more specific `DomainError` can do this.
 
 ```jldoctest expections; output = false
 function fact(n)
@@ -69,7 +69,7 @@ Stacktrace:
 
 In this case, the `MethodError` is raised for the `isinteger` function. Since the `DomainError` function is not even called, the error says nothing about the `fact` function. We can track that the error occurs when calling the `fact` function using the `Stacktrace` section located under the error message. The `Stacktrace` provides us with an ordered list of function calls (starting from the last one) that preceded the error. In this case, the last function call before the error is `fact(::String)`. It tells us that the error occurs in the function `fact` with a string as the input argument. In this particular case, it makes sense to define factorial function only for real numbers. This can be done by entering the input type in the function declaration.
 
-```jldoctest expections; output = false
+```jldoctest exceptions; output = false
 function fact_new(n::Real)
     isinteger(n) && n >= 0 || throw(DomainError(n, "argument must be non-negative integer"))
     return n == 0 ? 1 : n * fact(n - 1)
@@ -79,7 +79,7 @@ end
 fact_new (generic function with 1 method)
 ```
 
-This function declaration will only work for subtypes of `Real`. Otherwise, `the MethodError` will occur.
+This function declaration will only work for subtypes of `Real`. Otherwise, a `MethodError` will occur.
 
 ```jldoctest expections
 julia> fact_new("aaa")

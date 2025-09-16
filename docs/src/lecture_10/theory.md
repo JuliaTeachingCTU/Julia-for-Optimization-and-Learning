@@ -1,7 +1,7 @@
 # Theory of neural networks
 
 Neural networks appeared for the first time decades ago but were almost forgotten after a few years. Their resurgence in the last one or two decades is mainly due to available computational power. Their impressive list of applications include:
-- One of the first applications was reading postal codes to automatize the sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks were used.
+- One of the first applications was reading postal codes to automate the sorting of letters. Since only ten black and white digits can appear at five predetermined locations, simple networks were used.
 - A similar type of neural (convolutional) networks is used in autonomous vehicles to provide information about cars, pedestrians or traffic signs. These networks may also use bounding boxes to specify the position of the desired object.
 - While the previous techniques used the 2D structure of the input (image), recurrent neural networks are used for series-type data (text, sound). The major application is automatic translators.
 - Another application includes generating new content. While practical applications such as artistic composition exist, these networks are often used to generate fake content (news, images).
@@ -115,7 +115,7 @@ The most commonly used loss functions are:
   \operatorname{loss}(y,\hat y) = - y\log \hat y - (1-y)\log(1- \hat y).
   ```
 
-Mean square error is usually used for regression problems while both cross-entropies for classification problem. The former for multi-class (``K>2``) and the latter for binary (``K=2``) problems.
+Mean squared error is usually used for regression problems while both cross-entropies for classification problem. The former for multi-class (``K>2``) and the latter for binary (``K=2``) problems.
 
 ## Making predictions
 
@@ -172,7 +172,7 @@ This figure shows data with quadratic dependence and a small added error. While 
 
 Multiple techniques were developed to prevent overfitting.
 - *Early stopping* stops the algorithm before it finds an optimum. This goes against the spirit of optimization as the loss function is actually not optimized.
-- *Regularization* adds a term to the objective funtion, usually the squared ``l_2`` norm of weights
+- *Regularization* adds a term to the objective function, usually the squared ``l_2`` norm of weights
   ```math
   \operatorname{minimize}\qquad \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w;x_i)) + \frac{\lambda}{2}\|w\|^2.
   ```
@@ -205,7 +205,7 @@ This computation is highly efficient because the forward pass (computing functio
     ```math
     \nabla L(w) = \sum_{i=1}^n \operatorname{loss}'(y_i, f(w;x_i))\nabla_w f(w;x_i).
     ```
-    The most difficult term to compute is ``\nabla_w f(w;x_i)``. All neural networks presented in this course have a layered structure. For an input ``x``, the evalutation of ``f(w;x)`` is initialized by ``a_0=x`` and then the iterative update
+    The most difficult term to compute is ``\nabla_w f(w;x_i)``. All neural networks presented in this course have a layered structure. For an input ``x``, the evaluation of ``f(w;x)`` is initialized by ``a_0=x`` and then the iterative update
     ```math
     \begin{aligned}
     z_m &= W_ma_{m-1} + b_m, \\

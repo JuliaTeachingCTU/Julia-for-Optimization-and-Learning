@@ -105,13 +105,13 @@ w = log_reg(X, y, zeros(size(X,2)))
     \hat y_i = \sigma(w^\top x_i),
     ```
 
-    where ``\sigma`` is the sigmoid function. Since the mimimum from ``w^\top x_i``
+    where ``\sigma`` is the sigmoid function. Since the minimum from ``w^\top x_i``
 
     ```@example ex_log
     minimum(X*[1;2;3])
     ```
 
-    is large, all ``w^\top x_i`` are large. But plotting the sigmoid funtion
+    is large, all ``w^\top x_i`` are large. But plotting the sigmoid function
 
     ```@example ex_log
     xs = -10:0.01:10
@@ -164,4 +164,4 @@ w = log_reg(X, y, zeros(size(X,2)))
     a^\top x_i x_i^\top a = (x_i^\top a)^\top (x_i^\top a) = \|x_i^\top a\|^2 \ge 0,
     ```
 
-    which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this points is a global minimum.
+    which implies that ``x_i x_i^\top`` is a positive semidefinite matrix (it is known as rank-1 matrix as its rank is always 1 if ``x_i`` is a non-zero vector). Since ``y_i(1-\hat y_i)\ge 0``, it follows that ``\nabla^2 L(w)`` is a positive semidefinite matrix. If a Hessian of a function is positive semidefinite everywhere, the function is immediately convex. Since Newton's method found a stationary point, this point is a global minimum.

@@ -122,7 +122,7 @@ When there are no constraints, the Lagrangian ``L`` reduces to the objective ``f
 
 ## Numerical method
 
-We present only the simplest method for constraint optimization. Projected gradients
+We present only the simplest method for constrained optimization. Projected gradients
 
 ```math
 \begin{aligned}
@@ -203,7 +203,7 @@ xys = hcat(reshape([xs[:,1:end-1]; ys][:], 2, :), xs[:,end])
 nothing # hide
 ```
 
-It is probably not the nicest thing to do, but it is Saturday evening, I am tired, and it works. Sorry :) The animation can now be created in the same way as before. 
+The animation can now be created in the same way as before. 
 
 ```@example optim
 create_anim(f, xys, xlims, ylims, "anim7.gif";

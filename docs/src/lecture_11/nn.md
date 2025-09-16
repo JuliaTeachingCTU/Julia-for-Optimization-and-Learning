@@ -21,7 +21,7 @@ This lecture shows how to train more complex networks using stochastic gradient 
 
 ## Preparing data
 
-During the last lecture, we implemented everything from scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) (and [Optimisers](https://fluxml.ai/Optimisers.jl/stable/)) which automizes most of the things needed for neural networks.
+During the last lecture, we implemented everything from scratch. This lecture will introduce the package [Flux](https://fluxml.ai/Flux.jl/stable/models/basics/) (and [Optimisers](https://fluxml.ai/Optimisers.jl/stable/)) which automates most of the things needed for neural networks.
 - It creates many layers, including convolutional layers.
 - It creates the model by chaining layers together.
 - It efficiently represents model parameters.
@@ -168,7 +168,7 @@ The previous example mentioned that `load_data` is rather general. The next exer
     │    reshape_data(::AbstractArray{T,3} where T) where T
     ```
 
-    It results in an error which states that the `reshape_function` functon is not defined for inputs with 4 dimensions. We did not implement it because MNIST contains grayscale images, which leads to arrays with 3 dimensions. To fix the problem, it suffices to add a method to the `reshape_data` function.
+    It results in an error which states that the `reshape_function` function is not defined for inputs with 4 dimensions. We did not implement it because MNIST contains grayscale images, which leads to arrays with 3 dimensions. To fix the problem, it suffices to add a method to the `reshape_data` function.
 
     ```@example nn
     reshape_data(X::AbstractArray{<:Real, 4}) = X
@@ -196,7 +196,7 @@ We recall that machine learning minimizes the discrepancy between the prediction
 L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w; x_i)).
 ```
 
-The gradient descent works with the derivative ``\nabla L(w)``, which contains the mean over all samples. Since the MNIST training set size is 50000, evaluating one full gradient is costly. For this reasons, the gradient is approximated by a mean over a small number of samples. This small set is called a minibatch, and this accelerated method stochastic gradient descent.
+The gradient descent works with the derivative ``\nabla L(w)``, which contains the mean over all samples. Since the MNIST training set size is 50000, evaluating one full gradient is costly. For this reason, the gradient is approximated by a mean over a small number of samples. This small set is called a minibatch, and this accelerated method stochastic gradient descent.
 
 The following exercise splits the dataset into minibatches. While we can do it manually, Flux provides a simple way to do so.
 

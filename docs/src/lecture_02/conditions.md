@@ -1,4 +1,4 @@
-# Conditional evalutions
+# Conditional evaluations
 
 This lecture handles control flow. The first part focuses on `if` conditions and the second one of loops.
 
@@ -22,7 +22,7 @@ end
 compare (generic function with 1 method)
 ```
 
-If the expression `x < y` is true, the functions prints *"x is less than y"*, otherwise, the expression `x > y` is evaluated, and if it is true, the functions prints *"x is greater than y"*. If neither expression is true, the function prints the remaining option *"x is equal to y"*.
+If the expression `x < y` is true, the function prints *"x is less than y"*, otherwise, the expression `x > y` is evaluated, and if it is true, the function prints *"x is greater than y"*. If neither expression is true, the function prints the remaining option *"x is equal to y"*.
 
 ```jldoctest conditions
 julia> compare(1, 2.3)
@@ -150,7 +150,7 @@ julia> compare(2.3, 2.3)
 
     Make sure that the input argument is a non-negative integer. For negative input arguments and for arguments that can not be represented as an integer, the function should throw an error.
 
-    **Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written by `|`.
+    **Hint:** use recursion, the `isinteger` function and the `error` function. The or operator is written as `|`.
 
 !!! details "Solution:"
     We split the solution into three cases:
@@ -215,7 +215,7 @@ Since we wrapped the whole expression into the `println` function, the ternary o
 
 ## Short-circuit evaluation
 
-Julia provides the so-called short-circuit evaluation which is similar to the conditional evaluation. The behaviour exists in most imperative programming languages having the `&&` and `||` boolean operators. In a series of boolean expressions connected by these operators, only the minimal number of expressions is evaluated  to determine the final boolean value of the entire chain:
+Julia provides the so-called short-circuit evaluation which is similar to the conditional evaluation. The behaviour exists in most imperative programming languages, which have the `&&` and `||` boolean operators. In a series of boolean expressions connected by these operators, only the minimal number of expressions is evaluated  to determine the final boolean value of the entire chain:
 - In the expression `a && b`, the subexpression `b` is only evaluated if `a` evaluates true.
 - In the expression `a || b`, the subexpression `b` is only evaluated if `a` evaluates to false.
 

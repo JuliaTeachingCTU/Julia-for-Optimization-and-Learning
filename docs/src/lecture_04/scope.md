@@ -66,7 +66,7 @@ In the example above, the `z` variable in the function is local, and the `z` var
 
 ## Global scope
 
-Each module introduces a new global scope, separate from the global scope of all other modules. The interactive prompt (aka REPL) is in the global scope of the module `Main`.
+Each module introduces a new global scope, separate from the global scope of all other modules. The interactive prompt (also know as REPL) is in the global scope of the module `Main`.
 
 ```jldoctest global
 julia> module A
@@ -112,7 +112,7 @@ julia> foo(1)
 11
 ```
 
-However, it is not recommended to use global variables in this way. The reason is that global variables can change their type and value at any time, and therefore they cannot be properly optimized by the compiler. We can see the performance drop in a simple test.
+However, using global variables in this way is not recommended. The reason is that global variables can change their type and value at any time, and therefore they cannot be properly optimized by the compiler. We can see the performance drop in a simple test.
 
 ```@repl global_test
 x = rand(10);

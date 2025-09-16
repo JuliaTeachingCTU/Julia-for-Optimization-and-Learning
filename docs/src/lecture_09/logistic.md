@@ -19,7 +19,7 @@ The name logistic regression is misleading because it is actually a classificati
 \end{aligned}
 ```
 
-Denoting ``\hat y = \mathbb{P}(y=1\mid x)`` the probabily of predicting ``1``, the loss function is the cross-entropy loss
+Denoting ``\hat y = \mathbb{P}(y=1\mid x)`` the probability of predicting ``1``, the loss function is the cross-entropy loss
 
 ```math
 \operatorname{loss}(y,\hat y) = - y\log \hat y - (1-y)\log(1-\hat y).
@@ -34,7 +34,7 @@ Denoting ``\hat y = \mathbb{P}(y=1\mid x)`` the probabily of predicting ``1``, t
 
     Since ``\hat y`` lies in the interval ``(0,1)`` due to the sigmoid function, the cross-entropy is minimized when ``\hat y = 1``. Since we get similar results for ``y=0``, the cross-entropy is minimal whenever the labels ``y`` equal to the predictions ``\hat y``.
 
-Then is not difficult to show that then the logistic regression problems reads
+Then it is not difficult to show that then the logistic regression problems reads
 
 ```math
 \operatorname{minimize}_w\qquad \frac1n\sum_{i=1}^n\left(\log(1+e^{-w^\top x_i}) + (1-y_i)w^\top x_i \right).
@@ -302,7 +302,7 @@ The picture shows that there are misclassified samples. The next exercise analys
     nothing # hide
     ```
 
-    There is an alternative (but equivalent way). Since the separating hyperplane has form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write arguments on why these two approaches are equivalent.
+    There is an alternative (but equivalent way). Since the separating hyperplane the form ``w^\top x``, we predict that a sample is positive whenever ``w^\top x\ge 0``. Write arguments on why these two approaches are equivalent.
 
 The correct answer is
 

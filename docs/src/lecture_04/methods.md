@@ -53,7 +53,7 @@ product(x, y) = throw(ArgumentError("product is defined for numbers only."))
 product (generic function with 2 methods)
 ```
 
-The second line redefined the original definition of the `product` function. It now throws an error if `product` is called with non-numeric inputs.
+The second line redefines the original definition of the `product` function. It now throws an error if `product` is called with non-numeric inputs.
 
 ```jldoctest methods
 julia> methods(product)
@@ -64,7 +64,7 @@ julia> methods(product)
      @ none:1
 ```
 
-Now, we have a function with two methods, that returns a product if the input arguments are numbers, and throws an error otherwise.
+Now, we have a function with two methods that returns a product if the input arguments are numbers, and throws an error otherwise.
 
 ```jldoctest methods
 julia> product(1, 4.5)
@@ -346,7 +346,7 @@ Closest candidates are:
 
     Here we get a different error. However, the error returned by the `product_new` function is more useful because it tells us what the real problem is. We can see that it is impossible to use the `*` operator to multiply a `String` and a `Symbol`. We can decide if this is the desired behaviour, and if not, we can define a method for the `*` operator that will fix it.
 
-We show a simple example when the multiple dispatch is useful.
+We show a simple example where multiple dispatch is useful.
 
 !!! warning "Exercise:"
     We define the abstract type `Student` and specific types `Master` and `Doctoral`. The latter two are defined as structures containing one and three fields, respectively.
@@ -436,7 +436,7 @@ julia> f(2, 3.0)
 5.0
 ```
 
-Both methods can be used if both arguments are of type `Float64`. The problem is that neither method is more specific than the other. This results in `MethodError`.
+Both methods could match if both arguments are of type `Float64`. The problem is that neither method is more specific than the other. This results in `MethodError`.
 
 ```jldoctest methods_amb
 julia> f(2.0, 3.0)

@@ -12,8 +12,8 @@ We need to use the `using` keyword to load the package. For example, we can use 
 using Plots
 x = 0:0.01π:2π
 
-plot(x, sin.(x); label = "sinus", linewidth = 2)
-plot!(x, cos.(x); label = "cosinus", linewidth = 2)
+plot(x, sin.(x); label = "sine", linewidth = 2)
+plot!(x, cos.(x); label = "cosine", linewidth = 2)
 
 savefig("sin.svg") # hide
 ```
@@ -140,7 +140,7 @@ There will be a whole [section](@ref Plots.jl) dedicated to the Plots package. H
     end
     ```
 
-    We use the ternary operator to decide which value is returned. Now we need to define all input parameters as in the previous exercise.
+    We use the ternary operator `? :` to decide which value is returned. Now we need to define all input parameters as in the previous exercise.
 
     ```julia
     c = - 0.4 + 0.61im
@@ -213,7 +213,7 @@ Firstly, we create the vector of all values `c` by combining the `range` functio
 cs = 0.7885 .* exp.(range(π/2, 3π/2; length = 500) .* im)
 ```
 
-Note that we use the `length` keyword to specify the length of `cs`. To create an animation, it suffices to use the `for` loop in combination with the `@animate` macro.
+Note that we use the `length` keyword to specify the length of `cs`. To create an animation, it is sufficient to use the `for` loop in combination with the `@animate` macro.
 
 ```julia
 anim = @animate for c in cs

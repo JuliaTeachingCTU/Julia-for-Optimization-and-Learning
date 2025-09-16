@@ -4,12 +4,12 @@ In the previous section, we created a new empty package. In this section, we wil
 
 ## Development mode
 
-The content of the `ImageInspector` folder can be divided into four parts:
+The contents of the `ImageInspector` folder can be divided into four parts:
 - *Root folder* contains information about the package and git.
 - *Folder src* contains the package source code.
 - *Folder tests* contains the testing scripts for verifying the code correctness.
 - *Folder examples* is used to run examples.
-The first three are standard, while we added the last folder manually. We can add more folders, such as `data`.
+The first three are standard, while we the last folder was added manually. We can add more folders, such as `data`.
 
 We first activate a new environment in the `examples` folder.
 
@@ -34,8 +34,8 @@ Status `.../ImageInspector/examples/Project.toml`
 
 Like the `add` command, the `dev` command allows us to load the package by `using` or `import`. The difference between `add` and `dev` is that the `dev` command tracks the package current state and not a concrete git commit in some branch.
 
-!!! warning "Default Julia enviroment in VS Code:"
-    The VS Code allows setting a default Julia environment that is activated when Julia REPL is opened. We can do this by pressing `Julia env: ` located at the bottom info bar and selecting the desired environment.
+!!! warning "Default Julia environment in VS Code:"
+    VS Code allows setting a default Julia environment that is activated when Julia REPL is opened. We can do this by pressing `Julia env: ` located at the bottom info bar and selecting the desired environment.
 
 ## Revise.jl
 
@@ -66,7 +66,7 @@ julia> greet()
 ERROR: UndefVarError: greet not defined
 ```
 
-In this case, we have to restart Julia. There are two ways how to exit Julia interactive session: using keyword shortcut `ctrl + D` or using the `exit()` function. Even though we can use the `greet()` function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the [Revise](https://github.com/timholy/Revise.jl) package. Even though it provides lots of convenient features, we will present only its basic use. First, we install it.
+In this case, we have to restart Julia. There are two ways to exit Julia interactive session: using keyword shortcut `ctrl + D` or using the `exit()` function. Even though we can use the `greet()` function after the restart, we will not do it yet. The reason is that we would have to restart Julia again after making any changes to the package. Since this is not a convenient way to code, we will use the [Revise](https://github.com/timholy/Revise.jl) package. Even though it provides many convenient features, we will present only its basic use. First, we install it.
 
 ```julia
 (examples) pkg> add Revise
@@ -108,13 +108,13 @@ Hello World!!!!
 ```
 
 !!! info "Automatic Revise loading"
-    `Revise` package can be loaded automaticaly at the start of every Julia session. The easiest way how to achieve such behavior is to use `StartupCustomizer` package. Let's start with installing the package into the default Julia enviroment
+    `Revise` package can be loaded automatically at the start of every Julia session. The easiest way how to achieve such behavior is to use `StartupCustomizer` package. Let's start with installing the package into the default Julia environment
 
     ```julia
     (@v1.10) pkg> add StartupCustomizer
     ```
 
-    When the package is installed, we can run the following commands, that will install `Revise` into the default Julia enviroment and modify the Julia startup file, to load `Revise` at the beggining of every Julia session.
+    When the package is installed, we can run the following commands, that will install `Revise` into the default Julia environment and modify the Julia startup file, to load `Revise` at the beginning of every Julia session.
 
     ```julia
     julia> import StartupCustomizer
@@ -135,7 +135,7 @@ Hello World!!!!
     # end StartupCustomizer.Revise()
     ```
 
-    `StartupCustomizer` also supports other plugins, such as `OhMyREPL`, that will enable code highlightning in your REPL. We can add this pluggin in the similar way as we added the Revise plugin.
+    `StartupCustomizer` also supports other plugins, such as `OhMyREPL`, that will enable code highlighting in your REPL. We can add this plugin in the similar way as we added the Revise plugin.
 
     ```julia
     julia> StartupCustomizer.add(StartupCustomizer.OhMyREPL())

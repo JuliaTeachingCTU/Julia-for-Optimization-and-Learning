@@ -21,7 +21,7 @@ What do we look for when we minimize a function ``f`` over some ``X``? The optim
 f(x) \le f(y) \text{ for all }y\in X.
 ```
 
-This point is often challenging to find. Sometimes we can find a local minimum, which is a global minimum on some small neighbourhood of ``x``. However, as the following theorem suggests, we often need to lower our requirements even lower.
+This point is often challenging to find. Sometimes we can find a local minimum, which is a global minimum on some small neighbourhood of ``x``. However, as the following theorem suggests, we often need to lower our requirements even more.
 
 !!! todo "Theorem: Connection between optimization problems and gradients"
     Consider a differentiable function ``f`` over ``X=\mathbb{R}^n``. If ``x`` is its local minimum, then ``\nabla f(x)=0``. Conversely, if ``f`` is convex, then every point ``x`` with ``\nabla f(x)=0`` is a global minimum of ``f``.
@@ -31,7 +31,7 @@ Points with ``\nabla f(x)=0`` are known as stationary points. Optimization algor
 ![](minmax.svg)
 
 !!! info "Take care:"
-    This theorem does not hold if ``X`` is not the whole space. A simple counterexmple is minimization of ``f(x)=x`` on ``X=[0,1]``.
+    This theorem does not hold if ``X`` is not the whole space. A simple counter example is minimization of ``f(x)=x`` on ``X=[0,1]``.
 
 Since the gradient is the direction of the steepest ascent, the straightforward idea is to move in the opposite direction. This gives rise to the gradient (or steepest) descent algorithm
 ```math
@@ -53,8 +53,8 @@ Here  ``c\in(0,1)`` is a small constant, usually ``c=10^{-4}``. Since the left-h
     - Parameter is an external (fixed) parameter such as a material parameter. The example would be ``\alpha``.
     In machine learning, the usual terminology is:
     - Parameter is to be optimized.
-    - Hyperparameter is an external model parameter that is not optimized and needs to be tuned. The example is the steplength because the gradient descent finds a different solution for different steplength, but it is not changed during the optimization.
-    The different terminology (and possibly the fact that there are adaptive schemes to select the steplength, which should make it a parameter instead of a hyperparameter) makes the notation confusing.
+    - Hyperparameter is an external model parameter that is not optimized and needs to be tuned. The example is the step length because the gradient descent finds a different solution for different step length, but it is not changed during the optimization.
+    The different terminology (and possibly the fact that there are adaptive schemes to select the step length, which should make it a parameter instead of a hyperparameter) makes the notation confusing.
 
 ## Gradient descent
 
@@ -237,7 +237,7 @@ end
 nothing # hide
 ```
 
-The specification of the input ```s::Step``` allows for any subtype of the abstract type ```Step```. Using this implentation results in
+The specification of the input ```s::Step``` allows for any subtype of the abstract type ```Step```. Using this implementation results in
 
 ```@example optim
 gd = GD(0.1)

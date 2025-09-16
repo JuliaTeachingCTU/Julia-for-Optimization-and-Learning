@@ -44,7 +44,7 @@ The following few exercises will implement the Game of Life. We will consider fi
     end
     ```
 
-    The approach above can not define a general version of the `neighbours` function. In this case, we can use nested loops. First, we compute proper row indices by `range` combined with the `mod1` function.
+    The approach above cannot define a general version of the `neighbours` function. In this case, we can use nested loops. First, we compute proper row indices by `range` combined with the `mod1` function.
 
     ```julia
     rows = mod1.(row .+ (-r:r), size(world, 1))
@@ -62,7 +62,7 @@ The following few exercises will implement the Game of Life. We will consider fi
     ```
 
 !!! warning "Exercise:"
-    Add a new method to the `neighbours` function that for the `world` matrix returns a matrix containing numbers of living neighbours.
+    Add a new method to the `neighbours` function that, for the `world` matrix, returns a matrix containing numbers of living neighbours.
 
 !!! details "Solution:"
     We created a function that computes the number of living neighbours in the exercise above. One way how to create a matrix with numbers of living neighbours is:

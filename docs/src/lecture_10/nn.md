@@ -214,7 +214,7 @@ We will start with initializing the weights stored in the `SimpleNet` structure.
     nothing # hide
     ```
 
-Out neural network will have five hidden neurons. Therefore, we need to initialize it with the following code.
+Our neural network will have five hidden neurons. Therefore, we need to initialize it with the following code.
 
 ```@example nn
 Random.seed!(666)
@@ -245,7 +245,7 @@ The following exercise computes the network prediction for samples. For a callin
     nothing # hide
     ```
 
-It is simple now to evaluate the first two samples one the training set.
+It is simple now to evaluate the first two samples from the training set.
 
 ```@example nn
 m(X_train[:,1:2]) 
@@ -359,7 +359,7 @@ nothing # hide
 We have trained our first network. We saw that the loss function keeps decreasing, which indicates a good training procedure. Now we will evaluate the performance.
 
 !!! warning "Exercise:"
-    Write a function which predict the labels for samples. Show the accuracy on both training and testing sets.
+    Write a function which predicts the labels of samples. Show the accuracy on both training and testing sets.
 
 !!! details "Solution:"
     The predicted probabilities are obtained by using the model `m`. The prediction (highest predicted probability) is obtained by converting the one-hot into the one-cold representation. Finally, the accuracy computes in how many cases the prediction equals to the label.

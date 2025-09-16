@@ -4,7 +4,7 @@ Julia does not allow abstract types to be instantiated. They can only be used to
 
 ![](types.svg)
 
-All types depicted in blue are abstract types, and all green types are concrete types. For example, `Int8`, `Int16`, `Int32`, `Int64` and `Int128` are signed integer types, `UInt8`, `UInt16`, `UInt32`, `UInt64` and `UInt128` are unsigned integer types, while `Float16`, `Float32` and `Float64` are floating-point types. In many cases, the inputs must be of a specific type. An algorithm to find the greatest common denominator should work any integer types, but it should not work for any floating-point inputs. Abstract types specify these cases and provide a context into which concrete types can fit.
+All types depicted in blue are abstract types, and all green types are concrete types. For example, `Int8`, `Int16`, `Int32`, `Int64` and `Int128` are signed integer types, `UInt8`, `UInt16`, `UInt32`, `UInt64` and `UInt128` are unsigned integer types, while `Float16`, `Float32` and `Float64` are floating-point types. In many cases, the inputs must be of a specific type. An algorithm to find the greatest common denominator should work for any integer types, but it should not work for any floating-point inputs. Abstract types specify these cases and provide a context into which concrete types can fit.
 
 Abstract types are defined by `abstract type` followed by the type name. It is possible to specify a type to be a subtype of another abstract type. The definition of abstract numeric types would be:
 
@@ -176,12 +176,12 @@ julia> fieldnames(typeof(r))
     Out[4]: [[1.0, 2.0], [4.0, 2.0], [4.0, 6.0], [1.0, 6.0]]
     ```
 
-    The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is, that in Python methods are bounded to the class, while Julia defines functions outside of the composite types. This is very important since Julia uses multiple-dispatch. It means, that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
+    The declaration of the `Rectangle` class is very similar to the one in Julia. The main difference is, that in Python methods are bound to the class, while Julia defines functions outside of the composite types. This is very important since Julia uses multiple-dispatch. It means that functions consist of methods, and Julia decides which method to use based on the number of input arguments and its types. Since all arguments are used for method selection, it would be inappropriate for functions to "belong" to some composite type. As a consequence, we can modify existing methods or add new ones without the necessity to change the composite type definition. This property significantly improves code extensibility and reusability.
     
 
 ## Mutable composite types
 
-Composite types declared with `struct` keyword are immutable and cannot be modified after being constructed.
+Composite types declared with the `struct` keyword are immutable and cannot be modified after being constructed.
 
 ```jldoctest structs
 julia> r.bottomleft = [2;2]
@@ -234,7 +234,7 @@ julia> isa(mr, MutableRectangle)
 true
 ```
 
-Similarly to accessing field values, we can change them by the dot notation or the `setproperty!` function.
+Similarly to accessing field values, we can change them using the dot notation or the `setproperty!` function.
 
 ```jldoctest structs
 julia> mr.width = 1.5
@@ -366,7 +366,7 @@ julia> Point(0.2, 1.3)
 (0.2, 1.3)
 ```
 
-There are two ways how to instantiate the `Point` type.  The first one does not specify the `T` parameter and lets Julia automatically decide the appropriate type. The second one specifies the `T` parameter manually.
+There are two ways to instantiate the `Point` type.  The first one does not specify the `T` parameter and lets Julia automatically decide the appropriate type. The second one specifies the `T` parameter manually.
 
 ```jldoctest structs
 julia> Point(1, 2)
@@ -614,7 +614,7 @@ MyType(5, 4.5, "hello")
     Verify that the probability density function is defined correctly, i.e., its integral equals 1.
 
 !!! details "Solution:"
-    One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to a same type, and checks if the variance is positive.
+    One possible way to define this structure is the `@kwdef` macro, where we specify the default parameters. We also define an inner constructor that promotes the inputs to the same type, and checks if the variance is positive.
 
     ```jldoctest structs_gauss; output = false
     Base.@kwdef struct Gauss{T<:Real}

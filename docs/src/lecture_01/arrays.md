@@ -322,7 +322,7 @@ Accessing matrix elements can be also done in the same way as for vectors.
 julia> M[1] # the first element, equivalent to m[begin]
 1
 
-julia> M[2] # the the second element element
+julia> M[2] # the second element
 5
 
 julia> M[end-1] # the second to last element
