@@ -111,7 +111,7 @@ Hello World!!!!
     `Revise` package can be loaded automatically at the start of every Julia session. The easiest way how to achieve such behavior is to use `StartupCustomizer` package. Let's start with installing the package into the default Julia environment
 
     ```julia
-    (@v1.10) pkg> add StartupCustomizer
+    (@v1.11) pkg> add StartupCustomizer
     ```
 
     When the package is installed, we can run the following commands, that will install `Revise` into the default Julia environment and modify the Julia startup file, to load `Revise` at the beginning of every Julia session.

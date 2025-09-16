@@ -3,31 +3,31 @@
 Julia provides a simple and intuitive built-in package manager that handles installing, updating and removing packages. The package manager offers an interactive Pkg REPL, which simplifies the package management process. We enter the Pkg REPL from the Julia REPL by pressing `]`. To return to the Julia REPL, press backspace or `^C`. After entering the Pkg REPL, a screen similar to the following one will appear:
 
 ```julia
-(@v1.10) pkg>
+(@v1.11) pkg>
 ```
 
 Registered packages can be installed by the `add` keyword.
 
 ```julia
-(@v1.10) pkg> add JSON BSON
+(@v1.11) pkg> add JSON BSON
 ```
 
 It is possible to install multiple packages by entering their names separated by spaces. The `add` keyword can also install unregistered packages by specifying the URL of a git repository.
 
 ```julia
-(@v1.10) pkg> add https://github.com/JuliaLang/Example.jl
+(@v1.11) pkg> add https://github.com/JuliaLang/Example.jl
 ```
 
 We can use both absolute and relative path to a local git repository.
 
 ```julia
-(@v1.10) pkg> add /absolute/or/relative/path/MyPackage
+(@v1.11) pkg> add /absolute/or/relative/path/MyPackage
 ```
 
 The `status` keyword, abbreviated as `st`, can be used to list all installed packages.
 
 ```julia
-(@v1.10) pkg> st
+(@v1.11) pkg> st
 Status `~/.julia/environments/v1.10/Project.toml`
   [fbb218c0] BSON v0.2.6
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
@@ -38,9 +38,9 @@ Status `~/.julia/environments/v1.10/Project.toml`
     The syntax above installs the latest stable version of packages. In some cases, we may want to use an older or a not-yet-released package version. We can install such a specific version by appending the version number after the `@` symbol.
 
     ```julia
-    (@v1.10) pkg> add BSON@0.2.1
+    (@v1.11) pkg> add BSON@0.2.1
 
-    (@v1.10) pkg> st
+    (@v1.11) pkg> st
     Status `~/.julia/environments/v1.10/Project.toml`
       [fbb218c0] BSON v0.2.1
       [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
@@ -50,11 +50,11 @@ Status `~/.julia/environments/v1.10/Project.toml`
     If a branch (or a certain commit) is not yet included in a registered version, we can explicitly track it by appending `#branchname` (or `#commitSHA1`) to the package name.
 
     ```julia
-    (@v1.10) pkg> add BSON#master
+    (@v1.11) pkg> add BSON#master
 
-    (@v1.10) pkg> add JSON#1231b521196de6697d682940b963167fbe4d5cd8
+    (@v1.11) pkg> add JSON#1231b521196de6697d682940b963167fbe4d5cd8
 
-    (@v1.10) pkg> st
+    (@v1.11) pkg> st
     Status `~/.julia/environments/v1.10/Project.toml`
       [fbb218c0] BSON v0.3.2 `https://github.com/JuliaIO/BSON.jl.git#master`
       [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master`
@@ -64,15 +64,15 @@ Status `~/.julia/environments/v1.10/Project.toml`
 We use the `update` keyword to update for registered and unregistered packages. If we do not provide a package name, all installed packages will be updated.
 
 ```julia
-(@v1.10) pkg> update Example
+(@v1.11) pkg> update Example
 ```
 
 Sometimes it is helpful to disallow updating a package. This is done by the `pin` command.
 
 ```julia
-(@v1.10) pkg> pin Example BSON
+(@v1.11) pkg> pin Example BSON
 
-(@v1.10) pkg> st
+(@v1.11) pkg> st
 Status `~/.julia/environments/v1.10/Project.toml`
   [fbb218c0] BSON v0.3.2 ⚲
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master` ⚲
@@ -82,9 +82,9 @@ Status `~/.julia/environments/v1.10/Project.toml`
 The pin symbol `⚲` shows that the package is pinned. The keyword `free` removes the pin.
 
 ```julia
-(@v1.10) pkg> free BSON
+(@v1.11) pkg> free BSON
 
-(@v1.10) pkg> st
+(@v1.11) pkg> st
 Status `~/.julia/environments/v1.10/Project.toml`
   [fbb218c0] BSON v0.3.2
   [7876af07] Example v0.5.4 `https://github.com/JuliaLang/Example.jl#master` ⚲
@@ -94,13 +94,13 @@ Status `~/.julia/environments/v1.10/Project.toml`
 To remove a package, we use the `rm` or `remove` keyword.
 
 ```julia
-(@v1.10) pkg> rm Example
+(@v1.11) pkg> rm Example
 ```
 
 Like the help for functions, we can use `?` in the Pkg REPL to list all its available commands.
 
 ```julia
-(@v1.10) pkg> ?
+(@v1.11) pkg> ?
   Welcome to the Pkg REPL-mode. To return to the julia> prompt, either press backspace when
   the input line is empty or press Ctrl+C.
 
@@ -145,13 +145,13 @@ julia> mkdir("./tutorial") # create a folder named tutorial
 
 julia> cd("./tutorial") # change the working directory to tutorial
 
-(@v1.10) pkg> activate . # alternatively we can specify full path
+(@v1.11) pkg> activate . # alternatively we can specify full path
  Activating new environment at `path/to/the/tutorial/Project.toml`
 
 (tutorial) pkg>
 ```
 
-The example above creates an empty directory `tutorial` and activates a new environment inside it. The prompt in the package REPL changed from `@v1.10` to `tutorial`. It indicates that `tutorial` is the active environment, and Pkg commands will modify it. Since it is a new environment, it has no installed packages.
+The example above creates an empty directory `tutorial` and activates a new environment inside it. The prompt in the package REPL changed from `@v1.11` to `tutorial`. It indicates that `tutorial` is the active environment, and Pkg commands will modify it. Since it is a new environment, it has no installed packages.
 
 ```julia
 (tutorial) pkg> status
