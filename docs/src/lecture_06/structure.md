@@ -7,7 +7,7 @@ The cool thing about Julia is the simplicity of creating packages and sharing th
 We first generate an empty package `PackageName` by the built-in function `generate` in the Pkg REPL.
 
 ```julia
-(@v1.10) pkg> generate PackageName
+(@v1.11) pkg> generate PackageName
  Generating  project PackageName:
     PackageName/Project.toml
     PackageName/src/PackageName.jl
