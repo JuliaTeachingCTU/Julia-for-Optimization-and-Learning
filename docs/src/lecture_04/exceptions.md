@@ -4,7 +4,7 @@ Unexpected behaviour may often occur during running code, which may lead to a si
 
 In the following example, we define a factorial function in the same way as we did in the [Short-circuit evaluation](@ref Short-circuit-evaluation) section.
 
-```jldoctest expections; output = false
+```jldoctest exceptions; output = false
 function fact(n)
     isinteger(n) && n >= 0 || error("argument must be non-negative integer")
     return n == 0 ? 1 : n * fact(n - 1)
@@ -16,7 +16,7 @@ fact (generic function with 1 method)
 
 We use the `error` function, which throws the `ErrorException` if the input argument does not meet the given conditions. This function works quite well and returns a reasonable error message for incorrect inputs.
 
-```jldoctest expections
+```jldoctest exceptions
 julia> fact(1.4)
 ERROR: argument must be non-negative integer
 [...]
@@ -28,7 +28,7 @@ ERROR: argument must be non-negative integer
 
 However, it is better to use error messages that are as descriptive as possible. In the case above, the error message can also include the argument value. Julia provides several predefined types of exceptions that can be used to create more descriptive error messages. In our example, we want to check whether the argument is a non-negative integer. The more specific `DomainError` can do this.
 
-```jldoctest expections; output = false
+```jldoctest exceptions; output = false
 function fact(n)
     isinteger(n) && n >= 0 || throw(DomainError(n, "argument must be non-negative integer"))
     return n == 0 ? 1 : n * fact(n - 1)
@@ -40,7 +40,7 @@ fact (generic function with 1 method)
 
 We must use the `throw` function because the `DomainError(x, msg)` function only creates an instance of the type `DomainError`, but it does not raise an error.
 
-```jldoctest expections
+```jldoctest exceptions
 julia> fact(1.4)
 ERROR: DomainError with 1.4:
 argument must be non-negative integer
@@ -81,7 +81,7 @@ fact_new (generic function with 1 method)
 
 This function declaration will only work for subtypes of `Real`. Otherwise, a `MethodError` will occur.
 
-```jldoctest expections
+```jldoctest exceptions
 julia> fact_new("aaa")
 ERROR: MethodError: no method matching fact_new(::String)
 [...]
@@ -89,7 +89,7 @@ ERROR: MethodError: no method matching fact_new(::String)
 
 The `MethodError` provides two important pieces of information. First, it states that the `fact_new` function is not defined for arguments of type `String`. Second, it shows the list of methods closest to the one we called. In this case, the `fact_new` function has only one method, which works for any subtype of `Real`. This can be verified by using the `methods` function.
 
-```jldoctest expections
+```jldoctest exceptions
 julia> methods(fact_new)
 # 1 method for generic function "fact_new" from Main:
  [1] fact_new(n::Real)

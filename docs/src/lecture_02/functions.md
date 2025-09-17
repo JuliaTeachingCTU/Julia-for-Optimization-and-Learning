@@ -52,6 +52,7 @@ However, we highly recommend to use these optional features when writing your ow
     ```jldoctest functions
     julia> quadratic("a")
     ERROR: MethodError: no method matching quadratic(::String)
+    The function `quadratic` exists, but no method is defined for this combination of argument types.
 
     Closest candidates are:
       quadratic(!Matched::Real; a, b, c)
@@ -81,14 +82,15 @@ However, we highly recommend to use these optional features when writing your ow
     ```jldoctest functions
     julia> quadratic2("a")
     ERROR: MethodError: no method matching *(::Int64, ::String)
+    The function `*` exists, but no method is defined for this combination of argument types.
 
     Closest candidates are:
       *(::Any, ::Any, !Matched::Any, !Matched::Any...)
-       @ Base operators.jl:587
+       @ Base operators.jl:596
       *(::Real, !Matched::Complex{Bool})
-       @ Base complex.jl:327
+       @ Base complex.jl:330
       *(!Matched::Missing, ::Union{AbstractChar, AbstractString})
-       @ Base missing.jl:184
+       @ Base missing.jl:174
       ...
 
     Stacktrace:
