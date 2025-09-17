@@ -381,6 +381,7 @@ The first way works only if the arguments have the same type.
 ```jldoctest structs
 julia> Point(1, 2.0)
 ERROR: MethodError: no method matching Point(::Int64, ::Float64)
+The type `Point` exists, but no method is defined for this combination of argument types when trying to construct it.
 
 Closest candidates are:
   Point(::T, !Matched::T) where T<:Real

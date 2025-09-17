@@ -297,6 +297,7 @@ julia> g("a")
 
 julia> g(:a)
 ERROR: MethodError: no method matching g(::Symbol)
+The function `g` exists, but no method is defined for this combination of argument types.
 
 Closest candidates are:
   g(!Matched::String)
