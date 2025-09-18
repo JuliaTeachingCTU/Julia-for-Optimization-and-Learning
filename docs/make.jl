@@ -12,8 +12,9 @@ mv(download("$(site)icons/favicon.ico"), assetsdir("favicon.ico"); force)
 
 # outline
 installation = [
-    "Installation" => "./installation/installation.md",
-    "Quickstart guide" => "./installation/tutorial.md",
+    "Install" => "./installation/installation.md",
+    "Project setup" => "./installation/tutorial.md",
+    "Running Julia" => "./installation/running.md",
 ]
 
 lecture_01 = [
@@ -123,7 +124,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "Why Julia?" => "why.md",
-        "Installation" => installation,
+        "Setup guide" => installation,
         "1: Basics I" => lecture_01,
         "2: Basics II" => lecture_02,
         "3: Packages" => lecture_03,
