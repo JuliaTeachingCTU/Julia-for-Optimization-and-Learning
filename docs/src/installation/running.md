@@ -39,25 +39,26 @@ Using basic commands (keys), we can easily switch from standard Julia REPL into 
 
 To get into help, simply type `?` in the Julia REPL.
 
-![](repl_help.png)
+![](repl_help1.png)
+
 
 In help, you can use any function or type to search for its documentation. For example, we can see documentation of the function `sum` from standard library:
 
-![](repl_help_usage.png)
+![](repl_help_usage1.png)
 
 
 To get into Julia package manager, type `]` in the Julia REPL.
 
-![](repl_pkg.png)
+![](repl_pkg1.png)
 
 Inside the package manager, we can easily install, update, or remove packages. We can also check the installed packages with the `st` or `status` commands.
 
-![](repl_pkg_usage.png)
+![](repl_pkg_usage1.png)
 
 Lastly, to get into standard shell terminal, type `;` in the Julia REPL.
 
-![](repl_shell.png)
+![](repl_shell1.png)
 
 The shell environment works like a standard default terminal and allows for easy terminal commands.
 
-![](repl_shell_usage.png)
+![](repl_shell_usage1.png)
