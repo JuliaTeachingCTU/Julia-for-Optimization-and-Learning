@@ -1,6 +1,6 @@
 ## Julia
 
-There are multiple ways how to install Julia and it's version manager Juliaup. We recommend to follow the [official documentation](https://julialang.org/downloads/):
+There are multiple ways how to install Julia. We recommend using the official version manager [Juliaup](https://julialang.org/install/):
 
 - **Windows** users can install Julia and also Juliaup directly from [Windows Store](https://apps.microsoft.com/detail/9njnww8pvkmn?hl=cs-cz&gl=CZ) or equivalently use the following command
 
@@ -30,7 +30,7 @@ Configured the default Julia version to be '1.11'.
 
 ##  Git
 
-[Git](https://git-scm.com/) is a distributed version control system for tracking changes in any set of text files. It is designed for coordinating work among cooperating programmers during software development. Git installer can be download from the official [download page](https://git-scm.com/downloads). Download the proper installer, run it and follow the instructions. Before using Git, we need to make the necessary settings. It can be done easily using command line interface the two following commands
+[Git](https://git-scm.com/) is a distributed version control system for tracking changes in any set of text files. It is designed for coordinating work among cooperating programmers during software development. Git installer can be downloaded from the official [download page](https://git-scm.com/downloads). Download the proper installer, run it and follow the instructions. Before using Git, we need to make the necessary settings. It can be done easily using command line interface the two following commands
 
 ```shell
 > git config --global user.name "<your_username>"
@@ -49,3 +49,4 @@ It is possible to write Julia codes in any text editor, and run them directly fr
 
 To use the VS Code as an IDE for Julia, we have to install the [Julia extension](https://marketplace.visualstudio.com/items?itemName=julialang.language-julia). It can be done directly from the VS Code. Open the `Extension MarketPlace` by pressing the button in the `Activity bar` (the left bar). Type `julia` in the search bar and select the Julia extension. Then press the `Install` button to install the extension. For more information see the [official documentation](https://www.julia-vscode.org/docs/stable/#).
 
+![](julia-extension-install.png)
