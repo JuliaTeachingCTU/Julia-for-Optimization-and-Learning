@@ -28,6 +28,30 @@ For the upcoming course, we recommend to install Julia version 1.11 and set is a
 Configured the default Julia version to be '1.11'.
 ```
 
+### Optional: Setting-up Julia Multi-Threading
+
+Julia runs on a single thread by default. We will not tackle multi-threading in this course, but many Julia packages are parallelized by default. Thus, starting Julia with multiple threads **can greatly improve performance**.
+
+Julia can be started with multiple threads by calling `julia -t N` or `julia --threads N`, where `N` is the required number of threads. Alternatively, one can use the value `auto` instead of `N` to let julia automatically determine the optimal number of threads (usually equal to the number of physical CPU cores).
+
+In order to avoid having to specify the number of threads every time we start Julia, we can export the environment variable `JULIA_NUM_THREADS` instead. To make the setting persistent, we need to add the export to the *shell configuration file*. The exact way to do this depends on the shell you use. Several common shell variants are shown below:
+
+- **Linux + bash**: Add `export JULIA_NUM_THREADS=auto` to `~/.bashrc`.
+
+- **Linux + zsh**: Add `export JULIA_NUM_THREADS=auto` to `~/.zshrc`.
+
+- **MacOS + bash**: Add `export JULIA_NUM_THREADS=auto` to `~/.bash_profile`.
+
+- **MacOS + zsh**: Add `export JULIA_NUM_THREADS=auto` to `~/.zshrc`.
+
+- **Windows + cmd**: Evaluate `setx JULIA_NUM_THREADS auto` in cmd.
+
+(Or use a specific number of threads instead of `auto`.)
+
+To verify your setup, evaluate `julia -e "@show Threads.nthreads()"`. If you've done everything correctly, you should see a number of threads greater than 1.
+
+See the [official documentation](https://docs.julialang.org/en/v1/manual/multi-threading/) for more information.
+
 ##  Git
 
 [Git](https://git-scm.com/) is a distributed version control system for tracking changes in any set of text files. It is designed for coordinating work among cooperating programmers during software development. Git installer can be downloaded from the official [download page](https://git-scm.com/downloads). Download the proper installer, run it and follow the instructions. Before using Git, we need to make the necessary settings. It can be done easily using command line interface the two following commands
