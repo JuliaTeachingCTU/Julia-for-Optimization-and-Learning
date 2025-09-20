@@ -9,7 +9,7 @@ We will also present several topics on the curse of dimensionality, where behavi
 One of the most commonly used functions in statistical analysis is the [``\Gamma``-function](https://en.wikipedia.org/wiki/Gamma_function) defined by
 
 ```math
-\Gamma(z) = \int_0^\infty x^{z-1}e^{-z}dx.
+\Gamma(z) = \int_0^\infty x^{z-1}e^{-x}dx.
 ```
 
 It can be evaluated only approximately except for positive integers ``k``, for which it holds
@@ -356,7 +356,7 @@ extrema(dist2)
     \mathbb P(X\le x) = \int_{-\infty}^x f(x)dx = \alpha. 
     ```
 
-    The quantile at level ``\alpha=0.5`` is the mean. Quantiles play an important role in estimates, where they form upper and lower bounds for confidence intervals. They are also used in hypothesis testing.
+    The quantile at level ``\alpha=0.5`` is the median. Quantiles play an important role in estimates, where they form upper and lower bounds for confidence intervals. They are also used in hypothesis testing.
 
     This part will investigate how quantiles on a finite sample differ from the true quantile. We will consider two ways of computing the quantile. Both of them sample ``n`` points from some distribution ``d``. The first one follows the statistical definition and selects the index of the ``n\alpha`` smallest observation by the `partialsort` function. The second one uses the function `quantile`, which performs some interpolation.
 
