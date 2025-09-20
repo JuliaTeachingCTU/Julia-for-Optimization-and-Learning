@@ -24,7 +24,7 @@ Both approaches try to keep the norm of parameters ``w`` small to prevent overfi
 ## [Theory of matrix eigendecomposition](@id matrix-eigen)
 
 
-Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries. We there exist ``\lambda\in\mathbb R`` and ``v\in\mathbb R^n`` such that
+Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries. If there exist ``\lambda\in\mathbb R`` and ``v\in\mathbb R^n`` such that
 
 ```math
 Av = \lambda v,
@@ -32,7 +32,7 @@ Av = \lambda v,
 
 we say that ``\lambda`` is a eigenvalue of ``A`` and ``v`` is the corresponding eigenvector.
 
-For the rest of this section, we will assume that ``A`` is a symmetric matrix. Then these eigenvector are perpendicular to each other. We create the diagonal matrix ``\Lambda`` with eigenvalues on diagonal and the matrix ``Q`` with columns consisting of the corresponding eigenvectors. Then we have
+For the rest of this section, we will assume that ``A`` is a symmetric matrix. Then these eigenvectors are perpendicular to each other. We create the diagonal matrix ``\Lambda`` with eigenvalues on diagonal and the matrix ``Q`` with columns consisting of the corresponding eigenvectors. Then we have
 
 ```math
 A = Q\Lambda Q^\top
@@ -161,7 +161,7 @@ The first exercise compares both approaches to solving the ridge regression.
     nothing # hide
     ```
 
-    The more sophisticated way of solving the ridge regression contains only matrix-vector multiplication and the inversion of the diagonal matrix ``(\Lambda + \mu I)^{-1}``. We need to properly add paranthesis, to start multiplication from the right and evade matrix-matrix multiplication, which would occur if we started from the left. Since the matrix ``\Lambda + \mu I`` is diagonal, its inverse is the digonal matrix formed from the inverted diagonal.
+    The more sophisticated way of solving the ridge regression contains only matrix-vector multiplication and the inversion of the diagonal matrix ``(\Lambda + \mu I)^{-1}``. We need to properly add paranthesis, to start multiplication from the right and evade matrix-matrix multiplication, which would occur if we started from the left. Since the matrix ``\Lambda + \mu I`` is diagonal, its inverse is the diagonal matrix formed from the inverted diagonal.
 
     ```@example sparse
     ridge_reg(X, y, μ, Q, Q_inv, λ) = Q * ((Diagonal(1 ./ (λ .+ μ)) * ( Q_inv * (X'*y))))
@@ -242,7 +242,7 @@ end
 nothing # hide
 ```
 
-Finally, we compute the values for all regularization parameters ``\mu``. The second line in the loop says that if ``i=1``, then run LASSO without the initial values, and if ``i>1``, then run it with the initial values from the previous iteration. SInce the visibility of `w`, `u` and `z` is only one iteration, we need to specify that they are global variables.
+Finally, we compute the values for all regularization parameters ``\mu``. The second line in the loop says that if ``i=1``, then run LASSO without the initial values, and if ``i>1``, then run it with the initial values from the previous iteration. Since the visibility of `w`, `u` and `z` is only one iteration, we need to specify that they are global variables.
 
 ```@example sparse
 ws = zeros(size(X,2), length(μs))
@@ -267,4 +267,4 @@ plot(μs, abs.(ws');
 ```
 
 !!! info "Warm start:"
-    The technique of starting from a previously computed value is called warm start or hor start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.
+    The technique of starting from a previously computed value is called warm start or hot start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.

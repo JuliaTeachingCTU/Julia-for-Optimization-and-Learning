@@ -21,7 +21,7 @@ end
 
 # [Linear regression revisited](@id statistics)
 
-This section revisits the linear regression. The classical statistical approach uses derives the same formulation for linear regression as the optimization approach. Besides point estimates for parameters, it also computes their confidence intervals and can test whether some parameters can be omitted from the model. We will start with hypothesis testing and then continue with regression.
+This section revisits the linear regression. The classical statistical approach derives the same formulation for linear regression as the optimization approach. Besides point estimates for parameters, it also computes their confidence intervals and can test whether some parameters can be omitted from the model. We will start with hypothesis testing and then continue with regression.
 
 Julia provides lots of statistical packages. They are summarized at the [JuliaStats](https://juliastats.org/) webpage. This section will give a brief introduction to many of them.
 
@@ -196,7 +196,7 @@ The table shows the parameter values and their confidence intervals. Besides tha
 !!! warning "Exercise:"
     Check that the solution computed by hand and by `lm` are the same.
 
-    Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coeffient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
+    Then remove the feature with the highest ``p``-value and observe whether there was any performance drop. The performance is usually evaluated by the [coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination) denoted by ``R^2\in[0,1]``. Its higher values indicate a better model.
 
     **Hint**: Use functions `coef` and `r2`.
 
@@ -259,7 +259,7 @@ The following exercise plots the predictions for the generalized linear model.
     Create the scatter plot of predictions and labels. Do not use the `predict` function.
 
 !!! details "Solution:"
-    Due to the construction of the generalized linear model, the prediction equals ``g^{-1}(w^\top x)``. We save it into ``\hat y``.
+    Due to the construction of the generalized linear model, the prediction equals ``g^{-1}(w^\top x)``. We save it as ``\hat y``.
 
     ```@example glm
     g_inv(z) = z^2

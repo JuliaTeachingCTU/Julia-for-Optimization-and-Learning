@@ -1,6 +1,6 @@
 ## Julia in Visual Studio Code
 
-In the labs, we will be using Visual Studio Code to work on Julia projects and run Julia. An IDE like VS Code allows us to use certain keybaord shortcuts and other utilities (such as syntax highlighting) to more effectively work with Julia code.
+In the labs, we will be using Visual Studio Code to work on Julia projects and run Julia. An IDE like VS Code allows us to use certain keyboard shortcuts and other utilities (such as syntax highlighting) to more effectively work with Julia code.
 
 We recommend to install at least the Julia Extension, which comes with a lot of functionality to run, format, and work with Julia scripts.
 
