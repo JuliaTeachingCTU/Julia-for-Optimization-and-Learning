@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Functions · Julia for Optimization and Learning</title><meta name="title" content="Functions · Julia for Optimization and Learning"/><meta property="og:title" content="Functions · Julia for Optimization and Learning"/><meta property="twitter:title" content="Functions · Julia for Optimization and Learning"/><meta name="description" content="Documentation for Julia for Optimization and Learning."/><meta property="og:description" content="Documentation for Julia for Optimization and Learning."/><meta property="twitter:description" content="Documentation for Julia for Optimization and Learning."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script><link href="../../assets/favicon.ico" rel="icon" type="image/x-icon"/></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img class="docs-light-only" src="../../assets/logo.svg" alt="Julia for Optimization and Learning logo"/><img class="docs-dark-only" src="../../assets/logo-dark.svg" alt="Julia for Optimization and Learning logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">Julia for Optimization and Learning</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Home</a></li><li><a class="tocitem" href="../../why/">Why Julia?</a></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Setup guide</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../installation/installation/">Install</a></li><li><a class="tocitem" href="../../installation/tutorial/">Project setup</a></li><li><a class="tocitem" href="../../installation/running/">Running Julia</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">1: Basics I</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_01/variables/">Variables</a></li><li><a class="tocitem" href="../../lecture_01/operators/">Elementary functions</a></li><li><a class="tocitem" href="../../lecture_01/strings/">Strings</a></li><li><a class="tocitem" href="../../lecture_01/arrays/">Arrays</a></li><li><a class="tocitem" href="../../lecture_01/data_structures/">Data structures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">2: Basics II</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_02/functions/">Function basics</a></li><li><a class="tocitem" href="../../lecture_02/conditions/">Conditional evaluations</a></li><li><a class="tocitem" href="../../lecture_02/loops/">Loops and iterators</a></li><li><a class="tocitem" href="../../lecture_02/scope/">Soft local scope</a></li><li><a class="tocitem" href="../../lecture_02/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-6" type="checkbox"/><label class="tocitem" for="menuitem-6"><span class="docs-label">3: Packages</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_03/standardlibrary/">Standard library</a></li><li><a class="tocitem" href="../../lecture_03/pkg/">Package manager</a></li><li><a class="tocitem" href="../../lecture_03/Plots/">Plots.jl</a></li><li><a class="tocitem" href="../../lecture_03/DataFrames/">DataFrames.jl</a></li><li><a class="tocitem" href="../../lecture_03/otherpackages/">Other useful packages</a></li><li><a class="tocitem" href="../../lecture_03/interaction/">Interaction with other languages</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox" checked/><label class="tocitem" for="menuitem-7"><span class="docs-label">4: Functions and methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Functions</a><ul class="internal"><li><a class="tocitem" href="#One-line-functions"><span>One-line functions</span></a></li><li><a class="tocitem" href="#Optional-arguments"><span>Optional arguments</span></a></li><li><a class="tocitem" href="#Keyword-arguments"><span>Keyword arguments</span></a></li><li><a class="tocitem" href="#Variable-number-of-arguments"><span>Variable number of arguments</span></a></li><li><a class="tocitem" href="#Anonymous-functions"><span>Anonymous functions</span></a></li><li><a class="tocitem" href="#Dot-syntax-for-vectorizing-functions"><span>Dot syntax for vectorizing functions</span></a></li><li><a class="tocitem" href="#Function-composition-and-piping"><span>Function composition and piping</span></a></li></ul></li><li><a class="tocitem" href="../methods/">Methods</a></li><li><a class="tocitem" href="../scope/">Scope of variables</a></li><li><a class="tocitem" href="../exceptions/">Exception handling</a></li><li><a class="tocitem" href="../exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">5: Type system and generic programming</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_05/compositetypes/">Abstract and composite types</a></li><li><a class="tocitem" href="../../lecture_05/currencies/">Generic programming</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-9" type="checkbox"/><label class="tocitem" for="menuitem-9"><span class="docs-label">6: Code organization I</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_06/modules/">Files and modules</a></li><li><a class="tocitem" href="../../lecture_06/structure/">Package structure</a></li><li><a class="tocitem" href="../../lecture_06/workflow/">Development workflow</a></li><li><a class="tocitem" href="../../lecture_06/compatibility/">Package dependencies</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-10" type="checkbox"/><label class="tocitem" for="menuitem-10"><span class="docs-label">7: Code organization II</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_07/tests/">Tests</a></li><li><a class="tocitem" href="../../lecture_07/documentation/">Documentation</a></li><li><a class="tocitem" href="../../lecture_07/extensions/">Extensions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-11" type="checkbox"/><label class="tocitem" for="menuitem-11"><span class="docs-label">8: Optimization</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_08/theory/">Introduction to continuous optimization</a></li><li><a class="tocitem" href="../../lecture_08/gradients/">Gradients</a></li><li><a class="tocitem" href="../../lecture_08/unconstrained/">Unconstrained optimization</a></li><li><a class="tocitem" href="../../lecture_08/constrained/">Constrained optimization</a></li><li><a class="tocitem" href="../../lecture_08/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-12" type="checkbox"/><label class="tocitem" for="menuitem-12"><span class="docs-label">9: Regression and classification</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_09/theory/">Introduction to regression and classification</a></li><li><a class="tocitem" href="../../lecture_09/linear/">Linear regression</a></li><li><a class="tocitem" href="../../lecture_09/logistic/">Logistic regression</a></li><li><a class="tocitem" href="../../lecture_09/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-13" type="checkbox"/><label class="tocitem" for="menuitem-13"><span class="docs-label">10: Neural networks I.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_10/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_10/nn/">Neural networks</a></li><li><a class="tocitem" href="../../lecture_10/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-14" type="checkbox"/><label class="tocitem" for="menuitem-14"><span class="docs-label">11: Neural networks II.</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_11/theory/">Theory of neural networks</a></li><li><a class="tocitem" href="../../lecture_11/iris/">Introduction to Flux</a></li><li><a class="tocitem" href="../../lecture_11/nn/">More complex networks</a></li><li><a class="tocitem" href="../../lecture_11/exercises/">Exercises</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-15" type="checkbox"/><label class="tocitem" for="menuitem-15"><span class="docs-label">12: Statistics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../lecture_12/sparse/">Linear regression with sparse constraints</a></li><li><a class="tocitem" href="../../lecture_12/monte/">Monte Carlo sampling</a></li><li><a class="tocitem" href="../../lecture_12/glm/">Linear regression revisited</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">4: Functions and methods</a></li><li class="is-active"><a href>Functions</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Functions</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning/blob/master/docs/src/lecture_04/functions.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Functions"><a class="docs-heading-anchor" href="#Functions">Functions</a><a id="Functions-1"></a><a class="docs-heading-anchor-permalink" href="#Functions" title="Permalink"></a></h1><p>In Julia, a function is an object that maps a tuple of argument values to a return value. There are multiple ways to create a function. Each of them is useful in different situations. The first way is the <code>function ... end</code> syntax.</p><pre><code class="language-julia hljs">function plus(x,y)
+    x + y
+end</code></pre><p>The <code>plus</code> function accepts two arguments <code>x</code> and <code>y</code>, and returns their sum.</p><pre><code class="language-julia-repl hljs">julia&gt; plus(2, 3)
+5
+
+julia&gt; plus(2, -3)
+-1</code></pre><p>By default, functions in Julia return the last evaluated expression, which was <code>x + y</code>. It is useful to return something else with the <code>return</code> keyword in many situations. The previous example is equivalent to:</p><pre><code class="language-julia hljs">function plus(x,y)
+    return x + y
+end</code></pre><p>Even though both functions do the same, it is always good to use the <code>return</code> keyword. It usually improves code readability and can prevent potential confusion.</p><pre><code class="language-julia hljs">function plus(x, y)
+    return x + y
+    println(&quot;I am a useless line of code!!&quot;)
+end</code></pre><p>The example above contains the <code>println</code> function on the last line. However, if the function is called, nothing is printed into the REPL. This is because expressions after the <code>return</code> keyword are never evaluated.</p><pre><code class="language-julia-repl hljs">julia&gt; plus(4, 5)
+9
+
+julia&gt; plus(3, -5)
+-2</code></pre><p>It is also possible to return multiple values at once. This can be done by writing multiple comma-separated values after the <code>return</code> keyword (or on the last line when <code>return</code> is omitted).</p><pre><code class="language-julia hljs">function powers(x)
+    return x, x^2, x^3, x^4
+end</code></pre><p>This syntax creates a tuple of values, and then this tuple is returned as a function output. The <code>powers</code> function returns the first four powers of the input <code>x</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; ps = powers(2)
+(2, 4, 8, 16)
+
+julia&gt; typeof(ps)
+NTuple{4, Int64}</code></pre><p>Note that the function returns <code>NTuple{4, Int64}</code> which is a compact way of representing the type for a tuple of length <code>N = 4</code> where all elements are of the same type. Since the function returns a tuple, returned values can be directly unpacked into multiple variables. This can be done in the same way as unpacking <a href="../../lecture_01/data_structures/#Tuples">tuples</a>.</p><pre><code class="language-julia-repl hljs">julia&gt; x1, x2, x3, x4 = powers(2)
+(2, 4, 8, 16)
+
+julia&gt; x3
+8</code></pre><div class="admonition is-warning" id="Exercise:-9d539c79b907d588"><header class="admonition-header">Exercise:<a class="admonition-anchor" href="#Exercise:-9d539c79b907d588" title="Permalink"></a></header><div class="admonition-body"><p>Write function <code>power(x::Real, p::Integer)</code> that for a number <span>$x$</span> and a (possibly negative) integer <span>$p$</span> computes <span>$x^p$</span> without using the <code>^</code> operator. Use only basic arithmetic operators <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and the <code>if</code> condition. The annotation <code>p::Integer</code> ensures that the input <code>p</code> is always an integer.</p><p><strong>Hint:</strong> use recursion.</p></div></div><details class="admonition is-details" id="Solution:-8f558d2998c391d"><summary class="admonition-header">Solution:<a class="admonition-anchor" href="#Solution:-8f558d2998c391d" title="Permalink"></a></summary><div class="admonition-body"><p>To use recursion, we have to split the computation into three parts:</p><ul><li><code>p = 0</code>: the function should return <code>1</code>.</li><li><code>p &gt; 0</code>: the function should be called recursively with arguments <code>x</code>, <code>p - 1</code> and the result should be multiplied by <code>x</code>.</li><li><code>p &lt; 0</code>: then it is equivalent to call the power function with arguments <code>1/x</code>, <code>-p</code>.</li></ul><p>These three cases can be defined using the <code>if-elseif</code> as follows:</p><pre><code class="language-julia hljs">function power(x::Real, p::Integer)
+    if p == 0
+        return 1
+    elseif p &gt; 0
+        return x * power(x, p - 1)
+    else
+        return power(1/x, -p)
+    end
+end</code></pre><p>We use type annotation for function arguments to ensure that the input arguments are always of the proper type. In the example above, the first argument must be a real number, and the second argument must be an integer.</p><pre><code class="language-julia-repl hljs">julia&gt; power(2, 5)
+32
+
+julia&gt; power(2, -2)
+0.25
+
+julia&gt; power(2, 5) ≈ 2^5
+true
+
+julia&gt; power(5, -3) ≈ 5^(-3)
+true</code></pre><p>If we call the function with arguments of wrong types, an error will occur.</p><pre><code class="language-julia-repl hljs">julia&gt; power(2, 2.5)
+ERROR: MethodError: no method matching power(::Int64, ::Float64)
+[...]</code></pre><p>We will discuss type annotation later in the section about <a href="../methods/#Methods">methods</a>.</p></div></details><h2 id="One-line-functions"><a class="docs-heading-anchor" href="#One-line-functions">One-line functions</a><a id="One-line-functions-1"></a><a class="docs-heading-anchor-permalink" href="#One-line-functions" title="Permalink"></a></h2><p>Besides the traditional function declaration syntax above, it is possible to define a function in a compact one-line form</p><pre><code class="language-julia hljs">plus(x, y) = x + y</code></pre><p>that is equivalent to the previous definition of the <code>plus</code> function</p><pre><code class="language-julia-repl hljs">julia&gt; plus(4, 5)
+9
+
+julia&gt; plus(3, -5)
+-2</code></pre><p>This syntax is similar to mathematical notation, especially in combination with the Greek alphabet. For example, function</p><p class="math-container">\[f(\varphi) = - 4 \cdot \sin\left(\varphi - \frac{\pi}{12}\right)\]</p><p>can be in Julia defined in an almost identical form.</p><pre><code class="language-julia hljs">f(φ) = -4sin(φ - π/12)</code></pre><p>The one-line syntax also allows to create more complex functions with some intermediate calculations by using brackets and semicolons to separate expressions. The last expression in brackets is then returned as the function output.</p><pre><code class="language-julia hljs">g(x) = (x -= 1; x *= 2; x)</code></pre><p>In this example, the <code>g</code> function subtracts <code>1</code> from the input <code>x</code> and then returns its multiplication by <code>2</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; g(3)
+4</code></pre><p>However, for better code readability, the traditional multiline syntax is preferred for more complex functions.</p><div class="admonition is-warning" id="Exercise:-edcd2077e12dc25d"><header class="admonition-header">Exercise:<a class="admonition-anchor" href="#Exercise:-edcd2077e12dc25d" title="Permalink"></a></header><div class="admonition-body"><p>Write a one-line function that returns <code>true</code> if the input argument is an even number and <code>false</code> otherwise.</p><p><strong>Hint:</strong> use modulo function and <a href="../../lecture_02/conditions/#Ternary-operator">ternary operator</a> <code>?</code>.</p></div></div><details class="admonition is-details" id="Solution:-75cb0c25dd9767e3"><summary class="admonition-header">Solution:<a class="admonition-anchor" href="#Solution:-75cb0c25dd9767e3" title="Permalink"></a></summary><div class="admonition-body"><p>From the section about the ternary operator, we know that the syntax</p><pre><code class="language-julia hljs">a ? b : c</code></pre><p>means: <em>if <code>a</code> is true, evaluate <code>b</code>; otherwise, evaluate <code>c</code></em>. Since even numbers are divisible by 2, we can check it by the modulo function <code>mod(x, 2) == 0</code>. This results in the following function.</p><pre><code class="language-julia hljs">even(x::Integer) = mod(x, 2) == 0 ? true : false</code></pre><p>We again used type annotation to ensure that the argument is an integer.</p><pre><code class="language-julia-repl hljs">julia&gt; even(11)
+false
+
+julia&gt; even(14)
+true</code></pre></div></details><h2 id="Optional-arguments"><a class="docs-heading-anchor" href="#Optional-arguments">Optional arguments</a><a id="Optional-arguments-1"></a><a class="docs-heading-anchor-permalink" href="#Optional-arguments" title="Permalink"></a></h2><p>It is advantageous to use predefined values as function arguments in many cases. Arguments with a default value are typically called optional arguments. Like in Python, optional arguments can be created by assigning a default value to the normal argument. The following function has only one argument, which is optional with the default value <code>world</code>.</p><pre><code class="language-julia hljs">hello(x = &quot;world&quot;) = println(&quot;Hello $(x).&quot;)</code></pre><p>Since the argument is optional, we can call the function without it. In such a case, the default value is copied to the argument value. If the function is called with a non-default value, the default value is ignored.</p><pre><code class="language-julia-repl hljs">julia&gt; hello()
+Hello world.
+
+julia&gt; hello(&quot;people&quot;)
+Hello people.</code></pre><p>In the same way, it is possible to define multiple optional arguments. It is even possible to define optional arguments that depend on other arguments. However, these arguments must be sorted: mandatory arguments must always precede optional arguments.</p><pre><code class="language-julia hljs">powers(x, y = x*x, z = y*x, v = z*x) = x, y, z, v</code></pre><p>This function has one mandatory and three optional arguments. If only the first argument <code>x</code> is provided, the function returns its first four powers.</p><pre><code class="language-julia-repl hljs">julia&gt; powers(2)
+(2, 4, 8, 16)</code></pre><p>Otherwise, the function output depends on the given input arguments. For example, if two arguments <code>x</code> and <code>y</code> are provided, the function returns these two arguments unchanged together with <code>x*y</code> and <code>x^2*y</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; powers(2, 3)
+(2, 3, 6, 12)</code></pre><p>The optional arguments can depend only on the previously defined arguments; otherwise, an error occurs.</p><pre><code class="language-julia hljs">f(x = 1, y = x) = (x, y)
+g(x = y, y = 1) = (x, y)</code></pre><p>The definition of <code>f</code> is correct, and the definition of <code>g</code> is incorrect since the variable <code>y</code> is not defined when we define <code>x</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; f()
+(1, 1)
+
+julia&gt; g()
+ERROR: UndefVarError: `y` not defined
+[...]</code></pre><div class="admonition is-warning" id="Exercise:-cbd51b74b534a51e"><header class="admonition-header">Exercise:<a class="admonition-anchor" href="#Exercise:-cbd51b74b534a51e" title="Permalink"></a></header><div class="admonition-body"><p>Write a function which computes the value of the following quadratic form</p><p class="math-container">\[q_{a,b,c}(x,y) = ax^2 + bxy + cy^2,\]</p><p>where <span>$a, b, c, x \in \mathbb{R}$</span>. Use optional arguments to set default values for parameters</p><p class="math-container">\[a = 1, \quad b = 2a, \quad c = 3(a + b).\]</p><p>What is the function value at point <span>$(4, 2)$</span> for default parameters? What is the function value at the same point if we use <span>$c = 3$</span>?</p></div></div><details class="admonition is-details" id="Solution:-1db63592c319b15e"><summary class="admonition-header">Solution:<a class="admonition-anchor" href="#Solution:-1db63592c319b15e" title="Permalink"></a></summary><div class="admonition-body"><p>The quadratic form can be implemented as follows:</p><pre><code class="language-julia hljs">q(x, y, a = 1, b = 2*a, c = 3*(a + b)) = a*x^2 + b*x*y + c*y^2</code></pre><p>Since we want to evaluate <span>$q$</span> at <span>$(4, 2)$</span> with default parameters, we can use only the first two arguments.</p><pre><code class="language-julia-repl hljs">julia&gt; q(4, 2)
+68</code></pre><p>In the second case, we want to evaluate the function at the same point with <span>$c = 3$</span>. However, it is not possible to set only the last optional argument. We have to set all previous optional arguments too. For the first two optional arguments, we use the default values, i.e., <code>a = 1</code> and <code>b = 2*a = 2</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; q(4, 2, 1, 2, 3)
+44</code></pre></div></details><h2 id="Keyword-arguments"><a class="docs-heading-anchor" href="#Keyword-arguments">Keyword arguments</a><a id="Keyword-arguments-1"></a><a class="docs-heading-anchor-permalink" href="#Keyword-arguments" title="Permalink"></a></h2><p>The previous exercise shows the most significant disadvantage of optional arguments: It is impossible to change only one optional argument unless it is the first one. Luckily, keyword arguments can fix this issue. The syntax is the same as for optional arguments, with one exception: Use a semicolon before the first keyword argument.</p><pre><code class="language-julia hljs">linear(x; a = 1, b = 0) = a*x + b</code></pre><p>This function is a simple linear function, where <code>a</code> represents the slope, and <code>b</code> means the intercept. We can call the function with the mandatory arguments only.</p><pre><code class="language-julia-repl hljs">julia&gt; linear(2)
+2</code></pre><p>We can also change the value of any keyword argument by assigning a new value to its name.</p><pre><code class="language-julia-repl hljs">julia&gt; linear(2; a = 2)
+4
+
+julia&gt; linear(2; b = 4)
+6
+
+julia&gt; linear(2; a = 2, b = 4)
+8</code></pre><p>The semicolon is not mandatory and can be omitted. Moreover, the order of keyword arguments is arbitrary. It is even possible to mix keyword arguments with positional arguments, as shown in the following example.</p><pre><code class="language-julia-repl hljs">julia&gt; linear(b = 4, 2, a = 2) # If you use this, you will burn in hell :D
+8</code></pre><p>However, this is a horrible practice and should never be used.</p><p>Julia also provides one nice feature to pass keyword arguments. Imagine that we have variables <code>a</code> and <code>b</code>, and we want to pass them as keyword arguments to the <code>linear</code> function defined above. The standard way is:</p><pre><code class="language-julia-repl hljs">julia&gt; a, b = 2, 4
+(2, 4)
+
+julia&gt; linear(2; a = a, b = b)
+8</code></pre><p>Julia allows a shorter version which can be used if the variable name and the name of the keyword argument are the same. In such a case, we may use the following simplification.</p><pre><code class="language-julia-repl hljs">julia&gt; linear(2; a, b)
+8</code></pre><div class="admonition is-warning" id="Exercise:-8cd4540ecfd8fe80"><header class="admonition-header">Exercise:<a class="admonition-anchor" href="#Exercise:-8cd4540ecfd8fe80" title="Permalink"></a></header><div class="admonition-body"><p>Write a probability density function for the <a href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian distribution</a></p><p class="math-container">\[f_{\mu, \sigma}(x) = \frac{1}{\sigma \sqrt{ 2\pi }} \exp\left\{ -\frac{1}{2} \left( \frac{x - \mu}{\sigma} \right) ^2 \right\},\]</p><p>where <span>$\mu \in \mathbb{R}$</span> and <span>$\sigma^2 &gt; 0$</span>. Use keyword arguments to obtain the standardized normal distribution (<span>$\mu = 0$</span> and <span>$\sigma = 1$</span>). Check that the inputs are correct.</p></div></div><p><strong>Bonus:</strong> verify that this function is a probability density function, i.e., its integral equals 1.</p><details class="admonition is-details" id="Solution:-8136a0524d03d655"><summary class="admonition-header">Solution:<a class="admonition-anchor" href="#Solution:-8136a0524d03d655" title="Permalink"></a></summary><div class="admonition-body"><p>The probability density function for the Gaussian distribution equals to</p><pre><code class="language-julia hljs">function gauss(x::Real; μ::Real = 0, σ::Real = 1)
+    σ^2 &gt; 0 || error(&quot;the variance `σ^2` must be positive&quot;)
+    return exp(-1/2 * ((x - μ)/σ)^2)/(σ * sqrt(2*π))
+end</code></pre><p>We used type annotation to ensure that all input arguments are real numbers. We also checked whether the standard deviation <span>$\sigma$</span> is positive.</p><pre><code class="language-julia-repl hljs">julia&gt; gauss(0)
+0.3989422804014327
+
+julia&gt; gauss(0.1; μ = 1, σ = 1)
+0.2660852498987548</code></pre><p>The integral of the probability density function over all real numbers should equal one. We can check it numerically by discretizing the integral into a finite sum.</p><pre><code class="language-julia-repl hljs">julia&gt; step = 0.01
+0.01
+
+julia&gt; x = -100:step:100;
+
+julia&gt; sum(gauss, x) * step
+1.0000000000000002
+
+julia&gt; g(x) = gauss(x; μ = -1, σ = 1.4);
+
+julia&gt; sum(g, x) * step
+1.0000000000000007</code></pre><p>We use the <code>sum</code> function, which can accept a function as the first argument and apply it to each value before summation. The result is the same as <code>sum(gauss.(x))</code>. The difference is that the former, similarly to generators, does not allocate an array. The summation is then multiplied by the stepsize <code>0.01</code> to approximate the continuous interval <code>[-100, 100]</code>.</p><p>We can also visualize the probability density functions with the <a href="https://github.com/JuliaPlots/Plots.jl">Plots.jl</a> package.</p><pre><code class="language-julia hljs">using Plots
+x = -15:0.1:15
+
+plot(x, gauss.(x); label = &quot;μ = 0, σ = 1&quot;, linewidth = 2, xlabel = &quot;x&quot;, ylabel = &quot;f(x)&quot;);
+plot!(x, gauss.(x; μ = 4, σ = 2); label = &quot;μ = 4, σ = 2&quot;, linewidth = 2);
+plot!(x, gauss.(x; μ = -3, σ = 2); label = &quot;μ = -3, σ = 2&quot;, linewidth = 2);</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">&quot;/home/runner/work/Julia-for-Optimization-and-Learning/Julia-for-Optimization-and-Learning/docs/build/lecture_04/gauss.svg&quot;</code></pre><p><img src="../gauss.svg" alt/></p></div></details><h2 id="Variable-number-of-arguments"><a class="docs-heading-anchor" href="#Variable-number-of-arguments">Variable number of arguments</a><a id="Variable-number-of-arguments-1"></a><a class="docs-heading-anchor-permalink" href="#Variable-number-of-arguments" title="Permalink"></a></h2><p>It may be convenient to define a function that accepts any number of arguments. Such functions are traditionally known as <em>varargs</em> functions (abbreviation for <em>variable number of arguments</em>). Julia defines the varargs functions by the triple-dot syntax (splat operator) after the last positional argument.</p><pre><code class="language-julia hljs">nargs(x...) = println(&quot;Number of arguments: &quot;, length(x))</code></pre><p>The arguments to this function are packed into a tuple <code>x</code> and then the length of this tuple (the number of input arguments) is printed. The input arguments may have different types.</p><pre><code class="language-julia-repl hljs">julia&gt; nargs()
+Number of arguments: 0
+
+julia&gt; nargs(1, 2, &quot;a&quot;, :b, [1,2,3])
+Number of arguments: 5</code></pre><p>The splat operator can also be used to pass multiple arguments to a function. Imagine the situation, where we want to use values of a tuple as arguments to a function. We can do this manually.</p><pre><code class="language-julia-repl hljs">julia&gt; args = (1, 2, 3)
+(1, 2, 3)
+
+julia&gt; nargs(args[1], args[2], args[3])
+Number of arguments: 3</code></pre><p>The simpler way is to use the splat operator to unpack the tuple of arguments directly to the function.</p><pre><code class="language-julia-repl hljs">julia&gt; nargs(args...)
+Number of arguments: 3</code></pre><p>This is different from the case where the tuple is not unpacked.</p><pre><code class="language-julia-repl hljs">julia&gt; nargs(args)
+Number of arguments: 1</code></pre><p>The same syntax can be used for any iterable object, such as ranges or arrays.</p><pre><code class="language-julia-repl hljs">julia&gt; nargs(1:100)
+Number of arguments: 1
+
+julia&gt; nargs(1:100...)
+Number of arguments: 100
+
+julia&gt; nargs([1,2,3,4,5])
+Number of arguments: 1
+
+julia&gt; nargs([1,2,3,4,5]...)
+Number of arguments: 5</code></pre><p>It is also possible to use the same syntax to define a function with an arbitrary number of keyword arguments. Consider the following situation, where we want to define a function that computes the modulo of a number and then rounds the result. To define this function, we can use the combination of the <code>mod</code> and <code>round</code> functions. Since <code>round</code> has many keyword arguments, we want to have an option to use them. In such a case, we can use the following syntax to define the <code>roundmod</code> function.</p><pre><code class="language-julia hljs">roundmod(x, y; kwargs...) = round(mod(x, y); kwargs...)</code></pre><p>With this simple syntax, we can pass all keyword arguments to the <code>round</code> function without defining them in the <code>roundmod</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; roundmod(12.529, 5)
+3.0
+
+julia&gt; roundmod(12.529, 5; digits = 2)
+2.53
+
+julia&gt; roundmod(12.529, 5; sigdigits = 2)
+2.5</code></pre><p>This construction is usefull whenever there are multiple chained functions, and only the innermost ones need keyword arguments.</p><div class="admonition is-warning" id="Exercise:-e426f25b1534fb51"><header class="admonition-header">Exercise:<a class="admonition-anchor" href="#Exercise:-e426f25b1534fb51" title="Permalink"></a></header><div class="admonition-body"><p>Write a function <code>wrapper</code>, that accepts a number and applies one of <code>round</code>, <code>ceil</code> or <code>floor</code> functions based on the keyword argument <code>type</code>. Use the function to solve the following tasks:</p><ul><li>Round <code>1252.1518</code> to the nearest larger integer and convert the resulting value to <code>Int64</code>.</li><li>Round <code>1252.1518</code> to the nearest smaller integer and convert the resulting value to <code>Int16</code>.</li><li>Round <code>1252.1518</code> to <code>2</code> digits after the decimal point.</li><li>Round <code>1252.1518</code> to <code>3</code> significant digits.</li></ul></div></div><details class="admonition is-details" id="Solution:-ad7abe90b83cd262"><summary class="admonition-header">Solution:<a class="admonition-anchor" href="#Solution:-ad7abe90b83cd262" title="Permalink"></a></summary><div class="admonition-body"><p>The one way to define this function is the <code>if-elseif-else</code> statement.</p><pre><code class="language-julia hljs">function wrapper(x...; type = :round, kwargs...)
+    if type == :ceil
+        return ceil(x...; kwargs...)
+    elseif type == :floor
+        return floor(x...; kwargs...)
+    else
+        return round(x...; kwargs...)
+    end
+end</code></pre><p>The <code>type</code> keyword argument is used to determine which function should be used. We use an optional number of arguments as well as an optional number of keyword arguments.</p><pre><code class="language-julia-repl hljs">julia&gt; x = 1252.1518
+1252.1518
+
+julia&gt; wrapper(Int64, x; type = :ceil)
+1253
+
+julia&gt; wrapper(Int16, x; type = :floor)
+1252
+
+julia&gt; wrapper(x; digits = 2)
+1252.15
+
+julia&gt; wrapper(x; sigdigits = 3)
+1250.0</code></pre><p>The second way to solve this exercise is to use the fact that it is possible to pass functions as arguments. We can omit the <code>if</code> conditions and directly pass the appropriate function.</p><pre><code class="language-julia hljs">wrapper_new(x...; type = round, kwargs...) = type(x...; kwargs...)</code></pre><p>In the function definition, we use the <code>type</code> keyword argument as a function and not as a symbol.</p><pre><code class="language-julia-repl hljs">julia&gt; wrapper_new(1.123; type = ceil)
+2.0</code></pre><p>If we use, for example, a <code>Symbol</code> instead of a function, an error will occur.</p><pre><code class="language-julia-repl hljs">julia&gt; wrapper_new(1.123; type = :ceil)
+ERROR: MethodError: objects of type Symbol are not callable
+[...]</code></pre><p>Finally, we can test the <code>wrapper_new</code> function with the same arguments as for the <code>wrapper</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; x = 1252.1518
+1252.1518
+
+julia&gt; wrapper_new(Int64, x; type = ceil)
+1253
+
+julia&gt; wrapper_new(Int16, x; type = floor)
+1252
+
+julia&gt; wrapper_new(x; digits = 2)
+1252.15
+
+julia&gt; wrapper_new(x; sigdigits = 3)
+1250.0</code></pre></div></details><h2 id="Anonymous-functions"><a class="docs-heading-anchor" href="#Anonymous-functions">Anonymous functions</a><a id="Anonymous-functions-1"></a><a class="docs-heading-anchor-permalink" href="#Anonymous-functions" title="Permalink"></a></h2><p>It is also common to use anonymous functions, i.e., functions without a specified name. Anonymous functions can be defined in almost the same way as normal functions.</p><pre><code class="language-julia hljs">h1 = function (x)
+    x^2 + 2x - 1
+end
+h2 = x -&gt;  x^2 + 2x - 1</code></pre><p>Those two function declarations create functions with automatically generated names. Then variables <code>h1</code> and <code>h2</code> only refer to these functions. The primary use for anonymous functions is passing them to functions that take other functions as arguments such as the <code>plot</code> function.</p><pre><code class="language-julia hljs">using Plots
+
+f(x,a) = (x + a)^2
+plot(-1:0.01:1, x -&gt; f(x,0.5))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">&quot;/home/runner/work/Julia-for-Optimization-and-Learning/Julia-for-Optimization-and-Learning/docs/build/lecture_04/Plots.svg&quot;</code></pre><p><img src="../Plots.svg" alt/></p><p>Another example is the <code>map</code> function, which applies a function to each value of an iterable object and returns a new array containing the resulting values.</p><pre><code class="language-julia-repl hljs">julia&gt; map(x -&gt; x^2 + 2x - 1, [1,3,-1])
+3-element Vector{Int64}:
+  2
+ 14
+ -2</code></pre><p>Julia also provides the reserved word <code>do</code> to create anonymous functions. The following example is slightly more complicated. The <code>do ... end</code> block creates an anonymous function with inputs <code>(x, y)</code>, which prints them a returns their sum. This anonymous function is then passed to <code>map</code> as the first argument.</p><pre><code class="language-julia-repl hljs">julia&gt; map([1,3,-1], [2,4,-2]) do x, y
+           println(&quot;x = $(x), y = $(y)&quot;)
+           return x + y
+       end
+x = 1, y = 2
+x = 3, y = 4
+x = -1, y = -2
+3-element Vector{Int64}:
+  3
+  7
+ -3</code></pre><p>However, it is usually better to create an actual function beforehand.</p><pre><code class="language-julia hljs">function f(x, y)
+    println(&quot;x = $(x), y = $(y)&quot;)
+    return x + y
+end</code></pre><p>and then use it as the first argument of the <code>map</code> function.</p><pre><code class="language-julia-repl hljs">julia&gt; map(f, [1,3,-1], [2,4,-2])
+x = 1, y = 2
+x = 3, y = 4
+x = -1, y = -2
+3-element Vector{Int64}:
+  3
+  7
+ -3</code></pre><p>There are many possible uses quite different from the <code>map</code> function, such as managing system state. For example, the following code ensures that the opened file is eventually closed.</p><pre><code class="language-julia hljs">open(&quot;outfile&quot;, &quot;w&quot;) do io
+    write(io, data)
+end</code></pre><h2 id="Dot-syntax-for-vectorizing-functions"><a class="docs-heading-anchor" href="#Dot-syntax-for-vectorizing-functions">Dot syntax for vectorizing functions</a><a id="Dot-syntax-for-vectorizing-functions-1"></a><a class="docs-heading-anchor-permalink" href="#Dot-syntax-for-vectorizing-functions" title="Permalink"></a></h2><p>In technical-computing languages, it is common to have <em>vectorized</em> versions of functions. Consider that we have a function <code>f(x)</code>. Its vectorized version is a function that applies function <code>f</code> to each element of an array <code>A</code> and returns a new array <code>f(A)</code>. Such functions are beneficial in languages, where loops are slow and vectorized versions of functions are written in a low-level language (C, Fortran,...) and are much faster.</p><p>In Julia, vectorized functions are not required for performance, and indeed it is often beneficial to write loops. They can still be convenient. Consider computing the sine function for all elements of <code>[0, π/2, 3π/4]</code>. We can do this by using a loop.</p><pre><code class="language-julia-repl hljs">julia&gt; x = [0, π/2, 3π/4];
+
+julia&gt; A = zeros(length(x));
+
+julia&gt; for (i, xi) in enumerate(x)
+           A[i] = sin(xi)
+       end
+
+julia&gt; A
+3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 0.7071067811865476</code></pre><p>Or by a list comprehension.</p><pre><code class="language-julia-repl hljs">julia&gt; A = [sin(xi) for xi in x]
+3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 0.7071067811865476</code></pre><p>However, the most convenient way is to use dot syntax for vectorizing functions.</p><pre><code class="language-julia-repl hljs">julia&gt; A = sin.(x)
+3-element Vector{Float64}:
+ 0.0
+ 1.0
+ 0.7071067811865476</code></pre><p>It is possible to use this syntax for any function to apply it to each element of iterable inputs. This allows us to write simple functions which accept, for example, only numbers as arguments, and then we can easily apply them to arrays.</p><pre><code class="language-julia hljs">plus(x::Real, y::Real) = x + y</code></pre><p>We defined a function that accepts two real numbers and returns their sum. This function works only for two numbers.</p><pre><code class="language-julia-repl hljs">julia&gt; plus(1,3)
+4
+
+julia&gt; plus(1.4,2.7)
+4.1</code></pre><p>If we try to apply this function to arrays, an error occurs.</p><pre><code class="language-julia-repl hljs">julia&gt; x = [1,2,3,4]; # column vector
+
+julia&gt; plus(x, x)
+ERROR: MethodError: no method matching plus(::Vector{Int64}, ::Vector{Int64})
+[...]</code></pre><p>However, we can use the dot syntax for vectorizing functions. The <code>plus</code> function will then be applied to arrays <code>x</code> and <code>y</code> element-wise.</p><pre><code class="language-julia-repl hljs">julia&gt; plus.(x, x)
+4-element Vector{Int64}:
+ 2
+ 4
+ 6
+ 8</code></pre><p>More generally, if we have a function <code>f</code> and use dot syntax <code>f.(args...)</code>, then it is equivalent to calling the <code>broadcast</code> function as in <code>broadcast(f, args...)</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; broadcast(plus, x, x)
+4-element Vector{Int64}:
+ 2
+ 4
+ 6
+ 8</code></pre><p>The dot syntax allows us to operate on multiple arrays even of different shapes. The following example takes a column vector and a row vector, broadcasts them into the matrix (the smallest superset of both vectors) and then performs the sum.</p><pre><code class="language-julia-repl hljs">julia&gt; y = [1 2 3 4]; # row vector
+
+julia&gt; plus.(x, y)
+4×4 Matrix{Int64}:
+ 2  3  4  5
+ 3  4  5  6
+ 4  5  6  7
+ 5  6  7  8</code></pre><p>Similarly, it can be used to broadcast a scalar to a vector in the following examples.</p><pre><code class="language-julia-repl hljs">julia&gt; plus.(x, 1)
+4-element Vector{Int64}:
+ 2
+ 3
+ 4
+ 5</code></pre><p>For more information, see the section about <a href="https://docs.julialang.org/en/v1/manual/arrays/#Broadcasting">broadcasting</a> in the official documentation.</p><h2 id="Function-composition-and-piping"><a class="docs-heading-anchor" href="#Function-composition-and-piping">Function composition and piping</a><a id="Function-composition-and-piping-1"></a><a class="docs-heading-anchor-permalink" href="#Function-composition-and-piping" title="Permalink"></a></h2><p>As in mathematics, functions in Julia can be composed. If we have two functions <span>$f: \mathcal{X}  \rightarrow \mathcal{Y}$</span> and <span>$g: \mathcal{Y}  \rightarrow \mathcal{Z}$</span>, then their <a href="https://en.wikipedia.org/wiki/Function_composition">composition</a> can be mathematically written as</p><p class="math-container">\[(g \circ f)(x) = g(f(x)), \quad \forall x \in \mathcal{X}.\]</p><p>We can compose functions using the function composition operator <code>∘</code> (can be typed by <code>\circ&lt;tab&gt;</code>).</p><pre><code class="language-julia-repl hljs">julia&gt; (sqrt ∘ +)(3, 6) # equivalent to sqrt(3 + 6)
+3.0</code></pre><p>It is even possible to compose multiple functions at once.</p><pre><code class="language-julia-repl hljs">julia&gt; (sqrt ∘ abs ∘ sum)([-3, -6, -7])  # equivalent to sqrt(abs(sum([-3, -6, -7])))
+4.0</code></pre><p><em>Piping</em> or <em>using a pipe</em> is another concept of chain functions. It can be used to pass the output of one function as an input to another one. In Julia, it can be done by the pipe operator <code>|&gt;</code>.</p><pre><code class="language-julia-repl hljs">julia&gt; [-3, -6, -7] |&gt; sum |&gt; abs |&gt; sqrt
+4.0</code></pre><p>The pipe operator can be combined with broadcasting.</p><pre><code class="language-julia-repl hljs">julia&gt; [-4, 9, -16] .|&gt; abs .|&gt; sqrt
+3-element Vector{Float64}:
+ 2.0
+ 3.0
+ 4.0</code></pre><p>Or as in the next example, we can use broadcasting in combination with the pipe operator to apply a different function to each element of the given vector.</p><pre><code class="language-julia-repl hljs">julia&gt; [&quot;a&quot;, &quot;list&quot;, &quot;of&quot;, &quot;strings&quot;] .|&gt; [uppercase, reverse, titlecase, length]
+4-element Vector{Any}:
+  &quot;A&quot;
+  &quot;tsil&quot;
+  &quot;Of&quot;
+ 7</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../lecture_03/interaction/">« Interaction with other languages</a><a class="docs-footer-nextpage" href="../methods/">Methods »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.14.1 on <span class="colophon-date" title="Monday 22 September 2025 10:52">Monday 22 September 2025</span>. Using Julia version 1.11.7.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
