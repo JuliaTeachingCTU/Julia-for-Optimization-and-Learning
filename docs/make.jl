@@ -141,5 +141,10 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning.git"
+    repo="github.com/JuliaTeachingCTU/Julia-for-Optimization-and-Learning.git",
+    versions=[
+        "stable" => "v^",   # latest tagged release becomes stable
+        "v#.#",             # one folder per minor version, like v1.3, v1.4
+        "dev" => "master",  # docs from master branch
+    ],
 )
