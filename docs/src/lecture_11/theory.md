@@ -55,17 +55,17 @@ Traditional techniques for image processing use multiple fixed kernels and combi
 
 ![](nn.png)
 
-The input of a convolutional layer has dimension ``I_1\times J_1\times C_1``, where ``I_1\times J_1`` is the size of the image and ``C_1`` is the number of channels (1 for grayscale, 3 for coloured, anything for hidden layers). Its input is also the kernel ``K``. The output of the convolutional layer has dimension ``I_2\times J_2\times C_2`` and its value at some ``(i_0,j_0,c_0)`` equals to
+The input of a convolutional layer has dimension ``I_0\times J_0\times 0``, where ``I_0\times J_0`` is the size of the image and ``C_0`` is the number of channels (1 for grayscale, 3 for coloured, anything for hidden layers). Its input is also the kernel ``K``. The output of the convolutional layer has dimension ``I_1\times J_1\times C_1`` and its value at some ``(i_0,j_0,c_0)`` equals to
 
 ```math
-\text{output}(i_0,j_0,c_0) = l\left(\sum_{c=1}^C\sum_{i=-a}^{a}\sum_{j=-b}^b \Big( K_{c_0}(i,j,c) \text{input}(i_0+i,j_0+j,c) + b(c)\Big)\right).
+\text{output}(i_0,j_0,c_0) = l\left(\sum_{c_1=1}^{C_1}\sum_{i_1=-a}^{a}\sum_{j_1=-b}^b \Big( K_{c_0}(i_1,j_1,c_1) \text{input}(i_0+i_1,j_0+j_1,c_1) + b(c_1)\Big)\right),
 ```
 
-After the linear operation inside, an activation function ``l`` is applied. Without it, the whole network would a product of linear function and, therefore, linear function (written in a complicated form).
+where ``i_0\in(1,\ldots,I_0)``, ``j_0\in(1,\ldots,J_0)``, and ``c_0\in(1,\ldots,C_0)``. Afterwards, a non-linear operation inside an activation function ``l`` is applied. Without this operation, the whole network would be a product of two linear functions and, therefore, a linear function (written in a complicated form).
 
 The natural question is the interpretation of the linear operator and the number of parameters:
-- The kernel matrix ``K`` contains ``(2a+1)(2b+1)C_1C_2`` parameters. What does it mean? First, there is a separate kernel for each output channels. Second, the kernel also averages (more precisely, computes a linear combination) over all input channels. However, the coefficients of this linear combination do not depend on the position ``(i_0,j_0)``. 
-- The bias ``b`` has dimension ``C_2``. Again, it does not depend on the position ``(i_0,j_0)``.
+- The kernel matrix ``K`` contains ``(2a+1)(2b+1)C_0C_1`` parameters. What does it mean? First, there is a separate kernel for each output channels. Second, the kernel also averages (more precisely, computes a linear combination) over all input channels. However, the coefficients of this linear combination do not depend on the position ``(i_0,j_0)``. 
+- The bias ``b`` has dimension ``C_1``. Again, it does not depend on the position ``(i_0,j_0)``.
 The important thing to realize is that the number of parameters does not depend on the size of the image or the hidden layers. For example, even for an input image ``500\times 500\times 3``, the convolutional layer contains only 448 parameters for ``3\times 3`` kernel and ``16`` output channels (do the computations).
 
 This results in fixing the two issues mentioned above.
@@ -87,7 +87,7 @@ When an input is an image, the usual structure of the neural network is the foll
 
     #### Recurrent layer
 
-    Recurrent layers are designed to handle one-dimensional data. They are similar to convolutional layers with ``J_1=J_2=C_1=C_2=1``. Unlike convolutional layers, they store additional hidden variables. The most-known representative is the long short-term memory (LSTM) cell.
+    Recurrent layers are designed to handle one-dimensional data. They are similar to convolutional layers with ``J_0=J_1=0=C_1=1``. Unlike convolutional layers, they store additional hidden variables. The most-known representative is the long short-term memory (LSTM) cell.
 
     #### Pooling layer
 

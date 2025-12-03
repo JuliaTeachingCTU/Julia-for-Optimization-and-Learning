@@ -28,7 +28,7 @@ nothing # hide
 
 ## Creating the network
 
-We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amount to minimizing the following objective function.  
+We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amounts to minimizing the following objective function:
 
 ```math
 L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w; x_i)).
@@ -59,7 +59,7 @@ m(X_train)
 
 Because there are ``3`` classes and ``120`` samples in the training set, it returns an array of size ``3\times 120``. Each column corresponds to one sample and forms a vector of probabilities due to the last layer of softmax.
 
-We access the neural network parameters by using `params(m)`. We can select the second layer of `m` by `m[2]`. Since the second layer has ``5 `` input and ``3`` output neurons, its parameters are a matrix of size ``3\times 5`` and a vector of length ``3``. The parameters `params(m[2])` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly, and we do not need to take care of it. We can also easily modify any parameters.
+We access the neural network parameters by using `params(m)`. We can select the second layer of `m` by `m[2]`. Since the second layer has ``5 `` inputs and ``3`` output neurons, its parameters are a matrix of size ``3\times 5`` and a vector of length ``3``. The parameters `params(m[2])` are a tuple of the matrix and the vector. This also implies that the parameters are initialized randomly, and we do not need to take care of it. We can also easily modify any parameters.
 
 ```@example iris
 using Flux: params

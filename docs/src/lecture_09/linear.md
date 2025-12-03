@@ -21,7 +21,7 @@ We start with linear regression, where the labels are continuous variables.
 
 ## Theory of linear regression
 
-Linear regression uses the linear prediction function ``\operatorname{predict}(w;x) = w^\top x`` and the d error ``\operatorname{loss}(y, \hat y) = (y - \hat y)^2`` as the loss function. When we have a dataset with ``n`` data points (samples) ``x_i`` and labels ``y_i``, linear regression may be written as the following optimization problem. 
+Linear regression uses the linear prediction function ``\operatorname{predict}(w;x) = w^\top x`` and the loss function ``\operatorname{loss}(y, \hat y) = (y - \hat y)^2``. When we have a dataset with ``n`` data points (samples) ``x_i`` and labels ``y_i``, linear regression may be written as the following optimization problem:
 
 ```math
 \operatorname{minimize}_w\qquad \frac 1n\sum_{i=1}^n (w^\top x_i - y_i)^2.

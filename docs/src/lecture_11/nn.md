@@ -55,7 +55,7 @@ The first two exercises visualize the data and transform it into the correct inp
 !!! warning "Exercise:"
     Plot the first 15 images of the digit 0 from the training set.
 
-    **Hint**: The `ImageInspector` package written earlier provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices.
+    **Hint**: The `ImageInspector` package provides the function `imageplot(X_train, inds; nrows=3)`, where `inds` are the desired indices.
 
     **Hint**: To find the correct indices, use the function `findall`.
 
@@ -190,7 +190,7 @@ The previous example mentioned that `load_data` is rather general. The next exer
 
 ## Training and storing the network
 
-We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amount to minimizing the following objective function.
+We recall that machine learning minimizes the discrepancy between the predictions ``\operatorname{predict}(w; x_i)`` and labels ``y_i``. Mathematically, this amounts to minimizing the following objective function:
 
 ```math
 L(w) = \frac1n\sum_{i=1}^n \operatorname{loss}(y_i, \operatorname{predict}(w; x_i)).

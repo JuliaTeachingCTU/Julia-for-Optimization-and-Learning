@@ -34,7 +34,7 @@ Denoting ``\hat y = \mathbb{P}(y=1\mid x)`` the probability of predicting ``1``,
 
     Since ``\hat y`` lies in the interval ``(0,1)`` due to the sigmoid function, the cross-entropy is minimized when ``\hat y = 1``. Since we get similar results for ``y=0``, the cross-entropy is minimal whenever the labels ``y`` equal to the predictions ``\hat y``.
 
-Then it is not difficult to show that then the logistic regression problems reads
+Then it is not difficult to show that then the logistic regression problem reads
 
 ```math
 \operatorname{minimize}_w\qquad \frac1n\sum_{i=1}^n\left(\log(1+e^{-w^\top x_i}) + (1-y_i)w^\top x_i \right).
