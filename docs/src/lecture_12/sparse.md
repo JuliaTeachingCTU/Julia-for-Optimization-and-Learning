@@ -30,7 +30,7 @@ Consider a square matrix ``A\in \mathbb R^{n\times n}`` with real-valued entries
 Av = \lambda v,
 ```
 
-we say that ``\lambda`` is a eigenvalue of ``A`` and ``v`` is the corresponding eigenvector.
+we say that ``\lambda`` is an eigenvalue of ``A`` and ``v`` is the corresponding eigenvector.
 
 For the rest of this section, we will assume that ``A`` is a symmetric matrix. Then these eigenvectors are perpendicular to each other. We create the diagonal matrix ``\Lambda`` with eigenvalues on diagonal and the matrix ``Q`` with columns consisting of the corresponding eigenvectors. Then we have
 
@@ -72,7 +72,7 @@ For ``\mu=0``, we obtain the classical result for the linear regression. Since `
 X^\top X = Q\Lambda Q^\top.
 ```
 
-Then the formula for optimal weights simplifies into 
+Then the formula for optimal weights simplifies to
 
 ```math
 w = Q(\Lambda+\mu I)^{-1} Q^\top X^\top y.
@@ -82,7 +82,7 @@ Since this formula uses only matrix-vector multiplication and an inversion of a 
 
 ## [Theory of LASSO](@id lasso)
 
-Unlike ridge regression, LASSO does not have a closed-form solution. Since it is a structured convex problem, it can be solved the [ADMM algorithm](https://web.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf). It is a primal-dual algorithm, which employs the primal original variable ``w``, the primal auxiliary variable ``z`` and the dual variable ``u`` with the iterative updates:
+Unlike ridge regression, LASSO does not have a closed-form solution. Since it is a structured convex problem, it can be solved the [ADMM algorithm](https://web.stanford.edu/~boyd/papers/pdf/admm_distr_stats.pdf). It is a primal-dual algorithm, which employs the primal original variable ``w``, the primal auxiliary variable ``z``, and the dual variable ``u`` with the iterative updates:
 
 ```math
 \begin{aligned}
@@ -118,13 +118,13 @@ X = randn(n, m)
 nothing # hide
 ```
 
-The real dependence depends only on the first two features and reads
+We make the output depend only on the first two features
 
 ```math
 y = 10x_1 + x_2.
 ```
 
-This is a natural problem for sparse models because most of the weights should be zero. We generate the labels but add noise to them.
+This is a natural problem for sparse models because most of the weights should be zero. In the linear regression, we assume that only noisy observatios of the predictor's output are available. Therefore, we add noise to the output.
 
 ```@example sparse
 y = 10*X[:,1] + X[:,2] + randn(n)
@@ -132,10 +132,10 @@ y = 10*X[:,1] + X[:,2] + randn(n)
 nothing # hide
 ```
 
-The first exercise compares both approaches to solving the ridge regression.
+The first exercise compares both the approaches to solving the ridge regression.
 
 !!! warning "Exercise:"
-    Implement the methods for the `ridge_reg` function. Verify that the result in the same result.
+    Implement two variants of the `ridge_reg` function, each corresponding to the different way of computing the matrix inverse. Verify that they result in the same value.
 
     **Hints:**
     - The eigendecomposition can be found by `eigen(A)` or `eigen(A).values`.
@@ -242,7 +242,7 @@ end
 nothing # hide
 ```
 
-Finally, we compute the values for all regularization parameters ``\mu``. The second line in the loop says that if ``i=1``, then run LASSO without the initial values, and if ``i>1``, then run it with the initial values from the previous iteration. Since the visibility of `w`, `u` and `z` is only one iteration, we need to specify that they are global variables.
+Finally, we compute the values for all regularization parameters ``\mu``. The second line in the loop says that if ``i=1``, then run LASSO without the initial values, and if ``i>1``, then run it with the values from the previous iteration. Since the visibility of `w`, `u` and `z` is only one iteration, we need to specify that they are global variables.
 
 ```@example sparse
 ws = zeros(size(X,2), length(μs))
@@ -267,4 +267,4 @@ plot(μs, abs.(ws');
 ```
 
 !!! info "Warm start:"
-    The technique of starting from a previously computed value is called warm start or hot start. It is commonly used when some parameter changes only slightly. Then the solution changes only slightly and the previous solution provides is close to the new solution. Therefore, we initialize the algorithm from the old solution.
+    The technique of starting from a previously computed value is called a warm start or hot start. It is commonly used when a parameter changes only slightly. In such cases, the solution also changes only slightly, and the previous solution is close to the new one. Therefore, we initialize the algorithm using the old solution.

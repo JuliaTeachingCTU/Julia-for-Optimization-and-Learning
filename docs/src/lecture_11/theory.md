@@ -55,7 +55,7 @@ Traditional techniques for image processing use multiple fixed kernels and combi
 
 ![](nn.png)
 
-The input of a convolutional layer has dimension ``I_0\times J_0\times 0``, where ``I_0\times J_0`` is the size of the image and ``C_0`` is the number of channels (1 for grayscale, 3 for coloured, anything for hidden layers). Its input is also the kernel ``K``. The output of the convolutional layer has dimension ``I_1\times J_1\times C_1`` and its value at some ``(i_0,j_0,c_0)`` equals to
+The input of a convolutional layer has dimension ``I_0\times J_0\times C_0``, where ``I_0\times J_0`` is the size of the image and ``C_0`` is the number of channels (1 for grayscale, 3 for coloured, anything for hidden layers). Its input is also the kernel ``K``. The output of the convolutional layer has dimension ``I_1\times J_1\times C_1`` and its value at some ``(i_0,j_0,c_0)`` equals to
 
 ```math
 \text{output}(i_0,j_0,c_0) = l\left(\sum_{c_1=1}^{C_1}\sum_{i_1=-a}^{a}\sum_{j_1=-b}^b \Big( K_{c_0}(i_1,j_1,c_1) \text{input}(i_0+i_1,j_0+j_1,c_1) + b(c_1)\Big)\right),

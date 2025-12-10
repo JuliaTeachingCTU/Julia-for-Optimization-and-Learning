@@ -1,6 +1,6 @@
 # Monte Carlo sampling
 
-The three previous lectures presented data analysis from an optimization viewpoint. We considered the dataset as fixed and then derived an optimization problem of minimizing the discrepancy between predictions and labels. This lecture returns to linear models. It presents a statistical viewpoint, which considers the data and the labels as random realizations (samples) of random variables. The family of methods using random sampling from the same random variable to obtain numerical results is called the [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) methods.
+The three previous lectures presented data analysis from an optimization viewpoint. We considered the dataset as fixed and then derived an optimization problem of minimizing the discrepancy between predictions and labels. This lecture returns to linear models. It presents a statistical viewpoint, which considers the data and the labels as random realizations (samples) of random variables. The family of methods that randomly samples from a probability distribution to obtain numerical results is called the [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) methods.
 
 We will also present several topics on the curse of dimensionality, where behaviour in a large dimension is entirely different from the one in a small dimension. Since we humans cannot properly comprehend more than three dimensions, some of the results may be counter-intuitive.
 
@@ -237,7 +237,7 @@ While the rejection sampling provides a good approximation for the first two dis
     \mathbb E_3 \cos(100X) = \int_{-\infty}^\infty \cos(100 x) f_3(x) dx,
     ```
 
-    where we consider the expectation ``\mathbb E`` with respect to ``d_3\sim  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
+    where we consider the expectation ``\mathbb E`` with respect to ``d_3\coloneqq  N(0, 0.01)`` with density ``f_3``. The first possibility to compute the expectation is to discretize the integral.
 
     ```@example monte 
     h(x) = cos(100*x)
@@ -252,10 +252,10 @@ While the rejection sampling provides a good approximation for the first two dis
     The second possibility is to approximate the integral by
 
     ```math
-    \mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(x_i),
+    \mathbb E_3 \cos(100X) \approx \frac 1n\sum_{i=1}^n \cos(100x_i),
     ```
 
-    where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the formed generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
+    where ``x_i`` are sampled from ``d_3``. We do this in `expectation1`, and `expectation2`, where the former generates from the Distributions package while the latter uses our rejection sampling. We use the method of the `mean` function, which takes a function as its first argument.
 
     ```@example monte
     expectation1(h, d; n = 1000000) = mean(h, rand(d, n))
