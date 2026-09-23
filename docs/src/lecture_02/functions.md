@@ -83,15 +83,7 @@ However, we highly recommend to use these optional features when writing your ow
     julia> quadratic2("a")
     ERROR: MethodError: no method matching *(::Int64, ::String)
     The function `*` exists, but no method is defined for this combination of argument types.
-
-    Closest candidates are:
-      *(::Any, ::Any, !Matched::Any, !Matched::Any...)
-       @ Base operators.jl:653
-      *(!Matched::Missing, ::Union{AbstractChar, AbstractString})
-       @ Base missing.jl:171
-      *(::Integer, !Matched::CartesianIndex{N}) where N
-       @ Base multidimensional.jl:138
-      ...
+    [...]
 
     Stacktrace:
      [1] quadratic2(x::String; a::Int64, b::Int64, c::Int64)
