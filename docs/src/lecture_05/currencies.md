@@ -236,6 +236,7 @@ However, the definition is not complete because the `rate` function does not wor
 
 ```jldoctest currency
 julia> rate(Euro, Euro)
+Warning: detected a stack overflow; program state may be corrupted, so further execution might be unreliable.
 ERROR: StackOverflowError:
 [...]
 
@@ -265,6 +266,7 @@ However, it does not solve the problem with `Euro` to `Euro` conversion.
 
 ```jldoctest currency
 julia> rate(Euro, Euro)
+Warning: detected a stack overflow; program state may be corrupted, so further execution might be unreliable.
 ERROR: StackOverflowError:
 [...]
 ```

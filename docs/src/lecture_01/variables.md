@@ -128,9 +128,11 @@ julia> π
 2
 ```
 
-However, if the user tries to use a variable name that corresponds to a built-in constant or function already in use, Julia will throw an error
+However, if the corresponding constant or function was explicitly imported by name, Julia will throw an error when the user tries to reassign it
 
 ```jldoctest
+julia> using Base: ℯ
+
 julia> ℯ
 ℯ = 2.7182818284590...
 
@@ -138,6 +140,9 @@ julia> ℯ = 2
 ERROR: cannot assign a value to imported variable Base.ℯ from module Main
 [...]
 ```
+
+!!! compat "Julia 1.12"
+    Since Julia 1.12, this error depends on whether the name was explicitly imported (as shown above), not on whether it was previously used. In earlier versions, merely using `ℯ` (without an explicit `using Base: ℯ`) was enough to trigger the same error on reassignment.
 
 The only explicitly disallowed names for variables are the names of built-in reserved keywords listed in the following table
 

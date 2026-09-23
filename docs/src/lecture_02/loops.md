@@ -84,10 +84,10 @@ julia> persons = Dict("Alice" => 10, "Bob" => 23, "Carla" => 14, "Daniel" => 34)
 julia> for (name, age) in persons
            println("Hi, my name is $name and I am $age old.")
        end
-Hi, my name is Carla and I am 14 old.
 Hi, my name is Alice and I am 10 old.
 Hi, my name is Daniel and I am 34 old.
 Hi, my name is Bob and I am 23 old.
+Hi, my name is Carla and I am 14 old.
 ```
 
 !!! warning "Exercise:"

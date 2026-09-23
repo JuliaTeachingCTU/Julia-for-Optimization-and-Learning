@@ -26,11 +26,11 @@ It is a good practice to specify compatibility even for the packages that are us
 [compat]
 Aqua = "0.8"
 Colors = "0.9 - 0.13"
-Test = "1.9"
-julia = "1.9"
+Test = "1.13"
+julia = "1.13"
 ```
 
-We specified, that we want to use any version of the `Aqua` package from interval `[0.8.0, 0.9.0)` and any version of the `Test` package from interval `[1.9.0, 2.0.0)`. In fact, the `Test` package is shipped with the Juli by default and technicaly, it doesn't have any version. For that reason, we used the same version as we used for Julia itself.    
+We specified, that we want to use any version of the `Aqua` package from interval `[0.8.0, 0.9.0)` and any version of the `Test` package from interval `[1.13.0, 2.0.0)`. In fact, the `Test` package is shipped with the Juli by default and technicaly, it doesn't have any version. For that reason, we used the same version as we used for Julia itself.    
 
 ## Aqua.jl
 

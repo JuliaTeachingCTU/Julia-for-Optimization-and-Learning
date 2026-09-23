@@ -19,13 +19,13 @@ Once finished, the `julia` and `juliaup` commands should be available via comman
 !!! info "Other installation options:"
     For more options how to install Julia and Juliaup, see the [Juliaup Github repository](https://github.com/JuliaLang/juliaup).
 
-For the upcoming course, we recommend to install Julia version 1.11 and set is as a default Julia. It can be done in the following way 
+For the upcoming course, we recommend to install Julia version 1.13 and set is as a default Julia. It can be done in the following way 
 
 ```shell
-> juliaup add 1.11
+> juliaup add 1.13
 
-> juliaup default 1.11
-Configured the default Julia version to be '1.11'.
+> juliaup default 1.13
+Configured the default Julia version to be '1.13'.
 ```
 
 ### Optional: Setting-up Julia Multi-Threading

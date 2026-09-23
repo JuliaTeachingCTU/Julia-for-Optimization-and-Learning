@@ -7,7 +7,7 @@ The cool thing about Julia is the simplicity of creating packages and sharing th
 We first generate an empty package `PackageName` by the built-in function `generate` in the Pkg REPL.
 
 ```julia
-(@v1.11) pkg> generate PackageName
+(@v1.13) pkg> generate PackageName
  Generating  project PackageName:
     PackageName/Project.toml
     PackageName/src/PackageName.jl
@@ -58,7 +58,7 @@ The built-in `generate` function provides only basic functionality for generatin
         authors=["Author1", "Author2"], # list of authors
         dir="/Path/To/Dir/", # dir in which the package will be created
         host="github.com", # URL to the code hosting service where packages will reside
-        julia=v"1.10", # compat version of Julia
+        julia=v"1.13", # compat version of Julia
         plugins=[
             ProjectFile(; version=v"0.1.0"), # Add version
             Readme(; inline_badges=true), # add readme file with badges

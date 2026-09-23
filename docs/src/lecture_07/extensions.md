@@ -25,8 +25,8 @@ We can also specify which versions of `Plots` package our extension supports. It
 Aqua = "0.8"
 Colors = "0.12, 0.13"
 Plots = "1"
-Test = "1.9"
-julia = "1.9"
+Test = "1.13"
+julia = "1.13"
 ```
 
 Now, we define an empty function `imageplot` inside of the ImageInstructor, i. e., we add the following code to the `src/ImageInstructor.jl`
@@ -114,8 +114,8 @@ Aqua = "0.8"
 CairoMakie = "0.12"
 Colors = "0.12, 0.13"
 Plots = "1"
-Test = "1.9"
-julia = "1.9"
+Test = "1.13"
+julia = "1.13"
 ```
 
 In other words, our extension for `Makie` has name `MakieExt` and depends on `CairoMakie`. Now we can create the extension itself by creating file `ext/MakieExt.jl` and adding the following code into it

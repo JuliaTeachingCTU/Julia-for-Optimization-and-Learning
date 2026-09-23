@@ -86,11 +86,11 @@ However, we highly recommend to use these optional features when writing your ow
 
     Closest candidates are:
       *(::Any, ::Any, !Matched::Any, !Matched::Any...)
-       @ Base operators.jl:596
-      *(::Real, !Matched::Complex{Bool})
-       @ Base complex.jl:330
+       @ Base operators.jl:653
       *(!Matched::Missing, ::Union{AbstractChar, AbstractString})
-       @ Base missing.jl:174
+       @ Base missing.jl:171
+      *(::Integer, !Matched::CartesianIndex{N}) where N
+       @ Base multidimensional.jl:138
       ...
 
     Stacktrace:

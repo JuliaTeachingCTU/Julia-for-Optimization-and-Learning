@@ -125,8 +125,8 @@ Dictionaries are mutable, unordered (random order) collections of pairs of keys 
 ```jldoctest dicts
 julia> d = Dict("a" => [1, 2, 3], "b" => 1)
 Dict{String, Any} with 2 entries:
-  "b" => 1
   "a" => [1, 2, 3]
+  "b" => 1
 ```
 
 Another possibility is to use symbols instead of strings as keys.
@@ -146,8 +146,8 @@ It is possible to use almost any type as a key in a dictionary. Note the element
 ```jldoctest dicts
 julia> d_test = Dict(1 => "a", 2.0 => "b", 3.0f0 => "c")
 Dict{Real, String} with 3 entries:
-  2.0 => "b"
   3.0 => "c"
+  2.0 => "b"
   1   => "a"
 ```
 

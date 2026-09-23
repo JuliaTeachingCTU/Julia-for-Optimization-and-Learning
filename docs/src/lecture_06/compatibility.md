@@ -7,17 +7,17 @@ In this section, we focus on package dependencies. So far, we showed how to add 
 Compatibility for a dependency can be entered in the Project.toml file manually, or using the Pkg REPL. For example, we can set compatibility for Julia itself.
 
 ```julia
-(ImageInspector) pkg> compat julia 1.9
+(ImageInspector) pkg> compat julia 1.13
 ```
 
 It will add the following section into the Project.toml
 
 ```toml
 [compat]
-julia = "1.9"
+julia = "1.13"
 ```
 
-In the example above, we are using semantic versioning. In this case, we set, that the package is compatible with all the following versions of Julia `[1.9.0 - 2.0.0)`. The behavior of version specification is slightly different for versions with leading zeros. For example, if we specify compatibility to `0.2.1`, it means, that we support only versions `[0.2.1 - 0.3.0)`. See the official [documentation](https://pkgdocs.julialang.org/v1/compatibility/) for more details.
+In the example above, we are using semantic versioning. In this case, we set, that the package is compatible with all the following versions of Julia `[1.13.0 - 2.0.0)`. The behavior of version specification is slightly different for versions with leading zeros. For example, if we specify compatibility to `0.2.1`, it means, that we support only versions `[0.2.1 - 0.3.0)`. See the official [documentation](https://pkgdocs.julialang.org/v1/compatibility/) for more details.
 
 !!! warning "Exercise:"
     This exercise defines the `image` function that converts a matrix of real numbers to a matrix of Gray points. Real numbers can be converted to Gray points by the `Gray` constructor from the Colors package.
@@ -65,7 +65,7 @@ In the example above, we are using semantic versioning. In this case, we set, th
     ```toml
     [compat]
     Colors = "0.12, 0.13"
-    julia = "1.9"
+    julia = "1.13"
     ```
 
     With the Colors package installed, we have to add `using Colors` into the ImageInspector module. Then we can define the `image` function and `export` it.
